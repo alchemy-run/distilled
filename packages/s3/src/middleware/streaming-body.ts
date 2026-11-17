@@ -11,9 +11,11 @@
  * @see https://smithy.io/2.0/spec/streaming.html#requireslength-trait
  */
 
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
+import * as Stream from "effect/Stream";
 import type { Request as ProtocolRequest } from "../client/request.ts";
 import {
   hasHttpPayload,
@@ -21,6 +23,7 @@ import {
   isInputEventStream,
   isStreamingType,
 } from "../traits.ts";
+import { bodyStream, isStreamBody, type StreamBody } from "../util/stream.ts";
 
 /**
  * Info about the streaming payload in a schema.
@@ -46,12 +49,12 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
   const info = getStreamingPayloadInfo(schema.ast);
 
   // Return the request processor function
-  return (request: ProtocolRequest): Effect.Effect<ProtocolRequest> =>
+  return (request: ProtocolRequest): Effect.Effect<ProtocolRequest, InvalidInput> =>
     Effect.gen(function* () {
       const body = request.body;
 
       // No body or not a streaming body - pass through
-      if (!body || !(body instanceof ReadableStream)) {
+      if (!isStreamBody(body)) {
         return request;
       }
 
@@ -98,46 +101,17 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
     });
 };
 
-/** Releasing a reader is best effort, as in Effect's `Stream.fromReadableStream`. */
-const ignoreCancelFailure = () => {};
-
-/**
- * Buffer a ReadableStream into a Uint8Array.
- */
-const bufferStream = (stream: ReadableStream<Uint8Array>): Effect.Effect<Uint8Array> =>
-  Effect.promise(async (signal) => {
-    const reader = stream.getReader();
-    const chunks: Uint8Array[] = [];
-    let totalLength = 0;
-
-    try {
-      while (!signal.aborted) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        totalLength += value.byteLength;
-      }
-
-      if (signal.aborted) {
-        reader.cancel().catch(ignoreCancelFailure);
-        throw new Error("Stream buffering aborted");
-      }
-    } catch (e) {
-      // `cancel()` on an errored stream rejects with the error rethrown here.
-      reader.cancel(e).catch(ignoreCancelFailure);
-      throw e;
-    }
-
-    // Combine all chunks into a single Uint8Array
-    const result = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const chunk of chunks) {
-      result.set(chunk, offset);
-      offset += chunk.byteLength;
-    }
-
-    return result;
-  });
+/** Read a streaming body into bytes, in the calling fiber. */
+const bufferStream = (stream: StreamBody): Effect.Effect<Uint8Array, InvalidInput> =>
+  Stream.mkUint8Array(bodyStream(stream)).pipe(
+    Effect.mapError(
+      (cause) =>
+        new InvalidInput({
+          member: "body",
+          message: `the request body could not be read: ${cause instanceof Error ? cause.message : String(cause)}`,
+        }),
+    ),
+  );
 
 /**
  * Check if an AST is an event stream, handling Union wrappers (from S.optional).

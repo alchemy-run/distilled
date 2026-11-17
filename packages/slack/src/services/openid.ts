@@ -29,19 +29,19 @@ const TELEMETRY = {
 export type ConnectTokenRequestGrantType = "authorization_code" | "refresh_token";
 export interface ConnectTokenRequest {
   /** Issued when you created your application. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Issued when you created your application. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The `code` param returned via the OAuth callback. */
-  code?: string;
+  code?: string | undefined;
   /** This must match the originally submitted URI (if one was sent). */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The `grant_type` param as described in the OAuth spec. */
-  grant_type?: ConnectTokenRequestGrantType | (string & {});
+  grant_type?: ConnectTokenRequestGrantType | (string & {}) | undefined;
   /** The `refresh_token` param as described in the OAuth spec. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** PKCE code verifier (RFC 7636). Required when the authorization request included a `code_challenge`. */
-  code_verifier?: string;
+  code_verifier?: string | undefined;
 }
 export type ConnectTokenResponseTokenType = "Bearer";
 export interface ConnectTokenResponse {
@@ -49,12 +49,12 @@ export interface ConnectTokenResponse {
   ok: boolean;
   access_token: string | Redacted.Redacted<string>;
   token_type: ConnectTokenResponseTokenType;
-  id_token?: string;
-  state?: string;
+  id_token?: string | undefined;
+  state?: string | undefined;
   /** Time until this credential expires, if it expires at all */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Refresh token for this credential */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UserInfoRequest {}
 export interface UserInfoResponse {
@@ -62,35 +62,35 @@ export interface UserInfoResponse {
   ok: boolean;
   sub: string;
   https___slack_com_user_id: string;
-  https___slack_com_team_id?: string;
-  https___slack_com_enterprise_id?: string;
-  email?: string;
-  email_verified?: boolean;
-  date_email_verified?: number;
-  locale?: string;
-  name?: string;
-  given_name?: string;
-  family_name?: string;
-  picture?: string;
-  https___slack_com_user_image_24?: string;
-  https___slack_com_user_image_32?: string;
-  https___slack_com_user_image_48?: string;
-  https___slack_com_user_image_72?: string;
-  https___slack_com_user_image_192?: string;
-  https___slack_com_user_image_512?: string;
-  https___slack_com_user_image_1024?: string;
-  https___slack_com_team_name?: string;
-  https___slack_com_team_domain?: string;
-  https___slack_com_enterprise_name?: string;
-  https___slack_com_enterprise_domain?: string;
-  https___slack_com_team_image_34?: string;
-  https___slack_com_team_image_44?: string;
-  https___slack_com_team_image_68?: string;
-  https___slack_com_team_image_88?: string;
-  https___slack_com_team_image_102?: string;
-  https___slack_com_team_image_132?: string;
-  https___slack_com_team_image_230?: string;
-  https___slack_com_team_image_default?: boolean;
+  https___slack_com_team_id?: string | undefined;
+  https___slack_com_enterprise_id?: string | undefined;
+  email?: string | undefined;
+  email_verified?: boolean | undefined;
+  date_email_verified?: number | undefined;
+  locale?: string | undefined;
+  name?: string | undefined;
+  given_name?: string | undefined;
+  family_name?: string | undefined;
+  picture?: string | undefined;
+  https___slack_com_user_image_24?: string | undefined;
+  https___slack_com_user_image_32?: string | undefined;
+  https___slack_com_user_image_48?: string | undefined;
+  https___slack_com_user_image_72?: string | undefined;
+  https___slack_com_user_image_192?: string | undefined;
+  https___slack_com_user_image_512?: string | undefined;
+  https___slack_com_user_image_1024?: string | undefined;
+  https___slack_com_team_name?: string | undefined;
+  https___slack_com_team_domain?: string | undefined;
+  https___slack_com_enterprise_name?: string | undefined;
+  https___slack_com_enterprise_domain?: string | undefined;
+  https___slack_com_team_image_34?: string | undefined;
+  https___slack_com_team_image_44?: string | undefined;
+  https___slack_com_team_image_68?: string | undefined;
+  https___slack_com_team_image_88?: string | undefined;
+  https___slack_com_team_image_102?: string | undefined;
+  https___slack_com_team_image_132?: string | undefined;
+  https___slack_com_team_image_230?: string | undefined;
+  https___slack_com_team_image_default?: boolean | undefined;
 }
 export type ConnectTokenError = SlackOpError;
 /** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- The value passed for `client_secret` was invalid. - `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. - `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` -- The value passed for `client_id` was invalid. - `invalid_code` -- The value passed for `code` was invalid. - `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` -- The value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` -- The API method is not yet available on the team. - `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */

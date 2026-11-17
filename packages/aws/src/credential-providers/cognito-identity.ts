@@ -1,3 +1,4 @@
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 /**
@@ -95,7 +96,15 @@ export const getCredentialsForIdentity = (
   },
 ): CredentialSource =>
   Effect.gen(function* () {
-    const Cognito = yield* Effect.promise(() => import("../services/cognito-identity.ts"));
+    const Cognito = yield* loadModule(() => import("../services/cognito-identity.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the Cognito Identity client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const logins = yield* resolveLogins(options.logins);
     const response = yield* Cognito.getCredentialsForIdentity({
       IdentityId: identityId,

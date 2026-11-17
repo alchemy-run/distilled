@@ -1,8 +1,9 @@
 /**
  * Each operation's `iam` (core `OperationIam`): what AWS's Service
  * Authorization Reference says the call is authorized as, joined to the
- * Smithy operation and corrected by `patches/<sdkId>.json`
- * (`operations.<op>.iam`).
+ * Smithy operation and corrected by patches. `patches/<module>/iam.json` sets
+ * {@link IAM_OVERRIDE_TRAIT} on an operation shape (one operation) or on the
+ * service shape (its `remove` applies to every operation).
  *
  * The reference is mirrored into `specs/iam/<prefix>.json` by the spec
  * mirror's fetch script. An operation is found there by its boto3 client and
@@ -12,7 +13,55 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
-import type { OperationIamPatch } from "./spec-schema.ts";
+import { Schema as S } from "effect";
+
+/** The trait a patch sets to correct an operation's (or a service's) `iam`. */
+export const IAM_OVERRIDE_TRAIT = "com.distilled.iam#override";
+
+/**
+ * A correction to what AWS's Service Authorization Reference says an
+ * operation is authorized as, where a live call disagrees. `reason` is the
+ * evidence: the live response, or the service's API reference.
+ */
+export const OperationIamPatch = S.Struct({
+  reason: S.String,
+  /** Replace the authorized actions. */
+  actions: S.optional(S.Array(S.String)),
+  /** Actions the call is also authorized as. */
+  add: S.optional(S.Array(S.String)),
+  /** Listed actions the call isn't authorized as (legacy, console-only); `*` globs. */
+  remove: S.optional(S.Array(S.String)),
+  /**
+   * Action → the ARN formats a grant names, or `"*"` when a grant on those
+   * formats is denied and only `*` works (a list call, another region's ARNs).
+   */
+  resources: S.optional(S.Record(S.String, S.Union([S.Array(S.String), S.Literal("*")]))),
+  /** Action → the request field that makes the call need it. */
+  conditional: S.optional(S.Record(S.String, S.String)),
+});
+export type OperationIamPatch = typeof OperationIamPatch.Type;
+
+/** A service-wide correction: actions removed from every operation; `*` globs. */
+export const ServiceIamPatch = S.Struct({ reason: S.String, remove: S.Array(S.String) });
+export type ServiceIamPatch = typeof ServiceIamPatch.Type;
+
+/**
+ * The {@link IAM_OVERRIDE_TRAIT} of a shape, checked: a malformed patch fails
+ * the generator run rather than granting something nobody reviewed.
+ */
+export const iamOverrideOf = <A, I>(
+  schema: S.Codec<A, I>,
+  id: string,
+  shape: { traits?: Record<string, unknown> } | undefined,
+): A | undefined => {
+  const value = shape?.traits?.[IAM_OVERRIDE_TRAIT];
+  if (value === undefined) return undefined;
+  try {
+    return S.decodeUnknownSync(schema)(value);
+  } catch (e) {
+    throw new Error(`${id}: invalid ${IAM_OVERRIDE_TRAIT}: ${e instanceof Error ? e.message : e}`);
+  }
+};
 
 interface ReferenceFile {
   prefix: string;

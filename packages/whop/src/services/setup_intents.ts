@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Custom metadata to attach to the setup intent. Returned on the setup intent and its webhooks. */
 export type CreateSetupIntentRequestMetadataMap = { [key: string]: string | undefined };
@@ -70,21 +98,21 @@ export interface CreateSetupIntentRequest {
   /** The account to save the payment method for, prefixed `biz_`. */
   account_id: string;
   /** A confirmation token describing a payment method the buyer just supplied, collected by the payment elements in setup mode. Provide this or `payment_method_id`, not both. The buyer is resolved from the token's billing email, or from `email`, and may still have a step to complete -- poll Retrieve setup status for what to do next. */
-  confirmation_token?: string | null;
+  confirmation_token?: string | null | undefined;
   /** The currency the saved payment method will be used with, as a lowercase ISO 4217 code. Controls which currency-specific payment methods are available. Defaults to `usd`. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the method belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer or the caller is the buyer. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Custom metadata to attach to the setup intent. Returned on the setup intent and its webhooks. */
-  metadata?: CreateSetupIntentRequestMetadataMap | null;
+  metadata?: CreateSetupIntentRequestMetadataMap | null | undefined;
   /** An existing payment method to re-verify and save, prefixed `payt_`. Provide this or `confirmation_token`, not both. Not available to a buyer credential. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** What the saved payment method will pay for. Set to `ads_billing` when saving a card to pay for Whop Ads on `account_id`: the card is verified by Whop Ads, the merchant that charges it, which helps minimize security declines on ad payments, and it requires `ad_campaign:create` on `account_id`. Omit it for any other payment method. */
-  purpose?: CreateSetupIntentRequestPurpose | (string & {}) | null;
+  purpose?: CreateSetupIntentRequestPurpose | (string & {}) | null | undefined;
   /** Where the buyer continues after completing an off-site step. An absolute https URL without credentials, at most 2,048 characters. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface SetupLastSetupError {
   /** A machine-readable classification of the failure, e.g. `enrollment_declined`. Absent when the buyer simply abandoned the setup. */
@@ -359,23 +387,23 @@ export interface Money {
 }
 export interface PaymentVoucher {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The barcode's contents, when the voucher carries one -- render it in the symbology named by `barcode_format`. */
-  barcode?: string;
+  barcode?: string | undefined;
   /** The symbology `barcode` is encoded in, such as `CODE_128`. */
-  barcode_format?: string;
+  barcode_format?: string | undefined;
   /** Who the payment is made out to. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the voucher stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** URL of that network's logo. */
-  provider_logo?: string;
+  provider_logo?: string | undefined;
   /** The network the buyer pays at, such as OXXO. */
-  provider_name?: string;
+  provider_name?: string | undefined;
   /** The voucher's number -- what the buyer reads out or types at the counter to pay. */
-  reference?: string;
+  reference?: string | undefined;
 }
 export interface PaymentVoucherInstructions {
   /** Always `voucher`: a code the buyer pays in person, at a convenience store or bank counter. */
@@ -387,17 +415,17 @@ export interface PaymentVoucherInstructions {
 export type PaymentQrInstructionsKind = "qr";
 export interface PaymentQr {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the code stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An account key the buyer can pay to directly (Colombia's Bre-B llave), for apps that take a key instead of a scan. */
-  key?: string;
+  key?: string | undefined;
   /** The QR code's contents, ready to render as a scannable image -- `qr_format` says how it is encoded. */
-  qr_code?: string;
+  qr_code?: string | undefined;
   /** How `qr_code` is encoded. */
-  qr_format?: string;
+  qr_format?: string | undefined;
 }
 export interface PaymentQrInstructions {
   /** Always `qr`: a code the buyer scans with their banking app. */
@@ -407,43 +435,43 @@ export interface PaymentQrInstructions {
 }
 export interface PaymentBankTransfer {
   /** The account to send to, in the local scheme's format -- `account_number_label` says what to call it. */
-  account_number?: string;
+  account_number?: string | undefined;
   /** What to call `account_number` when showing it, in the local scheme's own terms -- `CLABE` in Mexico, for example. */
-  account_number_label?: string;
+  account_number_label?: string | undefined;
   /** Exactly what the buyer must send, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The kind of account receiving the transfer, such as a checking account, in the local system's own vocabulary. */
-  bank_account_type?: string;
+  bank_account_type?: string | undefined;
   /** The receiving bank's address. */
-  bank_address?: string;
+  bank_address?: string | undefined;
   /** The receiving branch, where the local system routes by branch. */
-  bank_branch?: string;
+  bank_branch?: string | undefined;
   /** The code that identifies the receiving bank -- its code in the local clearing system, or its SWIFT/BIC on a transfer that crosses borders. */
-  bank_code?: string;
+  bank_code?: string | undefined;
   /** What to call `bank_code` when showing it, in the scheme's own terms -- `SWIFT / BIC` on an international wire, for example. */
-  bank_code_label?: string;
+  bank_code_label?: string | undefined;
   /** The receiving bank's name. */
-  bank_name?: string;
+  bank_name?: string | undefined;
   /** The account holder's tax or identity document number, where the local system needs it to send. */
-  beneficiary_document?: string;
+  beneficiary_document?: string | undefined;
   /** What kind of document `beneficiary_document` is, in the local system's own vocabulary. */
-  beneficiary_document_type?: string;
+  beneficiary_document_type?: string | undefined;
   /** Who the account belongs to -- the name the buyer's bank may ask them to confirm. */
-  beneficiary_name?: string;
+  beneficiary_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When these details stop being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The rail's own step-by-step payment text, when it supplies one. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** The reference the buyer must attach to the transfer so it can be matched to this payment. */
-  reference?: string;
+  reference?: string | undefined;
   /** The receiving bank's routing number for US transfers. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** A second account number, where the rail publishes the same destination in more than one format. */
-  secondary_account_number?: string;
+  secondary_account_number?: string | undefined;
   /** What to call `secondary_account_number` when showing it. */
-  secondary_account_number_label?: string;
+  secondary_account_number_label?: string | undefined;
 }
 /** Always `bank_transfer`: account details the buyer sends money to from their own bank. */
 export type PaymentBankTransferInstructionsKind = "bank_transfer";
@@ -518,25 +546,25 @@ export type ListSetupIntentsRequestOrder = "created_at";
 export type ListSetupIntentsRequestDirection = "asc" | "desc";
 export interface ListSetupIntentsRequest {
   /** Only setup intents for this account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only setup intents in this state. */
-  status?: ListSetupIntentsRequestStatus | (string & {});
+  status?: ListSetupIntentsRequestStatus | (string & {}) | undefined;
   /** Only setup intents created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only setup intents created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort by. */
-  order?: ListSetupIntentsRequestOrder | (string & {});
+  order?: ListSetupIntentsRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListSetupIntentsRequestDirection | (string & {});
+  direction?: ListSetupIntentsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListSetupIntentsResponseDataList = Array<SetupIntent>;
 export interface ListSetupIntentsResponsePageInfo {
@@ -555,6 +583,17 @@ export interface UpdateReturnUrlSetupIntentRequest {
   /** Where the buyer continues after completing an off-site step. Must be an absolute https URL without credentials (http is allowed for localhost), at most 2,048 characters. */
   return_url: string;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateSetupIntentError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Setup Intent Saves a buyer's payment method for later without charging it. Pass a `confirmation_token` for a method the buyer just supplied through the payment elements in setup mode, or a `payment_method_id` already on file to re-verify it. The response is the setup intent as created, not its outcome: while it is `requires_action` the buyer still has a step, so hand `client_secret` to the elements' `handleNextAction` or poll Retrieve setup status. A buyer's own token holding `member:payment_methods:use` may create a setup intent for itself from a confirmation token. */
 export const createSetupIntent: API.OperationMethod<
@@ -563,8 +602,8 @@ export const createSetupIntent: API.OperationMethod<
   CreateSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateSetupIntentRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<SetupIntent>,
+  input: __S(9, __c1, 1) as any as S.Schema<CreateSetupIntentRequest>,
+  output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -580,8 +619,8 @@ export const getSetupIntent: API.OperationMethod<
   GetSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetSetupIntentRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<SetupIntent>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetSetupIntentRequest>,
+  output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -597,8 +636,8 @@ export const getStatusSetupIntent: API.OperationMethod<
   GetStatusSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<SetupStatus>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -616,8 +655,8 @@ export const listSetupIntents: API.PaginatedOperationMethod<
   SetupIntent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c6, 0) as any as S.Schema<ListSetupIntentsRequest>,
-    output: __S(51, __c6, 3) as any as S.Schema<ListSetupIntentsResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListSetupIntentsRequest>,
+    output: __S(59, __c7, 3) as any as S.Schema<ListSetupIntentsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -643,8 +682,8 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
   UpdateReturnUrlSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<SetupStatus>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -656,6 +695,24 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
@@ -664,7 +721,7 @@ function __c0(j: number): any {
           confirmation_token: S.optional(S.NullOr(S.String)),
           currency: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          metadata: S.optional(S.NullOr(__S(8, __c1, 0))),
           payment_method_id: S.optional(S.NullOr(S.String)),
           purpose: S.optional(S.NullOr(S.String)),
           return_url: S.optional(S.NullOr(S.String)),
@@ -673,7 +730,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateSetupIntentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -684,7 +741,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SetupLastSetupError" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -708,23 +765,23 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dark: __S(17, __c2, 1),
-          light: __S(17, __c2, 1),
+          dark: __S(25, __c3, 1),
+          light: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "PaymentMethodIconVariants" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          card: __S(18, __c2, 2),
-          square: __S(18, __c2, 2),
+          card: __S(26, __c3, 2),
+          square: __S(26, __c3, 2),
         }),
       ).annotate({ identifier: "PaymentMethodIcons" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          card: S.NullOr(__S(16, __c2, 0)),
+          card: S.NullOr(__S(24, __c3, 0)),
           display_name: S.String,
-          icons: __S(19, __c2, 3),
+          icons: __S(27, __c3, 3),
           installment_count: S.NullOr(S.Number),
           payment_method_type: S.String,
         }),
@@ -740,7 +797,7 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(21, __c2, 5),
+          profile_picture: __S(29, __c3, 5),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -752,22 +809,22 @@ function __c2(j: number): any {
           client_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           created_at: S.String,
           id: S.String,
-          last_setup_error: S.NullOr(__S(8, __c1, 0)),
+          last_setup_error: S.NullOr(__S(16, __c2, 0)),
           member_id: S.NullOr(S.String),
           metadata: S.NullOr(S.Unknown),
-          payment_instrument: S.NullOr(__S(20, __c2, 4)),
+          payment_instrument: S.NullOr(__S(28, __c3, 4)),
           payment_method_id: S.NullOr(S.String),
           payment_method_type: S.NullOr(S.String),
           return_url: S.NullOr(S.String),
           status: S.String,
           three_ds_verified: S.Boolean,
           updated_at: S.String,
-          user: S.NullOr(__S(22, __c2, 6)),
+          user: S.NullOr(__S(30, __c3, 6)),
         }),
       ).annotate({ identifier: "SetupIntent" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -777,7 +834,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetSetupIntentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -789,13 +846,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetStatusSetupIntentRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          last_setup_error: S.NullOr(__S(8, __c1, 0)),
+          last_setup_error: S.NullOr(__S(16, __c2, 0)),
           next_action: S.NullOr(S.Unknown),
           object: S.String,
           return_url: S.NullOr(S.String),
@@ -804,7 +861,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "SetupStatus" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -822,7 +879,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/setup_intents", code: 200 })),
       ).annotate({ identifier: "ListSetupIntentsRequest" });
     case 1:
-      return S.Array(__S(23, __c2, 7));
+      return S.Array(__S(31, __c3, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -835,13 +892,13 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(49, __c6, 1),
-          page_info: __S(50, __c6, 2),
+          data: __S(57, __c7, 1),
+          page_info: __S(58, __c7, 2),
         }),
       ).annotate({ identifier: "ListSetupIntentsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface ArchiveContainerRequest {
   /** ID or name of the container */
@@ -73,36 +101,36 @@ export interface AttachContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
   /** Replay previous logs from the container. This is useful for attaching to a container that has started and you want to output everything since the container started. If `stream` is also enabled, once all the previous output has been returned, it will seamlessly transition into streaming current output. */
-  logs?: boolean;
+  logs?: boolean | undefined;
   /** Stream attached streams from the time the request was made onwards. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Attach to `stdin` */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** Attach to `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Attach to `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
 }
 export interface AttachContainerResponse {}
 export interface BuildPruneRequest {
   /** Amount of disk space in bytes to keep for cache */
-  reserved_space?: number;
+  reserved_space?: number | undefined;
   /** Maximum amount of disk space allowed to keep for cache */
-  max_used_space?: number;
+  max_used_space?: number | undefined;
   /** Target amount of free disk space after pruning */
-  min_free_space?: number;
+  min_free_space?: number | undefined;
   /** Remove all types of build cache */
-  all?: boolean;
+  all?: boolean | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the list of build cache objects. Available filters: - `until=<timestamp>` remove cache older than `<timestamp>`. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon's local time. - `id=<id>` - `parent=<id>` - `type=<string>` - `description=<string>` - `inuse` - `shared` - `private` */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type BuildPruneResponseCachesDeletedList = Array<string>;
 export interface BuildPruneResponse {
-  CachesDeleted?: BuildPruneResponseCachesDeletedList;
+  CachesDeleted?: BuildPruneResponseCachesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
 export type CommitImageRequestExposedPortsMap = { [key: string]: unknown | undefined };
@@ -115,17 +143,17 @@ export type HealthConfigTestList = Array<string>;
 /** A test to perform to check that the container is healthy. Healthcheck commands should be side-effect free. */
 export interface HealthConfig {
   /** The test to perform. Possible values are: - `[]` inherit healthcheck from image or parent image - `["NONE"]` disable healthcheck - `["CMD", args...]` exec arguments directly - `["CMD-SHELL", command]` run command with system's default shell A non-zero exit code indicates a failed healthcheck: - `0` healthy - `1` unhealthy - `2` reserved (treated as unhealthy) - other values: error running probe */
-  Test?: HealthConfigTestList;
+  Test?: HealthConfigTestList | undefined;
   /** The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  Interval?: number;
+  Interval?: number | undefined;
   /** The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit. If the health check command does not complete within this timeout, the check is considered failed and the health check process is forcibly terminated without a graceful shutdown. */
-  Timeout?: number;
+  Timeout?: number | undefined;
   /** The number of consecutive failures needed to consider a container as unhealthy. 0 means inherit. */
-  Retries?: number;
+  Retries?: number | undefined;
   /** Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  StartPeriod?: number;
+  StartPeriod?: number | undefined;
   /** The time to wait between checks in nanoseconds during the start period. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  StartInterval?: number;
+  StartInterval?: number | undefined;
 }
 /** An object mapping mount point paths inside the container to empty objects. */
 export type CommitImageRequestVolumesMap = { [key: string]: unknown | undefined };
@@ -139,66 +167,66 @@ export type CommitImageRequestLabelsMap = { [key: string]: string | undefined };
 export type CommitImageRequestShellList = Array<string>;
 export interface CommitImageRequest {
   /** The ID or name of the container to commit */
-  container?: string;
+  container?: string | undefined;
   /** Repository name for the created image */
-  repo?: string;
+  repo?: string | undefined;
   /** Tag name for the create image */
-  tag?: string;
+  tag?: string | undefined;
   /** Commit message */
-  comment?: string;
+  comment?: string | undefined;
   /** Author of the image (e.g., `John Hannibal Smith <hannibal@a-team.com>`) */
-  author?: string;
+  author?: string | undefined;
   /** Whether to pause the container before committing */
-  pause?: boolean;
+  pause?: boolean | undefined;
   /** `Dockerfile` instructions to apply while committing */
-  changes?: string;
+  changes?: string | undefined;
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: CommitImageRequestExposedPortsMap | null;
+  ExposedPorts?: CommitImageRequestExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: CommitImageRequestEnvList;
+  Env?: CommitImageRequestEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: CommitImageRequestCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: CommitImageRequestCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: CommitImageRequestVolumesMap;
+  Volumes?: CommitImageRequestVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: CommitImageRequestEntrypointList;
+  Entrypoint?: CommitImageRequestEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: CommitImageRequestOnBuildList | null;
+  OnBuild?: CommitImageRequestOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CommitImageRequestLabelsMap;
+  Labels?: CommitImageRequestLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: CommitImageRequestShellList | null;
+  Shell?: CommitImageRequestShellList | null | undefined;
 }
 /** Response to an API call that returns just an Id */
 export interface IDResponse {
@@ -211,7 +239,7 @@ export interface ConfigInspectRequest {
 }
 /** The version number of the object such as node, service, etc. This is needed to avoid conflicting writes. The client must send the version number along with the modified specification when updating these objects. This approach ensures safe concurrency and determinism in that the change on the object may not be applied if the version number has changed from the last read. In other words, if two update requests specify the same base version, only one of the requests can succeed. As a result, two separate update requests that happen at the same time will not unintentionally overwrite each other. */
 export interface ObjectVersion {
-  Index?: number;
+  Index?: number | undefined;
 }
 /** User-defined key/value metadata. */
 export type ConfigSpecLabelsMap = { [key: string]: string | undefined };
@@ -222,31 +250,31 @@ export interface Driver {
   /** Name of the driver. */
   Name: string;
   /** Key/value map of driver-specific options. */
-  Options?: DriverOptionsMap;
+  Options?: DriverOptionsMap | undefined;
 }
 export interface ConfigSpec {
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ConfigSpecLabelsMap;
+  Labels?: ConfigSpecLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface Config {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ConfigSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ConfigSpec | undefined;
 }
 export type EndpointIPAMConfigLinkLocalIPsList = Array<string>;
 /** EndpointIPAMConfig represents an endpoint's IPAM configuration. */
 export interface EndpointIPAMConfig {
-  IPv4Address?: string;
-  IPv6Address?: string;
-  LinkLocalIPs?: EndpointIPAMConfigLinkLocalIPsList;
+  IPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
+  LinkLocalIPs?: EndpointIPAMConfigLinkLocalIPsList | undefined;
 }
 export type EndpointSettingsLinksList = Array<string>;
 export type EndpointSettingsAliasesList = Array<string>;
@@ -256,57 +284,57 @@ export type EndpointSettingsDriverOptsMap = { [key: string]: string | undefined 
 export type EndpointSettingsDNSNamesList = Array<string>;
 /** Configuration for a network endpoint. */
 export interface EndpointSettings {
-  IPAMConfig?: EndpointIPAMConfig | null;
-  Links?: EndpointSettingsLinksList;
+  IPAMConfig?: EndpointIPAMConfig | null | undefined;
+  Links?: EndpointSettingsLinksList | undefined;
   /** MAC address for the endpoint on this network. The network driver might ignore this parameter. */
-  MacAddress?: string;
-  Aliases?: EndpointSettingsAliasesList;
+  MacAddress?: string | undefined;
+  Aliases?: EndpointSettingsAliasesList | undefined;
   /** DriverOpts is a mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
-  DriverOpts?: EndpointSettingsDriverOptsMap | null;
+  DriverOpts?: EndpointSettingsDriverOptsMap | null | undefined;
   /** This property determines which endpoint will provide the default gateway for a container. The endpoint with the highest priority will be used. If multiple endpoints have the same priority, endpoints are lexicographically sorted based on their network name, and the one that sorts first is picked. */
-  GwPriority?: number;
+  GwPriority?: number | undefined;
   /** Unique ID of the network. */
-  NetworkID?: string;
+  NetworkID?: string | undefined;
   /** Unique ID for the service endpoint in a Sandbox. */
-  EndpointID?: string;
+  EndpointID?: string | undefined;
   /** Gateway address for this network. */
-  Gateway?: string;
+  Gateway?: string | undefined;
   /** IPv4 address. */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** Mask length of the IPv4 address. */
-  IPPrefixLen?: number;
+  IPPrefixLen?: number | undefined;
   /** IPv6 gateway address. */
-  IPv6Gateway?: string;
+  IPv6Gateway?: string | undefined;
   /** Global IPv6 address. */
-  GlobalIPv6Address?: string;
+  GlobalIPv6Address?: string | undefined;
   /** Mask length of the global IPv6 address. */
-  GlobalIPv6PrefixLen?: number;
+  GlobalIPv6PrefixLen?: number | undefined;
   /** List of all DNS names an endpoint has on a specific network. This list is based on the container name, network aliases, container short ID, and hostname. These DNS names are non-fully qualified but can contain several dots. You can get fully qualified DNS names by appending `.<network-name>`. For instance, if container name is `my.ctr` and the network is named `testnet`, `DNSNames` will contain `my.ctr` and the FQDN will be `my.ctr.testnet`. */
-  DNSNames?: EndpointSettingsDNSNamesList;
+  DNSNames?: EndpointSettingsDNSNamesList | undefined;
 }
 export interface ConnectNetworkRequest {
   /** Network ID or name */
   id: string;
   /** The ID or name of the container to connect to the network. */
   Container: string;
-  EndpointConfig?: EndpointSettings | null;
+  EndpointConfig?: EndpointSettings | null | undefined;
 }
 export interface ConnectNetworkResponse {}
 export interface ContainerAttachWebsocketRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,`, or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
   /** Return logs */
-  logs?: boolean;
+  logs?: boolean | undefined;
   /** Return stream */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Attach to `stdin` */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** Attach to `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Attach to `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
 }
 export interface ContainerAttachWebsocketResponse {}
 export interface ContainerChangesRequest {
@@ -327,7 +355,7 @@ export interface ContainerInspectRequest {
   /** ID or name of the container */
   id: string;
   /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
-  size?: boolean;
+  size?: boolean | undefined;
 }
 /** The arguments to the command being run */
 export type ContainerInspectResponseArgsList = Array<string>;
@@ -345,48 +373,48 @@ export type HealthStatus = "none" | "starting" | "healthy" | "unhealthy";
 /** HealthcheckResult stores information about a single run of a healthcheck probe */
 export interface HealthcheckResult {
   /** Date and time at which this check started in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Start?: string;
+  Start?: string | undefined;
   /** Date and time at which this check ended in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  End?: string;
+  End?: string | undefined;
   /** ExitCode meanings: - `0` healthy - `1` unhealthy - `2` reserved (considered unhealthy) - other values: error running probe */
-  ExitCode?: number;
+  ExitCode?: number | undefined;
   /** Output from last check */
-  Output?: string;
+  Output?: string | undefined;
 }
 /** Log contains the last few results (oldest first) */
 export type HealthLogList = Array<HealthcheckResult | null>;
 /** Health stores information about the container's healthcheck results. */
 export interface Health {
   /** Status is one of `none`, `starting`, `healthy` or `unhealthy` - "none" Indicates there is no healthcheck - "starting" Starting indicates that the container is not yet ready - "healthy" Healthy indicates that the container is running correctly - "unhealthy" Unhealthy indicates that the container has a problem */
-  Status?: HealthStatus;
+  Status?: HealthStatus | undefined;
   /** FailingStreak is the number of consecutive failures */
-  FailingStreak?: number;
+  FailingStreak?: number | undefined;
   /** Log contains the last few results (oldest first) */
-  Log?: HealthLogList;
+  Log?: HealthLogList | undefined;
 }
 /** ContainerState stores container's running state. It's part of ContainerJSONBase and will be returned by the "inspect" command. */
 export interface ContainerState {
   /** String representation of the container state. Can be one of "created", "running", "paused", "restarting", "removing", "exited", or "dead". */
-  Status?: ContainerStateStatus;
+  Status?: ContainerStateStatus | undefined;
   /** Whether this container is running. Note that a running container can be _paused_. The `Running` and `Paused` booleans are not mutually exclusive: When pausing a container (on Linux), the freezer cgroup is used to suspend all processes in the container. Freezing the process requires the process to be running. As a result, paused containers are both `Running` _and_ `Paused`. Use the `Status` field instead to determine if a container's state is "running". */
-  Running?: boolean;
+  Running?: boolean | undefined;
   /** Whether this container is paused. */
-  Paused?: boolean;
+  Paused?: boolean | undefined;
   /** Whether this container is restarting. */
-  Restarting?: boolean;
+  Restarting?: boolean | undefined;
   /** Whether a process within this container has been killed because it ran out of memory since the container was last started. */
-  OOMKilled?: boolean;
-  Dead?: boolean;
+  OOMKilled?: boolean | undefined;
+  Dead?: boolean | undefined;
   /** The process ID of this container */
-  Pid?: number;
+  Pid?: number | undefined;
   /** The last exit code of this container */
-  ExitCode?: number;
-  Error?: string;
+  ExitCode?: number | undefined;
+  Error?: string | undefined;
   /** The time when this container was last started. */
-  StartedAt?: string;
+  StartedAt?: string | undefined;
   /** The time when this container last exited. */
-  FinishedAt?: string;
-  Health?: Health | null;
+  FinishedAt?: string | undefined;
+  Health?: Health | null | undefined;
 }
 /** List of URLs from which this object MAY be downloaded. */
 export type OCIDescriptorUrlsList = Array<string>;
@@ -397,47 +425,47 @@ export type OCIPlatformOsFeaturesList = Array<string>;
 /** Describes the platform which the image in the manifest runs on, as defined in the [OCI Image Index Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md). */
 export interface OCIPlatform {
   /** The CPU architecture, for example `amd64` or `ppc64`. */
-  architecture?: string;
+  architecture?: string | undefined;
   /** The operating system, for example `linux` or `windows`. */
-  os?: string;
+  os?: string | undefined;
   /** Optional field specifying the operating system version, for example on Windows `10.0.19041.1165`. */
-  os_version?: string;
+  os_version?: string | undefined;
   /** Optional field specifying an array of strings, each listing a required OS feature (for example on Windows `win32k`). */
-  os_features?: OCIPlatformOsFeaturesList;
+  os_features?: OCIPlatformOsFeaturesList | undefined;
   /** Optional field specifying a variant of the CPU, for example `v7` to specify ARMv7 when architecture is `arm`. */
-  variant?: string;
+  variant?: string | undefined;
 }
 /** A descriptor struct containing digest, media type, and size, as defined in the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md). */
 export interface OCIDescriptor {
   /** The media type of the object this schema refers to. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The digest of the targeted content. */
-  digest?: string;
+  digest?: string | undefined;
   /** The size in bytes of the blob. */
-  size?: number;
+  size?: number | undefined;
   /** List of URLs from which this object MAY be downloaded. */
-  urls?: OCIDescriptorUrlsList | null;
+  urls?: OCIDescriptorUrlsList | null | undefined;
   /** Arbitrary metadata relating to the targeted content. */
-  annotations?: OCIDescriptorAnnotationsMap | null;
+  annotations?: OCIDescriptorAnnotationsMap | null | undefined;
   /** Data is an embedding of the targeted content. This is encoded as a base64 string when marshalled to JSON (automatically, by encoding/json). If present, Data can be used directly to avoid fetching the targeted content. */
-  data?: string | null;
-  platform?: OCIPlatform | null;
+  data?: string | null | undefined;
+  platform?: OCIPlatform | null | undefined;
   /** ArtifactType is the IANA media type of this artifact. */
-  artifactType?: string | null;
+  artifactType?: string | null | undefined;
 }
 /** IDs of exec instances that are running in the container. */
 export type ContainerInspectResponseExecIDsList = Array<string>;
 export interface HostConfigBlkioWeightDeviceItem {
-  Path?: string;
-  Weight?: number;
+  Path?: string | undefined;
+  Weight?: number | undefined;
 }
 /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
 export type HostConfigBlkioWeightDeviceList = Array<HostConfigBlkioWeightDeviceItem>;
 export interface ThrottleDevice {
   /** Device path */
-  Path?: string;
+  Path?: string | undefined;
   /** Rate */
-  Rate?: number;
+  Rate?: number | undefined;
 }
 /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
 export type HostConfigBlkioDeviceReadBpsList = Array<ThrottleDevice>;
@@ -449,9 +477,9 @@ export type HostConfigBlkioDeviceReadIOpsList = Array<ThrottleDevice>;
 export type HostConfigBlkioDeviceWriteIOpsList = Array<ThrottleDevice>;
 /** A device mapping between the host and container */
 export interface DeviceMapping {
-  PathOnHost?: string;
-  PathInContainer?: string;
-  CgroupPermissions?: string;
+  PathOnHost?: string | undefined;
+  PathInContainer?: string | undefined;
+  CgroupPermissions?: string | undefined;
 }
 /** A list of devices to add to the container. */
 export type HostConfigDevicesList = Array<DeviceMapping>;
@@ -466,23 +494,23 @@ export type DeviceRequestOptionsMap = { [key: string]: string | undefined };
 /** A request for devices to be sent to device drivers */
 export interface DeviceRequest {
   /** The name of the device driver to use for this request. Note that if this is specified the capabilities are ignored when selecting a device driver. */
-  Driver?: string;
-  Count?: number;
-  DeviceIDs?: DeviceRequestDeviceIDsList;
+  Driver?: string | undefined;
+  Count?: number | undefined;
+  DeviceIDs?: DeviceRequestDeviceIDsList | undefined;
   /** A list of capabilities; an OR list of AND lists of capabilities. Note that if a driver is specified the capabilities have no effect on selecting a driver as the driver name is used directly. Note that if no driver is specified the capabilities are used to select a driver with the required capabilities. */
-  Capabilities?: DeviceRequestCapabilitiesList;
+  Capabilities?: DeviceRequestCapabilitiesList | undefined;
   /** Driver-specific options, specified as a key/value pairs. These options are passed directly to the driver. */
-  Options?: DeviceRequestOptionsMap;
+  Options?: DeviceRequestOptionsMap | undefined;
 }
 /** A list of requests for devices to be sent to device drivers. */
 export type HostConfigDeviceRequestsList = Array<DeviceRequest>;
 export interface HostConfigUlimitsItem {
   /** Name of ulimit */
-  Name?: string;
+  Name?: string | undefined;
   /** Soft limit */
-  Soft?: number;
+  Soft?: number | undefined;
   /** Hard limit */
-  Hard?: number;
+  Hard?: number | undefined;
 }
 /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
 export type HostConfigUlimitsList = Array<HostConfigUlimitsItem>;
@@ -505,16 +533,16 @@ export type HostConfigLogConfigConfigMap = { [key: string]: string | undefined }
 /** The logging configuration for this container */
 export interface HostConfigLogConfig {
   /** Name of the logging driver used for the container or "none" if logging is disabled. */
-  Type?: HostConfigLogConfigType | (string & {});
+  Type?: HostConfigLogConfigType | (string & {}) | undefined;
   /** Driver-specific configuration options for the logging driver. */
-  Config?: HostConfigLogConfigConfigMap;
+  Config?: HostConfigLogConfigConfigMap | undefined;
 }
 /** PortBinding represents a binding between a host IP address and a host port. */
 export interface PortBinding {
   /** Host IP address that the container's port is mapped to. */
-  HostIp?: string;
+  HostIp?: string | undefined;
   /** Host port number that the container's port is mapped to. */
-  HostPort?: string;
+  HostPort?: string | undefined;
 }
 export type PortMapValueList = Array<PortBinding>;
 /** PortMap describes the mapping of container ports to host ports, using the container's port-number and protocol as key in the format `<port>/<protocol>`, for example, `80/udp`. If a container's port is mapped for multiple protocols, separate entries are added to the mapping table. */
@@ -524,9 +552,9 @@ export type RestartPolicyName = "" | "no" | "always" | "unless-stopped" | "on-fa
 /** The behavior to apply when the container exits. The default is not to restart. An ever increasing delay (double the previous delay, starting at 100ms) is added before each restart to prevent flooding the server. */
 export interface RestartPolicy {
   /** - Empty string means not to restart - `no` Do not automatically restart - `always` Always restart - `unless-stopped` Restart always except when the user has manually stopped the container - `on-failure` Restart only when the container exit code is non-zero */
-  Name?: RestartPolicyName | (string & {});
+  Name?: RestartPolicyName | (string & {}) | undefined;
   /** If `on-failure` is used, the number of times to retry before giving up. */
-  MaximumRetryCount?: number;
+  MaximumRetryCount?: number | undefined;
 }
 /** A list of volumes to inherit from another container, specified in the form `<container name>[:<ro|rw>]`. */
 export type HostConfigVolumesFromList = Array<string>;
@@ -543,15 +571,15 @@ export type MountBindOptionsPropagation =
 /** Optional configuration for the `bind` type. */
 export interface MountBindOptions {
   /** A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`. */
-  Propagation?: MountBindOptionsPropagation | (string & {});
+  Propagation?: MountBindOptionsPropagation | (string & {}) | undefined;
   /** Disable recursive bind mount. */
-  NonRecursive?: boolean;
+  NonRecursive?: boolean | undefined;
   /** Create mount point on host if missing */
-  CreateMountpoint?: boolean;
+  CreateMountpoint?: boolean | undefined;
   /** Make the mount non-recursively read-only, but still leave the mount recursive (unless NonRecursive is set to `true` in conjunction). Added in v1.44, before that version all read-only mounts were non-recursive by default. To match the previous behaviour this will default to `true` for clients on versions prior to v1.44. */
-  ReadOnlyNonRecursive?: boolean;
+  ReadOnlyNonRecursive?: boolean | undefined;
   /** Raise an error if the mount cannot be made recursively read-only. */
-  ReadOnlyForceRecursive?: boolean;
+  ReadOnlyForceRecursive?: boolean | undefined;
 }
 /** User-defined key/value metadata. */
 export type MountVolumeOptionsLabelsMap = { [key: string]: string | undefined };
@@ -560,25 +588,25 @@ export type MountVolumeOptionsDriverConfigOptionsMap = { [key: string]: string |
 /** Map of driver specific options */
 export interface MountVolumeOptionsDriverConfig {
   /** Name of the driver to use to create the volume. */
-  Name?: string;
+  Name?: string | undefined;
   /** key/value map of driver specific options. */
-  Options?: MountVolumeOptionsDriverConfigOptionsMap;
+  Options?: MountVolumeOptionsDriverConfigOptionsMap | undefined;
 }
 /** Optional configuration for the `volume` type. */
 export interface MountVolumeOptions {
   /** Populate volume with data from the target. */
-  NoCopy?: boolean;
+  NoCopy?: boolean | undefined;
   /** User-defined key/value metadata. */
-  Labels?: MountVolumeOptionsLabelsMap;
+  Labels?: MountVolumeOptionsLabelsMap | undefined;
   /** Map of driver specific options */
-  DriverConfig?: MountVolumeOptionsDriverConfig;
+  DriverConfig?: MountVolumeOptionsDriverConfig | undefined;
   /** Source path inside the volume. Must be relative without any back traversals. */
-  Subpath?: string;
+  Subpath?: string | undefined;
 }
 /** Optional configuration for the `image` type. */
 export interface MountImageOptions {
   /** Source path inside the image. Must be relative without any back traversals. */
-  Subpath?: string;
+  Subpath?: string | undefined;
 }
 export type MountTmpfsOptionsOptionsItemList = Array<string>;
 /** The options to be passed to the tmpfs mount. An array of arrays. Flag options should be provided as 1-length arrays. Other types should be provided as as 2-length arrays, where the first item is the key and the second the value. */
@@ -586,31 +614,31 @@ export type MountTmpfsOptionsOptionsList = Array<MountTmpfsOptionsOptionsItemLis
 /** Optional configuration for the `tmpfs` type. */
 export interface MountTmpfsOptions {
   /** The size for the tmpfs mount in bytes. */
-  SizeBytes?: number;
+  SizeBytes?: number | undefined;
   /** The permission mode for the tmpfs mount in an integer. The value must not be in octal format (e.g. 755) but rather the decimal representation of the octal value (e.g. 493). */
-  Mode?: number;
+  Mode?: number | undefined;
   /** The options to be passed to the tmpfs mount. An array of arrays. Flag options should be provided as 1-length arrays. Other types should be provided as as 2-length arrays, where the first item is the key and the second the value. */
-  Options?: MountTmpfsOptionsOptionsList;
+  Options?: MountTmpfsOptionsOptionsList | undefined;
 }
 export interface Mount {
   /** Container path. */
-  Target?: string;
+  Target?: string | undefined;
   /** Mount source (e.g. a volume name, a host path). The source cannot be specified when using `Type=tmpfs`. For `Type=bind`, the source path must either exist, or the `CreateMountpoint` must be set to `true` to create the source path on the host if missing. For `Type=npipe`, the pipe must exist prior to creating the container. */
-  Source?: string;
+  Source?: string | undefined;
   /** The mount type. Available types: - `bind` Mounts a file or directory from the host into the container. The `Source` must exist prior to creating the container. - `cluster` a Swarm cluster volume - `image` Mounts an image. - `npipe` Mounts a named pipe from the host into the container. The `Source` must exist prior to creating the container. - `tmpfs` Create a tmpfs with the given options. The mount `Source` cannot be specified for tmpfs. - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed. */
-  Type?: MountType | (string & {});
+  Type?: MountType | (string & {}) | undefined;
   /** Whether the mount should be read-only. */
-  ReadOnly?: boolean;
+  ReadOnly?: boolean | undefined;
   /** The consistency requirement for the mount: `default`, `consistent`, `cached`, or `delegated`. */
-  Consistency?: string;
+  Consistency?: string | undefined;
   /** Optional configuration for the `bind` type. */
-  BindOptions?: MountBindOptions;
+  BindOptions?: MountBindOptions | undefined;
   /** Optional configuration for the `volume` type. */
-  VolumeOptions?: MountVolumeOptions;
+  VolumeOptions?: MountVolumeOptions | undefined;
   /** Optional configuration for the `image` type. */
-  ImageOptions?: MountImageOptions;
+  ImageOptions?: MountImageOptions | undefined;
   /** Optional configuration for the `tmpfs` type. */
-  TmpfsOptions?: MountTmpfsOptions;
+  TmpfsOptions?: MountTmpfsOptions | undefined;
 }
 /** Specification for mounts to be added to the container. */
 export type HostConfigMountsList = Array<Mount>;
@@ -653,143 +681,143 @@ export type HostConfigReadonlyPathsList = Array<string>;
 /** Container configuration that depends on the host we are running on */
 export interface HostConfig {
   /** An integer value representing this container's relative CPU weight versus other containers. */
-  CpuShares?: number;
+  CpuShares?: number | undefined;
   /** Memory limit in bytes. */
-  Memory?: number;
+  Memory?: number | undefined;
   /** Path to `cgroups` under which the container's `cgroup` is created. If the path is not absolute, the path is considered to be relative to the `cgroups` path of the init process. Cgroups are created if they do not already exist. */
-  CgroupParent?: string;
+  CgroupParent?: string | undefined;
   /** Block IO weight (relative weight). */
-  BlkioWeight?: number;
+  BlkioWeight?: number | undefined;
   /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
-  BlkioWeightDevice?: HostConfigBlkioWeightDeviceList;
+  BlkioWeightDevice?: HostConfigBlkioWeightDeviceList | undefined;
   /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadBps?: HostConfigBlkioDeviceReadBpsList;
+  BlkioDeviceReadBps?: HostConfigBlkioDeviceReadBpsList | undefined;
   /** Limit write rate (bytes per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteBps?: HostConfigBlkioDeviceWriteBpsList;
+  BlkioDeviceWriteBps?: HostConfigBlkioDeviceWriteBpsList | undefined;
   /** Limit read rate (IO per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadIOps?: HostConfigBlkioDeviceReadIOpsList;
+  BlkioDeviceReadIOps?: HostConfigBlkioDeviceReadIOpsList | undefined;
   /** Limit write rate (IO per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteIOps?: HostConfigBlkioDeviceWriteIOpsList;
+  BlkioDeviceWriteIOps?: HostConfigBlkioDeviceWriteIOpsList | undefined;
   /** The length of a CPU period in microseconds. */
-  CpuPeriod?: number;
+  CpuPeriod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  CpuQuota?: number;
+  CpuQuota?: number | undefined;
   /** The length of a CPU real-time period in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimePeriod?: number;
+  CpuRealtimePeriod?: number | undefined;
   /** The length of a CPU real-time runtime in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimeRuntime?: number;
+  CpuRealtimeRuntime?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  CpusetCpus?: string;
+  CpusetCpus?: string | undefined;
   /** Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems. */
-  CpusetMems?: string;
+  CpusetMems?: string | undefined;
   /** A list of devices to add to the container. */
-  Devices?: HostConfigDevicesList;
+  Devices?: HostConfigDevicesList | undefined;
   /** a list of cgroup rules to apply to the container */
-  DeviceCgroupRules?: HostConfigDeviceCgroupRulesList;
+  DeviceCgroupRules?: HostConfigDeviceCgroupRulesList | undefined;
   /** A list of requests for devices to be sent to device drivers. */
-  DeviceRequests?: HostConfigDeviceRequestsList;
+  DeviceRequests?: HostConfigDeviceRequestsList | undefined;
   /** Memory soft limit in bytes. */
-  MemoryReservation?: number;
+  MemoryReservation?: number | undefined;
   /** Total memory limit (memory + swap). Set as `-1` to enable unlimited swap. */
-  MemorySwap?: number;
+  MemorySwap?: number | undefined;
   /** Tune a container's memory swappiness behavior. Accepts an integer between 0 and 100. */
-  MemorySwappiness?: number;
+  MemorySwappiness?: number | undefined;
   /** CPU quota in units of 10<sup>-9</sup> CPUs. */
-  NanoCpus?: number;
+  NanoCpus?: number | undefined;
   /** Disable OOM Killer for the container. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Tune a container's PIDs limit. Set `0` or `-1` for unlimited, or `null` to not change. */
-  PidsLimit?: number | null;
+  PidsLimit?: number | null | undefined;
   /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
-  Ulimits?: HostConfigUlimitsList;
+  Ulimits?: HostConfigUlimitsList | undefined;
   /** The number of usable CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuCount?: number;
+  CpuCount?: number | undefined;
   /** The usable percentage of the available CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuPercent?: number;
+  CpuPercent?: number | undefined;
   /** Maximum IOps for the container system drive (Windows only) */
-  IOMaximumIOps?: number;
+  IOMaximumIOps?: number | undefined;
   /** Maximum IO in bytes per second for the container system drive (Windows only). */
-  IOMaximumBandwidth?: number;
+  IOMaximumBandwidth?: number | undefined;
   /** A list of volume bindings for this container. Each volume binding is a string in one of these forms: - `host-src:container-dest[:options]` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path. - `volume-name:container-dest[:options]` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path. `options` is an optional, comma-delimited list of: - `nocopy` disables automatic copying of data from the container path to the volume. The `nocopy` flag only applies to named volumes. - `[ro|rw]` mounts a volume read-only or read-write, respectively. If omitted or set to `rw`, volumes are mounted read-write. - `[z|Z]` applies SELinux labels to allow or deny multiple containers to read and write to the same volume. - `z`: a _shared_ content label is applied to the content. This label indicates that multiple containers can share the volume content, for both reading and writing. - `Z`: a _private unshared_ label is applied to the content. This label indicates that only the current container can use a private volume. Labeling systems such as SELinux require proper labels to be placed on volume content that is mounted into a container. Without a label, the security system can prevent a container's processes from using the content. By default, the labels set by the host operating system are not modified. - `[[r]shared|[r]slave|[r]private]` specifies mount [propagation behavior](https://www.kernel.org/doc/Documentation/filesystems/sharedsubtree.txt). This only applies to bind-mounted volumes, not internal volumes or named volumes. Mount propagation requires the source mount point (the location where the source directory is mounted in the host operating system) to have the correct propagation properties. For shared volumes, the source mount point must be set to `shared`. For slave volumes, the mount must be set to either `shared` or `slave`. */
-  Binds?: HostConfigBindsList;
+  Binds?: HostConfigBindsList | undefined;
   /** Path to a file where the container ID is written */
-  ContainerIDFile?: string;
+  ContainerIDFile?: string | undefined;
   /** The logging configuration for this container */
-  LogConfig?: HostConfigLogConfig;
+  LogConfig?: HostConfigLogConfig | undefined;
   /** Network mode to use for this container. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to. */
-  NetworkMode?: string;
-  PortBindings?: PortMap;
-  RestartPolicy?: RestartPolicy;
+  NetworkMode?: string | undefined;
+  PortBindings?: PortMap | undefined;
+  RestartPolicy?: RestartPolicy | undefined;
   /** Automatically remove the container when the container's process exits. This has no effect if `RestartPolicy` is set. */
-  AutoRemove?: boolean;
+  AutoRemove?: boolean | undefined;
   /** Driver that this container uses to mount volumes. */
-  VolumeDriver?: string;
+  VolumeDriver?: string | undefined;
   /** A list of volumes to inherit from another container, specified in the form `<container name>[:<ro|rw>]`. */
-  VolumesFrom?: HostConfigVolumesFromList;
+  VolumesFrom?: HostConfigVolumesFromList | undefined;
   /** Specification for mounts to be added to the container. */
-  Mounts?: HostConfigMountsList;
+  Mounts?: HostConfigMountsList | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: HostConfigConsoleSizeList | null;
+  ConsoleSize?: HostConfigConsoleSizeList | null | undefined;
   /** Arbitrary non-identifying metadata attached to container and provided to the runtime when the container is started. */
-  Annotations?: HostConfigAnnotationsMap;
+  Annotations?: HostConfigAnnotationsMap | undefined;
   /** A list of kernel capabilities to add to the container. Conflicts with option 'Capabilities'. */
-  CapAdd?: HostConfigCapAddList;
+  CapAdd?: HostConfigCapAddList | undefined;
   /** A list of kernel capabilities to drop from the container. Conflicts with option 'Capabilities'. */
-  CapDrop?: HostConfigCapDropList;
+  CapDrop?: HostConfigCapDropList | undefined;
   /** cgroup namespace mode for the container. Possible values are: - `"private"`: the container runs in its own private cgroup namespace - `"host"`: use the host system's cgroup namespace If not specified, the daemon default is used, which can either be `"private"` or `"host"`, depending on daemon version, kernel support and configuration. */
-  CgroupnsMode?: HostConfigCgroupnsMode | (string & {});
+  CgroupnsMode?: HostConfigCgroupnsMode | (string & {}) | undefined;
   /** A list of DNS servers for the container to use. */
-  Dns?: HostConfigDnsList;
+  Dns?: HostConfigDnsList | undefined;
   /** A list of DNS options. */
-  DnsOptions?: HostConfigDnsOptionsList;
+  DnsOptions?: HostConfigDnsOptionsList | undefined;
   /** A list of DNS search domains. */
-  DnsSearch?: HostConfigDnsSearchList;
+  DnsSearch?: HostConfigDnsSearchList | undefined;
   /** A list of hostnames/IP mappings to add to the container's `/etc/hosts` file. Specified in the form `["hostname:IP"]`. */
-  ExtraHosts?: HostConfigExtraHostsList;
+  ExtraHosts?: HostConfigExtraHostsList | undefined;
   /** A list of additional groups that the container process will run as. */
-  GroupAdd?: HostConfigGroupAddList;
+  GroupAdd?: HostConfigGroupAddList | undefined;
   /** IPC sharing mode for the container. Possible values are: - `"none"`: own private IPC namespace, with /dev/shm not mounted - `"private"`: own private IPC namespace - `"shareable"`: own private IPC namespace, with a possibility to share it with other containers - `"container:<name|id>"`: join another (shareable) container's IPC namespace - `"host"`: use the host system's IPC namespace If not specified, daemon default is used, which can either be `"private"` or `"shareable"`, depending on daemon version and configuration. */
-  IpcMode?: string;
+  IpcMode?: string | undefined;
   /** Cgroup to use for the container. */
-  Cgroup?: string;
+  Cgroup?: string | undefined;
   /** A list of links for the container in the form `container_name:alias`. */
-  Links?: HostConfigLinksList;
+  Links?: HostConfigLinksList | undefined;
   /** An integer value containing the score given to the container in order to tune OOM killer preferences. */
-  OomScoreAdj?: number;
+  OomScoreAdj?: number | undefined;
   /** Set the PID (Process) Namespace mode for the container. It can be either: - `"container:<name|id>"`: joins another container's PID namespace - `"host"`: use the host's PID namespace inside the container */
-  PidMode?: string;
+  PidMode?: string | undefined;
   /** Gives the container full access to the host. */
-  Privileged?: boolean;
+  Privileged?: boolean | undefined;
   /** Allocates an ephemeral host port for all of a container's exposed ports. Ports are de-allocated when the container stops and allocated when the container starts. The allocated port might be changed when restarting the container. The port is selected from the ephemeral port range that depends on the kernel. For example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`. */
-  PublishAllPorts?: boolean;
+  PublishAllPorts?: boolean | undefined;
   /** Mount the container's root filesystem as read only. */
-  ReadonlyRootfs?: boolean;
+  ReadonlyRootfs?: boolean | undefined;
   /** A list of string values to customize labels for MLS systems, such as SELinux. */
-  SecurityOpt?: HostConfigSecurityOptList;
+  SecurityOpt?: HostConfigSecurityOptList | undefined;
   /** Storage driver options for this container, in the form `{"size": "120G"}`. */
-  StorageOpt?: HostConfigStorageOptMap;
+  StorageOpt?: HostConfigStorageOptMap | undefined;
   /** A map of container directories which should be replaced by tmpfs mounts, and their corresponding mount options. For example: ``` { "/run": "rw,noexec,nosuid,size=65536k" } ``` */
-  Tmpfs?: HostConfigTmpfsMap;
+  Tmpfs?: HostConfigTmpfsMap | undefined;
   /** UTS namespace to use for the container. */
-  UTSMode?: string;
+  UTSMode?: string | undefined;
   /** Sets the usernamespace mode for the container when usernamespace remapping option is enabled. */
-  UsernsMode?: string;
+  UsernsMode?: string | undefined;
   /** Size of `/dev/shm` in bytes. If omitted, the system uses 64MB. */
-  ShmSize?: number;
+  ShmSize?: number | undefined;
   /** A list of kernel parameters (sysctls) to set in the container. This field is omitted if not set. */
-  Sysctls?: HostConfigSysctlsMap | null;
+  Sysctls?: HostConfigSysctlsMap | null | undefined;
   /** Runtime to use with this container. */
-  Runtime?: string | null;
+  Runtime?: string | null | undefined;
   /** Set the initial umask for a Unix container. If omitted, the daemon does not set a umask in the OCI process specification, and the runtime's default behavior applies. JSON integers are decimal. For example, use `18` for the octal umask `0022`, and `511` for the octal umask `0777`. */
-  Umask?: number | null;
+  Umask?: number | null | undefined;
   /** Isolation technology of the container. (Windows only) */
-  Isolation?: HostConfigIsolation | (string & {});
+  Isolation?: HostConfigIsolation | (string & {}) | undefined;
   /** The list of paths to be masked inside the container (this overrides the default set of paths). */
-  MaskedPaths?: HostConfigMaskedPathsList;
+  MaskedPaths?: HostConfigMaskedPathsList | undefined;
   /** The list of paths to be set as read-only inside the container (this overrides the default set of paths). */
-  ReadonlyPaths?: HostConfigReadonlyPathsList;
+  ReadonlyPaths?: HostConfigReadonlyPathsList | undefined;
 }
 /** Low-level storage metadata, provided as key/value pairs. This information is driver-specific, and depends on the storage-driver in use, and should be used for informational purposes only. */
 export type DriverDataDataMap = { [key: string]: string | undefined };
@@ -803,36 +831,36 @@ export interface DriverData {
 /** Information about a snapshot backend of the container's root filesystem. */
 export interface RootFSStorageSnapshot {
   /** Name of the snapshotter. */
-  Name?: string;
+  Name?: string | undefined;
 }
 /** Information about the storage used for the container's root filesystem. */
 export interface RootFSStorage {
   /** Information about the snapshot used for the container's root filesystem. */
-  Snapshot?: RootFSStorageSnapshot | null;
+  Snapshot?: RootFSStorageSnapshot | null | undefined;
 }
 /** Information about the storage used by the container. */
 export interface Storage {
   /** Information about the storage used for the container's root filesystem. */
-  RootFS?: RootFSStorage | null;
+  RootFS?: RootFSStorage | null | undefined;
 }
 /** MountPoint represents a mount point configuration inside the container. This is used for reporting the mountpoints in use by a container. */
 export interface MountPoint {
   /** The mount type: - `bind` a mount of a file or directory from the host into the container. - `cluster` a Swarm cluster volume. - `image` an OCI image. - `npipe` a named pipe from the host into the container. - `tmpfs` a `tmpfs`. - `volume` a docker volume with the given `Name`. */
-  Type?: MountType;
+  Type?: MountType | undefined;
   /** Name is the name reference to the underlying data defined by `Source` e.g., the volume name. */
-  Name?: string;
+  Name?: string | undefined;
   /** Source location of the mount. For volumes, this contains the storage location of the volume (within `/var/lib/docker/volumes/`). For bind-mounts, and `npipe`, this contains the source (host) part of the bind-mount. For `tmpfs` mount points, this field is empty. */
-  Source?: string;
+  Source?: string | undefined;
   /** Destination is the path relative to the container root (`/`) where the `Source` is mounted inside the container. */
-  Destination?: string;
+  Destination?: string | undefined;
   /** Driver is the volume driver used to create the volume (if it is a volume). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Mode is a comma separated list of options supplied by the user when creating the bind/volume mount. The default is platform-specific (`"z"` on Linux, empty on Windows). */
-  Mode?: string;
+  Mode?: string | undefined;
   /** Whether the mount is mounted writable (read-write). */
-  RW?: boolean;
+  RW?: boolean | undefined;
   /** Propagation describes how mounts are propagated from the host into the mount point, and vice-versa. Refer to the [Linux kernel documentation](https://www.kernel.org/doc/Documentation/filesystems/sharedsubtree.txt) for details. This field is not used on Windows. */
-  Propagation?: string;
+  Propagation?: string | undefined;
 }
 /** List of mounts used by the container. */
 export type ContainerInspectResponseMountsList = Array<MountPoint>;
@@ -855,228 +883,228 @@ export type ContainerConfigShellList = Array<string>;
 /** Configuration for a container that is portable between hosts. */
 export interface ContainerConfig {
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: ContainerConfigExposedPortsMap | null;
+  ExposedPorts?: ContainerConfigExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: ContainerConfigEnvList;
+  Env?: ContainerConfigEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: ContainerConfigCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: ContainerConfigCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: ContainerConfigVolumesMap;
+  Volumes?: ContainerConfigVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: ContainerConfigEntrypointList;
+  Entrypoint?: ContainerConfigEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: ContainerConfigOnBuildList | null;
+  OnBuild?: ContainerConfigOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ContainerConfigLabelsMap;
+  Labels?: ContainerConfigLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: ContainerConfigShellList | null;
+  Shell?: ContainerConfigShellList | null | undefined;
 }
 /** Information about all networks that the container is connected to. */
 export type NetworkSettingsNetworksMap = { [key: string]: EndpointSettings | undefined };
 /** NetworkSettings exposes the network settings in the API */
 export interface NetworkSettings {
   /** SandboxID uniquely represents a container's network stack. */
-  SandboxID?: string;
+  SandboxID?: string | undefined;
   /** SandboxKey is the full path of the netns handle */
-  SandboxKey?: string;
-  Ports?: PortMap;
+  SandboxKey?: string | undefined;
+  Ports?: PortMap | undefined;
   /** Information about all networks that the container is connected to. */
-  Networks?: NetworkSettingsNetworksMap;
+  Networks?: NetworkSettingsNetworksMap | undefined;
 }
 export interface ContainerInspectResponse {
   /** The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes). */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the container was created, formatted in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string | null;
+  Created?: string | null | undefined;
   /** The path to the command being run */
-  Path?: string;
+  Path?: string | undefined;
   /** The arguments to the command being run */
-  Args?: ContainerInspectResponseArgsList;
-  State?: ContainerState | null;
+  Args?: ContainerInspectResponseArgsList | undefined;
+  State?: ContainerState | null | undefined;
   /** The ID (digest) of the image that this container was created from. */
-  Image?: string;
+  Image?: string | undefined;
   /** Location of the `/etc/resolv.conf` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  ResolvConfPath?: string;
+  ResolvConfPath?: string | undefined;
   /** Location of the `/etc/hostname` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  HostnamePath?: string;
+  HostnamePath?: string | undefined;
   /** Location of the `/etc/hosts` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  HostsPath?: string;
+  HostsPath?: string | undefined;
   /** Location of the file used to buffer the container's logs. Depending on the logging-driver used for the container, this field may be omitted. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  LogPath?: string | null;
+  LogPath?: string | null | undefined;
   /** The name associated with this container. For historic reasons, the name may be prefixed with a forward-slash (`/`). */
-  Name?: string;
+  Name?: string | undefined;
   /** Number of times the container was restarted since it was created, or since daemon was started. */
-  RestartCount?: number;
+  RestartCount?: number | undefined;
   /** The storage-driver used for the container's filesystem (graph-driver or snapshotter). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** The platform (operating system) for which the container was created. This field was introduced for the experimental "LCOW" (Linux Containers On Windows) features, which has been removed. In most cases, this field is equal to the host's operating system (`linux` or `windows`). */
-  Platform?: string;
+  Platform?: string | undefined;
   /** OCI descriptor of the platform-specific manifest of the image the container was created from. Note: Only available if the daemon provides a multi-platform image store. */
-  ImageManifestDescriptor?: OCIDescriptor;
+  ImageManifestDescriptor?: OCIDescriptor | undefined;
   /** SELinux mount label set for the container. */
-  MountLabel?: string;
+  MountLabel?: string | undefined;
   /** SELinux process label set for the container. */
-  ProcessLabel?: string;
+  ProcessLabel?: string | undefined;
   /** The AppArmor profile set for the container. */
-  AppArmorProfile?: string;
+  AppArmorProfile?: string | undefined;
   /** IDs of exec instances that are running in the container. */
-  ExecIDs?: ContainerInspectResponseExecIDsList | null;
-  HostConfig?: HostConfig;
-  GraphDriver?: DriverData | null;
-  Storage?: Storage | null;
+  ExecIDs?: ContainerInspectResponseExecIDsList | null | undefined;
+  HostConfig?: HostConfig | undefined;
+  GraphDriver?: DriverData | null | undefined;
+  Storage?: Storage | null | undefined;
   /** The size of files that have been created or changed by this container. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRw?: number | null;
+  SizeRw?: number | null | undefined;
   /** The total size of all files in the read-only layers from the image that the container uses. These layers can be shared between containers. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRootFs?: number | null;
+  SizeRootFs?: number | null | undefined;
   /** List of mounts used by the container. */
-  Mounts?: ContainerInspectResponseMountsList;
-  Config?: ContainerConfig;
-  NetworkSettings?: NetworkSettings;
+  Mounts?: ContainerInspectResponseMountsList | undefined;
+  Config?: ContainerConfig | undefined;
+  NetworkSettings?: NetworkSettings | undefined;
 }
 export interface ContainerLogsRequest {
   /** ID or name of the container */
   id: string;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Only return logs before this time, as a UNIX timestamp */
-  until?: number;
+  until?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type ContainerLogsResponse = string;
 export interface ContainerPruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `until=<timestamp>` Prune containers created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune containers with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Container IDs that were deleted */
 export type ContainerPruneResponseContainersDeletedList = Array<string>;
 export interface ContainerPruneResponse {
   /** Container IDs that were deleted */
-  ContainersDeleted?: ContainerPruneResponseContainersDeletedList;
+  ContainersDeleted?: ContainerPruneResponseContainersDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export interface ContainerStatsRequest {
   /** ID or name of the container */
   id: string;
   /** Stream the output. If false, the stats will be output once and then it will disconnect. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Only get a single stat instead of waiting for 2 cycles. Must be used with `stream=false`. */
-  one_shot?: boolean;
+  one_shot?: boolean | undefined;
 }
 /** Total CPU time (in nanoseconds) consumed per core (Linux). This field is Linux-specific when using cgroups v1. It is omitted when using cgroups v2 and Windows containers. */
 export type ContainerCPUUsagePercpuUsageList = Array<number>;
 /** All CPU stats aggregated since container inception. */
 export interface ContainerCPUUsage {
   /** Total CPU time consumed in nanoseconds (Linux) or 100's of nanoseconds (Windows). */
-  total_usage?: number;
+  total_usage?: number | undefined;
   /** Total CPU time (in nanoseconds) consumed per core (Linux). This field is Linux-specific when using cgroups v1. It is omitted when using cgroups v2 and Windows containers. */
-  percpu_usage?: ContainerCPUUsagePercpuUsageList | null;
+  percpu_usage?: ContainerCPUUsagePercpuUsageList | null | undefined;
   /** Time (in nanoseconds) spent by tasks of the cgroup in kernel mode (Linux), or time spent (in 100's of nanoseconds) by all container processes in kernel mode (Windows). Not populated for Windows containers using Hyper-V isolation. */
-  usage_in_kernelmode?: number;
+  usage_in_kernelmode?: number | undefined;
   /** Time (in nanoseconds) spent by tasks of the cgroup in user mode (Linux), or time spent (in 100's of nanoseconds) by all container processes in kernel mode (Windows). Not populated for Windows containers using Hyper-V isolation. */
-  usage_in_usermode?: number;
+  usage_in_usermode?: number | undefined;
 }
 /** CPU throttling stats of the container. This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerThrottlingData {
   /** Number of periods with throttling active. */
-  periods?: number;
+  periods?: number | undefined;
   /** Number of periods when the container hit its throttling limit. */
-  throttled_periods?: number;
+  throttled_periods?: number | undefined;
   /** Aggregated time (in nanoseconds) the container was throttled for. */
-  throttled_time?: number;
+  throttled_time?: number | undefined;
 }
 /** CPU related info of the container */
 export interface ContainerCPUStats {
-  cpu_usage?: ContainerCPUUsage | null;
+  cpu_usage?: ContainerCPUUsage | null | undefined;
   /** System Usage. This field is Linux-specific and omitted for Windows containers. */
-  system_cpu_usage?: number | null;
+  system_cpu_usage?: number | null | undefined;
   /** Number of online CPUs. This field is Linux-specific and omitted for Windows containers. */
-  online_cpus?: number | null;
-  throttling_data?: ContainerThrottlingData | null;
+  online_cpus?: number | null | undefined;
+  throttling_data?: ContainerThrottlingData | null | undefined;
 }
 /** All the stats exported via memory.stat. The fields in this object differ between cgroups v1 and v2. On cgroups v1, fields such as `cache`, `rss`, `mapped_file` are available. On cgroups v2, fields such as `file`, `anon`, `inactive_file` are available. This field is Linux-specific and omitted for Windows containers. */
 export type ContainerMemoryStatsStatsMap = { [key: string]: number | null | undefined };
 /** Aggregates all memory stats since container inception on Linux. Windows returns stats for commit and private working set only. */
 export interface ContainerMemoryStats {
   /** Current `res_counter` usage for memory. This field is Linux-specific and omitted for Windows containers. */
-  usage?: number | null;
+  usage?: number | null | undefined;
   /** Maximum usage ever recorded. This field is Linux-specific and only supported on cgroups v1. It is omitted when using cgroups v2 and for Windows containers. */
-  max_usage?: number | null;
+  max_usage?: number | null | undefined;
   /** All the stats exported via memory.stat. The fields in this object differ between cgroups v1 and v2. On cgroups v1, fields such as `cache`, `rss`, `mapped_file` are available. On cgroups v2, fields such as `file`, `anon`, `inactive_file` are available. This field is Linux-specific and omitted for Windows containers. */
-  stats?: ContainerMemoryStatsStatsMap;
+  stats?: ContainerMemoryStatsStatsMap | undefined;
   /** Number of times memory usage hits limits. This field is Linux-specific and only supported on cgroups v1. It is omitted when using cgroups v2 and for Windows containers. */
-  failcnt?: number | null;
+  failcnt?: number | null | undefined;
   /** This field is Linux-specific and omitted for Windows containers. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Committed bytes. This field is Windows-specific and omitted for Linux containers. */
-  commitbytes?: number | null;
+  commitbytes?: number | null | undefined;
   /** Peak committed bytes. This field is Windows-specific and omitted for Linux containers. */
-  commitpeakbytes?: number | null;
+  commitpeakbytes?: number | null | undefined;
   /** Private working set. This field is Windows-specific and omitted for Linux containers. */
-  privateworkingset?: number | null;
+  privateworkingset?: number | null | undefined;
 }
 /** Aggregates the network stats of one container */
 export interface ContainerNetworkStats {
   /** Bytes received. Windows and Linux. */
-  rx_bytes?: number;
+  rx_bytes?: number | undefined;
   /** Packets received. Windows and Linux. */
-  rx_packets?: number;
+  rx_packets?: number | undefined;
   /** Received errors. Not used on Windows. This field is Linux-specific and always zero for Windows containers. */
-  rx_errors?: number;
+  rx_errors?: number | undefined;
   /** Incoming packets dropped. Windows and Linux. */
-  rx_dropped?: number;
+  rx_dropped?: number | undefined;
   /** Bytes sent. Windows and Linux. */
-  tx_bytes?: number;
+  tx_bytes?: number | undefined;
   /** Packets sent. Windows and Linux. */
-  tx_packets?: number;
+  tx_packets?: number | undefined;
   /** Sent errors. Not used on Windows. This field is Linux-specific and always zero for Windows containers. */
-  tx_errors?: number;
+  tx_errors?: number | undefined;
   /** Outgoing packets dropped. Windows and Linux. */
-  tx_dropped?: number;
+  tx_dropped?: number | undefined;
   /** Endpoint ID. Not used on Linux. This field is Windows-specific and omitted for Linux containers. */
-  endpoint_id?: string | null;
+  endpoint_id?: string | null | undefined;
   /** Instance ID. Not used on Linux. This field is Windows-specific and omitted for Linux containers. */
-  instance_id?: string | null;
+  instance_id?: string | null | undefined;
 }
 /** Network statistics for the container per interface. This field is omitted if the container has no networking enabled. */
 export type ContainerStatsResponseNetworksMap = {
@@ -1085,16 +1113,16 @@ export type ContainerStatsResponseNetworksMap = {
 /** PidsStats contains Linux-specific stats of a container's process-IDs (PIDs). This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerPidsStats {
   /** Current is the number of PIDs in the cgroup. */
-  current?: number | null;
+  current?: number | null | undefined;
   /** Limit is the hard limit on the number of pids in the cgroup. A "Limit" of 0 means that there is no limit. */
-  limit?: number | null;
+  limit?: number | null | undefined;
 }
 /** Blkio stats entry. This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerBlkioStatEntry {
-  major?: number;
-  minor?: number;
-  op?: string;
-  value?: number;
+  major?: number | undefined;
+  minor?: number | undefined;
+  op?: string | undefined;
+  value?: number | undefined;
 }
 export type ContainerBlkioStatsIoServiceBytesRecursiveList = Array<ContainerBlkioStatEntry | null>;
 /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
@@ -1113,57 +1141,57 @@ export type ContainerBlkioStatsIoTimeRecursiveList = Array<ContainerBlkioStatEnt
 export type ContainerBlkioStatsSectorsRecursiveList = Array<ContainerBlkioStatEntry | null>;
 /** BlkioStats stores all IO service stats for data read and write. This type is Linux-specific and holds many fields that are specific to cgroups v1. On a cgroup v2 host, all fields other than `io_service_bytes_recursive` are omitted or `null`. This type is only populated on Linux and omitted for Windows containers. */
 export interface ContainerBlkioStats {
-  io_service_bytes_recursive?: ContainerBlkioStatsIoServiceBytesRecursiveList;
+  io_service_bytes_recursive?: ContainerBlkioStatsIoServiceBytesRecursiveList | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_serviced_recursive?: ContainerBlkioStatsIoServicedRecursiveList | null;
+  io_serviced_recursive?: ContainerBlkioStatsIoServicedRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_queue_recursive?: ContainerBlkioStatsIoQueueRecursiveList | null;
+  io_queue_recursive?: ContainerBlkioStatsIoQueueRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_service_time_recursive?: ContainerBlkioStatsIoServiceTimeRecursiveList | null;
+  io_service_time_recursive?: ContainerBlkioStatsIoServiceTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_wait_time_recursive?: ContainerBlkioStatsIoWaitTimeRecursiveList | null;
+  io_wait_time_recursive?: ContainerBlkioStatsIoWaitTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_merged_recursive?: ContainerBlkioStatsIoMergedRecursiveList | null;
+  io_merged_recursive?: ContainerBlkioStatsIoMergedRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_time_recursive?: ContainerBlkioStatsIoTimeRecursiveList | null;
+  io_time_recursive?: ContainerBlkioStatsIoTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  sectors_recursive?: ContainerBlkioStatsSectorsRecursiveList | null;
+  sectors_recursive?: ContainerBlkioStatsSectorsRecursiveList | null | undefined;
 }
 /** StorageStats is the disk I/O stats for read/write on Windows. This type is Windows-specific and omitted for Linux containers. */
 export interface ContainerStorageStats {
-  read_count_normalized?: number | null;
-  read_size_bytes?: number | null;
-  write_count_normalized?: number | null;
-  write_size_bytes?: number | null;
+  read_count_normalized?: number | null | undefined;
+  read_size_bytes?: number | null | undefined;
+  write_count_normalized?: number | null | undefined;
+  write_size_bytes?: number | null | undefined;
 }
 /** Statistics sample for a container. */
 export interface ContainerStatsResponse {
   /** ID of the container for which the stats were collected. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Name of the container for which the stats were collected. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** OSType is the OS of the container ("linux" or "windows") to allow platform-specific handling of stats. */
-  os_type?: string | null;
+  os_type?: string | null | undefined;
   /** Date and time at which this sample was collected. The value is formatted as [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) with nano-seconds. */
-  read?: string;
-  cpu_stats?: ContainerCPUStats | null;
-  memory_stats?: ContainerMemoryStats;
+  read?: string | undefined;
+  cpu_stats?: ContainerCPUStats | null | undefined;
+  memory_stats?: ContainerMemoryStats | undefined;
   /** Network statistics for the container per interface. This field is omitted if the container has no networking enabled. */
-  networks?: ContainerStatsResponseNetworksMap | null;
-  pids_stats?: ContainerPidsStats | null;
-  blkio_stats?: ContainerBlkioStats | null;
+  networks?: ContainerStatsResponseNetworksMap | null | undefined;
+  pids_stats?: ContainerPidsStats | null | undefined;
+  blkio_stats?: ContainerBlkioStats | null | undefined;
   /** The number of processors on the system. This field is Windows-specific and always zero for Linux containers. */
-  num_procs?: number;
-  storage_stats?: ContainerStorageStats | null;
+  num_procs?: number | undefined;
+  storage_stats?: ContainerStorageStats | null | undefined;
   /** Date and time at which this first sample was collected. This field is not propagated if the "one-shot" option is set. If the "one-shot" option is set, this field may be omitted, empty, or set to a default date (`0001-01-01T00:00:00Z`). The value is formatted as [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) with nano-seconds. */
-  preread?: string;
-  precpu_stats?: ContainerCPUStats | null;
+  preread?: string | undefined;
+  precpu_stats?: ContainerCPUStats | null | undefined;
 }
 export interface ContainerTopRequest {
   /** ID or name of the container */
   id: string;
   /** The arguments to pass to `ps`. For example, `aux` */
-  ps_args?: string;
+  ps_args?: string | undefined;
 }
 /** The ps column titles */
 export type ContainerTopResponseTitlesList = Array<string>;
@@ -1173,21 +1201,21 @@ export type ContainerTopResponseProcessesList = Array<ContainerTopResponseProces
 /** Container "top" response. */
 export interface ContainerTopResponse {
   /** The ps column titles */
-  Titles?: ContainerTopResponseTitlesList;
+  Titles?: ContainerTopResponseTitlesList | undefined;
   /** Each process running in the container, where each process is an array of values corresponding to the titles. */
-  Processes?: ContainerTopResponseProcessesList;
+  Processes?: ContainerTopResponseProcessesList | undefined;
 }
 /** User-defined key/value metadata. */
 export type CreateConfigRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateConfigRequest {
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateConfigRequestLabelsMap;
+  Labels?: CreateConfigRequestLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
 export type CreateContainerRequestExposedPortsMap = { [key: string]: unknown | undefined };
@@ -1210,62 +1238,62 @@ export type NetworkingConfigEndpointsConfigMap = { [key: string]: EndpointSettin
 /** NetworkingConfig represents the container's networking configuration for each of its interfaces. It is used for the networking configs specified in the `docker create` and `docker network connect` commands. */
 export interface NetworkingConfig {
   /** A mapping of network name to endpoint configuration for that network. The endpoint configuration can be left empty to connect to that network with no particular endpoint configuration. */
-  EndpointsConfig?: NetworkingConfigEndpointsConfigMap;
+  EndpointsConfig?: NetworkingConfigEndpointsConfigMap | undefined;
 }
 export interface CreateContainerRequest {
   /** Assign the specified name to the container. Must match `/?[a-zA-Z0-9][a-zA-Z0-9_.-]+`. */
-  name?: string;
+  name?: string | undefined;
   /** Platform in the format `os[/arch[/variant]]` used for image lookup. When specified, the daemon checks if the requested image is present in the local image cache with the given OS and Architecture, and otherwise returns a `404` status. If the option is not set, the host's native OS and Architecture are used to look up the image in the image cache. However, if no platform is passed and the given image does exist in the local image cache, but its OS or architecture does not match, the container is created with the available image, and a warning is added to the `Warnings` field in the response, for example; WARNING: The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64) and no specific platform was requested */
-  platform?: string;
+  platform?: string | undefined;
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: CreateContainerRequestExposedPortsMap | null;
+  ExposedPorts?: CreateContainerRequestExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: CreateContainerRequestEnvList;
+  Env?: CreateContainerRequestEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: CreateContainerRequestCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: CreateContainerRequestCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: CreateContainerRequestVolumesMap;
+  Volumes?: CreateContainerRequestVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: CreateContainerRequestEntrypointList;
+  Entrypoint?: CreateContainerRequestEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: CreateContainerRequestOnBuildList | null;
+  OnBuild?: CreateContainerRequestOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateContainerRequestLabelsMap;
+  Labels?: CreateContainerRequestLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: CreateContainerRequestShellList | null;
-  HostConfig?: HostConfig;
-  NetworkingConfig?: NetworkingConfig;
+  Shell?: CreateContainerRequestShellList | null | undefined;
+  HostConfig?: HostConfig | undefined;
+  NetworkingConfig?: NetworkingConfig | undefined;
 }
 /** Warnings encountered when creating the container */
 export type ContainerCreateResponseWarningsList = Array<string>;
@@ -1279,35 +1307,35 @@ export interface ContainerCreateResponse {
 export type CreateImageRequestChangesList = Array<string>;
 export interface CreateImageRequest {
   /** Name of the image to pull. If the name includes a tag or digest, specific behavior applies: - If only `fromImage` includes a tag, that tag is used. - If both `fromImage` and `tag` are provided, `tag` takes precedence. - If `fromImage` includes a digest, the image is pulled by digest, and `tag` is ignored. - If neither a tag nor digest is specified, all tags are pulled. */
-  fromImage?: string;
+  fromImage?: string | undefined;
   /** Source to import. The value may be a URL from which the image can be retrieved or `-` to read the image from the request body. This parameter may only be used when importing an image. */
-  fromSrc?: string;
+  fromSrc?: string | undefined;
   /** Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image. */
-  repo?: string;
+  repo?: string | undefined;
   /** Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled. */
-  tag?: string;
+  tag?: string | undefined;
   /** Set commit message for imported image. */
-  message?: string;
+  message?: string | undefined;
   /** Apply `Dockerfile` instructions to the image that is created, for example: `changes=ENV DEBUG=true`. Note that `ENV DEBUG=true` should be URI component encoded. Repeat the parameter to apply multiple instructions. Supported `Dockerfile` instructions: `CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR` */
-  changes?: CreateImageRequestChangesList;
+  changes?: CreateImageRequestChangesList | undefined;
   /** Platform in the format os[/arch[/variant]]. When used in combination with the `fromImage` option, the daemon checks if the given image is present in the local image cache with the given OS and Architecture, and otherwise attempts to pull the image. If the option is not set, the host's native OS and Architecture are used. If the given image does not exist in the local image cache, the daemon attempts to pull the image with the host's native OS and Architecture. If the given image does exists in the local image cache, but its OS or architecture does not match, a warning is produced. When used with the `fromSrc` option to import an image from an archive, this option sets the platform information for the imported image. If the option is not set, the host's native OS and Architecture are used for the imported image. */
-  platform?: string;
+  platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: string;
+  xRegistryAuth?: string | undefined;
+  body?: string | undefined;
 }
 export interface CreateImageResponse {}
 /** The config-only network source to provide the configuration for this network. */
 export interface ConfigReference {
   /** The name of the config-only network that provides the network's configuration. The specified network must be an existing config-only network. Only network names are allowed, not network IDs. */
-  Network?: string;
+  Network?: string | undefined;
 }
 export type IPAMConfigAuxiliaryAddressesMap = { [key: string]: string | undefined };
 export interface IPAMConfig {
-  Subnet?: string;
-  IPRange?: string;
-  Gateway?: string;
-  AuxiliaryAddresses?: IPAMConfigAuxiliaryAddressesMap;
+  Subnet?: string | undefined;
+  IPRange?: string | undefined;
+  Gateway?: string | undefined;
+  AuxiliaryAddresses?: IPAMConfigAuxiliaryAddressesMap | undefined;
 }
 /** List of IPAM configuration options, specified as a map: ``` {"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>} ``` */
 export type IPAMConfigList = Array<IPAMConfig>;
@@ -1315,11 +1343,11 @@ export type IPAMConfigList = Array<IPAMConfig>;
 export type IPAMOptionsMap = { [key: string]: string | undefined };
 export interface IPAM {
   /** Name of the IPAM driver to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** List of IPAM configuration options, specified as a map: ``` {"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>} ``` */
-  Config?: IPAMConfigList;
+  Config?: IPAMConfigList | undefined;
   /** Driver-specific options, specified as a map. */
-  Options?: IPAMOptionsMap;
+  Options?: IPAMOptionsMap | undefined;
 }
 /** Network specific options to be used by the drivers. */
 export type CreateNetworkRequestOptionsMap = { [key: string]: string | undefined };
@@ -1329,29 +1357,29 @@ export interface CreateNetworkRequest {
   /** The network's name. */
   Name: string;
   /** Name of the network driver plugin to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level). */
-  Scope?: string;
+  Scope?: string | undefined;
   /** Restrict external access to the network. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Globally scoped network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Ingress network is the network which provides the routing-mesh in swarm mode. */
-  Ingress?: boolean;
+  Ingress?: boolean | undefined;
   /** Creates a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Specifies the source which will provide the configuration for this network. The specified network must be an existing config-only network; see ConfigOnly. */
-  ConfigFrom?: ConfigReference;
+  ConfigFrom?: ConfigReference | undefined;
   /** Optional custom IP scheme for the network. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Enable IPv4 on the network. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Enable IPv6 on the network. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** Network specific options to be used by the drivers. */
-  Options?: CreateNetworkRequestOptionsMap;
+  Options?: CreateNetworkRequestOptionsMap | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateNetworkRequestLabelsMap;
+  Labels?: CreateNetworkRequestLabelsMap | undefined;
 }
 /** OK response to NetworkCreate operation */
 export interface NetworkCreateResponse {
@@ -1363,42 +1391,42 @@ export interface NetworkCreateResponse {
 export interface CreatePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
-  body?: string;
+  body?: string | undefined;
 }
 export interface CreatePluginResponse {}
 /** User-defined key/value metadata. */
 export type CreateSecretRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateSecretRequest {
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateSecretRequestLabelsMap;
+  Labels?: CreateSecretRequestLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 /** User-defined key/value metadata. */
 export type CreateServiceRequestLabelsMap = { [key: string]: string | undefined };
 export type PluginPrivilegeValueList = Array<string>;
 /** Describes a permission the user has to accept upon installing the plugin. */
 export interface PluginPrivilege {
-  Name?: string;
-  Description?: string;
-  Value?: PluginPrivilegeValueList;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Value?: PluginPrivilegeValueList | undefined;
 }
 export type TaskSpecPluginSpecPluginPrivilegeList = Array<PluginPrivilege>;
 /** Plugin spec for the service. *(Experimental release only.)* <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecPluginSpec {
   /** The name or 'alias' to use for the plugin. */
-  Name?: string;
+  Name?: string | undefined;
   /** The plugin image reference to use. */
-  Remote?: string;
+  Remote?: string | undefined;
   /** Disable the plugin once scheduled. */
-  Disabled?: boolean;
-  PluginPrivilege?: TaskSpecPluginSpecPluginPrivilegeList;
+  Disabled?: boolean | undefined;
+  PluginPrivilege?: TaskSpecPluginSpecPluginPrivilegeList | undefined;
 }
 /** User-defined key/value data. */
 export type TaskSpecContainerSpecLabelsMap = { [key: string]: string | undefined };
@@ -1413,49 +1441,49 @@ export type TaskSpecContainerSpecGroupsList = Array<string>;
 /** CredentialSpec for managed service account (Windows only) */
 export interface TaskSpecContainerSpecPrivilegesCredentialSpec {
   /** Load credential spec from a Swarm Config with the given ID. The specified config must also be present in the Configs field with the Runtime property set. <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  Config?: string;
+  Config?: string | undefined;
   /** Load credential spec from this file. The file is read by the daemon, and must be present in the `CredentialSpecs` subdirectory in the docker data directory, which defaults to `C:\ProgramData\Docker\` on Windows. For example, specifying `spec.json` loads `C:\ProgramData\Docker\CredentialSpecs\spec.json`. <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  File?: string;
+  File?: string | undefined;
   /** Load credential spec from this value in the Windows registry. The specified registry value must be located in: `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\Containers\CredentialSpecs` <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  Registry?: string;
+  Registry?: string | undefined;
 }
 /** SELinux labels of the container */
 export interface TaskSpecContainerSpecPrivilegesSELinuxContext {
   /** Disable SELinux */
-  Disable?: boolean;
+  Disable?: boolean | undefined;
   /** SELinux user label */
-  User?: string;
+  User?: string | undefined;
   /** SELinux role label */
-  Role?: string;
+  Role?: string | undefined;
   /** SELinux type label */
-  Type?: string;
+  Type?: string | undefined;
   /** SELinux level label */
-  Level?: string;
+  Level?: string | undefined;
 }
 export type TaskSpecContainerSpecPrivilegesSeccompMode = "default" | "unconfined" | "custom";
 /** Options for configuring seccomp on the container */
 export interface TaskSpecContainerSpecPrivilegesSeccomp {
-  Mode?: TaskSpecContainerSpecPrivilegesSeccompMode | (string & {});
+  Mode?: TaskSpecContainerSpecPrivilegesSeccompMode | (string & {}) | undefined;
   /** The custom seccomp profile as a json object */
-  Profile?: string;
+  Profile?: string | undefined;
 }
 export type TaskSpecContainerSpecPrivilegesAppArmorMode = "default" | "disabled";
 /** Options for configuring AppArmor on the container */
 export interface TaskSpecContainerSpecPrivilegesAppArmor {
-  Mode?: TaskSpecContainerSpecPrivilegesAppArmorMode | (string & {});
+  Mode?: TaskSpecContainerSpecPrivilegesAppArmorMode | (string & {}) | undefined;
 }
 /** Security options for the container */
 export interface TaskSpecContainerSpecPrivileges {
   /** CredentialSpec for managed service account (Windows only) */
-  CredentialSpec?: TaskSpecContainerSpecPrivilegesCredentialSpec;
+  CredentialSpec?: TaskSpecContainerSpecPrivilegesCredentialSpec | undefined;
   /** SELinux labels of the container */
-  SELinuxContext?: TaskSpecContainerSpecPrivilegesSELinuxContext;
+  SELinuxContext?: TaskSpecContainerSpecPrivilegesSELinuxContext | undefined;
   /** Options for configuring seccomp on the container */
-  Seccomp?: TaskSpecContainerSpecPrivilegesSeccomp;
+  Seccomp?: TaskSpecContainerSpecPrivilegesSeccomp | undefined;
   /** Options for configuring AppArmor on the container */
-  AppArmor?: TaskSpecContainerSpecPrivilegesAppArmor;
+  AppArmor?: TaskSpecContainerSpecPrivilegesAppArmor | undefined;
   /** Configuration of the no_new_privs bit in the container */
-  NoNewPrivileges?: boolean;
+  NoNewPrivileges?: boolean | undefined;
 }
 /** Specification for mounts to be added to containers created as part of the service. */
 export type TaskSpecContainerSpecMountsList = Array<Mount>;
@@ -1470,30 +1498,30 @@ export type TaskSpecContainerSpecDNSConfigOptionsList = Array<string>;
 /** Specification for DNS related configurations in resolver configuration file (`resolv.conf`). */
 export interface TaskSpecContainerSpecDNSConfig {
   /** The IP addresses of the name servers. */
-  Nameservers?: TaskSpecContainerSpecDNSConfigNameserversList;
+  Nameservers?: TaskSpecContainerSpecDNSConfigNameserversList | undefined;
   /** A search list for host-name lookup. */
-  Search?: TaskSpecContainerSpecDNSConfigSearchList;
+  Search?: TaskSpecContainerSpecDNSConfigSearchList | undefined;
   /** A list of internal resolver variables to be modified (e.g., `debug`, `ndots:3`, etc.). */
-  Options?: TaskSpecContainerSpecDNSConfigOptionsList;
+  Options?: TaskSpecContainerSpecDNSConfigOptionsList | undefined;
 }
 /** File represents a specific target that is backed by a file. */
 export interface TaskSpecContainerSpecSecretsItemFile {
   /** Name represents the final filename in the filesystem. */
-  Name?: string;
+  Name?: string | undefined;
   /** UID represents the file UID. */
-  UID?: string;
+  UID?: string | undefined;
   /** GID represents the file GID. */
-  GID?: string;
+  GID?: string | undefined;
   /** Mode represents the FileMode of the file. */
-  Mode?: number;
+  Mode?: number | undefined;
 }
 export interface TaskSpecContainerSpecSecretsItem {
   /** File represents a specific target that is backed by a file. */
-  File?: TaskSpecContainerSpecSecretsItemFile;
+  File?: TaskSpecContainerSpecSecretsItemFile | undefined;
   /** SecretID represents the ID of the specific secret that we're referencing. */
-  SecretID?: string;
+  SecretID?: string | undefined;
   /** SecretName is the name of the secret that this references, but this is just provided for lookup/display purposes. The secret in the reference will be identified by its ID. */
-  SecretName?: string;
+  SecretName?: string | undefined;
 }
 /** Secrets contains references to zero or more secrets that will be exposed to the service. */
 export type TaskSpecContainerSpecSecretsList = Array<TaskSpecContainerSpecSecretsItem>;
@@ -1501,13 +1529,13 @@ export type TaskSpecContainerSpecSecretsList = Array<TaskSpecContainerSpecSecret
 export type TaskSpecContainerSpecConfigsItemFile = TaskSpecContainerSpecSecretsItemFile;
 export interface TaskSpecContainerSpecConfigsItem {
   /** File represents a specific target that is backed by a file. <p><br /><p> > **Note**: `Configs.File` and `Configs.Runtime` are mutually exclusive */
-  File?: TaskSpecContainerSpecSecretsItemFile;
+  File?: TaskSpecContainerSpecSecretsItemFile | undefined;
   /** Runtime represents a target that is not mounted into the container but is used by the task <p><br /><p> > **Note**: `Configs.File` and `Configs.Runtime` are mutually > exclusive */
-  Runtime?: unknown;
+  Runtime?: unknown | undefined;
   /** ConfigID represents the ID of the specific config that we're referencing. */
-  ConfigID?: string;
+  ConfigID?: string | undefined;
   /** ConfigName is the name of the config that this references, but this is just provided for lookup/display purposes. The config in the reference will be identified by its ID. */
-  ConfigName?: string;
+  ConfigName?: string | undefined;
 }
 /** Configs contains references to zero or more configs that will be exposed to the service. */
 export type TaskSpecContainerSpecConfigsList = Array<TaskSpecContainerSpecConfigsItem>;
@@ -1525,146 +1553,146 @@ export type TaskSpecContainerSpecUlimitsList = Array<HostConfigUlimitsItem>;
 /** Container spec for the service. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecContainerSpec {
   /** The image name to use for the container */
-  Image?: string;
+  Image?: string | undefined;
   /** User-defined key/value data. */
-  Labels?: TaskSpecContainerSpecLabelsMap;
+  Labels?: TaskSpecContainerSpecLabelsMap | undefined;
   /** The command to be run in the image. */
-  Command?: TaskSpecContainerSpecCommandList;
+  Command?: TaskSpecContainerSpecCommandList | undefined;
   /** Arguments to the command. */
-  Args?: TaskSpecContainerSpecArgsList;
+  Args?: TaskSpecContainerSpecArgsList | undefined;
   /** The hostname to use for the container, as a valid [RFC 1123](https://tools.ietf.org/html/rfc1123) hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** A list of environment variables in the form `VAR=value`. */
-  Env?: TaskSpecContainerSpecEnvList;
+  Env?: TaskSpecContainerSpecEnvList | undefined;
   /** The working directory for commands to run in. */
-  Dir?: string;
+  Dir?: string | undefined;
   /** The user inside the container. */
-  User?: string;
+  User?: string | undefined;
   /** A list of additional groups that the container process will run as. */
-  Groups?: TaskSpecContainerSpecGroupsList;
+  Groups?: TaskSpecContainerSpecGroupsList | undefined;
   /** Security options for the container */
-  Privileges?: TaskSpecContainerSpecPrivileges;
+  Privileges?: TaskSpecContainerSpecPrivileges | undefined;
   /** Whether a pseudo-TTY should be allocated. */
-  TTY?: boolean;
+  TTY?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Mount the container's root filesystem as read only. */
-  ReadOnly?: boolean;
+  ReadOnly?: boolean | undefined;
   /** Specification for mounts to be added to containers created as part of the service. */
-  Mounts?: TaskSpecContainerSpecMountsList;
+  Mounts?: TaskSpecContainerSpecMountsList | undefined;
   /** Signal to stop the container. */
-  StopSignal?: string;
+  StopSignal?: string | undefined;
   /** Amount of time to wait for the container to terminate before forcefully killing it. */
-  StopGracePeriod?: number;
-  Healthcheck?: HealthConfig;
+  StopGracePeriod?: number | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** A list of hostname/IP mappings to add to the container's `hosts` file. The format of extra hosts is specified in the [hosts(5)](http://man7.org/linux/man-pages/man5/hosts.5.html) man page: IP_address canonical_hostname [aliases...] */
-  Hosts?: TaskSpecContainerSpecHostsList;
+  Hosts?: TaskSpecContainerSpecHostsList | undefined;
   /** Specification for DNS related configurations in resolver configuration file (`resolv.conf`). */
-  DNSConfig?: TaskSpecContainerSpecDNSConfig;
+  DNSConfig?: TaskSpecContainerSpecDNSConfig | undefined;
   /** Secrets contains references to zero or more secrets that will be exposed to the service. */
-  Secrets?: TaskSpecContainerSpecSecretsList;
+  Secrets?: TaskSpecContainerSpecSecretsList | undefined;
   /** An integer value containing the score given to the container in order to tune OOM killer preferences. */
-  OomScoreAdj?: number;
+  OomScoreAdj?: number | undefined;
   /** Configs contains references to zero or more configs that will be exposed to the service. */
-  Configs?: TaskSpecContainerSpecConfigsList;
+  Configs?: TaskSpecContainerSpecConfigsList | undefined;
   /** Isolation technology of the containers running the service. (Windows only) */
-  Isolation?: TaskSpecContainerSpecIsolation | (string & {});
+  Isolation?: TaskSpecContainerSpecIsolation | (string & {}) | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Set kernel namedspaced parameters (sysctls) in the container. The Sysctls option on services accepts the same sysctls as the are supported on containers. Note that while the same sysctls are supported, no guarantees or checks are made about their suitability for a clustered environment, and it's up to the user to determine whether a given sysctl will work properly in a Service. */
-  Sysctls?: TaskSpecContainerSpecSysctlsMap;
+  Sysctls?: TaskSpecContainerSpecSysctlsMap | undefined;
   /** A list of kernel capabilities to add to the default set for the container. */
-  CapabilityAdd?: TaskSpecContainerSpecCapabilityAddList;
+  CapabilityAdd?: TaskSpecContainerSpecCapabilityAddList | undefined;
   /** A list of kernel capabilities to drop from the default set for the container. */
-  CapabilityDrop?: TaskSpecContainerSpecCapabilityDropList;
+  CapabilityDrop?: TaskSpecContainerSpecCapabilityDropList | undefined;
   /** A list of resource limits to set in the container. For example: `{"Name": "nofile", "Soft": 1024, "Hard": 2048}`" */
-  Ulimits?: TaskSpecContainerSpecUlimitsList;
+  Ulimits?: TaskSpecContainerSpecUlimitsList | undefined;
 }
 /** Read-only spec type for non-swarm containers attached to swarm overlay networks. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecNetworkAttachmentSpec {
   /** ID of the container represented by this task */
-  ContainerID?: string;
+  ContainerID?: string | undefined;
 }
 /** An object describing a limit on resources which can be requested by a task. */
 export interface Limit {
-  NanoCPUs?: number;
-  MemoryBytes?: number;
+  NanoCPUs?: number | undefined;
+  MemoryBytes?: number | undefined;
   /** Limits the maximum number of PIDs in the container. Set `0` for unlimited. */
-  Pids?: number;
+  Pids?: number | undefined;
 }
 export interface GenericResourcesItemNamedResourceSpec {
-  Kind?: string;
-  Value?: string;
+  Kind?: string | undefined;
+  Value?: string | undefined;
 }
 export interface GenericResourcesItemDiscreteResourceSpec {
-  Kind?: string;
-  Value?: number;
+  Kind?: string | undefined;
+  Value?: number | undefined;
 }
 export interface GenericResourcesItem {
-  NamedResourceSpec?: GenericResourcesItemNamedResourceSpec;
-  DiscreteResourceSpec?: GenericResourcesItemDiscreteResourceSpec;
+  NamedResourceSpec?: GenericResourcesItemNamedResourceSpec | undefined;
+  DiscreteResourceSpec?: GenericResourcesItemDiscreteResourceSpec | undefined;
 }
 /** User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`). */
 export type GenericResources = Array<GenericResourcesItem>;
 /** An object describing the resources which can be advertised by a node and requested by a task. */
 export interface ResourceObject {
-  NanoCPUs?: number;
-  MemoryBytes?: number;
-  GenericResources?: GenericResources;
+  NanoCPUs?: number | undefined;
+  MemoryBytes?: number | undefined;
+  GenericResources?: GenericResources | undefined;
 }
 /** Resource requirements which apply to each individual container created as part of the service. */
 export interface TaskSpecResources {
   /** Define resources limits. */
-  Limits?: Limit;
+  Limits?: Limit | undefined;
   /** Define resources reservation. */
-  Reservations?: ResourceObject;
+  Reservations?: ResourceObject | undefined;
   /** Amount of swap in bytes - can only be used together with a memory limit. If not specified, the default behaviour is to grant a swap space twice as big as the memory limit. Set to -1 to enable unlimited swap. */
-  SwapBytes?: number | null;
+  SwapBytes?: number | null | undefined;
   /** Tune the service's containers' memory swappiness (0 to 100). If not specified, defaults to the containers' OS' default, generally 60, or whatever value was predefined in the image. Set to -1 to unset a previously set value. */
-  MemorySwappiness?: number | null;
+  MemorySwappiness?: number | null | undefined;
 }
 /** Condition for restart. */
 export type TaskSpecRestartPolicyCondition = "none" | "on-failure" | "any";
 /** Specification for the restart policy which applies to containers created as part of this service. */
 export interface TaskSpecRestartPolicy {
   /** Condition for restart. */
-  Condition?: TaskSpecRestartPolicyCondition | (string & {});
+  Condition?: TaskSpecRestartPolicyCondition | (string & {}) | undefined;
   /** Delay between restart attempts. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Maximum attempts to restart a given container before giving up (default value is 0, which is ignored). */
-  MaxAttempts?: number;
+  MaxAttempts?: number | undefined;
   /** Windows is the time window used to evaluate the restart policy (default value is 0, which is unbounded). */
-  Window?: number;
+  Window?: number | undefined;
 }
 /** An array of constraint expressions to limit the set of nodes where a task can be scheduled. Constraint expressions can either use a _match_ (`==`) or _exclude_ (`!=`) rule. Multiple constraints find nodes that satisfy every expression (AND match). Constraints can match node or Docker Engine labels as follows: node attribute | matches | example ---------------------|--------------------------------|----------------------------------------------- `node.id` | Node ID | `node.id==2ivku8v2gvtg4` `node.hostname` | Node hostname | `node.hostname!=node-2` `node.role` | Node role (`manager`/`worker`) | `node.role==manager` `node.platform.os` | Node operating system | `node.platform.os==windows` `node.platform.arch` | Node architecture | `node.platform.arch==x86_64` `node.labels` | User-defined node labels | `node.labels.security==high` `engine.labels` | Docker Engine's labels | `engine.labels.operatingsystem==ubuntu-24.04` `engine.labels` apply to Docker Engine labels like operating system, drivers, etc. Swarm administrators add `node.labels` for operational purposes by using the [`node update endpoint`](#operation/NodeUpdate). */
 export type TaskSpecPlacementConstraintsList = Array<string>;
 export interface TaskSpecPlacementPreferencesItemSpread {
   /** label descriptor, such as `engine.labels.az`. */
-  SpreadDescriptor?: string;
+  SpreadDescriptor?: string | undefined;
 }
 export interface TaskSpecPlacementPreferencesItem {
-  Spread?: TaskSpecPlacementPreferencesItemSpread;
+  Spread?: TaskSpecPlacementPreferencesItemSpread | undefined;
 }
 /** Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence. */
 export type TaskSpecPlacementPreferencesList = Array<TaskSpecPlacementPreferencesItem>;
 /** Platform represents the platform (Arch/OS). */
 export interface Platform {
   /** Architecture represents the hardware architecture (for example, `x86_64`). */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** OS represents the Operating System (for example, `linux` or `windows`). */
-  OS?: string;
+  OS?: string | undefined;
 }
 /** Platforms stores all the platforms that the service's image can run on. This field is used in the platform filter for scheduling. If empty, then the platform filter is off, meaning there are no scheduling restrictions. */
 export type TaskSpecPlacementPlatformsList = Array<Platform>;
 export interface TaskSpecPlacement {
   /** An array of constraint expressions to limit the set of nodes where a task can be scheduled. Constraint expressions can either use a _match_ (`==`) or _exclude_ (`!=`) rule. Multiple constraints find nodes that satisfy every expression (AND match). Constraints can match node or Docker Engine labels as follows: node attribute | matches | example ---------------------|--------------------------------|----------------------------------------------- `node.id` | Node ID | `node.id==2ivku8v2gvtg4` `node.hostname` | Node hostname | `node.hostname!=node-2` `node.role` | Node role (`manager`/`worker`) | `node.role==manager` `node.platform.os` | Node operating system | `node.platform.os==windows` `node.platform.arch` | Node architecture | `node.platform.arch==x86_64` `node.labels` | User-defined node labels | `node.labels.security==high` `engine.labels` | Docker Engine's labels | `engine.labels.operatingsystem==ubuntu-24.04` `engine.labels` apply to Docker Engine labels like operating system, drivers, etc. Swarm administrators add `node.labels` for operational purposes by using the [`node update endpoint`](#operation/NodeUpdate). */
-  Constraints?: TaskSpecPlacementConstraintsList;
+  Constraints?: TaskSpecPlacementConstraintsList | undefined;
   /** Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence. */
-  Preferences?: TaskSpecPlacementPreferencesList;
+  Preferences?: TaskSpecPlacementPreferencesList | undefined;
   /** Maximum number of replicas for per node (default value is 0, which is unlimited) */
-  MaxReplicas?: number;
+  MaxReplicas?: number | undefined;
   /** Platforms stores all the platforms that the service's image can run on. This field is used in the platform filter for scheduling. If empty, then the platform filter is off, meaning there are no scheduling restrictions. */
-  Platforms?: TaskSpecPlacementPlatformsList;
+  Platforms?: TaskSpecPlacementPlatformsList | undefined;
 }
 /** Discoverable alternate names for the service on this network. */
 export type NetworkAttachmentConfigAliasesList = Array<string>;
@@ -1673,60 +1701,60 @@ export type NetworkAttachmentConfigDriverOptsMap = { [key: string]: string | und
 /** Specifies how a service should be attached to a particular network. */
 export interface NetworkAttachmentConfig {
   /** The target network for attachment. Must be a network name or ID. */
-  Target?: string;
+  Target?: string | undefined;
   /** Discoverable alternate names for the service on this network. */
-  Aliases?: NetworkAttachmentConfigAliasesList;
+  Aliases?: NetworkAttachmentConfigAliasesList | undefined;
   /** Driver attachment options for the network target. */
-  DriverOpts?: NetworkAttachmentConfigDriverOptsMap;
+  DriverOpts?: NetworkAttachmentConfigDriverOptsMap | undefined;
 }
 /** Specifies which networks the service should attach to. */
 export type TaskSpecNetworksList = Array<NetworkAttachmentConfig>;
 export type TaskSpecLogDriverOptionsMap = { [key: string]: string | undefined };
 /** Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified. */
 export interface TaskSpecLogDriver {
-  Name?: string;
-  Options?: TaskSpecLogDriverOptionsMap;
+  Name?: string | undefined;
+  Options?: TaskSpecLogDriverOptionsMap | undefined;
 }
 /** User modifiable task configuration. */
 export interface TaskSpec {
   /** Plugin spec for the service. *(Experimental release only.)* <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  PluginSpec?: TaskSpecPluginSpec;
+  PluginSpec?: TaskSpecPluginSpec | undefined;
   /** Container spec for the service. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  ContainerSpec?: TaskSpecContainerSpec;
+  ContainerSpec?: TaskSpecContainerSpec | undefined;
   /** Read-only spec type for non-swarm containers attached to swarm overlay networks. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  NetworkAttachmentSpec?: TaskSpecNetworkAttachmentSpec;
+  NetworkAttachmentSpec?: TaskSpecNetworkAttachmentSpec | undefined;
   /** Resource requirements which apply to each individual container created as part of the service. */
-  Resources?: TaskSpecResources;
+  Resources?: TaskSpecResources | undefined;
   /** Specification for the restart policy which applies to containers created as part of this service. */
-  RestartPolicy?: TaskSpecRestartPolicy;
-  Placement?: TaskSpecPlacement;
+  RestartPolicy?: TaskSpecRestartPolicy | undefined;
+  Placement?: TaskSpecPlacement | undefined;
   /** A counter that triggers an update even if no relevant parameters have been changed. */
-  ForceUpdate?: number;
+  ForceUpdate?: number | undefined;
   /** Runtime is the type of runtime specified for the task executor. */
-  Runtime?: string;
+  Runtime?: string | undefined;
   /** Specifies which networks the service should attach to. */
-  Networks?: TaskSpecNetworksList;
+  Networks?: TaskSpecNetworksList | undefined;
   /** Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified. */
-  LogDriver?: TaskSpecLogDriver;
+  LogDriver?: TaskSpecLogDriver | undefined;
 }
 export interface CreateServiceRequestModeReplicated {
-  Replicas?: number;
+  Replicas?: number | undefined;
 }
 /** The mode used for services with a finite number of tasks that run to a completed state. */
 export interface CreateServiceRequestModeReplicatedJob {
   /** The maximum number of replicas to run simultaneously. */
-  MaxConcurrent?: number;
+  MaxConcurrent?: number | undefined;
   /** The total number of replicas desired to reach the Completed state. If unset, will default to the value of `MaxConcurrent` */
-  TotalCompletions?: number;
+  TotalCompletions?: number | undefined;
 }
 /** Scheduling mode for the service. */
 export interface CreateServiceRequestMode {
-  Replicated?: CreateServiceRequestModeReplicated;
-  Global?: unknown;
+  Replicated?: CreateServiceRequestModeReplicated | undefined;
+  Global?: unknown | undefined;
   /** The mode used for services with a finite number of tasks that run to a completed state. */
-  ReplicatedJob?: CreateServiceRequestModeReplicatedJob;
+  ReplicatedJob?: CreateServiceRequestModeReplicatedJob | undefined;
   /** The mode used for services which run a task to the completed state on each valid node. */
-  GlobalJob?: unknown;
+  GlobalJob?: unknown | undefined;
 }
 /** Action to take if an updated task fails to run, or stops running during the update. */
 export type CreateServiceRequestUpdateConfigFailureAction = "continue" | "pause" | "rollback";
@@ -1735,17 +1763,17 @@ export type CreateServiceRequestUpdateConfigOrder = "stop-first" | "start-first"
 /** Specification for the update strategy of the service. */
 export interface CreateServiceRequestUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: CreateServiceRequestUpdateConfigFailureAction | (string & {});
+  FailureAction?: CreateServiceRequestUpdateConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: CreateServiceRequestUpdateConfigOrder | (string & {});
+  Order?: CreateServiceRequestUpdateConfigOrder | (string & {}) | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type CreateServiceRequestRollbackConfigFailureAction = "continue" | "pause";
@@ -1754,17 +1782,17 @@ export type CreateServiceRequestRollbackConfigOrder = "stop-first" | "start-firs
 /** Specification for the rollback strategy of the service. */
 export interface CreateServiceRequestRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: CreateServiceRequestRollbackConfigFailureAction | (string & {});
+  FailureAction?: CreateServiceRequestRollbackConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: CreateServiceRequestRollbackConfigOrder | (string & {});
+  Order?: CreateServiceRequestRollbackConfigOrder | (string & {}) | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type CreateServiceRequestNetworksList = Array<NetworkAttachmentConfig>;
@@ -1774,50 +1802,50 @@ export type EndpointPortConfigProtocol = "tcp" | "udp" | "sctp";
 /** The mode in which port is published. <p><br /></p> - "ingress" makes the target port accessible on every node, regardless of whether there is a task for the service running on that node or not. - "host" bypasses the routing mesh and publish the port directly on the swarm node where that service is running. */
 export type EndpointPortConfigPublishMode = "ingress" | "host";
 export interface EndpointPortConfig {
-  Name?: string;
-  Protocol?: EndpointPortConfigProtocol | (string & {});
+  Name?: string | undefined;
+  Protocol?: EndpointPortConfigProtocol | (string & {}) | undefined;
   /** The port inside the container. */
-  TargetPort?: number;
+  TargetPort?: number | undefined;
   /** The port on the swarm hosts. */
-  PublishedPort?: number;
+  PublishedPort?: number | undefined;
   /** The mode in which port is published. <p><br /></p> - "ingress" makes the target port accessible on every node, regardless of whether there is a task for the service running on that node or not. - "host" bypasses the routing mesh and publish the port directly on the swarm node where that service is running. */
-  PublishMode?: EndpointPortConfigPublishMode | (string & {});
+  PublishMode?: EndpointPortConfigPublishMode | (string & {}) | undefined;
 }
 /** List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used. */
 export type EndpointSpecPortsList = Array<EndpointPortConfig>;
 /** Properties that can be configured to access and load balance a service. */
 export interface EndpointSpec {
   /** The mode of resolution to use for internal load balancing between tasks. */
-  Mode?: EndpointSpecMode | (string & {});
+  Mode?: EndpointSpecMode | (string & {}) | undefined;
   /** List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used. */
-  Ports?: EndpointSpecPortsList;
+  Ports?: EndpointSpecPortsList | undefined;
 }
 export interface CreateServiceRequest {
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
+  xRegistryAuth?: string | undefined;
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateServiceRequestLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: CreateServiceRequestLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: CreateServiceRequestUpdateConfig;
+  UpdateConfig?: CreateServiceRequestUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: CreateServiceRequestRollbackConfig;
+  RollbackConfig?: CreateServiceRequestRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: CreateServiceRequestNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: CreateServiceRequestNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 /** Optional warning message. FIXME(thaJeztah): this should have "omitempty" in the generated type. */
 export type ServiceCreateResponseWarningsList = Array<string>;
 /** contains the information returned to a client on the creation of a new service. */
 export interface ServiceCreateResponse {
   /** The ID of the created service. */
-  ID?: string;
+  ID?: string | undefined;
   /** Optional warning message. FIXME(thaJeztah): this should have "omitempty" in the generated type. */
-  Warnings?: ServiceCreateResponseWarningsList | null;
+  Warnings?: ServiceCreateResponseWarningsList | null | undefined;
 }
 /** A mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
 export type CreateVolumeRequestDriverOptsMap = { [key: string]: string | undefined };
@@ -1830,16 +1858,16 @@ export type ClusterVolumeSpecAccessModeSharing = "none" | "readonly" | "onewrite
 /** One cluster volume secret entry. Defines a key-value pair that is passed to the plugin. */
 export interface ClusterVolumeSpecAccessModeSecretsItem {
   /** Key is the name of the key of the key-value pair passed to the plugin. */
-  Key?: string;
+  Key?: string | undefined;
   /** Secret is the swarm Secret object from which to read data. This can be a Secret name or ID. The Secret data is retrieved by swarm and used as the value of the key-value pair passed to the plugin. */
-  Secret?: string | Redacted.Redacted<string>;
+  Secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Swarm Secrets that are passed to the CSI storage plugin when operating on this volume. */
 export type ClusterVolumeSpecAccessModeSecretsList = Array<ClusterVolumeSpecAccessModeSecretsItem>;
 export type TopologySegmentsMap = { [key: string]: string | undefined };
 /** A map of topological domains to topological segments. For in depth details, see documentation for the Topology object in the CSI specification. */
 export interface Topology {
-  Segments?: TopologySegmentsMap;
+  Segments?: TopologySegmentsMap | undefined;
 }
 /** A list of required topologies, at least one of which the volume must be accessible from. */
 export type ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList = Array<Topology>;
@@ -1848,53 +1876,53 @@ export type ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList = 
 /** Requirements for the accessible topology of the volume. These fields are optional. For an in-depth description of what these fields mean, see the CSI specification. */
 export interface ClusterVolumeSpecAccessModeAccessibilityRequirements {
   /** A list of required topologies, at least one of which the volume must be accessible from. */
-  Requisite?: ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList;
+  Requisite?: ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList | undefined;
   /** A list of topologies that the volume should attempt to be provisioned in. */
-  Preferred?: ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList;
+  Preferred?: ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList | undefined;
 }
 /** The desired capacity that the volume should be created with. If empty, the plugin will decide the capacity. */
 export interface ClusterVolumeSpecAccessModeCapacityRange {
   /** The volume must be at least this big. The value of 0 indicates an unspecified minimum */
-  RequiredBytes?: number;
+  RequiredBytes?: number | undefined;
   /** The volume must not be bigger than this. The value of 0 indicates an unspecified maximum. */
-  LimitBytes?: number;
+  LimitBytes?: number | undefined;
 }
 /** The availability of the volume for use in tasks. - `active` The volume is fully available for scheduling on the cluster - `pause` No new workloads should use the volume, but existing workloads are not stopped. - `drain` All workloads using this volume should be stopped and rescheduled, and no new ones should be started. */
 export type ClusterVolumeSpecAccessModeAvailability = "active" | "pause" | "drain";
 /** Defines how the volume is used by tasks. */
 export interface ClusterVolumeSpecAccessMode {
   /** The set of nodes this volume can be used on at one time. - `single` The volume may only be scheduled to one node at a time. - `multi` the volume may be scheduled to any supported number of nodes at a time. */
-  Scope?: ClusterVolumeSpecAccessModeScope | (string & {});
+  Scope?: ClusterVolumeSpecAccessModeScope | (string & {}) | undefined;
   /** The number and way that different tasks can use this volume at one time. - `none` The volume may only be used by one task at a time. - `readonly` The volume may be used by any number of tasks, but they all must mount the volume as readonly - `onewriter` The volume may be used by any number of tasks, but only one may mount it as read/write. - `all` The volume may have any number of readers and writers. */
-  Sharing?: ClusterVolumeSpecAccessModeSharing | (string & {});
+  Sharing?: ClusterVolumeSpecAccessModeSharing | (string & {}) | undefined;
   /** Options for using this volume as a Mount-type volume. Either MountVolume or BlockVolume, but not both, must be present. properties: FsType: type: "string" description: | Specifies the filesystem type for the mount volume. Optional. MountFlags: type: "array" description: | Flags to pass when mounting the volume. Optional. items: type: "string" BlockVolume: type: "object" description: | Options for using this volume as a Block-type volume. Intentionally empty. */
-  MountVolume?: unknown;
+  MountVolume?: unknown | undefined;
   /** Swarm Secrets that are passed to the CSI storage plugin when operating on this volume. */
-  Secrets?: ClusterVolumeSpecAccessModeSecretsList;
+  Secrets?: ClusterVolumeSpecAccessModeSecretsList | undefined;
   /** Requirements for the accessible topology of the volume. These fields are optional. For an in-depth description of what these fields mean, see the CSI specification. */
-  AccessibilityRequirements?: ClusterVolumeSpecAccessModeAccessibilityRequirements;
+  AccessibilityRequirements?: ClusterVolumeSpecAccessModeAccessibilityRequirements | undefined;
   /** The desired capacity that the volume should be created with. If empty, the plugin will decide the capacity. */
-  CapacityRange?: ClusterVolumeSpecAccessModeCapacityRange;
+  CapacityRange?: ClusterVolumeSpecAccessModeCapacityRange | undefined;
   /** The availability of the volume for use in tasks. - `active` The volume is fully available for scheduling on the cluster - `pause` No new workloads should use the volume, but existing workloads are not stopped. - `drain` All workloads using this volume should be stopped and rescheduled, and no new ones should be started. */
-  Availability?: ClusterVolumeSpecAccessModeAvailability | (string & {});
+  Availability?: ClusterVolumeSpecAccessModeAvailability | (string & {}) | undefined;
 }
 /** Cluster-specific options used to create the volume. */
 export interface ClusterVolumeSpec {
   /** Group defines the volume group of this volume. Volumes belonging to the same group can be referred to by group name when creating Services. Referring to a volume by group instructs Swarm to treat volumes in that group interchangeably for the purpose of scheduling. Volumes with an empty string for a group technically all belong to the same, emptystring group. */
-  Group?: string;
+  Group?: string | undefined;
   /** Defines how the volume is used by tasks. */
-  AccessMode?: ClusterVolumeSpecAccessMode;
+  AccessMode?: ClusterVolumeSpecAccessMode | undefined;
 }
 export interface CreateVolumeRequest {
   /** The new volume's name. If not specified, Docker generates a name. */
-  Name?: string;
+  Name?: string | undefined;
   /** Name of the volume driver to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** A mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
-  DriverOpts?: CreateVolumeRequestDriverOptsMap;
+  DriverOpts?: CreateVolumeRequestDriverOptsMap | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateVolumeRequestLabelsMap;
-  ClusterVolumeSpec?: ClusterVolumeSpec;
+  Labels?: CreateVolumeRequestLabelsMap | undefined;
+  ClusterVolumeSpec?: ClusterVolumeSpec | undefined;
 }
 /** Low-level details about the volume, provided by the volume driver. Details are returned as a map with key/value pairs: `{"key":"value","key2":"value2"}`. The `Status` field is optional, and is omitted if the volume driver does not support this feature. */
 export type VolumeStatusMap = { [key: string]: unknown | undefined };
@@ -1909,13 +1937,13 @@ export type ClusterVolumeInfoAccessibleTopologyList = Array<Topology>;
 /** Information about the global status of the volume. */
 export interface ClusterVolumeInfo {
   /** The capacity of the volume in bytes. A value of 0 indicates that the capacity is unknown. */
-  CapacityBytes?: number;
+  CapacityBytes?: number | undefined;
   /** A map of strings to strings returned from the storage plugin when the volume is created. */
-  VolumeContext?: ClusterVolumeInfoVolumeContextMap;
+  VolumeContext?: ClusterVolumeInfoVolumeContextMap | undefined;
   /** The ID of the volume as returned by the CSI storage plugin. This is distinct from the volume's ID as provided by Docker. This ID is never used by the user when communicating with Docker to refer to this volume. If the ID is blank, then the Volume has not been successfully created in the plugin yet. */
-  VolumeID?: string;
+  VolumeID?: string | undefined;
   /** The topology this volume is actually accessible from. */
-  AccessibleTopology?: ClusterVolumeInfoAccessibleTopologyList;
+  AccessibleTopology?: ClusterVolumeInfoAccessibleTopologyList | undefined;
 }
 /** The published state of the volume. * `pending-publish` The volume should be published to this node, but the call to the controller plugin to do so has not yet been successfully completed. * `published` The volume is published successfully to the node. * `pending-node-unpublish` The volume should be unpublished from the node, and the manager is awaiting confirmation from the worker that it has done so. * `pending-controller-unpublish` The volume is successfully unpublished from the node, but has not yet been successfully unpublished on the controller. */
 export type ClusterVolumePublishStatusItemState =
@@ -1927,26 +1955,26 @@ export type ClusterVolumePublishStatusItemState =
 export type ClusterVolumePublishStatusItemPublishContextMap = { [key: string]: string | undefined };
 export interface ClusterVolumePublishStatusItem {
   /** The ID of the Swarm node the volume is published on. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** The published state of the volume. * `pending-publish` The volume should be published to this node, but the call to the controller plugin to do so has not yet been successfully completed. * `published` The volume is published successfully to the node. * `pending-node-unpublish` The volume should be unpublished from the node, and the manager is awaiting confirmation from the worker that it has done so. * `pending-controller-unpublish` The volume is successfully unpublished from the node, but has not yet been successfully unpublished on the controller. */
-  State?: ClusterVolumePublishStatusItemState;
+  State?: ClusterVolumePublishStatusItemState | undefined;
   /** A map of strings to strings returned by the CSI controller plugin when a volume is published. */
-  PublishContext?: ClusterVolumePublishStatusItemPublishContextMap;
+  PublishContext?: ClusterVolumePublishStatusItemPublishContextMap | undefined;
 }
 /** The status of the volume as it pertains to its publishing and use on specific nodes */
 export type ClusterVolumePublishStatusList = Array<ClusterVolumePublishStatusItem>;
 /** Options and information specific to, and only present on, Swarm CSI cluster volumes. */
 export interface ClusterVolume {
   /** The Swarm ID of this volume. Because cluster volumes are Swarm objects, they have an ID, unlike non-cluster volumes. This ID can be used to refer to the Volume instead of the name. */
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ClusterVolumeSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ClusterVolumeSpec | undefined;
   /** Information about the global status of the volume. */
-  Info?: ClusterVolumeInfo;
+  Info?: ClusterVolumeInfo | undefined;
   /** The status of the volume as it pertains to its publishing and use on specific nodes */
-  PublishStatus?: ClusterVolumePublishStatusList;
+  PublishStatus?: ClusterVolumePublishStatusList | undefined;
 }
 /** The driver specific options used when creating the volume. */
 export type VolumeOptionsMap = { [key: string]: string | undefined };
@@ -1965,18 +1993,18 @@ export interface Volume {
   /** Mount path of the volume on the host. */
   Mountpoint: string;
   /** Date/Time the volume was created. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Low-level details about the volume, provided by the volume driver. Details are returned as a map with key/value pairs: `{"key":"value","key2":"value2"}`. The `Status` field is optional, and is omitted if the volume driver does not support this feature. */
-  Status?: VolumeStatusMap;
+  Status?: VolumeStatusMap | undefined;
   /** User-defined key/value metadata. */
   Labels: VolumeLabelsMap;
   /** The level at which the volume exists. Either `global` for cluster-wide, or `local` for machine level. */
   Scope: VolumeScope;
-  ClusterVolume?: ClusterVolume;
+  ClusterVolume?: ClusterVolume | undefined;
   /** The driver specific options used when creating the volume. */
   Options: VolumeOptionsMap;
   /** Usage details about the volume. This information is used by the `GET /system/df` endpoint, and omitted in other endpoints. */
-  UsageData?: VolumeUsageData | null;
+  UsageData?: VolumeUsageData | null | undefined;
 }
 export interface DeleteConfigRequest {
   /** ID of the config */
@@ -1987,11 +2015,11 @@ export interface DeleteContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Remove anonymous volumes associated with the container. */
-  v?: boolean;
+  v?: boolean | undefined;
   /** If the container is running, kill it before removing it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Remove the specified link associated with the container. */
-  link?: boolean;
+  link?: boolean | undefined;
 }
 export interface DeleteContainerResponse {}
 export type DeleteImageRequestPlatformsList = Array<string>;
@@ -1999,17 +2027,17 @@ export interface DeleteImageRequest {
   /** Image name or ID */
   name: string;
   /** Remove the image even if it is being used by stopped containers or has other tags */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Do not delete untagged parent images */
-  noprune?: boolean;
+  noprune?: boolean | undefined;
   /** Select platform-specific content to delete. Repeat the parameter to select multiple platforms. Each platform is a OCI platform encoded as a JSON string. */
-  platforms?: DeleteImageRequestPlatformsList;
+  platforms?: DeleteImageRequestPlatformsList | undefined;
 }
 export interface ImageDeleteResponseItem {
   /** The image ID of an image that was untagged */
-  Untagged?: string;
+  Untagged?: string | undefined;
   /** The image ID of an image that was deleted */
-  Deleted?: string;
+  Deleted?: string | undefined;
 }
 export type DeleteImageResponseBodyList = Array<ImageDeleteResponseItem>;
 export type DeleteImageResponse = DeleteImageResponseBodyList;
@@ -2022,14 +2050,14 @@ export interface DeleteNodeRequest {
   /** The ID or name of the node */
   id: string;
   /** Force remove a node from the swarm */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteNodeResponse {}
 export interface DeletePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Disable the plugin before removing. This may result in issues if the plugin is in use by a container. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type PluginMountSettableList = Array<string>;
 export type PluginMountOptionsList = Array<string>;
@@ -2068,12 +2096,12 @@ export interface PluginConfigInterface {
   Types: PluginConfigInterfaceTypesList;
   Socket: string;
   /** Protocol to use for clients connecting to the plugin. */
-  ProtocolScheme?: PluginConfigInterfaceProtocolScheme;
+  ProtocolScheme?: PluginConfigInterfaceProtocolScheme | undefined;
 }
 export type PluginConfigEntrypointList = Array<string>;
 export interface PluginConfigUser {
-  UID?: number;
-  GID?: number;
+  UID?: number | undefined;
+  GID?: number | undefined;
 }
 export interface PluginConfigNetwork {
   Type: string;
@@ -2104,8 +2132,8 @@ export interface PluginConfigArgs {
 }
 export type PluginConfigRootfsDiffIdsList = Array<string>;
 export interface PluginConfigRootfs {
-  type?: string;
-  diff_ids?: PluginConfigRootfsDiffIdsList;
+  type?: string | undefined;
+  diff_ids?: PluginConfigRootfsDiffIdsList | undefined;
 }
 /** The config of a plugin. */
 export interface PluginConfig {
@@ -2115,7 +2143,7 @@ export interface PluginConfig {
   Interface: PluginConfigInterface;
   Entrypoint: PluginConfigEntrypointList;
   WorkDir: string;
-  User?: PluginConfigUser;
+  User?: PluginConfigUser | undefined;
   Network: PluginConfigNetwork;
   Linux: PluginConfigLinux;
   PropagatedMount: string;
@@ -2124,18 +2152,18 @@ export interface PluginConfig {
   Mounts: PluginConfigMountsList;
   Env: PluginConfigEnvList;
   Args: PluginConfigArgs;
-  rootfs?: PluginConfigRootfs;
+  rootfs?: PluginConfigRootfs | undefined;
 }
 /** A plugin for the Engine API */
 export interface Plugin {
-  Id?: string;
+  Id?: string | undefined;
   Name: string;
   /** True if the plugin is running. False if the plugin is not running, only installed. */
   Enabled: boolean;
   /** user-configurable settings for the plugin. */
   Settings: PluginSettings;
   /** plugin remote reference used to push/pull the plugin */
-  PluginReference?: string;
+  PluginReference?: string | undefined;
   /** The config of a plugin. */
   Config: PluginConfig;
 }
@@ -2153,14 +2181,14 @@ export interface DeleteVolumeRequest {
   /** Volume name or ID */
   name: string;
   /** Force the removal of the volume */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVolumeResponse {}
 export interface DisablePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Force disable a plugin even if still in use. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DisablePluginResponse {}
 export interface DisconnectNetworkRequest {
@@ -2169,7 +2197,7 @@ export interface DisconnectNetworkRequest {
   /** The ID or name of the container to disconnect from the network. */
   Container: string;
   /** Force the container to disconnect from the network. */
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface DisconnectNetworkResponse {}
 export interface DistributionInspectRequest {
@@ -2188,7 +2216,7 @@ export interface EnablePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Set the HTTP client timeout (in seconds) */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface EnablePluginResponse {}
 /** Initial console size, as an `[height, width]` array. */
@@ -2201,27 +2229,27 @@ export interface ExecContainerRequest {
   /** ID or name of container */
   id: string;
   /** Attach to `stdin` of the exec command. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Attach to `stdout` of the exec command. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Attach to `stderr` of the exec command. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: ExecContainerRequestConsoleSizeList | null;
+  ConsoleSize?: ExecContainerRequestConsoleSizeList | null | undefined;
   /** Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  DetachKeys?: string;
+  DetachKeys?: string | undefined;
   /** Allocate a pseudo-TTY. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** A list of environment variables in the form `["VAR=value", ...]`. */
-  Env?: ExecContainerRequestEnvList;
+  Env?: ExecContainerRequestEnvList | undefined;
   /** Command to run, as a string or array of strings. */
-  Cmd?: ExecContainerRequestCmdList;
+  Cmd?: ExecContainerRequestCmdList | undefined;
   /** Runs the exec process with extended privileges. */
-  Privileged?: boolean;
+  Privileged?: boolean | undefined;
   /** The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`. */
-  User?: string;
+  User?: string | undefined;
   /** The working directory for the exec process inside the container. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
 }
 export interface ExecInspectRequest {
   /** Exec instance ID */
@@ -2229,25 +2257,25 @@ export interface ExecInspectRequest {
 }
 export type ProcessConfigArgumentsList = Array<string>;
 export interface ProcessConfig {
-  privileged?: boolean;
-  user?: string;
-  tty?: boolean;
-  entrypoint?: string;
-  arguments?: ProcessConfigArgumentsList;
+  privileged?: boolean | undefined;
+  user?: string | undefined;
+  tty?: boolean | undefined;
+  entrypoint?: string | undefined;
+  arguments?: ProcessConfigArgumentsList | undefined;
 }
 export interface ExecInspectResponse {
-  CanRemove?: boolean;
-  DetachKeys?: string;
-  ID?: string;
-  Running?: boolean;
-  ExitCode?: number;
-  ProcessConfig?: ProcessConfig;
-  OpenStdin?: boolean;
-  OpenStderr?: boolean;
-  OpenStdout?: boolean;
-  ContainerID?: string;
+  CanRemove?: boolean | undefined;
+  DetachKeys?: string | undefined;
+  ID?: string | undefined;
+  Running?: boolean | undefined;
+  ExitCode?: number | undefined;
+  ProcessConfig?: ProcessConfig | undefined;
+  OpenStdin?: boolean | undefined;
+  OpenStderr?: boolean | undefined;
+  OpenStdout?: boolean | undefined;
+  ContainerID?: string | undefined;
   /** The system process ID for the exec process. */
-  Pid?: number;
+  Pid?: number | undefined;
 }
 export interface ExecResizeRequest {
   /** Exec instance ID */
@@ -2264,11 +2292,11 @@ export interface ExecStartRequest {
   /** Exec instance ID */
   id: string;
   /** Detach from the command. */
-  Detach?: boolean;
+  Detach?: boolean | undefined;
   /** Allocate a pseudo-TTY. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: ExecStartRequestConsoleSizeList | null;
+  ConsoleSize?: ExecStartRequestConsoleSizeList | null | undefined;
 }
 export interface ExecStartResponse {}
 export interface ExportContainerRequest {
@@ -2281,7 +2309,7 @@ export interface GetImageRequest {
   /** Image name or ID */
   name: string;
   /** JSON encoded OCI platform describing a platform which will be used to select a platform-specific image to be saved if the image is multi-platform. If not provided, the full multi-platform image will be saved. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: GetImageRequestPlatformList;
+  platform?: GetImageRequestPlatformList | undefined;
 }
 export type GetImageResponse = string;
 export interface GetPluginPrivilegesRequest {
@@ -2296,11 +2324,11 @@ export interface ImageAttestationsRequest {
   /** Image name or id */
   name: string;
   /** JSON-encoded OCI platform to select the image variant whose attestations to return. If omitted, the daemon's default (host) platform is used. Only one platform value is currently accepted; passing more than one returns an error. The parameter is declared as an array so the wire shape can accept multiple values in the future without an API version bump. Example: `{"os": "linux", "architecture": "amd64"}` */
-  platform?: ImageAttestationsRequestPlatformList;
+  platform?: ImageAttestationsRequestPlatformList | undefined;
   /** In-toto predicate type URI to filter returned statements. May be repeated to accept any of several predicate types. If omitted, all statements are returned. Example: `type=https://slsa.dev/provenance/v0.2&type=https://spdx.dev/Document` */
-  type?: ImageAttestationsRequestTypeList;
+  type?: ImageAttestationsRequestTypeList | undefined;
   /** Include the verbatim in-toto statement body in each returned entry. Defaults to false; when omitted or false, only the descriptor and predicate type are returned and statement blobs are not read. */
-  statement?: boolean;
+  statement?: boolean | undefined;
 }
 /** AttestationStatement is a single in-toto statement attached to an image. */
 export interface AttestationStatement {
@@ -2308,83 +2336,81 @@ export interface AttestationStatement {
   /** The in-toto predicate type URI of this statement. */
   PredicateType: string;
   /** The verbatim in-toto statement JSON. Only included when the caller opts in via the `statement=true` query parameter; otherwise absent. */
-  Statement?: unknown | null;
+  Statement?: unknown | null | undefined;
 }
 export type ImageAttestationsResponseBodyList = Array<AttestationStatement>;
 export type ImageAttestationsResponse = ImageAttestationsResponseBodyList;
 export type ImageBuildRequestVersion = "1" | "2";
-export type ImageBuildRequestContentType = "application/x-tar";
 export interface ImageBuildRequest {
   /** Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters. */
-  t?: string;
+  t?: string | undefined;
   /** Extra hosts to add to /etc/hosts */
-  extrahosts?: string;
+  extrahosts?: string | undefined;
   /** A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file's contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball. */
-  remote?: string;
+  remote?: string | undefined;
   /** Suppress verbose build output. */
-  q?: boolean;
+  q?: boolean | undefined;
   /** Do not use the cache when building the image. */
-  nocache?: boolean;
+  nocache?: boolean | undefined;
   /** JSON array of images used for build cache resolution. */
-  cachefrom?: string;
+  cachefrom?: string | undefined;
   /** Attempt to pull the image even if an older image exists locally. */
-  pull?: string;
+  pull?: string | undefined;
   /** Remove intermediate containers after a successful build. */
-  rm?: boolean;
+  rm?: boolean | undefined;
   /** Always remove intermediate containers, even upon failure. */
-  forcerm?: boolean;
+  forcerm?: boolean | undefined;
   /** Set memory limit for build. */
-  memory?: number;
+  memory?: number | undefined;
   /** Total memory (memory + swap). Set as `-1` to disable swap. */
-  memswap?: number;
+  memswap?: number | undefined;
   /** CPU shares (relative weight). */
-  cpushares?: number;
+  cpushares?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  cpusetcpus?: string;
+  cpusetcpus?: string | undefined;
   /** The length of a CPU period in microseconds. */
-  cpuperiod?: number;
+  cpuperiod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  cpuquota?: number;
+  cpuquota?: number | undefined;
   /** JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. For example, the build arg `FOO=bar` would become `{"FOO":"bar"}` in JSON. This would result in the query parameter `buildargs={"FOO":"bar"}`. Note that `{"FOO":"bar"}` should be URI component encoded. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg) */
-  buildargs?: string;
+  buildargs?: string | undefined;
   /** Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB. */
-  shmsize?: number;
+  shmsize?: number | undefined;
   /** Squash the resulting images layers into a single layer. *(Experimental release only.)* */
-  squash?: boolean;
+  squash?: boolean | undefined;
   /** Arbitrary key/value labels to set on the image, as a JSON map of string pairs. */
-  labels?: string;
+  labels?: string | undefined;
   /** Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name or ID to which this container should connect to. */
-  networkmode?: string;
+  networkmode?: string | undefined;
   /** Platform in the format os[/arch[/variant]] */
-  platform?: string;
+  platform?: string | undefined;
   /** Target build stage */
-  target?: string;
+  target?: string | undefined;
   /** BuildKit output configuration in the format of a stringified JSON array of objects. Each object must have two top-level properties: `Type` and `Attrs`. The `Type` property must be set to 'moby'. The `Attrs` property is a map of attributes for the BuildKit output configuration. See https://docs.docker.com/build/exporters/oci-docker/ for more information. Example: ``` [{"Type":"moby","Attrs":{"type":"image","force-compression":"true","compression":"zstd"}}] ``` */
-  outputs?: string;
+  outputs?: string | undefined;
   /** Version of the builder backend to use. - `1` is the first generation classic (deprecated) builder in the Docker daemon (default) - `2` is [BuildKit](https://github.com/moby/buildkit) */
-  version?: ImageBuildRequestVersion | (string & {});
-  contentType?: ImageBuildRequestContentType | (string & {});
+  version?: ImageBuildRequestVersion | (string & {}) | undefined;
   /** This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to. The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example: ``` { "docker.example.com": { "username": "janedoe", "password": "hunter2" }, "https://index.docker.io/v1/": { "username": "mobydock", "password": "conta1n3rize14" } } ``` Only the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API. */
-  xRegistryConfig?: string;
-  body?: string;
+  xRegistryConfig?: string | undefined;
+  body?: string | undefined;
 }
 export interface ImageBuildResponse {}
 export type ImageGetAllRequestNamesList = Array<string>;
 export type ImageGetAllRequestPlatformList = Array<string>;
 export interface ImageGetAllRequest {
   /** Image names to filter by. Repeat the parameter for multiple images. */
-  names?: ImageGetAllRequestNamesList;
+  names?: ImageGetAllRequestNamesList | undefined;
   /** JSON encoded OCI platform(s) which will be used to select the platform-specific image(s) to be saved if the image is multi-platform. If not provided, the full multi-platform image will be saved. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: ImageGetAllRequestPlatformList;
+  platform?: ImageGetAllRequestPlatformList | undefined;
 }
 export type ImageGetAllResponse = string;
 export interface ImageHistoryRequest {
   /** Image name or ID */
   name: string;
   /** JSON-encoded OCI platform to select the platform-variant. If omitted, it defaults to any locally available platform, prioritizing the daemon's host platform. If the daemon provides a multi-platform image store, this selects the platform-variant to show the history for. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
 }
 export type ImageHistoryResponseItemTagsList = Array<string>;
 /** individual image layer information in response to ImageHistory operation */
@@ -2402,9 +2428,9 @@ export interface ImageInspectRequest {
   /** Image name or id */
   name: string;
   /** Include Manifests in the image summary. The `manifests` and `platform` options are mutually exclusive, and an error is produced if both are set. */
-  manifests?: boolean;
+  manifests?: boolean | undefined;
   /** JSON-encoded OCI platform to select the platform-variant. If omitted, it defaults to any locally available platform, prioritizing the daemon's host platform. If the daemon provides a multi-platform image store, this selects the platform-variant to show inspect. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. The `platform` and `manifests` options are mutually exclusive, and an error is produced if both are set. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
 }
 export interface ImageManifestSummarySize {
   /** Total is the total size (in bytes) of all the locally present data (both distributable and non-distributable) that's related to this manifest and its children. This equal to the sum of [Content] size AND all the sizes in the [Size] struct present in the Kind-specific data struct. For example, for an image kind (Kind == "image") this would include the size of the image content and unpacked image snapshots ([Size.Content] + [ImageData.Size.Unpacked]). */
@@ -2418,9 +2444,9 @@ export type ImageManifestSummaryKind = "image" | "attestation" | "unknown";
 export type SignatureTimestampType = "Tlog" | "TimestampAuthority";
 /** SignatureTimestamp contains information about a verified signed timestamp for an image signature. */
 export interface SignatureTimestamp {
-  Type?: SignatureTimestampType;
-  URI?: string;
-  Timestamp?: string;
+  Type?: SignatureTimestampType | undefined;
+  URI?: string | undefined;
+  Timestamp?: string | undefined;
 }
 /** Timestamps contains a list of verified signed timestamps for the signature. */
 export type SignatureIdentityTimestampsList = Array<SignatureTimestamp>;
@@ -2429,39 +2455,39 @@ export type KnownSignerIdentity = "DHI";
 /** SignerIdentity contains information about the signer certificate used to sign the image. */
 export interface SignerIdentity {
   /** CertificateIssuer is the certificate issuer. */
-  CertificateIssuer?: string;
+  CertificateIssuer?: string | undefined;
   /** SubjectAlternativeName is the certificate subject alternative name. */
-  SubjectAlternativeName?: string;
+  SubjectAlternativeName?: string | undefined;
   /** The OIDC issuer. Should match `iss` claim of ID token or, in the case of a federated login like Dex it should match the issuer URL of the upstream issuer. The issuer is not set the extensions are invalid and will fail to render. */
-  Issuer?: string;
+  Issuer?: string | undefined;
   /** Reference to specific build instructions that are responsible for signing. */
-  BuildSignerURI?: string;
+  BuildSignerURI?: string | undefined;
   /** Immutable reference to the specific version of the build instructions that is responsible for signing. */
-  BuildSignerDigest?: string;
+  BuildSignerDigest?: string | undefined;
   /** Specifies whether the build took place in platform-hosted cloud infrastructure or customer/self-hosted infrastructure. */
-  RunnerEnvironment?: string;
+  RunnerEnvironment?: string | undefined;
   /** Source repository URL that the build was based on. */
-  SourceRepositoryURI?: string;
+  SourceRepositoryURI?: string | undefined;
   /** Immutable reference to a specific version of the source code that the build was based upon. */
-  SourceRepositoryDigest?: string;
+  SourceRepositoryDigest?: string | undefined;
   /** Source Repository Ref that the build run was based upon. */
-  SourceRepositoryRef?: string;
+  SourceRepositoryRef?: string | undefined;
   /** Immutable identifier for the source repository the workflow was based upon. */
-  SourceRepositoryIdentifier?: string;
+  SourceRepositoryIdentifier?: string | undefined;
   /** Source repository owner URL of the owner of the source repository that the build was based on. */
-  SourceRepositoryOwnerURI?: string;
+  SourceRepositoryOwnerURI?: string | undefined;
   /** Immutable identifier for the owner of the source repository that the workflow was based upon. */
-  SourceRepositoryOwnerIdentifier?: string;
+  SourceRepositoryOwnerIdentifier?: string | undefined;
   /** Build Config URL to the top-level/initiating build instructions. */
-  BuildConfigURI?: string;
+  BuildConfigURI?: string | undefined;
   /** Immutable reference to the specific version of the top-level/initiating build instructions. */
-  BuildConfigDigest?: string;
+  BuildConfigDigest?: string | undefined;
   /** Event or action that initiated the build. */
-  BuildTrigger?: string;
+  BuildTrigger?: string | undefined;
   /** Run Invocation URL to uniquely identify the build execution. */
-  RunInvocationURI?: string;
+  RunInvocationURI?: string | undefined;
   /** Source repository visibility at the time of signing the certificate. */
-  SourceRepositoryVisibilityAtSigning?: string;
+  SourceRepositoryVisibilityAtSigning?: string | undefined;
 }
 /** SignatureType is the type of signature format. */
 export type SignatureType = "bundle-v0.3" | "simplesigning-v1";
@@ -2470,48 +2496,48 @@ export type SignatureIdentityWarningsList = Array<string>;
 /** SignatureIdentity contains the properties of verified signatures for the image. */
 export interface SignatureIdentity {
   /** Name is a textual description summarizing the type of signature. */
-  Name?: string;
+  Name?: string | undefined;
   /** Timestamps contains a list of verified signed timestamps for the signature. */
-  Timestamps?: SignatureIdentityTimestampsList;
+  Timestamps?: SignatureIdentityTimestampsList | undefined;
   /** KnownSigner is an identifier for a special signer identity that is known to the implementation. */
-  KnownSigner?: KnownSignerIdentity;
+  KnownSigner?: KnownSignerIdentity | undefined;
   /** DockerReference is the Docker image reference associated with the signature. This is an optional field only present in older hashedrecord signatures. */
-  DockerReference?: string;
+  DockerReference?: string | undefined;
   /** Signer contains information about the signer certificate used to sign the image. */
-  Signer?: SignerIdentity;
+  Signer?: SignerIdentity | undefined;
   /** SignatureType is the type of signature format. E.g. "bundle-v0.3" or "hashedrecord". */
-  SignatureType?: SignatureType;
+  SignatureType?: SignatureType | undefined;
   /** Error contains error information if signature verification failed. Other fields will be empty in this case. */
-  Error?: string;
+  Error?: string | undefined;
   /** Warnings contains any warnings that occurred during signature verification. For example, if there was no internet connectivity and cached trust roots were used. Warning does not indicate a failed verification but may point to configuration issues. */
-  Warnings?: SignatureIdentityWarningsList;
+  Warnings?: SignatureIdentityWarningsList | undefined;
 }
 /** Signature contains the properties of verified signatures for the image. */
 export type IdentitySignatureList = Array<SignatureIdentity>;
 /** PullIdentity contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. */
 export interface PullIdentity {
   /** Repository is the remote repository location the image was pulled from. */
-  Repository?: string;
+  Repository?: string | undefined;
 }
 /** Pull contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. After successful push this images also contains the pushed repository location. */
 export type IdentityPullList = Array<PullIdentity>;
 /** BuildIdentity contains build reference information if image was created via build. */
 export interface BuildIdentity {
   /** Ref is the identifier for the build request. This reference can be used to look up the build details in BuildKit history API. */
-  Ref?: string;
+  Ref?: string | undefined;
   /** CreatedAt is the time when the build ran. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
 }
 /** Build contains build reference information if image was created via build. */
 export type IdentityBuildList = Array<BuildIdentity>;
 /** Identity holds information about the identity and origin of the image. This is trusted information verified by the daemon and cannot be modified by tagging an image to a different name. */
 export interface Identity {
   /** Signature contains the properties of verified signatures for the image. */
-  Signature?: IdentitySignatureList;
+  Signature?: IdentitySignatureList | undefined;
   /** Pull contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. After successful push this images also contains the pushed repository location. */
-  Pull?: IdentityPullList;
+  Pull?: IdentityPullList | undefined;
   /** Build contains build reference information if image was created via build. */
-  Build?: IdentityBuildList;
+  Build?: IdentityBuildList | undefined;
 }
 /** The IDs of the containers that are using this image. */
 export type ImageManifestSummaryImageDataContainersList = Array<string>;
@@ -2524,7 +2550,7 @@ export interface ImageManifestSummaryImageData {
   /** OCI platform of the image. This will be the platform specified in the manifest descriptor from the index/manifest list. If it's not available, it will be obtained from the image config. */
   Platform: OCIPlatform | null;
   /** Identity holds information about the identity and origin of this image. For image list responses, this can duplicate Build/Pull fields across image manifests, because those parts are image-level metadata. */
-  Identity?: Identity | null;
+  Identity?: Identity | null | undefined;
   /** The IDs of the containers that are using this image. */
   Containers: ImageManifestSummaryImageDataContainersList;
   Size: ImageManifestSummaryImageDataSize;
@@ -2545,9 +2571,9 @@ export interface ImageManifestSummary {
   /** The kind of the manifest. kind | description -------------|----------------------------------------------------------- image | Image manifest that can be used to start a container. attestation | Attestation manifest produced by the Buildkit builder for a specific image manifest. */
   Kind: ImageManifestSummaryKind;
   /** The image data for the image manifest. This field is only populated when Kind is "image". */
-  ImageData?: ImageManifestSummaryImageData | null;
+  ImageData?: ImageManifestSummaryImageData | null | undefined;
   /** The image data for the attestation manifest. This field is only populated when Kind is "attestation". */
-  AttestationData?: ImageManifestSummaryAttestationData | null;
+  AttestationData?: ImageManifestSummaryAttestationData | null | undefined;
 }
 /** Manifests is a list of image manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. Only available if the daemon provides a multi-platform image store and the `manifests` option is set in the inspect request. WARNING: This is experimental and may change at any time without any backward compatibility. */
 export type ImageInspectManifestsList = Array<ImageManifestSummary>;
@@ -2574,107 +2600,107 @@ export type ImageConfigShellList = Array<string>;
 /** Configuration of the image. These fields are used as defaults when starting a container from the image. */
 export interface ImageConfig {
   /** The user that commands are run as inside the container. */
-  User?: string;
+  User?: string | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: ImageConfigExposedPortsMap | null;
+  ExposedPorts?: ImageConfigExposedPortsMap | null | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: ImageConfigEnvList;
+  Env?: ImageConfigEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: ImageConfigCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: ImageConfigCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: ImageConfigVolumesMap;
+  Volumes?: ImageConfigVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: ImageConfigEntrypointList;
+  Entrypoint?: ImageConfigEntrypointList | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: ImageConfigOnBuildList | null;
+  OnBuild?: ImageConfigOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ImageConfigLabelsMap;
+  Labels?: ImageConfigLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: ImageConfigShellList | null;
+  Shell?: ImageConfigShellList | null | undefined;
 }
 export type ImageInspectRootFSLayersList = Array<string>;
 /** Information about the image's RootFS, including the layer IDs. */
 export interface ImageInspectRootFS {
   Type: string;
-  Layers?: ImageInspectRootFSLayersList;
+  Layers?: ImageInspectRootFSLayersList | undefined;
 }
 /** Additional metadata of the image in the local cache. This information is local to the daemon, and not part of the image itself. */
 export interface ImageInspectMetadata {
   /** Date and time at which the image was last tagged in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. This information is only available if the image was tagged locally, and omitted otherwise. */
-  LastTagTime?: string | null;
+  LastTagTime?: string | null | undefined;
 }
 /** Information about an image in the local image cache. */
 export interface ImageInspect {
   /** ID is the content-addressable ID of an image. This identifier is a content-addressable digest calculated from the image's configuration (which includes the digests of layers used by the image). Note that this digest differs from the `RepoDigests` below, which holds digests of image manifests that reference the image. */
-  Id?: string;
+  Id?: string | undefined;
   /** Descriptor is an OCI descriptor of the image target. In case of a multi-platform image, this descriptor points to the OCI index or a manifest list. This field is only present if the daemon provides a multi-platform image store. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Descriptor?: OCIDescriptor | null;
+  Descriptor?: OCIDescriptor | null | undefined;
   /** Manifests is a list of image manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. Only available if the daemon provides a multi-platform image store and the `manifests` option is set in the inspect request. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Manifests?: ImageInspectManifestsList | null;
+  Manifests?: ImageInspectManifestsList | null | undefined;
   /** Identity holds information about the identity and origin of the image. This is trusted information verified by the daemon and cannot be modified by tagging an image to a different name. */
-  Identity?: Identity | null;
+  Identity?: Identity | null | undefined;
   /** List of image names/tags in the local image cache that reference this image. Multiple image tags can refer to the same image, and this list may be empty if no tags reference the image, in which case the image is "untagged", in which case it can still be referenced by its ID. */
-  RepoTags?: ImageInspectRepoTagsList;
+  RepoTags?: ImageInspectRepoTagsList | undefined;
   /** List of content-addressable digests of locally available image manifests that the image is referenced from. Multiple manifests can refer to the same image. These digests are usually only available if the image was either pulled from a registry, or if the image was pushed to a registry, which is when the manifest is generated and its digest calculated. */
-  RepoDigests?: ImageInspectRepoDigestsList;
+  RepoDigests?: ImageInspectRepoDigestsList | undefined;
   /** Optional message that was set when committing or importing the image. */
-  Comment?: string | null;
+  Comment?: string | null | undefined;
   /** Date and time at which the image was created, formatted in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. This information is only available if present in the image, and omitted otherwise. */
-  Created?: string | null;
+  Created?: string | null | undefined;
   /** Name of the author that was specified when committing the image, or as specified through MAINTAINER (deprecated) in the Dockerfile. */
-  Author?: string | null;
-  Config?: ImageConfig;
+  Author?: string | null | undefined;
+  Config?: ImageConfig | undefined;
   /** Hardware CPU architecture that the image runs on. */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** CPU architecture variant (presently ARM-only). */
-  Variant?: string | null;
+  Variant?: string | null | undefined;
   /** Operating System the image is built to run on. */
-  Os?: string;
+  Os?: string | undefined;
   /** Operating System version the image is built to run on (especially for Windows). */
-  OsVersion?: string | null;
+  OsVersion?: string | null | undefined;
   /** Total size of the image variant, including all layers it is composed of. For multi-platform images, this is the size of the platform variant selected by the `platform` query parameter. If no platform is specified, the daemon selects a platform as described in the `platform` parameter. When using the containerd image store, this includes both the image content that's present locally and the unpacked snapshot data for the selected variant. Image data may be shared between images, so this size does not indicate how much space would be reclaimed by deleting the image. */
-  Size?: number;
-  GraphDriver?: DriverData | null;
+  Size?: number | undefined;
+  GraphDriver?: DriverData | null | undefined;
   /** Information about the image's RootFS, including the layer IDs. */
-  RootFS?: ImageInspectRootFS;
+  RootFS?: ImageInspectRootFS | undefined;
   /** Additional metadata of the image in the local cache. This information is local to the daemon, and not part of the image itself. */
-  Metadata?: ImageInspectMetadata;
+  Metadata?: ImageInspectMetadata | undefined;
 }
 export type ImageLoadRequestPlatformList = Array<string>;
 export interface ImageLoadRequest {
   /** Suppress progress details during load. */
-  quiet?: boolean;
+  quiet?: boolean | undefined;
   /** JSON encoded OCI platform(s) which will be used to select the platform-specific image(s) to load if the image is multi-platform. If not provided, the full multi-platform image will be loaded. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: ImageLoadRequestPlatformList;
-  body?: string;
+  platform?: ImageLoadRequestPlatformList | undefined;
+  body?: string | undefined;
 }
 export interface ImageLoadResponse {}
 export interface ImagePruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `dangling=<boolean>` When set to `true` (or `1`), prune only unused *and* untagged images. When set to `false` (or `0`), all unused images are pruned. - `until=<string>` Prune images created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune images with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Images that were deleted */
 export type ImagePruneResponseImagesDeletedList = Array<ImageDeleteResponseItem>;
 export interface ImagePruneResponse {
   /** Images that were deleted */
-  ImagesDeleted?: ImagePruneResponseImagesDeletedList;
+  ImagesDeleted?: ImagePruneResponseImagesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export interface ImagePushRequest {
   /** Name of the image to push. For example, `registry.example.com/myimage`. The image must be present in the local image store with the same name. The name should be provided without tag; if a tag is provided, it is ignored. For example, `registry.example.com/myimage:latest` is considered equivalent to `registry.example.com/myimage`. Use the `tag` parameter to specify the tag to push. */
   name: string;
   /** Tag of the image to push. For example, `latest`. If no tag is provided, all tags of the given image that are present in the local image store are pushed. */
-  tag?: string;
+  tag?: string | undefined;
   /** JSON-encoded OCI platform to select the platform-variant to push. If not provided, all available variants will attempt to be pushed. If the daemon provides a multi-platform image store, this selects the platform-variant to push to the registry. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
   xRegistryAuth: string;
 }
@@ -2683,9 +2709,9 @@ export interface ImageTagRequest {
   /** Image name or ID to tag. */
   name: string;
   /** The repository to tag in. For example, `someuser/someimage`. */
-  repo?: string;
+  repo?: string | undefined;
   /** The name of the new tag. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface ImageTagResponse {}
 /** Addresses of manager nodes already participating in the swarm. */
@@ -2694,9 +2720,9 @@ export interface JoinSwarmRequest {
   /** Listen address used for inter-manager communication if the node gets promoted to manager, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This is required for joining a swarm. If the port number is omitted, the default swarm listening port is used. */
   ListenAddr: string;
   /** Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible. */
-  AdvertiseAddr?: string;
+  AdvertiseAddr?: string | undefined;
   /** Address or interface to use for data path traffic (format: `<ip|interface>`), for example, `192.168.1.1`, or an interface, like `eth0`. If `DataPathAddr` is unspecified, the same address as `AdvertiseAddr` is used. The `DataPathAddr` specifies the address that global scope network drivers will publish towards other nodes in order to reach the containers running on this node. Using this parameter it is possible to separate the container data traffic from the management traffic of the cluster. */
-  DataPathAddr?: string;
+  DataPathAddr?: string | undefined;
   /** Addresses of manager nodes already participating in the swarm. */
   RemoteAddrs: JoinSwarmRequestRemoteAddrsList;
   /** Secret token for joining this swarm. */
@@ -2707,29 +2733,29 @@ export interface KillContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
 }
 export interface KillContainerResponse {}
 export interface LeaveSwarmRequest {
   /** Force leave swarm, even if this is the last manager or that it will break the cluster. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface LeaveSwarmResponse {}
 export interface ListConfigRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the configs list. Available filters: - `id=<config id>` - `label=<key> or label=<key>=value` - `name=<config name>` matches all or part of a config name (prefix match) */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type ListConfigResponseBodyList = Array<Config>;
 export type ListConfigResponse = ListConfigResponseBodyList;
 export interface ListContainerRequest {
   /** Return all containers. By default, only running containers are shown. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Return this number of most recently created containers, including non-running ones. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return the size of container as fields `SizeRw` and `SizeRootFs`. */
-  size?: boolean;
+  size?: boolean | undefined;
   /** Filters to process on the container list, encoded as JSON (a `map[string][]string`). For example, `{"status": ["paused"]}` will only return paused containers. Available filters: - `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`) - `annotation=key` or `annotation="key=value"` of a container annotation - `before`=(`<container id>` or `<container name>`) - `expose`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`) - `exited=<int>` containers with exit code of `<int>` - `health`=(`starting`|`healthy`|`unhealthy`|`none`) - `id=<ID>` a container's ID - `isolation=`(`default`|`process`|`hyperv`) (Windows daemon only) - `is-task=`(`true`|`false`) - `label=key` or `label="key=value"` of a container label - `name=<name>` a container's name - `network`=(`<network id>` or `<network name>`) - `publish`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`) - `since`=(`<container id>` or `<container name>`) - `status=`(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`) - `volume`=(`<volume name>` or `<mount point destination>`) */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** The names associated with this container. Most containers have a single name, but when using legacy "links", the container can have multiple names. For historic reasons, names are prefixed with a forward-slash (`/`). */
 export type ContainerSummaryNamesList = Array<string>;
@@ -2737,11 +2763,11 @@ export type PortSummaryType = "tcp" | "udp" | "sctp";
 /** Describes a port-mapping between the container and the host. */
 export interface PortSummary {
   /** Host IP address that the container's port is mapped to */
-  IP?: string;
+  IP?: string | undefined;
   /** Port on the container */
   PrivatePort: number;
   /** Port exposed on the host */
-  PublicPort?: number;
+  PublicPort?: number | undefined;
   Type: PortSummaryType;
 }
 /** Port-mappings for the container. */
@@ -2762,9 +2788,9 @@ export type ContainerSummaryHostConfigAnnotationsMap = { [key: string]: string |
 /** Summary of host-specific runtime information of the container. This is a reduced set of information in the container's "HostConfig" as available in the container "inspect" response. */
 export interface ContainerSummaryHostConfig {
   /** Networking mode (`host`, `none`, `container:<id>`) or name of the primary network the container is using. This field is primarily for backward compatibility. The container can be connected to multiple networks for which information can be found in the `NetworkSettings.Networks` field, which enumerates settings per network. */
-  NetworkMode?: string;
+  NetworkMode?: string | undefined;
   /** Arbitrary key-value metadata attached to the container. */
-  Annotations?: ContainerSummaryHostConfigAnnotationsMap | null;
+  Annotations?: ContainerSummaryHostConfigAnnotationsMap | null | undefined;
 }
 /** Summary of network-settings for each network the container is attached to. */
 export type ContainerSummaryNetworkSettingsNetworksMap = {
@@ -2773,7 +2799,7 @@ export type ContainerSummaryNetworkSettingsNetworksMap = {
 /** Summary of the container's network settings */
 export interface ContainerSummaryNetworkSettings {
   /** Summary of network-settings for each network the container is attached to. */
-  Networks?: ContainerSummaryNetworkSettingsNetworksMap;
+  Networks?: ContainerSummaryNetworkSettingsNetworksMap | undefined;
 }
 /** List of mounts used by the container. */
 export type ContainerSummaryMountsList = Array<MountPoint>;
@@ -2782,61 +2808,61 @@ export type ContainerSummaryHealthStatus = "none" | "starting" | "healthy" | "un
 /** Summary of health status Added in v1.52, before that version all container summary not include Health. After this attribute introduced, it includes containers with no health checks configured, or containers that are not running with none */
 export interface ContainerSummaryHealth {
   /** the health status of the container */
-  Status?: ContainerSummaryHealthStatus;
+  Status?: ContainerSummaryHealthStatus | undefined;
   /** FailingStreak is the number of consecutive failures */
-  FailingStreak?: number;
+  FailingStreak?: number | undefined;
 }
 export interface ContainerSummary {
   /** The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes). */
-  Id?: string;
+  Id?: string | undefined;
   /** The names associated with this container. Most containers have a single name, but when using legacy "links", the container can have multiple names. For historic reasons, names are prefixed with a forward-slash (`/`). */
-  Names?: ContainerSummaryNamesList;
+  Names?: ContainerSummaryNamesList | undefined;
   /** The name or ID of the image used to create the container. This field shows the image reference as was specified when creating the container, which can be in its canonical form (e.g., `docker.io/library/ubuntu:latest` or `docker.io/library/ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`), short form (e.g., `ubuntu:latest`)), or the ID(-prefix) of the image (e.g., `72297848456d`). The content of this field can be updated at runtime if the image used to create the container is untagged, in which case the field is updated to contain the the image ID (digest) it was resolved to in its canonical, non-truncated form (e.g., `sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`). */
-  Image?: string;
+  Image?: string | undefined;
   /** The ID (digest) of the image that this container was created from. */
-  ImageID?: string;
+  ImageID?: string | undefined;
   /** OCI descriptor of the platform-specific manifest of the image the container was created from. Note: Only available if the daemon provides a multi-platform image store. This field is not populated in the `GET /system/df` endpoint. */
-  ImageManifestDescriptor?: OCIDescriptor | null;
+  ImageManifestDescriptor?: OCIDescriptor | null | undefined;
   /** Command to run when starting the container */
-  Command?: string;
+  Command?: string | undefined;
   /** Date and time at which the container was created as a Unix timestamp (number of seconds since EPOCH). */
-  Created?: number;
+  Created?: number | undefined;
   /** Port-mappings for the container. */
-  Ports?: ContainerSummaryPortsList;
+  Ports?: ContainerSummaryPortsList | undefined;
   /** The size of files that have been created or changed by this container. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRw?: number | null;
+  SizeRw?: number | null | undefined;
   /** The total size of all files in the read-only layers from the image that the container uses. These layers can be shared between containers. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRootFs?: number | null;
+  SizeRootFs?: number | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ContainerSummaryLabelsMap;
+  Labels?: ContainerSummaryLabelsMap | undefined;
   /** The state of this container. */
-  State?: ContainerSummaryState;
+  State?: ContainerSummaryState | undefined;
   /** Additional human-readable status of this container (e.g. `Exit 0`) */
-  Status?: string;
+  Status?: string | undefined;
   /** Summary of host-specific runtime information of the container. This is a reduced set of information in the container's "HostConfig" as available in the container "inspect" response. */
-  HostConfig?: ContainerSummaryHostConfig;
+  HostConfig?: ContainerSummaryHostConfig | undefined;
   /** Summary of the container's network settings */
-  NetworkSettings?: ContainerSummaryNetworkSettings;
+  NetworkSettings?: ContainerSummaryNetworkSettings | undefined;
   /** List of mounts used by the container. */
-  Mounts?: ContainerSummaryMountsList;
+  Mounts?: ContainerSummaryMountsList | undefined;
   /** Summary of health status Added in v1.52, before that version all container summary not include Health. After this attribute introduced, it includes containers with no health checks configured, or containers that are not running with none */
-  Health?: ContainerSummaryHealth;
+  Health?: ContainerSummaryHealth | undefined;
 }
 export type ListContainerResponseBodyList = Array<ContainerSummary>;
 export type ListContainerResponse = ListContainerResponseBodyList;
 export interface ListImageRequest {
   /** Show all images. Only images from a final layer (no children) are shown by default. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters: - `before`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`) - `dangling=true` - `label=key` or `label="key=value"` of an image label - `reference`=(`<image-name>[:<tag>]`) - `since`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`) - `until=<timestamp>` */
-  filters?: string;
+  filters?: string | undefined;
   /** Compute and show shared size as a `SharedSize` field on each image. */
-  shared_size?: boolean;
+  shared_size?: boolean | undefined;
   /** Show digest information as a `RepoDigests` field on each image. */
-  digests?: boolean;
+  digests?: boolean | undefined;
   /** Include `Manifests` in the image summary. */
-  manifests?: boolean;
+  manifests?: boolean | undefined;
   /** Include `Identity` in each manifest summary. Requires `manifests=1`. */
-  identity?: boolean;
+  identity?: boolean | undefined;
 }
 /** List of image names/tags in the local image cache that reference this image. Multiple image tags can refer to the same image, and this list may be empty if no tags reference the image, in which case the image is "untagged", in which case it can still be referenced by its ID. */
 export type ImageSummaryRepoTagsList = Array<string>;
@@ -2866,15 +2892,15 @@ export interface ImageSummary {
   /** Number of containers using this image. Includes both stopped and running containers. `-1` indicates that the value has not been set / calculated. */
   Containers: number;
   /** Manifests is a list of manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Manifests?: ImageSummaryManifestsList;
+  Manifests?: ImageSummaryManifestsList | undefined;
   /** Descriptor is an OCI descriptor of the image target. In case of a multi-platform image, this descriptor points to the OCI index or a manifest list. This field is only present if the daemon provides a multi-platform image store. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Descriptor?: OCIDescriptor | null;
+  Descriptor?: OCIDescriptor | null | undefined;
 }
 export type ListImageResponseBodyList = Array<ImageSummary>;
 export type ListImageResponse = ListImageResponseBodyList;
 export interface ListNetworkRequest {
   /** JSON encoded value of the filters (a `map[string][]string`) to process on the networks list. Available filters: - `dangling=<boolean>` When set to `true` (or `1`), returns all networks that are not in use by a container. When set to `false` (or `0`), only networks that are in use by one or more containers are returned. - `driver=<driver-name>` Matches a network's driver. - `id=<network-id>` Matches all or part of a network ID. - `label=<key>` or `label=<key>=<value>` of a network label. - `name=<network-name>` Matches all or part of a network name. - `scope=["swarm"|"global"|"local"]` Filters networks by scope (`swarm`, `global`, or `local`). - `type=["custom"|"builtin"]` Filters networks by type. The `custom` keyword returns all user-defined networks. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Network-specific options uses when creating the network. */
 export type NetworkOptionsMap = { [key: string]: string | undefined };
@@ -2883,50 +2909,50 @@ export type NetworkLabelsMap = { [key: string]: string | undefined };
 /** represents one peer of an overlay network. */
 export interface PeerInfo {
   /** ID of the peer-node in the Swarm cluster. */
-  Name?: string;
+  Name?: string | undefined;
   /** IP-address of the peer-node in the Swarm cluster. */
-  IP?: string;
+  IP?: string | undefined;
 }
 /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
 export type NetworkPeersList = Array<PeerInfo>;
 export interface Network {
   /** Name of the network. */
-  Name?: string;
+  Name?: string | undefined;
   /** ID that uniquely identifies a network on a single machine. */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the network was created in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string;
+  Created?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level) */
-  Scope?: string;
+  Scope?: string | undefined;
   /** The name of the driver used to create the network (e.g. `bridge`, `overlay`). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Whether the network was created with IPv4 enabled. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Whether the network was created with IPv6 enabled. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** The network's IP Address Management. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Whether the network is created to only allow internal networking connectivity. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Whether a global / swarm scope network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Whether the network is providing the routing-mesh for the swarm cluster. */
-  Ingress?: boolean;
-  ConfigFrom?: ConfigReference;
+  Ingress?: boolean | undefined;
+  ConfigFrom?: ConfigReference | undefined;
   /** Whether the network is a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Network-specific options uses when creating the network. */
-  Options?: NetworkOptionsMap;
+  Options?: NetworkOptionsMap | undefined;
   /** Metadata specific to the network being created. */
-  Labels?: NetworkLabelsMap;
+  Labels?: NetworkLabelsMap | undefined;
   /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
-  Peers?: NetworkPeersList;
+  Peers?: NetworkPeersList | undefined;
 }
 export type ListNetworkResponseBodyList = Array<Network>;
 export type ListNetworkResponse = ListNetworkResponseBodyList;
 export interface ListNodeRequest {
   /** Filters to process on the nodes list, encoded as JSON (a `map[string][]string`). Available filters: - `id=<node id>` - `label=<engine label>` - `membership=`(`accepted`|`pending`)` - `name=<node name>` - `node.label=<node label>` - `role=`(`manager`|`worker`)` */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type NodeSpecLabelsMap = { [key: string]: string | undefined };
@@ -2936,113 +2962,113 @@ export type NodeSpecRole = "worker" | "manager";
 export type NodeSpecAvailability = "active" | "pause" | "drain";
 export interface NodeSpec {
   /** Name for the node. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: NodeSpecLabelsMap;
+  Labels?: NodeSpecLabelsMap | undefined;
   /** Role of the node. */
-  Role?: NodeSpecRole;
+  Role?: NodeSpecRole | undefined;
   /** Availability of the node. */
-  Availability?: NodeSpecAvailability;
+  Availability?: NodeSpecAvailability | undefined;
 }
 export type EngineDescriptionLabelsMap = { [key: string]: string | undefined };
 export interface EngineDescriptionPluginsItem {
-  Type?: string;
-  Name?: string;
+  Type?: string | undefined;
+  Name?: string | undefined;
 }
 export type EngineDescriptionPluginsList = Array<EngineDescriptionPluginsItem>;
 /** EngineDescription provides information about an engine. */
 export interface EngineDescription {
-  EngineVersion?: string;
-  Labels?: EngineDescriptionLabelsMap;
-  Plugins?: EngineDescriptionPluginsList;
+  EngineVersion?: string | undefined;
+  Labels?: EngineDescriptionLabelsMap | undefined;
+  Plugins?: EngineDescriptionPluginsList | undefined;
 }
 /** Information about the issuer of leaf TLS certificates and the trusted root CA certificate. */
 export interface TLSInfo {
   /** The root CA certificate(s) that are used to validate leaf TLS certificates. */
-  TrustRoot?: string;
+  TrustRoot?: string | undefined;
   /** The base64-url-safe-encoded raw subject bytes of the issuer. */
-  CertIssuerSubject?: string;
+  CertIssuerSubject?: string | undefined;
   /** The base64-url-safe-encoded raw public key bytes of the issuer. */
-  CertIssuerPublicKey?: string;
+  CertIssuerPublicKey?: string | undefined;
 }
 /** NodeDescription encapsulates the properties of the Node as reported by the agent. */
 export interface NodeDescription {
-  Hostname?: string;
-  Platform?: Platform;
-  Resources?: ResourceObject;
-  Engine?: EngineDescription;
-  TLSInfo?: TLSInfo;
+  Hostname?: string | undefined;
+  Platform?: Platform | undefined;
+  Resources?: ResourceObject | undefined;
+  Engine?: EngineDescription | undefined;
+  TLSInfo?: TLSInfo | undefined;
 }
 /** NodeState represents the state of a node. */
 export type NodeState = "unknown" | "down" | "ready" | "disconnected";
 /** NodeStatus represents the status of a node. It provides the current status of the node, as seen by the manager. */
 export interface NodeStatus {
-  State?: NodeState;
-  Message?: string;
+  State?: NodeState | undefined;
+  Message?: string | undefined;
   /** IP address of the node. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 /** Reachability represents the reachability of a node. */
 export type Reachability = "unknown" | "unreachable" | "reachable";
 /** ManagerStatus represents the status of a manager. It provides the current status of a node's manager component, if the node is a manager. */
 export interface ManagerStatus {
-  Leader?: boolean;
-  Reachability?: Reachability;
+  Leader?: boolean | undefined;
+  Reachability?: Reachability | undefined;
   /** The IP address and port at which the manager is reachable. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 export interface Node {
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the node was added to the swarm in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the node was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: NodeSpec;
-  Description?: NodeDescription;
-  Status?: NodeStatus;
-  ManagerStatus?: ManagerStatus | null;
+  UpdatedAt?: string | undefined;
+  Spec?: NodeSpec | undefined;
+  Description?: NodeDescription | undefined;
+  Status?: NodeStatus | undefined;
+  ManagerStatus?: ManagerStatus | null | undefined;
 }
 export type ListNodeResponseBodyList = Array<Node>;
 export type ListNodeResponse = ListNodeResponseBodyList;
 export interface ListPluginRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the plugin list. Available filters: - `capability=<capability name>` - `enable=<true>|<false>` */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type ListPluginResponseBodyList = Array<Plugin>;
 export type ListPluginResponse = ListPluginResponseBodyList;
 export interface ListSecretRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the secrets list. Available filters: - `id=<secret id>` - `label=<key> or label=<key>=value` - `name=<secret name>` matches all or part of a secret name (prefix match) - `names=<secret name>` matches a secret name (exact match) */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type SecretSpecLabelsMap = { [key: string]: string | undefined };
 export interface SecretSpec {
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: SecretSpecLabelsMap;
+  Labels?: SecretSpecLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface Secret {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: SecretSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: SecretSpec | undefined;
 }
 export type ListSecretResponseBodyList = Array<Secret>;
 export type ListSecretResponse = ListSecretResponseBodyList;
 export interface ListServiceRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the services list. Available filters: - `id=<service id>` - `label=<service label>` - `mode=["replicated"|"global"]` - `name=<service name>` */
-  filters?: string;
+  filters?: string | undefined;
   /** Include service status, with count of running and desired tasks. */
-  status?: boolean;
+  status?: boolean | undefined;
 }
 /** User-defined key/value metadata. */
 export type ServiceSpecLabelsMap = { [key: string]: string | undefined };
@@ -3058,17 +3084,17 @@ export type ServiceSpecUpdateConfigOrder = "stop-first" | "start-first";
 /** Specification for the update strategy of the service. */
 export interface ServiceSpecUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: ServiceSpecUpdateConfigFailureAction;
+  FailureAction?: ServiceSpecUpdateConfigFailureAction | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: ServiceSpecUpdateConfigOrder;
+  Order?: ServiceSpecUpdateConfigOrder | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type ServiceSpecRollbackConfigFailureAction = "continue" | "pause";
@@ -3077,91 +3103,91 @@ export type ServiceSpecRollbackConfigOrder = "stop-first" | "start-first";
 /** Specification for the rollback strategy of the service. */
 export interface ServiceSpecRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: ServiceSpecRollbackConfigFailureAction;
+  FailureAction?: ServiceSpecRollbackConfigFailureAction | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: ServiceSpecRollbackConfigOrder;
+  Order?: ServiceSpecRollbackConfigOrder | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type ServiceSpecNetworksList = Array<NetworkAttachmentConfig>;
 /** User modifiable configuration for a service. */
 export interface ServiceSpec {
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ServiceSpecLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: ServiceSpecLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: ServiceSpecUpdateConfig;
+  UpdateConfig?: ServiceSpecUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: ServiceSpecRollbackConfig;
+  RollbackConfig?: ServiceSpecRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: ServiceSpecNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: ServiceSpecNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 export type ServiceEndpointPortsList = Array<EndpointPortConfig>;
 export interface ServiceEndpointVirtualIPsItem {
-  NetworkID?: string;
-  Addr?: string;
+  NetworkID?: string | undefined;
+  Addr?: string | undefined;
 }
 export type ServiceEndpointVirtualIPsList = Array<ServiceEndpointVirtualIPsItem>;
 export interface ServiceEndpoint {
-  Spec?: EndpointSpec;
-  Ports?: ServiceEndpointPortsList;
-  VirtualIPs?: ServiceEndpointVirtualIPsList;
+  Spec?: EndpointSpec | undefined;
+  Ports?: ServiceEndpointPortsList | undefined;
+  VirtualIPs?: ServiceEndpointVirtualIPsList | undefined;
 }
 export type ServiceUpdateStatusState = "updating" | "paused" | "completed";
 /** The status of a service update. */
 export interface ServiceUpdateStatus {
-  State?: ServiceUpdateStatusState;
-  StartedAt?: string;
-  CompletedAt?: string;
-  Message?: string;
+  State?: ServiceUpdateStatusState | undefined;
+  StartedAt?: string | undefined;
+  CompletedAt?: string | undefined;
+  Message?: string | undefined;
 }
 /** The status of the service's tasks. Provided only when requested as part of a ServiceList operation. */
 export interface ServiceServiceStatus {
   /** The number of tasks for the service currently in the Running state. */
-  RunningTasks?: number;
+  RunningTasks?: number | undefined;
   /** The number of tasks for the service desired to be running. For replicated services, this is the replica count from the service spec. For global services, this is computed by taking count of all tasks for the service with a Desired State other than Shutdown. */
-  DesiredTasks?: number;
+  DesiredTasks?: number | undefined;
   /** The number of tasks for a job that are in the Completed state. This field must be cross-referenced with the service type, as the value of 0 may mean the service is not in a job mode, or it may mean the job-mode service has no tasks yet Completed. */
-  CompletedTasks?: number;
+  CompletedTasks?: number | undefined;
 }
 /** The status of the service when it is in one of ReplicatedJob or GlobalJob modes. Absent on Replicated and Global mode services. The JobIteration is an ObjectVersion, but unlike the Service's version, does not need to be sent with an update request. */
 export interface ServiceJobStatus {
   /** JobIteration is a value increased each time a Job is executed, successfully or otherwise. "Executed", in this case, means the job as a whole has been started, not that an individual Task has been launched. A job is "Executed" when its ServiceSpec is updated. JobIteration can be used to disambiguate Tasks belonging to different executions of a job. Though JobIteration will increase with each subsequent execution, it may not necessarily increase by 1, and so JobIteration should not be used to */
-  JobIteration?: ObjectVersion;
+  JobIteration?: ObjectVersion | undefined;
   /** The last time, as observed by the server, that this job was started. */
-  LastExecution?: string;
+  LastExecution?: string | undefined;
 }
 export interface Service {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ServiceSpec;
-  Endpoint?: ServiceEndpoint;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ServiceSpec | undefined;
+  Endpoint?: ServiceEndpoint | undefined;
   /** The status of a service update. */
-  UpdateStatus?: ServiceUpdateStatus;
+  UpdateStatus?: ServiceUpdateStatus | undefined;
   /** The status of the service's tasks. Provided only when requested as part of a ServiceList operation. */
-  ServiceStatus?: ServiceServiceStatus;
+  ServiceStatus?: ServiceServiceStatus | undefined;
   /** The status of the service when it is in one of ReplicatedJob or GlobalJob modes. Absent on Replicated and Global mode services. The JobIteration is an ObjectVersion, but unlike the Service's version, does not need to be sent with an update request. */
-  JobStatus?: ServiceJobStatus;
+  JobStatus?: ServiceJobStatus | undefined;
 }
 export type ListServiceResponseBodyList = Array<Service>;
 export type ListServiceResponse = ListServiceResponseBodyList;
 export interface ListTaskRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the tasks list. Available filters: - `desired-state=(running | shutdown | accepted)` - `id=<task id>` - `label=key` or `label="key=value"` - `name=<task name>` - `node=<node id or name>` - `service=<service name>` */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type TaskLabelsMap = { [key: string]: string | undefined };
@@ -3183,63 +3209,63 @@ export type TaskState =
   | "orphaned";
 /** represents the status of a container. */
 export interface ContainerStatus {
-  ContainerID?: string;
-  PID?: number;
-  ExitCode?: number;
+  ContainerID?: string | undefined;
+  PID?: number | undefined;
+  ExitCode?: number | undefined;
 }
 export type PortStatusPortsList = Array<EndpointPortConfig>;
 /** represents the port status of a task's host ports whose service has published host ports */
 export interface PortStatus {
-  Ports?: PortStatusPortsList;
+  Ports?: PortStatusPortsList | undefined;
 }
 /** represents the status of a task. */
 export interface TaskStatus {
-  Timestamp?: string;
-  State?: TaskState;
-  Message?: string;
-  Err?: string;
-  ContainerStatus?: ContainerStatus;
-  PortStatus?: PortStatus;
+  Timestamp?: string | undefined;
+  State?: TaskState | undefined;
+  Message?: string | undefined;
+  Err?: string | undefined;
+  ContainerStatus?: ContainerStatus | undefined;
+  PortStatus?: PortStatus | undefined;
 }
 /** The IP addresses (in CIDR notation) assigned to the task on this network. To maintain backward compatibility this field accepts CIDR notation, but only the IP address is used. */
 export type NetworkAttachmentAddressesList = Array<string>;
 /** Specifies how a task is attached to a network, and the addresses the task was assigned on that network. */
 export interface NetworkAttachment {
-  Network?: Network;
+  Network?: Network | undefined;
   /** The IP addresses (in CIDR notation) assigned to the task on this network. To maintain backward compatibility this field accepts CIDR notation, but only the IP address is used. */
-  Addresses?: NetworkAttachmentAddressesList;
+  Addresses?: NetworkAttachmentAddressesList | undefined;
 }
 /** The networks that this task is attached to, and the addresses the task was assigned on each of them. */
 export type TaskNetworksAttachmentsList = Array<NetworkAttachment>;
 export interface Task {
   /** The ID of the task. */
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
   /** Name of the task. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: TaskLabelsMap;
-  Spec?: TaskSpec;
+  Labels?: TaskLabelsMap | undefined;
+  Spec?: TaskSpec | undefined;
   /** The ID of the service this task is part of. */
-  ServiceID?: string;
-  Slot?: number;
+  ServiceID?: string | undefined;
+  Slot?: number | undefined;
   /** The ID of the node that this task is on. */
-  NodeID?: string;
-  AssignedGenericResources?: GenericResources;
-  Status?: TaskStatus;
-  DesiredState?: TaskState;
+  NodeID?: string | undefined;
+  AssignedGenericResources?: GenericResources | undefined;
+  Status?: TaskStatus | undefined;
+  DesiredState?: TaskState | undefined;
   /** If the Service this Task belongs to is a job-mode service, contains the JobIteration of the Service this Task was created for. Absent if the Task was created for a Replicated or Global Service. */
-  JobIteration?: ObjectVersion;
+  JobIteration?: ObjectVersion | undefined;
   /** The networks that this task is attached to, and the addresses the task was assigned on each of them. */
-  NetworksAttachments?: TaskNetworksAttachmentsList;
+  NetworksAttachments?: TaskNetworksAttachmentsList | undefined;
 }
 export type ListTaskResponseBodyList = Array<Task>;
 export type ListTaskResponse = ListTaskResponseBodyList;
 export interface ListVolumeRequest {
   /** JSON encoded value of the filters (a `map[string][]string`) to process on the volumes list. Available filters: - `dangling=<boolean>` When set to `true` (or `1`), returns all volumes that are not in use by a container. When set to `false` (or `0`), only volumes that are in use by one or more containers are returned. - `driver=<volume-driver-name>` Matches volumes based on their driver. - `label=<key>` or `label=<key>:<value>` Matches volumes based on the presence of a `label` alone or a `label` and a value. - `name=<volume-name>` Matches all or part of a volume name. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** List of volumes */
 export type VolumeListResponseVolumesList = Array<Volume>;
@@ -3248,17 +3274,17 @@ export type VolumeListResponseWarningsList = Array<string>;
 /** Volume list response */
 export interface VolumeListResponse {
   /** List of volumes */
-  Volumes?: VolumeListResponseVolumesList;
+  Volumes?: VolumeListResponseVolumesList | undefined;
   /** Warnings that occurred when fetching the list of volumes. */
-  Warnings?: VolumeListResponseWarningsList;
+  Warnings?: VolumeListResponseWarningsList | undefined;
 }
 export interface NetworkInspectRequest {
   /** Network ID or name */
   id: string;
   /** Detailed inspect output for troubleshooting */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** Filter the network by scope (swarm, global, or local) */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Network-specific options uses when creating the network. */
 export type NetworkInspectResponseOptionsMap = { [key: string]: string | undefined };
@@ -3268,11 +3294,11 @@ export type NetworkInspectResponseLabelsMap = { [key: string]: string | undefine
 export type NetworkInspectResponsePeersList = Array<PeerInfo>;
 /** contains network resources allocated and used for a container in a network. */
 export interface EndpointResource {
-  Name?: string;
-  EndpointID?: string;
-  MacAddress?: string;
-  IPv4Address?: string;
-  IPv6Address?: string;
+  Name?: string | undefined;
+  EndpointID?: string | undefined;
+  MacAddress?: string | undefined;
+  IPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
 }
 /** Contains endpoints attached to the network. */
 export type NetworkInspectResponseContainersMap = { [key: string]: EndpointResource | undefined };
@@ -3280,66 +3306,66 @@ export type NetworkInspectResponseContainersMap = { [key: string]: EndpointResou
 export type NetworkInspectResponseServicesMap = { [key: string]: unknown | undefined };
 export interface SubnetStatus {
   /** Number of IP addresses in the subnet that are in use or reserved and are therefore unavailable for allocation, saturating at 2<sup>64</sup> - 1. */
-  IPsInUse?: number;
+  IPsInUse?: number | undefined;
   /** Number of IP addresses within the network's IPRange for the subnet that are available for allocation, saturating at 2<sup>64</sup> - 1. */
-  DynamicIPsAvailable?: number;
+  DynamicIPsAvailable?: number | undefined;
 }
 export type IPAMStatusSubnetsMap = { [key: string]: SubnetStatus | undefined };
 export interface IPAMStatus {
-  Subnets?: IPAMStatusSubnetsMap;
+  Subnets?: IPAMStatusSubnetsMap | undefined;
 }
 /** provides runtime information about the network such as the number of allocated IPs. */
 export interface NetworkStatus {
-  IPAM?: IPAMStatus;
+  IPAM?: IPAMStatus | undefined;
 }
 export interface NetworkInspectResponse {
   /** Name of the network. */
-  Name?: string;
+  Name?: string | undefined;
   /** ID that uniquely identifies a network on a single machine. */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the network was created in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string;
+  Created?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level) */
-  Scope?: string;
+  Scope?: string | undefined;
   /** The name of the driver used to create the network (e.g. `bridge`, `overlay`). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Whether the network was created with IPv4 enabled. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Whether the network was created with IPv6 enabled. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** The network's IP Address Management. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Whether the network is created to only allow internal networking connectivity. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Whether a global / swarm scope network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Whether the network is providing the routing-mesh for the swarm cluster. */
-  Ingress?: boolean;
-  ConfigFrom?: ConfigReference;
+  Ingress?: boolean | undefined;
+  ConfigFrom?: ConfigReference | undefined;
   /** Whether the network is a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Network-specific options uses when creating the network. */
-  Options?: NetworkInspectResponseOptionsMap;
+  Options?: NetworkInspectResponseOptionsMap | undefined;
   /** Metadata specific to the network being created. */
-  Labels?: NetworkInspectResponseLabelsMap;
+  Labels?: NetworkInspectResponseLabelsMap | undefined;
   /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
-  Peers?: NetworkInspectResponsePeersList;
+  Peers?: NetworkInspectResponsePeersList | undefined;
   /** Contains endpoints attached to the network. */
-  Containers?: NetworkInspectResponseContainersMap;
+  Containers?: NetworkInspectResponseContainersMap | undefined;
   /** List of services using the network. This field is only present for swarm scope networks, and omitted for local scope networks. */
-  Services?: NetworkInspectResponseServicesMap;
+  Services?: NetworkInspectResponseServicesMap | undefined;
   /** provides runtime information about the network such as the number of allocated IPs. */
-  Status?: NetworkStatus;
+  Status?: NetworkStatus | undefined;
 }
 export interface NetworkPruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `until=<timestamp>` Prune networks created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune networks with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Networks that were deleted */
 export type NetworkPruneResponseNetworksDeletedList = Array<string>;
 export interface NetworkPruneResponse {
   /** Networks that were deleted */
-  NetworksDeleted?: NetworkPruneResponseNetworksDeletedList;
+  NetworksDeleted?: NetworkPruneResponseNetworksDeletedList | undefined;
 }
 export interface NodeInspectRequest {
   /** The ID or name of the node */
@@ -3361,10 +3387,10 @@ export interface PluginPullRequest {
   /** Remote reference for plugin to install. The `:latest` tag is optional, and is used as the default if omitted. */
   remote: string;
   /** Local name for the pulled plugin. The `:latest` tag is optional, and is used as the default if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: PluginPullRequestBodyList;
+  xRegistryAuth?: string | undefined;
+  body?: PluginPullRequestBodyList | undefined;
 }
 export interface PluginPullResponse {}
 export interface PluginPushRequest {
@@ -3379,8 +3405,8 @@ export interface PluginUpgradeRequest {
   /** Remote reference to upgrade to. The `:latest` tag is optional, and is used as the default if omitted. */
   remote: string;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: PluginUpgradeRequestBodyList;
+  xRegistryAuth?: string | undefined;
+  body?: PluginUpgradeRequestBodyList | undefined;
 }
 export interface PluginUpgradeResponse {}
 export interface PutContainerArchiveRequest {
@@ -3389,9 +3415,9 @@ export interface PutContainerArchiveRequest {
   /** Path to a directory in the container to extract the archive's contents into. */
   path: string;
   /** If `1`, `true`, or `True` then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa. */
-  noOverwriteDirNonDir?: string;
+  noOverwriteDirNonDir?: string | undefined;
   /** If `1`, `true`, then it will copy UID/GID maps to the dest file or dir */
-  copyUIDGID?: string;
+  copyUIDGID?: string | undefined;
   body: string;
 }
 export interface PutContainerArchiveResponse {}
@@ -3415,26 +3441,26 @@ export interface RestartContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
   /** Number of seconds to wait before killing the container */
-  t?: number;
+  t?: number | undefined;
 }
 export interface RestartContainerResponse {}
 export interface SearchImageRequest {
   /** Term to search */
   term: string;
   /** Maximum number of results to return */
-  limit?: number;
+  limit?: number | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters: - `is-official=(true|false)` - `stars=<number>` Matches images that has at least 'number' stars. */
-  filters?: string;
+  filters?: string | undefined;
 }
 export interface SearchImageResponseBodyItem {
-  description?: string;
-  is_official?: boolean;
+  description?: string | undefined;
+  is_official?: boolean | undefined;
   /** Whether this repository has automated builds enabled. <p><br /></p> > **Deprecated**: This field is deprecated and will always be "false". */
-  is_automated?: boolean;
-  name?: string;
-  star_count?: number;
+  is_automated?: boolean | undefined;
+  name?: string | undefined;
+  star_count?: number | undefined;
 }
 export type SearchImageResponseBodyList = Array<SearchImageResponseBodyItem>;
 export type SearchImageResponse = SearchImageResponseBodyList;
@@ -3446,25 +3472,25 @@ export interface ServiceInspectRequest {
   /** ID or name of service. */
   id: string;
   /** Fill empty fields with default values. */
-  insertDefaults?: boolean;
+  insertDefaults?: boolean | undefined;
 }
 export interface ServiceLogsRequest {
   /** ID or name of the service */
   id: string;
   /** Show service context and extra details provided to logs. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type ServiceLogsResponse = string;
 export interface SessionRequest {}
@@ -3473,23 +3499,23 @@ export type SetPluginRequestBodyList = Array<string>;
 export interface SetPluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
-  body?: SetPluginRequestBodyList;
+  body?: SetPluginRequestBodyList | undefined;
 }
 export interface SetPluginResponse {}
 export interface StartContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
 }
 export interface StartContainerResponse {}
 export interface StopContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
   /** Number of seconds to wait before killing the container */
-  t?: number;
+  t?: number | undefined;
 }
 export interface StopContainerResponse {}
 /** Default Address Pool specifies default subnet pools for global scope networks. */
@@ -3499,25 +3525,25 @@ export type SwarmSpecLabelsMap = { [key: string]: string | undefined };
 /** Orchestration configuration. */
 export interface SwarmSpecOrchestration {
   /** The number of historic tasks to keep per instance or node. If negative, never remove completed or failed tasks. */
-  TaskHistoryRetentionLimit?: number;
+  TaskHistoryRetentionLimit?: number | undefined;
 }
 /** Raft configuration. */
 export interface SwarmSpecRaft {
   /** The number of log entries between snapshots. */
-  SnapshotInterval?: number;
+  SnapshotInterval?: number | undefined;
   /** The number of snapshots to keep beyond the current snapshot. */
-  KeepOldSnapshots?: number;
+  KeepOldSnapshots?: number | undefined;
   /** The number of log entries to keep around to sync up slow followers after a snapshot is created. */
-  LogEntriesForSlowFollowers?: number;
+  LogEntriesForSlowFollowers?: number | undefined;
   /** The number of ticks that a follower will wait for a message from the leader before becoming a candidate and starting an election. `ElectionTick` must be greater than `HeartbeatTick`. A tick currently defaults to one second, so these translate directly to seconds currently, but this is NOT guaranteed. */
-  ElectionTick?: number;
+  ElectionTick?: number | undefined;
   /** The number of ticks between heartbeats. Every HeartbeatTick ticks, the leader will send a heartbeat to the followers. A tick currently defaults to one second, so these translate directly to seconds currently, but this is NOT guaranteed. */
-  HeartbeatTick?: number;
+  HeartbeatTick?: number | undefined;
 }
 /** Dispatcher configuration. */
 export interface SwarmSpecDispatcher {
   /** The delay for an agent to send a heartbeat to the dispatcher. */
-  HeartbeatPeriod?: number;
+  HeartbeatPeriod?: number | undefined;
 }
 /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
 export type SwarmSpecCAConfigExternalCAsItemProtocol = "cfssl";
@@ -3525,83 +3551,83 @@ export type SwarmSpecCAConfigExternalCAsItemProtocol = "cfssl";
 export type SwarmSpecCAConfigExternalCAsItemOptionsMap = { [key: string]: string | undefined };
 export interface SwarmSpecCAConfigExternalCAsItem {
   /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
-  Protocol?: SwarmSpecCAConfigExternalCAsItemProtocol | (string & {});
+  Protocol?: SwarmSpecCAConfigExternalCAsItemProtocol | (string & {}) | undefined;
   /** URL where certificate signing requests should be sent. */
-  URL?: string;
+  URL?: string | undefined;
   /** An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver. */
-  Options?: SwarmSpecCAConfigExternalCAsItemOptionsMap;
+  Options?: SwarmSpecCAConfigExternalCAsItemOptionsMap | undefined;
   /** The root CA certificate (in PEM format) this external CA uses to issue TLS certificates (assumed to be to the current swarm root CA certificate if not provided). */
-  CACert?: string;
+  CACert?: string | undefined;
 }
 /** Configuration for forwarding signing requests to an external certificate authority. */
 export type SwarmSpecCAConfigExternalCAsList = Array<SwarmSpecCAConfigExternalCAsItem>;
 /** CA configuration. */
 export interface SwarmSpecCAConfig {
   /** The duration node certificates are issued for. */
-  NodeCertExpiry?: number;
+  NodeCertExpiry?: number | undefined;
   /** Configuration for forwarding signing requests to an external certificate authority. */
-  ExternalCAs?: SwarmSpecCAConfigExternalCAsList;
+  ExternalCAs?: SwarmSpecCAConfigExternalCAsList | undefined;
   /** The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCACert?: string;
+  SigningCACert?: string | undefined;
   /** The desired signing CA key for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCAKey?: string;
+  SigningCAKey?: string | undefined;
   /** An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey` */
-  ForceRotate?: number;
+  ForceRotate?: number | undefined;
 }
 /** Parameters related to encryption-at-rest. */
 export interface SwarmSpecEncryptionConfig {
   /** If set, generate a key and use it to lock data stored on the managers. */
-  AutoLockManagers?: boolean;
+  AutoLockManagers?: boolean | undefined;
 }
 /** Driver-specific options for the selected log driver, specified as key/value pairs. */
 export type SwarmSpecTaskDefaultsLogDriverOptionsMap = { [key: string]: string | undefined };
 /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
 export interface SwarmSpecTaskDefaultsLogDriver {
   /** The log driver to use as a default for new tasks. */
-  Name?: string;
+  Name?: string | undefined;
   /** Driver-specific options for the selected log driver, specified as key/value pairs. */
-  Options?: SwarmSpecTaskDefaultsLogDriverOptionsMap;
+  Options?: SwarmSpecTaskDefaultsLogDriverOptionsMap | undefined;
 }
 /** Defaults for creating tasks in this cluster. */
 export interface SwarmSpecTaskDefaults {
   /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
-  LogDriver?: SwarmSpecTaskDefaultsLogDriver;
+  LogDriver?: SwarmSpecTaskDefaultsLogDriver | undefined;
 }
 /** User modifiable swarm configuration. */
 export interface SwarmSpec {
   /** Name of the swarm. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: SwarmSpecLabelsMap;
+  Labels?: SwarmSpecLabelsMap | undefined;
   /** Orchestration configuration. */
-  Orchestration?: SwarmSpecOrchestration | null;
+  Orchestration?: SwarmSpecOrchestration | null | undefined;
   /** Raft configuration. */
-  Raft?: SwarmSpecRaft;
+  Raft?: SwarmSpecRaft | undefined;
   /** Dispatcher configuration. */
-  Dispatcher?: SwarmSpecDispatcher | null;
+  Dispatcher?: SwarmSpecDispatcher | null | undefined;
   /** CA configuration. */
-  CAConfig?: SwarmSpecCAConfig | null;
+  CAConfig?: SwarmSpecCAConfig | null | undefined;
   /** Parameters related to encryption-at-rest. */
-  EncryptionConfig?: SwarmSpecEncryptionConfig;
+  EncryptionConfig?: SwarmSpecEncryptionConfig | undefined;
   /** Defaults for creating tasks in this cluster. */
-  TaskDefaults?: SwarmSpecTaskDefaults;
+  TaskDefaults?: SwarmSpecTaskDefaults | undefined;
 }
 export interface SwarmInitRequest {
   /** Listen address used for inter-manager communication, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the default swarm listening port is used. */
-  ListenAddr?: string;
+  ListenAddr?: string | undefined;
   /** Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible. */
-  AdvertiseAddr?: string;
+  AdvertiseAddr?: string | undefined;
   /** Address or interface to use for data path traffic (format: `<ip|interface>`), for example, `192.168.1.1`, or an interface, like `eth0`. If `DataPathAddr` is unspecified, the same address as `AdvertiseAddr` is used. The `DataPathAddr` specifies the address that global scope network drivers will publish towards other nodes in order to reach the containers running on this node. Using this parameter it is possible to separate the container data traffic from the management traffic of the cluster. */
-  DataPathAddr?: string;
+  DataPathAddr?: string | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. if no port is set or is set to 0, default port 4789 will be used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: SwarmInitRequestDefaultAddrPoolList;
+  DefaultAddrPool?: SwarmInitRequestDefaultAddrPoolList | undefined;
   /** Force creation of a new swarm. */
-  ForceNewCluster?: boolean;
+  ForceNewCluster?: boolean | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
-  Spec?: SwarmSpec;
+  SubnetSize?: number | undefined;
+  Spec?: SwarmSpec | undefined;
 }
 export type SwarmInitResponse = string;
 export interface SwarmInspectRequest {}
@@ -3610,128 +3636,128 @@ export type SwarmInspectResponseDefaultAddrPoolList = Array<string>;
 /** JoinTokens contains the tokens workers and managers need to join the swarm. */
 export interface JoinTokens {
   /** The token workers can use to join the swarm. */
-  Worker?: string;
+  Worker?: string | undefined;
   /** The token managers can use to join the swarm. */
-  Manager?: string;
+  Manager?: string | undefined;
 }
 export interface SwarmInspectResponse {
   /** The ID of the swarm. */
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the swarm was initialised in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the swarm was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: SwarmSpec;
-  TLSInfo?: TLSInfo;
+  UpdatedAt?: string | undefined;
+  Spec?: SwarmSpec | undefined;
+  TLSInfo?: TLSInfo | undefined;
   /** Whether there is currently a root CA rotation in progress for the swarm */
-  RootRotationInProgress?: boolean;
+  RootRotationInProgress?: boolean | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. If no port is set or is set to 0, the default port (4789) is used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: SwarmInspectResponseDefaultAddrPoolList;
+  DefaultAddrPool?: SwarmInspectResponseDefaultAddrPoolList | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
-  JoinTokens?: JoinTokens;
+  SubnetSize?: number | undefined;
+  JoinTokens?: JoinTokens | undefined;
 }
 export interface SwarmUnlockkeyRequest {}
 export interface SwarmUnlockkeyResponse {
   /** The swarm's unlock key. */
-  UnlockKey?: string;
+  UnlockKey?: string | undefined;
 }
 export interface SystemAuthRequest {
-  username?: string;
-  password?: string | Redacted.Redacted<string>;
-  serveraddress?: string;
+  username?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  serveraddress?: string | undefined;
 }
 /** An identity token was generated successfully. */
 export interface AuthResponse {
   /** The status of the authentication */
   Status: string;
   /** An opaque token used to authenticate a user after a successful login */
-  IdentityToken?: string;
+  IdentityToken?: string | undefined;
 }
 export type SystemDataUsageRequestTypeItem = "container" | "image" | "volume" | "build-cache";
 export type SystemDataUsageRequestTypeList = Array<SystemDataUsageRequestTypeItem | (string & {})>;
 export interface SystemDataUsageRequest {
   /** Object types, for which to compute and return data. */
-  type?: SystemDataUsageRequestTypeList;
+  type?: SystemDataUsageRequestTypeList | undefined;
   /** Show detailed information on space usage. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
 }
 /** List of image summaries. */
 export type ImagesDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for image resources. */
 export interface ImagesDiskUsage {
   /** Count of active images. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all images. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing unused images. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by images. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of image summaries. */
-  Items?: ImagesDiskUsageItemsList;
+  Items?: ImagesDiskUsageItemsList | undefined;
 }
 /** List of container summaries. */
 export type ContainersDiskUsageItemsList = Array<unknown>;
 /** represents system data usage information for container resources. */
 export interface ContainersDiskUsage {
   /** Count of active containers. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all containers. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive containers. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by containers. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of container summaries. */
-  Items?: ContainersDiskUsageItemsList;
+  Items?: ContainersDiskUsageItemsList | undefined;
 }
 /** List of volumes. */
 export type VolumesDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for volume resources. */
 export interface VolumesDiskUsage {
   /** Count of active volumes. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all volumes. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive volumes. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by volumes. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of volumes. */
-  Items?: VolumesDiskUsageItemsList;
+  Items?: VolumesDiskUsageItemsList | undefined;
 }
 /** List of build cache records. */
 export type BuildCacheDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for build cache resources. */
 export interface BuildCacheDiskUsage {
   /** Count of active build cache records. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all build cache records. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive build cache records. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by build cache records. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of build cache records. */
-  Items?: BuildCacheDiskUsageItemsList;
+  Items?: BuildCacheDiskUsageItemsList | undefined;
 }
 export interface SystemDataUsageResponse {
-  ImageUsage?: ImagesDiskUsage;
-  ContainerUsage?: ContainersDiskUsage;
-  VolumeUsage?: VolumesDiskUsage;
-  BuildCacheUsage?: BuildCacheDiskUsage;
+  ImageUsage?: ImagesDiskUsage | undefined;
+  ContainerUsage?: ContainersDiskUsage | undefined;
+  VolumeUsage?: VolumesDiskUsage | undefined;
+  BuildCacheUsage?: BuildCacheDiskUsage | undefined;
 }
 export interface SystemEventsRequest {
   /** Show events created since this timestamp then stream new events. */
-  since?: string;
+  since?: string | undefined;
   /** Show events created until this timestamp then stop streaming. */
-  until?: string;
+  until?: string | undefined;
   /** A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters: - `config=<string>` config name or ID - `container=<string>` container name or ID - `daemon=<string>` daemon name or ID - `event=<string>` event type - `image=<string>` image name or ID - `label=<string>` image or container label - `network=<string>` network name or ID - `node=<string>` node ID - `plugin`=<string> plugin name or ID - `scope`=<string> local or swarm - `secret=<string>` secret name or ID - `service=<string>` service name or ID - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config` - `volume=<string>` volume name */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** The type of object emitting the event */
 export type EventMessageType =
@@ -3751,25 +3777,25 @@ export type EventActorAttributesMap = { [key: string]: string | undefined };
 /** Actor describes something that generates events, like a container, network, or a volume. */
 export interface EventActor {
   /** The ID of the object emitting the event */
-  ID?: string;
+  ID?: string | undefined;
   /** Various key/value attributes of the object, depending on its type. */
-  Attributes?: EventActorAttributesMap;
+  Attributes?: EventActorAttributesMap | undefined;
 }
 /** Scope of the event. Engine events are `local` scope. Cluster (Swarm) events are `swarm` scope. */
 export type EventMessageScope = "local" | "swarm";
 /** EventMessage represents the information an event contains. */
 export interface EventMessage {
   /** The type of object emitting the event */
-  Type?: EventMessageType;
+  Type?: EventMessageType | undefined;
   /** The type of event */
-  Action?: string;
-  Actor?: EventActor;
+  Action?: string | undefined;
+  Actor?: EventActor | undefined;
   /** Scope of the event. Engine events are `local` scope. Cluster (Swarm) events are `swarm` scope. */
-  scope?: EventMessageScope;
+  scope?: EventMessageScope | undefined;
   /** Timestamp of event */
-  time?: number;
+  time?: number | undefined;
   /** Timestamp of event, with nanosecond accuracy */
-  timeNano?: number;
+  timeNano?: number | undefined;
 }
 export interface SystemInfo2Request {}
 export type SystemInfoDriverStatusItemList = Array<string>;
@@ -3786,13 +3812,13 @@ export type PluginsInfoLogList = Array<string>;
 /** Available plugins per type. <p><br /></p> > **Note**: Only unmanaged (V1) plugins are included in this list. > V1 plugins are "lazily" loaded, and are not returned in this list > if there is no resource using the plugin. */
 export interface PluginsInfo {
   /** Names of available volume-drivers, and network-driver plugins. */
-  Volume?: PluginsInfoVolumeList;
+  Volume?: PluginsInfoVolumeList | undefined;
   /** Names of available network-drivers, and network-driver plugins. */
-  Network?: PluginsInfoNetworkList;
+  Network?: PluginsInfoNetworkList | undefined;
   /** Names of available authorization plugins. */
-  Authorization?: PluginsInfoAuthorizationList;
+  Authorization?: PluginsInfoAuthorizationList | undefined;
   /** Names of available logging-drivers, and logging-driver plugins. */
-  Log?: PluginsInfoLogList;
+  Log?: PluginsInfoLogList | undefined;
 }
 /** The driver to use for managing cgroups. */
 export type SystemInfoCgroupDriver = "cgroupfs" | "systemd" | "none";
@@ -3805,13 +3831,13 @@ export type IndexInfoMirrorsList = Array<string>;
 /** IndexInfo contains information about a registry. */
 export interface IndexInfo {
   /** Name of the registry, such as "docker.io". */
-  Name?: string;
+  Name?: string | undefined;
   /** List of mirrors, expressed as URIs. */
-  Mirrors?: IndexInfoMirrorsList;
+  Mirrors?: IndexInfoMirrorsList | undefined;
   /** Indicates if the registry is part of the list of insecure registries. If `false`, the registry is insecure. Insecure registries accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates from unknown CAs) communication. > **Warning**: Insecure registries can be useful when running a local > registry. However, because its use creates security vulnerabilities > it should ONLY be enabled for testing purposes. For increased > security, users should add their CA to their system's list of > trusted CAs instead of enabling this option. */
-  Secure?: boolean;
+  Secure?: boolean | undefined;
   /** Indicates whether this is an official registry (i.e., Docker Hub / docker.io) */
-  Official?: boolean;
+  Official?: boolean | undefined;
 }
 export type RegistryServiceConfigIndexConfigsMap = { [key: string]: IndexInfo | null | undefined };
 /** List of registry URLs that act as a mirror for the official (`docker.io`) registry. */
@@ -3819,10 +3845,10 @@ export type RegistryServiceConfigMirrorsList = Array<string>;
 /** RegistryServiceConfig stores daemon registry services configuration. */
 export interface RegistryServiceConfig {
   /** List of IP ranges of insecure registries, using the CIDR syntax ([RFC 4632](https://tools.ietf.org/html/4632)). Insecure registries accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates from unknown CAs) communication. By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as insecure. All other registries are secure. Communicating with an insecure registry is not possible if the daemon assumes that registry is secure. This configuration override this behavior, insecure communication with registries whose resolved IP address is within the subnet described by the CIDR syntax. Registries can also be marked insecure by hostname. Those registries are listed under `IndexConfigs` and have their `Secure` field set to `false`. > **Warning**: Using this option can be useful when running a local > registry, but introduces security vulnerabilities. This option > should therefore ONLY be used for testing purposes. For increased > security, users should add their CA to their system's list of trusted > CAs instead of enabling this option. */
-  InsecureRegistryCIDRs?: RegistryServiceConfigInsecureRegistryCIDRsList;
-  IndexConfigs?: RegistryServiceConfigIndexConfigsMap;
+  InsecureRegistryCIDRs?: RegistryServiceConfigInsecureRegistryCIDRsList | undefined;
+  IndexConfigs?: RegistryServiceConfigIndexConfigsMap | undefined;
   /** List of registry URLs that act as a mirror for the official (`docker.io`) registry. */
-  Mirrors?: RegistryServiceConfigMirrorsList;
+  Mirrors?: RegistryServiceConfigMirrorsList | undefined;
 }
 /** User-defined labels (key/value metadata) as set on the daemon. <p><br /></p> > **Note**: When part of a Swarm, nodes can both have _daemon_ labels, > set through the daemon configuration, and _node_ labels, set from a > manager node in the Swarm. Node labels are not included in this > field. Node labels can be retrieved using the `/nodes/(id)` endpoint > on a manager node in the Swarm. */
 export type SystemInfoLabelsList = Array<string>;
@@ -3833,11 +3859,11 @@ export type RuntimeStatusMap = { [key: string]: string | undefined };
 /** Runtime describes an [OCI compliant](https://github.com/opencontainers/runtime-spec) runtime. The runtime is invoked by the daemon via the `containerd` daemon. OCI runtimes act as an interface to the Linux kernel namespaces, cgroups, and SELinux. */
 export interface Runtime {
   /** Name and, optional, path, of the OCI executable binary. If the path is omitted, the daemon searches the host's `$PATH` for the binary and uses the first result. */
-  path?: string;
+  path?: string | undefined;
   /** List of command-line arguments to pass to the runtime when invoked. */
-  runtimeArgs?: RuntimeRuntimeArgsList | null;
+  runtimeArgs?: RuntimeRuntimeArgsList | null | undefined;
   /** Information specific to the runtime. While this API specification does not define data provided by runtimes, the following well-known properties may be provided by runtimes: `org.opencontainers.runtime-spec.features`: features structure as defined in the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/features.md), in a JSON string representation. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  status?: RuntimeStatusMap | null;
+  status?: RuntimeStatusMap | null | undefined;
 }
 /** List of [OCI compliant](https://github.com/opencontainers/runtime-spec) runtimes configured on the daemon. Keys hold the "name" used to reference the runtime. The Docker daemon relies on an OCI compliant runtime (invoked via the `containerd` daemon) as its interface to the Linux kernel namespaces, cgroups, and SELinux. The default runtime is `runc`, and automatically configured. Additional runtimes can be configured by the user and will be listed here. */
 export type SystemInfoRuntimesMap = { [key: string]: Runtime | undefined };
@@ -3846,9 +3872,9 @@ export type LocalNodeState = "" | "inactive" | "pending" | "active" | "error" | 
 /** Represents a peer-node in the swarm */
 export interface PeerNode {
   /** Unique identifier of for this node in the swarm. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** IP address and ports at which this node can be reached. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 /** List of ID's and addresses of other managers in the swarm. */
 export type SwarmInfoRemoteManagersList = Array<PeerNode>;
@@ -3857,54 +3883,54 @@ export type ClusterInfoDefaultAddrPoolList = Array<string>;
 /** ClusterInfo represents information about the swarm as is returned by the "/info" endpoint. Join-tokens are not included. */
 export interface ClusterInfo {
   /** The ID of the swarm. */
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the swarm was initialised in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the swarm was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: SwarmSpec;
-  TLSInfo?: TLSInfo;
+  UpdatedAt?: string | undefined;
+  Spec?: SwarmSpec | undefined;
+  TLSInfo?: TLSInfo | undefined;
   /** Whether there is currently a root CA rotation in progress for the swarm */
-  RootRotationInProgress?: boolean;
+  RootRotationInProgress?: boolean | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. If no port is set or is set to 0, the default port (4789) is used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: ClusterInfoDefaultAddrPoolList;
+  DefaultAddrPool?: ClusterInfoDefaultAddrPoolList | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
+  SubnetSize?: number | undefined;
 }
 /** Represents generic information about swarm. */
 export interface SwarmInfo {
   /** Unique identifier of for this node in the swarm. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** IP address at which this node can be reached by other nodes in the swarm. */
-  NodeAddr?: string;
-  LocalNodeState?: LocalNodeState;
-  ControlAvailable?: boolean;
-  Error?: string;
+  NodeAddr?: string | undefined;
+  LocalNodeState?: LocalNodeState | undefined;
+  ControlAvailable?: boolean | undefined;
+  Error?: string | undefined;
   /** List of ID's and addresses of other managers in the swarm. */
-  RemoteManagers?: SwarmInfoRemoteManagersList | null;
+  RemoteManagers?: SwarmInfoRemoteManagersList | null | undefined;
   /** Total number of nodes in the swarm. */
-  Nodes?: number | null;
+  Nodes?: number | null | undefined;
   /** Total number of managers in the swarm. */
-  Managers?: number | null;
-  Cluster?: ClusterInfo | null;
+  Managers?: number | null | undefined;
+  Cluster?: ClusterInfo | null | undefined;
 }
 /** Represents the isolation technology to use as a default for containers. The supported values are platform-specific. If no isolation value is specified on daemon start, on Windows client, the default is `hyperv`, and on Windows server, the default is `process`. This option is currently not used on other platforms. */
 export type SystemInfoIsolation = "default" | "hyperv" | "process" | "";
 /** Commit holds the Git-commit (SHA1) that a binary was built from, as reported in the version-string of external tools, such as `containerd`, or `runC`. */
 export interface Commit {
   /** Actual commit ID of external tool. */
-  ID?: string;
+  ID?: string | undefined;
 }
 /** List of security features that are enabled on the daemon, such as apparmor, seccomp, SELinux, user-namespaces (userns), rootless and no-new-privileges. Additional configuration options for each security feature may be present, and are included as a comma-separated list of key/value pairs. */
 export type SystemInfoSecurityOptionsList = Array<string>;
 export interface SystemInfoDefaultAddressPoolsItem {
   /** The network address in CIDR format */
-  Base?: string;
+  Base?: string | undefined;
   /** The network pool size */
-  Size?: number;
+  Size?: number | undefined;
 }
 /** List of custom default address pools for local networks, which can be specified in the daemon.json file or dockerd option. Example: a Base "10.10.0.0/16" with Size 24 will define the set of 256 10.10.[0-255].0/24 address pools. */
 export type SystemInfoDefaultAddressPoolsList = Array<SystemInfoDefaultAddressPoolsItem>;
@@ -3914,16 +3940,16 @@ export type FirewallInfoInfoList = Array<FirewallInfoInfoItemList>;
 /** Information about the daemon's firewalling configuration. This field is currently only used on Linux, and omitted on other platforms. */
 export interface FirewallInfo {
   /** The name of the firewall backend driver. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Information about the firewall backend, provided as "label" / "value" pairs. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  Info?: FirewallInfoInfoList;
+  Info?: FirewallInfoInfoList | undefined;
 }
 /** DeviceInfo represents a device that can be used by a container. */
 export interface DeviceInfo {
   /** The origin device driver. */
-  Source?: string;
+  Source?: string | undefined;
   /** The unique identifier for the device within its source driver. For CDI devices, this would be an FQDN like "vendor.com/gpu=0". */
-  ID?: string;
+  ID?: string | undefined;
 }
 /** List of devices discovered by device drivers. Each device includes information about its source driver, kind, name, and additional driver-specific attributes. */
 export type SystemInfoDiscoveredDevicesList = Array<DeviceInfo>;
@@ -3933,7 +3959,7 @@ export type NRIInfoInfoList = Array<NRIInfoInfoItemList>;
 /** Information about the Node Resource Interface (NRI). This field is only present if NRI is enabled. */
 export interface NRIInfo {
   /** Information about NRI, provided as "label" / "value" pairs. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  Info?: NRIInfoInfoList;
+  Info?: NRIInfoInfoList | undefined;
 }
 /** List of warnings / informational messages about missing features, or issues related to the daemon configuration. These messages can be printed by the client as information to the user. */
 export type SystemInfoWarningsList = Array<string>;
@@ -3942,132 +3968,132 @@ export type SystemInfoCDISpecDirsList = Array<string>;
 /** The namespaces that the daemon uses for running containers and plugins in containerd. These namespaces can be configured in the daemon configuration, and are considered to be used exclusively by the daemon, Tampering with the containerd instance may cause unexpected behavior. As these namespaces are considered to be exclusively accessed by the daemon, it is not recommended to change these values, or to change them to a value that is used by other systems, such as cri-containerd. */
 export interface ContainerdInfoNamespaces {
   /** The default containerd namespace used for containers managed by the daemon. The default namespace for containers is "moby", but will be suffixed with the `<uid>.<gid>` of the remapped `root` if user-namespaces are enabled and the containerd image-store is used. */
-  Containers?: string;
+  Containers?: string | undefined;
   /** The default containerd namespace used for plugins managed by the daemon. The default namespace for plugins is "plugins.moby", but will be suffixed with the `<uid>.<gid>` of the remapped `root` if user-namespaces are enabled and the containerd image-store is used. */
-  Plugins?: string;
+  Plugins?: string | undefined;
 }
 /** Information for connecting to the containerd instance that is used by the daemon. This is included for debugging purposes only. */
 export interface ContainerdInfo {
   /** The address of the containerd socket. */
-  Address?: string;
+  Address?: string | undefined;
   /** The namespaces that the daemon uses for running containers and plugins in containerd. These namespaces can be configured in the daemon configuration, and are considered to be used exclusively by the daemon, Tampering with the containerd instance may cause unexpected behavior. As these namespaces are considered to be exclusively accessed by the daemon, it is not recommended to change these values, or to change them to a value that is used by other systems, such as cri-containerd. */
-  Namespaces?: ContainerdInfoNamespaces;
+  Namespaces?: ContainerdInfoNamespaces | undefined;
 }
 export interface SystemInfo {
   /** Unique identifier of the daemon. <p><br /></p> > **Note**: The format of the ID itself is not part of the API, and > should not be considered stable. */
-  ID?: string;
+  ID?: string | undefined;
   /** Total number of containers on the host. */
-  Containers?: number;
+  Containers?: number | undefined;
   /** Number of containers with status `"running"`. */
-  ContainersRunning?: number;
+  ContainersRunning?: number | undefined;
   /** Number of containers with status `"paused"`. */
-  ContainersPaused?: number;
+  ContainersPaused?: number | undefined;
   /** Number of containers with status `"stopped"`. */
-  ContainersStopped?: number;
+  ContainersStopped?: number | undefined;
   /** Total number of images on the host. Both _tagged_ and _untagged_ (dangling) images are counted. */
-  Images?: number;
+  Images?: number | undefined;
   /** Name of the storage driver in use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Information specific to the storage driver, provided as "label" / "value" pairs. This information is provided by the storage driver, and formatted in a way consistent with the output of `docker info` on the command line. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  DriverStatus?: SystemInfoDriverStatusList;
+  DriverStatus?: SystemInfoDriverStatusList | undefined;
   /** Root directory of persistent Docker state. Defaults to `/var/lib/docker` on Linux, and `C:\ProgramData\docker` on Windows. */
-  DockerRootDir?: string;
-  Plugins?: PluginsInfo;
+  DockerRootDir?: string | undefined;
+  Plugins?: PluginsInfo | undefined;
   /** Indicates if the host has memory limit support enabled. */
-  MemoryLimit?: boolean;
+  MemoryLimit?: boolean | undefined;
   /** Indicates if the host has memory swap limit support enabled. */
-  SwapLimit?: boolean;
+  SwapLimit?: boolean | undefined;
   /** Indicates if CPU CFS(Completely Fair Scheduler) period is supported by the host. */
-  CpuCfsPeriod?: boolean;
+  CpuCfsPeriod?: boolean | undefined;
   /** Indicates if CPU CFS(Completely Fair Scheduler) quota is supported by the host. */
-  CpuCfsQuota?: boolean;
+  CpuCfsQuota?: boolean | undefined;
   /** Indicates if CPU Shares limiting is supported by the host. */
-  CPUShares?: boolean;
+  CPUShares?: boolean | undefined;
   /** Indicates if CPUsets (cpuset.cpus, cpuset.mems) are supported by the host. See [cpuset(7)](https://www.kernel.org/doc/Documentation/cgroup-v1/cpusets.txt) */
-  CPUSet?: boolean;
+  CPUSet?: boolean | undefined;
   /** Indicates if the host kernel has PID limit support enabled. */
-  PidsLimit?: boolean;
+  PidsLimit?: boolean | undefined;
   /** Indicates if OOM killer disable is supported on the host. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Indicates IPv4 forwarding is enabled. */
-  IPv4Forwarding?: boolean;
+  IPv4Forwarding?: boolean | undefined;
   /** Indicates if the daemon is running in debug-mode / with debug-level logging enabled. */
-  Debug?: boolean;
+  Debug?: boolean | undefined;
   /** The total number of file Descriptors in use by the daemon process. This information is only returned if debug-mode is enabled. */
-  NFd?: number;
+  NFd?: number | undefined;
   /** The number of goroutines that currently exist. This information is only returned if debug-mode is enabled. */
-  NGoroutines?: number;
+  NGoroutines?: number | undefined;
   /** Current system-time in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  SystemTime?: string;
+  SystemTime?: string | undefined;
   /** The logging driver to use as a default for new containers. */
-  LoggingDriver?: string;
+  LoggingDriver?: string | undefined;
   /** The driver to use for managing cgroups. */
-  CgroupDriver?: SystemInfoCgroupDriver;
+  CgroupDriver?: SystemInfoCgroupDriver | undefined;
   /** The version of the cgroup. */
-  CgroupVersion?: SystemInfoCgroupVersion;
+  CgroupVersion?: SystemInfoCgroupVersion | undefined;
   /** Number of event listeners subscribed. */
-  NEventsListener?: number;
+  NEventsListener?: number | undefined;
   /** Kernel version of the host. On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\</kbd> registry value, for example _"10.0 14393 (14393.1198.amd64fre.rs1_release_sec.170427-1353)"_. */
-  KernelVersion?: string;
+  KernelVersion?: string | undefined;
   /** Name of the host's operating system, for example: "Ubuntu 24.04 LTS" or "Windows Server 2016 Datacenter" */
-  OperatingSystem?: string;
+  OperatingSystem?: string | undefined;
   /** Version of the host's operating system <p><br /></p> > **Note**: The information returned in this field, including its > very existence, and the formatting of values, should not be considered > stable, and may change without notice. */
-  OSVersion?: string;
+  OSVersion?: string | undefined;
   /** Generic type of the operating system of the host, as returned by the Go runtime (`GOOS`). Currently returned values are "linux" and "windows". A full list of possible values can be found in the [Go documentation](https://go.dev/doc/install/source#environment). */
-  OSType?: string;
+  OSType?: string | undefined;
   /** Hardware architecture of the host, as returned by the operating system. This is equivalent to the output of `uname -m` on Linux. Unlike `Arch` (from `/version`), this reports the machine's native architecture, which can differ from the Go runtime architecture when running a binary compiled for a different architecture (for example, a 32-bit binary running on 64-bit hardware). */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** The number of logical CPUs usable by the daemon. The number of available CPUs is checked by querying the operating system when the daemon starts. Changes to operating system CPU allocation after the daemon is started are not reflected. */
-  NCPU?: number;
+  NCPU?: number | undefined;
   /** Total amount of physical memory available on the host, in bytes. */
-  MemTotal?: number;
+  MemTotal?: number | undefined;
   /** Address / URL of the index server that is used for image search, and as a default for user authentication for Docker Hub and Docker Cloud. */
-  IndexServerAddress?: string;
-  RegistryConfig?: RegistryServiceConfig | null;
-  GenericResources?: GenericResources;
+  IndexServerAddress?: string | undefined;
+  RegistryConfig?: RegistryServiceConfig | null | undefined;
+  GenericResources?: GenericResources | undefined;
   /** HTTP-proxy configured for the daemon. This value is obtained from the [`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL are masked in the API response. Containers do not automatically inherit this configuration. */
-  HttpProxy?: string;
+  HttpProxy?: string | undefined;
   /** HTTPS-proxy configured for the daemon. This value is obtained from the [`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL are masked in the API response. Containers do not automatically inherit this configuration. */
-  HttpsProxy?: string;
+  HttpsProxy?: string | undefined;
   /** Comma-separated list of domain extensions for which no proxy should be used. This value is obtained from the [`NO_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Containers do not automatically inherit this configuration. */
-  NoProxy?: string;
+  NoProxy?: string | undefined;
   /** Hostname of the host. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined labels (key/value metadata) as set on the daemon. <p><br /></p> > **Note**: When part of a Swarm, nodes can both have _daemon_ labels, > set through the daemon configuration, and _node_ labels, set from a > manager node in the Swarm. Node labels are not included in this > field. Node labels can be retrieved using the `/nodes/(id)` endpoint > on a manager node in the Swarm. */
-  Labels?: SystemInfoLabelsList;
+  Labels?: SystemInfoLabelsList | undefined;
   /** Indicates if experimental features are enabled on the daemon. */
-  ExperimentalBuild?: boolean;
+  ExperimentalBuild?: boolean | undefined;
   /** Version string of the daemon. */
-  ServerVersion?: string;
+  ServerVersion?: string | undefined;
   /** List of [OCI compliant](https://github.com/opencontainers/runtime-spec) runtimes configured on the daemon. Keys hold the "name" used to reference the runtime. The Docker daemon relies on an OCI compliant runtime (invoked via the `containerd` daemon) as its interface to the Linux kernel namespaces, cgroups, and SELinux. The default runtime is `runc`, and automatically configured. Additional runtimes can be configured by the user and will be listed here. */
-  Runtimes?: SystemInfoRuntimesMap;
+  Runtimes?: SystemInfoRuntimesMap | undefined;
   /** Name of the default OCI runtime that is used when starting containers. The default can be overridden per-container at create time. */
-  DefaultRuntime?: string;
-  Swarm?: SwarmInfo;
+  DefaultRuntime?: string | undefined;
+  Swarm?: SwarmInfo | undefined;
   /** Indicates if live restore is enabled. If enabled, containers are kept running when the daemon is shutdown or upon daemon start if running containers are detected. */
-  LiveRestoreEnabled?: boolean;
+  LiveRestoreEnabled?: boolean | undefined;
   /** Represents the isolation technology to use as a default for containers. The supported values are platform-specific. If no isolation value is specified on daemon start, on Windows client, the default is `hyperv`, and on Windows server, the default is `process`. This option is currently not used on other platforms. */
-  Isolation?: SystemInfoIsolation;
+  Isolation?: SystemInfoIsolation | undefined;
   /** Name and, optional, path of the `docker-init` binary. If the path is omitted, the daemon searches the host's `$PATH` for the binary and uses the first result. */
-  InitBinary?: string;
-  ContainerdCommit?: Commit;
-  RuncCommit?: Commit;
-  InitCommit?: Commit;
+  InitBinary?: string | undefined;
+  ContainerdCommit?: Commit | undefined;
+  RuncCommit?: Commit | undefined;
+  InitCommit?: Commit | undefined;
   /** List of security features that are enabled on the daemon, such as apparmor, seccomp, SELinux, user-namespaces (userns), rootless and no-new-privileges. Additional configuration options for each security feature may be present, and are included as a comma-separated list of key/value pairs. */
-  SecurityOptions?: SystemInfoSecurityOptionsList;
+  SecurityOptions?: SystemInfoSecurityOptionsList | undefined;
   /** Reports a summary of the product license on the daemon. If a commercial license has been applied to the daemon, information such as number of nodes, and expiration are included. */
-  ProductLicense?: string;
+  ProductLicense?: string | undefined;
   /** List of custom default address pools for local networks, which can be specified in the daemon.json file or dockerd option. Example: a Base "10.10.0.0/16" with Size 24 will define the set of 256 10.10.[0-255].0/24 address pools. */
-  DefaultAddressPools?: SystemInfoDefaultAddressPoolsList;
-  FirewallBackend?: FirewallInfo | null;
+  DefaultAddressPools?: SystemInfoDefaultAddressPoolsList | undefined;
+  FirewallBackend?: FirewallInfo | null | undefined;
   /** List of devices discovered by device drivers. Each device includes information about its source driver, kind, name, and additional driver-specific attributes. */
-  DiscoveredDevices?: SystemInfoDiscoveredDevicesList;
-  NRI?: NRIInfo | null;
+  DiscoveredDevices?: SystemInfoDiscoveredDevicesList | undefined;
+  NRI?: NRIInfo | null | undefined;
   /** List of warnings / informational messages about missing features, or issues related to the daemon configuration. These messages can be printed by the client as information to the user. */
-  Warnings?: SystemInfoWarningsList;
+  Warnings?: SystemInfoWarningsList | undefined;
   /** List of directories where (Container Device Interface) CDI specifications are located. These specifications define vendor-specific modifications to an OCI runtime specification for a container being created. An empty list indicates that CDI device injection is disabled. Note that since using CDI device injection requires the daemon to have experimental enabled. For non-experimental daemons an empty list will always be returned. */
-  CDISpecDirs?: SystemInfoCDISpecDirsList;
-  Containerd?: ContainerdInfo | null;
+  CDISpecDirs?: SystemInfoCDISpecDirsList | undefined;
+  Containerd?: ContainerdInfo | null | undefined;
 }
 export interface SystemVersion2Request {}
 export interface SystemVersionPlatform {
@@ -4079,35 +4105,35 @@ export interface SystemVersionComponentsItem {
   /** Version of the component */
   Version: string;
   /** Key/value pairs of strings with additional information about the component. These values are intended for informational purposes only, and their content is not defined, and not part of the API specification. These messages can be printed by the client as information to the user. */
-  Details?: unknown | null;
+  Details?: unknown | null | undefined;
 }
 /** Information about system components */
 export type SystemVersionComponentsList = Array<SystemVersionComponentsItem>;
 /** Response of Engine API: GET "/version" */
 export interface SystemVersion {
-  Platform?: SystemVersionPlatform;
+  Platform?: SystemVersionPlatform | undefined;
   /** Information about system components */
-  Components?: SystemVersionComponentsList;
+  Components?: SystemVersionComponentsList | undefined;
   /** The version of the daemon */
-  Version?: string;
+  Version?: string | undefined;
   /** The default (and highest) API version that is supported by the daemon */
-  ApiVersion?: string;
+  ApiVersion?: string | undefined;
   /** The minimum API version that is supported by the daemon */
-  MinAPIVersion?: string;
+  MinAPIVersion?: string | undefined;
   /** The Git commit of the source code that was used to build the daemon */
-  GitCommit?: string;
+  GitCommit?: string | undefined;
   /** The version Go used to compile the daemon, and the version of the Go runtime in use. */
-  GoVersion?: string;
+  GoVersion?: string | undefined;
   /** The operating system that the daemon is running on ("linux" or "windows") */
-  Os?: string;
+  Os?: string | undefined;
   /** Architecture of the daemon, as returned by the Go runtime (`GOARCH`). A full list of possible values can be found in the [Go documentation](https://go.dev/doc/install/source#environment). */
-  Arch?: string;
+  Arch?: string | undefined;
   /** The kernel version (`uname -r`) that the daemon is running on. This field is omitted when empty. */
-  KernelVersion?: string;
+  KernelVersion?: string | undefined;
   /** Indicates if the daemon is started with experimental features enabled. This field is omitted when empty / false. */
-  Experimental?: boolean;
+  Experimental?: boolean | undefined;
   /** The date and time that the daemon was compiled. */
-  BuildTime?: string;
+  BuildTime?: string | undefined;
 }
 export interface TaskInspectRequest {
   /** ID of the task */
@@ -4117,24 +4143,24 @@ export interface TaskLogsRequest {
   /** ID of the task */
   id: string;
   /** Show task context and extra details provided to logs. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type TaskLogsResponse = string;
 export interface UnlockSwarmRequest {
   /** The swarm's unlock key. */
-  UnlockKey?: string;
+  UnlockKey?: string | undefined;
 }
 export interface UnlockSwarmResponse {}
 export interface UnpauseContainerRequest {
@@ -4150,13 +4176,13 @@ export interface UpdateConfigRequest {
   /** The version number of the config object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateConfigRequestLabelsMap;
+  Labels?: UpdateConfigRequestLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface UpdateConfigResponse {}
 export type UpdateContainerRequestBlkioWeightDeviceItem = HostConfigBlkioWeightDeviceItem;
@@ -4183,73 +4209,73 @@ export interface UpdateContainerRequest {
   /** ID or name of the container */
   id: string;
   /** An integer value representing this container's relative CPU weight versus other containers. */
-  CpuShares?: number;
+  CpuShares?: number | undefined;
   /** Memory limit in bytes. */
-  Memory?: number;
+  Memory?: number | undefined;
   /** Path to `cgroups` under which the container's `cgroup` is created. If the path is not absolute, the path is considered to be relative to the `cgroups` path of the init process. Cgroups are created if they do not already exist. */
-  CgroupParent?: string;
+  CgroupParent?: string | undefined;
   /** Block IO weight (relative weight). */
-  BlkioWeight?: number;
+  BlkioWeight?: number | undefined;
   /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
-  BlkioWeightDevice?: UpdateContainerRequestBlkioWeightDeviceList;
+  BlkioWeightDevice?: UpdateContainerRequestBlkioWeightDeviceList | undefined;
   /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadBps?: UpdateContainerRequestBlkioDeviceReadBpsList;
+  BlkioDeviceReadBps?: UpdateContainerRequestBlkioDeviceReadBpsList | undefined;
   /** Limit write rate (bytes per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteBps?: UpdateContainerRequestBlkioDeviceWriteBpsList;
+  BlkioDeviceWriteBps?: UpdateContainerRequestBlkioDeviceWriteBpsList | undefined;
   /** Limit read rate (IO per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadIOps?: UpdateContainerRequestBlkioDeviceReadIOpsList;
+  BlkioDeviceReadIOps?: UpdateContainerRequestBlkioDeviceReadIOpsList | undefined;
   /** Limit write rate (IO per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteIOps?: UpdateContainerRequestBlkioDeviceWriteIOpsList;
+  BlkioDeviceWriteIOps?: UpdateContainerRequestBlkioDeviceWriteIOpsList | undefined;
   /** The length of a CPU period in microseconds. */
-  CpuPeriod?: number;
+  CpuPeriod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  CpuQuota?: number;
+  CpuQuota?: number | undefined;
   /** The length of a CPU real-time period in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimePeriod?: number;
+  CpuRealtimePeriod?: number | undefined;
   /** The length of a CPU real-time runtime in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimeRuntime?: number;
+  CpuRealtimeRuntime?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  CpusetCpus?: string;
+  CpusetCpus?: string | undefined;
   /** Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems. */
-  CpusetMems?: string;
+  CpusetMems?: string | undefined;
   /** A list of devices to add to the container. */
-  Devices?: UpdateContainerRequestDevicesList;
+  Devices?: UpdateContainerRequestDevicesList | undefined;
   /** a list of cgroup rules to apply to the container */
-  DeviceCgroupRules?: UpdateContainerRequestDeviceCgroupRulesList;
+  DeviceCgroupRules?: UpdateContainerRequestDeviceCgroupRulesList | undefined;
   /** A list of requests for devices to be sent to device drivers. */
-  DeviceRequests?: UpdateContainerRequestDeviceRequestsList;
+  DeviceRequests?: UpdateContainerRequestDeviceRequestsList | undefined;
   /** Memory soft limit in bytes. */
-  MemoryReservation?: number;
+  MemoryReservation?: number | undefined;
   /** Total memory limit (memory + swap). Set as `-1` to enable unlimited swap. */
-  MemorySwap?: number;
+  MemorySwap?: number | undefined;
   /** Tune a container's memory swappiness behavior. Accepts an integer between 0 and 100. */
-  MemorySwappiness?: number;
+  MemorySwappiness?: number | undefined;
   /** CPU quota in units of 10<sup>-9</sup> CPUs. */
-  NanoCpus?: number;
+  NanoCpus?: number | undefined;
   /** Disable OOM Killer for the container. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Tune a container's PIDs limit. Set `0` or `-1` for unlimited, or `null` to not change. */
-  PidsLimit?: number | null;
+  PidsLimit?: number | null | undefined;
   /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
-  Ulimits?: UpdateContainerRequestUlimitsList;
+  Ulimits?: UpdateContainerRequestUlimitsList | undefined;
   /** The number of usable CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuCount?: number;
+  CpuCount?: number | undefined;
   /** The usable percentage of the available CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuPercent?: number;
+  CpuPercent?: number | undefined;
   /** Maximum IOps for the container system drive (Windows only) */
-  IOMaximumIOps?: number;
+  IOMaximumIOps?: number | undefined;
   /** Maximum IO in bytes per second for the container system drive (Windows only). */
-  IOMaximumBandwidth?: number;
-  RestartPolicy?: RestartPolicy;
+  IOMaximumBandwidth?: number | undefined;
+  RestartPolicy?: RestartPolicy | undefined;
 }
 /** Warnings encountered when updating the container. */
 export type ContainerUpdateResponseWarningsList = Array<string>;
 /** Response for a successful container-update. */
 export interface ContainerUpdateResponse {
   /** Warnings encountered when updating the container. */
-  Warnings?: ContainerUpdateResponseWarningsList;
+  Warnings?: ContainerUpdateResponseWarningsList | undefined;
 }
 /** User-defined key/value metadata. */
 export type UpdateNodeRequestLabelsMap = { [key: string]: string | undefined };
@@ -4263,13 +4289,13 @@ export interface UpdateNodeRequest {
   /** The version number of the node object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** Name for the node. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateNodeRequestLabelsMap;
+  Labels?: UpdateNodeRequestLabelsMap | undefined;
   /** Role of the node. */
-  Role?: UpdateNodeRequestRole | (string & {});
+  Role?: UpdateNodeRequestRole | (string & {}) | undefined;
   /** Availability of the node. */
-  Availability?: UpdateNodeRequestAvailability | (string & {});
+  Availability?: UpdateNodeRequestAvailability | (string & {}) | undefined;
 }
 export interface UpdateNodeResponse {}
 /** User-defined key/value metadata. */
@@ -4280,15 +4306,15 @@ export interface UpdateSecretRequest {
   /** The version number of the secret object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateSecretRequestLabelsMap;
+  Labels?: UpdateSecretRequestLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface UpdateSecretResponse {}
 export type UpdateServiceRequestRegistryAuthFrom = "spec" | "previous-spec";
@@ -4306,17 +4332,17 @@ export type UpdateServiceRequestUpdateConfigOrder = "stop-first" | "start-first"
 /** Specification for the update strategy of the service. */
 export interface UpdateServiceRequestUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: UpdateServiceRequestUpdateConfigFailureAction | (string & {});
+  FailureAction?: UpdateServiceRequestUpdateConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: UpdateServiceRequestUpdateConfigOrder | (string & {});
+  Order?: UpdateServiceRequestUpdateConfigOrder | (string & {}) | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type UpdateServiceRequestRollbackConfigFailureAction = "continue" | "pause";
@@ -4325,17 +4351,17 @@ export type UpdateServiceRequestRollbackConfigOrder = "stop-first" | "start-firs
 /** Specification for the rollback strategy of the service. */
 export interface UpdateServiceRequestRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: UpdateServiceRequestRollbackConfigFailureAction | (string & {});
+  FailureAction?: UpdateServiceRequestRollbackConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: UpdateServiceRequestRollbackConfigOrder | (string & {});
+  Order?: UpdateServiceRequestRollbackConfigOrder | (string & {}) | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type UpdateServiceRequestNetworksList = Array<NetworkAttachmentConfig>;
@@ -4345,31 +4371,31 @@ export interface UpdateServiceRequest {
   /** The version number of the service object being updated. This is required to avoid conflicting writes. This version number should be the value as currently set on the service *before* the update. You can find the current version by calling `GET /services/{id}` */
   version: number;
   /** If the `X-Registry-Auth` header is not specified, this parameter indicates where to find registry authorization credentials. */
-  registryAuthFrom?: UpdateServiceRequestRegistryAuthFrom | (string & {});
+  registryAuthFrom?: UpdateServiceRequestRegistryAuthFrom | (string & {}) | undefined;
   /** Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case. */
-  rollback?: string;
+  rollback?: string | undefined;
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
+  xRegistryAuth?: string | undefined;
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateServiceRequestLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: UpdateServiceRequestLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: UpdateServiceRequestUpdateConfig;
+  UpdateConfig?: UpdateServiceRequestUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: UpdateServiceRequestRollbackConfig;
+  RollbackConfig?: UpdateServiceRequestRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: UpdateServiceRequestNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: UpdateServiceRequestNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 /** Optional warning messages */
 export type ServiceUpdateResponseWarningsList = Array<string>;
 export interface ServiceUpdateResponse {
   /** Optional warning messages */
-  Warnings?: ServiceUpdateResponseWarningsList;
+  Warnings?: ServiceUpdateResponseWarningsList | undefined;
 }
 /** User-defined key/value metadata. */
 export type UpdateSwarmRequestLabelsMap = { [key: string]: string | undefined };
@@ -4387,13 +4413,13 @@ export type UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap = {
 };
 export interface UpdateSwarmRequestCAConfigExternalCAsItem {
   /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
-  Protocol?: UpdateSwarmRequestCAConfigExternalCAsItemProtocol | (string & {});
+  Protocol?: UpdateSwarmRequestCAConfigExternalCAsItemProtocol | (string & {}) | undefined;
   /** URL where certificate signing requests should be sent. */
-  URL?: string;
+  URL?: string | undefined;
   /** An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver. */
-  Options?: UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap;
+  Options?: UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap | undefined;
   /** The root CA certificate (in PEM format) this external CA uses to issue TLS certificates (assumed to be to the current swarm root CA certificate if not provided). */
-  CACert?: string;
+  CACert?: string | undefined;
 }
 /** Configuration for forwarding signing requests to an external certificate authority. */
 export type UpdateSwarmRequestCAConfigExternalCAsList =
@@ -4401,15 +4427,15 @@ export type UpdateSwarmRequestCAConfigExternalCAsList =
 /** CA configuration. */
 export interface UpdateSwarmRequestCAConfig {
   /** The duration node certificates are issued for. */
-  NodeCertExpiry?: number;
+  NodeCertExpiry?: number | undefined;
   /** Configuration for forwarding signing requests to an external certificate authority. */
-  ExternalCAs?: UpdateSwarmRequestCAConfigExternalCAsList;
+  ExternalCAs?: UpdateSwarmRequestCAConfigExternalCAsList | undefined;
   /** The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCACert?: string;
+  SigningCACert?: string | undefined;
   /** The desired signing CA key for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCAKey?: string;
+  SigningCAKey?: string | undefined;
   /** An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey` */
-  ForceRotate?: number;
+  ForceRotate?: number | undefined;
 }
 /** Parameters related to encryption-at-rest. */
 export type UpdateSwarmRequestEncryptionConfig = SwarmSpecEncryptionConfig;
@@ -4420,40 +4446,40 @@ export type UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap = {
 /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
 export interface UpdateSwarmRequestTaskDefaultsLogDriver {
   /** The log driver to use as a default for new tasks. */
-  Name?: string;
+  Name?: string | undefined;
   /** Driver-specific options for the selected log driver, specified as key/value pairs. */
-  Options?: UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap;
+  Options?: UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap | undefined;
 }
 /** Defaults for creating tasks in this cluster. */
 export interface UpdateSwarmRequestTaskDefaults {
   /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
-  LogDriver?: UpdateSwarmRequestTaskDefaultsLogDriver;
+  LogDriver?: UpdateSwarmRequestTaskDefaultsLogDriver | undefined;
 }
 export interface UpdateSwarmRequest {
   /** The version number of the swarm object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** Rotate the worker join token. */
-  rotateWorkerToken?: boolean;
+  rotateWorkerToken?: boolean | undefined;
   /** Rotate the manager join token. */
-  rotateManagerToken?: boolean;
+  rotateManagerToken?: boolean | undefined;
   /** Rotate the manager unlock key. */
-  rotateManagerUnlockKey?: boolean;
+  rotateManagerUnlockKey?: boolean | undefined;
   /** Name of the swarm. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateSwarmRequestLabelsMap;
+  Labels?: UpdateSwarmRequestLabelsMap | undefined;
   /** Orchestration configuration. */
-  Orchestration?: SwarmSpecOrchestration | null;
+  Orchestration?: SwarmSpecOrchestration | null | undefined;
   /** Raft configuration. */
-  Raft?: SwarmSpecRaft;
+  Raft?: SwarmSpecRaft | undefined;
   /** Dispatcher configuration. */
-  Dispatcher?: SwarmSpecDispatcher | null;
+  Dispatcher?: SwarmSpecDispatcher | null | undefined;
   /** CA configuration. */
-  CAConfig?: UpdateSwarmRequestCAConfig | null;
+  CAConfig?: UpdateSwarmRequestCAConfig | null | undefined;
   /** Parameters related to encryption-at-rest. */
-  EncryptionConfig?: SwarmSpecEncryptionConfig;
+  EncryptionConfig?: SwarmSpecEncryptionConfig | undefined;
   /** Defaults for creating tasks in this cluster. */
-  TaskDefaults?: UpdateSwarmRequestTaskDefaults;
+  TaskDefaults?: UpdateSwarmRequestTaskDefaults | undefined;
 }
 export interface UpdateSwarmResponse {}
 export interface UpdateVolumeRequest {
@@ -4461,7 +4487,7 @@ export interface UpdateVolumeRequest {
   name: string;
   /** The version number of the volume being updated. This is required to avoid conflicting writes. Found in the volume's `ClusterVolume` field. */
   version: number;
-  Spec?: ClusterVolumeSpec;
+  Spec?: ClusterVolumeSpec | undefined;
 }
 export interface UpdateVolumeResponse {}
 export interface VolumeInspectRequest {
@@ -4470,33 +4496,38 @@ export interface VolumeInspectRequest {
 }
 export interface VolumePruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune volumes with (or without, in case `label!=...` is used) the specified labels. - `all` (`all=true`) - Consider all (local) volumes for pruning and not just anonymous volumes. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Volumes that were deleted */
 export type VolumePruneResponseVolumesDeletedList = Array<string>;
 export interface VolumePruneResponse {
   /** Volumes that were deleted */
-  VolumesDeleted?: VolumePruneResponseVolumesDeletedList;
+  VolumesDeleted?: VolumePruneResponseVolumesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export type WaitContainerRequestCondition = "not-running" | "next-exit" | "removed";
 export interface WaitContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Wait until a container state reaches the given condition. Defaults to `not-running` if omitted or empty. */
-  condition?: WaitContainerRequestCondition | (string & {});
+  condition?: WaitContainerRequestCondition | (string & {}) | undefined;
 }
 /** container waiting error, if any */
 export interface ContainerWaitExitError {
   /** Details of an error */
-  Message?: string;
+  Message?: string | undefined;
 }
 /** OK response to ContainerWait operation */
 export interface ContainerWaitResponse {
   /** Exit code of the container */
   StatusCode: number;
-  Error?: ContainerWaitExitError;
+  Error?: ContainerWaitExitError | undefined;
+}
+/** Represents an error. */
+export interface ErrorResponse {
+  /** The error message. */
+  message: string;
 }
 export type ArchiveContainerError = BadRequest | NotFound | DockerOpError;
 /** Get an archive of a filesystem resource in a container Get a tar archive of a resource in the filesystem of container id. */
@@ -4506,8 +4537,8 @@ export const archiveContainer: API.OperationMethod<
   ArchiveContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ArchiveContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ArchiveContainerResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ArchiveContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ArchiveContainerResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4523,8 +4554,8 @@ export const attachContainer: API.OperationMethod<
   AttachContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<AttachContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<AttachContainerResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<AttachContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<AttachContainerResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4540,8 +4571,8 @@ export const buildPrune: API.OperationMethod<
   BuildPruneError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<BuildPruneRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<BuildPruneResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<BuildPruneRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<BuildPruneResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4557,8 +4588,8 @@ export const commitImage: API.OperationMethod<
   CommitImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<CommitImageRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<IDResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<CommitImageRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4574,8 +4605,8 @@ export const configInspect: API.OperationMethod<
   ConfigInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ConfigInspectRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<Config>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ConfigInspectRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<Config>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4591,8 +4622,8 @@ export const connectNetwork: API.OperationMethod<
   ConnectNetworkError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ConnectNetworkRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ConnectNetworkResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ConnectNetworkRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ConnectNetworkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4608,8 +4639,8 @@ export const containerAttachWebsocket: API.OperationMethod<
   ContainerAttachWebsocketError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ContainerAttachWebsocketRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ContainerAttachWebsocketResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ContainerAttachWebsocketRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ContainerAttachWebsocketResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4625,8 +4656,8 @@ export const containerChanges: API.OperationMethod<
   ContainerChangesError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ContainerChangesRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<ContainerChangesResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ContainerChangesRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<ContainerChangesResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4642,8 +4673,8 @@ export const containerInspect: API.OperationMethod<
   ContainerInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ContainerInspectRequest>,
-  output: __S(426, __c13, 10) as any as S.Schema<ContainerInspectResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ContainerInspectRequest>,
+  output: __S(458, __c14, 10) as any as S.Schema<ContainerInspectResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4659,8 +4690,8 @@ export const containerLogs: API.OperationMethod<
   ContainerLogsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ContainerLogsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<ContainerLogsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ContainerLogsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<ContainerLogsResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4676,8 +4707,8 @@ export const containerPrune: API.OperationMethod<
   ContainerPruneError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ContainerPruneRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<ContainerPruneResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ContainerPruneRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ContainerPruneResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4693,8 +4724,8 @@ export const containerStats: API.OperationMethod<
   ContainerStatsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ContainerStatsRequest>,
-  output: __S(909, __c28, 13) as any as S.Schema<ContainerStatsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ContainerStatsRequest>,
+  output: __S(941, __c29, 13) as any as S.Schema<ContainerStatsResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4710,8 +4741,8 @@ export const containerTop: API.OperationMethod<
   ContainerTopError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ContainerTopRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<ContainerTopResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ContainerTopRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<ContainerTopResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4727,8 +4758,8 @@ export const createConfig: API.OperationMethod<
   CreateConfigError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateConfigRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<IDResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateConfigRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
   errors: [Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4744,8 +4775,8 @@ export const createContainer: API.OperationMethod<
   CreateContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c31, 1) as any as S.Schema<CreateContainerRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ContainerCreateResponse>,
+  input: __S(1025, __c32, 1) as any as S.Schema<CreateContainerRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<ContainerCreateResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4761,8 +4792,8 @@ export const createImage: API.OperationMethod<
   CreateImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<CreateImageRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<CreateImageResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<CreateImageRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<CreateImageResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4778,8 +4809,8 @@ export const createNetwork: API.OperationMethod<
   CreateNetworkError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<NetworkCreateResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateNetworkRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<NetworkCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4795,8 +4826,8 @@ export const createPlugin: API.OperationMethod<
   CreatePluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreatePluginRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<CreatePluginResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreatePluginRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<CreatePluginResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4812,8 +4843,8 @@ export const createSecret: API.OperationMethod<
   CreateSecretError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateSecretRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<IDResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateSecretRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
   errors: [Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4829,8 +4860,8 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<ServiceCreateResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ServiceCreateResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4846,8 +4877,8 @@ export const createVolume: API.OperationMethod<
   CreateVolumeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateVolumeRequest>,
-  output: __S(1445, __c45, 5) as any as S.Schema<Volume>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreateVolumeRequest>,
+  output: __S(1477, __c46, 5) as any as S.Schema<Volume>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4863,8 +4894,8 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteConfigRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteConfigResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteConfigRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteConfigResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4880,8 +4911,8 @@ export const deleteContainer: API.OperationMethod<
   DeleteContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteContainerResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteContainerResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4897,8 +4928,8 @@ export const deleteImage: API.OperationMethod<
   DeleteImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteImageRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<DeleteImageResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteImageRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<DeleteImageResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4914,8 +4945,8 @@ export const deleteNetwork: API.OperationMethod<
   DeleteNetworkError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteNetworkRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteNetworkResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteNetworkRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteNetworkResponse>,
   errors: [Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4931,8 +4962,8 @@ export const deleteNode: API.OperationMethod<
   DeleteNodeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteNodeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteNodeResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteNodeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteNodeResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4948,8 +4979,8 @@ export const deletePlugin: API.OperationMethod<
   DeletePluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeletePluginRequest>,
-  output: __S(1710, __c53, 14) as any as S.Schema<Plugin>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeletePluginRequest>,
+  output: __S(1742, __c54, 14) as any as S.Schema<Plugin>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4965,8 +4996,8 @@ export const deleteSecret: API.OperationMethod<
   DeleteSecretError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteSecretResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteSecretRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteSecretResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4982,8 +5013,8 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -4999,8 +5030,8 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DeleteVolumeResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteVolumeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DeleteVolumeResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5016,8 +5047,8 @@ export const disablePlugin: API.OperationMethod<
   DisablePluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DisablePluginRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DisablePluginResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DisablePluginRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DisablePluginResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5033,8 +5064,8 @@ export const disconnectNetwork: API.OperationMethod<
   DisconnectNetworkError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DisconnectNetworkRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<DisconnectNetworkResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DisconnectNetworkRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<DisconnectNetworkResponse>,
   errors: [Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5050,8 +5081,8 @@ export const distributionInspect2: API.OperationMethod<
   DistributionInspect2Error,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DistributionInspectRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<DistributionInspect>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DistributionInspectRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<DistributionInspect>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5067,8 +5098,8 @@ export const enablePlugin: API.OperationMethod<
   EnablePluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<EnablePluginRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<EnablePluginResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<EnablePluginRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<EnablePluginResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5084,8 +5115,8 @@ export const execContainer: API.OperationMethod<
   ExecContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ExecContainerRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<IDResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ExecContainerRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5101,8 +5132,8 @@ export const execInspect: API.OperationMethod<
   ExecInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ExecInspectRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ExecInspectResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ExecInspectRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ExecInspectResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5118,8 +5149,8 @@ export const execResize: API.OperationMethod<
   ExecResizeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ExecResizeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ExecResizeResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ExecResizeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ExecResizeResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5135,8 +5166,8 @@ export const execStart: API.OperationMethod<
   ExecStartError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ExecStartRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ExecStartResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ExecStartRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ExecStartResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5152,8 +5183,8 @@ export const exportContainer: API.OperationMethod<
   ExportContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ExportContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ExportContainerResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ExportContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ExportContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5169,8 +5200,8 @@ export const getImage: API.OperationMethod<
   GetImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetImageRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetImageResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetImageRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<GetImageResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5186,8 +5217,8 @@ export const getPluginPrivileges: API.OperationMethod<
   GetPluginPrivilegesError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetPluginPrivilegesRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<GetPluginPrivilegesResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetPluginPrivilegesRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<GetPluginPrivilegesResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5203,8 +5234,8 @@ export const imageAttestations: API.OperationMethod<
   ImageAttestationsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ImageAttestationsRequest>,
-  output: __S(2243, __c70, 3) as any as S.Schema<ImageAttestationsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ImageAttestationsRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<ImageAttestationsResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5220,8 +5251,8 @@ export const imageBuild: API.OperationMethod<
   ImageBuildError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ImageBuildRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ImageBuildResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ImageBuildRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ImageBuildResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5237,8 +5268,8 @@ export const imageGetAll: API.OperationMethod<
   ImageGetAllError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ImageGetAllRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<ImageGetAllResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ImageGetAllRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<ImageGetAllResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5254,8 +5285,8 @@ export const imageHistory: API.OperationMethod<
   ImageHistoryError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ImageHistoryRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ImageHistoryResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ImageHistoryRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ImageHistoryResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5271,8 +5302,8 @@ export const imageInspect2: API.OperationMethod<
   ImageInspect2Error,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ImageInspectRequest>,
-  output: __S(2372, __c74, 4) as any as S.Schema<ImageInspect>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ImageInspectRequest>,
+  output: __S(2404, __c75, 4) as any as S.Schema<ImageInspect>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5288,8 +5319,8 @@ export const imageLoad: API.OperationMethod<
   ImageLoadError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ImageLoadRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ImageLoadResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ImageLoadRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ImageLoadResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5305,8 +5336,8 @@ export const imagePrune: API.OperationMethod<
   ImagePruneError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ImagePruneRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<ImagePruneResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ImagePruneRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<ImagePruneResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5322,8 +5353,8 @@ export const imagePush: API.OperationMethod<
   ImagePushError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ImagePushRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ImagePushResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ImagePushRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ImagePushResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5339,8 +5370,8 @@ export const imageTag: API.OperationMethod<
   ImageTagError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ImageTagRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ImageTagResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ImageTagRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ImageTagResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5356,8 +5387,8 @@ export const joinSwarm: API.OperationMethod<
   JoinSwarmError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<JoinSwarmRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<JoinSwarmResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<JoinSwarmRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<JoinSwarmResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5373,8 +5404,8 @@ export const killContainer: API.OperationMethod<
   KillContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<KillContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<KillContainerResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<KillContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<KillContainerResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5390,8 +5421,8 @@ export const leaveSwarm: API.OperationMethod<
   LeaveSwarmError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<LeaveSwarmRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<LeaveSwarmResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<LeaveSwarmRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<LeaveSwarmResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5407,8 +5438,8 @@ export const listConfig: API.OperationMethod<
   ListConfigError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListConfigRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<ListConfigResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListConfigRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<ListConfigResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5424,8 +5455,8 @@ export const listContainer: API.OperationMethod<
   ListContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListContainerRequest>,
-  output: __S(2728, __c85, 8) as any as S.Schema<ListContainerResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListContainerRequest>,
+  output: __S(2760, __c86, 8) as any as S.Schema<ListContainerResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5441,8 +5472,8 @@ export const listImage: API.OperationMethod<
   ListImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListImageRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<ListImageResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListImageRequest>,
+  output: __S(2787, __c87, 3) as any as S.Schema<ListImageResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5458,8 +5489,8 @@ export const listNetwork: API.OperationMethod<
   ListNetworkError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListNetworkRequest>,
-  output: __S(2850, __c89, 2) as any as S.Schema<ListNetworkResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListNetworkRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<ListNetworkResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5475,8 +5506,8 @@ export const listNode: API.OperationMethod<
   ListNodeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListNodeRequest>,
-  output: __S(2946, __c92, 2) as any as S.Schema<ListNodeResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListNodeRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ListNodeResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5492,8 +5523,8 @@ export const listPlugin: API.OperationMethod<
   ListPluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListPluginRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ListPluginResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListPluginRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ListPluginResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5509,8 +5540,8 @@ export const listSecret: API.OperationMethod<
   ListSecretError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListSecretRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<ListSecretResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListSecretRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ListSecretResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5526,8 +5557,8 @@ export const listService: API.OperationMethod<
   ListServiceError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListServiceRequest>,
-  output: __S(3138, __c98, 2) as any as S.Schema<ListServiceResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListServiceRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<ListServiceResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5543,8 +5574,8 @@ export const listTask: API.OperationMethod<
   ListTaskError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListTaskRequest>,
-  output: __S(3202, __c100, 2) as any as S.Schema<ListTaskResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListTaskRequest>,
+  output: __S(3234, __c101, 2) as any as S.Schema<ListTaskResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5560,8 +5591,8 @@ export const listVolume: API.OperationMethod<
   ListVolumeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListVolumeRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<VolumeListResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListVolumeRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<VolumeListResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5577,8 +5608,8 @@ export const networkInspect: API.OperationMethod<
   NetworkInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<NetworkInspectRequest>,
-  output: __S(3303, __c103, 7) as any as S.Schema<NetworkInspectResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<NetworkInspectRequest>,
+  output: __S(3335, __c104, 7) as any as S.Schema<NetworkInspectResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5594,8 +5625,8 @@ export const networkPrune: API.OperationMethod<
   NetworkPruneError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<NetworkPruneRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<NetworkPruneResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<NetworkPruneRequest>,
+  output: __S(3361, __c105, 1) as any as S.Schema<NetworkPruneResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5611,8 +5642,8 @@ export const nodeInspect: API.OperationMethod<
   NodeInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<NodeInspectRequest>,
-  output: __S(2983, __c93, 7) as any as S.Schema<Node>,
+  input: __S(3392, __c106, 0) as any as S.Schema<NodeInspectRequest>,
+  output: __S(3015, __c94, 7) as any as S.Schema<Node>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5628,8 +5659,8 @@ export const pauseContainer: API.OperationMethod<
   PauseContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<PauseContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<PauseContainerResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<PauseContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PauseContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5645,8 +5676,8 @@ export const pingSystem: API.OperationMethod<
   PingSystemError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<PingSystemRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<PingSystemResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<PingSystemRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<PingSystemResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5662,8 +5693,8 @@ export const pluginInspect: API.OperationMethod<
   PluginInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<PluginInspectRequest>,
-  output: __S(1710, __c53, 14) as any as S.Schema<Plugin>,
+  input: __S(3648, __c114, 0) as any as S.Schema<PluginInspectRequest>,
+  output: __S(1742, __c54, 14) as any as S.Schema<Plugin>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5679,8 +5710,8 @@ export const pluginPull: API.OperationMethod<
   PluginPullError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<PluginPullRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<PluginPullResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<PluginPullRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PluginPullResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5696,8 +5727,8 @@ export const pluginPush: API.OperationMethod<
   PluginPushError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<PluginPushRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<PluginPushResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<PluginPushRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PluginPushResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5713,8 +5744,8 @@ export const pluginUpgrade: API.OperationMethod<
   PluginUpgradeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<PluginUpgradeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<PluginUpgradeResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<PluginUpgradeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PluginUpgradeResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5730,8 +5761,8 @@ export const putContainerArchive: API.OperationMethod<
   PutContainerArchiveError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<PutContainerArchiveRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<PutContainerArchiveResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<PutContainerArchiveRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<PutContainerArchiveResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5747,8 +5778,8 @@ export const renameContainer: API.OperationMethod<
   RenameContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<RenameContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<RenameContainerResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<RenameContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RenameContainerResponse>,
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5764,8 +5795,8 @@ export const resizeContainer: API.OperationMethod<
   ResizeContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ResizeContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<ResizeContainerResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ResizeContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ResizeContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5781,8 +5812,8 @@ export const restartContainer: API.OperationMethod<
   RestartContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<RestartContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<RestartContainerResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<RestartContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RestartContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5798,8 +5829,8 @@ export const searchImage: API.OperationMethod<
   SearchImageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<SearchImageRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<SearchImageResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<SearchImageRequest>,
+  output: __S(4035, __c126, 3) as any as S.Schema<SearchImageResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5815,8 +5846,8 @@ export const secretInspect: API.OperationMethod<
   SecretInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<SecretInspectRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<Secret>,
+  input: __S(4064, __c127, 0) as any as S.Schema<SecretInspectRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<Secret>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5832,8 +5863,8 @@ export const serviceInspect: API.OperationMethod<
   ServiceInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ServiceInspectRequest>,
-  output: __S(3175, __c99, 7) as any as S.Schema<Service>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ServiceInspectRequest>,
+  output: __S(3207, __c100, 7) as any as S.Schema<Service>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5849,8 +5880,8 @@ export const serviceLogs: API.OperationMethod<
   ServiceLogsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ServiceLogsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<ServiceLogsResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ServiceLogsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<ServiceLogsResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5866,8 +5897,8 @@ export const session: API.OperationMethod<
   SessionError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<SessionRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<SessionResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<SessionRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<SessionResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5883,8 +5914,8 @@ export const setPlugin: API.OperationMethod<
   SetPluginError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<SetPluginRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<SetPluginResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<SetPluginRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<SetPluginResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5900,8 +5931,8 @@ export const startContainer: API.OperationMethod<
   StartContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<StartContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<StartContainerResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<StartContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<StartContainerResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5917,8 +5948,8 @@ export const stopContainer: API.OperationMethod<
   StopContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<StopContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<StopContainerResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<StopContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<StopContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5934,8 +5965,8 @@ export const swarmInit: API.OperationMethod<
   SwarmInitError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<SwarmInitRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<SwarmInitResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<SwarmInitRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<SwarmInitResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5951,8 +5982,8 @@ export const swarmInspect: API.OperationMethod<
   SwarmInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<SwarmInspectRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<SwarmInspectResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<SwarmInspectRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<SwarmInspectResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5968,8 +5999,8 @@ export const swarmUnlockkey: API.OperationMethod<
   SwarmUnlockkeyError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<SwarmUnlockkeyRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SwarmUnlockkeyResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<SwarmUnlockkeyRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<SwarmUnlockkeyResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -5985,8 +6016,8 @@ export const systemAuth: API.OperationMethod<
   SystemAuthError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<SystemAuthRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<AuthResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<SystemAuthRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<AuthResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6002,8 +6033,8 @@ export const systemDataUsage: API.OperationMethod<
   SystemDataUsageError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4513, __c141, 1) as any as S.Schema<SystemDataUsageRequest>,
-  output: __S(4516, __c141, 4) as any as S.Schema<SystemDataUsageResponse>,
+  input: __S(4545, __c142, 1) as any as S.Schema<SystemDataUsageRequest>,
+  output: __S(4548, __c142, 4) as any as S.Schema<SystemDataUsageResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6019,8 +6050,8 @@ export const systemEvents: API.OperationMethod<
   SystemEventsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<SystemEventsRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<EventMessage>,
+  input: __S(4576, __c143, 0) as any as S.Schema<SystemEventsRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<EventMessage>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6036,8 +6067,8 @@ export const systemInfo2: API.OperationMethod<
   SystemInfo2Error,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<SystemInfo2Request>,
-  output: __S(4596, __c143, 20) as any as S.Schema<SystemInfo>,
+  input: __S(4608, __c144, 0) as any as S.Schema<SystemInfo2Request>,
+  output: __S(4628, __c144, 20) as any as S.Schema<SystemInfo>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6053,8 +6084,8 @@ export const systemVersion2: API.OperationMethod<
   SystemVersion2Error,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<SystemVersion2Request>,
-  output: __S(4612, __c144, 4) as any as S.Schema<SystemVersion>,
+  input: __S(4640, __c145, 0) as any as S.Schema<SystemVersion2Request>,
+  output: __S(4644, __c145, 4) as any as S.Schema<SystemVersion>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6070,8 +6101,8 @@ export const taskInspect: API.OperationMethod<
   TaskInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<TaskInspectRequest>,
-  output: __S(3237, __c101, 5) as any as S.Schema<Task>,
+  input: __S(4672, __c146, 0) as any as S.Schema<TaskInspectRequest>,
+  output: __S(3269, __c102, 5) as any as S.Schema<Task>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6087,8 +6118,8 @@ export const taskLogs: API.OperationMethod<
   TaskLogsError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<TaskLogsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<TaskLogsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<TaskLogsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<TaskLogsResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6104,8 +6135,8 @@ export const unlockSwarm: API.OperationMethod<
   UnlockSwarmError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<UnlockSwarmRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UnlockSwarmResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<UnlockSwarmRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UnlockSwarmResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6121,8 +6152,8 @@ export const unpauseContainer: API.OperationMethod<
   UnpauseContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<UnpauseContainerRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UnpauseContainerResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<UnpauseContainerRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UnpauseContainerResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6138,8 +6169,8 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<UpdateConfigRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UpdateConfigResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<UpdateConfigRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateConfigResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6155,8 +6186,8 @@ export const updateContainer: API.OperationMethod<
   UpdateContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<UpdateContainerRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ContainerUpdateResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<UpdateContainerRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ContainerUpdateResponse>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6172,8 +6203,8 @@ export const updateNode: API.OperationMethod<
   UpdateNodeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<UpdateNodeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UpdateNodeResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<UpdateNodeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateNodeResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6189,8 +6220,8 @@ export const updateSecret: API.OperationMethod<
   UpdateSecretError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<UpdateSecretRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UpdateSecretResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<UpdateSecretRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateSecretResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6206,8 +6237,8 @@ export const updateService: API.OperationMethod<
   UpdateServiceError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ServiceUpdateResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ServiceUpdateResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6223,8 +6254,8 @@ export const updateSwarm: API.OperationMethod<
   UpdateSwarmError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<UpdateSwarmRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UpdateSwarmResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<UpdateSwarmRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateSwarmResponse>,
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6240,8 +6271,8 @@ export const updateVolume: API.OperationMethod<
   UpdateVolumeError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<UpdateVolumeRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<UpdateVolumeResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<UpdateVolumeRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateVolumeResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6257,8 +6288,8 @@ export const volumeInspect: API.OperationMethod<
   VolumeInspectError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<VolumeInspectRequest>,
-  output: __S(1445, __c45, 5) as any as S.Schema<Volume>,
+  input: __S(320, __c10, 0) as any as S.Schema<VolumeInspectRequest>,
+  output: __S(1477, __c46, 5) as any as S.Schema<Volume>,
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6274,8 +6305,8 @@ export const volumePrune: API.OperationMethod<
   VolumePruneError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<VolumePruneRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<VolumePruneResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<VolumePruneRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<VolumePruneResponse>,
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6291,8 +6322,8 @@ export const waitContainer: API.OperationMethod<
   WaitContainerError,
   DockerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<WaitContainerRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ContainerWaitResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<WaitContainerRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ContainerWaitResponse>,
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
@@ -6302,6 +6333,16 @@ export const waitContainer: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6317,7 +6358,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ContainerAttachWebsocketRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6325,14 +6366,14 @@ function __c1(j: number): any {
           id: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Query()),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
           Data: S.optional(S.String),
-          Templating: S.optional(__S(3904, __c122, 0)),
+          Templating: S.optional(__S(3936, __c123, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/configs/{id}/update", code: 200 })),
       ).annotate({ identifier: "UpdateConfigRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6342,20 +6383,20 @@ function __c2(j: number): any {
           Memory: S.optional(S.Number),
           CgroupParent: S.optional(S.String),
           BlkioWeight: S.optional(S.Number),
-          BlkioWeightDevice: S.optional(__S(545, __c17, 1)),
-          BlkioDeviceReadBps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceWriteBps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceReadIOps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceWriteIOps: S.optional(__S(547, __c17, 3)),
+          BlkioWeightDevice: S.optional(__S(577, __c18, 1)),
+          BlkioDeviceReadBps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceWriteBps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceReadIOps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceWriteIOps: S.optional(__S(579, __c18, 3)),
           CpuPeriod: S.optional(S.Number),
           CpuQuota: S.optional(S.Number),
           CpuRealtimePeriod: S.optional(S.Number),
           CpuRealtimeRuntime: S.optional(S.Number),
           CpusetCpus: S.optional(S.String),
           CpusetMems: S.optional(S.String),
-          Devices: S.optional(__S(549, __c17, 5)),
-          DeviceCgroupRules: S.optional(__S(2816, __c88, 0)),
-          DeviceRequests: S.optional(__S(551, __c17, 7)),
+          Devices: S.optional(__S(581, __c18, 5)),
+          DeviceCgroupRules: S.optional(__S(2848, __c89, 0)),
+          DeviceRequests: S.optional(__S(583, __c18, 7)),
           MemoryReservation: S.optional(S.Number),
           MemorySwap: S.optional(S.Number),
           MemorySwappiness: S.optional(S.Number),
@@ -6363,24 +6404,14 @@ function __c2(j: number): any {
           OomKillDisable: S.optional(S.Boolean),
           Init: S.optional(S.NullOr(S.Boolean)),
           PidsLimit: S.optional(S.NullOr(S.Number)),
-          Ulimits: S.optional(__S(609, __c19, 1)),
+          Ulimits: S.optional(__S(641, __c20, 1)),
           CpuCount: S.optional(S.Number),
           CpuPercent: S.optional(S.Number),
           IOMaximumIOps: S.optional(S.Number),
           IOMaximumBandwidth: S.optional(S.Number),
-          RestartPolicy: S.optional(__S(552, __c17, 8)),
+          RestartPolicy: S.optional(__S(584, __c18, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/containers/{id}/update", code: 200 })),
       ).annotate({ identifier: "UpdateContainerRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Warnings: S.optional(__S(2816, __c88, 0)),
-        }),
-      ).annotate({ identifier: "ContainerUpdateResponse" });
   }
 }
 function __c4(j: number): any {
@@ -6388,14 +6419,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          version: S.Number.pipe(T.Query()),
-          Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Role: S.optional(S.String),
-          Availability: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/nodes/{id}/update", code: 200 })),
-      ).annotate({ identifier: "UpdateNodeRequest" });
+          Warnings: S.optional(__S(2848, __c89, 0)),
+        }),
+      ).annotate({ identifier: "ContainerUpdateResponse" });
   }
 }
 function __c5(j: number): any {
@@ -6406,15 +6432,30 @@ function __c5(j: number): any {
           id: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Query()),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Role: S.optional(S.String),
+          Availability: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/nodes/{id}/update", code: 200 })),
+      ).annotate({ identifier: "UpdateNodeRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          version: S.Number.pipe(T.Query()),
+          Name: S.optional(S.String),
+          Labels: S.optional(__S(3552, __c111, 0)),
           Data: S.optional(S.String),
-          Driver: S.optional(__S(3904, __c122, 0)),
-          Templating: S.optional(__S(3904, __c122, 0)),
+          Driver: S.optional(__S(3936, __c123, 0)),
+          Templating: S.optional(__S(3936, __c123, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/secrets/{id}/update", code: 200 })),
       ).annotate({ identifier: "UpdateSecretRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,18 +6466,18 @@ function __c6(j: number): any {
           rollback: S.optional(S.String.pipe(T.Query())),
           xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          TaskTemplate: S.optional(__S(1336, __c41, 24)),
-          Mode: S.optional(__S(1346, __c42, 2)),
-          UpdateConfig: S.optional(__S(1347, __c42, 3)),
-          RollbackConfig: S.optional(__S(1347, __c42, 3)),
-          Networks: S.optional(__S(1335, __c41, 23)),
-          EndpointSpec: S.optional(__S(1348, __c42, 4)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          TaskTemplate: S.optional(__S(1368, __c42, 24)),
+          Mode: S.optional(__S(1378, __c43, 2)),
+          UpdateConfig: S.optional(__S(1379, __c43, 3)),
+          RollbackConfig: S.optional(__S(1379, __c43, 3)),
+          Networks: S.optional(__S(1367, __c42, 23)),
+          EndpointSpec: S.optional(__S(1380, __c43, 4)),
         }).pipe(T.Http({ method: "POST", uri: "/services/{id}/update", code: 200 })),
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6446,30 +6487,30 @@ function __c7(j: number): any {
           rotateManagerToken: S.optional(S.Boolean.pipe(T.Query())),
           rotateManagerUnlockKey: S.optional(S.Boolean.pipe(T.Query())),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Orchestration: S.optional(S.NullOr(__S(4320, __c135, 0))),
-          Raft: S.optional(__S(4321, __c135, 1)),
-          Dispatcher: S.optional(S.NullOr(__S(4322, __c135, 2))),
-          CAConfig: S.optional(S.NullOr(__S(4325, __c135, 5))),
-          EncryptionConfig: S.optional(__S(4326, __c135, 6)),
-          TaskDefaults: S.optional(__S(4327, __c135, 7)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Orchestration: S.optional(S.NullOr(__S(4352, __c136, 0))),
+          Raft: S.optional(__S(4353, __c136, 1)),
+          Dispatcher: S.optional(S.NullOr(__S(4354, __c136, 2))),
+          CAConfig: S.optional(S.NullOr(__S(4357, __c136, 5))),
+          EncryptionConfig: S.optional(__S(4358, __c136, 6)),
+          TaskDefaults: S.optional(__S(4359, __c136, 7)),
         }).pipe(T.Http({ method: "POST", uri: "/swarm/update", code: 200 })),
       ).annotate({ identifier: "UpdateSwarmRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           version: S.Number.pipe(T.Query()),
-          Spec: S.optional(__S(1415, __c44, 7)),
+          Spec: S.optional(__S(1447, __c45, 7)),
         }).pipe(T.Http({ method: "PUT", uri: "/volumes/{name}", code: 200 })),
       ).annotate({ identifier: "UpdateVolumeRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6479,7 +6520,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "VolumeInspectRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6490,13 +6531,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VolumesDeleted: S.optional(__S(2816, __c88, 0)),
+          VolumesDeleted: S.optional(__S(2848, __c89, 0)),
           SpaceReclaimed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VolumePruneResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6515,12 +6556,12 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           StatusCode: S.Number,
-          Error: S.optional(__S(353, __c11, 1)),
+          Error: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "ContainerWaitResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6536,14 +6577,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FilesystemChange" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
-      return S.suspend(() => __S(386, __c12, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(418, __c13, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ContainerChangesResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6562,13 +6603,13 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "HealthcheckResult" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(417, __c13, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(449, __c14, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.String),
           FailingStreak: S.optional(S.Number),
-          Log: S.optional(__S(418, __c13, 2)),
+          Log: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "Health" });
     case 4:
@@ -6585,7 +6626,7 @@ function __c13(j: number): any {
           Error: S.optional(S.String),
           StartedAt: S.optional(S.String),
           FinishedAt: S.optional(S.String),
-          Health: S.optional(S.NullOr(__S(419, __c13, 3))),
+          Health: S.optional(S.NullOr(__S(451, __c14, 3))),
         }),
       ).annotate({ identifier: "ContainerState" });
     case 5:
@@ -6597,13 +6638,13 @@ function __c13(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Snapshot: S.optional(S.NullOr(__S(421, __c13, 5))),
+          Snapshot: S.optional(S.NullOr(__S(453, __c14, 5))),
         }),
       ).annotate({ identifier: "RootFSStorage" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          RootFS: S.optional(S.NullOr(__S(422, __c13, 6))),
+          RootFS: S.optional(S.NullOr(__S(454, __c14, 6))),
         }),
       ).annotate({ identifier: "Storage" });
     case 8:
@@ -6615,24 +6656,24 @@ function __c13(j: number): any {
           AttachStdin: S.optional(S.Boolean),
           AttachStdout: S.optional(S.Boolean),
           AttachStderr: S.optional(S.Boolean),
-          ExposedPorts: S.optional(S.NullOr(__S(3456, __c108, 0))),
+          ExposedPorts: S.optional(S.NullOr(__S(3488, __c109, 0))),
           Tty: S.optional(S.Boolean),
           OpenStdin: S.optional(S.Boolean),
           StdinOnce: S.optional(S.Boolean),
-          Env: S.optional(__S(2816, __c88, 0)),
-          Cmd: S.optional(__S(2816, __c88, 0)),
-          Healthcheck: S.optional(__S(3424, __c107, 0)),
+          Env: S.optional(__S(2848, __c89, 0)),
+          Cmd: S.optional(__S(2848, __c89, 0)),
+          Healthcheck: S.optional(__S(3456, __c108, 0)),
           ArgsEscaped: S.optional(S.NullOr(S.Boolean)),
           Image: S.optional(S.String),
-          Volumes: S.optional(__S(3456, __c108, 0)),
+          Volumes: S.optional(__S(3488, __c109, 0)),
           WorkingDir: S.optional(S.String),
-          Entrypoint: S.optional(__S(2816, __c88, 0)),
+          Entrypoint: S.optional(__S(2848, __c89, 0)),
           NetworkDisabled: S.optional(S.NullOr(S.Boolean)),
-          OnBuild: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          OnBuild: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          Labels: S.optional(__S(3552, __c111, 0)),
           StopSignal: S.optional(S.NullOr(S.String)),
           StopTimeout: S.optional(S.NullOr(S.Number)),
-          Shell: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          Shell: S.optional(S.NullOr(__S(2848, __c89, 0))),
         }),
       ).annotate({ identifier: "ContainerConfig" });
     case 9:
@@ -6640,8 +6681,8 @@ function __c13(j: number): any {
         S.Struct({
           SandboxID: S.optional(S.String),
           SandboxKey: S.optional(S.String),
-          Ports: S.optional(__S(515, __c16, 3)),
-          Networks: S.optional(__S(672, __c21, 0)),
+          Ports: S.optional(__S(547, __c17, 3)),
+          Networks: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "NetworkSettings" });
     case 10:
@@ -6650,8 +6691,8 @@ function __c13(j: number): any {
           Id: S.optional(S.String),
           Created: S.optional(S.NullOr(S.String)),
           Path: S.optional(S.String),
-          Args: S.optional(__S(2816, __c88, 0)),
-          State: S.optional(S.NullOr(__S(420, __c13, 4))),
+          Args: S.optional(__S(2848, __c89, 0)),
+          State: S.optional(S.NullOr(__S(452, __c14, 4))),
           Image: S.optional(S.String),
           ResolvConfPath: S.optional(S.String),
           HostnamePath: S.optional(S.String),
@@ -6661,42 +6702,42 @@ function __c13(j: number): any {
           RestartCount: S.optional(S.Number),
           Driver: S.optional(S.String),
           Platform: S.optional(S.String),
-          ImageManifestDescriptor: S.optional(__S(705, __c22, 1)),
+          ImageManifestDescriptor: S.optional(__S(737, __c23, 1)),
           MountLabel: S.optional(S.String),
           ProcessLabel: S.optional(S.String),
           AppArmorProfile: S.optional(S.String),
-          ExecIDs: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          HostConfig: S.optional(__S(516, __c16, 4)),
-          GraphDriver: S.optional(S.NullOr(__S(736, __c23, 0))),
-          Storage: S.optional(S.NullOr(__S(423, __c13, 7))),
+          ExecIDs: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          HostConfig: S.optional(__S(548, __c17, 4)),
+          GraphDriver: S.optional(S.NullOr(__S(768, __c24, 0))),
+          Storage: S.optional(S.NullOr(__S(455, __c14, 7))),
           SizeRw: S.optional(S.NullOr(S.Number)),
           SizeRootFs: S.optional(S.NullOr(S.Number)),
-          Mounts: S.optional(__S(769, __c24, 1)),
-          Config: S.optional(__S(424, __c13, 8)),
-          NetworkSettings: S.optional(__S(425, __c13, 9)),
+          Mounts: S.optional(__S(801, __c25, 1)),
+          Config: S.optional(__S(456, __c14, 8)),
+          NetworkSettings: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "ContainerInspectResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(S.Number);
   }
 }
 function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(2848, __c89, 0));
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          Config: S.optional(__S(3520, __c110, 0)),
+          Config: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "HostConfigLogConfig" });
     case 1:
@@ -6707,9 +6748,9 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "PortBinding" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(514, __c16, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(546, __c17, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6717,20 +6758,20 @@ function __c16(j: number): any {
           Memory: S.optional(S.Number),
           CgroupParent: S.optional(S.String),
           BlkioWeight: S.optional(S.Number),
-          BlkioWeightDevice: S.optional(__S(545, __c17, 1)),
-          BlkioDeviceReadBps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceWriteBps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceReadIOps: S.optional(__S(547, __c17, 3)),
-          BlkioDeviceWriteIOps: S.optional(__S(547, __c17, 3)),
+          BlkioWeightDevice: S.optional(__S(577, __c18, 1)),
+          BlkioDeviceReadBps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceWriteBps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceReadIOps: S.optional(__S(579, __c18, 3)),
+          BlkioDeviceWriteIOps: S.optional(__S(579, __c18, 3)),
           CpuPeriod: S.optional(S.Number),
           CpuQuota: S.optional(S.Number),
           CpuRealtimePeriod: S.optional(S.Number),
           CpuRealtimeRuntime: S.optional(S.Number),
           CpusetCpus: S.optional(S.String),
           CpusetMems: S.optional(S.String),
-          Devices: S.optional(__S(549, __c17, 5)),
-          DeviceCgroupRules: S.optional(__S(2816, __c88, 0)),
-          DeviceRequests: S.optional(__S(551, __c17, 7)),
+          Devices: S.optional(__S(581, __c18, 5)),
+          DeviceCgroupRules: S.optional(__S(2848, __c89, 0)),
+          DeviceRequests: S.optional(__S(583, __c18, 7)),
           MemoryReservation: S.optional(S.Number),
           MemorySwap: S.optional(S.Number),
           MemorySwappiness: S.optional(S.Number),
@@ -6738,56 +6779,56 @@ function __c16(j: number): any {
           OomKillDisable: S.optional(S.Boolean),
           Init: S.optional(S.NullOr(S.Boolean)),
           PidsLimit: S.optional(S.NullOr(S.Number)),
-          Ulimits: S.optional(__S(609, __c19, 1)),
+          Ulimits: S.optional(__S(641, __c20, 1)),
           CpuCount: S.optional(S.Number),
           CpuPercent: S.optional(S.Number),
           IOMaximumIOps: S.optional(S.Number),
           IOMaximumBandwidth: S.optional(S.Number),
-          Binds: S.optional(__S(2816, __c88, 0)),
+          Binds: S.optional(__S(2848, __c89, 0)),
           ContainerIDFile: S.optional(S.String),
-          LogConfig: S.optional(__S(512, __c16, 0)),
+          LogConfig: S.optional(__S(544, __c17, 0)),
           NetworkMode: S.optional(S.String),
-          PortBindings: S.optional(__S(515, __c16, 3)),
-          RestartPolicy: S.optional(__S(552, __c17, 8)),
+          PortBindings: S.optional(__S(547, __c17, 3)),
+          RestartPolicy: S.optional(__S(584, __c18, 8)),
           AutoRemove: S.optional(S.Boolean),
           VolumeDriver: S.optional(S.String),
-          VolumesFrom: S.optional(__S(2816, __c88, 0)),
-          Mounts: S.optional(__S(645, __c20, 5)),
-          ConsoleSize: S.optional(S.NullOr(__S(448, __c14, 0))),
-          Annotations: S.optional(__S(3520, __c110, 0)),
-          CapAdd: S.optional(__S(2816, __c88, 0)),
-          CapDrop: S.optional(__S(2816, __c88, 0)),
+          VolumesFrom: S.optional(__S(2848, __c89, 0)),
+          Mounts: S.optional(__S(677, __c21, 5)),
+          ConsoleSize: S.optional(S.NullOr(__S(480, __c15, 0))),
+          Annotations: S.optional(__S(3552, __c111, 0)),
+          CapAdd: S.optional(__S(2848, __c89, 0)),
+          CapDrop: S.optional(__S(2848, __c89, 0)),
           CgroupnsMode: S.optional(S.String),
-          Dns: S.optional(__S(2816, __c88, 0)),
-          DnsOptions: S.optional(__S(2816, __c88, 0)),
-          DnsSearch: S.optional(__S(2816, __c88, 0)),
-          ExtraHosts: S.optional(__S(2816, __c88, 0)),
-          GroupAdd: S.optional(__S(2816, __c88, 0)),
+          Dns: S.optional(__S(2848, __c89, 0)),
+          DnsOptions: S.optional(__S(2848, __c89, 0)),
+          DnsSearch: S.optional(__S(2848, __c89, 0)),
+          ExtraHosts: S.optional(__S(2848, __c89, 0)),
+          GroupAdd: S.optional(__S(2848, __c89, 0)),
           IpcMode: S.optional(S.String),
           Cgroup: S.optional(S.String),
-          Links: S.optional(__S(2816, __c88, 0)),
+          Links: S.optional(__S(2848, __c89, 0)),
           OomScoreAdj: S.optional(S.Number),
           PidMode: S.optional(S.String),
           Privileged: S.optional(S.Boolean),
           PublishAllPorts: S.optional(S.Boolean),
           ReadonlyRootfs: S.optional(S.Boolean),
-          SecurityOpt: S.optional(__S(2816, __c88, 0)),
-          StorageOpt: S.optional(__S(3520, __c110, 0)),
-          Tmpfs: S.optional(__S(3520, __c110, 0)),
+          SecurityOpt: S.optional(__S(2848, __c89, 0)),
+          StorageOpt: S.optional(__S(3552, __c111, 0)),
+          Tmpfs: S.optional(__S(3552, __c111, 0)),
           UTSMode: S.optional(S.String),
           UsernsMode: S.optional(S.String),
           ShmSize: S.optional(S.Number),
-          Sysctls: S.optional(S.NullOr(__S(3520, __c110, 0))),
+          Sysctls: S.optional(S.NullOr(__S(3552, __c111, 0))),
           Runtime: S.optional(S.NullOr(S.String)),
           Umask: S.optional(S.NullOr(S.Number)),
           Isolation: S.optional(S.String),
-          MaskedPaths: S.optional(__S(2816, __c88, 0)),
-          ReadonlyPaths: S.optional(__S(2816, __c88, 0)),
+          MaskedPaths: S.optional(__S(2848, __c89, 0)),
+          ReadonlyPaths: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "HostConfig" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6797,7 +6838,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "HostConfigBlkioWeightDeviceItem" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6806,7 +6847,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ThrottleDevice" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(578, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6816,19 +6857,19 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "DeviceMapping" });
     case 5:
-      return S.Array(__S(548, __c17, 4));
+      return S.Array(__S(580, __c18, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           Driver: S.optional(S.String),
           Count: S.optional(S.Number),
-          DeviceIDs: S.optional(__S(2816, __c88, 0)),
-          Capabilities: S.optional(__S(480, __c15, 0)),
-          Options: S.optional(__S(3520, __c110, 0)),
+          DeviceIDs: S.optional(__S(2848, __c89, 0)),
+          Capabilities: S.optional(__S(512, __c16, 0)),
+          Options: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "DeviceRequest" });
     case 7:
-      return S.Array(__S(550, __c17, 6));
+      return S.Array(__S(582, __c18, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6838,18 +6879,18 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RestartPolicy" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Options: S.optional(__S(3520, __c110, 0)),
+          Options: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "MountVolumeOptionsDriverConfig" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6860,10 +6901,10 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "HostConfigUlimitsItem" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6879,8 +6920,8 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NoCopy: S.optional(S.Boolean),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          DriverConfig: S.optional(__S(576, __c18, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          DriverConfig: S.optional(__S(608, __c19, 0)),
           Subpath: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountVolumeOptions" });
@@ -6895,7 +6936,7 @@ function __c20(j: number): any {
         S.Struct({
           SizeBytes: S.optional(S.Number),
           Mode: S.optional(S.Number),
-          Options: S.optional(__S(480, __c15, 0)),
+          Options: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "MountTmpfsOptions" });
     case 4:
@@ -6906,23 +6947,23 @@ function __c20(j: number): any {
           Type: S.optional(S.String),
           ReadOnly: S.optional(S.Boolean),
           Consistency: S.optional(S.String),
-          BindOptions: S.optional(__S(640, __c20, 0)),
-          VolumeOptions: S.optional(__S(641, __c20, 1)),
-          ImageOptions: S.optional(__S(642, __c20, 2)),
-          TmpfsOptions: S.optional(__S(643, __c20, 3)),
+          BindOptions: S.optional(__S(672, __c21, 0)),
+          VolumeOptions: S.optional(__S(673, __c21, 1)),
+          ImageOptions: S.optional(__S(674, __c21, 2)),
+          TmpfsOptions: S.optional(__S(675, __c21, 3)),
         }),
       ).annotate({ identifier: "Mount" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(4417, __c138, 1));
+      return S.Array(__S(676, __c21, 4));
   }
 }
 function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(4449, __c139, 1));
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6930,7 +6971,7 @@ function __c22(j: number): any {
           architecture: S.optional(S.String),
           os: S.optional(S.String),
           os_version: S.optional(S.String.pipe(T.Body("os.version"))),
-          os_features: S.optional(__S(2816, __c88, 0).pipe(T.Body("os.features"))),
+          os_features: S.optional(__S(2848, __c89, 0).pipe(T.Body("os.features"))),
           variant: S.optional(S.String),
         }),
       ).annotate({ identifier: "OCIPlatform" });
@@ -6940,27 +6981,27 @@ function __c22(j: number): any {
           mediaType: S.optional(S.String),
           digest: S.optional(S.String),
           size: S.optional(S.Number),
-          urls: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          annotations: S.optional(S.NullOr(__S(3520, __c110, 0))),
+          urls: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          annotations: S.optional(S.NullOr(__S(3552, __c111, 0))),
           data: S.optional(S.NullOr(S.String)),
-          platform: S.optional(S.NullOr(__S(704, __c22, 0))),
+          platform: S.optional(S.NullOr(__S(736, __c23, 0))),
           artifactType: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "OCIDescriptor" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Data: __S(3520, __c110, 0),
+          Data: __S(3552, __c111, 0),
         }),
       ).annotate({ identifier: "DriverData" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6976,10 +7017,10 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "MountPoint" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6996,7 +7037,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ContainerLogsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -7004,7 +7045,7 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7015,13 +7056,13 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContainersDeleted: S.optional(__S(2816, __c88, 0)),
+          ContainersDeleted: S.optional(__S(2848, __c89, 0)),
           SpaceReclaimed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ContainerPruneResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7035,7 +7076,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total_usage: S.optional(S.Number),
-          percpu_usage: S.optional(S.NullOr(__S(448, __c14, 0))),
+          percpu_usage: S.optional(S.NullOr(__S(480, __c15, 0))),
           usage_in_kernelmode: S.optional(S.Number),
           usage_in_usermode: S.optional(S.Number),
         }),
@@ -7051,10 +7092,10 @@ function __c28(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cpu_usage: S.optional(S.NullOr(__S(897, __c28, 1))),
+          cpu_usage: S.optional(S.NullOr(__S(929, __c29, 1))),
           system_cpu_usage: S.optional(S.NullOr(S.Number)),
           online_cpus: S.optional(S.NullOr(S.Number)),
-          throttling_data: S.optional(S.NullOr(__S(898, __c28, 2))),
+          throttling_data: S.optional(S.NullOr(__S(930, __c29, 2))),
         }),
       ).annotate({ identifier: "ContainerCPUStats" });
     case 4:
@@ -7064,7 +7105,7 @@ function __c28(j: number): any {
         S.Struct({
           usage: S.optional(S.NullOr(S.Number)),
           max_usage: S.optional(S.NullOr(S.Number)),
-          stats: S.optional(__S(900, __c28, 4)),
+          stats: S.optional(__S(932, __c29, 4)),
           failcnt: S.optional(S.NullOr(S.Number)),
           limit: S.optional(S.NullOr(S.Number)),
           commitbytes: S.optional(S.NullOr(S.Number)),
@@ -7088,7 +7129,7 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ContainerNetworkStats" });
     case 7:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(902, __c28, 6)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(934, __c29, 6)));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -7106,18 +7147,18 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ContainerBlkioStatEntry" });
     case 10:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(905, __c28, 9)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(937, __c29, 9)));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          io_service_bytes_recursive: S.optional(__S(906, __c28, 10)),
-          io_serviced_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          io_queue_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          io_service_time_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          io_wait_time_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          io_merged_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          io_time_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
-          sectors_recursive: S.optional(S.NullOr(__S(906, __c28, 10))),
+          io_service_bytes_recursive: S.optional(__S(938, __c29, 10)),
+          io_serviced_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          io_queue_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          io_service_time_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          io_wait_time_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          io_merged_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          io_time_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
+          sectors_recursive: S.optional(S.NullOr(__S(938, __c29, 10))),
         }),
       ).annotate({ identifier: "ContainerBlkioStats" });
     case 12:
@@ -7136,20 +7177,20 @@ function __c28(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           os_type: S.optional(S.NullOr(S.String)),
           read: S.optional(S.String),
-          cpu_stats: S.optional(S.NullOr(__S(899, __c28, 3))),
-          memory_stats: S.optional(__S(901, __c28, 5)),
-          networks: S.optional(S.NullOr(__S(903, __c28, 7))),
-          pids_stats: S.optional(S.NullOr(__S(904, __c28, 8))),
-          blkio_stats: S.optional(S.NullOr(__S(907, __c28, 11))),
+          cpu_stats: S.optional(S.NullOr(__S(931, __c29, 3))),
+          memory_stats: S.optional(__S(933, __c29, 5)),
+          networks: S.optional(S.NullOr(__S(935, __c29, 7))),
+          pids_stats: S.optional(S.NullOr(__S(936, __c29, 8))),
+          blkio_stats: S.optional(S.NullOr(__S(939, __c29, 11))),
           num_procs: S.optional(S.Number),
-          storage_stats: S.optional(S.NullOr(__S(908, __c28, 12))),
+          storage_stats: S.optional(S.NullOr(__S(940, __c29, 12))),
           preread: S.optional(S.String),
-          precpu_stats: S.optional(S.NullOr(__S(899, __c28, 3))),
+          precpu_stats: S.optional(S.NullOr(__S(931, __c29, 3))),
         }),
       ).annotate({ identifier: "ContainerStatsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7161,23 +7202,10 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Titles: S.optional(__S(2816, __c88, 0)),
-          Processes: S.optional(__S(480, __c15, 0)),
+          Titles: S.optional(__S(2848, __c89, 0)),
+          Processes: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "ContainerTopResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Data: S.optional(S.String),
-          Templating: S.optional(__S(3904, __c122, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/configs/create", code: 200 })),
-      ).annotate({ identifier: "CreateConfigRequest" });
   }
 }
 function __c31(j: number): any {
@@ -7185,7 +7213,20 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EndpointsConfig: S.optional(__S(672, __c21, 0)),
+          Name: S.optional(S.String),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Data: S.optional(S.String),
+          Templating: S.optional(__S(3936, __c123, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/configs/create", code: 200 })),
+      ).annotate({ identifier: "CreateConfigRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointsConfig: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "NetworkingConfig" });
     case 1:
@@ -7199,38 +7240,38 @@ function __c31(j: number): any {
           AttachStdin: S.optional(S.Boolean),
           AttachStdout: S.optional(S.Boolean),
           AttachStderr: S.optional(S.Boolean),
-          ExposedPorts: S.optional(S.NullOr(__S(3456, __c108, 0))),
+          ExposedPorts: S.optional(S.NullOr(__S(3488, __c109, 0))),
           Tty: S.optional(S.Boolean),
           OpenStdin: S.optional(S.Boolean),
           StdinOnce: S.optional(S.Boolean),
-          Env: S.optional(__S(2816, __c88, 0)),
-          Cmd: S.optional(__S(2816, __c88, 0)),
-          Healthcheck: S.optional(__S(3424, __c107, 0)),
+          Env: S.optional(__S(2848, __c89, 0)),
+          Cmd: S.optional(__S(2848, __c89, 0)),
+          Healthcheck: S.optional(__S(3456, __c108, 0)),
           ArgsEscaped: S.optional(S.NullOr(S.Boolean)),
           Image: S.optional(S.String),
-          Volumes: S.optional(__S(3456, __c108, 0)),
+          Volumes: S.optional(__S(3488, __c109, 0)),
           WorkingDir: S.optional(S.String),
-          Entrypoint: S.optional(__S(2816, __c88, 0)),
+          Entrypoint: S.optional(__S(2848, __c89, 0)),
           NetworkDisabled: S.optional(S.NullOr(S.Boolean)),
-          OnBuild: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          OnBuild: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          Labels: S.optional(__S(3552, __c111, 0)),
           StopSignal: S.optional(S.NullOr(S.String)),
           StopTimeout: S.optional(S.NullOr(S.Number)),
-          Shell: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          HostConfig: S.optional(__S(516, __c16, 4)),
-          NetworkingConfig: S.optional(__S(992, __c31, 0)),
+          Shell: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          HostConfig: S.optional(__S(548, __c17, 4)),
+          NetworkingConfig: S.optional(__S(1024, __c32, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/containers/create", code: 200 })),
       ).annotate({ identifier: "CreateContainerRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
-          Warnings: __S(2816, __c88, 0),
+          Warnings: __S(2848, __c89, 0),
         }),
       ).annotate({ identifier: "ContainerCreateResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7240,7 +7281,7 @@ function __c32(j: number): any {
           repo: S.optional(S.String.pipe(T.Query())),
           tag: S.optional(S.String.pipe(T.Query())),
           message: S.optional(S.String.pipe(T.Query())),
-          changes: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          changes: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
           platform: S.optional(S.String.pipe(T.Query())),
           xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
@@ -7248,7 +7289,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateImageRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7260,12 +7301,12 @@ function __c33(j: number): any {
           Attachable: S.optional(S.Boolean),
           Ingress: S.optional(S.Boolean),
           ConfigOnly: S.optional(S.Boolean),
-          ConfigFrom: S.optional(__S(1088, __c34, 0)),
-          IPAM: S.optional(__S(1091, __c34, 3)),
+          ConfigFrom: S.optional(__S(1120, __c35, 0)),
+          IPAM: S.optional(__S(1123, __c35, 3)),
           EnableIPv4: S.optional(S.Boolean),
           EnableIPv6: S.optional(S.Boolean),
-          Options: S.optional(__S(3520, __c110, 0)),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Options: S.optional(__S(3552, __c111, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/networks/create", code: 200 })),
       ).annotate({ identifier: "CreateNetworkRequest" });
     case 1:
@@ -7277,7 +7318,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "NetworkCreateResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7291,22 +7332,22 @@ function __c34(j: number): any {
           Subnet: S.optional(S.String),
           IPRange: S.optional(S.String),
           Gateway: S.optional(S.String),
-          AuxiliaryAddresses: S.optional(__S(3520, __c110, 0)),
+          AuxiliaryAddresses: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "IPAMConfig" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Driver: S.optional(S.String),
-          Config: S.optional(__S(1090, __c34, 2)),
-          Options: S.optional(__S(3520, __c110, 0)),
+          Config: S.optional(__S(1122, __c35, 2)),
+          Options: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "IPAM" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7317,43 +7358,18 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreatePluginRequest" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Data: S.optional(S.String),
-          Driver: S.optional(__S(3904, __c122, 0)),
-          Templating: S.optional(__S(3904, __c122, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/secrets/create", code: 200 })),
-      ).annotate({ identifier: "CreateSecretRequest" });
-  }
-}
 function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          TaskTemplate: S.optional(__S(1336, __c41, 24)),
-          Mode: S.optional(__S(1346, __c42, 2)),
-          UpdateConfig: S.optional(__S(1347, __c42, 3)),
-          RollbackConfig: S.optional(__S(1347, __c42, 3)),
-          Networks: S.optional(__S(1335, __c41, 23)),
-          EndpointSpec: S.optional(__S(1348, __c42, 4)),
-        }).pipe(T.Http({ method: "POST", uri: "/services/create", code: 200 })),
-      ).annotate({ identifier: "CreateServiceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ID: S.optional(S.String),
-          Warnings: S.optional(S.NullOr(__S(2816, __c88, 0))),
-        }),
-      ).annotate({ identifier: "ServiceCreateResponse" });
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Data: S.optional(S.String),
+          Driver: S.optional(__S(3936, __c123, 0)),
+          Templating: S.optional(__S(3936, __c123, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/secrets/create", code: 200 })),
+      ).annotate({ identifier: "CreateSecretRequest" });
   }
 }
 function __c38(j: number): any {
@@ -7361,16 +7377,41 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
           Name: S.optional(S.String),
-          Description: S.optional(S.String),
-          Value: S.optional(__S(2816, __c88, 0)),
-        }),
-      ).annotate({ identifier: "PluginPrivilege" });
+          Labels: S.optional(__S(3552, __c111, 0)),
+          TaskTemplate: S.optional(__S(1368, __c42, 24)),
+          Mode: S.optional(__S(1378, __c43, 2)),
+          UpdateConfig: S.optional(__S(1379, __c43, 3)),
+          RollbackConfig: S.optional(__S(1379, __c43, 3)),
+          Networks: S.optional(__S(1367, __c42, 23)),
+          EndpointSpec: S.optional(__S(1380, __c43, 4)),
+        }).pipe(T.Http({ method: "POST", uri: "/services/create", code: 200 })),
+      ).annotate({ identifier: "CreateServiceRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.suspend(() =>
+        S.Struct({
+          ID: S.optional(S.String),
+          Warnings: S.optional(S.NullOr(__S(2848, __c89, 0))),
+        }),
+      ).annotate({ identifier: "ServiceCreateResponse" });
   }
 }
 function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Value: S.optional(__S(2848, __c89, 0)),
+        }),
+      ).annotate({ identifier: "PluginPrivilege" });
+    case 1:
+      return S.Array(__S(1248, __c39, 0));
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7389,22 +7430,22 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          NamedResourceSpec: S.optional(__S(1248, __c39, 0)),
-          DiscreteResourceSpec: S.optional(__S(1249, __c39, 1)),
+          NamedResourceSpec: S.optional(__S(1280, __c40, 0)),
+          DiscreteResourceSpec: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "GenericResourcesItem" });
     case 3:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1282, __c40, 2));
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NanoCPUs: S.optional(S.Number),
           MemoryBytes: S.optional(S.Number),
-          GenericResources: S.optional(__S(1251, __c39, 3)),
+          GenericResources: S.optional(__S(1283, __c40, 3)),
         }),
       ).annotate({ identifier: "ResourceObject" });
     case 1:
@@ -7416,7 +7457,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "Platform" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7424,7 +7465,7 @@ function __c41(j: number): any {
           Name: S.optional(S.String),
           Remote: S.optional(S.String),
           Disabled: S.optional(S.Boolean),
-          PluginPrivilege: S.optional(__S(1217, __c38, 1)),
+          PluginPrivilege: S.optional(__S(1249, __c39, 1)),
         }),
       ).annotate({ identifier: "TaskSpecPluginSpec" });
     case 1:
@@ -7461,19 +7502,19 @@ function __c41(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          CredentialSpec: S.optional(__S(1313, __c41, 1)),
-          SELinuxContext: S.optional(__S(1314, __c41, 2)),
-          Seccomp: S.optional(__S(1315, __c41, 3)),
-          AppArmor: S.optional(__S(1316, __c41, 4)),
+          CredentialSpec: S.optional(__S(1345, __c42, 1)),
+          SELinuxContext: S.optional(__S(1346, __c42, 2)),
+          Seccomp: S.optional(__S(1347, __c42, 3)),
+          AppArmor: S.optional(__S(1348, __c42, 4)),
           NoNewPrivileges: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TaskSpecContainerSpecPrivileges" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Nameservers: S.optional(__S(2816, __c88, 0)),
-          Search: S.optional(__S(2816, __c88, 0)),
-          Options: S.optional(__S(2816, __c88, 0)),
+          Nameservers: S.optional(__S(2848, __c89, 0)),
+          Search: S.optional(__S(2848, __c89, 0)),
+          Options: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "TaskSpecContainerSpecDNSConfig" });
     case 7:
@@ -7488,55 +7529,55 @@ function __c41(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          File: S.optional(__S(1319, __c41, 7)),
+          File: S.optional(__S(1351, __c42, 7)),
           SecretID: S.optional(S.String),
           SecretName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskSpecContainerSpecSecretsItem" });
     case 9:
-      return S.Array(__S(1320, __c41, 8));
+      return S.Array(__S(1352, __c42, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          File: S.optional(__S(1319, __c41, 7)),
+          File: S.optional(__S(1351, __c42, 7)),
           Runtime: S.optional(S.Unknown),
           ConfigID: S.optional(S.String),
           ConfigName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskSpecContainerSpecConfigsItem" });
     case 11:
-      return S.Array(__S(1322, __c41, 10));
+      return S.Array(__S(1354, __c42, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           Image: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Command: S.optional(__S(2816, __c88, 0)),
-          Args: S.optional(__S(2816, __c88, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Command: S.optional(__S(2848, __c89, 0)),
+          Args: S.optional(__S(2848, __c89, 0)),
           Hostname: S.optional(S.String),
-          Env: S.optional(__S(2816, __c88, 0)),
+          Env: S.optional(__S(2848, __c89, 0)),
           Dir: S.optional(S.String),
           User: S.optional(S.String),
-          Groups: S.optional(__S(2816, __c88, 0)),
-          Privileges: S.optional(__S(1317, __c41, 5)),
+          Groups: S.optional(__S(2848, __c89, 0)),
+          Privileges: S.optional(__S(1349, __c42, 5)),
           TTY: S.optional(S.Boolean),
           OpenStdin: S.optional(S.Boolean),
           ReadOnly: S.optional(S.Boolean),
-          Mounts: S.optional(__S(645, __c20, 5)),
+          Mounts: S.optional(__S(677, __c21, 5)),
           StopSignal: S.optional(S.String),
           StopGracePeriod: S.optional(S.Number),
-          Healthcheck: S.optional(__S(3424, __c107, 0)),
-          Hosts: S.optional(__S(2816, __c88, 0)),
-          DNSConfig: S.optional(__S(1318, __c41, 6)),
-          Secrets: S.optional(__S(1321, __c41, 9)),
+          Healthcheck: S.optional(__S(3456, __c108, 0)),
+          Hosts: S.optional(__S(2848, __c89, 0)),
+          DNSConfig: S.optional(__S(1350, __c42, 6)),
+          Secrets: S.optional(__S(1353, __c42, 9)),
           OomScoreAdj: S.optional(S.Number),
-          Configs: S.optional(__S(1323, __c41, 11)),
+          Configs: S.optional(__S(1355, __c42, 11)),
           Isolation: S.optional(S.String),
           Init: S.optional(S.NullOr(S.Boolean)),
-          Sysctls: S.optional(__S(3520, __c110, 0)),
-          CapabilityAdd: S.optional(__S(2816, __c88, 0)),
-          CapabilityDrop: S.optional(__S(2816, __c88, 0)),
-          Ulimits: S.optional(__S(609, __c19, 1)),
+          Sysctls: S.optional(__S(3552, __c111, 0)),
+          CapabilityAdd: S.optional(__S(2848, __c89, 0)),
+          CapabilityDrop: S.optional(__S(2848, __c89, 0)),
+          Ulimits: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "TaskSpecContainerSpec" });
     case 13:
@@ -7556,8 +7597,8 @@ function __c41(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          Limits: S.optional(__S(1326, __c41, 14)),
-          Reservations: S.optional(__S(1280, __c40, 0)),
+          Limits: S.optional(__S(1358, __c42, 14)),
+          Reservations: S.optional(__S(1312, __c41, 0)),
           SwapBytes: S.optional(S.NullOr(S.Number)),
           MemorySwappiness: S.optional(S.NullOr(S.Number)),
         }),
@@ -7580,45 +7621,45 @@ function __c41(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          Spread: S.optional(__S(1329, __c41, 17)),
+          Spread: S.optional(__S(1361, __c42, 17)),
         }),
       ).annotate({ identifier: "TaskSpecPlacementPreferencesItem" });
     case 19:
-      return S.Array(__S(1330, __c41, 18));
+      return S.Array(__S(1362, __c42, 18));
     case 20:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          Constraints: S.optional(__S(2816, __c88, 0)),
-          Preferences: S.optional(__S(1331, __c41, 19)),
+          Constraints: S.optional(__S(2848, __c89, 0)),
+          Preferences: S.optional(__S(1363, __c42, 19)),
           MaxReplicas: S.optional(S.Number),
-          Platforms: S.optional(__S(1332, __c41, 20)),
+          Platforms: S.optional(__S(1364, __c42, 20)),
         }),
       ).annotate({ identifier: "TaskSpecPlacement" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           Target: S.optional(S.String),
-          Aliases: S.optional(__S(2816, __c88, 0)),
-          DriverOpts: S.optional(__S(3520, __c110, 0)),
+          Aliases: S.optional(__S(2848, __c89, 0)),
+          DriverOpts: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "NetworkAttachmentConfig" });
     case 23:
-      return S.Array(__S(1334, __c41, 22));
+      return S.Array(__S(1366, __c42, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          PluginSpec: S.optional(__S(1312, __c41, 0)),
-          ContainerSpec: S.optional(__S(1324, __c41, 12)),
-          NetworkAttachmentSpec: S.optional(__S(1325, __c41, 13)),
-          Resources: S.optional(__S(1327, __c41, 15)),
-          RestartPolicy: S.optional(__S(1328, __c41, 16)),
-          Placement: S.optional(__S(1333, __c41, 21)),
+          PluginSpec: S.optional(__S(1344, __c42, 0)),
+          ContainerSpec: S.optional(__S(1356, __c42, 12)),
+          NetworkAttachmentSpec: S.optional(__S(1357, __c42, 13)),
+          Resources: S.optional(__S(1359, __c42, 15)),
+          RestartPolicy: S.optional(__S(1360, __c42, 16)),
+          Placement: S.optional(__S(1365, __c42, 21)),
           ForceUpdate: S.optional(S.Number),
           Runtime: S.optional(S.String),
-          Networks: S.optional(__S(1335, __c41, 23)),
-          LogDriver: S.optional(__S(576, __c18, 0)),
+          Networks: S.optional(__S(1367, __c42, 23)),
+          LogDriver: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "TaskSpec" });
     case 25:
@@ -7632,10 +7673,10 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "EndpointPortConfig" });
     case 26:
-      return S.Array(__S(1337, __c41, 25));
+      return S.Array(__S(1369, __c42, 25));
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7653,9 +7694,9 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Replicated: S.optional(__S(1344, __c42, 0)),
+          Replicated: S.optional(__S(1376, __c43, 0)),
           Global: S.optional(S.Unknown),
-          ReplicatedJob: S.optional(__S(1345, __c42, 1)),
+          ReplicatedJob: S.optional(__S(1377, __c43, 1)),
           GlobalJob: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateServiceRequestMode" });
@@ -7674,26 +7715,26 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Mode: S.optional(S.String),
-          Ports: S.optional(__S(1338, __c41, 26)),
+          Ports: S.optional(__S(1370, __c42, 26)),
         }),
       ).annotate({ identifier: "EndpointSpec" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           Driver: S.optional(S.String),
-          DriverOpts: S.optional(__S(3520, __c110, 0)),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          ClusterVolumeSpec: S.optional(__S(1415, __c44, 7)),
+          DriverOpts: S.optional(__S(3552, __c111, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          ClusterVolumeSpec: S.optional(__S(1447, __c45, 7)),
         }).pipe(T.Http({ method: "POST", uri: "/volumes/create", code: 200 })),
       ).annotate({ identifier: "CreateVolumeRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7703,20 +7744,20 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "ClusterVolumeSpecAccessModeSecretsItem" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Segments: S.optional(__S(3520, __c110, 0)),
+          Segments: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "Topology" });
     case 3:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Requisite: S.optional(__S(1411, __c44, 3)),
-          Preferred: S.optional(__S(1411, __c44, 3)),
+          Requisite: S.optional(__S(1443, __c45, 3)),
+          Preferred: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "ClusterVolumeSpecAccessModeAccessibilityRequirements" });
     case 5:
@@ -7732,9 +7773,9 @@ function __c44(j: number): any {
           Scope: S.optional(S.String),
           Sharing: S.optional(S.String),
           MountVolume: S.optional(S.Unknown),
-          Secrets: S.optional(__S(1409, __c44, 1)),
-          AccessibilityRequirements: S.optional(__S(1412, __c44, 4)),
-          CapacityRange: S.optional(__S(1413, __c44, 5)),
+          Secrets: S.optional(__S(1441, __c45, 1)),
+          AccessibilityRequirements: S.optional(__S(1444, __c45, 4)),
+          CapacityRange: S.optional(__S(1445, __c45, 5)),
           Availability: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterVolumeSpecAccessMode" });
@@ -7742,20 +7783,20 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Group: S.optional(S.String),
-          AccessMode: S.optional(__S(1414, __c44, 6)),
+          AccessMode: S.optional(__S(1446, __c45, 6)),
         }),
       ).annotate({ identifier: "ClusterVolumeSpec" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CapacityBytes: S.optional(S.Number),
-          VolumeContext: S.optional(__S(3520, __c110, 0)),
+          VolumeContext: S.optional(__S(3552, __c111, 0)),
           VolumeID: S.optional(S.String),
-          AccessibleTopology: S.optional(__S(1411, __c44, 3)),
+          AccessibleTopology: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "ClusterVolumeInfo" });
     case 1:
@@ -7763,21 +7804,21 @@ function __c45(j: number): any {
         S.Struct({
           NodeID: S.optional(S.String),
           State: S.optional(S.String),
-          PublishContext: S.optional(__S(3520, __c110, 0)),
+          PublishContext: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "ClusterVolumePublishStatusItem" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(1415, __c44, 7)),
-          Info: S.optional(__S(1440, __c45, 0)),
-          PublishStatus: S.optional(__S(1442, __c45, 2)),
+          Spec: S.optional(__S(1447, __c45, 7)),
+          Info: S.optional(__S(1472, __c46, 0)),
+          PublishStatus: S.optional(__S(1474, __c46, 2)),
         }),
       ).annotate({ identifier: "ClusterVolume" });
     case 4:
@@ -7794,17 +7835,17 @@ function __c45(j: number): any {
           Driver: S.String,
           Mountpoint: S.String,
           CreatedAt: S.optional(S.String),
-          Status: S.optional(__S(3456, __c108, 0)),
-          Labels: __S(3520, __c110, 0),
+          Status: S.optional(__S(3488, __c109, 0)),
+          Labels: __S(3552, __c111, 0),
           Scope: S.String,
-          ClusterVolume: S.optional(__S(1443, __c45, 3)),
-          Options: __S(3520, __c110, 0),
-          UsageData: S.optional(S.NullOr(__S(1444, __c45, 4))),
+          ClusterVolume: S.optional(__S(1475, __c46, 3)),
+          Options: __S(3552, __c111, 0),
+          UsageData: S.optional(S.NullOr(__S(1476, __c46, 4))),
         }),
       ).annotate({ identifier: "Volume" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7814,7 +7855,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteConfigRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7827,7 +7868,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteContainerRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7835,16 +7876,16 @@ function __c48(j: number): any {
           name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
           noprune: S.optional(S.Boolean.pipe(T.Query())),
-          platforms: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          platforms: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/images/{name}", code: 200 })),
       ).annotate({ identifier: "DeleteImageRequest" });
     case 1:
-      return S.suspend(() => __S(1569, __c49, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1601, __c50, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteImageResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7854,10 +7895,10 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "ImageDeleteResponseItem" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1600, __c50, 0));
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7867,7 +7908,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteNetworkRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7878,7 +7919,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteNodeRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7889,46 +7930,46 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeletePluginRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.String,
-          Settable: __S(2816, __c88, 0),
+          Settable: __S(2848, __c89, 0),
           Source: S.String,
           Destination: S.String,
           Type: S.String,
-          Options: __S(2816, __c88, 0),
+          Options: __S(2848, __c89, 0),
         }),
       ).annotate({ identifier: "PluginMount" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.String,
-          Settable: __S(2816, __c88, 0),
+          Settable: __S(2848, __c89, 0),
           Path: S.String,
         }),
       ).annotate({ identifier: "PluginDevice" });
     case 3:
-      return S.Array(__S(1698, __c53, 2));
+      return S.Array(__S(1730, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Mounts: __S(1697, __c53, 1),
-          Env: __S(2816, __c88, 0),
-          Args: __S(2816, __c88, 0),
-          Devices: __S(1699, __c53, 3),
+          Mounts: __S(1729, __c54, 1),
+          Env: __S(2848, __c89, 0),
+          Args: __S(2848, __c89, 0),
+          Devices: __S(1731, __c54, 3),
         }),
       ).annotate({ identifier: "PluginSettings" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Types: __S(2816, __c88, 0),
+          Types: __S(2848, __c89, 0),
           Socket: S.String,
           ProtocolScheme: S.optional(S.String),
         }),
@@ -7949,9 +7990,9 @@ function __c53(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Capabilities: __S(2816, __c88, 0),
+          Capabilities: __S(2848, __c89, 0),
           AllowAllDevices: S.Boolean,
-          Devices: __S(1699, __c53, 3),
+          Devices: __S(1731, __c54, 3),
         }),
       ).annotate({ identifier: "PluginConfigLinux" });
     case 9:
@@ -7959,26 +8000,26 @@ function __c53(j: number): any {
         S.Struct({
           Name: S.String,
           Description: S.String,
-          Settable: __S(2816, __c88, 0),
+          Settable: __S(2848, __c89, 0),
           Value: S.String,
         }),
       ).annotate({ identifier: "PluginEnv" });
     case 10:
-      return S.Array(__S(1705, __c53, 9));
+      return S.Array(__S(1737, __c54, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.String,
-          Settable: __S(2816, __c88, 0),
-          Value: __S(2816, __c88, 0),
+          Settable: __S(2848, __c89, 0),
+          Value: __S(2848, __c89, 0),
         }),
       ).annotate({ identifier: "PluginConfigArgs" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          diff_ids: S.optional(__S(2816, __c88, 0)),
+          diff_ids: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "PluginConfigRootfs" });
     case 13:
@@ -7986,19 +8027,19 @@ function __c53(j: number): any {
         S.Struct({
           Description: S.String,
           Documentation: S.String,
-          Interface: __S(1701, __c53, 5),
-          Entrypoint: __S(2816, __c88, 0),
+          Interface: __S(1733, __c54, 5),
+          Entrypoint: __S(2848, __c89, 0),
           WorkDir: S.String,
-          User: S.optional(__S(1702, __c53, 6)),
-          Network: __S(1703, __c53, 7),
-          Linux: __S(1704, __c53, 8),
+          User: S.optional(__S(1734, __c54, 6)),
+          Network: __S(1735, __c54, 7),
+          Linux: __S(1736, __c54, 8),
           PropagatedMount: S.String,
           IpcHost: S.Boolean,
           PidHost: S.Boolean,
-          Mounts: __S(1697, __c53, 1),
-          Env: __S(1706, __c53, 10),
-          Args: __S(1707, __c53, 11),
-          rootfs: S.optional(__S(1708, __c53, 12)),
+          Mounts: __S(1729, __c54, 1),
+          Env: __S(1738, __c54, 10),
+          Args: __S(1739, __c54, 11),
+          rootfs: S.optional(__S(1740, __c54, 12)),
         }),
       ).annotate({ identifier: "PluginConfig" });
     case 14:
@@ -8007,14 +8048,14 @@ function __c53(j: number): any {
           Id: S.optional(S.String),
           Name: S.String,
           Enabled: S.Boolean,
-          Settings: __S(1700, __c53, 4),
+          Settings: __S(1732, __c54, 4),
           PluginReference: S.optional(S.String),
-          Config: __S(1709, __c53, 13),
+          Config: __S(1741, __c54, 13),
         }),
       ).annotate({ identifier: "Plugin" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8024,7 +8065,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteSecretRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8034,7 +8075,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8045,7 +8086,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteVolumeRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8056,7 +8097,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DisablePluginRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8068,7 +8109,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DisconnectNetworkRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8077,17 +8118,17 @@ function __c59(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/distribution/{name}/json", code: 200 })),
       ).annotate({ identifier: "DistributionInspectRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(704, __c22, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(736, __c23, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Descriptor: __S(705, __c22, 1),
-          Platforms: __S(1889, __c59, 1),
+          Descriptor: __S(737, __c23, 1),
+          Platforms: __S(1921, __c60, 1),
         }),
       ).annotate({ identifier: "DistributionInspect" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8098,7 +8139,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "EnablePluginRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8107,11 +8148,11 @@ function __c61(j: number): any {
           AttachStdin: S.optional(S.Boolean),
           AttachStdout: S.optional(S.Boolean),
           AttachStderr: S.optional(S.Boolean),
-          ConsoleSize: S.optional(S.NullOr(__S(448, __c14, 0))),
+          ConsoleSize: S.optional(S.NullOr(__S(480, __c15, 0))),
           DetachKeys: S.optional(S.String),
           Tty: S.optional(S.Boolean),
-          Env: S.optional(__S(2816, __c88, 0)),
-          Cmd: S.optional(__S(2816, __c88, 0)),
+          Env: S.optional(__S(2848, __c89, 0)),
+          Cmd: S.optional(__S(2848, __c89, 0)),
           Privileged: S.optional(S.Boolean),
           User: S.optional(S.String),
           WorkingDir: S.optional(S.String),
@@ -8119,7 +8160,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ExecContainerRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8134,7 +8175,7 @@ function __c62(j: number): any {
           user: S.optional(S.String),
           tty: S.optional(S.Boolean),
           entrypoint: S.optional(S.String),
-          arguments: S.optional(__S(2816, __c88, 0)),
+          arguments: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "ProcessConfig" });
     case 2:
@@ -8145,7 +8186,7 @@ function __c62(j: number): any {
           ID: S.optional(S.String),
           Running: S.optional(S.Boolean),
           ExitCode: S.optional(S.Number),
-          ProcessConfig: S.optional(__S(1985, __c62, 1)),
+          ProcessConfig: S.optional(__S(2017, __c63, 1)),
           OpenStdin: S.optional(S.Boolean),
           OpenStderr: S.optional(S.Boolean),
           OpenStdout: S.optional(S.Boolean),
@@ -8155,7 +8196,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ExecInspectResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8166,13 +8207,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ArchiveContainerRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ArchiveContainerResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8184,7 +8225,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ExecResizeRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8192,12 +8233,12 @@ function __c66(j: number): any {
           id: S.String.pipe(T.Label()),
           Detach: S.optional(S.Boolean),
           Tty: S.optional(S.Boolean),
-          ConsoleSize: S.optional(S.NullOr(__S(448, __c14, 0))),
+          ConsoleSize: S.optional(S.NullOr(__S(480, __c15, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/exec/{id}/start", code: 200 })),
       ).annotate({ identifier: "ExecStartRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8207,18 +8248,18 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ExportContainerRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          platform: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          platform: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/images/{name}/get", code: 200 })),
       ).annotate({ identifier: "GetImageRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8227,39 +8268,39 @@ function __c69(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/plugins/privileges", code: 200 })),
       ).annotate({ identifier: "GetPluginPrivilegesRequest" });
     case 1:
-      return S.suspend(() => __S(1217, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1249, __c39, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPluginPrivilegesResponse",
       });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          platform: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
-          type: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          platform: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
+          type: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
           statement: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/images/{name}/attestations", code: 200 })),
       ).annotate({ identifier: "ImageAttestationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Descriptor: __S(705, __c22, 1),
+          Descriptor: __S(737, __c23, 1),
           PredicateType: S.String,
           Statement: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "AttestationStatement" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
-      return S.suspend(() => __S(2242, __c70, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2274, __c71, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ImageAttestationsResponse",
       });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8289,25 +8330,24 @@ function __c71(j: number): any {
           target: S.optional(S.String.pipe(T.Query())),
           outputs: S.optional(S.String.pipe(T.Query())),
           version: S.optional(S.String.pipe(T.Query())),
-          contentType: S.optional(S.String.pipe(T.Header("Content-type"))),
           xRegistryConfig: S.optional(S.String.pipe(T.Header("X-Registry-Config"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/build", code: 200 })),
       ).annotate({ identifier: "ImageBuildRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
-          platform: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          names: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
+          platform: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/images/get", code: 200 })),
       ).annotate({ identifier: "ImageGetAllRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8322,20 +8362,20 @@ function __c73(j: number): any {
           Id: S.String,
           Created: S.Number,
           CreatedBy: S.String,
-          Tags: __S(2816, __c88, 0),
+          Tags: __S(2848, __c89, 0),
           Size: S.Number,
           Comment: S.String,
         }),
       ).annotate({ identifier: "ImageHistoryResponseItem" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
-      return S.suspend(() => __S(2338, __c73, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2370, __c74, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ImageHistoryResponse",
       });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8349,25 +8389,25 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           User: S.optional(S.String),
-          ExposedPorts: S.optional(S.NullOr(__S(3456, __c108, 0))),
-          Env: S.optional(__S(2816, __c88, 0)),
-          Cmd: S.optional(__S(2816, __c88, 0)),
-          Healthcheck: S.optional(__S(3424, __c107, 0)),
+          ExposedPorts: S.optional(S.NullOr(__S(3488, __c109, 0))),
+          Env: S.optional(__S(2848, __c89, 0)),
+          Cmd: S.optional(__S(2848, __c89, 0)),
+          Healthcheck: S.optional(__S(3456, __c108, 0)),
           ArgsEscaped: S.optional(S.NullOr(S.Boolean)),
-          Volumes: S.optional(__S(3456, __c108, 0)),
+          Volumes: S.optional(__S(3488, __c109, 0)),
           WorkingDir: S.optional(S.String),
-          Entrypoint: S.optional(__S(2816, __c88, 0)),
-          OnBuild: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Entrypoint: S.optional(__S(2848, __c89, 0)),
+          OnBuild: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          Labels: S.optional(__S(3552, __c111, 0)),
           StopSignal: S.optional(S.NullOr(S.String)),
-          Shell: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          Shell: S.optional(S.NullOr(__S(2848, __c89, 0))),
         }),
       ).annotate({ identifier: "ImageConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          Layers: S.optional(__S(2816, __c88, 0)),
+          Layers: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "ImageInspectRootFS" });
     case 3:
@@ -8380,28 +8420,28 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
-          Descriptor: S.optional(S.NullOr(__S(705, __c22, 1))),
-          Manifests: S.optional(S.NullOr(__S(2415, __c75, 15))),
-          Identity: S.optional(S.NullOr(__S(2410, __c75, 10))),
-          RepoTags: S.optional(__S(2816, __c88, 0)),
-          RepoDigests: S.optional(__S(2816, __c88, 0)),
+          Descriptor: S.optional(S.NullOr(__S(737, __c23, 1))),
+          Manifests: S.optional(S.NullOr(__S(2447, __c76, 15))),
+          Identity: S.optional(S.NullOr(__S(2442, __c76, 10))),
+          RepoTags: S.optional(__S(2848, __c89, 0)),
+          RepoDigests: S.optional(__S(2848, __c89, 0)),
           Comment: S.optional(S.NullOr(S.String)),
           Created: S.optional(S.NullOr(S.String)),
           Author: S.optional(S.NullOr(S.String)),
-          Config: S.optional(__S(2369, __c74, 1)),
+          Config: S.optional(__S(2401, __c75, 1)),
           Architecture: S.optional(S.String),
           Variant: S.optional(S.NullOr(S.String)),
           Os: S.optional(S.String),
           OsVersion: S.optional(S.NullOr(S.String)),
           Size: S.optional(S.Number),
-          GraphDriver: S.optional(S.NullOr(__S(736, __c23, 0))),
-          RootFS: S.optional(__S(2370, __c74, 2)),
-          Metadata: S.optional(__S(2371, __c74, 3)),
+          GraphDriver: S.optional(S.NullOr(__S(768, __c24, 0))),
+          RootFS: S.optional(__S(2402, __c75, 2)),
+          Metadata: S.optional(__S(2403, __c75, 3)),
         }),
       ).annotate({ identifier: "ImageInspect" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8419,7 +8459,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "SignatureTimestamp" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8446,17 +8486,17 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Timestamps: S.optional(__S(2402, __c75, 2)),
+          Timestamps: S.optional(__S(2434, __c76, 2)),
           KnownSigner: S.optional(S.String),
           DockerReference: S.optional(S.String),
-          Signer: S.optional(__S(2403, __c75, 3)),
+          Signer: S.optional(__S(2435, __c76, 3)),
           SignatureType: S.optional(S.String),
           Error: S.optional(S.String),
-          Warnings: S.optional(__S(2816, __c88, 0)),
+          Warnings: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "SignatureIdentity" });
     case 5:
-      return S.Array(__S(2404, __c75, 4));
+      return S.Array(__S(2436, __c76, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -8464,7 +8504,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "PullIdentity" });
     case 7:
-      return S.Array(__S(2406, __c75, 6));
+      return S.Array(__S(2438, __c76, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -8473,13 +8513,13 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "BuildIdentity" });
     case 9:
-      return S.Array(__S(2408, __c75, 8));
+      return S.Array(__S(2440, __c76, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Signature: S.optional(__S(2405, __c75, 5)),
-          Pull: S.optional(__S(2407, __c75, 7)),
-          Build: S.optional(__S(2409, __c75, 9)),
+          Signature: S.optional(__S(2437, __c76, 5)),
+          Pull: S.optional(__S(2439, __c76, 7)),
+          Build: S.optional(__S(2441, __c76, 9)),
         }),
       ).annotate({ identifier: "Identity" });
     case 11:
@@ -8491,10 +8531,10 @@ function __c75(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          Platform: S.NullOr(__S(704, __c22, 0)),
-          Identity: S.optional(S.NullOr(__S(2410, __c75, 10))),
-          Containers: __S(2816, __c88, 0),
-          Size: __S(2411, __c75, 11),
+          Platform: S.NullOr(__S(736, __c23, 0)),
+          Identity: S.optional(S.NullOr(__S(2442, __c76, 10))),
+          Containers: __S(2848, __c89, 0),
+          Size: __S(2443, __c76, 11),
         }),
       ).annotate({ identifier: "ImageManifestSummaryImageData" });
     case 13:
@@ -8507,19 +8547,19 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.String,
-          Descriptor: __S(705, __c22, 1),
+          Descriptor: __S(737, __c23, 1),
           Available: S.Boolean,
-          Size: __S(2400, __c75, 0),
+          Size: __S(2432, __c76, 0),
           Kind: S.String,
-          ImageData: S.optional(S.NullOr(__S(2412, __c75, 12))),
-          AttestationData: S.optional(S.NullOr(__S(2413, __c75, 13))),
+          ImageData: S.optional(S.NullOr(__S(2444, __c76, 12))),
+          AttestationData: S.optional(S.NullOr(__S(2445, __c76, 13))),
         }),
       ).annotate({ identifier: "ImageManifestSummary" });
     case 15:
-      return S.Array(__S(2414, __c75, 14));
+      return S.Array(__S(2446, __c76, 14));
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8535,19 +8575,19 @@ function __c76(j: number): any {
       ).annotate({ identifier: "AttachContainerRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           quiet: S.optional(S.Boolean.pipe(T.Query())),
-          platform: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
+          platform: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
           body: S.optional(S.String.pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/images/load", code: 200 })),
       ).annotate({ identifier: "ImageLoadRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8558,13 +8598,13 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ImagesDeleted: S.optional(__S(1569, __c49, 1)),
+          ImagesDeleted: S.optional(__S(1601, __c50, 1)),
           SpaceReclaimed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ImagePruneResponse" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8577,7 +8617,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ImagePushRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8589,7 +8629,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ImageTagRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8597,13 +8637,13 @@ function __c81(j: number): any {
           ListenAddr: S.String,
           AdvertiseAddr: S.optional(S.String),
           DataPathAddr: S.optional(S.String),
-          RemoteAddrs: __S(2816, __c88, 0),
+          RemoteAddrs: __S(2848, __c89, 0),
           JoinToken: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/swarm/join", code: 200 })),
       ).annotate({ identifier: "JoinSwarmRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8614,7 +8654,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "KillContainerRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8624,7 +8664,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "LeaveSwarmRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8633,14 +8673,14 @@ function __c84(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/configs", code: 200 })),
       ).annotate({ identifier: "ListConfigRequest" });
     case 1:
-      return S.Array(__S(3969, __c124, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 2:
-      return S.suspend(() => __S(2689, __c84, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2721, __c85, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListConfigResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8661,18 +8701,18 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "PortSummary" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NetworkMode: S.optional(S.String),
-          Annotations: S.optional(S.NullOr(__S(3520, __c110, 0))),
+          Annotations: S.optional(S.NullOr(__S(3552, __c111, 0))),
         }),
       ).annotate({ identifier: "ContainerSummaryHostConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Networks: S.optional(__S(672, __c21, 0)),
+          Networks: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "ContainerSummaryNetworkSettings" });
     case 5:
@@ -8686,33 +8726,33 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
-          Names: S.optional(__S(2816, __c88, 0)),
+          Names: S.optional(__S(2848, __c89, 0)),
           Image: S.optional(S.String),
           ImageID: S.optional(S.String),
-          ImageManifestDescriptor: S.optional(S.NullOr(__S(705, __c22, 1))),
+          ImageManifestDescriptor: S.optional(S.NullOr(__S(737, __c23, 1))),
           Command: S.optional(S.String),
           Created: S.optional(S.Number),
-          Ports: S.optional(__S(2722, __c85, 2)),
+          Ports: S.optional(__S(2754, __c86, 2)),
           SizeRw: S.optional(S.NullOr(S.Number)),
           SizeRootFs: S.optional(S.NullOr(S.Number)),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
           State: S.optional(S.String),
           Status: S.optional(S.String),
-          HostConfig: S.optional(__S(2723, __c85, 3)),
-          NetworkSettings: S.optional(__S(2724, __c85, 4)),
-          Mounts: S.optional(__S(769, __c24, 1)),
-          Health: S.optional(__S(2725, __c85, 5)),
+          HostConfig: S.optional(__S(2755, __c86, 3)),
+          NetworkSettings: S.optional(__S(2756, __c86, 4)),
+          Mounts: S.optional(__S(801, __c25, 1)),
+          Health: S.optional(__S(2757, __c86, 5)),
         }),
       ).annotate({ identifier: "ContainerSummary" });
     case 7:
-      return S.Array(__S(2726, __c85, 6));
+      return S.Array(__S(2758, __c86, 6));
     case 8:
-      return S.suspend(() => __S(2727, __c85, 7).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2759, __c86, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListContainerResponse",
       });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8730,26 +8770,26 @@ function __c86(j: number): any {
         S.Struct({
           Id: S.String,
           ParentId: S.String,
-          RepoTags: __S(2816, __c88, 0),
-          RepoDigests: __S(2816, __c88, 0),
+          RepoTags: __S(2848, __c89, 0),
+          RepoDigests: __S(2848, __c89, 0),
           Created: S.Number,
           Size: S.Number,
           SharedSize: S.Number,
-          Labels: __S(3520, __c110, 0),
+          Labels: __S(3552, __c111, 0),
           Containers: S.Number,
-          Manifests: S.optional(__S(2415, __c75, 15)),
-          Descriptor: S.optional(S.NullOr(__S(705, __c22, 1))),
+          Manifests: S.optional(__S(2447, __c76, 15)),
+          Descriptor: S.optional(S.NullOr(__S(737, __c23, 1))),
         }),
       ).annotate({ identifier: "ImageSummary" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2785, __c87, 1));
     case 3:
-      return S.suspend(() => __S(2754, __c86, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2786, __c87, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListImageResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8764,19 +8804,19 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CachesDeleted: S.optional(__S(2816, __c88, 0)),
+          CachesDeleted: S.optional(__S(2848, __c89, 0)),
           SpaceReclaimed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BuildPruneResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8785,14 +8825,14 @@ function __c89(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/networks", code: 200 })),
       ).annotate({ identifier: "ListNetworkRequest" });
     case 1:
-      return S.Array(__S(2912, __c91, 0));
+      return S.Array(__S(2944, __c92, 0));
     case 2:
-      return S.suspend(() => __S(2849, __c89, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2881, __c90, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNetworkResponse",
       });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8802,10 +8842,10 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "PeerInfo" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2912, __c91, 0));
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8817,20 +8857,20 @@ function __c91(j: number): any {
           Driver: S.optional(S.String),
           EnableIPv4: S.optional(S.Boolean),
           EnableIPv6: S.optional(S.Boolean),
-          IPAM: S.optional(__S(1091, __c34, 3)),
+          IPAM: S.optional(__S(1123, __c35, 3)),
           Internal: S.optional(S.Boolean),
           Attachable: S.optional(S.Boolean),
           Ingress: S.optional(S.Boolean),
-          ConfigFrom: S.optional(__S(1088, __c34, 0)),
+          ConfigFrom: S.optional(__S(1120, __c35, 0)),
           ConfigOnly: S.optional(S.Boolean),
-          Options: S.optional(__S(3520, __c110, 0)),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Peers: S.optional(__S(2881, __c90, 1)),
+          Options: S.optional(__S(3552, __c111, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Peers: S.optional(__S(2913, __c91, 1)),
         }),
       ).annotate({ identifier: "Network" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8839,20 +8879,20 @@ function __c92(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/nodes", code: 200 })),
       ).annotate({ identifier: "ListNodeRequest" });
     case 1:
-      return S.Array(__S(2983, __c93, 7));
+      return S.Array(__S(3015, __c94, 7));
     case 2:
-      return S.suspend(() => __S(2945, __c92, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2977, __c93, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNodeResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
           Role: S.optional(S.String),
           Availability: S.optional(S.String),
         }),
@@ -8865,23 +8905,23 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "EngineDescriptionPluginsItem" });
     case 2:
-      return S.Array(__S(2977, __c93, 1));
+      return S.Array(__S(3009, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           EngineVersion: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Plugins: S.optional(__S(2978, __c93, 2)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Plugins: S.optional(__S(3010, __c94, 2)),
         }),
       ).annotate({ identifier: "EngineDescription" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Hostname: S.optional(S.String),
-          Platform: S.optional(__S(1281, __c40, 1)),
-          Resources: S.optional(__S(1280, __c40, 0)),
-          Engine: S.optional(__S(2979, __c93, 3)),
-          TLSInfo: S.optional(__S(3008, __c94, 0)),
+          Platform: S.optional(__S(1313, __c41, 1)),
+          Resources: S.optional(__S(1312, __c41, 0)),
+          Engine: S.optional(__S(3011, __c94, 3)),
+          TLSInfo: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "NodeDescription" });
     case 5:
@@ -8904,18 +8944,18 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(2976, __c93, 0)),
-          Description: S.optional(__S(2980, __c93, 4)),
-          Status: S.optional(__S(2981, __c93, 5)),
-          ManagerStatus: S.optional(S.NullOr(__S(2982, __c93, 6))),
+          Spec: S.optional(__S(3008, __c94, 0)),
+          Description: S.optional(__S(3012, __c94, 4)),
+          Status: S.optional(__S(3013, __c94, 5)),
+          ManagerStatus: S.optional(S.NullOr(__S(3014, __c94, 6))),
         }),
       ).annotate({ identifier: "Node" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8927,7 +8967,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TLSInfo" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8936,26 +8976,10 @@ function __c95(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/plugins", code: 200 })),
       ).annotate({ identifier: "ListPluginRequest" });
     case 1:
-      return S.Array(__S(1710, __c53, 14));
-    case 2:
-      return S.suspend(() => __S(3041, __c95, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListPluginResponse",
-      });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filters: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/secrets", code: 200 })),
-      ).annotate({ identifier: "ListSecretRequest" });
-    case 1:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(1742, __c54, 14));
     case 2:
       return S.suspend(() => __S(3073, __c96, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSecretResponse",
+        identifier: "ListPluginResponse",
       });
   }
 }
@@ -8964,26 +8988,42 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filters: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/secrets", code: 200 })),
+      ).annotate({ identifier: "ListSecretRequest" });
+    case 1:
+      return S.Array(__S(3137, __c98, 1));
+    case 2:
+      return S.suspend(() => __S(3105, __c97, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSecretResponse",
+      });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
           Data: S.optional(S.String),
-          Driver: S.optional(__S(3904, __c122, 0)),
-          Templating: S.optional(__S(3904, __c122, 0)),
+          Driver: S.optional(__S(3936, __c123, 0)),
+          Templating: S.optional(__S(3936, __c123, 0)),
         }),
       ).annotate({ identifier: "SecretSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(3104, __c97, 0)),
+          Spec: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "Secret" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8993,26 +9033,26 @@ function __c98(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
       ).annotate({ identifier: "ListServiceRequest" });
     case 1:
-      return S.Array(__S(3175, __c99, 7));
+      return S.Array(__S(3207, __c100, 7));
     case 2:
-      return S.suspend(() => __S(3137, __c98, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3169, __c99, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServiceResponse",
       });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          TaskTemplate: S.optional(__S(1336, __c41, 24)),
-          Mode: S.optional(__S(1346, __c42, 2)),
-          UpdateConfig: S.optional(__S(1347, __c42, 3)),
-          RollbackConfig: S.optional(__S(1347, __c42, 3)),
-          Networks: S.optional(__S(1335, __c41, 23)),
-          EndpointSpec: S.optional(__S(1348, __c42, 4)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          TaskTemplate: S.optional(__S(1368, __c42, 24)),
+          Mode: S.optional(__S(1378, __c43, 2)),
+          UpdateConfig: S.optional(__S(1379, __c43, 3)),
+          RollbackConfig: S.optional(__S(1379, __c43, 3)),
+          Networks: S.optional(__S(1367, __c42, 23)),
+          EndpointSpec: S.optional(__S(1380, __c43, 4)),
         }),
       ).annotate({ identifier: "ServiceSpec" });
     case 1:
@@ -9023,13 +9063,13 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "ServiceEndpointVirtualIPsItem" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Spec: S.optional(__S(1348, __c42, 4)),
-          Ports: S.optional(__S(1338, __c41, 26)),
-          VirtualIPs: S.optional(__S(3170, __c99, 2)),
+          Spec: S.optional(__S(1380, __c43, 4)),
+          Ports: S.optional(__S(1370, __c42, 26)),
+          VirtualIPs: S.optional(__S(3202, __c100, 2)),
         }),
       ).annotate({ identifier: "ServiceEndpoint" });
     case 4:
@@ -9052,7 +9092,7 @@ function __c99(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          JobIteration: S.optional(__S(3936, __c123, 0)),
+          JobIteration: S.optional(__S(3968, __c124, 0)),
           LastExecution: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceJobStatus" });
@@ -9060,19 +9100,19 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(3168, __c99, 0)),
-          Endpoint: S.optional(__S(3171, __c99, 3)),
-          UpdateStatus: S.optional(__S(3172, __c99, 4)),
-          ServiceStatus: S.optional(__S(3173, __c99, 5)),
-          JobStatus: S.optional(__S(3174, __c99, 6)),
+          Spec: S.optional(__S(3200, __c100, 0)),
+          Endpoint: S.optional(__S(3203, __c100, 3)),
+          UpdateStatus: S.optional(__S(3204, __c100, 4)),
+          ServiceStatus: S.optional(__S(3205, __c100, 5)),
+          JobStatus: S.optional(__S(3206, __c100, 6)),
         }),
       ).annotate({ identifier: "Service" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9081,14 +9121,14 @@ function __c100(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/tasks", code: 200 })),
       ).annotate({ identifier: "ListTaskRequest" });
     case 1:
-      return S.Array(__S(3237, __c101, 5));
+      return S.Array(__S(3269, __c102, 5));
     case 2:
-      return S.suspend(() => __S(3201, __c100, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3233, __c101, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTaskResponse",
       });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9101,7 +9141,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Ports: S.optional(__S(1338, __c41, 26)),
+          Ports: S.optional(__S(1370, __c42, 26)),
         }),
       ).annotate({ identifier: "PortStatus" });
     case 2:
@@ -9111,42 +9151,42 @@ function __c101(j: number): any {
           State: S.optional(S.String),
           Message: S.optional(S.String),
           Err: S.optional(S.String),
-          ContainerStatus: S.optional(__S(3232, __c101, 0)),
-          PortStatus: S.optional(__S(3233, __c101, 1)),
+          ContainerStatus: S.optional(__S(3264, __c102, 0)),
+          PortStatus: S.optional(__S(3265, __c102, 1)),
         }),
       ).annotate({ identifier: "TaskStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Network: S.optional(__S(2912, __c91, 0)),
-          Addresses: S.optional(__S(2816, __c88, 0)),
+          Network: S.optional(__S(2944, __c92, 0)),
+          Addresses: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "NetworkAttachment" });
     case 4:
-      return S.Array(__S(3235, __c101, 3));
+      return S.Array(__S(3267, __c102, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Spec: S.optional(__S(1336, __c41, 24)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Spec: S.optional(__S(1368, __c42, 24)),
           ServiceID: S.optional(S.String),
           Slot: S.optional(S.Number),
           NodeID: S.optional(S.String),
-          AssignedGenericResources: S.optional(__S(1251, __c39, 3)),
-          Status: S.optional(__S(3234, __c101, 2)),
+          AssignedGenericResources: S.optional(__S(1283, __c40, 3)),
+          Status: S.optional(__S(3266, __c102, 2)),
           DesiredState: S.optional(S.String),
-          JobIteration: S.optional(__S(3936, __c123, 0)),
-          NetworksAttachments: S.optional(__S(3236, __c101, 4)),
+          JobIteration: S.optional(__S(3968, __c124, 0)),
+          NetworksAttachments: S.optional(__S(3268, __c102, 4)),
         }),
       ).annotate({ identifier: "Task" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9155,17 +9195,17 @@ function __c102(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/volumes", code: 200 })),
       ).annotate({ identifier: "ListVolumeRequest" });
     case 1:
-      return S.Array(__S(1445, __c45, 5));
+      return S.Array(__S(1477, __c46, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Volumes: S.optional(__S(3265, __c102, 1)),
-          Warnings: S.optional(__S(2816, __c88, 0)),
+          Volumes: S.optional(__S(3297, __c103, 1)),
+          Warnings: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "VolumeListResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9186,7 +9226,7 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "EndpointResource" });
     case 2:
-      return S.Record(S.String, __S(3297, __c103, 1));
+      return S.Record(S.String, __S(3329, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9195,17 +9235,17 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "SubnetStatus" });
     case 4:
-      return S.Record(S.String, __S(3299, __c103, 3));
+      return S.Record(S.String, __S(3331, __c104, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Subnets: S.optional(__S(3300, __c103, 4)),
+          Subnets: S.optional(__S(3332, __c104, 4)),
         }),
       ).annotate({ identifier: "IPAMStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          IPAM: S.optional(__S(3301, __c103, 5)),
+          IPAM: S.optional(__S(3333, __c104, 5)),
         }),
       ).annotate({ identifier: "NetworkStatus" });
     case 7:
@@ -9218,23 +9258,23 @@ function __c103(j: number): any {
           Driver: S.optional(S.String),
           EnableIPv4: S.optional(S.Boolean),
           EnableIPv6: S.optional(S.Boolean),
-          IPAM: S.optional(__S(1091, __c34, 3)),
+          IPAM: S.optional(__S(1123, __c35, 3)),
           Internal: S.optional(S.Boolean),
           Attachable: S.optional(S.Boolean),
           Ingress: S.optional(S.Boolean),
-          ConfigFrom: S.optional(__S(1088, __c34, 0)),
+          ConfigFrom: S.optional(__S(1120, __c35, 0)),
           ConfigOnly: S.optional(S.Boolean),
-          Options: S.optional(__S(3520, __c110, 0)),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Peers: S.optional(__S(2881, __c90, 1)),
-          Containers: S.optional(__S(3298, __c103, 2)),
-          Services: S.optional(__S(3456, __c108, 0)),
-          Status: S.optional(__S(3302, __c103, 6)),
+          Options: S.optional(__S(3552, __c111, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Peers: S.optional(__S(2913, __c91, 1)),
+          Containers: S.optional(__S(3330, __c104, 2)),
+          Services: S.optional(__S(3488, __c109, 0)),
+          Status: S.optional(__S(3334, __c104, 6)),
         }),
       ).annotate({ identifier: "NetworkInspectResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9245,12 +9285,12 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NetworksDeleted: S.optional(__S(2816, __c88, 0)),
+          NetworksDeleted: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "NetworkPruneResponse" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9260,7 +9300,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "NodeInspectRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9278,34 +9318,34 @@ function __c106(j: number): any {
           AttachStdin: S.optional(S.Boolean),
           AttachStdout: S.optional(S.Boolean),
           AttachStderr: S.optional(S.Boolean),
-          ExposedPorts: S.optional(S.NullOr(__S(3456, __c108, 0))),
+          ExposedPorts: S.optional(S.NullOr(__S(3488, __c109, 0))),
           Tty: S.optional(S.Boolean),
           OpenStdin: S.optional(S.Boolean),
           StdinOnce: S.optional(S.Boolean),
-          Env: S.optional(__S(2816, __c88, 0)),
-          Cmd: S.optional(__S(2816, __c88, 0)),
-          Healthcheck: S.optional(__S(3424, __c107, 0)),
+          Env: S.optional(__S(2848, __c89, 0)),
+          Cmd: S.optional(__S(2848, __c89, 0)),
+          Healthcheck: S.optional(__S(3456, __c108, 0)),
           ArgsEscaped: S.optional(S.NullOr(S.Boolean)),
           Image: S.optional(S.String),
-          Volumes: S.optional(__S(3456, __c108, 0)),
+          Volumes: S.optional(__S(3488, __c109, 0)),
           WorkingDir: S.optional(S.String),
-          Entrypoint: S.optional(__S(2816, __c88, 0)),
+          Entrypoint: S.optional(__S(2848, __c89, 0)),
           NetworkDisabled: S.optional(S.NullOr(S.Boolean)),
-          OnBuild: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          OnBuild: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          Labels: S.optional(__S(3552, __c111, 0)),
           StopSignal: S.optional(S.NullOr(S.String)),
           StopTimeout: S.optional(S.NullOr(S.Number)),
-          Shell: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          Shell: S.optional(S.NullOr(__S(2848, __c89, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/commit", code: 200 })),
       ).annotate({ identifier: "CommitImageRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Test: S.optional(__S(2816, __c88, 0)),
+          Test: S.optional(__S(2848, __c89, 0)),
           Interval: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           Retries: S.optional(S.Number),
@@ -9315,13 +9355,13 @@ function __c107(j: number): any {
       ).annotate({ identifier: "HealthConfig" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9331,13 +9371,13 @@ function __c109(j: number): any {
       ).annotate({ identifier: "IDResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9347,7 +9387,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "PauseContainerRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9355,7 +9395,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "PingSystemRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9365,7 +9405,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "PluginInspectRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9373,12 +9413,12 @@ function __c114(j: number): any {
           remote: S.String.pipe(T.Query()),
           name: S.optional(S.String.pipe(T.Query())),
           xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
-          body: S.optional(__S(1217, __c38, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/plugins/pull", code: 200 })),
       ).annotate({ identifier: "PluginPullRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9388,7 +9428,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "PluginPushRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9396,12 +9436,12 @@ function __c116(j: number): any {
           name: S.String.pipe(T.Label()),
           remote: S.String.pipe(T.Query()),
           xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
-          body: S.optional(__S(1217, __c38, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/plugins/{name}/upgrade", code: 200 })),
       ).annotate({ identifier: "PluginUpgradeRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9415,7 +9455,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "PutContainerArchiveRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9426,7 +9466,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "RenameContainerRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9438,7 +9478,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ResizeContainerRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9450,7 +9490,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "RestartContainerRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9460,18 +9500,18 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ConfigInspectRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Options: S.optional(__S(3520, __c110, 0)),
+          Options: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "Driver" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9481,30 +9521,30 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ObjectVersion" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
+          Labels: S.optional(__S(3552, __c111, 0)),
           Data: S.optional(S.String),
-          Templating: S.optional(__S(3904, __c122, 0)),
+          Templating: S.optional(__S(3936, __c123, 0)),
         }),
       ).annotate({ identifier: "ConfigSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(3968, __c124, 0)),
+          Spec: S.optional(__S(4000, __c125, 0)),
         }),
       ).annotate({ identifier: "Config" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9525,14 +9565,14 @@ function __c125(j: number): any {
         }),
       ).annotate({ identifier: "SearchImageResponseBodyItem" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
-      return S.suspend(() => __S(4002, __c125, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4034, __c126, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchImageResponse",
       });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9542,7 +9582,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "SecretInspectRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9553,7 +9593,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ServiceInspectRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9570,7 +9610,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ServiceLogsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9578,18 +9618,18 @@ function __c129(j: number): any {
       ).annotate({ identifier: "SessionRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/plugins/{name}/set", code: 200 })),
       ).annotate({ identifier: "SetPluginRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9600,7 +9640,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "StartContainerRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9612,7 +9652,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "StopContainerRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9621,32 +9661,32 @@ function __c133(j: number): any {
           AdvertiseAddr: S.optional(S.String),
           DataPathAddr: S.optional(S.String),
           DataPathPort: S.optional(S.Number),
-          DefaultAddrPool: S.optional(__S(2816, __c88, 0)),
+          DefaultAddrPool: S.optional(__S(2848, __c89, 0)),
           ForceNewCluster: S.optional(S.Boolean),
           SubnetSize: S.optional(S.Number),
-          Spec: S.optional(__S(4288, __c134, 0)),
+          Spec: S.optional(__S(4320, __c135, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/swarm/init", code: 200 })),
       ).annotate({ identifier: "SwarmInitRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Labels: S.optional(__S(3520, __c110, 0)),
-          Orchestration: S.optional(S.NullOr(__S(4320, __c135, 0))),
-          Raft: S.optional(__S(4321, __c135, 1)),
-          Dispatcher: S.optional(S.NullOr(__S(4322, __c135, 2))),
-          CAConfig: S.optional(S.NullOr(__S(4325, __c135, 5))),
-          EncryptionConfig: S.optional(__S(4326, __c135, 6)),
-          TaskDefaults: S.optional(__S(4327, __c135, 7)),
+          Labels: S.optional(__S(3552, __c111, 0)),
+          Orchestration: S.optional(S.NullOr(__S(4352, __c136, 0))),
+          Raft: S.optional(__S(4353, __c136, 1)),
+          Dispatcher: S.optional(S.NullOr(__S(4354, __c136, 2))),
+          CAConfig: S.optional(S.NullOr(__S(4357, __c136, 5))),
+          EncryptionConfig: S.optional(__S(4358, __c136, 6)),
+          TaskDefaults: S.optional(__S(4359, __c136, 7)),
         }),
       ).annotate({ identifier: "SwarmSpec" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9675,17 +9715,17 @@ function __c135(j: number): any {
         S.Struct({
           Protocol: S.optional(S.String),
           URL: S.optional(S.String),
-          Options: S.optional(__S(3520, __c110, 0)),
+          Options: S.optional(__S(3552, __c111, 0)),
           CACert: S.optional(S.String),
         }),
       ).annotate({ identifier: "SwarmSpecCAConfigExternalCAsItem" });
     case 4:
-      return S.Array(__S(4323, __c135, 3));
+      return S.Array(__S(4355, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           NodeCertExpiry: S.optional(S.Number),
-          ExternalCAs: S.optional(__S(4324, __c135, 4)),
+          ExternalCAs: S.optional(__S(4356, __c136, 4)),
           SigningCACert: S.optional(S.String),
           SigningCAKey: S.optional(S.String),
           ForceRotate: S.optional(S.Number),
@@ -9700,12 +9740,12 @@ function __c135(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          LogDriver: S.optional(__S(576, __c18, 0)),
+          LogDriver: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "SwarmSpecTaskDefaults" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9722,30 +9762,18 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(4288, __c134, 0)),
-          TLSInfo: S.optional(__S(3008, __c94, 0)),
+          Spec: S.optional(__S(4320, __c135, 0)),
+          TLSInfo: S.optional(__S(3040, __c95, 0)),
           RootRotationInProgress: S.optional(S.Boolean),
           DataPathPort: S.optional(S.Number),
-          DefaultAddrPool: S.optional(__S(2816, __c88, 0)),
+          DefaultAddrPool: S.optional(__S(2848, __c89, 0)),
           SubnetSize: S.optional(S.Number),
-          JoinTokens: S.optional(__S(4353, __c136, 1)),
+          JoinTokens: S.optional(__S(4385, __c137, 1)),
         }),
       ).annotate({ identifier: "SwarmInspectResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          Container: S.String,
-          EndpointConfig: S.optional(S.NullOr(__S(4417, __c138, 1))),
-        }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/connect", code: 200 })),
-      ).annotate({ identifier: "ConnectNetworkRequest" });
   }
 }
 function __c138(j: number): any {
@@ -9753,19 +9781,31 @@ function __c138(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+          Container: S.String,
+          EndpointConfig: S.optional(S.NullOr(__S(4449, __c139, 1))),
+        }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/connect", code: 200 })),
+      ).annotate({ identifier: "ConnectNetworkRequest" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           IPv4Address: S.optional(S.String),
           IPv6Address: S.optional(S.String),
-          LinkLocalIPs: S.optional(__S(2816, __c88, 0)),
+          LinkLocalIPs: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "EndpointIPAMConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          IPAMConfig: S.optional(S.NullOr(__S(4416, __c138, 0))),
-          Links: S.optional(__S(2816, __c88, 0)),
+          IPAMConfig: S.optional(S.NullOr(__S(4448, __c139, 0))),
+          Links: S.optional(__S(2848, __c89, 0)),
           MacAddress: S.optional(S.String),
-          Aliases: S.optional(__S(2816, __c88, 0)),
-          DriverOpts: S.optional(S.NullOr(__S(3520, __c110, 0))),
+          Aliases: S.optional(__S(2848, __c89, 0)),
+          DriverOpts: S.optional(S.NullOr(__S(3552, __c111, 0))),
           GwPriority: S.optional(S.Number),
           NetworkID: S.optional(S.String),
           EndpointID: S.optional(S.String),
@@ -9775,12 +9815,12 @@ function __c138(j: number): any {
           IPv6Gateway: S.optional(S.String),
           GlobalIPv6Address: S.optional(S.String),
           GlobalIPv6PrefixLen: S.optional(S.Number),
-          DNSNames: S.optional(__S(2816, __c88, 0)),
+          DNSNames: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "EndpointSettings" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9794,7 +9834,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "SwarmUnlockkeyResponse" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9813,14 +9853,14 @@ function __c140(j: number): any {
       ).annotate({ identifier: "AuthResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(4512, __c141, 0).pipe(T.Query())),
+          type: S.optional(__S(4544, __c142, 0).pipe(T.Query())),
           verbose: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/system/df", code: 200 })),
       ).annotate({ identifier: "SystemDataUsageRequest" });
@@ -9833,21 +9873,21 @@ function __c141(j: number): any {
           TotalCount: S.optional(S.Number),
           Reclaimable: S.optional(S.Number),
           TotalSize: S.optional(S.Number),
-          Items: S.optional(__S(4514, __c141, 2)),
+          Items: S.optional(__S(4546, __c142, 2)),
         }),
       ).annotate({ identifier: "ImagesDiskUsage" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ImageUsage: S.optional(__S(4515, __c141, 3)),
-          ContainerUsage: S.optional(__S(4515, __c141, 3)),
-          VolumeUsage: S.optional(__S(4515, __c141, 3)),
-          BuildCacheUsage: S.optional(__S(4515, __c141, 3)),
+          ImageUsage: S.optional(__S(4547, __c142, 3)),
+          ContainerUsage: S.optional(__S(4547, __c142, 3)),
+          VolumeUsage: S.optional(__S(4547, __c142, 3)),
+          BuildCacheUsage: S.optional(__S(4547, __c142, 3)),
         }),
       ).annotate({ identifier: "SystemDataUsageResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9861,7 +9901,7 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Attributes: S.optional(__S(3520, __c110, 0)),
+          Attributes: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "EventActor" });
     case 2:
@@ -9869,7 +9909,7 @@ function __c142(j: number): any {
         S.Struct({
           Type: S.optional(S.String),
           Action: S.optional(S.String),
-          Actor: S.optional(__S(4545, __c142, 1)),
+          Actor: S.optional(__S(4577, __c143, 1)),
           scope: S.optional(S.String),
           time: S.optional(S.Number),
           timeNano: S.optional(S.Number),
@@ -9877,7 +9917,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "EventMessage" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,41 +9926,41 @@ function __c143(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Volume: S.optional(__S(2816, __c88, 0)),
-          Network: S.optional(__S(2816, __c88, 0)),
-          Authorization: S.optional(__S(2816, __c88, 0)),
-          Log: S.optional(__S(2816, __c88, 0)),
+          Volume: S.optional(__S(2848, __c89, 0)),
+          Network: S.optional(__S(2848, __c89, 0)),
+          Authorization: S.optional(__S(2848, __c89, 0)),
+          Log: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "PluginsInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Mirrors: S.optional(__S(2816, __c88, 0)),
+          Mirrors: S.optional(__S(2848, __c89, 0)),
           Secure: S.optional(S.Boolean),
           Official: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IndexInfo" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(4578, __c143, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(4610, __c144, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          InsecureRegistryCIDRs: S.optional(__S(2816, __c88, 0)),
-          IndexConfigs: S.optional(__S(4579, __c143, 3)),
-          Mirrors: S.optional(__S(2816, __c88, 0)),
+          InsecureRegistryCIDRs: S.optional(__S(2848, __c89, 0)),
+          IndexConfigs: S.optional(__S(4611, __c144, 3)),
+          Mirrors: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "RegistryServiceConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
-          runtimeArgs: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          status: S.optional(S.NullOr(__S(3520, __c110, 0))),
+          runtimeArgs: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          status: S.optional(S.NullOr(__S(3552, __c111, 0))),
         }),
       ).annotate({ identifier: "Runtime" });
     case 6:
-      return S.Record(S.String, __S(4581, __c143, 5));
+      return S.Record(S.String, __S(4613, __c144, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -9929,19 +9969,19 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "PeerNode" });
     case 8:
-      return S.Array(__S(4583, __c143, 7));
+      return S.Array(__S(4615, __c144, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          Version: S.optional(__S(3936, __c123, 0)),
+          Version: S.optional(__S(3968, __c124, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Spec: S.optional(__S(4288, __c134, 0)),
-          TLSInfo: S.optional(__S(3008, __c94, 0)),
+          Spec: S.optional(__S(4320, __c135, 0)),
+          TLSInfo: S.optional(__S(3040, __c95, 0)),
           RootRotationInProgress: S.optional(S.Boolean),
           DataPathPort: S.optional(S.Number),
-          DefaultAddrPool: S.optional(__S(2816, __c88, 0)),
+          DefaultAddrPool: S.optional(__S(2848, __c89, 0)),
           SubnetSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClusterInfo" });
@@ -9953,10 +9993,10 @@ function __c143(j: number): any {
           LocalNodeState: S.optional(S.String),
           ControlAvailable: S.optional(S.Boolean),
           Error: S.optional(S.String),
-          RemoteManagers: S.optional(S.NullOr(__S(4584, __c143, 8))),
+          RemoteManagers: S.optional(S.NullOr(__S(4616, __c144, 8))),
           Nodes: S.optional(S.NullOr(S.Number)),
           Managers: S.optional(S.NullOr(S.Number)),
-          Cluster: S.optional(S.NullOr(__S(4585, __c143, 9))),
+          Cluster: S.optional(S.NullOr(__S(4617, __c144, 9))),
         }),
       ).annotate({ identifier: "SwarmInfo" });
     case 11:
@@ -9973,12 +10013,12 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "SystemInfoDefaultAddressPoolsItem" });
     case 13:
-      return S.Array(__S(4588, __c143, 12));
+      return S.Array(__S(4620, __c144, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           Driver: S.optional(S.String),
-          Info: S.optional(__S(480, __c15, 0)),
+          Info: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "FirewallInfo" });
     case 15:
@@ -9989,11 +10029,11 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "DeviceInfo" });
     case 16:
-      return S.Array(__S(4591, __c143, 15));
+      return S.Array(__S(4623, __c144, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          Info: S.optional(__S(480, __c15, 0)),
+          Info: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "NRIInfo" });
     case 18:
@@ -10007,7 +10047,7 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Address: S.optional(S.String),
-          Namespaces: S.optional(__S(4594, __c143, 18)),
+          Namespaces: S.optional(__S(4626, __c144, 18)),
         }),
       ).annotate({ identifier: "ContainerdInfo" });
     case 20:
@@ -10020,9 +10060,9 @@ function __c143(j: number): any {
           ContainersStopped: S.optional(S.Number),
           Images: S.optional(S.Number),
           Driver: S.optional(S.String),
-          DriverStatus: S.optional(__S(480, __c15, 0)),
+          DriverStatus: S.optional(__S(512, __c16, 0)),
           DockerRootDir: S.optional(S.String),
-          Plugins: S.optional(__S(4577, __c143, 1)),
+          Plugins: S.optional(__S(4609, __c144, 1)),
           MemoryLimit: S.optional(S.Boolean),
           SwapLimit: S.optional(S.Boolean),
           CpuCfsPeriod: S.optional(S.Boolean),
@@ -10048,38 +10088,38 @@ function __c143(j: number): any {
           NCPU: S.optional(S.Number),
           MemTotal: S.optional(S.Number),
           IndexServerAddress: S.optional(S.String),
-          RegistryConfig: S.optional(S.NullOr(__S(4580, __c143, 4))),
-          GenericResources: S.optional(__S(1251, __c39, 3)),
+          RegistryConfig: S.optional(S.NullOr(__S(4612, __c144, 4))),
+          GenericResources: S.optional(__S(1283, __c40, 3)),
           HttpProxy: S.optional(S.String),
           HttpsProxy: S.optional(S.String),
           NoProxy: S.optional(S.String),
           Name: S.optional(S.String),
-          Labels: S.optional(__S(2816, __c88, 0)),
+          Labels: S.optional(__S(2848, __c89, 0)),
           ExperimentalBuild: S.optional(S.Boolean),
           ServerVersion: S.optional(S.String),
-          Runtimes: S.optional(__S(4582, __c143, 6)),
+          Runtimes: S.optional(__S(4614, __c144, 6)),
           DefaultRuntime: S.optional(S.String),
-          Swarm: S.optional(__S(4586, __c143, 10)),
+          Swarm: S.optional(__S(4618, __c144, 10)),
           LiveRestoreEnabled: S.optional(S.Boolean),
           Isolation: S.optional(S.String),
           InitBinary: S.optional(S.String),
-          ContainerdCommit: S.optional(__S(4587, __c143, 11)),
-          RuncCommit: S.optional(__S(4587, __c143, 11)),
-          InitCommit: S.optional(__S(4587, __c143, 11)),
-          SecurityOptions: S.optional(__S(2816, __c88, 0)),
+          ContainerdCommit: S.optional(__S(4619, __c144, 11)),
+          RuncCommit: S.optional(__S(4619, __c144, 11)),
+          InitCommit: S.optional(__S(4619, __c144, 11)),
+          SecurityOptions: S.optional(__S(2848, __c89, 0)),
           ProductLicense: S.optional(S.String),
-          DefaultAddressPools: S.optional(__S(4589, __c143, 13)),
-          FirewallBackend: S.optional(S.NullOr(__S(4590, __c143, 14))),
-          DiscoveredDevices: S.optional(__S(4592, __c143, 16)),
-          NRI: S.optional(S.NullOr(__S(4593, __c143, 17))),
-          Warnings: S.optional(__S(2816, __c88, 0)),
-          CDISpecDirs: S.optional(__S(2816, __c88, 0)),
-          Containerd: S.optional(S.NullOr(__S(4595, __c143, 19))),
+          DefaultAddressPools: S.optional(__S(4621, __c144, 13)),
+          FirewallBackend: S.optional(S.NullOr(__S(4622, __c144, 14))),
+          DiscoveredDevices: S.optional(__S(4624, __c144, 16)),
+          NRI: S.optional(S.NullOr(__S(4625, __c144, 17))),
+          Warnings: S.optional(__S(2848, __c89, 0)),
+          CDISpecDirs: S.optional(__S(2848, __c89, 0)),
+          Containerd: S.optional(S.NullOr(__S(4627, __c144, 19))),
         }),
       ).annotate({ identifier: "SystemInfo" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10100,12 +10140,12 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "SystemVersionComponentsItem" });
     case 3:
-      return S.Array(__S(4610, __c144, 2));
+      return S.Array(__S(4642, __c145, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Platform: S.optional(__S(4609, __c144, 1)),
-          Components: S.optional(__S(4611, __c144, 3)),
+          Platform: S.optional(__S(4641, __c145, 1)),
+          Components: S.optional(__S(4643, __c145, 3)),
           Version: S.optional(S.String),
           ApiVersion: S.optional(S.String),
           MinAPIVersion: S.optional(S.String),
@@ -10120,7 +10160,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "SystemVersion" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10130,7 +10170,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "TaskInspectRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10147,7 +10187,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "TaskLogsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10157,7 +10197,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "UnlockSwarmRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -29,18 +29,32 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export type NotifyGetListRequestStatusTypesList = Array<string>;
 export type NotifyGetListRequestSubjectTypeItem = "issue" | "pull" | "repository";
@@ -49,227 +63,227 @@ export type NotifyGetListRequestSubjectTypeList = Array<
 >;
 export interface NotifyGetListRequest {
   /** If true, show notifications marked as read. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned. */
-  status_types?: NotifyGetListRequestStatusTypesList;
+  status_types?: NotifyGetListRequestStatusTypesList | undefined;
   /** filter notifications by subject type */
-  subject_type?: NotifyGetListRequestSubjectTypeList;
+  subject_type?: NotifyGetListRequestSubjectTypeList | undefined;
   /** Only show notifications updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 /** NotificationSubject contains the notification subject (Issue/Pull/Commit) */
 export interface NotificationSubject {
-  html_url?: string;
-  latest_comment_html_url?: string;
-  latest_comment_url?: string;
-  state?: string;
-  title?: string;
-  type?: string;
-  url?: string;
+  html_url?: string | undefined;
+  latest_comment_html_url?: string | undefined;
+  latest_comment_url?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 /** NotificationThread expose Notification on API */
 export interface NotificationThread {
-  id?: number;
-  pinned?: boolean;
-  repository?: Repository;
-  subject?: NotificationSubject;
-  unread?: boolean;
-  updated_at?: string;
-  url?: string;
+  id?: number | undefined;
+  pinned?: boolean | undefined;
+  repository?: Repository | undefined;
+  subject?: NotificationSubject | undefined;
+  unread?: boolean | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
 }
 export type NotifyGetListResponseBodyList = Array<NotificationThread>;
 export type NotifyGetListResponse = NotifyGetListResponseBodyList;
@@ -284,19 +298,19 @@ export interface NotifyGetRepoListRequest {
   /** name of the repo */
   repo: string;
   /** If true, show notifications marked as read. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned */
-  status_types?: NotifyGetRepoListRequestStatusTypesList;
+  status_types?: NotifyGetRepoListRequestStatusTypesList | undefined;
   /** filter notifications by subject type */
-  subject_type?: NotifyGetRepoListRequestSubjectTypeList;
+  subject_type?: NotifyGetRepoListRequestSubjectTypeList | undefined;
   /** Only show notifications updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type NotifyGetRepoListResponseBodyList = Array<NotificationThread>;
 export type NotifyGetRepoListResponse = NotifyGetRepoListResponseBodyList;
@@ -307,18 +321,18 @@ export interface NotifyGetThreadRequest {
 export interface NotifyNewAvailableRequest {}
 /** NotificationCount number of unread notifications */
 export interface NotificationCount {
-  new?: number;
+  new?: number | undefined;
 }
 export type NotifyReadListRequestStatusTypesList = Array<string>;
 export interface NotifyReadListRequest {
   /** Describes the last point that notifications were checked. Anything updated since this time will not be updated. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
   /** If true, mark all notifications on this repo. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread. */
-  status_types?: NotifyReadListRequestStatusTypesList;
+  status_types?: NotifyReadListRequestStatusTypesList | undefined;
   /** Status to mark notifications as, Defaults to read. */
-  to_status?: string;
+  to_status?: string | undefined;
 }
 export interface NotifyReadListResponse {}
 export type NotifyReadRepoListRequestStatusTypesList = Array<string>;
@@ -328,22 +342,32 @@ export interface NotifyReadRepoListRequest {
   /** name of the repo */
   repo: string;
   /** If true, mark all notifications on this repo. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread. */
-  status_types?: NotifyReadRepoListRequestStatusTypesList;
+  status_types?: NotifyReadRepoListRequestStatusTypesList | undefined;
   /** Status to mark notifications as. Defaults to read. */
-  to_status?: string;
+  to_status?: string | undefined;
   /** Describes the last point that notifications were checked. Anything updated since this time will not be updated. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
 }
 export interface NotifyReadRepoListResponse {}
 export interface NotifyReadThreadRequest {
   /** id of notification thread */
   id: number;
   /** Status to mark notifications as */
-  to_status?: string;
+  to_status?: string | undefined;
 }
 export interface NotifyReadThreadResponse {}
+export interface APIForbiddenError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
 export type NotifyGetListError = ForgejoOpError;
 /** List users's notification threads */
 export const notifyGetList: API.OperationMethod<
@@ -352,8 +376,8 @@ export const notifyGetList: API.OperationMethod<
   NotifyGetListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<NotifyGetListRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<NotifyGetListResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<NotifyGetListRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<NotifyGetListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -369,8 +393,8 @@ export const notifyGetRepoList: API.OperationMethod<
   NotifyGetRepoListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<NotifyGetRepoListRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<NotifyGetRepoListResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<NotifyGetRepoListRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<NotifyGetRepoListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -386,8 +410,8 @@ export const notifyGetThread: API.OperationMethod<
   NotifyGetThreadError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<NotifyGetThreadRequest>,
-  output: __S(44, __c2, 12) as any as S.Schema<NotificationThread>,
+  input: __S(112, __c7, 0) as any as S.Schema<NotifyGetThreadRequest>,
+  output: __S(92, __c5, 12) as any as S.Schema<NotificationThread>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -403,8 +427,8 @@ export const notifyNewAvailable: API.OperationMethod<
   NotifyNewAvailableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<NotifyNewAvailableRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<NotificationCount>,
+  input: __S(128, __c8, 0) as any as S.Schema<NotifyNewAvailableRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<NotificationCount>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -420,8 +444,8 @@ export const notifyReadList: API.OperationMethod<
   NotifyReadListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<NotifyReadListRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadListResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<NotifyReadListRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -437,8 +461,8 @@ export const notifyReadRepoList: API.OperationMethod<
   NotifyReadRepoListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<NotifyReadRepoListRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadRepoListResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<NotifyReadRepoListRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadRepoListResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -454,8 +478,8 @@ export const notifyReadThread: API.OperationMethod<
   NotifyReadThreadError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<NotifyReadThreadRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<NotifyReadThreadResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<NotifyReadThreadRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<NotifyReadThreadResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -469,9 +493,38 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIForbiddenError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(16, __c1, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
-          subject_type: S.optional(__S(16, __c1, 0).pipe(T.Query("subject-type"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
+          subject_type: S.optional(__S(64, __c4, 0).pipe(T.Query("subject-type"))),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -480,19 +533,19 @@ function __c0(j: number): any {
       ).annotate({ identifier: "NotifyGetListRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.Array(__S(44, __c2, 12));
+      return S.Array(__S(92, __c5, 12));
     case 2:
-      return S.suspend(() => __S(17, __c1, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "NotifyGetListResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -580,20 +633,20 @@ function __c2(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(37, __c2, 5)),
+          organization: S.optional(__S(85, __c5, 5)),
           permission: S.optional(S.String),
-          units: S.optional(__S(48, __c3, 0)),
-          units_map: S.optional(__S(38, __c2, 6)),
+          units: S.optional(__S(16, __c1, 0)),
+          units_map: S.optional(__S(86, __c5, 6)),
         }),
       ).annotate({ identifier: "Team" });
     case 8:
-      return S.Array(__S(39, __c2, 7));
+      return S.Array(__S(87, __c5, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(35, __c2, 3)),
-          recipient: S.optional(__S(35, __c2, 3)),
-          teams: S.optional(__S(40, __c2, 8)),
+          doer: S.optional(__S(83, __c5, 3)),
+          recipient: S.optional(__S(83, __c5, 3)),
+          teams: S.optional(__S(88, __c5, 8)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
     case 10:
@@ -617,8 +670,8 @@ function __c2(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(32, __c2, 0)),
-          external_wiki: S.optional(__S(33, __c2, 1)),
+          external_tracker: S.optional(__S(80, __c5, 0)),
+          external_wiki: S.optional(__S(81, __c5, 1)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -635,7 +688,7 @@ function __c2(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(34, __c2, 2)),
+          internal_tracker: S.optional(__S(82, __c5, 2)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -647,17 +700,17 @@ function __c2(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(35, __c2, 3),
-          parent: S.optional(__S(42, __c2, 10)),
-          permissions: S.optional(__S(36, __c2, 4)),
+          owner: __S(83, __c5, 3),
+          parent: S.optional(__S(90, __c5, 10)),
+          permissions: S.optional(__S(84, __c5, 4)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(41, __c2, 9)),
+          repo_transfer: S.optional(__S(89, __c5, 9)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(48, __c3, 0)),
+          topics: S.optional(__S(16, __c1, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -684,8 +737,8 @@ function __c2(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           pinned: S.optional(S.Boolean),
-          repository: S.optional(__S(42, __c2, 10)),
-          subject: S.optional(__S(43, __c2, 11)),
+          repository: S.optional(__S(90, __c5, 10)),
+          subject: S.optional(__S(91, __c5, 11)),
           unread: S.optional(S.Boolean),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
@@ -693,13 +746,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "NotificationThread" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -707,8 +754,8 @@ function __c4(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
-          subject_type: S.optional(__S(16, __c1, 0).pipe(T.Query("subject-type"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
+          subject_type: S.optional(__S(64, __c4, 0).pipe(T.Query("subject-type"))),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -717,7 +764,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "NotifyGetRepoListRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -727,7 +774,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "NotifyGetThreadRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -741,26 +788,26 @@ function __c6(j: number): any {
       ).annotate({ identifier: "NotificationCount" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           last_read_at: S.optional(S.String.pipe(T.Query())),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
           to_status: S.optional(S.String.pipe(T.Query("to-status"))),
         }).pipe(T.Http({ method: "PUT", uri: "/notifications", code: 200 })),
       ).annotate({ identifier: "NotifyReadListRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "NotifyReadListResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -768,14 +815,14 @@ function __c9(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          status_types: S.optional(__S(48, __c3, 0).pipe(T.Query("status-types"))),
+          status_types: S.optional(__S(16, __c1, 0).pipe(T.Query("status-types"))),
           to_status: S.optional(S.String.pipe(T.Query("to-status"))),
           last_read_at: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
       ).annotate({ identifier: "NotifyReadRepoListRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

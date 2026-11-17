@@ -103,124 +103,124 @@ const TELEMETRY = {
 
 export interface AddressValidationRequest {
   /** Address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Address line 2. */
-  address2?: string;
+  address2?: string | undefined;
   /** City. */
-  city?: string;
+  city?: string | undefined;
   /** Country code. */
-  country?: string;
+  country?: string | undefined;
   /** State or province. */
-  state?: string;
+  state?: string | undefined;
   /** Postal or zip code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 export interface AddressValidationResponseValidatedAddressesItem {
   /** Validated address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Validated address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Validated city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Validated country code. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Validated state or province. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The validation result code. */
-  validationCode?: string | null;
+  validationCode?: string | null | undefined;
   /** Validated postal or zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type AddressValidationResponseValidatedAddressesList =
   Array<AddressValidationResponseValidatedAddressesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface AddressValidationResponse {
   /** List of validated address suggestions. */
-  validatedAddresses?: AddressValidationResponseValidatedAddressesList | null;
+  validatedAddresses?: AddressValidationResponseValidatedAddressesList | null | undefined;
 }
 export interface CreateProfileRequest {
   /** Identifier */
   accountId: string;
   /** Street address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Street address line 2 (apt, suite, etc.). */
-  address2?: string;
+  address2?: string | undefined;
   /** Primary billing email address. */
-  billingEmail?: string;
+  billingEmail?: string | undefined;
   /** Rate plan being purchased right after profile setup. */
-  buyingRatePlan?: string;
+  buyingRatePlan?: string | undefined;
   /** Captcha challenge JWT issued during onboarding. */
-  captchaChallengeJwt?: string;
+  captchaChallengeJwt?: string | undefined;
   /** Cloudflare Turnstile response. */
-  cfTurnstileResponse?: string;
+  cfTurnstileResponse?: string | undefined;
   /** City on the billing profile. */
-  city?: string;
+  city?: string | undefined;
   /** Company name on the billing profile. */
-  company?: string;
+  company?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** First name on the billing profile. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** hCaptcha response. */
-  hCaptchaResponse?: string;
+  hCaptchaResponse?: string | undefined;
   /** Last name on the billing profile. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Preferred locale for invoice rendering (BCP 47). */
-  preferredLocale?: string;
+  preferredLocale?: string | undefined;
   /** Secondary billing email address for CC on invoices. */
-  secondaryBillingEmail?: string;
+  secondaryBillingEmail?: string | undefined;
   /** State or region on the billing profile. */
-  state?: string;
+  state?: string | undefined;
   /** Type of tax ID provided. */
-  taxIdType?: string;
+  taxIdType?: string | undefined;
   /** Contact phone number. */
-  telephone?: string;
+  telephone?: string | undefined;
   /** VAT identifier. */
-  vat?: string;
+  vat?: string | undefined;
   /** ZIP or postal code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface CreateProfilesPaymentMethodRequest {
   /** Identifier */
@@ -229,62 +229,147 @@ export interface CreateProfilesPaymentMethodRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProfilesPaymentMethodResponse {
   /** The Stripe client secret for frontend payment method collection. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
   /** The type of Stripe intent created. */
-  intentType?: string | null;
+  intentType?: string | null | undefined;
+}
+export type CreateSpendPolicyRequestAction = "notification" | "usage_block";
+export type CreateSpendPolicyRequestProductId = "workers" | "durable_objects";
+export interface CreateSpendPolicyRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: CreateSpendPolicyRequestAction | (string & {});
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed. */
+  name: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: CreateSpendPolicyRequestProductId | (string & {});
+  /** The spend threshold for the current billing period, in US cents. Must be greater than zero. */
+  thresholdCents: number;
+  /** Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected. */
+  notificationEmail?: string | undefined;
+}
+export type CreateSpendPolicyResponseAction = "notification" | "usage_block";
+export type CreateSpendPolicyResponseProductId = "workers" | "durable_objects";
+export type CreateSpendPolicyResponseCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type CreateSpendPolicyResponseCurrentStateEnforcementDesiredState = "active" | "inactive";
+export interface CreateSpendPolicyResponseCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: CreateSpendPolicyResponseCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: CreateSpendPolicyResponseCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type CreateSpendPolicyResponseCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface CreateSpendPolicyResponseCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: CreateSpendPolicyResponseCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: CreateSpendPolicyResponseCurrentStateStatus;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateSpendPolicyResponse {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: CreateSpendPolicyResponseAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: CreateSpendPolicyResponseProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: CreateSpendPolicyResponseCurrentState | null | undefined;
 }
 export interface DeleteProfileRequest {
   /** Identifier */
   accountId: string;
 }
 export interface DeleteProfileResponse {}
+export interface DeleteSpendPolicyRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** The unique identifier of the spend policy. */
+  policyId: string;
+  ifMatch: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteSpendPolicyResponse {
+  /** The unique identifier of the spend policy. */
+  id: string;
+}
 export interface GetBadDebtRequest {
   /** Identifier */
   accountId: string;
 }
 export interface GetBadDebtResponseInvoicesItem {
   /** Billing history item identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The billing item action. */
-  action?: string | null;
+  action?: string | null | undefined;
   /** The amount associated with this billing item. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The amount remaining to pay. */
-  amountToPay?: number | null;
+  amountToPay?: number | null | undefined;
   /** The currency of the billing item. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The billing item description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The external invoice identifier. */
-  externalInvoiceId?: string | null;
+  externalInvoiceId?: string | null | undefined;
   /** URL to the hosted invoice. */
-  hostedInvoiceUrl?: string | null;
+  hostedInvoiceUrl?: string | null | undefined;
   /** The associated invoice identifier. */
-  invoiceId?: string | null;
+  invoiceId?: string | null | undefined;
   /** When the billing event occurred. */
-  occurredAt?: string | null;
+  occurredAt?: string | null | undefined;
   /** The associated receipt identifier. */
-  receiptId?: string | null;
+  receiptId?: string | null | undefined;
   /** The source of the billing item. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The source invoice identifier. */
-  sourceInvoiceId?: string | null;
+  sourceInvoiceId?: string | null | undefined;
   /** The status of the billing item. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The billing item type. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type GetBadDebtResponseInvoicesList = Array<GetBadDebtResponseInvoicesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBadDebtResponse {
   /** Amount already paid towards the debt. */
-  alreadyPaid?: number | null;
+  alreadyPaid?: number | null | undefined;
   /** The current bad debt status of the account. */
-  badDebtStatus?: string | null;
+  badDebtStatus?: string | null | undefined;
   /** List of outstanding invoices contributing to bad debt. */
-  invoices?: GetBadDebtResponseInvoicesList | null;
+  invoices?: GetBadDebtResponseInvoicesList | null | undefined;
   /** Total outstanding debt amount. */
-  totalDebtAmount?: number | null;
+  totalDebtAmount?: number | null | undefined;
 }
 export interface GetCreditRequest {
   /** Identifier */
@@ -293,25 +378,25 @@ export interface GetCreditRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCreditResponse {
   /** The confirmed credit balance in cents. */
-  confirmedBalanceCents?: number | null;
+  confirmedBalanceCents?: number | null | undefined;
   /** Currency of the credit balance. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Days remaining until the credits expire. */
-  daysRemaining?: number | null;
+  daysRemaining?: number | null | undefined;
   /** Whether the account is eligible to receive credits. */
-  eligible?: boolean | null;
+  eligible?: boolean | null | undefined;
   /** Whether a credit record exists for the account. */
-  hasRecord?: boolean | null;
+  hasRecord?: boolean | null | undefined;
   /** The original credit amount in cents. */
-  originalAmountCents?: number | null;
+  originalAmountCents?: number | null | undefined;
   /** Percentage of the original credit amount consumed. */
-  percentConsumed?: number | null;
+  percentConsumed?: number | null | undefined;
   /** Projected date when the credits will be depleted. */
-  projectedDepletionDate?: string | null;
+  projectedDepletionDate?: string | null | undefined;
   /** When the credits become valid. */
-  validFrom?: string | null;
+  validFrom?: string | null | undefined;
   /** When the credits expire. */
-  validTo?: string | null;
+  validTo?: string | null | undefined;
 }
 export interface GetProfileRequest {
   /** Identifier */
@@ -320,44 +405,44 @@ export interface GetProfileRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface GetRatePlanRequest {
   publicKey: string;
@@ -367,13 +452,74 @@ export type GetRatePlanResponseComponentsList = Array<GetRatePlanResponseCompone
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRatePlanResponse {
   /** The uppercase rate plan public key. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Pricing components that make up this rate plan. */
-  components?: GetRatePlanResponseComponentsList | null;
+  components?: GetRatePlanResponseComponentsList | null | undefined;
   /** Currency of the rate plan pricing. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Human-readable description of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
+}
+export interface GetSpendPolicyRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** The unique identifier of the spend policy. */
+  policyId: string;
+}
+export type GetSpendPolicyResponseAction = "notification" | "usage_block";
+export type GetSpendPolicyResponseProductId = "workers" | "durable_objects";
+export type GetSpendPolicyResponseCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type GetSpendPolicyResponseCurrentStateEnforcementDesiredState = "active" | "inactive";
+export interface GetSpendPolicyResponseCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: GetSpendPolicyResponseCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: GetSpendPolicyResponseCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type GetSpendPolicyResponseCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface GetSpendPolicyResponseCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: GetSpendPolicyResponseCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: GetSpendPolicyResponseCurrentStateStatus;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetSpendPolicyResponse {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: GetSpendPolicyResponseAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: GetSpendPolicyResponseProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: GetSpendPolicyResponseCurrentState | null | undefined;
 }
 export interface GetUnpaidInvoiceRequest {
   /** Identifier */
@@ -384,15 +530,15 @@ export type GetUnpaidInvoiceResponseInvoicesList = Array<GetBadDebtResponseInvoi
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUnpaidInvoiceResponse {
   /** List of unpaid invoices. */
-  invoices?: GetUnpaidInvoiceResponseInvoicesList | null;
+  invoices?: GetUnpaidInvoiceResponseInvoicesList | null | undefined;
 }
 export interface GetUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetResultItemChargeCategory = "Usage";
 export type UsageGetResultItemChargeFrequency = "Usage-Based";
@@ -421,57 +567,57 @@ export interface UsageGetResultItem {
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
-  billedCost?: number | null;
+  billedCost?: number | null | undefined;
   /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
-  billingAccountId?: string | null;
+  billingAccountId?: string | null | undefined;
   /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
-  billingAccountName?: string | null;
+  billingAccountName?: string | null | undefined;
   /** Currency that a charge was billed in (ISO 4217). */
-  billingCurrency?: string | null;
+  billingCurrency?: string | null | undefined;
   /** Exclusive end of the billing cycle that contains this usage record. */
-  billingPeriodEnd?: string | null;
+  billingPeriodEnd?: string | null | undefined;
   /** Inclusive start of the billing cycle that contains this usage record. */
-  billingPeriodStart?: string | null;
+  billingPeriodStart?: string | null | undefined;
   /** Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period. */
-  chargeClass?: UsageGetResultItemChargeClass | null;
+  chargeClass?: UsageGetResultItemChargeClass | null | undefined;
   /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-  consumedQuantity?: number | null;
+  consumedQuantity?: number | null | undefined;
   /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */
-  contractedCost?: number | null;
+  contractedCost?: number | null | undefined;
   /** The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts. */
-  contractedUnitPrice?: number | null;
+  contractedUnitPrice?: number | null | undefined;
   /** The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge. */
-  effectiveCost?: number | null;
+  effectiveCost?: number | null | undefined;
   /** Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity. */
-  listCost?: number | null;
+  listCost?: number | null | undefined;
   /** Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts. */
-  listUnitPrice?: number | null;
+  listUnitPrice?: number | null | undefined;
   /** Volume of a given service used or purchased, based on the PricingUnit. */
-  pricingQuantity?: number | null;
+  pricingQuantity?: number | null | undefined;
   /** Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing. */
-  pricingUnit?: string | null;
+  pricingUnit?: string | null | undefined;
   /** Provider-assigned identifier for an isolated geographic area where a service is provided. */
-  regionId?: string | null;
+  regionId?: string | null | undefined;
   /** Name of an isolated geographic area where a service is provided. */
-  regionName?: string | null;
+  regionName?: string | null | undefined;
   /** Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID. */
-  subAccountId?: string | null;
+  subAccountId?: string | null | undefined;
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
-  subAccountName?: string | null;
+  subAccountName?: string | null | undefined;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetResultItemTagsMap | null;
+  tags?: UsageGetResultItemTagsMap | null | undefined;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName?: string | null;
+  xBillableMetricName?: string | null | undefined;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
-  xProductCategoryName?: string | null;
+  xProductCategoryName?: string | null | undefined;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
-  xProductFamilyId?: string | null;
+  xProductFamilyId?: string | null | undefined;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
-  xProductFamilyName?: string | null;
+  xProductFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
-  xZoneId?: string | null;
+  xZoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
-  xZoneName?: string | null;
+  xZoneName?: string | null | undefined;
 }
 export type UsageGetResultList = Array<UsageGetResultItem>;
 export type GetUsageResponse = UsageGetResultList;
@@ -479,22 +625,272 @@ export interface ListHistoryRequest {
   /** Identifier */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter billing history by status. */
-  status?: string;
+  status?: string | undefined;
 }
 export type ListHistoryResultItem = GetBadDebtResponseInvoicesItem;
 export type ListHistoryResultList = Array<GetBadDebtResponseInvoicesItem>;
 export type ListHistoryResponse = ListHistoryResultList;
+export interface ListSpendPoliciesRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+}
+export type ListSpendPoliciesResultItemAction = "notification" | "usage_block";
+export type ListSpendPoliciesResultItemProductId = "workers" | "durable_objects";
+export type ListSpendPoliciesResultItemCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type ListSpendPoliciesResultItemCurrentStateEnforcementDesiredState = "active" | "inactive";
+export interface ListSpendPoliciesResultItemCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: ListSpendPoliciesResultItemCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: ListSpendPoliciesResultItemCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type ListSpendPoliciesResultItemCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface ListSpendPoliciesResultItemCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: ListSpendPoliciesResultItemCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: ListSpendPoliciesResultItemCurrentStateStatus;
+}
+export interface ListSpendPoliciesResultItem {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: ListSpendPoliciesResultItemAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: ListSpendPoliciesResultItemProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: ListSpendPoliciesResultItemCurrentState | null | undefined;
+}
+export type ListSpendPoliciesResultList = Array<ListSpendPoliciesResultItem>;
+export type ListSpendPoliciesResponse = ListSpendPoliciesResultList;
+export type ListSpendPoliciesActivityRequestPeriod = "current_billing_cycle" | "all";
+export interface ListSpendPoliciesActivityRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** Opaque token from the preceding response's result_info.cursor. Pass it unchanged to retrieve older entries. */
+  cursor?: string | undefined;
+  /** Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected. */
+  limit?: number | undefined;
+  /** Select current subscription billing-cycle history or history across all cycles. */
+  period?: ListSpendPoliciesActivityRequestPeriod | (string & {}) | undefined;
+}
+export type ListSpendPoliciesActivityResultItemAction =
+  | "created"
+  | "updated"
+  | "enabled"
+  | "disabled"
+  | "deleted";
+export type ListSpendPoliciesActivityResultItemDetailsAfterAction = "notification" | "usage_block";
+export type ListSpendPoliciesActivityResultItemDetailsAfterProductId =
+  | "workers"
+  | "durable_objects";
+export type ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcementDesiredState =
+  | "active"
+  | "inactive";
+export interface ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface ListSpendPoliciesActivityResultItemDetailsAfterCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: ListSpendPoliciesActivityResultItemDetailsAfterCurrentStateStatus;
+}
+export interface ListSpendPoliciesActivityResultItemDetailsAfter {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: ListSpendPoliciesActivityResultItemDetailsAfterAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: ListSpendPoliciesActivityResultItemDetailsAfterProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: ListSpendPoliciesActivityResultItemDetailsAfterCurrentState | null | undefined;
+}
+export type ListSpendPoliciesActivityResultItemDetailsBeforeAction = "notification" | "usage_block";
+export type ListSpendPoliciesActivityResultItemDetailsBeforeProductId =
+  | "workers"
+  | "durable_objects";
+export type ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcementDesiredState =
+  | "active"
+  | "inactive";
+export interface ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface ListSpendPoliciesActivityResultItemDetailsBeforeCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: ListSpendPoliciesActivityResultItemDetailsBeforeCurrentStateStatus;
+}
+export interface ListSpendPoliciesActivityResultItemDetailsBefore {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: ListSpendPoliciesActivityResultItemDetailsBeforeAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: ListSpendPoliciesActivityResultItemDetailsBeforeProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: ListSpendPoliciesActivityResultItemDetailsBeforeCurrentState | null | undefined;
+}
+export interface ListSpendPoliciesActivityResultItemDetails {
+  /** A spend policy. */
+  after?: ListSpendPoliciesActivityResultItemDetailsAfter | null | undefined;
+  /** Prior configuration; null on creation or if a previous revision is unavailable. */
+  before?: ListSpendPoliciesActivityResultItemDetailsBefore | null | undefined;
+}
+export interface ListSpendPoliciesActivityResultItem {
+  id: string;
+  action: ListSpendPoliciesActivityResultItemAction;
+  /** Verified actor identifier, unknown when absent, or trusted internal actor. */
+  actor: string;
+  details: ListSpendPoliciesActivityResultItemDetails;
+  occurredAt: string;
+  /** The unique identifier of the spend policy. */
+  policyId: string;
+  policyVersion: number;
+  productId: string;
+}
+export type ListSpendPoliciesActivityResultList = Array<ListSpendPoliciesActivityResultItem>;
+export type ListSpendPoliciesActivityResponse = ListSpendPoliciesActivityResultList;
+export type ListSpendPoliciesAuditRequestPeriod = "current_billing_cycle" | "all";
+export interface ListSpendPoliciesAuditRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** The unique identifier of the spend policy. */
+  policyId: string;
+  /** Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected. */
+  limit?: number | undefined;
+  /** Select current subscription billing-cycle history or history across all cycles. */
+  period?: ListSpendPoliciesAuditRequestPeriod | (string & {}) | undefined;
+}
+export type ListSpendPoliciesAuditResultItemAction = "notification" | "usage_block";
+export type ListSpendPoliciesAuditResultItemSource = "kafka" | "policy_revision";
+export interface ListSpendPoliciesAuditResultItem {
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: ListSpendPoliciesAuditResultItemAction;
+  /** The account's balance for the product at evaluation time, in US cents. */
+  balanceCents: number;
+  /** Exclusive end of the billing period that was evaluated. */
+  billingPeriodEnd: string;
+  /** Inclusive start of the billing period that was evaluated. */
+  billingPeriodStart: string;
+  /** When the entry was recorded. */
+  createdAt: string;
+  /** The policy `version` that was evaluated. */
+  policyVersion: number;
+  /** A human-readable explanation of the trigger. */
+  reason: string;
+  /** What caused the evaluation. `kafka` means a balance update. `policy_revision` means a change to the policy. */
+  source: ListSpendPoliciesAuditResultItemSource;
+  /** The policy threshold at evaluation time, in US cents. */
+  thresholdCents: number;
+  /** The trigger recorded at evaluation time. New evaluations record `limit_reached` when the balance reaches or exceeds the configured threshold. Earlier entries retain their recorded trigger. */
+  trigger: string;
+}
+export type ListSpendPoliciesAuditResultList = Array<ListSpendPoliciesAuditResultItem>;
+export type ListSpendPoliciesAuditResponse = ListSpendPoliciesAuditResultList;
 export interface PaygoUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsagePaygoResultItemChargeCategory = "Usage";
 export interface UsagePaygoResultItem {
@@ -545,148 +941,224 @@ export interface UsagePaygoResultItem {
   /** The provider of the purchased service. */
   serviceProviderName: string;
   /** Identifies the product family for the Cloudflare service. */
-  serviceFamilyName?: string | null;
+  serviceFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare subscription. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. */
-  zoneName?: string | null;
+  zoneName?: string | null | undefined;
 }
 export type UsagePaygoResultList = Array<UsagePaygoResultItem>;
 export type PaygoUsageResponse = UsagePaygoResultList;
 export interface ProfilesUpdateBillingEmailRequest {
   /** Identifier */
   accountId: string;
-  billingEmail?: string;
-  preferredLocale?: string;
-  secondaryBillingEmail?: string;
+  billingEmail?: string | undefined;
+  preferredLocale?: string | undefined;
+  secondaryBillingEmail?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ProfilesUpdateBillingEmailResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface UpdateProfileRequest {
   /** Identifier */
   accountId: string;
   /** Street address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Street address line 2 (apt, suite, etc.). */
-  address2?: string;
+  address2?: string | undefined;
   /** Primary billing email address. */
-  billingEmail?: string;
+  billingEmail?: string | undefined;
   /** Rate plan being purchased right after profile setup. */
-  buyingRatePlan?: string;
+  buyingRatePlan?: string | undefined;
   /** Captcha challenge JWT issued during onboarding. */
-  captchaChallengeJwt?: string;
+  captchaChallengeJwt?: string | undefined;
   /** Cloudflare Turnstile response. */
-  cfTurnstileResponse?: string;
+  cfTurnstileResponse?: string | undefined;
   /** City on the billing profile. */
-  city?: string;
+  city?: string | undefined;
   /** Company name on the billing profile. */
-  company?: string;
+  company?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** First name on the billing profile. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** hCaptcha response. */
-  hCaptchaResponse?: string;
+  hCaptchaResponse?: string | undefined;
   /** Last name on the billing profile. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Preferred locale for invoice rendering (BCP 47). */
-  preferredLocale?: string;
+  preferredLocale?: string | undefined;
   /** Secondary billing email address for CC on invoices. */
-  secondaryBillingEmail?: string;
+  secondaryBillingEmail?: string | undefined;
   /** State or region on the billing profile. */
-  state?: string;
+  state?: string | undefined;
   /** Type of tax ID provided. */
-  taxIdType?: string;
+  taxIdType?: string | undefined;
   /** Contact phone number. */
-  telephone?: string;
+  telephone?: string | undefined;
   /** VAT identifier. */
-  vat?: string;
+  vat?: string | undefined;
   /** ZIP or postal code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
+}
+export type UpdateSpendPolicyRequestAction = "notification" | "usage_block";
+export type UpdateSpendPolicyRequestProductId = "workers" | "durable_objects";
+export interface UpdateSpendPolicyRequest {
+  /** Represents a Cloudflare resource identifier tag. */
+  accountId: string;
+  /** The unique identifier of the spend policy. */
+  policyId: string;
+  ifMatch: string;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: UpdateSpendPolicyRequestAction | (string & {});
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed. */
+  name: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: UpdateSpendPolicyRequestProductId | (string & {});
+  /** The spend threshold for the current billing period, in US cents. Must be greater than zero. */
+  thresholdCents: number;
+  /** Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected. */
+  notificationEmail?: string | undefined;
+}
+export type UpdateSpendPolicyResponseAction = "notification" | "usage_block";
+export type UpdateSpendPolicyResponseProductId = "workers" | "durable_objects";
+export type UpdateSpendPolicyResponseCurrentStateEnforcementDeliveryStatus =
+  | "pending"
+  | "leased"
+  | "retry"
+  | "succeeded";
+export type UpdateSpendPolicyResponseCurrentStateEnforcementDesiredState = "active" | "inactive";
+export interface UpdateSpendPolicyResponseCurrentStateEnforcement {
+  appliedGeneration: number;
+  deliveryStatus: UpdateSpendPolicyResponseCurrentStateEnforcementDeliveryStatus;
+  desiredGeneration: number;
+  desiredState: UpdateSpendPolicyResponseCurrentStateEnforcementDesiredState;
+  expiresAt: string;
+}
+export type UpdateSpendPolicyResponseCurrentStateStatus =
+  | "disabled"
+  | "no_current_period"
+  | "unavailable"
+  | "below_limit"
+  | "limit_reached";
+export interface UpdateSpendPolicyResponseCurrentState {
+  balanceCents: number;
+  billingPeriodEnd: string;
+  billingPeriodStart: string;
+  /** Durable desired cap and delivery bookkeeping for this policy, or null if no owned effect exists. Separate from threshold evaluation: pending/leased/retry can lag the new billing period. Succeeded with equal generations means delivery completed, not an EWC readback. */
+  enforcement: UpdateSpendPolicyResponseCurrentStateEnforcement;
+  /** Evaluation time; not the timestamp of the latest usage event. */
+  evaluatedAt: string;
+  /** Threshold evaluation, not proof of an edge cap. No current active period yields no_current_period for enabled policies; failed aggregate reads yield unavailable for enabled policies. Disabled policies report disabled. Neither no_current_period nor unavailable implies a zero balance or below-limit state. Operators may disable current-state reads, in which case current_state is omitted. */
+  status: UpdateSpendPolicyResponseCurrentStateStatus;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateSpendPolicyResponse {
+  /** The unique identifier of the spend policy. */
+  id: string;
+  /** Internal numeric ID of the account that owns the policy. This is not the account tag used in the path. */
+  accountId: number;
+  /** The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early. */
+  action: UpdateSpendPolicyResponseAction;
+  /** Whether the policy is evaluated. */
+  enabled: boolean;
+  /** Display name of the policy. */
+  name: string;
+  /** Email address that receives notifications. An empty string when none is set. */
+  notificationEmail: string;
+  /** The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update. */
+  productId: UpdateSpendPolicyResponseProductId;
+  /** The spend threshold for the current billing period, in US cents. */
+  thresholdCents: number;
+  /** Optimistic-concurrency version. It starts at 1 and goes up by one on every update or delete. This value is also returned in `ETag`. */
+  version: number;
+  /** Read-only state on list/get responses, evaluated from the latest owning projector snapshot at request time, independently of the API replica. Configuration enabled/version/ETag do not change when a cycle rolls over. Audit history remains unchanged. Missing during a rolling upgrade or on mutation responses; clients must treat missing state as unavailable. Balances are asynchronous estimates, not a synchronous usage read. */
+  currentState?: UpdateSpendPolicyResponseCurrentState | null | undefined;
 }
 export interface UsageGetAccountUsageInfoV1Request {
   /** Represents a Cloudflare resource identifier tag. */
@@ -700,7 +1172,7 @@ export interface UsageGetAccountUsageInfoV1ResponseSubscriptionsItem {
   /** The subscription start timestamp. */
   startTimestamp: string;
   /** The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled. */
-  endTimestamp?: string | null;
+  endTimestamp?: string | null | undefined;
 }
 export type UsageGetAccountUsageInfoV1ResponseSubscriptionsList =
   Array<UsageGetAccountUsageInfoV1ResponseSubscriptionsItem>;
@@ -715,9 +1187,9 @@ export interface UsageGetAccountUsageV1Request {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetAccountUsageV1ResultItemChargeCategory = "Usage";
 export interface UsageGetAccountUsageV1ResultItem {
@@ -768,13 +1240,13 @@ export interface UsageGetAccountUsageV1ResultItem {
   /** The provider of the purchased service. */
   serviceProviderName: string;
   /** Identifies the product family for the Cloudflare service. */
-  serviceFamilyName?: string | null;
+  serviceFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare subscription. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. */
-  zoneName?: string | null;
+  zoneName?: string | null | undefined;
 }
 export type UsageGetAccountUsageV1ResultList = Array<UsageGetAccountUsageV1ResultItem>;
 export type UsageGetAccountUsageV1Response = UsageGetAccountUsageV1ResultList;
@@ -782,9 +1254,9 @@ export interface UsageGetAccountUsageV2Request {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetAccountUsageV2ResultItemChargeCategory = "Usage";
 export type UsageGetAccountUsageV2ResultItemChargeFrequency = "Usage-Based";
@@ -815,57 +1287,57 @@ export interface UsageGetAccountUsageV2ResultItem {
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
-  billedCost?: number | null;
+  billedCost?: number | null | undefined;
   /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
-  billingAccountId?: string | null;
+  billingAccountId?: string | null | undefined;
   /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
-  billingAccountName?: string | null;
+  billingAccountName?: string | null | undefined;
   /** Currency that a charge was billed in (ISO 4217). */
-  billingCurrency?: string | null;
+  billingCurrency?: string | null | undefined;
   /** Exclusive end of the billing cycle that contains this usage record. */
-  billingPeriodEnd?: string | null;
+  billingPeriodEnd?: string | null | undefined;
   /** Inclusive start of the billing cycle that contains this usage record. */
-  billingPeriodStart?: string | null;
+  billingPeriodStart?: string | null | undefined;
   /** Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period. */
-  chargeClass?: UsageGetAccountUsageV2ResultItemChargeClass | null;
+  chargeClass?: UsageGetAccountUsageV2ResultItemChargeClass | null | undefined;
   /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-  consumedQuantity?: number | null;
+  consumedQuantity?: number | null | undefined;
   /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */
-  contractedCost?: number | null;
+  contractedCost?: number | null | undefined;
   /** The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts. */
-  contractedUnitPrice?: number | null;
+  contractedUnitPrice?: number | null | undefined;
   /** The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge. */
-  effectiveCost?: number | null;
+  effectiveCost?: number | null | undefined;
   /** Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity. */
-  listCost?: number | null;
+  listCost?: number | null | undefined;
   /** Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts. */
-  listUnitPrice?: number | null;
+  listUnitPrice?: number | null | undefined;
   /** Volume of a given service used or purchased, based on the PricingUnit. */
-  pricingQuantity?: number | null;
+  pricingQuantity?: number | null | undefined;
   /** Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing. */
-  pricingUnit?: string | null;
+  pricingUnit?: string | null | undefined;
   /** Provider-assigned identifier for an isolated geographic area where a service is provided. */
-  regionId?: string | null;
+  regionId?: string | null | undefined;
   /** Name of an isolated geographic area where a service is provided. */
-  regionName?: string | null;
+  regionName?: string | null | undefined;
   /** Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID. */
-  subAccountId?: string | null;
+  subAccountId?: string | null | undefined;
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
-  subAccountName?: string | null;
+  subAccountName?: string | null | undefined;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetAccountUsageV2ResultItemTagsMap | null;
+  tags?: UsageGetAccountUsageV2ResultItemTagsMap | null | undefined;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName?: string | null;
+  xBillableMetricName?: string | null | undefined;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
-  xProductCategoryName?: string | null;
+  xProductCategoryName?: string | null | undefined;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
-  xProductFamilyId?: string | null;
+  xProductFamilyId?: string | null | undefined;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
-  xProductFamilyName?: string | null;
+  xProductFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
-  xZoneId?: string | null;
+  xZoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
-  xZoneName?: string | null;
+  xZoneName?: string | null | undefined;
 }
 export type UsageGetAccountUsageV2ResultList = Array<UsageGetAccountUsageV2ResultItem>;
 export type UsageGetAccountUsageV2Response = UsageGetAccountUsageV2ResultList;
@@ -926,13 +1398,30 @@ export const createProfilesPaymentMethod: API.OperationMethod<
   CreateProfilesPaymentMethodError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CreateProfilesPaymentMethodRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<CreateProfilesPaymentMethodResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateProfilesPaymentMethodRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<CreateProfilesPaymentMethodResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProfilesPaymentMethod",
+}));
+
+export type CreateSpendPolicyError = CloudflareOpError;
+/** Creates a spend policy. Each account can have only one enabled `usage_block` policy per product. A second one returns `409`. There is no limit on `notification` policies. */
+export const createSpendPolicy: API.OperationMethod<
+  CreateSpendPolicyRequest,
+  CreateSpendPolicyResponse,
+  CreateSpendPolicyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<CreateSpendPolicyRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateSpendPolicyResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpendPolicy",
 }));
 
 export type DeleteProfileError = CloudflareOpError;
@@ -943,13 +1432,30 @@ export const deleteProfile: API.OperationMethod<
   DeleteProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteProfileRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<DeleteProfileResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteProfileRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<DeleteProfileResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProfile",
+}));
+
+export type DeleteSpendPolicyError = CloudflareOpError;
+/** Soft-deletes the spend policy. The policy is disabled and no longer appears in list, get or audit responses. The `If-Match` header must equal the policy's current `version`. */
+export const deleteSpendPolicy: API.OperationMethod<
+  DeleteSpendPolicyRequest,
+  DeleteSpendPolicyResponse,
+  DeleteSpendPolicyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteSpendPolicyRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<DeleteSpendPolicyResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpendPolicy",
 }));
 
 export type GetBadDebtError = CloudflareOpError;
@@ -960,8 +1466,8 @@ export const getBadDebt: API.OperationMethod<
   GetBadDebtError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetBadDebtRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GetBadDebtResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetBadDebtRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<GetBadDebtResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -977,8 +1483,8 @@ export const getCredit: API.OperationMethod<
   GetCreditError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetCreditRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<GetCreditResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetCreditRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<GetCreditResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -994,7 +1500,7 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetProfileRequest>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetProfileRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<GetProfileResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -1011,13 +1517,30 @@ export const getRatePlan: API.OperationMethod<
   GetRatePlanError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetRatePlanRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<GetRatePlanResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetRatePlanRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<GetRatePlanResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRatePlan",
+}));
+
+export type GetSpendPolicyError = CloudflareOpError;
+/** Returns one spend policy. The `ETag` response header holds the current `version`; send it as `If-Match` on a later update or delete. */
+export const getSpendPolicy: API.OperationMethod<
+  GetSpendPolicyRequest,
+  GetSpendPolicyResponse,
+  GetSpendPolicyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<GetSpendPolicyRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<GetSpendPolicyResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpendPolicy",
 }));
 
 export type GetUnpaidInvoiceError = CloudflareOpError;
@@ -1028,8 +1551,8 @@ export const getUnpaidInvoice: API.OperationMethod<
   GetUnpaidInvoiceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetUnpaidInvoiceRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<GetUnpaidInvoiceResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetUnpaidInvoiceRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<GetUnpaidInvoiceResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1045,8 +1568,8 @@ export const getUsage: API.OperationMethod<
   GetUsageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetUsageRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<GetUsageResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetUsageRequest>,
+  output: __S(45, __c5, 5) as any as S.Schema<GetUsageResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1062,13 +1585,64 @@ export const listHistory: API.OperationMethod<
   ListHistoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListHistoryRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<ListHistoryResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListHistoryRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<ListHistoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHistory",
+}));
+
+export type ListSpendPoliciesError = CloudflareOpError;
+/** Returns every spend policy on the account that has not been deleted, including disabled ones. Results are sorted by `name`, then `id`. There is no pagination. */
+export const listSpendPolicies: API.OperationMethod<
+  ListSpendPoliciesRequest,
+  ListSpendPoliciesResponse,
+  ListSpendPoliciesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<ListSpendPoliciesRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ListSpendPoliciesResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpendPolicies",
+}));
+
+export type ListSpendPoliciesActivityError = CloudflareOpError;
+/** Returns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint. Defaults to `period=current_billing_cycle`: each revision's timestamp must be within its product's current subscription cycle (inclusive start, exclusive end). Each product's cycle is resolved independently from canonical aggregates, including for disabled or deleted policies. Set `period=all` for history across cycles. Filtering happens before pagination. No current cycles returns an empty page; unavailable or disabled cycle resolution returns `503` with code `1013`. Cursors pin resolved cycle bounds across pages and must be used with the same period selection. Cursors obtained before this filter was introduced must be refreshed. */
+export const listSpendPoliciesActivity: API.OperationMethod<
+  ListSpendPoliciesActivityRequest,
+  ListSpendPoliciesActivityResponse,
+  ListSpendPoliciesActivityError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<ListSpendPoliciesActivityRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<ListSpendPoliciesActivityResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpendPoliciesActivity",
+}));
+
+export type ListSpendPoliciesAuditError = CloudflareOpError;
+/** Returns the policy's evaluation history, newest first. At most one threshold-crossing entry (`limit_reached`) is recorded per policy version and billing period, so a policy update can record a new entry without any change in balance. Disabled policies still return their history; deleted policies return `404`. There is no pagination: use `limit` to set how many entries come back. Defaults to `period=current_billing_cycle`, resolved from the product's canonical aggregates, not calendar months. Crossings match their recorded billing-period bounds, even if recorded late. Set `period=all` for history across cycles. Filtering happens before LIMIT. No current cycle returns an empty array; unavailable or disabled cycle resolution returns `503` with code `1013`, never an empty success. */
+export const listSpendPoliciesAudit: API.OperationMethod<
+  ListSpendPoliciesAuditRequest,
+  ListSpendPoliciesAuditResponse,
+  ListSpendPoliciesAuditError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c10, 0) as any as S.Schema<ListSpendPoliciesAuditRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<ListSpendPoliciesAuditResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpendPoliciesAudit",
 }));
 
 export type PaygoUsageError = CloudflareOpError;
@@ -1079,8 +1653,8 @@ export const paygoUsage: API.OperationMethod<
   PaygoUsageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<PaygoUsageRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<PaygoUsageResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<PaygoUsageRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<PaygoUsageResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1096,7 +1670,7 @@ export const profilesUpdateBillingEmail: API.OperationMethod<
   ProfilesUpdateBillingEmailError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ProfilesUpdateBillingEmailRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<ProfilesUpdateBillingEmailRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ProfilesUpdateBillingEmailResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -1113,13 +1687,30 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateProfileRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<UpdateProfileResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProfile",
+}));
+
+export type UpdateSpendPolicyError = CloudflareOpError;
+/** Replaces the whole spend policy. Every field is required, as on create; there are no partial updates and `PATCH` is not supported. The `If-Match` header must equal the policy's current `version`. On success, `version` goes up by one and the new value is returned in `ETag`. */
+export const updateSpendPolicy: API.OperationMethod<
+  UpdateSpendPolicyRequest,
+  UpdateSpendPolicyResponse,
+  UpdateSpendPolicyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c16, 0) as any as S.Schema<UpdateSpendPolicyRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<UpdateSpendPolicyResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpendPolicy",
 }));
 
 export type UsageGetAccountUsageInfoV1Error = CloudflareOpError;
@@ -1130,8 +1721,8 @@ export const usageGetAccountUsageInfoV1: API.OperationMethod<
   UsageGetAccountUsageInfoV1Error,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UsageGetAccountUsageInfoV1Request>,
-  output: __S(74, __c9, 2) as any as S.Schema<UsageGetAccountUsageInfoV1Response>,
+  input: __S(136, __c17, 0) as any as S.Schema<UsageGetAccountUsageInfoV1Request>,
+  output: __S(146, __c18, 2) as any as S.Schema<UsageGetAccountUsageInfoV1Response>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1147,8 +1738,8 @@ export const usageGetAccountUsageV1: API.OperationMethod<
   UsageGetAccountUsageV1Error,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UsageGetAccountUsageV1Request>,
-  output: __S(42, __c5, 2) as any as S.Schema<UsageGetAccountUsageV1Response>,
+  input: __S(152, __c19, 0) as any as S.Schema<UsageGetAccountUsageV1Request>,
+  output: __S(98, __c12, 2) as any as S.Schema<UsageGetAccountUsageV1Response>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1164,8 +1755,8 @@ export const usageGetAccountUsageV2: API.OperationMethod<
   UsageGetAccountUsageV2Error,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UsageGetAccountUsageV2Request>,
-  output: __S(93, __c11, 5) as any as S.Schema<UsageGetAccountUsageV2Response>,
+  input: __S(160, __c20, 0) as any as S.Schema<UsageGetAccountUsageV2Request>,
+  output: __S(165, __c20, 5) as any as S.Schema<UsageGetAccountUsageV2Response>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1181,8 +1772,8 @@ export const usagePaygoInfo: API.OperationMethod<
   UsagePaygoInfoError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UsagePaygoInfoRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<UsagePaygoInfoResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<UsagePaygoInfoRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<UsagePaygoInfoResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1320,6 +1911,116 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
+          policyId: S.String.pipe(T.Label("policy_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetSpendPolicyRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/billing/unpaid-invoice",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetUnpaidInvoiceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          invoices: S.optional(S.NullOr(__S(225, __c28, 1))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetUnpaidInvoiceResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          from: S.optional(S.String.pipe(T.Query())),
+          to: S.optional(S.String.pipe(T.Query())),
+        })
+          .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable/usage", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetUsageRequest" });
+    case 1:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 2:
+      return S.Record(S.String, __S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          chargeCategory: S.String.pipe(T.Body("ChargeCategory")),
+          chargeDescription: S.String.pipe(T.Body("ChargeDescription")),
+          chargeFrequency: S.String.pipe(T.Body("ChargeFrequency")),
+          chargePeriodEnd: S.String.pipe(T.Body("ChargePeriodEnd")),
+          chargePeriodStart: S.String.pipe(T.Body("ChargePeriodStart")),
+          consumedUnit: S.String.pipe(T.Body("ConsumedUnit")),
+          hostProviderName: S.String.pipe(T.Body("HostProviderName")),
+          invoiceIssuerName: S.String.pipe(T.Body("InvoiceIssuerName")),
+          serviceProviderName: S.String.pipe(T.Body("ServiceProviderName")),
+          xBillableMetricId: S.String.pipe(T.Body("x_BillableMetricId")),
+          billedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("BilledCost"))),
+          billingAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountId"))),
+          billingAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountName"))),
+          billingCurrency: S.optional(S.NullOr(S.String).pipe(T.Body("BillingCurrency"))),
+          billingPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodEnd"))),
+          billingPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodStart"))),
+          chargeClass: S.optional(S.NullOr(S.String).pipe(T.Body("ChargeClass"))),
+          consumedQuantity: S.optional(S.NullOr(S.Number).pipe(T.Body("ConsumedQuantity"))),
+          contractedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("ContractedCost"))),
+          contractedUnitPrice: S.optional(S.NullOr(S.Number).pipe(T.Body("ContractedUnitPrice"))),
+          effectiveCost: S.optional(S.NullOr(S.Number).pipe(T.Body("EffectiveCost"))),
+          listCost: S.optional(S.NullOr(S.Number).pipe(T.Body("ListCost"))),
+          listUnitPrice: S.optional(S.NullOr(S.Number).pipe(T.Body("ListUnitPrice"))),
+          pricingQuantity: S.optional(S.NullOr(S.Number).pipe(T.Body("PricingQuantity"))),
+          pricingUnit: S.optional(S.NullOr(S.String).pipe(T.Body("PricingUnit"))),
+          regionId: S.optional(S.NullOr(S.String).pipe(T.Body("RegionId"))),
+          regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
+          subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
+          subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
+          tags: S.optional(S.NullOr(__S(42, __c5, 2)).pipe(T.Body("Tags"))),
+          xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
+          xProductCategoryName: S.optional(
+            S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName")),
+          ),
+          xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),
+          xProductFamilyName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyName"))),
+          xZoneId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneId"))),
+          xZoneName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneName"))),
+        }),
+      ).annotate({ identifier: "UsageGetResultItem" });
+    case 4:
+      return S.Array(__S(43, __c5, 3));
+    case 5:
+      return S.suspend(() =>
+        __S(44, __c5, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetUsageResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           status: S.optional(S.String.pipe(T.Query())),
@@ -1329,11 +2030,143 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListHistoryRequest" });
     case 1:
       return S.suspend(() =>
-        __S(129, __c16, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(225, __c28, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListHistoryResponse" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/billing/spend-policies",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesRequest" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        __S(57, __c7, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          accountId: S.Number.pipe(T.Body("account_id")),
+          action: S.String,
+          enabled: S.Boolean,
+          name: S.String,
+          notificationEmail: S.String.pipe(T.Body("notification_email")),
+          productId: S.String.pipe(T.Body("product_id")),
+          thresholdCents: S.Number.pipe(T.Body("threshold_cents")),
+          version: S.Number,
+          currentState: S.optional(S.NullOr(__S(185, __c23, 1)).pipe(T.Body("current_state"))),
+        }),
+      ).annotate({ identifier: "ListSpendPoliciesResultItem" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          period: S.optional(S.String.pipe(T.Query())),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/billing/spend-policies/activity",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesActivityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(S.NullOr(__S(64, __c8, 0))),
+          before: S.optional(S.NullOr(__S(64, __c8, 0))),
+        }),
+      ).annotate({ identifier: "ListSpendPoliciesActivityResultItemDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          action: S.String,
+          actor: S.String,
+          details: __S(73, __c9, 1),
+          occurredAt: S.String.pipe(T.Body("occurred_at")),
+          policyId: S.String.pipe(T.Body("policy_id")),
+          policyVersion: S.Number.pipe(T.Body("policy_version")),
+          productId: S.String.pipe(T.Body("product_id")),
+        }),
+      ).annotate({ identifier: "ListSpendPoliciesActivityResultItem" });
+    case 3:
+      return S.Array(__S(74, __c9, 2));
+    case 4:
+      return S.suspend(() =>
+        __S(75, __c9, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesActivityResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          policyId: S.String.pipe(T.Label("policy_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          period: S.optional(S.String.pipe(T.Query())),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/billing/spend-policies/{policy_id}/audit",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesAuditRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          balanceCents: S.Number.pipe(T.Body("balance_cents")),
+          billingPeriodEnd: S.String.pipe(T.Body("billing_period_end")),
+          billingPeriodStart: S.String.pipe(T.Body("billing_period_start")),
+          createdAt: S.String.pipe(T.Body("created_at")),
+          policyVersion: S.Number.pipe(T.Body("policy_version")),
+          reason: S.String,
+          source: S.String,
+          thresholdCents: S.Number.pipe(T.Body("threshold_cents")),
+          trigger: S.String,
+        }),
+      ).annotate({ identifier: "ListSpendPoliciesAuditResultItem" });
+    case 2:
+      return S.Array(__S(81, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        __S(82, __c10, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListSpendPoliciesAuditResponse" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1347,7 +2180,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PaygoUsageRequest" });
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1382,14 +2215,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "UsagePaygoResultItem" });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
-        __S(41, __c5, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(97, __c12, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PaygoUsageResponse" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1406,7 +2239,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ProfilesUpdateBillingEmailRequest" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1437,7 +2270,58 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateProfileRequest" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/billing/profile/payment-method",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateProfilesPaymentMethodRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+          intentType: S.optional(S.NullOr(S.String).pipe(T.Body("intent_type"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateProfilesPaymentMethodResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          policyId: S.String.pipe(T.Label("policy_id")),
+          ifMatch: S.String.pipe(T.Header("If-Match")),
+          action: S.String,
+          enabled: S.Boolean,
+          name: S.String,
+          productId: S.String.pipe(T.Body("product_id")),
+          thresholdCents: S.Number.pipe(T.Body("threshold_cents")),
+          notificationEmail: S.optional(S.String.pipe(T.Body("notification_email"))),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateSpendPolicyRequest" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1451,7 +2335,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UsageGetAccountUsageInfoV1Request" });
   }
 }
-function __c9(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1463,17 +2347,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "UsageGetAccountUsageInfoV1ResponseSubscriptionsItem" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           covered: S.Boolean,
-          subscriptions: __S(73, __c9, 1),
+          subscriptions: __S(145, __c18, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UsageGetAccountUsageInfoV1Response" });
   }
 }
-function __c10(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1487,7 +2371,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UsageGetAccountUsageV1Request" });
   }
 }
-function __c11(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1502,7 +2386,7 @@ function __c11(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(89, __c11, 1));
+      return S.Record(S.String, __S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1535,7 +2419,7 @@ function __c11(j: number): any {
           regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
           subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
           subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-          tags: S.optional(S.NullOr(__S(90, __c11, 2)).pipe(T.Body("Tags"))),
+          tags: S.optional(S.NullOr(__S(162, __c20, 2)).pipe(T.Body("Tags"))),
           xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
           xProductCategoryName: S.optional(
             S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName")),
@@ -1547,14 +2431,14 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "UsageGetAccountUsageV2ResultItem" });
     case 4:
-      return S.Array(__S(91, __c11, 3));
+      return S.Array(__S(163, __c20, 3));
     case 5:
       return S.suspend(() =>
-        __S(92, __c11, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(164, __c20, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UsageGetAccountUsageV2Response" });
   }
 }
-function __c12(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1568,32 +2452,75 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UsagePaygoInfoRequest" });
   }
 }
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
+          action: S.String,
+          enabled: S.Boolean,
+          name: S.String,
+          productId: S.String.pipe(T.Body("product_id")),
+          thresholdCents: S.Number.pipe(T.Body("threshold_cents")),
+          notificationEmail: S.optional(S.String.pipe(T.Body("notification_email"))),
         })
           .pipe(
             T.Http({
               method: "POST",
-              uri: "/accounts/{account_id}/billing/profile/payment-method",
+              uri: "/accounts/{account_id}/billing/spend-policies",
               code: 200,
             }),
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateProfilesPaymentMethodRequest" });
+      ).annotate({ identifier: "CreateSpendPolicyRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appliedGeneration: S.Number.pipe(T.Body("applied_generation")),
+          deliveryStatus: S.String.pipe(T.Body("delivery_status")),
+          desiredGeneration: S.Number.pipe(T.Body("desired_generation")),
+          desiredState: S.String.pipe(T.Body("desired_state")),
+          expiresAt: S.String.pipe(T.Body("expires_at")),
+        }),
+      ).annotate({ identifier: "CreateSpendPolicyResponseCurrentStateEnforcement" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
-          intentType: S.optional(S.NullOr(S.String).pipe(T.Body("intent_type"))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateProfilesPaymentMethodResponse" });
+          balanceCents: S.Number.pipe(T.Body("balance_cents")),
+          billingPeriodEnd: S.String.pipe(T.Body("billing_period_end")),
+          billingPeriodStart: S.String.pipe(T.Body("billing_period_start")),
+          enforcement: __S(184, __c23, 0),
+          evaluatedAt: S.String.pipe(T.Body("evaluated_at")),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CreateSpendPolicyResponseCurrentState" });
   }
 }
-function __c14(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          accountId: S.Number.pipe(T.Body("account_id")),
+          action: S.String,
+          enabled: S.Boolean,
+          name: S.String,
+          notificationEmail: S.String.pipe(T.Body("notification_email")),
+          productId: S.String.pipe(T.Body("product_id")),
+          thresholdCents: S.Number.pipe(T.Body("threshold_cents")),
+          version: S.Number,
+          currentState: S.optional(S.NullOr(__S(185, __c23, 1)).pipe(T.Body("current_state"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateSpendPolicyResponse" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1611,7 +2538,33 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          policyId: S.String.pipe(T.Label("policy_id")),
+          ifMatch: S.String.pipe(T.Header("If-Match")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteSpendPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteSpendPolicyResponse" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1628,13 +2581,13 @@ function __c15(j: number): any {
         S.Struct({
           alreadyPaid: S.optional(S.NullOr(S.Number).pipe(T.Body("already_paid"))),
           badDebtStatus: S.optional(S.NullOr(S.String).pipe(T.Body("bad_debt_status"))),
-          invoices: S.optional(S.NullOr(__S(129, __c16, 1))),
+          invoices: S.optional(S.NullOr(__S(225, __c28, 1))),
           totalDebtAmount: S.optional(S.NullOr(S.Number).pipe(T.Body("total_debt_amount"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBadDebtResponse" });
   }
 }
-function __c16(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1657,10 +2610,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "GetBadDebtResponseInvoicesItem" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(224, __c28, 0));
   }
 }
-function __c17(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1691,7 +2644,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetCreditResponse" });
   }
 }
-function __c18(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1703,7 +2656,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetProfileRequest" });
   }
 }
-function __c19(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1716,107 +2669,16 @@ function __c19(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          components: S.optional(S.NullOr(__S(154, __c19, 2))),
+          components: S.optional(S.NullOr(__S(250, __c31, 2))),
           currency: S.optional(S.NullOr(S.String)),
           publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRatePlanResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-        })
-          .pipe(
-            T.Http({
-              method: "GET",
-              uri: "/accounts/{account_id}/billing/unpaid-invoice",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetUnpaidInvoiceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          invoices: S.optional(S.NullOr(__S(129, __c16, 1))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetUnpaidInvoiceResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          from: S.optional(S.String.pipe(T.Query())),
-          to: S.optional(S.String.pipe(T.Query())),
-        })
-          .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable/usage", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetUsageRequest" });
-    case 1:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
-    case 2:
-      return S.Record(S.String, __S(169, __c21, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          chargeCategory: S.String.pipe(T.Body("ChargeCategory")),
-          chargeDescription: S.String.pipe(T.Body("ChargeDescription")),
-          chargeFrequency: S.String.pipe(T.Body("ChargeFrequency")),
-          chargePeriodEnd: S.String.pipe(T.Body("ChargePeriodEnd")),
-          chargePeriodStart: S.String.pipe(T.Body("ChargePeriodStart")),
-          consumedUnit: S.String.pipe(T.Body("ConsumedUnit")),
-          hostProviderName: S.String.pipe(T.Body("HostProviderName")),
-          invoiceIssuerName: S.String.pipe(T.Body("InvoiceIssuerName")),
-          serviceProviderName: S.String.pipe(T.Body("ServiceProviderName")),
-          xBillableMetricId: S.String.pipe(T.Body("x_BillableMetricId")),
-          billedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("BilledCost"))),
-          billingAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountId"))),
-          billingAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountName"))),
-          billingCurrency: S.optional(S.NullOr(S.String).pipe(T.Body("BillingCurrency"))),
-          billingPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodEnd"))),
-          billingPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodStart"))),
-          chargeClass: S.optional(S.NullOr(S.String).pipe(T.Body("ChargeClass"))),
-          consumedQuantity: S.optional(S.NullOr(S.Number).pipe(T.Body("ConsumedQuantity"))),
-          contractedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("ContractedCost"))),
-          contractedUnitPrice: S.optional(S.NullOr(S.Number).pipe(T.Body("ContractedUnitPrice"))),
-          effectiveCost: S.optional(S.NullOr(S.Number).pipe(T.Body("EffectiveCost"))),
-          listCost: S.optional(S.NullOr(S.Number).pipe(T.Body("ListCost"))),
-          listUnitPrice: S.optional(S.NullOr(S.Number).pipe(T.Body("ListUnitPrice"))),
-          pricingQuantity: S.optional(S.NullOr(S.Number).pipe(T.Body("PricingQuantity"))),
-          pricingUnit: S.optional(S.NullOr(S.String).pipe(T.Body("PricingUnit"))),
-          regionId: S.optional(S.NullOr(S.String).pipe(T.Body("RegionId"))),
-          regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
-          subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
-          subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-          tags: S.optional(S.NullOr(__S(170, __c21, 2)).pipe(T.Body("Tags"))),
-          xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
-          xProductCategoryName: S.optional(
-            S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName")),
-          ),
-          xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),
-          xProductFamilyName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyName"))),
-          xZoneId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneId"))),
-          xZoneName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneName"))),
-        }),
-      ).annotate({ identifier: "UsageGetResultItem" });
-    case 4:
-      return S.Array(__S(171, __c21, 3));
-    case 5:
-      return S.suspend(() =>
-        __S(172, __c21, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetUsageResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

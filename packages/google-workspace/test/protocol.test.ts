@@ -127,7 +127,7 @@ describe("request encoding", () => {
       gmail.layer,
     );
     expect(gmail.calls[0].url.search).toBe(
-      "?labelIds=INBOX&labelIds=UNREAD&includeSpamTrash=false&maxResults=5",
+      "?includeSpamTrash=false&labelIds=INBOX&labelIds=UNREAD&maxResults=5",
     );
 
     const people = fakeGoogle();
@@ -138,9 +138,9 @@ describe("request encoding", () => {
     expect(people.calls[0].url.searchParams.get("requestMask.includeField")).toBe("person.names");
   });
 
-  test("the HttpBody member is the whole JSON body; GET sends none", async () => {
+  test("request body fields are the JSON body; GET sends none", async () => {
     const insert = fakeGoogle();
-    await run(insertTasklists({ body: { title: "Groceries" } }), insert.layer);
+    await run(insertTasklists({ title: "Groceries" }), insert.layer);
     expect(insert.calls[0].method).toBe("POST");
     expect(insert.calls[0].url.href).toBe("https://tasks.googleapis.com/tasks/v1/users/@me/lists");
     expect(insert.calls[0].headers["content-type"]).toBe("application/json");
@@ -153,7 +153,7 @@ describe("request encoding", () => {
 });
 
 describe("Google error envelope decoding", () => {
-  test("dispatches by HTTP status and tacks on envelope status and details", async () => {
+  test("dispatches by HTTP status and fills envelope status and details", async () => {
     const details = [{ "@type": "type.googleapis.com/google.rpc.ErrorInfo", reason: "notFound" }];
     const { layer } = fakeGoogle(
       404,
@@ -162,7 +162,7 @@ describe("Google error envelope decoding", () => {
       }),
     );
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
-    // Core's status class shares its tag with the per-service class.
+    // The per-service class matches the declared status.
     expect((error as { _tag: string })._tag).toBe(NotFound.name);
     expect(error).toMatchObject({
       _tag: "NotFound",
@@ -196,7 +196,10 @@ describe("Google error envelope decoding", () => {
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(TooManyRequests);
     expect((error as TooManyRequests).retryAfter).toBeDefined();
-    expect(error).toMatchObject({ message: "slow down", status: "RESOURCE_EXHAUSTED" });
+    expect(error).toMatchObject({
+      message: "slow down",
+      body: { error: { status: "RESOURCE_EXHAUSTED" } },
+    });
   });
 
   test("a non-JSON error body becomes the message", async () => {
@@ -217,14 +220,14 @@ describe("Google error envelope decoding", () => {
     const { layer } = fakeGoogle(418, JSON.stringify(body));
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(UnknownGoogleWorkspaceError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", status: "UNKNOWN", body });
+    expect(error).toMatchObject({ status: 418, code: "UNKNOWN", message: "teapot", body });
   });
 
-  test("UnknownGoogleWorkspaceError falls back to the HTTP status as code and text as body", async () => {
+  test("UnknownGoogleWorkspaceError without an envelope carries the status and the text as body", async () => {
     const { layer } = fakeGoogle(418, "teapot");
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(UnknownGoogleWorkspaceError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", body: "teapot" });
+    expect(error).toMatchObject({ status: 418, message: "teapot", body: "teapot" });
   });
 });
 
@@ -243,6 +246,11 @@ describe("success decoding", () => {
       const { layer } = fakeGoogle(status, body);
       expect(await run(deleteTasks({ tasklist: "l", task: "t" }), layer)).toEqual({});
     }
+  });
+
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeGoogle(200, "null");
+    expect(await run(deleteTasks({ tasklist: "l", task: "t" }), layer)).toBeNull();
   });
 
   test("strict validation fails a mismatched payload with GoogleWorkspaceParseError", async () => {

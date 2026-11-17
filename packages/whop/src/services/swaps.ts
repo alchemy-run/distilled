@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
 export type CreateSwapRequestFromChain = string | number;
@@ -66,29 +94,29 @@ export type CreateSwapRequestFromChain = string | number;
 export type CreateSwapRequestToChain = string | number;
 export interface CreateSwapRequest {
   /** Business account that makes the swap, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Source token amount. Required for crypto swaps. For fiat pairs: the amount of from_token to convert at the mid-market rate; omit (along with to_amount) to repay the full negative to_token balance instead. */
-  amount?: string | null;
+  amount?: string | null | undefined;
   /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
-  from_chain?: CreateSwapRequestFromChain | null;
+  from_chain?: CreateSwapRequestFromChain | null | undefined;
   /** Source token contract address or ticker symbol, such as "USDT". */
   from_token: string;
   /** Maximum slippage tolerance in basis points. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Fiat pairs only: sizes a partial repayment of the negative to_token balance, denominated in to_token. Must not exceed the debt. Mutually exclusive with amount. */
-  to_amount?: string | null;
+  to_amount?: string | null | undefined;
   /** Destination chain name or chain ID. Defaults to the destination token's chain when omitted. */
-  to_chain?: CreateSwapRequestToChain | null;
+  to_chain?: CreateSwapRequestToChain | null | undefined;
   /** Destination token contract address or ticker symbol, such as "XAUT". */
   to_token: string;
   /** The caller's own user ID, prefixed `user_`, to swap in their personal account. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Fiat pairs only: the source currency. */
 export interface CreateSwapResponseFromToken {
-  symbol?: string;
+  symbol?: string | undefined;
 }
 export type CreateSwapResponseObject = "swap";
 /** Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles. */
@@ -99,26 +127,26 @@ export interface CreateSwapResponse {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Fiat pairs only: amount of the source currency converted. Null while a stablecoin repayment is processing. */
-  amount_in?: number | null;
+  amount_in?: number | null | undefined;
   /** Fiat pairs only: amount credited in the destination currency. Null while a stablecoin repayment is processing. */
-  amount_out?: number | null;
+  amount_out?: number | null | undefined;
   /** Expected destination token amount. */
-  amount_out_expected?: string;
+  amount_out_expected?: string | undefined;
   /** Minimum destination amount after slippage. */
-  amount_out_min?: string;
+  amount_out_min?: string | undefined;
   /** Fiat pairs only: the source currency. */
-  from_token?: CreateSwapResponseFromToken | null;
+  from_token?: CreateSwapResponseFromToken | null | undefined;
   /** Swap ID. Poll `GET /swaps/:id` for status. */
-  id?: string;
+  id?: string | undefined;
   object: CreateSwapResponseObject;
   /** Quoted exchange rate used to create the swap. */
-  rate?: string;
+  rate?: string | undefined;
   /** Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles. */
   status: CreateSwapResponseStatus;
   /** Destination chain for the swap. */
-  to_chain?: string;
+  to_chain?: string | undefined;
   /** Fiat pairs only: the destination currency. */
-  to_token?: CreateSwapResponseFromToken | null;
+  to_token?: CreateSwapResponseFromToken | null | undefined;
   /** User whose personal account owns the swap, prefixed `user_`. Null for a business account. */
   user_id: string | null;
 }
@@ -132,23 +160,23 @@ export interface CreateSwapQuoteRequest {
   /** Source token amount. */
   amount: string;
   /** Source wallet address used for the quote. */
-  from_address?: string | null;
+  from_address?: string | null | undefined;
   /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
-  from_chain?: CreateSwapQuoteRequestFromChain | null;
+  from_chain?: CreateSwapQuoteRequestFromChain | null | undefined;
   /** Source token contract address or ticker symbol, such as "USDT". */
   from_token: string;
   /** Metadata to include with the quote response. */
-  metadata?: CreateSwapQuoteRequestMetadataMap;
+  metadata?: CreateSwapQuoteRequestMetadataMap | undefined;
   /** Maximum slippage tolerance in basis points. */
-  slippage_bps?: number | null;
+  slippage_bps?: number | null | undefined;
   /** Destination wallet address used for the quote. */
-  to_address?: string | null;
+  to_address?: string | null | undefined;
   /** Destination chain name or chain ID. Defaults to the destination token's chain when omitted. */
-  to_chain?: CreateSwapQuoteRequestToChain | null;
+  to_chain?: CreateSwapQuoteRequestToChain | null | undefined;
   /** Destination token contract address or ticker symbol, such as "XAUT". */
   to_token: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Resolved source token details. */
 export type CreateSwapQuoteResponseFromTokenMap = { [key: string]: unknown | undefined };
@@ -163,15 +191,15 @@ export interface CreateSwapQuoteResponse {
   /** Estimated destination token amount. */
   amount_out: string;
   /** Minimum destination amount after slippage. */
-  amount_out_min?: string;
+  amount_out_min?: string | undefined;
   /** Estimated bridge fee for cross-chain swaps. */
-  bridge_fee?: string | null;
+  bridge_fee?: string | null | undefined;
   /** Estimated time for the swap to complete. */
-  estimated_duration_seconds?: number | null;
+  estimated_duration_seconds?: number | null | undefined;
   /** Whop fee in basis points. */
   fee_bps: number;
   /** Source wallet address used for the quote. */
-  from_address?: string | null;
+  from_address?: string | null | undefined;
   /** Resolved source token details. */
   from_token: CreateSwapQuoteResponseFromTokenMap;
   /** Metadata from the request. */
@@ -180,9 +208,9 @@ export interface CreateSwapQuoteResponse {
   /** Quoted exchange rate. */
   rate: string;
   /** Whether the source token needs approval before swapping. */
-  requires_token_approval?: boolean | null;
+  requires_token_approval?: boolean | null | undefined;
   /** Destination wallet address used for the quote. */
-  to_address?: string | null;
+  to_address?: string | null | undefined;
   /** Resolved destination token details. */
   to_token: CreateSwapQuoteResponseToTokenMap;
 }
@@ -199,7 +227,7 @@ export interface GetSwapResponse {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Swap ID. */
   id: string;
   object: GetSwapResponseObject;
@@ -212,9 +240,9 @@ export interface GetSwapResponse {
 }
 export interface ListSwapsRequest {
   /** Business account whose swaps to list, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The caller's own user ID, prefixed `user_`, to list swaps in their personal account. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export type ListSwapsResponseDataItemObject = "swap";
 /** Current swap status. `complete` and `failed` are terminal. */
@@ -225,7 +253,7 @@ export interface ListSwapsResponseDataItem {
   /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Swap ID. */
   id: string;
   object: ListSwapsResponseDataItemObject;
@@ -242,6 +270,17 @@ export interface ListSwapsResponse {
   /** Swaps returned for this account. */
   data: ListSwapsResponseDataList;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateSwapError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Swap Swaps one token for another from the account's wallet, or converts between fiat currencies in the account's ledger at the mid-market rate. Crypto swaps finish in the background -- check the swap for its status. */
 export const createSwap: API.OperationMethod<
@@ -250,8 +289,8 @@ export const createSwap: API.OperationMethod<
   CreateSwapError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateSwapRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateSwapResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateSwapRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<CreateSwapResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -267,8 +306,8 @@ export const createSwapQuote: API.OperationMethod<
   CreateSwapQuoteError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c1, 1) as any as S.Schema<CreateSwapQuoteRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<CreateSwapQuoteResponse>,
+  input: __S(9, __c2, 1) as any as S.Schema<CreateSwapQuoteRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<CreateSwapQuoteResponse>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -284,8 +323,8 @@ export const getSwap: API.OperationMethod<
   GetSwapError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetSwapRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<GetSwapResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetSwapRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<GetSwapResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -301,8 +340,8 @@ export const listSwaps: API.OperationMethod<
   ListSwapsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListSwapsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListSwapsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListSwapsRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListSwapsResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -312,6 +351,24 @@ export const listSwaps: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -342,19 +399,19 @@ function __c0(j: number): any {
           amount_out: S.optional(S.NullOr(S.Number)),
           amount_out_expected: S.optional(S.String),
           amount_out_min: S.optional(S.String),
-          from_token: S.optional(S.NullOr(__S(1, __c0, 1))),
+          from_token: S.optional(S.NullOr(__S(5, __c1, 1))),
           id: S.optional(S.String),
           object: S.String,
           rate: S.optional(S.String),
           status: S.String,
           to_chain: S.optional(S.String),
-          to_token: S.optional(S.NullOr(__S(1, __c0, 1))),
+          to_token: S.optional(S.NullOr(__S(5, __c1, 1))),
           user_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CreateSwapResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -365,7 +422,7 @@ function __c1(j: number): any {
           from_address: S.optional(S.NullOr(S.String)),
           from_chain: S.optional(S.NullOr(S.Unknown)),
           from_token: S.String,
-          metadata: S.optional(__S(4, __c1, 0)),
+          metadata: S.optional(__S(8, __c2, 0)),
           slippage_bps: S.optional(S.NullOr(S.Number)),
           to_address: S.optional(S.NullOr(S.String)),
           to_chain: S.optional(S.NullOr(S.Unknown)),
@@ -383,18 +440,18 @@ function __c1(j: number): any {
           estimated_duration_seconds: S.optional(S.NullOr(S.Number)),
           fee_bps: S.Number,
           from_address: S.optional(S.NullOr(S.String)),
-          from_token: __S(4, __c1, 0),
-          metadata: __S(4, __c1, 0),
+          from_token: __S(8, __c2, 0),
+          metadata: __S(8, __c2, 0),
           object: S.String,
           rate: S.String,
           requires_token_approval: S.optional(S.NullOr(S.Boolean)),
           to_address: S.optional(S.NullOr(S.String)),
-          to_token: __S(4, __c1, 0),
+          to_token: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "CreateSwapQuoteResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -404,7 +461,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSwapRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -416,13 +473,13 @@ function __c3(j: number): any {
           id: S.String,
           object: S.String,
           status: S.String,
-          tx_hashes: __S(12, __c3, 0),
+          tx_hashes: __S(16, __c4, 0),
           user_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetSwapResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -432,11 +489,11 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/swaps", code: 200 })),
       ).annotate({ identifier: "ListSwapsRequest" });
     case 1:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(17, __c4, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
+          data: __S(21, __c5, 1),
         }),
       ).annotate({ identifier: "ListSwapsResponse" });
   }

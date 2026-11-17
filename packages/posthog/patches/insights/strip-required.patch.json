@@ -71,14 +71,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.insights#InsightOutput/members/effective_restriction_level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#InsightOutput/members/effective_privilege_level/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.insights#InsightOutput/members/user_access_level/traits/smithy.api#required"
     },
     {
@@ -995,62 +987,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/expected_loss/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response16/members/variants/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantFunnelsBaseStats/members/failure_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantFunnelsBaseStats/members/key/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantFunnelsBaseStats/members/success_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantTrendsBaseStats/members/absolute_exposure/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantTrendsBaseStats/members/count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantTrendsBaseStats/members/exposure/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentVariantTrendsBaseStats/members/key/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.insights#Response18/members/results/traits"
     },
     {
@@ -1107,46 +1043,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/columns/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/hogql/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/limit/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/offset/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response21/members/types/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response22/members/hasMore/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response22/members/limit/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response22/members/offset/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#Response22/members/results/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.insights#EventsQuery/members/select/traits/smithy.api#required"
     },
     {
@@ -1192,62 +1088,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.insights#FunnelsActorsQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationActorsQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationQuery/members/funnelCorrelationType/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationResponse/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationResult/members/events/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#FunnelCorrelationResult/members/skewed/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventOddsRatioSerialized/members/correlation_type/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventOddsRatioSerialized/members/event/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventOddsRatioSerialized/members/failure_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventOddsRatioSerialized/members/odds_ratio/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventOddsRatioSerialized/members/success_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventDefinition/members/elements/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventDefinition/members/event/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#EventDefinition/members/properties/traits"
     },
     {
       "op": "remove",
@@ -1640,70 +1480,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.insights#ErrorTrackingIssueCorrelationQueryResponse/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQuery/members/funnels_query/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/expected_loss/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentFunnelsQueryResponse/members/variants/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQuery/members/count_query/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/p_value/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.insights#ExperimentTrendsQueryResponse/members/variants/traits"
     },
     {
       "op": "remove",

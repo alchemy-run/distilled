@@ -17,6 +17,15 @@ export const DEFAULT_API_BASE_URL = "https://api.stripe.com";
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /**
+   * The account calls act on, sent as the `Stripe-Context` header: a
+   * connected account (`acct_123`), an account in your organization, or a
+   * path to a nested one (`acct_platform/acct_connected`). An organization
+   * key (`sk_org_...`) needs it for every call that targets one account.
+   * Unset, calls act on the API key's own account.
+   * See https://docs.stripe.com/context.
+   */
+  readonly context?: string | undefined;
 }
 
 export class Credentials
@@ -44,15 +53,25 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   ),
 );
 
-/** Convenience layer from a redacted API key + optional base URL. */
+/**
+ * Convenience layer from a redacted API key, an optional base URL and an
+ * optional account context ({@link Config.context}).
+ *
+ * @example
+ * ```ts
+ * Stripe.credentials({ apiKey, context: "acct_123" });
+ * ```
+ */
 export const credentials = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  readonly context?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+      context: config.context,
     }),
   );

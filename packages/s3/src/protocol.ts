@@ -1,5 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -46,6 +48,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
+import { type PresignSettings, Presigning } from "./client/presigning.ts";
 import {
   loadHandler,
   serializeFailure,
@@ -75,6 +78,7 @@ import {
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
+import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -97,7 +101,7 @@ interface Prepared {
     status: number;
     statusText: string;
     headers: Record<string, string>;
-    body: string | ReadableStream<Uint8Array>;
+    body: string | StreamBody;
   }) => Effect.Effect<any, any, any>;
   readonly sigv4: { name: string } | undefined;
   /** Legacy SigV2 (SimpleDB only) -- signs via body parameters, no header. */
@@ -204,9 +208,10 @@ const withAwsContext = (
 
 /**
  * Turn a serialized request into the signed HTTP request: endpoint
- * resolution, host prefix, query string and signing. Synchronous unless the
- * request needs an effect (SigV2, a payload digest, asynchronous crypto) or
- * fails, in which case the effect is returned instead.
+ * resolution, host prefix, query string and signing (into the query string
+ * when `presign` is set). Synchronous unless the request needs an effect
+ * (SigV2, a payload digest, asynchronous crypto) or fails, in which case the
+ * effect is returned instead.
  */
 const toHttpRequest = (
   prepared: Prepared,
@@ -216,6 +221,7 @@ const toHttpRequest = (
   region: string,
   customEndpoint: string | undefined,
   fiber: Fiber,
+  presign: PresignSettings | undefined,
 ):
   | HttpClientRequest.HttpClientRequest
   | Effect.Effect<HttpClientRequest.HttpClientRequest, any, any> => {
@@ -272,8 +278,10 @@ const toHttpRequest = (
   }
 
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
-  // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for
-  // custom endpoints, matching official AWS SDK behavior. Labels of the
+  // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for a
+  // custom endpoint: an emulator or proxy (LocalStack, MinIO, R2) serves every
+  // operation on the one host it names. The AWS SDKs apply it there too,
+  // unless `disableHostPrefix` is set. Labels of the
   // form {memberName} are substituted from the operation input; a value that
   // is not a host name ("attacker.invalid/") would move the request to
   // another host, so it fails with InvalidInput before anything is signed.
@@ -314,6 +322,23 @@ const toHttpRequest = (
 
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
+  if (presign !== undefined) {
+    return presign.presign(
+      {
+        operation: prepared.operationName,
+        method: resolvedRequest.method,
+        url: `${endpoint}${fullPath}`,
+        headers: resolvedRequest.headers,
+        body: resolvedRequest.body,
+        signer: signingRegionSet !== undefined ? "SigV4A" : sigv2 ? "SigV2" : undefined,
+        service: signingServiceName,
+        region: signingRegion,
+        credentials,
+      },
+      fiber,
+    );
+  }
+
   if (sigv2) {
     // The SigV2 signer parses this URL synchronously; fail an unparseable
     // one (e.g. a malformed custom endpoint) as SigV4 does.
@@ -326,9 +351,9 @@ const toHttpRequest = (
     return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
   }
 
-  // For streaming bodies (ReadableStream), we can't compute a hash
+  // For streaming bodies, we can't compute a hash
   // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
-  const isStreamingBody = resolvedRequest.body instanceof ReadableStream;
+  const isStreamingBody = isStreamBody(resolvedRequest.body);
   // Check if content-sha256 header is already set (e.g., by checksum middleware)
   // Check if service provides its own checksum (e.g., EBS x-amz-Checksum header)
   // In this case, the body should not be included in SigV4 signing
@@ -424,16 +449,17 @@ const httpRequestOf = (
   const contentType = signedHeaders["content-type"];
 
   // Build HttpBody based on body type
-  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header
+  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header,
+  // and a stream's content length, or setBody removes Content-Length and the body goes out chunked
   let httpBody: HttpBody.HttpBody;
-  if (isStreamingBody) {
-    // Convert ReadableStream to Effect Stream for HttpClient
-    const effectStream = Stream.fromReadableStream({
-      evaluate: () => body as ReadableStream<Uint8Array>,
-      onError: (error) =>
-        error instanceof Error ? error : new Error(String(error), { cause: error }),
-    });
-    httpBody = HttpBody.stream(effectStream, contentType);
+  if (isStreamingBody && isStreamBody(body)) {
+    // An Effect stream goes to the HttpClient as is, so it runs in this fiber.
+    const contentLength = signedHeaders["content-length"];
+    httpBody = HttpBody.stream(
+      bodyStream(body),
+      contentType,
+      contentLength === undefined ? undefined : Number(contentLength),
+    );
   } else if (body === undefined) {
     httpBody = HttpBody.empty;
   } else if (typeof body === "string") {
@@ -473,7 +499,7 @@ const thenSend = <A>(
 /**
  * Stamp a server-provided `retryAfterSeconds` hint (modeled on several AWS
  * throttling errors) as the `retryAfter` Duration that core's default retry
- * policy honors with precedence over its backoff.
+ * policy treats as the least it waits (RFC 9110).
  */
 const stampRetryAfter = (error: unknown): unknown => {
   if (typeof error !== "object" || error === null) return error;
@@ -502,7 +528,10 @@ interface Plan {
 const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   if (prepared.plan !== undefined) return Effect.succeed(prepared.plan);
   const handler = prepared.handler;
-  if (handler === undefined) return Effect.die(new Error("No protocol found on input schema"));
+  if (handler === undefined)
+    return Effect.fail(
+      new SdkError({ message: "No protocol found on input schema" }),
+    ) as Effect.Effect<never>;
   return Effect.map(loadHandler(handler), (protocol) => {
     const decodeSuccess = makeSuccessDecoder(prepared.op, {
       service: prepared.serviceSdkId,
@@ -527,13 +556,14 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   });
 };
 
-/** The signed HTTP request for `input`, on the calling fiber. */
+/** The signed (or, given `presign`, presigned) HTTP request for `input`, on the calling fiber. */
 const encodeWith = <A>(
   prepared: Prepared,
   plan: Plan,
   fiber: Fiber,
   input: unknown,
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
+  presign?: PresignSettings,
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
@@ -545,7 +575,7 @@ const encodeWith = <A>(
       Telemetry.annotate(context, "cloud.region", region);
       if (!traceDebug) {
         return thenSend(
-          toHttpRequest(prepared, input, request, credentials, region, custom, fiber),
+          toHttpRequest(prepared, input, request, credentials, region, custom, fiber, presign),
           f,
         );
       }
@@ -555,7 +585,16 @@ const encodeWith = <A>(
           context,
           "aws.endpoint_and_sign",
           Effect.suspend(() => {
-            const r = toHttpRequest(prepared, input, request, credentials, region, custom, fiber);
+            const r = toHttpRequest(
+              prepared,
+              input,
+              request,
+              credentials,
+              region,
+              custom,
+              fiber,
+              presign,
+            );
             return HttpClientRequest.isHttpClientRequest(r) ? Effect.succeed(r) : r;
           }),
           { "aws.signing.name": prepared.sigv4?.name },
@@ -610,7 +649,7 @@ const decodeWith = (
     response.request.method === "HEAD" ||
     (response.headers as Record<string, string>)["content-length"] === "0" ||
     response.status === 204;
-  const parse = (body: string | ReadableStream<Uint8Array>) =>
+  const parse = (body: string | StreamBody) =>
     Effect.mapError(
       prepared.parseResponse({
         status: response.status,
@@ -632,8 +671,9 @@ const decodeWith = (
       ? fromText("")
       : Effect.flatMap(response.text, fromText)
     : empty
-      ? parse(new ReadableStream<Uint8Array>({ start: (c) => c.close() }))
-      : Effect.flatMap(Stream.toReadableStreamEffect(response.stream), parse);
+      ? parse(Stream.empty)
+      : // The HttpClient's stream as is: the caller reads it in its own fiber.
+        parse(response.stream);
   return decoded;
 };
 
@@ -649,7 +689,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
       return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+        Effect.flatMap(Send.send(context, client, request), (response) =>
           Telemetry.phase(
             context,
             "aws.deserialize",
@@ -682,8 +722,10 @@ export const AwsProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succee
     encode: ({ input, config }) =>
       Effect.withFiber((fiber) => {
         const prepared = prepare(config);
+        // `Presign.presignRequest` sets `Presigning` to sign into the query string.
+        const presign = Context.getOrUndefined(fiber.context, Presigning);
         return Effect.flatMap(planOf(prepared), (plan) =>
-          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed),
+          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
         );
       }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: ({ response, config }) =>

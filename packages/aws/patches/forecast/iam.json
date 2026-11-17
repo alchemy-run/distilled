@@ -1,0 +1,21 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.forecast#CreateWhatIfForecast/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
+        "add": ["iam:PassRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.forecast#CreateWhatIfForecastExport/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The request can name an S3 role for its data source or destination; the builder's PassRole is limited to forecast.amazonaws.com.",
+        "add": ["iam:PassRole"]
+      }
+    }
+  ]
+}

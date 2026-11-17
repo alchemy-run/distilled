@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -48,6 +52,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -58,15 +64,15 @@ export interface AddProjectMemberRequest {
   /** The ID or name of the Project. */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The ID of the team member that should be added to this project. */
-  uid?: string;
+  uid?: string | undefined;
   /** The username of the team member that should be added to this project. */
-  username?: string;
+  username?: string | undefined;
   /** The email of the team member that should be added to this project. */
-  email?: string;
+  email?: string | undefined;
   /** The project role of the member that will be added. */
   role: AddProjectMemberRequestRole | (string & {});
 }
@@ -77,17 +83,17 @@ export interface GetProjectMembersRequest {
   /** The ID or name of the Project. */
   idOrName: string;
   /** Limit how many project members should be returned */
-  limit?: number;
+  limit?: number | undefined;
   /** Timestamp in milliseconds to only include members added since then. */
-  since?: number;
+  since?: number | undefined;
   /** Timestamp in milliseconds to only include members added until then. */
-  until?: number;
+  until?: number | undefined;
   /** Search project members by their name, username, and email. */
-  search?: string;
+  search?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Role of this user in the project. */
 export type GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole =
@@ -113,7 +119,7 @@ export type GetProjectMembersResponseBodyCase1MembersItemTeamRole =
   | "VIEWER_FOR_PLUS";
 export interface GetProjectMembersResponseBodyCase1MembersItem {
   /** ID of the file for the Avatar of this member. */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Role of this user in the project. */
   computedProjectRole: GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole;
   /** Timestamp in milliseconds when this member was added. */
@@ -121,7 +127,7 @@ export interface GetProjectMembersResponseBodyCase1MembersItem {
   /** The email of this member. */
   email: string;
   /** The name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Role of this user in the project. */
   role: GetProjectMembersResponseBodyCase1MembersItemRole;
   /** The role of this user in the team. */
@@ -155,9 +161,9 @@ export interface RemoveProjectMemberRequest {
   /** The user ID of the member. */
   uid: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface RemoveProjectMemberResponse {
   id: string;

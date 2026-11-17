@@ -927,6 +927,14 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  getJobUpgradeAnalysis: {
+    iam: {
+      actions: ["glue:GetJobUpgradeAnalysis"],
+      resources: {
+        "glue:GetJobUpgradeAnalysis": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+      },
+    },
+  },
   getJobs: {
     iam: {
       actions: ["glue:GetJobs", "iam:PassRole"],
@@ -1502,6 +1510,16 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  startJobUpgradeAnalysis: {
+    iam: {
+      actions: ["glue:StartJobUpgradeAnalysis"],
+      resources: {
+        "glue:StartJobUpgradeAnalysis": [
+          "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+        ],
+      },
+    },
+  },
   startMLEvaluationTaskRun: {
     iam: {
       actions: ["glue:StartMLEvaluationTaskRun"],
@@ -1573,6 +1591,16 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
     },
   },
   stopCrawlerSchedule: { iam: { actions: ["glue:StopCrawlerSchedule"] } },
+  stopJobUpgradeAnalysis: {
+    iam: {
+      actions: ["glue:StopJobUpgradeAnalysis"],
+      resources: {
+        "glue:StopJobUpgradeAnalysis": [
+          "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+        ],
+      },
+    },
+  },
   stopSession: {
     iam: {
       actions: ["glue:StopSession"],

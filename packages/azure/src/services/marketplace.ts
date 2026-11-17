@@ -38,15 +38,15 @@ export type AcknowledgeOfferNotificationDetailsRemovePlansList = Array<string>;
 /** Notification update request payload details */
 export interface AcknowledgeOfferNotificationDetails {
   /** Gets or sets a value indicating whether acknowledge action flag is enabled */
-  acknowledge?: boolean;
+  acknowledge?: boolean | undefined;
   /** Gets or sets a value indicating whether dismiss action flag is enabled */
-  dismiss?: boolean;
+  dismiss?: boolean | undefined;
   /** Gets or sets a value indicating whether remove offer action flag is enabled */
-  removeOffer?: boolean;
+  removeOffer?: boolean | undefined;
   /** Gets or sets added plans */
-  addPlans?: AcknowledgeOfferNotificationDetailsAddPlansList;
+  addPlans?: AcknowledgeOfferNotificationDetailsAddPlansList | undefined;
   /** Gets or sets remove plans */
-  removePlans?: AcknowledgeOfferNotificationDetailsRemovePlansList;
+  removePlans?: AcknowledgeOfferNotificationDetailsRemovePlansList | undefined;
 }
 export interface AcknowledgePrivateStoreOfferNotificationRequest {
   /** The store ID - must use the tenant ID */
@@ -54,7 +54,7 @@ export interface AcknowledgePrivateStoreOfferNotificationRequest {
   /** The offer ID to update or delete */
   offerId: string;
   /** Notification update request payload details */
-  properties?: AcknowledgeOfferNotificationDetails;
+  properties?: AcknowledgeOfferNotificationDetails | undefined;
 }
 export interface AcknowledgePrivateStoreOfferNotificationResponse {}
 export interface ApprovePrivateStoreCollectionAllItemsRequest {
@@ -68,17 +68,17 @@ export type IdentityType = "User" | "Application" | "ManagedIdentity" | "Key";
 /** Read only system data */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource */
-  createdByType?: IdentityType;
+  createdByType?: IdentityType | undefined;
   /** The timestamp of resource creation (UTC) */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource */
-  lastModifiedByType?: IdentityType;
+  lastModifiedByType?: IdentityType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets subscription ids list. Empty list indicates all subscriptions are selected, null indicates no update is done, explicit list indicates the explicit selected subscriptions. On insert, null is considered as bad request */
 export type CollectionPropertiesSubscriptionsListList = Array<string>;
@@ -87,67 +87,67 @@ export type RuleType = "PrivateProducts" | "TermsAndCondition";
 export type RuleValueList = Array<string>;
 export interface Rule {
   /** Rule type */
-  type?: RuleType | (string & {});
-  value?: RuleValueList;
+  type?: RuleType | (string & {}) | undefined;
+  value?: RuleValueList | undefined;
 }
 /** Gets list of collection rules */
 export type CollectionPropertiesAppliedRulesList = Array<Rule>;
 /** The collection details */
 export interface CollectionProperties {
   /** Gets collection Id. */
-  collectionId?: string;
+  collectionId?: string | undefined;
   /** Gets or sets collection name. */
-  collectionName?: string;
+  collectionName?: string | undefined;
   /** Gets or sets the association with Commercial's Billing Account. */
-  claim?: string;
+  claim?: string | undefined;
   /** Indicating whether all subscriptions are selected (=true) or not (=false). */
-  allSubscriptions?: boolean;
+  allSubscriptions?: boolean | undefined;
   /** Indicating whether all items are approved for this collection (=true) or not (=false). */
-  approveAllItems?: boolean;
+  approveAllItems?: boolean | undefined;
   /** Gets the modified date of all items approved. */
-  approveAllItemsModifiedAt?: string;
+  approveAllItemsModifiedAt?: string | undefined;
   /** Gets or sets subscription ids list. Empty list indicates all subscriptions are selected, null indicates no update is done, explicit list indicates the explicit selected subscriptions. On insert, null is considered as bad request */
-  subscriptionsList?: CollectionPropertiesSubscriptionsListList;
+  subscriptionsList?: CollectionPropertiesSubscriptionsListList | undefined;
   /** Indicating whether the collection is enabled or disabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Gets the number of offers associated with the collection. */
-  numberOfOffers?: number;
+  numberOfOffers?: number | undefined;
   /** Gets list of collection rules */
-  appliedRules?: CollectionPropertiesAppliedRulesList;
+  appliedRules?: CollectionPropertiesAppliedRulesList | undefined;
 }
 export interface ApprovePrivateStoreCollectionAllItemsResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The collection data structure. */
-  properties?: CollectionProperties;
+  properties?: CollectionProperties | undefined;
 }
 /** collection ids list that the action is performed on */
 export type BulkCollectionsDetailsCollectionIdsList = Array<string>;
 /** Bulk collection details */
 export interface BulkCollectionsDetails {
   /** collection ids list that the action is performed on */
-  collectionIds?: BulkCollectionsDetailsCollectionIdsList;
+  collectionIds?: BulkCollectionsDetailsCollectionIdsList | undefined;
   /** Action to perform (For example: EnableCollections, DisableCollections) */
-  action?: string;
+  action?: string | undefined;
 }
 export interface BulkPrivateStoreCollectionsActionRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** bulk collections properties details */
-  properties?: BulkCollectionsDetails;
+  properties?: BulkCollectionsDetails | undefined;
 }
 /** Collection name and id. */
 export interface CollectionsDetails {
   /** Collection name. */
-  collectionName?: string;
+  collectionName?: string | undefined;
   /** Collection id. */
-  collectionId?: string;
+  collectionId?: string | undefined;
 }
 /** Succeeded collections */
 export type BulkCollectionsResponseSucceededList = Array<CollectionsDetails>;
@@ -156,33 +156,33 @@ export type BulkCollectionsResponseFailedList = Array<CollectionsDetails>;
 /** The bulk collections response. The response contains two lists that indicate for each collection whether the operation succeeded or failed */
 export interface BulkCollectionsResponse {
   /** Succeeded collections */
-  succeeded?: BulkCollectionsResponseSucceededList;
+  succeeded?: BulkCollectionsResponseSucceededList | undefined;
   /** Failed collections */
-  failed?: BulkCollectionsResponseFailedList;
+  failed?: BulkCollectionsResponseFailedList | undefined;
 }
 /** Return plan with request details */
 export interface PlanDetailsInput {
   /** Gets or sets Plan Id */
-  planId?: string;
+  planId?: string | undefined;
   /** Gets or sets user's justification for the plan's request */
-  justification?: string;
+  justification?: string | undefined;
   /** Gets or sets the subscription id that the user is requesting to add the plan to */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Gets or sets the subscription name that the user is requesting to add the plan to */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
 }
 /** Gets or sets the plans details */
 export type RequestApprovalPropertiesInputPlansDetailsList = Array<PlanDetailsInput>;
 /** Approval request resource properties */
 export interface RequestApprovalPropertiesInput {
   /** Gets or sets unique offer id. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The offer's publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Gets or sets the plans details */
-  plansDetails?: RequestApprovalPropertiesInputPlansDetailsList;
+  plansDetails?: RequestApprovalPropertiesInputPlansDetailsList | undefined;
   /** Gets or sets the request approval message code */
-  messageCode?: number;
+  messageCode?: number | undefined;
 }
 export interface CreatePrivateStoreApprovalRequestRequest {
   /** The store ID - must use the tenant ID */
@@ -190,53 +190,53 @@ export interface CreatePrivateStoreApprovalRequestRequest {
   /** The request approval ID to get create or update */
   requestApprovalId: string;
   /** The privateStore approval request data structure. */
-  properties?: RequestApprovalPropertiesInput;
+  properties?: RequestApprovalPropertiesInput | undefined;
 }
 /** Gets the plan status */
 export type Status = "Pending" | "Rejected" | "Approved" | "None";
 /** Return plan with request details */
 export interface PlanDetails {
   /** Gets or sets Plan Id */
-  planId?: string;
+  planId?: string | undefined;
   /** Gets the plan status */
-  status?: Status;
+  status?: Status | undefined;
   /** Gets request date */
-  requestDate?: unknown;
+  requestDate?: unknown | undefined;
   /** Gets or sets user's justification for the plan's request */
-  justification?: string;
+  justification?: string | undefined;
   /** Gets or sets the subscription id that the user is requesting to add the plan to */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Gets or sets the subscription name that the user is requesting to add the plan to */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
 }
 /** Gets or sets the plans details */
 export type RequestApprovalPropertiesPlansDetailsList = Array<PlanDetails>;
 /** Approval request resource properties */
 export interface RequestApprovalProperties {
   /** Gets or sets unique offer id. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets offer display name */
-  offerDisplayName?: string;
+  offerDisplayName?: string | undefined;
   /** The offer's publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Gets or sets the plans details */
-  plansDetails?: RequestApprovalPropertiesPlansDetailsList;
+  plansDetails?: RequestApprovalPropertiesPlansDetailsList | undefined;
   /** Gets a value indicating whether the request is closed */
-  isClosed?: boolean;
+  isClosed?: boolean | undefined;
   /** Gets or sets the request approval message code */
-  messageCode?: number;
+  messageCode?: number | undefined;
 }
 export interface CreatePrivateStoreApprovalRequestResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore approval request data structure. */
-  properties?: RequestApprovalProperties;
+  properties?: RequestApprovalProperties | undefined;
 }
 export interface DeletePrivateStoreRequest {
   /** The store ID - must use the tenant ID */
@@ -268,24 +268,24 @@ export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | 
 /** Subscription information. */
 export interface Subscription {
   /** The fully qualified ID for the subscription. For example, /subscriptions/00000000-0000-0000-0000-000000000000. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The subscription display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted. */
-  state?: SubscriptionState;
+  state?: SubscriptionState | undefined;
 }
 /** An array of subscriptions. */
 export type SubscriptionsResponseValueList = Array<Subscription>;
 /** Subscription list operation response. */
 export interface SubscriptionsResponse {
   /** An array of subscriptions. */
-  value?: SubscriptionsResponseValueList;
+  value?: SubscriptionsResponseValueList | undefined;
   /** The skip token to retrieve the next page. */
-  skipToken?: string;
+  skipToken?: string | undefined;
   /** Number of subscriptions on the page */
-  count?: number;
+  count?: number | undefined;
 }
 export interface GetPrivateStoreRequest {
   /** The store ID - must use the tenant ID */
@@ -300,53 +300,53 @@ export type PrivateStorePropertiesBrandingMap = { [key: string]: string | undefi
 /** Describes the json payload for a notified recipient for new requests */
 export interface Recipient {
   /** Principal ID */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Email Address */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Display Name */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Gets or sets list of notified recipients for new requests */
 export type NotificationsSettingsPropertiesRecipientsList = Array<Recipient>;
 /** Describes the json payload for notifications settings */
 export interface NotificationsSettingsProperties {
   /** Gets or sets list of notified recipients for new requests */
-  recipients?: NotificationsSettingsPropertiesRecipientsList;
+  recipients?: NotificationsSettingsPropertiesRecipientsList | undefined;
   /** Gets or sets whether to send email to all marketplace admins for new requests */
-  sendToAllMarketplaceAdmins?: boolean;
+  sendToAllMarketplaceAdmins?: boolean | undefined;
 }
 /** Describes the json payload on whether or not the private store is enabled for a given tenant */
 export interface PrivateStoreProperties {
   /** Indicates private store availability */
-  availability?: Availability;
+  availability?: Availability | undefined;
   /** Private Store id */
-  privateStoreId?: string;
+  privateStoreId?: string | undefined;
   /** Identifier for purposes of race condition */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Private Store Name */
-  privateStoreName?: string;
+  privateStoreName?: string | undefined;
   /** Tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Is government */
-  isGov?: boolean;
+  isGov?: boolean | undefined;
   /** Gets list of associated collection ids */
-  collectionIds?: PrivateStorePropertiesCollectionIdsList;
+  collectionIds?: PrivateStorePropertiesCollectionIdsList | undefined;
   /** Gets or sets list of branding characteristics */
-  branding?: PrivateStorePropertiesBrandingMap;
+  branding?: PrivateStorePropertiesBrandingMap | undefined;
   /** Gets or sets notifications settings */
-  notificationsSettings?: NotificationsSettingsProperties;
+  notificationsSettings?: NotificationsSettingsProperties | undefined;
 }
 export interface GetPrivateStoreResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The PrivateStore data structure. */
-  properties?: PrivateStoreProperties;
+  properties?: PrivateStoreProperties | undefined;
 }
 export interface GetPrivateStoreAdminRequestApprovalRequest {
   /** The store ID - must use the tenant ID */
@@ -363,26 +363,26 @@ export type AdminRequestApprovalPropertiesApprovedPlansList = Array<string>;
 /** user request details */
 export interface UserRequestDetails {
   /** Gets user id */
-  user?: string;
+  user?: string | undefined;
   /** Gets request date */
-  date?: string;
+  date?: string | undefined;
   /** Gets justification */
-  justification?: string;
+  justification?: string | undefined;
   /** Gets the subscription id that the user is requesting to add the plan to */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Gets the subscription name that the user is requesting to add the plan to */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
 }
 /** Gets requesters details list */
 export type PlanRequesterDetailsRequestersList = Array<UserRequestDetails>;
 /** Plan with requesters details */
 export interface PlanRequesterDetails {
   /** Gets the plan id */
-  planId?: string;
+  planId?: string | undefined;
   /** Gets the plan display name */
-  planDisplayName?: string;
+  planDisplayName?: string | undefined;
   /** Gets requesters details list */
-  requesters?: PlanRequesterDetailsRequestersList;
+  requesters?: PlanRequesterDetailsRequestersList | undefined;
 }
 /** Gets list of plans with requesters details */
 export type AdminRequestApprovalPropertiesPlansList = Array<PlanRequesterDetails>;
@@ -391,37 +391,37 @@ export type AdminRequestApprovalPropertiesCollectionIdsList = Array<string>;
 /** Admin approval request resource properties */
 export interface AdminRequestApprovalProperties {
   /** Gets or sets offer Id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets or sets publisher Id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Gets or sets admin action */
-  adminAction?: AdminAction;
+  adminAction?: AdminAction | undefined;
   /** Gets or sets Approved plans ids, empty in case of rejected */
-  approvedPlans?: AdminRequestApprovalPropertiesApprovedPlansList;
+  approvedPlans?: AdminRequestApprovalPropertiesApprovedPlansList | undefined;
   /** Gets or sets admin comment */
-  comment?: string;
+  comment?: string | undefined;
   /** Gets or sets admin details */
-  administrator?: string;
+  administrator?: string | undefined;
   /** Gets list of plans with requesters details */
-  plans?: AdminRequestApprovalPropertiesPlansList;
+  plans?: AdminRequestApprovalPropertiesPlansList | undefined;
   /** Gets or sets list of associated collection ids */
-  collectionIds?: AdminRequestApprovalPropertiesCollectionIdsList;
+  collectionIds?: AdminRequestApprovalPropertiesCollectionIdsList | undefined;
   /** The offer icon url. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface GetPrivateStoreAdminRequestApprovalResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore admin Approval request data structure. */
-  properties?: AdminRequestApprovalProperties;
+  properties?: AdminRequestApprovalProperties | undefined;
 }
 export interface GetPrivateStoreCollectionRequest {
   /** The store ID - must use the tenant ID */
@@ -431,15 +431,15 @@ export interface GetPrivateStoreCollectionRequest {
 }
 export interface GetPrivateStoreCollectionResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The collection data structure. */
-  properties?: CollectionProperties;
+  properties?: CollectionProperties | undefined;
 }
 export interface GetPrivateStoreCollectionOfferRequest {
   /** The store ID - must use the tenant ID */
@@ -461,59 +461,59 @@ export type Accessibility =
   | "PrivateSubscriptionOnLevel";
 export interface Plan {
   /** Identifier for this plan */
-  skuId?: string;
+  skuId?: string | undefined;
   /** Text identifier for this plan */
-  planId?: string;
+  planId?: string | undefined;
   /** Friendly name for the plan for display in the marketplace */
-  planDisplayName?: string;
+  planDisplayName?: string | undefined;
   /** Plan accessibility */
-  accessibility?: Accessibility;
+  accessibility?: Accessibility | undefined;
   /** Alternative stack type */
-  altStackReference?: string;
+  altStackReference?: string | undefined;
   /** Stack type (classic or arm) */
-  stackType?: string;
+  stackType?: string | undefined;
   /** Indicating whether the plan is stop sell or not. */
-  isStopSell?: boolean;
+  isStopSell?: boolean | undefined;
 }
 /** Offer plans */
 export type OfferPropertiesPlansList = Array<Plan>;
 export interface OfferProperties {
   /** Offers unique id */
-  uniqueOfferId?: string;
+  uniqueOfferId?: string | undefined;
   /** It will be displayed prominently in the marketplace */
-  offerDisplayName?: string;
+  offerDisplayName?: string | undefined;
   /** Publisher name that will be displayed prominently in the marketplace */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** Identifier for purposes of race condition */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Private store unique id */
-  privateStoreId?: string;
+  privateStoreId?: string | undefined;
   /** Private store offer creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Private store offer modification date */
-  modifiedAt?: string;
+  modifiedAt?: string | undefined;
   /** Plan ids limitation for this offer */
-  specificPlanIdsLimitation?: OfferPropertiesSpecificPlanIdsLimitationList;
+  specificPlanIdsLimitation?: OfferPropertiesSpecificPlanIdsLimitationList | undefined;
   /** Indicating whether the offer was not updated to db (true = not updated). If the allow list is identical to the existed one in db, the offer would not be updated. */
-  updateSuppressedDueIdempotence?: boolean;
+  updateSuppressedDueIdempotence?: boolean | undefined;
   /** Icon File Uris */
-  iconFileUris?: OfferPropertiesIconFileUrisMap;
+  iconFileUris?: OfferPropertiesIconFileUrisMap | undefined;
   /** Indicating whether the offer is stop sell or not. */
-  isStopSell?: boolean;
+  isStopSell?: boolean | undefined;
   /** Offer plans */
-  plans?: OfferPropertiesPlansList;
+  plans?: OfferPropertiesPlansList | undefined;
 }
 export interface GetPrivateStoreCollectionOfferResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 export interface GetPrivateStoreRequestApprovalRequest {
   /** The store ID - must use the tenant ID */
@@ -523,68 +523,68 @@ export interface GetPrivateStoreRequestApprovalRequest {
 }
 export interface GetPrivateStoreRequestApprovalResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore approval request data structure. */
-  properties?: RequestApprovalProperties;
+  properties?: RequestApprovalProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface SingleOperationDisplay {
   /** Service provider: Microsoft.Marketplace */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly description for the operation, */
-  description?: string;
+  description?: string | undefined;
 }
 /** Microsoft.Marketplace REST API operation */
 export interface SingleOperation {
   /** Operation ID */
-  id?: string;
+  id?: string | undefined;
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: SingleOperationDisplay;
+  display?: SingleOperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** List of Microsoft.Marketplace operations supported by the Microsoft.Marketplace resource provider. */
 export type OperationListResultValueList = Array<SingleOperation>;
 /** Result of the request to list Marketplace operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Microsoft.Marketplace operations supported by the Microsoft.Marketplace resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateStoreRequest {
   /** Determines if to use cache or DB for serving this request */
-  use_cache?: string;
+  use_cache?: string | undefined;
 }
 /** The PrivateStore data structure. */
 export interface PrivateStore {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The PrivateStore data structure. */
-  properties?: PrivateStoreProperties;
+  properties?: PrivateStoreProperties | undefined;
 }
 /** The PrivateStore items on this page */
 export type PrivateStoreListValueList = Array<PrivateStore>;
@@ -593,7 +593,7 @@ export interface PrivateStoreList {
   /** The PrivateStore items on this page */
   value: PrivateStoreListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateStoreAdminRequestApprovalsRequest {
   /** The store ID - must use the tenant ID */
@@ -602,22 +602,22 @@ export interface ListPrivateStoreAdminRequestApprovalsRequest {
 /** Admin request approval resource. */
 export interface AdminRequestApprovalsResource {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore admin Approval request data structure. */
-  properties?: AdminRequestApprovalProperties;
+  properties?: AdminRequestApprovalProperties | undefined;
 }
 export type AdminRequestApprovalsListValueList = Array<AdminRequestApprovalsResource>;
 /** List of admin request approval resources */
 export interface AdminRequestApprovalsList {
-  value?: AdminRequestApprovalsListValueList;
+  value?: AdminRequestApprovalsListValueList | undefined;
   /** URL to get the next set of notifications list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateStoreCollectionRequest {
   /** The store ID - must use the tenant ID */
@@ -626,21 +626,21 @@ export interface ListPrivateStoreCollectionRequest {
 /** The Collection data structure. */
 export interface Collection {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The collection data structure. */
-  properties?: CollectionProperties;
+  properties?: CollectionProperties | undefined;
 }
 export type CollectionsListValueList = Array<Collection>;
 export interface CollectionsList {
-  value?: CollectionsListValueList;
+  value?: CollectionsListValueList | undefined;
   /** URL to get the next set of offer list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateStoreCollectionOfferRequest {
   /** The store ID - must use the tenant ID */
@@ -651,15 +651,15 @@ export interface ListPrivateStoreCollectionOfferRequest {
 /** The privateStore offer data structure. */
 export interface Offer {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 /** The Offer items on this page */
 export type OfferListResponseValueList = Array<Offer>;
@@ -668,14 +668,14 @@ export interface OfferListResponse {
   /** The Offer items on this page */
   value: OfferListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Subscription ids list */
 export type CollectionOffersByAllContextsPropertiesSubscriptionIdsList = Array<string>;
 /** Suggested subscription list */
 export interface CollectionOffersByAllContextsProperties {
   /** Subscription ids list */
-  subscriptionIds?: CollectionOffersByAllContextsPropertiesSubscriptionIdsList;
+  subscriptionIds?: CollectionOffersByAllContextsPropertiesSubscriptionIdsList | undefined;
 }
 export interface ListPrivateStoreCollectionOfferByContextsRequest {
   /** The store ID - must use the tenant ID */
@@ -683,26 +683,26 @@ export interface ListPrivateStoreCollectionOfferByContextsRequest {
   /** The collection ID */
   collectionId: string;
   /** Subscriptions ids list */
-  properties?: CollectionOffersByAllContextsProperties;
+  properties?: CollectionOffersByAllContextsProperties | undefined;
 }
 export type CollectionOffersByContextOffersValueList = Array<OfferProperties>;
 /** List of offers */
 export interface CollectionOffersByContextOffers {
-  value?: CollectionOffersByContextOffersValueList;
+  value?: CollectionOffersByContextOffersValueList | undefined;
 }
 /** List of offers and plans that restricted to the context */
 export interface CollectionOffersByContext {
   /** Offer's context, e.g. subscription ID, tenant ID. */
-  context?: string;
+  context?: string | undefined;
   /** List of offers */
-  offers?: CollectionOffersByContextOffers;
+  offers?: CollectionOffersByContextOffers | undefined;
 }
 export type CollectionOffersByContextListValueList = Array<CollectionOffersByContext>;
 /** List of objects which describes offers per context. An empty GUID is a public context. */
 export interface CollectionOffersByContextList {
-  value?: CollectionOffersByContextListValueList;
+  value?: CollectionOffersByContextListValueList | undefined;
   /** URL to get the next set of offer list per context results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateStoreNewPlansNotificationsRequest {
   /** The store ID - must use the tenant ID */
@@ -711,31 +711,31 @@ export interface ListPrivateStoreNewPlansNotificationsRequest {
 /** Plan notification details */
 export interface PlanNotificationDetails {
   /** Gets or sets the plan id */
-  planId?: string;
+  planId?: string | undefined;
   /** Gets or sets the plan display name */
-  planDisplayName?: string;
+  planDisplayName?: string | undefined;
 }
 /** Gets or sets removed plans notifications */
 export type NewNotificationsPlansList = Array<PlanNotificationDetails>;
 /** New plans notification details */
 export interface NewNotifications {
   /** Gets offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets offer display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets a value indicating whether future plans is enabled. */
-  isFuturePlansEnabled?: boolean;
+  isFuturePlansEnabled?: boolean | undefined;
   /** Gets or sets the notification message id */
-  messageCode?: number;
+  messageCode?: number | undefined;
   /** Gets or sets the icon url */
-  icon?: string;
+  icon?: string | undefined;
   /** Gets or sets removed plans notifications */
-  plans?: NewNotificationsPlansList;
+  plans?: NewNotificationsPlansList | undefined;
 }
 export type NewPlansNotificationsListNewPlansNotificationsList = Array<NewNotifications>;
 /** List of all new plans notifications for public offers */
 export interface NewPlansNotificationsList {
-  newPlansNotifications?: NewPlansNotificationsListNewPlansNotificationsList;
+  newPlansNotifications?: NewPlansNotificationsListNewPlansNotificationsList | undefined;
 }
 export interface ListPrivateStoreSubscriptionsContextRequest {
   /** The store ID - must use the tenant ID */
@@ -744,7 +744,7 @@ export interface ListPrivateStoreSubscriptionsContextRequest {
 export type SubscriptionsContextListSubscriptionsIdsList = Array<string>;
 /** List of subscription Ids in the private store */
 export interface SubscriptionsContextList {
-  subscriptionsIds?: SubscriptionsContextListSubscriptionsIdsList;
+  subscriptionsIds?: SubscriptionsContextListSubscriptionsIdsList | undefined;
 }
 /** Set the Operation for the POST method. Ping or Delete */
 export type Operation =
@@ -757,7 +757,7 @@ export interface PostPrivateStoreCollectionRequest {
   privateStoreId: string;
   /** The collection ID */
   collectionId: string;
-  body?: Operation | (string & {});
+  body?: Operation | (string & {}) | undefined;
 }
 export interface PostPrivateStoreCollectionResponse {}
 export interface PostPrivateStoreCollectionOfferRequest {
@@ -767,7 +767,7 @@ export interface PostPrivateStoreCollectionOfferRequest {
   collectionId: string;
   /** The offer ID to update or delete */
   offerId: string;
-  body?: Operation | (string & {});
+  body?: Operation | (string & {}) | undefined;
 }
 export interface PostPrivateStoreCollectionOfferResponse {}
 export interface PrivateStoreAnyExistingOffersInTheCollectionsRequest {
@@ -777,7 +777,7 @@ export interface PrivateStoreAnyExistingOffersInTheCollectionsRequest {
 /** Response object of query if are there existing offers in the collections. */
 export interface AnyExistingOffersInTheCollectionsResponse {
   /** Boolean answer, true if exists at least a single offer in an enabled collection, otherwise, false. */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 export interface PrivateStoreBillingAccountsRequest {
   /** The store ID - must use the tenant ID */
@@ -788,22 +788,22 @@ export type BillingAccountsResponseBillingAccountsList = Array<string>;
 /** Billing accounts response object */
 export interface BillingAccountsResponse {
   /** Billing accounts list */
-  billingAccounts?: BillingAccountsResponseBillingAccountsList;
+  billingAccounts?: BillingAccountsResponseBillingAccountsList | undefined;
 }
 /** Gets or sets subscription ids list. Empty list indicates all subscriptions are selected, null indicates no update is done, explicit list indicates the explicit selected subscriptions. On insert, null is considered as bad request */
 export type CollectionPropertiesInputSubscriptionsListList = Array<string>;
 /** The collection details */
 export interface CollectionPropertiesInput {
   /** Gets or sets collection name. */
-  collectionName?: string;
+  collectionName?: string | undefined;
   /** Gets or sets the association with Commercial's Billing Account. */
-  claim?: string;
+  claim?: string | undefined;
   /** Indicating whether all subscriptions are selected (=true) or not (=false). */
-  allSubscriptions?: boolean;
+  allSubscriptions?: boolean | undefined;
   /** Gets or sets subscription ids list. Empty list indicates all subscriptions are selected, null indicates no update is done, explicit list indicates the explicit selected subscriptions. On insert, null is considered as bad request */
-  subscriptionsList?: CollectionPropertiesInputSubscriptionsListList;
+  subscriptionsList?: CollectionPropertiesInputSubscriptionsListList | undefined;
   /** Indicating whether the collection is enabled or disabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PrivateStoreCollectionCreateOrUpdateRequest {
   /** The store ID - must use the tenant ID */
@@ -811,19 +811,19 @@ export interface PrivateStoreCollectionCreateOrUpdateRequest {
   /** The collection ID */
   collectionId: string;
   /** The collection data structure. */
-  properties?: CollectionPropertiesInput;
+  properties?: CollectionPropertiesInput | undefined;
 }
 export interface PrivateStoreCollectionCreateOrUpdateResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The collection data structure. */
-  properties?: CollectionProperties;
+  properties?: CollectionProperties | undefined;
 }
 export interface PrivateStoreCollectionDisableApproveAllItemsRequest {
   /** The store ID - must use the tenant ID */
@@ -833,15 +833,15 @@ export interface PrivateStoreCollectionDisableApproveAllItemsRequest {
 }
 export interface PrivateStoreCollectionDisableApproveAllItemsResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The collection data structure. */
-  properties?: CollectionProperties;
+  properties?: CollectionProperties | undefined;
 }
 export interface PrivateStoreCollectionOfferContextsViewRequest {
   /** The store ID - must use the tenant ID */
@@ -851,19 +851,19 @@ export interface PrivateStoreCollectionOfferContextsViewRequest {
   /** The offer ID to update or delete */
   offerId: string;
   /** Subscriptions ids list */
-  properties?: CollectionOffersByAllContextsProperties;
+  properties?: CollectionOffersByAllContextsProperties | undefined;
 }
 export interface PrivateStoreCollectionOfferContextsViewResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 /** Plan ids limitation for this offer */
 export type OfferPropertiesInputSpecificPlanIdsLimitationList = Array<string>;
@@ -871,21 +871,21 @@ export type OfferPropertiesInputSpecificPlanIdsLimitationList = Array<string>;
 export type OfferPropertiesInputIconFileUrisMap = { [key: string]: string | undefined };
 export interface PlanInput {
   /** Plan accessibility */
-  accessibility?: Accessibility | (string & {});
+  accessibility?: Accessibility | (string & {}) | undefined;
 }
 /** Offer plans */
 export type OfferPropertiesInputPlansList = Array<PlanInput>;
 export interface OfferPropertiesInput {
   /** Identifier for purposes of race condition */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Plan ids limitation for this offer */
-  specificPlanIdsLimitation?: OfferPropertiesInputSpecificPlanIdsLimitationList;
+  specificPlanIdsLimitation?: OfferPropertiesInputSpecificPlanIdsLimitationList | undefined;
   /** Indicating whether the offer was not updated to db (true = not updated). If the allow list is identical to the existed one in db, the offer would not be updated. */
-  updateSuppressedDueIdempotence?: boolean;
+  updateSuppressedDueIdempotence?: boolean | undefined;
   /** Icon File Uris */
-  iconFileUris?: OfferPropertiesInputIconFileUrisMap;
+  iconFileUris?: OfferPropertiesInputIconFileUrisMap | undefined;
   /** Offer plans */
-  plans?: OfferPropertiesInputPlansList;
+  plans?: OfferPropertiesInputPlansList | undefined;
 }
 export interface PrivateStoreCollectionOfferCreateOrUpdateRequest {
   /** The store ID - must use the tenant ID */
@@ -895,41 +895,41 @@ export interface PrivateStoreCollectionOfferCreateOrUpdateRequest {
   /** The offer ID to update or delete */
   offerId: string;
   /** The privateStore offer data structure. */
-  properties?: OfferPropertiesInput;
+  properties?: OfferPropertiesInput | undefined;
 }
 export interface PrivateStoreCollectionOfferCreateOrUpdateResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 /** Subscriptions ids list */
 export type CollectionsToSubscriptionsMappingPropertiesSubscriptionIdsList = Array<string>;
 /** The subscriptions list to get the related collections */
 export interface CollectionsToSubscriptionsMappingProperties {
   /** Subscriptions ids list */
-  subscriptionIds?: CollectionsToSubscriptionsMappingPropertiesSubscriptionIdsList;
+  subscriptionIds?: CollectionsToSubscriptionsMappingPropertiesSubscriptionIdsList | undefined;
 }
 export interface PrivateStoreCollectionsToSubscriptionsMappingRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** Subscriptions ids list */
-  properties?: CollectionsToSubscriptionsMappingProperties;
+  properties?: CollectionsToSubscriptionsMappingProperties | undefined;
 }
 /** Subscriptions ids list */
 export type CollectionsSubscriptionsMappingDetailsSubscriptionsList = Array<string>;
 /** Collection name and related subscriptions list */
 export interface CollectionsSubscriptionsMappingDetails {
   /** Collection name */
-  collectionName?: string;
+  collectionName?: string | undefined;
   /** Subscriptions ids list */
-  subscriptions?: CollectionsSubscriptionsMappingDetailsSubscriptionsList;
+  subscriptions?: CollectionsSubscriptionsMappingDetailsSubscriptionsList | undefined;
 }
 /** The map of collections subscriptions */
 export type CollectionsToSubscriptionsMappingResponseDetailsMap = {
@@ -938,46 +938,46 @@ export type CollectionsToSubscriptionsMappingResponseDetailsMap = {
 /** A map of collections subscriptions details */
 export interface CollectionsToSubscriptionsMappingResponse {
   /** The map of collections subscriptions */
-  details?: CollectionsToSubscriptionsMappingResponseDetailsMap;
+  details?: CollectionsToSubscriptionsMappingResponseDetailsMap | undefined;
 }
 /** Gets or sets list of branding characteristics */
 export type PrivateStorePropertiesInputBrandingMap = { [key: string]: string | undefined };
 /** Describes the json payload for a notified recipient for new requests */
 export interface RecipientInput {
   /** Principal ID */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 /** Gets or sets list of notified recipients for new requests */
 export type NotificationsSettingsPropertiesInputRecipientsList = Array<RecipientInput>;
 /** Describes the json payload for notifications settings */
 export interface NotificationsSettingsPropertiesInput {
   /** Gets or sets list of notified recipients for new requests */
-  recipients?: NotificationsSettingsPropertiesInputRecipientsList;
+  recipients?: NotificationsSettingsPropertiesInputRecipientsList | undefined;
   /** Gets or sets whether to send email to all marketplace admins for new requests */
-  sendToAllMarketplaceAdmins?: boolean;
+  sendToAllMarketplaceAdmins?: boolean | undefined;
 }
 /** Describes the json payload on whether or not the private store is enabled for a given tenant */
 export interface PrivateStorePropertiesInput {
   /** Indicates private store availability */
-  availability?: Availability | (string & {});
+  availability?: Availability | (string & {}) | undefined;
   /** Identifier for purposes of race condition */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Private Store Name */
-  privateStoreName?: string;
+  privateStoreName?: string | undefined;
   /** Tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Is government */
-  isGov?: boolean;
+  isGov?: boolean | undefined;
   /** Gets or sets list of branding characteristics */
-  branding?: PrivateStorePropertiesInputBrandingMap;
+  branding?: PrivateStorePropertiesInputBrandingMap | undefined;
   /** Gets or sets notifications settings */
-  notificationsSettings?: NotificationsSettingsPropertiesInput;
+  notificationsSettings?: NotificationsSettingsPropertiesInput | undefined;
 }
 export interface PrivateStoreCreateOrUpdateRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** The PrivateStore data structure. */
-  properties?: PrivateStorePropertiesInput;
+  properties?: PrivateStorePropertiesInput | undefined;
 }
 export interface PrivateStoreCreateOrUpdateResponse {}
 export interface PrivateStoreGetApprovalRequestsListRequest {
@@ -987,29 +987,31 @@ export interface PrivateStoreGetApprovalRequestsListRequest {
 /** Request approval resource. */
 export interface RequestApprovalResource {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore approval request data structure. */
-  properties?: RequestApprovalProperties;
+  properties?: RequestApprovalProperties | undefined;
 }
 export type RequestApprovalsListValueList = Array<RequestApprovalResource>;
 /** List of admin request approval resources */
 export interface RequestApprovalsList {
-  value?: RequestApprovalsListValueList;
+  value?: RequestApprovalsListValueList | undefined;
   /** URL to get the next set of notifications list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type PrivateStoreListStopSellOffersPlansNotificationsRequestSubscriptionsList =
   Array<string>;
 export interface PrivateStoreListStopSellOffersPlansNotificationsRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
-  subscriptions?: PrivateStoreListStopSellOffersPlansNotificationsRequestSubscriptionsList;
+  subscriptions?:
+    | PrivateStoreListStopSellOffersPlansNotificationsRequestSubscriptionsList
+    | undefined;
 }
 /** The list of removed plans notifications */
 export type StopSellOffersPlansNotificationsListPropertiesPlansList =
@@ -1019,27 +1021,27 @@ export type StopSellOffersPlansNotificationsListPropertiesSubscriptionsIdsList =
 /** List of stop sell offers and plans notifications. */
 export interface StopSellOffersPlansNotificationsListProperties {
   /** The offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The offer display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A value indicating whether entire offer is in stop sell or only few of its plans */
-  isEntire?: boolean;
+  isEntire?: boolean | undefined;
   /** The notification message code */
-  messageCode?: number;
+  messageCode?: number | undefined;
   /** The icon url */
-  icon?: string;
+  icon?: string | undefined;
   /** The list of removed plans notifications */
-  plans?: StopSellOffersPlansNotificationsListPropertiesPlansList;
+  plans?: StopSellOffersPlansNotificationsListPropertiesPlansList | undefined;
   /** True if the offer has public plans */
-  publicContext?: boolean;
+  publicContext?: boolean | undefined;
   /** The subscriptions related to private plans */
-  subscriptionsIds?: StopSellOffersPlansNotificationsListPropertiesSubscriptionsIdsList;
+  subscriptionsIds?: StopSellOffersPlansNotificationsListPropertiesSubscriptionsIdsList | undefined;
 }
 export type StopSellOffersPlansNotificationsListStopSellNotificationsList =
   Array<StopSellOffersPlansNotificationsListProperties>;
 /** List of stop sell offers and plans notifications. */
 export interface StopSellOffersPlansNotificationsList {
-  stopSellNotifications?: StopSellOffersPlansNotificationsListStopSellNotificationsList;
+  stopSellNotifications?: StopSellOffersPlansNotificationsListStopSellNotificationsList | undefined;
 }
 /** Offer plan ids */
 export type QueryApprovedPlansPlanIdsList = Array<string>;
@@ -1048,35 +1050,35 @@ export type QueryApprovedPlansSubscriptionIdsList = Array<string>;
 /** Query approved plans details */
 export interface QueryApprovedPlans {
   /** Offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Offer plan ids */
-  planIds?: QueryApprovedPlansPlanIdsList;
+  planIds?: QueryApprovedPlansPlanIdsList | undefined;
   /** List of subscription IDs */
-  subscriptionIds?: QueryApprovedPlansSubscriptionIdsList;
+  subscriptionIds?: QueryApprovedPlansSubscriptionIdsList | undefined;
 }
 export interface PrivateStoreQueryApprovedPlansRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** Query approved plans details */
-  properties?: QueryApprovedPlans;
+  properties?: QueryApprovedPlans | undefined;
 }
 /** Approved subscription ids list. In case all subscriptions are approved for a plan, allSubscriptions flag is true and list is empty ( else flag is set to false). In case both subscriptions list is empty and allSubscriptions flag is false, the plan is not approved for any subscription. */
 export type QueryApprovedPlansDetailsSubscriptionIdsList = Array<string>;
 /** Query approved plans response */
 export interface QueryApprovedPlansDetails {
   /** Plan id */
-  planId?: string;
+  planId?: string | undefined;
   /** Approved subscription ids list. In case all subscriptions are approved for a plan, allSubscriptions flag is true and list is empty ( else flag is set to false). In case both subscriptions list is empty and allSubscriptions flag is false, the plan is not approved for any subscription. */
-  subscriptionIds?: QueryApprovedPlansDetailsSubscriptionIdsList;
+  subscriptionIds?: QueryApprovedPlansDetailsSubscriptionIdsList | undefined;
   /** Indicates whether all subscriptions are approved for this plan */
-  allSubscriptions?: boolean;
+  allSubscriptions?: boolean | undefined;
 }
 /** A list indicating for each plan which subscriptions are approved. Plan Id is unique */
 export type QueryApprovedPlansResponseDetailsList = Array<QueryApprovedPlansDetails>;
 /** Query approved plans response */
 export interface QueryApprovedPlansResponse {
   /** A list indicating for each plan which subscriptions are approved. Plan Id is unique */
-  details?: QueryApprovedPlansResponseDetailsList;
+  details?: QueryApprovedPlansResponseDetailsList | undefined;
 }
 export interface PrivateStoreQueryNotificationsStateRequest {
   /** The store ID - must use the tenant ID */
@@ -1087,17 +1089,17 @@ export type StopSellNotificationsPlansList = Array<PlanNotificationDetails>;
 /** Stop sell notification details */
 export interface StopSellNotifications {
   /** Gets offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets offer display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets a value indicating whether entire offer is in stop sell or only few of its plans */
-  isEntire?: boolean;
+  isEntire?: boolean | undefined;
   /** Gets or sets the notification message id */
-  messageCode?: number;
+  messageCode?: number | undefined;
   /** Gets or sets the icon url */
-  icon?: string;
+  icon?: string | undefined;
   /** Gets or sets removed plans notifications */
-  plans?: StopSellNotificationsPlansList;
+  plans?: StopSellNotificationsPlansList | undefined;
 }
 export type PrivateStoreNotificationsStateStopSellNotificationsList = Array<StopSellNotifications>;
 export type PrivateStoreNotificationsStateNewNotificationsList = Array<NewNotifications>;
@@ -1106,24 +1108,24 @@ export type RequestApprovalsDetailsPlansList = Array<PlanNotificationDetails>;
 /** Request approvals details */
 export interface RequestApprovalsDetails {
   /** Gets offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets offer display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets or sets publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Gets or sets the notification message id */
-  messageCode?: number;
+  messageCode?: number | undefined;
   /** Gets or sets the icon url */
-  icon?: string;
+  icon?: string | undefined;
   /** Gets or sets removed plans notifications */
-  plans?: RequestApprovalsDetailsPlansList;
+  plans?: RequestApprovalsDetailsPlansList | undefined;
 }
 export type PrivateStoreNotificationsStateApprovalRequestsList = Array<RequestApprovalsDetails>;
 /** Get private store notifications state */
 export interface PrivateStoreNotificationsState {
-  stopSellNotifications?: PrivateStoreNotificationsStateStopSellNotificationsList;
-  newNotifications?: PrivateStoreNotificationsStateNewNotificationsList;
-  approvalRequests?: PrivateStoreNotificationsStateApprovalRequestsList;
+  stopSellNotifications?: PrivateStoreNotificationsStateStopSellNotificationsList | undefined;
+  newNotifications?: PrivateStoreNotificationsStateNewNotificationsList | undefined;
+  approvalRequests?: PrivateStoreNotificationsStateApprovalRequestsList | undefined;
 }
 export interface PrivateStoreQueryOffersRequest {
   /** The store ID - must use the tenant ID */
@@ -1132,20 +1134,20 @@ export interface PrivateStoreQueryOffersRequest {
 export type QueryOffersValueList = Array<OfferProperties>;
 /** List of offers */
 export interface QueryOffers {
-  value?: QueryOffersValueList;
+  value?: QueryOffersValueList | undefined;
   /** URL to get the next set of PrivateStore list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Current plans list */
 export type RequestDetailsPlanIdsList = Array<string>;
 /** Request details needed to get the plans statuses */
 export interface RequestDetails {
   /** The offer's publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Current plans list */
-  planIds?: RequestDetailsPlanIdsList;
+  planIds?: RequestDetailsPlanIdsList | undefined;
   /** Gets or sets the subscription id */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 export interface PrivateStoreQueryRequestApprovalRequest {
   /** The store ID - must use the tenant ID */
@@ -1153,20 +1155,20 @@ export interface PrivateStoreQueryRequestApprovalRequest {
   /** The request approval ID to get create or update */
   requestApprovalId: string;
   /** The details to get the request plans statuses */
-  properties?: RequestDetails;
+  properties?: RequestDetails | undefined;
 }
 /** Gets or sets the plans details */
 export type QueryRequestApprovalPlansDetailsMap = { [key: string]: PlanDetails | undefined };
 /** Gets the request plans with indication on each plan whether is approved by the admin, has pending request or not requested yet */
 export interface QueryRequestApproval {
   /** Gets or sets unique offer id. */
-  uniqueOfferId?: string;
+  uniqueOfferId?: string | undefined;
   /** Gets or sets the plans details */
-  plansDetails?: QueryRequestApprovalPlansDetailsMap;
+  plansDetails?: QueryRequestApprovalPlansDetailsMap | undefined;
   /** Gets or sets e-tag field */
-  etag?: string;
+  etag?: string | undefined;
   /** Gets or sets the notification message id */
-  messageCode?: number;
+  messageCode?: number | undefined;
 }
 /** List of offer IDs */
 export type QueryUserOffersDetailsOfferIdsList = Array<string>;
@@ -1175,22 +1177,22 @@ export type QueryUserOffersDetailsSubscriptionIdsList = Array<string>;
 /** List of offers IDs and list of user's subscriptions IDs to query the user's approved offers */
 export interface QueryUserOffersDetails {
   /** List of offer IDs */
-  offerIds?: QueryUserOffersDetailsOfferIdsList;
+  offerIds?: QueryUserOffersDetailsOfferIdsList | undefined;
   /** List of subscription IDs */
-  subscriptionIds?: QueryUserOffersDetailsSubscriptionIdsList;
+  subscriptionIds?: QueryUserOffersDetailsSubscriptionIdsList | undefined;
 }
 export interface PrivateStoreQueryUserOffersRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** Query user's offers details */
-  properties?: QueryUserOffersDetails;
+  properties?: QueryUserOffersDetails | undefined;
 }
 /** Withdraw properties details */
 export interface WithdrawDetails {
   /** Gets or sets Plan Id */
-  planId?: string;
+  planId?: string | undefined;
   /** The offer's publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
 }
 export interface PrivateStoreWithdrawPlanRequest {
   /** The store ID - must use the tenant ID */
@@ -1198,7 +1200,7 @@ export interface PrivateStoreWithdrawPlanRequest {
   /** The request approval ID to get create or update */
   requestApprovalId: string;
   /** Withdraw properties details */
-  properties?: WithdrawDetails;
+  properties?: WithdrawDetails | undefined;
 }
 export interface PrivateStoreWithdrawPlanResponse {}
 export interface QueryRulesRequest {
@@ -1209,22 +1211,22 @@ export interface QueryRulesRequest {
 }
 export type RuleListResponseValueList = Array<Rule>;
 export interface RuleListResponse {
-  value?: RuleListResponseValueList;
+  value?: RuleListResponseValueList | undefined;
   /** URL to get the next set of rules list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of subscription IDs */
 export type QueryUserRulesDetailsSubscriptionIdsList = Array<string>;
 /** List of subscriptions IDs to query the user's rules */
 export interface QueryUserRulesDetails {
   /** List of subscription IDs */
-  subscriptionIds?: QueryUserRulesDetailsSubscriptionIdsList;
+  subscriptionIds?: QueryUserRulesDetailsSubscriptionIdsList | undefined;
 }
 export interface QueryUserRulesRequest {
   /** The store ID - must use the tenant ID */
   privateStoreId: string;
   /** Query user's rules details */
-  properties?: QueryUserRulesDetails;
+  properties?: QueryUserRulesDetails | undefined;
 }
 export type SetCollectionRulesRequestValueList = Array<Rule>;
 export interface SetCollectionRulesRequest {
@@ -1232,9 +1234,9 @@ export interface SetCollectionRulesRequest {
   privateStoreId: string;
   /** The collection ID */
   collectionId: string;
-  value?: SetCollectionRulesRequestValueList;
+  value?: SetCollectionRulesRequestValueList | undefined;
   /** URL to get the next set of rules list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface SetCollectionRulesResponse {}
 /** Target collections ids */
@@ -1244,11 +1246,11 @@ export type TransferOffersDetailsOfferIdsListList = Array<string>;
 /** Transfer offers response details */
 export interface TransferOffersDetails {
   /** Target collections ids */
-  targetCollections?: TransferOffersDetailsTargetCollectionsList;
+  targetCollections?: TransferOffersDetailsTargetCollectionsList | undefined;
   /** Operation to perform (For example: Copy or Move) */
-  operation?: string;
+  operation?: string | undefined;
   /** Offers ids list to transfer from source collection to target collection(s) */
-  offerIdsList?: TransferOffersDetailsOfferIdsListList;
+  offerIdsList?: TransferOffersDetailsOfferIdsListList | undefined;
 }
 export interface TransferPrivateStoreCollectionOffersRequest {
   /** The store ID - must use the tenant ID */
@@ -1256,7 +1258,7 @@ export interface TransferPrivateStoreCollectionOffersRequest {
   /** The collection ID */
   collectionId: string;
   /** transfer offers properties details */
-  properties?: TransferOffersDetails;
+  properties?: TransferOffersDetails | undefined;
 }
 /** Succeeded collections */
 export type TransferOffersResponseSucceededList = Array<CollectionsDetails>;
@@ -1265,9 +1267,9 @@ export type TransferOffersResponseFailedList = Array<CollectionsDetails>;
 /** The transfer items response. The response contains two lists that indicate for each collection whether the operation succeeded or failed */
 export interface TransferOffersResponse {
   /** Succeeded collections */
-  succeeded?: TransferOffersResponseSucceededList;
+  succeeded?: TransferOffersResponseSucceededList | undefined;
   /** Failed collections */
-  failed?: TransferOffersResponseFailedList;
+  failed?: TransferOffersResponseFailedList | undefined;
 }
 /** Gets or sets Approved plans ids, empty in case of rejected */
 export type AdminRequestApprovalPropertiesInputApprovedPlansList = Array<string>;
@@ -1276,19 +1278,19 @@ export type AdminRequestApprovalPropertiesInputCollectionIdsList = Array<string>
 /** Admin approval request resource properties */
 export interface AdminRequestApprovalPropertiesInput {
   /** Gets or sets offer Id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Gets or sets publisher Id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Gets or sets admin action */
-  adminAction?: AdminAction | (string & {});
+  adminAction?: AdminAction | (string & {}) | undefined;
   /** Gets or sets Approved plans ids, empty in case of rejected */
-  approvedPlans?: AdminRequestApprovalPropertiesInputApprovedPlansList;
+  approvedPlans?: AdminRequestApprovalPropertiesInputApprovedPlansList | undefined;
   /** Gets or sets admin comment */
-  comment?: string;
+  comment?: string | undefined;
   /** Gets or sets admin details */
-  administrator?: string;
+  administrator?: string | undefined;
   /** Gets or sets list of associated collection ids */
-  collectionIds?: AdminRequestApprovalPropertiesInputCollectionIdsList;
+  collectionIds?: AdminRequestApprovalPropertiesInputCollectionIdsList | undefined;
 }
 export interface UpdatePrivateStoreAdminRequestApprovalRequest {
   /** The store ID - must use the tenant ID */
@@ -1296,37 +1298,37 @@ export interface UpdatePrivateStoreAdminRequestApprovalRequest {
   /** The admin request approval ID to get create or update */
   adminRequestApprovalId: string;
   /** The privateStore admin Approval request data structure. */
-  properties?: AdminRequestApprovalPropertiesInput;
+  properties?: AdminRequestApprovalPropertiesInput | undefined;
 }
 export interface UpdatePrivateStoreAdminRequestApprovalResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore admin Approval request data structure. */
-  properties?: AdminRequestApprovalProperties;
+  properties?: AdminRequestApprovalProperties | undefined;
 }
 /** List of plan IDs. */
 export type ContextAndPlansDetailsPlanIdsList = Array<string>;
 /** Object of plans per context. */
 export interface ContextAndPlansDetails {
   /** Plan's context, e.g. subscription ID, tenant ID. */
-  context?: string;
+  context?: string | undefined;
   /** List of plan IDs. */
-  planIds?: ContextAndPlansDetailsPlanIdsList;
+  planIds?: ContextAndPlansDetailsPlanIdsList | undefined;
 }
 export type MultiContextAndPlansPropertiesPlansContextList = Array<ContextAndPlansDetails>;
 /** Object describes multiple context and plans. */
 export interface MultiContextAndPlansProperties {
   /** The offer ID which contains the plans. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The offer's eTag. */
-  eTag?: string;
-  plansContext?: MultiContextAndPlansPropertiesPlansContextList;
+  eTag?: string | undefined;
+  plansContext?: MultiContextAndPlansPropertiesPlansContextList | undefined;
 }
 export interface UpsertPrivateStoreCollectionOfferOfferWithMultiContextRequest {
   /** The store ID - must use the tenant ID */
@@ -1336,19 +1338,19 @@ export interface UpsertPrivateStoreCollectionOfferOfferWithMultiContextRequest {
   /** The offer ID to update or delete */
   offerId: string;
   /** Object describes multiple context and plans. */
-  properties?: MultiContextAndPlansProperties;
+  properties?: MultiContextAndPlansProperties | undefined;
 }
 export interface UpsertPrivateStoreCollectionOfferOfferWithMultiContextResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The privateStore offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 export type AcknowledgePrivateStoreOfferNotificationError = AzureOpError;
 /** Acknowledge notification for offer */

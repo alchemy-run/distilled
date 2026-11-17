@@ -50,6 +50,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -59,6 +61,8 @@ export class InvalidSchema
     /*@__PURE__*/ S.TaggedError<InvalidSchema>()("InvalidSchema", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 50010 }],
   ) {}
@@ -68,6 +72,8 @@ export class OperationNotFound
     /*@__PURE__*/ S.TaggedError<OperationNotFound>()("OperationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10404 }],
   ) {}
@@ -77,6 +83,8 @@ export class SchemaNotFound
     /*@__PURE__*/ S.TaggedError<SchemaNotFound>()("SchemaNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 19400 }],
   ) {}
@@ -86,6 +94,8 @@ export class UnentitledMitigationAction
     /*@__PURE__*/ S.TaggedError<UnentitledMitigationAction>()("UnentitledMitigationAction", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11400 }],
   ) {}
@@ -95,6 +105,8 @@ export class ZonePurged
     /*@__PURE__*/ S.TaggedError<ZonePurged>()("ZonePurged", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "has been purged" } }],
   ) {}
@@ -102,7 +114,10 @@ export class ZonePurged
 export type SettingsOperationsBulkEditRequestBodyValueMitigationAction = "none" | "log" | "block";
 export interface SettingsOperationsBulkEditRequestBodyValue {
   /** Mitigation actions are as follows: */
-  mitigationAction?: SettingsOperationsBulkEditRequestBodyValueMitigationAction | (string & {});
+  mitigationAction?:
+    | SettingsOperationsBulkEditRequestBodyValueMitigationAction
+    | (string & {})
+    | undefined;
 }
 export type SettingsOperationsBulkEditRequestBodyMap = {
   [key: string]: SettingsOperationsBulkEditRequestBodyValue | undefined;
@@ -115,7 +130,7 @@ export interface BulkPatchSettingOperationsRequest {
 export type SettingsOperationsBulkEditResultValueMitigationAction = "log" | "block" | "none";
 export interface SettingsOperationsBulkEditResultValue {
   /** When set, this applies a mitigation action to this operation */
-  mitigationAction?: SettingsOperationsBulkEditResultValueMitigationAction | null;
+  mitigationAction?: SettingsOperationsBulkEditResultValueMitigationAction | null | undefined;
 }
 export type SettingsOperationsBulkEditResultMap = {
   [key: string]: SettingsOperationsBulkEditResultValue | undefined;
@@ -147,7 +162,7 @@ export interface CreateSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export interface DeleteSchemaRequest {
   /** Identifier. */
@@ -165,7 +180,7 @@ export interface DeleteSettingOperationRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSettingOperationResponse {
   /** UUID. */
-  operationId?: string | null;
+  operationId?: string | null | undefined;
 }
 export interface GetSchemaRequest {
   /** Identifier. */
@@ -173,7 +188,7 @@ export interface GetSchemaRequest {
   /** UUID. */
   schemaId: string;
   /** Omit the source-files of schemas and only retrieve their meta-data. */
-  omitSource?: boolean;
+  omitSource?: boolean | undefined;
 }
 export type SchemasGetResponseKind = "openapi_v3";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -188,7 +203,7 @@ export interface GetSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export interface GetSettingRequest {
   /** Identifier. */
@@ -201,7 +216,10 @@ export interface GetSettingResponse {
   /** The default mitigation action used */
   validationDefaultMitigationAction: SettingsGetResponseValidationDefaultMitigationAction;
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone. */
-  validationOverrideMitigationAction?: SettingsGetResponseValidationOverrideMitigationAction | null;
+  validationOverrideMitigationAction?:
+    | SettingsGetResponseValidationOverrideMitigationAction
+    | null
+    | undefined;
 }
 export interface GetSettingOperationRequest {
   /** Identifier. */
@@ -221,13 +239,13 @@ export interface ListSchemasRequest {
   /** Identifier. */
   zoneId: string;
   /** Omit the source-files of schemas and only retrieve their meta-data. */
-  omitSource?: boolean;
+  omitSource?: boolean | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter for enabled schemas */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | undefined;
 }
 export type SchemasListResultItemKind = "openapi_v3";
 export interface SchemasListResultItem {
@@ -241,22 +259,22 @@ export interface SchemasListResultItem {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type SchemasListResultList = Array<SchemasListResultItem>;
 export interface ListSchemasResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SchemasListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingOperationsRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type SettingsOperationsListResultItemMitigationAction = "log" | "block" | "none";
 export interface SettingsOperationsListResultItem {
@@ -270,7 +288,7 @@ export interface ListSettingOperationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsOperationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchSchemaRequest {
   /** Identifier. */
@@ -278,7 +296,7 @@ export interface PatchSchemaRequest {
   /** UUID. */
   schemaId: string;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | undefined;
 }
 export type SchemasEditResponseKind = "openapi_v3";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -293,7 +311,7 @@ export interface PatchSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type SettingsEditRequestValidationDefaultMitigationAction = "none" | "log" | "block";
 export type SettingsEditRequestValidationOverrideMitigationAction = "none";
@@ -303,12 +321,14 @@ export interface PatchSettingRequest {
   /** The default mitigation action used Mitigation actions are as follows: */
   validationDefaultMitigationAction?:
     | SettingsEditRequestValidationDefaultMitigationAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When set, this overrides both zone level and operation level mitigation actions. */
   validationOverrideMitigationAction?:
     | SettingsEditRequestValidationOverrideMitigationAction
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export type SettingsEditResponseValidationDefaultMitigationAction = "none" | "log" | "block";
 export type SettingsEditResponseValidationOverrideMitigationAction = "none";
@@ -317,7 +337,10 @@ export interface PatchSettingResponse {
   /** The default mitigation action used */
   validationDefaultMitigationAction: SettingsEditResponseValidationDefaultMitigationAction;
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone. */
-  validationOverrideMitigationAction?: SettingsEditResponseValidationOverrideMitigationAction | null;
+  validationOverrideMitigationAction?:
+    | SettingsEditResponseValidationOverrideMitigationAction
+    | null
+    | undefined;
 }
 export type SettingsUpdateRequestValidationDefaultMitigationAction = "none" | "log" | "block";
 export type SettingsUpdateRequestValidationOverrideMitigationAction = "none";
@@ -332,7 +355,8 @@ export interface PutSettingRequest {
   validationOverrideMitigationAction?:
     | SettingsUpdateRequestValidationOverrideMitigationAction
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export type SettingsUpdateResponseValidationDefaultMitigationAction = "none" | "log" | "block";
 export type SettingsUpdateResponseValidationOverrideMitigationAction = "none";
@@ -341,7 +365,10 @@ export interface PutSettingResponse {
   /** The default mitigation action used */
   validationDefaultMitigationAction: SettingsUpdateResponseValidationDefaultMitigationAction;
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone. */
-  validationOverrideMitigationAction?: SettingsUpdateResponseValidationOverrideMitigationAction | null;
+  validationOverrideMitigationAction?:
+    | SettingsUpdateResponseValidationOverrideMitigationAction
+    | null
+    | undefined;
 }
 export type SettingsOperationsUpdateRequestMitigationAction = "log" | "block" | "none";
 export interface PutSettingOperationRequest {

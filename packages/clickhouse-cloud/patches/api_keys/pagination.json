@@ -1,0 +1,16 @@
+{
+  "description": "Page listApiKeys by cursor. The operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Observed live 2026-11-12 on GET /v1/organizations/{organizationId}/keys with two keys: limit=1 answered one key and a nextCursor (request id 9bda696a-3095-47b8-9f9f-bc7249ecf1cc), and that cursor answered the second key with nextCursor null (f6de80c7-85d5-4c18-9d20-0b6bb0a4df31).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.api_keys#OpenapiKeyGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

@@ -163,20 +163,20 @@ export interface ApplyPendingMaintenanceActionInput {
   resourceArn: string;
   applyAction: string;
   optInType: string;
-  applyOn?: string;
+  applyOn?: string | undefined;
 }
 export interface PendingMaintenanceActionDetails {
   action: string;
-  autoAppliedAfterDate?: string;
-  forcedApplyDate?: string;
-  optInStatus?: string;
-  currentApplyDate?: string;
-  description?: string;
+  autoAppliedAfterDate?: string | undefined;
+  forcedApplyDate?: string | undefined;
+  optInStatus?: string | undefined;
+  currentApplyDate?: string | undefined;
+  description?: string | undefined;
 }
 export type PendingMaintenanceActionDetailsList = PendingMaintenanceActionDetails[];
 export interface ResourcePendingMaintenanceAction {
-  resourceArn?: string;
-  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[];
+  resourceArn?: string | undefined;
+  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[] | undefined;
 }
 export interface ApplyPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
@@ -187,9 +187,9 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CopyClusterSnapshotInput {
   snapshotArn: string;
   targetSnapshotName: string;
-  kmsKeyId?: string;
-  copyTags?: boolean;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyId?: string | undefined;
+  copyTags?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringList = string[];
 export type Status = string;
@@ -205,7 +205,7 @@ export interface ClusterSnapshot {
   vpcSecurityGroupIds: string[];
   adminUserName: string;
   kmsKeyId: string;
-  snapshotType?: string;
+  snapshotType?: string | undefined;
 }
 export interface CopyClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
@@ -219,15 +219,15 @@ export interface CreateClusterInput {
   adminUserPassword: string | redacted.Redacted<string>;
   shardCapacity: number;
   shardCount: number;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  kmsKeyId?: string;
-  clientToken?: string;
-  preferredMaintenanceWindow?: string;
-  tags?: { [key: string]: string | undefined };
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  kmsKeyId?: string | undefined;
+  clientToken?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface Shard {
   shardId: string;
@@ -239,7 +239,7 @@ export interface Cluster {
   clusterName: string;
   clusterArn: string;
   status: string;
-  clusterEndpoint?: string;
+  clusterEndpoint?: string | undefined;
   createTime: string;
   adminUserName: string;
   authType: string;
@@ -249,10 +249,10 @@ export interface Cluster {
   subnetIds: string[];
   preferredMaintenanceWindow: string;
   kmsKeyId: string;
-  shards?: Shard[];
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  shards?: Shard[] | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface CreateClusterOutput {
   cluster: Cluster;
@@ -260,7 +260,7 @@ export interface CreateClusterOutput {
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
@@ -297,8 +297,8 @@ export interface GetPendingMaintenanceActionOutput {
 }
 export type PaginationToken = string;
 export interface ListClustersInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ClusterInList {
   clusterName: string;
@@ -307,14 +307,14 @@ export interface ClusterInList {
 }
 export type ClusterList = ClusterInList[];
 export interface ListClustersOutput {
-  clusters?: ClusterInList[];
-  nextToken?: string;
+  clusters?: ClusterInList[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListClusterSnapshotsInput {
-  clusterArn?: string;
-  nextToken?: string;
-  maxResults?: number;
-  snapshotType?: string;
+  clusterArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  snapshotType?: string | undefined;
 }
 export interface ClusterSnapshotInList {
   snapshotName: string;
@@ -325,34 +325,34 @@ export interface ClusterSnapshotInList {
 }
 export type ClusterSnapshotList = ClusterSnapshotInList[];
 export interface ListClusterSnapshotsOutput {
-  snapshots?: ClusterSnapshotInList[];
-  nextToken?: string;
+  snapshots?: ClusterSnapshotInList[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPendingMaintenanceActionsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ResourcePendingMaintenanceActionList = ResourcePendingMaintenanceAction[];
 export interface ListPendingMaintenanceActionsOutput {
   resourcePendingMaintenanceActions: ResourcePendingMaintenanceAction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RestoreClusterFromSnapshotInput {
   clusterName: string;
   snapshotArn: string;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  shardCapacity?: number;
-  shardInstanceCount?: number;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  shardCapacity?: number | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface RestoreClusterFromSnapshotOutput {
   cluster: Cluster;
@@ -382,17 +382,17 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateClusterInput {
   clusterArn: string;
-  authType?: string;
-  shardCapacity?: number;
-  shardCount?: number;
-  vpcSecurityGroupIds?: string[];
-  subnetIds?: string[];
-  adminUserPassword?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  preferredMaintenanceWindow?: string;
-  backupRetentionPeriod?: number;
-  preferredBackupWindow?: string;
-  shardInstanceCount?: number;
+  authType?: string | undefined;
+  shardCapacity?: number | undefined;
+  shardCount?: number | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  adminUserPassword?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  backupRetentionPeriod?: number | undefined;
+  preferredBackupWindow?: string | undefined;
+  shardInstanceCount?: number | undefined;
 }
 export interface UpdateClusterOutput {
   cluster: Cluster;

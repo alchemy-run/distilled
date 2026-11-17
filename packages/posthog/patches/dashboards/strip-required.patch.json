@@ -67,23 +67,7 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardBasic/members/restriction_level/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardBasic/members/effective_restriction_level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardBasic/members/effective_privilege_level/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.dashboards#DashboardBasic/members/user_access_level/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardBasic/members/access_control_version/traits"
     },
     {
       "op": "remove",
@@ -159,19 +143,7 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardOutput/members/effective_restriction_level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardOutput/members/effective_privilege_level/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.dashboards#DashboardOutput/members/user_access_level/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardOutput/members/access_control_version/traits"
     },
     {
       "op": "remove",
@@ -192,38 +164,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.dashboards#DashboardOutput/members/tiles/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/dashboard_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/user/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/added_at/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardCollaboratorOutput/members/updated_at/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsCreateRequest/members/level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsCreateRequest/members/user_uuid/traits"
     },
     {
       "op": "remove",
@@ -324,14 +264,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.dashboards#InsightOutput/members/is_sample/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightOutput/members/effective_restriction_level/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightOutput/members/effective_privilege_level/traits"
     },
     {
       "op": "remove",
@@ -1251,62 +1183,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/expected_loss/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response16/members/variants/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantFunnelsBaseStats/members/failure_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantFunnelsBaseStats/members/key/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantFunnelsBaseStats/members/success_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantTrendsBaseStats/members/absolute_exposure/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantTrendsBaseStats/members/count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantTrendsBaseStats/members/exposure/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentVariantTrendsBaseStats/members/key/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.dashboards#Response18/members/results/traits"
     },
     {
@@ -1363,46 +1239,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/columns/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/hogql/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/limit/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/offset/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response21/members/types/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response22/members/hasMore/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response22/members/limit/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response22/members/offset/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#Response22/members/results/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.dashboards#EventsQuery/members/select/traits/smithy.api#required"
     },
     {
@@ -1448,62 +1284,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.dashboards#FunnelsActorsQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationActorsQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationQuery/members/funnelCorrelationType/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationQuery/members/source/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationResponse/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationResult/members/events/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#FunnelCorrelationResult/members/skewed/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventOddsRatioSerialized/members/correlation_type/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventOddsRatioSerialized/members/event/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventOddsRatioSerialized/members/failure_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventOddsRatioSerialized/members/odds_ratio/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventOddsRatioSerialized/members/success_count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventDefinition/members/elements/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventDefinition/members/event/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#EventDefinition/members/properties/traits"
     },
     {
       "op": "remove",
@@ -1899,70 +1679,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQuery/members/funnels_query/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/expected_loss/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentFunnelsQueryResponse/members/variants/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQuery/members/count_query/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/credible_intervals/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/insight/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/p_value/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/probability/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/significance_code/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/significant/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#ExperimentTrendsQueryResponse/members/variants/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.dashboards#TracesQueryResponse/members/results/traits"
     },
     {
@@ -2052,22 +1768,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.dashboards#InsightResult/members/short_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightResult/members/name/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightResult/members/derived_name/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightResult/members/result/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.dashboards#InsightResult/members/warnings/traits/smithy.api#required"
     }
   ]
 }

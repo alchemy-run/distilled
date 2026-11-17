@@ -35,13 +35,13 @@ export interface GetBlogResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export type ListBlogsRequestCommunitySort = "trending" | "recent";
 export interface ListBlogsRequest {
-  p?: number;
-  community_sort?: ListBlogsRequestCommunitySort | (string & {});
-  tag?: string;
+  p?: number | undefined;
+  community_sort?: ListBlogsRequestCommunitySort | (string & {}) | undefined;
+  tag?: string | undefined;
 }
 export interface ListBlogsResponse {}
 export interface SetBlogResourceGroupRequest {

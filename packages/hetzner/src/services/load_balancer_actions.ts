@@ -34,15 +34,15 @@ export type AddLoadBalancerServiceRequestHealthCheckHttpStatusCodesList = Array<
 /** Additional configuration for protocol http. */
 export interface AddLoadBalancerServiceRequestHealthCheckHttp {
   /** Host header to send in the HTTP request. May not contain spaces, percent or backslash symbols. Can be null, in that case no host header is sent. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** HTTP path to use for health checks. May not contain literal spaces, use percent-encoding instead. */
-  path?: string;
+  path?: string | undefined;
   /** String that must be contained in HTTP response in order to pass the health check. */
-  response?: string;
+  response?: string | undefined;
   /** List of returned HTTP status codes in order to pass the health check. Supports the wildcards `?` for exactly one character and `*` for multiple ones. */
-  status_codes?: AddLoadBalancerServiceRequestHealthCheckHttpStatusCodesList;
+  status_codes?: AddLoadBalancerServiceRequestHealthCheckHttpStatusCodesList | undefined;
   /** Use HTTPS for health check. */
-  tls?: boolean;
+  tls?: boolean | undefined;
 }
 export interface AddLoadBalancerServiceRequestHealthCheck {
   /** Type of the health check. */
@@ -56,24 +56,24 @@ export interface AddLoadBalancerServiceRequestHealthCheck {
   /** Unsuccessful retries needed until a target is considered unhealthy; an unhealthy target needs the same number of successful retries to become healthy again. */
   retries: number;
   /** Additional configuration for protocol http. */
-  http?: AddLoadBalancerServiceRequestHealthCheckHttp;
+  http?: AddLoadBalancerServiceRequestHealthCheckHttp | undefined;
 }
 /** IDs of the Certificates to use for TLS/SSL termination by the Load Balancer; empty for TLS/SSL passthrough or if `protocol` is `http`. */
 export type AddLoadBalancerServiceRequestHttpCertificatesList = Array<number>;
 /** Configuration option for protocols http and https. */
 export interface AddLoadBalancerServiceRequestHttp {
   /** Name of the cookie used for sticky sessions. */
-  cookie_name?: string;
+  cookie_name?: string | undefined;
   /** Lifetime of the cookie used for sticky sessions (in seconds). */
-  cookie_lifetime?: number;
+  cookie_lifetime?: number | undefined;
   /** Idle timeout in seconds for the client and server side. */
-  timeout_idle?: number;
+  timeout_idle?: number | undefined;
   /** IDs of the Certificates to use for TLS/SSL termination by the Load Balancer; empty for TLS/SSL passthrough or if `protocol` is `http`. */
-  certificates?: AddLoadBalancerServiceRequestHttpCertificatesList;
+  certificates?: AddLoadBalancerServiceRequestHttpCertificatesList | undefined;
   /** Redirect HTTP requests to HTTPS. Only available if `protocol` is `https`. */
-  redirect_http?: boolean;
+  redirect_http?: boolean | undefined;
   /** Use sticky sessions. Only available if `protocol` is `http` or `https`. */
-  sticky_sessions?: boolean;
+  sticky_sessions?: boolean | undefined;
 }
 export interface AddLoadBalancerServiceRequest {
   /** ID of the Load Balancer. */
@@ -88,7 +88,7 @@ export interface AddLoadBalancerServiceRequest {
   proxyprotocol: boolean;
   health_check: AddLoadBalancerServiceRequestHealthCheck;
   /** Configuration option for protocols http and https. */
-  http?: AddLoadBalancerServiceRequestHttp;
+  http?: AddLoadBalancerServiceRequestHttp | undefined;
 }
 /** Status of the Action. */
 export type AddLoadBalancerServiceResponseActionStatus = "running" | "success" | "error";
@@ -136,7 +136,7 @@ export interface AddLoadBalancerTargetRequestServer {
   /** ID of the Server. */
   id: number;
   /** Optional public IP of the Server to use as target. Must be the Primary IPv4 of the Server, or an IPv6 host address within IPv6 /64 subnet of the Server. If omitted, the Primary IPv4 of the Server is used. Must not be a private IP and is only valid for public targets. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Configuration for label selector targets, only valid and required if type is `label_selector`. */
 export interface AddLoadBalancerTargetRequestLabelSelector {
@@ -154,13 +154,13 @@ export interface AddLoadBalancerTargetRequest {
   /** Type of the resource. */
   type: AddLoadBalancerTargetRequestType | (string & {});
   /** Configuration for type Server, only valid and required if type is `server`. */
-  server?: AddLoadBalancerTargetRequestServer;
+  server?: AddLoadBalancerTargetRequestServer | undefined;
   /** Configuration for label selector targets, only valid and required if type is `label_selector`. */
-  label_selector?: AddLoadBalancerTargetRequestLabelSelector;
+  label_selector?: AddLoadBalancerTargetRequestLabelSelector | undefined;
   /** Configuration for an IP target. It is only possible to use the (Public or vSwitch) IPs of Hetzner Online Root Servers belonging to the project owner. IPs belonging to other users are blocked. Additionally IPs belonging to services provided by Hetzner Cloud (Servers, Load Balancers, ...) are blocked as well. Only valid and required if type is `ip`. */
-  ip?: AddLoadBalancerTargetRequestIp;
+  ip?: AddLoadBalancerTargetRequestIp | undefined;
   /** Use the private network IP instead of the public IP of the Server, requires the Server and Load Balancer to be in the same network. Only valid for target types `server` and `label_selector`. */
-  use_private_ip?: boolean;
+  use_private_ip?: boolean | undefined;
 }
 /** Status of the Action. */
 export type AddLoadBalancerTargetResponseActionStatus = "running" | "success" | "error";
@@ -198,9 +198,9 @@ export interface AttachLoadBalancerToNetworkRequest {
   /** ID of an existing network to attach the Load Balancer to. */
   network: number;
   /** IP to request to be assigned to this Load Balancer; if you do not provide this then you will be auto assigned an IP address. */
-  ip?: string;
+  ip?: string | undefined;
   /** IP range in CIDR block notation of the subnet to attach to. This allows for auto assigning an IP address for a specific subnet. Providing `ip` that is not part of `ip_range` will result in an error. */
-  ip_range?: string;
+  ip_range?: string | undefined;
 }
 /** Status of the Action. */
 export type AttachLoadBalancerToNetworkResponseActionStatus = "running" | "success" | "error";
@@ -314,7 +314,7 @@ export interface ChangeLoadBalancerProtectionRequest {
   /** ID of the Load Balancer. */
   id: number;
   /** If true, prevents the Load Balancer from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeLoadBalancerProtectionResponseActionStatus = "running" | "success" | "error";
@@ -592,13 +592,13 @@ export interface ListLoadBalancerActionsRequest {
   /** ID of the Load Balancer. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListLoadBalancerActionsRequestSortList;
+  sort?: ListLoadBalancerActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListLoadBalancerActionsRequestStatusList;
+  status?: ListLoadBalancerActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListLoadBalancerActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -680,15 +680,15 @@ export type ListLoadBalancersActionsRequestStatusList = Array<
 >;
 export interface ListLoadBalancersActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListLoadBalancersActionsRequestIdList;
+  id?: ListLoadBalancersActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListLoadBalancersActionsRequestSortList;
+  sort?: ListLoadBalancersActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListLoadBalancersActionsRequestStatusList;
+  status?: ListLoadBalancersActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListLoadBalancersActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -743,11 +743,11 @@ export interface RemoveLoadBalancerTargetRequest {
   /** Type of the resource. */
   type: RemoveLoadBalancerTargetRequestType | (string & {});
   /** Configuration for type Server, only valid and required if type is `server`. */
-  server?: AddLoadBalancerTargetRequestServer;
+  server?: AddLoadBalancerTargetRequestServer | undefined;
   /** Configuration for label selector targets, only valid and required if type is `label_selector`. */
-  label_selector?: AddLoadBalancerTargetRequestLabelSelector;
+  label_selector?: AddLoadBalancerTargetRequestLabelSelector | undefined;
   /** Configuration for an IP target. It is only possible to use the (Public or vSwitch) IPs of Hetzner Online Root Servers belonging to the project owner. IPs belonging to other users are blocked. Additionally IPs belonging to services provided by Hetzner Cloud (Servers, Load Balancers, ...) are blocked as well. Only valid and required if type is `ip`. */
-  ip?: AddLoadBalancerTargetRequestIp;
+  ip?: AddLoadBalancerTargetRequestIp | undefined;
 }
 /** Status of the Action. */
 export type RemoveLoadBalancerTargetResponseActionStatus = "running" | "success" | "error";
@@ -788,15 +788,15 @@ export type UpdateLoadBalancerServiceRequestHealthCheckHttpStatusCodesList = Arr
 /** Additional configuration for protocol http. */
 export interface UpdateLoadBalancerServiceRequestHealthCheckHttp {
   /** Host header to send in the HTTP request. May not contain spaces, percent or backslash symbols. Can be null, in that case no host header is sent. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** HTTP path to use for health checks. May not contain literal spaces, use percent-encoding instead. */
-  path?: string;
+  path?: string | undefined;
   /** String that must be contained in HTTP response in order to pass the health check. */
-  response?: string;
+  response?: string | undefined;
   /** List of returned HTTP status codes in order to pass the health check. Supports the wildcards `?` for exactly one character and `*` for multiple ones. */
-  status_codes?: UpdateLoadBalancerServiceRequestHealthCheckHttpStatusCodesList;
+  status_codes?: UpdateLoadBalancerServiceRequestHealthCheckHttpStatusCodesList | undefined;
   /** Use HTTPS for health check. */
-  tls?: boolean;
+  tls?: boolean | undefined;
 }
 /** Service health check. */
 export interface UpdateLoadBalancerServiceRequestHealthCheck {
@@ -811,40 +811,40 @@ export interface UpdateLoadBalancerServiceRequestHealthCheck {
   /** Unsuccessful retries needed until a target is considered unhealthy; an unhealthy target needs the same number of successful retries to become healthy again. */
   retries: number;
   /** Additional configuration for protocol http. */
-  http?: UpdateLoadBalancerServiceRequestHealthCheckHttp;
+  http?: UpdateLoadBalancerServiceRequestHealthCheckHttp | undefined;
 }
 /** IDs of the Certificates to use for TLS/SSL termination by the Load Balancer; empty for TLS/SSL passthrough or if `protocol` is `http`. */
 export type UpdateLoadBalancerServiceRequestHttpCertificatesList = Array<number>;
 /** Configuration option for protocols http and https. */
 export interface UpdateLoadBalancerServiceRequestHttp {
   /** Name of the cookie used for sticky sessions. */
-  cookie_name?: string;
+  cookie_name?: string | undefined;
   /** Lifetime of the cookie used for sticky sessions (in seconds). */
-  cookie_lifetime?: number;
+  cookie_lifetime?: number | undefined;
   /** Idle timeout in seconds for the client and server side. */
-  timeout_idle?: number;
+  timeout_idle?: number | undefined;
   /** IDs of the Certificates to use for TLS/SSL termination by the Load Balancer; empty for TLS/SSL passthrough or if `protocol` is `http`. */
-  certificates?: UpdateLoadBalancerServiceRequestHttpCertificatesList;
+  certificates?: UpdateLoadBalancerServiceRequestHttpCertificatesList | undefined;
   /** Redirect HTTP requests to HTTPS. Only available if `protocol` is `https`. */
-  redirect_http?: boolean;
+  redirect_http?: boolean | undefined;
   /** Use sticky sessions. Only available if `protocol` is `http` or `https`. */
-  sticky_sessions?: boolean;
+  sticky_sessions?: boolean | undefined;
 }
 export interface UpdateLoadBalancerServiceRequest {
   /** ID of the Load Balancer. */
   id: number;
   /** Protocol of the Load Balancer. */
-  protocol?: UpdateLoadBalancerServiceRequestProtocol | (string & {});
+  protocol?: UpdateLoadBalancerServiceRequestProtocol | (string & {}) | undefined;
   /** Port the Load Balancer listens on. */
   listen_port: number;
   /** Port the Load Balancer will balance to. */
-  destination_port?: number;
+  destination_port?: number | undefined;
   /** Is Proxyprotocol enabled or not. */
-  proxyprotocol?: boolean;
+  proxyprotocol?: boolean | undefined;
   /** Service health check. */
-  health_check?: UpdateLoadBalancerServiceRequestHealthCheck;
+  health_check?: UpdateLoadBalancerServiceRequestHealthCheck | undefined;
   /** Configuration option for protocols http and https. */
-  http?: UpdateLoadBalancerServiceRequestHttp;
+  http?: UpdateLoadBalancerServiceRequestHttp | undefined;
 }
 /** Status of the Action. */
 export type UpdateLoadBalancerServiceResponseActionStatus = "running" | "success" | "error";

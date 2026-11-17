@@ -30,24 +30,40 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: IngestError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: IngestError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -55,11 +71,11 @@ export class UnprocessableEntity
 export interface IngestToDatasetRequest {
   dataset_id: string;
   /** The name of the field to use as the timestamp. If not specified, the timestamp will be the time the event was received by Axiom. */
-  timestamp_field?: string;
+  timestamp_field?: string | undefined;
   /** The date-time format of the timestamp field. The reference time is `Mon Jan 2 15:04:05 -0700 MST 2006`, as specified in https://pkg.go.dev/time/?tab=doc#Parse */
-  timestamp_format?: string;
+  timestamp_format?: string | undefined;
   /** The delimiter to use when parsing CSV data. If not specified, the default delimiter is `,`. */
-  csv_delimiter?: string;
+  csv_delimiter?: string | undefined;
   body: string;
 }
 export interface IngestFailure {
@@ -70,20 +86,27 @@ export type IngestStatusFailuresList = Array<IngestFailure>;
 export interface IngestStatus {
   blocksCreated: number;
   failed: number;
-  failures?: IngestStatusFailuresList;
+  failures?: IngestStatusFailuresList | undefined;
   ingested: number;
   processedBytes: number;
   walLength: number;
 }
+export interface IngestError {
+  /** HTTP status code of the error */
+  code?: number | undefined;
+  /** A formatted user-facing error message */
+  message?: string | undefined;
+}
 export type IngestToDatasetError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
+/** Ingests JSON, NDJSON, or CSV events into an events or logs dataset in this edge deployment. Events that fail are counted in `failed` and listed in `failures`. Events whose timestamp is more than 24 hours in the future or before the Unix epoch (1970-01-01T00:00:00Z) are rejected and not stored. Returns `400` when every event in the request is rejected and `430` when the organization has reached its ingest limit. */
 export const ingestToDataset: API.OperationMethod<
   IngestToDatasetRequest,
   IngestStatus,
   IngestToDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<IngestToDatasetRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<IngestStatus>,
+  input: __S(4, __c1, 0) as any as S.Schema<IngestToDatasetRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<IngestStatus>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -97,12 +120,30 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           dataset_id: S.String.pipe(T.Label()),
           timestamp_field: S.optional(S.String.pipe(T.Query("timestamp-field"))),
           timestamp_format: S.optional(S.String.pipe(T.Query("timestamp-format"))),
           csv_delimiter: S.optional(S.String.pipe(T.Query("csv-delimiter"))),
           body: S.String.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/datasets/{dataset_id}/ingest", code: 200 })),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/ingest/{dataset_id}",
+            code: 200,
+            bodyMediaType: "application/json",
+          }),
+        ),
       ).annotate({ identifier: "IngestToDatasetRequest" });
     case 1:
       return S.suspend(() =>
@@ -112,13 +153,13 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "IngestFailure" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           blocksCreated: S.Number,
           failed: S.Number,
-          failures: S.optional(__S(2, __c0, 2)),
+          failures: S.optional(__S(6, __c1, 2)),
           ingested: S.Number,
           processedBytes: S.Number,
           walLength: S.Number,

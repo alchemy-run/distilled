@@ -134,7 +134,7 @@ export type ChannelUri = string;
 export type EventPublisher = string;
 export type EventPublishers = string[];
 export interface Channel {
-  id?: string;
+  id?: string | undefined;
   uri: string;
   eventPublishers: string[];
 }
@@ -144,10 +144,10 @@ export interface AddNotificationChannelsRequest {
   channels: Channel[];
 }
 export interface NotificationConfiguration {
-  channels?: Channel[];
+  channels?: Channel[] | undefined;
 }
 export interface AddNotificationChannelsResponse {
-  notificationConfiguration?: NotificationConfiguration;
+  notificationConfiguration?: NotificationConfiguration | undefined;
 }
 export type Period = string;
 export type AggregationPeriod = string;
@@ -161,11 +161,11 @@ export interface FrameMetric {
 export type FrameMetrics = FrameMetric[];
 export interface BatchGetFrameMetricDataRequest {
   profilingGroupName: string;
-  startTime?: Date;
-  endTime?: Date;
-  period?: string;
-  targetResolution?: string;
-  frameMetrics?: FrameMetric[];
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  period?: string | undefined;
+  targetResolution?: string | undefined;
+  frameMetrics?: FrameMetric[] | undefined;
 }
 export interface TimestampStructure {
   value: Date;
@@ -192,15 +192,15 @@ export type MetadataField = string;
 export type Metadata = { [key: string]: string | undefined };
 export interface ConfigureAgentRequest {
   profilingGroupName: string;
-  fleetInstanceId?: string;
-  metadata?: { [key: string]: string | undefined };
+  fleetInstanceId?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentParameterField = string;
 export type AgentParameters = { [key: string]: string | undefined };
 export interface AgentConfiguration {
   shouldProfile: boolean;
   periodInSeconds: number;
-  agentParameters?: { [key: string]: string | undefined };
+  agentParameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface ConfigureAgentResponse {
   configuration: AgentConfiguration;
@@ -213,30 +213,30 @@ export interface AgentOrchestrationConfig {
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateProfilingGroupRequest {
   profilingGroupName: string;
-  computePlatform?: string;
+  computePlatform?: string | undefined;
   clientToken: string;
-  agentOrchestrationConfig?: AgentOrchestrationConfig;
-  tags?: { [key: string]: string | undefined };
+  agentOrchestrationConfig?: AgentOrchestrationConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProfilingGroupArn = string;
 export interface AggregatedProfileTime {
-  start?: Date;
-  period?: string;
+  start?: Date | undefined;
+  period?: string | undefined;
 }
 export interface ProfilingStatus {
-  latestAgentProfileReportedAt?: Date;
-  latestAggregatedProfile?: AggregatedProfileTime;
-  latestAgentOrchestratedAt?: Date;
+  latestAgentProfileReportedAt?: Date | undefined;
+  latestAggregatedProfile?: AggregatedProfileTime | undefined;
+  latestAgentOrchestratedAt?: Date | undefined;
 }
 export interface ProfilingGroupDescription {
-  name?: string;
-  agentOrchestrationConfig?: AgentOrchestrationConfig;
-  arn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  profilingStatus?: ProfilingStatus;
-  computePlatform?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  agentOrchestrationConfig?: AgentOrchestrationConfig | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  profilingStatus?: ProfilingStatus | undefined;
+  computePlatform?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProfilingGroupResponse {
   profilingGroup: ProfilingGroupDescription;
@@ -254,22 +254,22 @@ export interface DescribeProfilingGroupResponse {
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface GetFindingsReportAccountSummaryRequest {
-  nextToken?: string;
-  maxResults?: number;
-  dailyReportsOnly?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  dailyReportsOnly?: boolean | undefined;
 }
 export type FindingsReportId = string;
 export interface FindingsReportSummary {
-  id?: string;
-  profilingGroupName?: string;
-  profileStartTime?: Date;
-  profileEndTime?: Date;
-  totalNumberOfFindings?: number;
+  id?: string | undefined;
+  profilingGroupName?: string | undefined;
+  profileStartTime?: Date | undefined;
+  profileEndTime?: Date | undefined;
+  totalNumberOfFindings?: number | undefined;
 }
 export type FindingsReportSummaries = FindingsReportSummary[];
 export interface GetFindingsReportAccountSummaryResponse {
   reportSummaries: FindingsReportSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetNotificationConfigurationRequest {
   profilingGroupName: string;
@@ -288,41 +288,41 @@ export interface GetPolicyResponse {
 export type MaxDepth = number;
 export interface GetProfileRequest {
   profilingGroupName: string;
-  startTime?: Date;
-  period?: string;
-  endTime?: Date;
-  maxDepth?: number;
-  accept?: string;
+  startTime?: Date | undefined;
+  period?: string | undefined;
+  endTime?: Date | undefined;
+  maxDepth?: number | undefined;
+  accept?: string | undefined;
 }
 export interface GetProfileResponse {
   profile: T.StreamingOutputBody;
   contentType: string;
-  contentEncoding?: string;
+  contentEncoding?: string | undefined;
 }
 export type Locale = string;
 export interface GetRecommendationsRequest {
   profilingGroupName: string;
   startTime: Date;
   endTime: Date;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type TargetFrame = string[];
 export type TargetFrames = string[][];
 export type Percentage = number;
 export type Strings = string[];
 export interface Pattern {
-  id?: string;
-  name?: string;
-  description?: string;
-  resolutionSteps?: string;
-  targetFrames?: string[][];
-  thresholdPercent?: number;
-  countersToAggregate?: string[];
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  resolutionSteps?: string | undefined;
+  targetFrames?: string[][] | undefined;
+  thresholdPercent?: number | undefined;
+  countersToAggregate?: string[] | undefined;
 }
 export interface Match {
-  targetFramesIndex?: number;
-  frameAddress?: string;
-  thresholdBreachValue?: number;
+  targetFramesIndex?: number | undefined;
+  frameAddress?: string | undefined;
+  thresholdBreachValue?: number | undefined;
 }
 export type Matches = Match[];
 export interface Recommendation {
@@ -346,8 +346,8 @@ export interface UserFeedback {
 export interface AnomalyInstance {
   id: string;
   startTime: Date;
-  endTime?: Date;
-  userFeedback?: UserFeedback;
+  endTime?: Date | undefined;
+  userFeedback?: UserFeedback | undefined;
 }
 export type AnomalyInstances = AnomalyInstance[];
 export interface Anomaly {
@@ -367,13 +367,13 @@ export interface ListFindingsReportsRequest {
   profilingGroupName: string;
   startTime: Date;
   endTime: Date;
-  nextToken?: string;
-  maxResults?: number;
-  dailyReportsOnly?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  dailyReportsOnly?: boolean | undefined;
 }
 export interface ListFindingsReportsResponse {
   findingsReportSummaries: FindingsReportSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type OrderBy = string;
 export interface ListProfileTimesRequest {
@@ -381,40 +381,40 @@ export interface ListProfileTimesRequest {
   startTime: Date;
   endTime: Date;
   period: string;
-  orderBy?: string;
-  maxResults?: number;
-  nextToken?: string;
+  orderBy?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ProfileTime {
-  start?: Date;
+  start?: Date | undefined;
 }
 export type ProfileTimes = ProfileTime[];
 export interface ListProfileTimesResponse {
   profileTimes: ProfileTime[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListProfilingGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  includeDescription?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  includeDescription?: boolean | undefined;
 }
 export type ProfilingGroupNames = string[];
 export type ProfilingGroupDescriptions = ProfilingGroupDescription[];
 export interface ListProfilingGroupsResponse {
   profilingGroupNames: string[];
-  profilingGroups?: ProfilingGroupDescription[];
-  nextToken?: string;
+  profilingGroups?: ProfilingGroupDescription[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PostAgentProfileRequest {
   profilingGroupName: string;
   agentProfile: T.StreamingInputBody;
-  profileToken?: string;
+  profileToken?: string | undefined;
   contentType: string;
 }
 export interface PostAgentProfileResponse {}
@@ -425,7 +425,7 @@ export interface PutPermissionRequest {
   profilingGroupName: string;
   actionGroup: string;
   principals: string[];
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export interface PutPermissionResponse {
   policy: string;
@@ -436,7 +436,7 @@ export interface RemoveNotificationChannelRequest {
   channelId: string;
 }
 export interface RemoveNotificationChannelResponse {
-  notificationConfiguration?: NotificationConfiguration;
+  notificationConfiguration?: NotificationConfiguration | undefined;
 }
 export interface RemovePermissionRequest {
   profilingGroupName: string;
@@ -452,7 +452,7 @@ export interface SubmitFeedbackRequest {
   profilingGroupName: string;
   anomalyInstanceId: string;
   type: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface SubmitFeedbackResponse {}
 export interface TagResourceRequest {

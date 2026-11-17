@@ -30,56 +30,84 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The window the spend limit applies to. */
 export type CreateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
 export interface CreateCardRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts, and whenever a company API key files an account's first card application. */
-  assigned_user_id?: string;
+  assigned_user_id?: string | undefined;
   /** A display name for the card. */
-  name?: string;
+  name?: string | undefined;
   /** Spending limit amount, in dollars. */
-  spend_limit?: number;
+  spend_limit?: number | undefined;
   /** The window the spend limit applies to. */
-  spend_limit_frequency?: CreateCardRequestSpendLimitFrequency | (string & {});
+  spend_limit_frequency?: CreateCardRequestSpendLimitFrequency | (string & {}) | undefined;
   /** Per-transaction limit amount, in dollars. */
-  transaction_limit?: number;
+  transaction_limit?: number | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The billing address. */
 export interface CreateCardResponseBilling {
@@ -147,7 +175,7 @@ export interface CreateCardResponse {
   name: string | null;
   object: CreateCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -161,9 +189,9 @@ export interface GetCardRequest {
   /** Card ID to retrieve, prefixed `icrd_`. */
   id: string;
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type GetCardResponseBilling = CreateCardResponseBilling;
@@ -209,7 +237,7 @@ export interface GetCardResponse {
   name: string | null;
   object: GetCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -223,7 +251,7 @@ export interface GetCardTransactionRequest {
   /** The card transaction ID, prefixed `citx_`. */
   id: string;
   /** The account that owns the transaction, prefixed `biz_`. Defaults to the credential's account. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 /** Current status of the transaction. */
 export type CardTransactionStatus = "pending" | "completed" | "reversed" | "declined";
@@ -267,9 +295,9 @@ export interface CardTransaction {
 }
 export interface ListCardsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type ListCardsResponseDataItemBilling = CreateCardResponseBilling;
@@ -320,7 +348,7 @@ export interface ListCardsResponseDataItem {
   name: string | null;
   object: ListCardsResponseDataItemObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -342,31 +370,31 @@ export type ListCardTransactionsRequestOrder = "created_at";
 export type ListCardTransactionsRequestDirection = "asc" | "desc";
 export interface ListCardTransactionsRequest {
   /** The account whose card transactions to list, prefixed `biz_`. Defaults to the credential's account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Return only these card transactions, each prefixed `citx_`. Repeat the parameter, or pass one comma-separated value. */
-  transaction_ids?: ListCardTransactionsRequestTransactionIdsList;
+  transaction_ids?: ListCardTransactionsRequestTransactionIdsList | undefined;
   /** Return only transactions charged to these cards, each prefixed `icrd_`. */
-  card_id?: ListCardTransactionsRequestCardIdList;
+  card_id?: ListCardTransactionsRequestCardIdList | undefined;
   /** Return only transactions on cards assigned to these users, each prefixed `user_`. */
-  cardholder_id?: ListCardTransactionsRequestCardholderIdList;
+  cardholder_id?: ListCardTransactionsRequestCardholderIdList | undefined;
   /** Return only transactions with this status. */
-  status?: ListCardTransactionsRequestStatus | (string & {});
+  status?: ListCardTransactionsRequestStatus | (string & {}) | undefined;
   /** Return only transactions authorized at or after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Return only transactions authorized at or before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** The field to sort by. Defaults to `created_at`. */
-  order?: ListCardTransactionsRequestOrder | (string & {});
+  order?: ListCardTransactionsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to `desc`. */
-  direction?: ListCardTransactionsRequestDirection | (string & {});
+  direction?: ListCardTransactionsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListCardTransactionsResponseDataList = Array<CardTransaction>;
 export interface ListCardTransactionsResponsePageInfo {
@@ -388,22 +416,22 @@ export interface UpdateCardRequestBilling {
   /** Street address line 1. */
   line1: string;
   /** Street address line 2. */
-  line2?: string;
+  line2?: string | undefined;
   /** Billing postal code. */
   postal_code: string;
   /** Billing region or state. Required when updating an issued card's billing address. */
-  region?: string;
+  region?: string | undefined;
 }
 /** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
 export interface UpdateCardRequestCardholder {
   /** Email address for the invited cardholder. */
-  email?: string;
+  email?: string | undefined;
   /** Legal first name of the invited cardholder. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Legal last name of the invited cardholder. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Phone number for the invited cardholder. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** The window the spend limit applies to. */
 export type UpdateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
@@ -411,29 +439,29 @@ export interface UpdateCardRequest {
   /** Card ID to retrieve, prefixed `icrd_`. */
   id: string;
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning. */
-  billing?: UpdateCardRequestBilling;
+  billing?: UpdateCardRequestBilling | undefined;
   /** Pass `true` to permanently cancel the card. A canceled card cannot be uncanceled. Cannot be combined with other fields. */
-  canceled?: boolean;
+  canceled?: boolean | undefined;
   /** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
-  cardholder?: UpdateCardRequestCardholder;
+  cardholder?: UpdateCardRequestCardholder | undefined;
   /** Pass `true` to freeze the card, `false` to unfreeze it. The assigned cardholder may freeze their own card without the payout:account:update scope. */
-  frozen?: boolean;
+  frozen?: boolean | undefined;
   /** A display name for the card. */
-  name?: string;
+  name?: string | undefined;
   /** New 4-digit PIN. Can only be set on a card assigned to the acting user, who may set it without the payout:account:update scope. */
-  pin?: string;
+  pin?: string | undefined;
   /** Pass `true` to remove the spending limit (make the card unlimited). */
-  remove_limit?: boolean;
+  remove_limit?: boolean | undefined;
   /** Spending limit amount, in dollars. */
-  spend_limit?: number;
+  spend_limit?: number | undefined;
   /** The window the spend limit applies to. */
-  spend_limit_frequency?: UpdateCardRequestSpendLimitFrequency | (string & {});
+  spend_limit_frequency?: UpdateCardRequestSpendLimitFrequency | (string & {}) | undefined;
   /** Per-transaction limit amount, in dollars. */
-  transaction_limit?: number;
+  transaction_limit?: number | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The billing address. */
 export type UpdateCardResponseBilling = CreateCardResponseBilling;
@@ -479,7 +507,7 @@ export interface UpdateCardResponse {
   name: string | null;
   object: UpdateCardResponseObject;
   /** Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved. */
-  secrets?: CreateCardResponseSecrets | null;
+  secrets?: CreateCardResponseSecrets | null | undefined;
   /** Total spend in the last 30 days, in cents. */
   spent_last_month: number | null;
   /** The card status. `denied` means the issuer declined the cardholder, so the card will never be issued. */
@@ -489,6 +517,17 @@ export interface UpdateCardResponse {
   /** Cardholder user ID, prefixed `user_`, when assigned. */
   user_id: string | null;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateCardError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Card Issue a virtual card, or apply for card issuing. An account with no application files one here and gets back a `202`; call again to issue the card once it is approved. */
 export const createCard: API.OperationMethod<
@@ -497,8 +536,8 @@ export const createCard: API.OperationMethod<
   CreateCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<CreateCardResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<CreateCardResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -514,8 +553,8 @@ export const getCard: API.OperationMethod<
   GetCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<GetCardResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<GetCardResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -531,8 +570,8 @@ export const getCardTransaction: API.OperationMethod<
   GetCardTransactionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetCardTransactionRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<CardTransaction>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetCardTransactionRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<CardTransaction>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -548,8 +587,8 @@ export const listCards: API.OperationMethod<
   ListCardsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListCardsRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListCardsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListCardsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<ListCardsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -567,8 +606,8 @@ export const listCardTransactions: API.PaginatedOperationMethod<
   CardTransaction
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(49, __c6, 1) as any as S.Schema<ListCardTransactionsRequest>,
-    output: __S(52, __c6, 4) as any as S.Schema<ListCardTransactionsResponse>,
+    input: __S(57, __c7, 1) as any as S.Schema<ListCardTransactionsRequest>,
+    output: __S(60, __c7, 4) as any as S.Schema<ListCardTransactionsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -594,8 +633,8 @@ export const updateCard: API.OperationMethod<
   UpdateCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c7, 2) as any as S.Schema<UpdateCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<UpdateCardResponse>,
+  input: __S(66, __c8, 2) as any as S.Schema<UpdateCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<UpdateCardResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -605,6 +644,24 @@ export const updateCard: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -621,7 +678,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCardRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,17 +710,17 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          billing: S.NullOr(__S(8, __c1, 0)),
+          billing: S.NullOr(__S(16, __c2, 0)),
           canceled_at: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
           expiration_month: S.NullOr(S.String),
           expiration_year: S.NullOr(S.String),
           id: S.String,
           last4: S.NullOr(S.String),
-          limit: S.NullOr(__S(9, __c1, 1)),
+          limit: S.NullOr(__S(17, __c2, 1)),
           name: S.NullOr(S.String),
           object: S.String,
-          secrets: S.optional(S.NullOr(__S(10, __c1, 2))),
+          secrets: S.optional(S.NullOr(__S(18, __c2, 2))),
           spent_last_month: S.NullOr(S.Number),
           status: S.NullOr(S.String),
           type: S.NullOr(S.String),
@@ -672,7 +729,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateCardResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -684,7 +741,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetCardRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -695,7 +752,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetCardTransactionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -721,7 +778,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CardTransaction" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -731,16 +788,16 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
       ).annotate({ identifier: "ListCardsRequest" });
     case 1:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(41, __c5, 1),
+          data: __S(49, __c6, 1),
         }),
       ).annotate({ identifier: "ListCardsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -748,9 +805,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
-          transaction_ids: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          card_id: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          cardholder_id: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          transaction_ids: S.optional(__S(56, __c7, 0).pipe(T.Query())),
+          card_id: S.optional(__S(56, __c7, 0).pipe(T.Query())),
+          cardholder_id: S.optional(__S(56, __c7, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
@@ -763,7 +820,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/card_transactions", code: 200 })),
       ).annotate({ identifier: "ListCardTransactionsRequest" });
     case 2:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -776,13 +833,13 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(50, __c6, 2),
-          page_info: __S(51, __c6, 3),
+          data: __S(58, __c7, 2),
+          page_info: __S(59, __c7, 3),
         }),
       ).annotate({ identifier: "ListCardTransactionsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -809,9 +866,9 @@ function __c7(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String),
-          billing: S.optional(__S(56, __c7, 0)),
+          billing: S.optional(__S(64, __c8, 0)),
           canceled: S.optional(S.Boolean),
-          cardholder: S.optional(__S(57, __c7, 1)),
+          cardholder: S.optional(__S(65, __c8, 1)),
           frozen: S.optional(S.Boolean),
           name: S.optional(S.String),
           pin: S.optional(S.String),

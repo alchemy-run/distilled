@@ -46,10 +46,10 @@ export interface EventType {
   /** The unique event name.<blockquote><strong>Note:</strong> To subscribe to all events, including events as they are added, specify an `*` as the value to represent a wildcard.</blockquote> */
   name: string;
   /** A human-readable description of the event. */
-  description?: string;
+  description?: string | undefined;
   /** The status of a webhook event. */
-  status?: string;
-  resource_versions?: ResourceVersionsList;
+  status?: string | undefined;
+  resource_versions?: ResourceVersionsList | undefined;
 }
 /** An array of events to which to subscribe your webhook. To subscribe to all events, including events as they are added, specify the asterisk wild card. To replace the `event_types` array, specify the asterisk wild card. To list all supported events, <a href="#event-type_list">list available events</a>. */
 export type DefinitionsEventTypeList = Array<EventType>;
@@ -70,18 +70,18 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** One or more webhook objects. */
 export interface Webhook {
   /** The ID of the webhook. */
-  id?: string;
+  id?: string | undefined;
   /** The URL that is configured to listen on `localhost` for incoming `POST` notification messages that contain event information. */
   url: string;
   event_types: DefinitionsEventTypeList;
-  links?: DefinitionsLinkDescriptionList;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export interface GetWebhooksEventRequest {
   /** The ID of the webhook event notification to resend. */
@@ -94,19 +94,19 @@ export type LinkDescriptionList = Array<LinkDescription>;
 /** A webhook event notification. */
 export interface Event {
   /** The ID of the webhook event notification. */
-  id?: string;
+  id?: string | undefined;
   /** The date and time when the webhook event notification was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The name of the resource related to the webhook notification event. */
-  resource_type?: string;
-  event_version?: string;
+  resource_type?: string | undefined;
+  event_version?: string | undefined;
   /** The event that triggered the webhook event notification. */
-  event_type?: string;
+  event_type?: string | undefined;
   /** A summary description for the event notification. */
-  summary?: string;
-  resource_version?: string;
-  resource?: Resource;
-  links?: LinkDescriptionList;
+  summary?: string | undefined;
+  resource_version?: string | undefined;
+  resource?: Resource | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface GetWebhooksLookupRequest {
   /** The ID of the webhook lookup to delete. */
@@ -115,10 +115,10 @@ export interface GetWebhooksLookupRequest {
 /** The webhook lookup details. */
 export interface WebhooksLookup {
   /** The ID of the webhook lookup. */
-  id?: string;
+  id?: string | undefined;
   /** The application client ID. */
-  client_id?: string;
-  links?: DefinitionsLinkDescriptionList;
+  client_id?: string | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export interface ListEventTypesRequest {
   /** The ID of the webhook for which to list subscriptions. */
@@ -128,39 +128,39 @@ export interface ListEventTypesRequest {
 export type EventTypeList2 = Array<EventType>;
 /** A list of webhook events. */
 export interface EventTypeList {
-  event_types?: EventTypeList2;
+  event_types?: EventTypeList2 | undefined;
 }
 export type ListWebhooksRequestAnchorType = "APPLICATION" | "ACCOUNT";
 export interface ListWebhooksRequest {
   /** Filters the webhooks in the response by an `anchor_id` entity type. */
-  anchor_type?: ListWebhooksRequestAnchorType | (string & {});
+  anchor_type?: ListWebhooksRequestAnchorType | (string & {}) | undefined;
 }
 /** An array of webhooks. */
 export type WebhookList2 = Array<Webhook>;
 /** A list of webhooks. */
 export interface WebhookList {
-  webhooks?: WebhookList2;
+  webhooks?: WebhookList2 | undefined;
 }
 export interface ListWebhooksEventsRequest {
   /** The number of webhook event notifications to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Filters the webhook event notifications in the response to those created on or after this date and time and on or before the `end_time` value. Both values are in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6) format. Example: `start_time=2013-03-06T11:00:00Z`. */
-  start_time?: string;
+  start_time?: string | undefined;
   /** Filters the webhook event notifications in the response to those created on or after the `start_time` and on or before this date and time. Both values are in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6) format. Example: `end_time=2013-03-06T11:00:00Z`. */
-  end_time?: string;
+  end_time?: string | undefined;
   /** Filters the response to a single transaction, by ID. */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** Filters the response to a single event. */
-  event_type?: string;
+  event_type?: string | undefined;
 }
 /** An array of webhooks events. */
 export type EventList2 = Array<Event>;
 /** A list of webhooks events. */
 export interface EventList {
-  events?: EventList2;
+  events?: EventList2 | undefined;
   /** The number of items in each range of results. Note that the response might have fewer items than the requested `page_size` value. */
-  count?: number;
-  links?: LinkDescriptionList;
+  count?: number | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface ListWebhooksEventTypesRequest {}
 export interface ListWebhooksLookupRequest {}
@@ -168,17 +168,17 @@ export interface ListWebhooksLookupRequest {}
 export type WebhooksLookupList = Array<WebhooksLookup>;
 /** A list of webhook lookups. */
 export interface WebhookLookupList {
-  webhooks_lookups?: WebhooksLookupList;
+  webhooks_lookups?: WebhooksLookupList | undefined;
 }
 export interface PostSimulateEventRequest {
   /** The ID of the webhook. If omitted, the URL is required. */
-  webhook_id?: string;
+  webhook_id?: string | undefined;
   /** The URL for the webhook endpoint. If omitted, the webhook ID is required. */
-  url?: string;
+  url?: string | undefined;
   /** The event name. Specify one of the subscribed events. For each request, provide only one event. */
   event_type: string;
   /** The identifier for event type ex: 1.0/2.0 etc. */
-  resource_version?: string;
+  resource_version?: string | undefined;
 }
 export interface PostSimulateEventResponse {}
 /** An event type. */
@@ -199,7 +199,7 @@ export type WebhookIdsList = Array<string>;
 export interface ResendWebhooksEventRequest {
   /** The ID of the webhook event notification to resend. */
   event_id: string;
-  webhook_ids?: WebhookIdsList;
+  webhook_ids?: WebhookIdsList | undefined;
 }
 export interface ResendWebhooksEventResponse {}
 /** The operation. */
@@ -209,23 +209,23 @@ export interface Patch {
   /** The operation. */
   op: PatchOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code> operation does not require a value. */
-  value?: unknown | null;
+  value?: unknown | null | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<Patch>;
 export interface UpdateWebhookRequest {
   /** The ID of the webhook for which to list subscriptions. */
   webhook_id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 /** A webhook event notification. */
 export interface EventInput {
-  event_version?: string;
-  resource_version?: string;
+  event_version?: string | undefined;
+  resource_version?: string | undefined;
 }
 export interface VerifyWebhookSignaturePostRequest {
   /** The algorithm that PayPal uses to generate the signature and that you can use to verify the signature. Extract this value from the `PAYPAL-AUTH-ALGO` response header, which is received with the webhook notification. */

@@ -30,36 +30,101 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body4
+    | Error400Body
+    | Error400Body2
+    | Error400Body3
+    | Error400Body5
+    | Error400Body6
+    | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body3 | Error409Body | Error409Body2 | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body
+    | Error404Body3
+    | Error404Body
+    | Error404Body6
+    | Error404Body2
+    | Error404Body4
+    | Error404Body5
+    | string;
+}
 
 export interface AddLocationToGroupRequest {
   /** The slug of the organization or user account. */
@@ -73,21 +138,21 @@ export interface AddLocationToGroupRequest {
 export type GroupLocationsList = Array<string>;
 export interface Group {
   /** The group name, unique across your organization. */
-  name?: string;
+  name?: string | undefined;
   /** The current libSQL server version the databases in that group are running. */
-  version?: string;
+  version?: string | undefined;
   /** The group universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** An array of location keys the group is located. */
-  locations?: GroupLocationsList;
+  locations?: GroupLocationsList | undefined;
   /** The primary location key. */
-  primary?: string;
+  primary?: string | undefined;
   /** The current status for delete protection. If enabled, the group and all its databases cannot be deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface AddLocationToGroupResponse {
   /** The group with the added location */
-  group?: Group;
+  group?: Group | undefined;
 }
 /** The role given to the user. */
 export type AddOrganizationMemberRequestRole = "admin" | "member" | "viewer";
@@ -95,15 +160,15 @@ export interface AddOrganizationMemberRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The username of an existing Turso user. */
-  username?: string;
+  username?: string | undefined;
   /** The role given to the user. */
-  role?: AddOrganizationMemberRequestRole | (string & {});
+  role?: AddOrganizationMemberRequestRole | (string & {}) | undefined;
 }
 /** The role assigned to the member. */
 export type Role = "owner" | "admin" | "member" | "viewer";
 export interface AddOrganizationMemberResponse {
-  member?: string;
-  role?: Role;
+  member?: string | undefined;
+  role?: Role | undefined;
 }
 export type CreateAPITokenRequestScopesItem =
   | "read"
@@ -115,9 +180,12 @@ export type CreateAPITokenRequestScopesItem =
   | "group:configure"
   | "group:mint-token"
   | "group:rotate-creds"
+  | "group:create"
+  | "group:delete"
+  | "org:read"
   | "read-only"
   | "full-access";
-/** Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
+/** Permissions to grant the token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every group scope, without `group:create`, `group:delete`, and `org:read`). Required and must be non-empty when `group` is set. Optional for an org-scoped token: without `scopes`, the token can do everything that its user can do in the organization. `group:create`, `group:delete`, and `org:read` are valid only on org-scoped tokens. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
 export type CreateAPITokenRequestScopesList = Array<
   CreateAPITokenRequestScopesItem | (string & {})
 >;
@@ -125,27 +193,27 @@ export interface CreateAPITokenRequest {
   /** The name of the api token. */
   tokenName: string;
   /** The organization slug to restrict this token to. Required when `group` is set. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name (inside `organization`) to restrict this token to. Requires `organization` and a non-empty `scopes` list. */
-  group?: string;
-  /** Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
-  scopes?: CreateAPITokenRequestScopesList;
+  group?: string | undefined;
+  /** Permissions to grant the token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every group scope, without `group:create`, `group:delete`, and `org:read`). Required and must be non-empty when `group` is set. Optional for an org-scoped token: without `scopes`, the token can do everything that its user can do in the organization. `group:create`, `group:delete`, and `org:read` are valid only on org-scoped tokens. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
+  scopes?: CreateAPITokenRequestScopesList | undefined;
 }
 export interface CreateAPITokenResponse {
-  name?: string;
-  id?: string;
+  name?: string | undefined;
+  id?: string | undefined;
   /** The actual token contents as a JWT. This is used with the `Bearer` header, see [Authentication](/authentication) for more details. **This token is never revealed again.** */
-  token?: Redacted.Redacted<string>;
+  token?: Redacted.Redacted<string> | undefined;
 }
 /** The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload). */
 export type CreateDatabaseRequestSeedType = "database" | "database_upload";
 export interface CreateDatabaseRequestSeed {
   /** The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload). */
-  type?: CreateDatabaseRequestSeedType | (string & {});
+  type?: CreateDatabaseRequestSeedType | (string & {}) | undefined;
   /** The name of the existing database when `database` is used as a seed type. */
-  name?: string;
+  name?: string | undefined;
   /** A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) recovery point to create a database from. This must be within the last 24 hours, or 30 days on the scaler plan. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** The encryption cipher to use. */
 export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
@@ -161,9 +229,12 @@ export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
 /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
 export interface CreateDatabaseRequestRemoteEncryption {
   /** Base64-encoded encryption key. Key size depends on cipher: 32 bytes for aes256gcm, chacha20poly1305, aegis256 variants; 16 bytes for aes128gcm, aegis128l variants. */
-  encryption_key?: string;
+  encryption_key?: string | undefined;
   /** The encryption cipher to use. */
-  encryption_cipher?: CreateDatabaseRequestRemoteEncryptionEncryptionCipher | (string & {});
+  encryption_cipher?:
+    | CreateDatabaseRequestRemoteEncryptionEncryptionCipher
+    | (string & {})
+    | undefined;
 }
 export interface CreateDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -172,31 +243,31 @@ export interface CreateDatabaseRequest {
   name: string;
   /** The name of the group where the database should be created. **The group must already exist.** */
   group: string;
-  seed?: CreateDatabaseRequestSeed;
+  seed?: CreateDatabaseRequestSeed | undefined;
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
-  remote_encryption?: CreateDatabaseRequestRemoteEncryption;
+  remote_encryption?: CreateDatabaseRequestRemoteEncryption | undefined;
 }
 export interface CreateDatabaseOutput {
-  DbId?: string;
-  Hostname?: string;
-  Name?: string;
+  DbId?: string | undefined;
+  Hostname?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateDatabaseResponse {
   /** The newly created database */
-  database?: CreateDatabaseOutput;
+  database?: CreateDatabaseOutput | undefined;
 }
 export type CreateDatabaseTokenRequestAuthorization = "full-access" | "read-only";
 export type CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList = Array<string>;
 /** Read `ATTACH` permission for the token. */
 export interface CreateDatabaseTokenRequestPermissionsReadAttach {
-  databases?: CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList;
+  databases?: CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList | undefined;
 }
 /** The permissions for the token. */
 export interface CreateDatabaseTokenRequestPermissions {
   /** Read `ATTACH` permission for the token. */
-  read_attach?: CreateDatabaseTokenRequestPermissionsReadAttach;
+  read_attach?: CreateDatabaseTokenRequestPermissionsReadAttach | undefined;
 }
 export interface CreateDatabaseTokenRequest {
   /** The slug of the organization or user account. */
@@ -204,15 +275,15 @@ export interface CreateDatabaseTokenRequest {
   /** The name of the database. */
   databaseName: string;
   /** Expiration time for the token (e.g., 2w1d30m). */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Authorization level for the token (full-access or read-only). */
-  authorization?: CreateDatabaseTokenRequestAuthorization | (string & {});
+  authorization?: CreateDatabaseTokenRequestAuthorization | (string & {}) | undefined;
   /** The permissions for the token. */
-  permissions?: CreateDatabaseTokenRequestPermissions;
+  permissions?: CreateDatabaseTokenRequestPermissions | undefined;
 }
 export interface CreateDatabaseTokenResponse {
   /** The generated authorization token (JWT). */
-  jwt?: Redacted.Redacted<string>;
+  jwt?: Redacted.Redacted<string> | undefined;
 }
 /** Set to `all` to enable all extensions. */
 export type ExtensionsCase0 = "all";
@@ -238,22 +309,22 @@ export interface CreateGroupRequest {
   name: string;
   /** The location key for the new group. */
   location: string;
-  extensions?: Extensions;
+  extensions?: Extensions | undefined;
 }
 export interface CreateGroupResponse {
   /** The newly created group */
-  group?: Group;
+  group?: Group | undefined;
 }
 export type CreateGroupTokenRequestAuthorization = "full-access" | "read-only";
 export type CreateGroupTokenRequestPermissionsReadAttachDatabasesList = Array<string>;
 /** Read `ATTACH` permission for the token. */
 export interface CreateGroupTokenRequestPermissionsReadAttach {
-  databases?: CreateGroupTokenRequestPermissionsReadAttachDatabasesList;
+  databases?: CreateGroupTokenRequestPermissionsReadAttachDatabasesList | undefined;
 }
 /** The permissions for the token. */
 export interface CreateGroupTokenRequestPermissions {
   /** Read `ATTACH` permission for the token. */
-  read_attach?: CreateGroupTokenRequestPermissionsReadAttach;
+  read_attach?: CreateGroupTokenRequestPermissionsReadAttach | undefined;
 }
 export interface CreateGroupTokenRequest {
   /** The slug of the organization or user account. */
@@ -261,15 +332,15 @@ export interface CreateGroupTokenRequest {
   /** The name of the group. */
   groupName: string;
   /** Expiration time for the token (e.g., 2w1d30m). */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Authorization level for the token (full-access or read-only). */
-  authorization?: CreateGroupTokenRequestAuthorization | (string & {});
+  authorization?: CreateGroupTokenRequestAuthorization | (string & {}) | undefined;
   /** The permissions for the token. */
-  permissions?: CreateGroupTokenRequestPermissions;
+  permissions?: CreateGroupTokenRequestPermissions | undefined;
 }
 export interface CreateGroupTokenResponse {
   /** The generated authorization token (JWT). */
-  jwt?: Redacted.Redacted<string>;
+  jwt?: Redacted.Redacted<string> | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -279,7 +350,7 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** The name of the database that was deleted. */
-  database?: string;
+  database?: string | undefined;
 }
 export interface DeleteGroupRequest {
   /** The slug of the organization or user account. */
@@ -288,7 +359,7 @@ export interface DeleteGroupRequest {
   groupName: string;
 }
 export interface DeleteGroupResponse {
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface DeleteOrganizationInviteByEmailV2Request {
   /** The slug of the organization or user account. */
@@ -299,22 +370,22 @@ export interface DeleteOrganizationInviteByEmailV2Response {}
 export interface GetCurrentUserRequest {}
 export interface GetCurrentUserResponseUser {
   /** The username of the user. */
-  username?: string;
+  username?: string | undefined;
   /** The display name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The primary email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** URL to the user's avatar image. */
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   /** The user's current plan. */
-  plan?: string;
+  plan?: string | undefined;
   /** Whether the user has multi-factor authentication enabled. */
-  mfa?: boolean;
+  mfa?: boolean | undefined;
   /** Whether the user has pending organization invites waiting to be accepted or declined. */
-  has_pending_invites?: boolean;
+  has_pending_invites?: boolean | undefined;
 }
 export interface GetCurrentUserResponse {
-  user?: GetCurrentUserResponseUser;
+  user?: GetCurrentUserResponseUser | undefined;
 }
 export interface GetDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -326,37 +397,37 @@ export interface GetDatabaseRequest {
 export type DatabaseRegionsList = Array<string>;
 export interface DatabaseParent {
   /** The parent database identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the parent database. */
-  name?: string;
+  name?: string | undefined;
   /** The timestamp when the database was branched from the parent. */
-  branched_at?: string;
+  branched_at?: string | undefined;
 }
 export interface Database {
   /** The database name, **unique** across your organization. */
-  Name?: string;
+  Name?: string | undefined;
   /** The database universal unique identifier (UUID). */
-  DbId?: string;
+  DbId?: string | undefined;
   /** The DNS hostname used for client libSQL and HTTP connections. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The current status for blocked reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** The current status for blocked writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** A list of regions for the group the database belongs to. */
-  regions?: DatabaseRegionsList;
+  regions?: DatabaseRegionsList | undefined;
   /** The primary region location code the group the database belongs to. */
-  primaryRegion?: string;
+  primaryRegion?: string | undefined;
   /** The name of the group the database belongs to. */
-  group?: string;
+  group?: string | undefined;
   /** The current status for delete protection. If enabled, the database cannot be deleted. */
-  delete_protection?: boolean;
-  parent?: DatabaseParent | null;
+  delete_protection?: boolean | undefined;
+  parent?: DatabaseParent | null | undefined;
   /** Whether other databases may be attached to this database with `ATTACH`. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
 }
 export interface GetDatabaseResponse {
-  database?: Database;
+  database?: Database | undefined;
 }
 export interface GetDatabaseConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -370,19 +441,19 @@ export type DatabaseConfigurationResponseAllowedIpsList = Array<string>;
 export type DatabaseConfigurationResponseAllowedAwsVpcIdsList = Array<string>;
 export interface DatabaseConfigurationResponse {
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Allow or disallow attaching databases to the current database. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
   /** The current status for blocked reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** The current status for blocked writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** Prevent the database from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** List of allowed IP addresses and CIDR blocks. Empty means no IP restriction. */
-  allowed_ips?: DatabaseConfigurationResponseAllowedIpsList;
+  allowed_ips?: DatabaseConfigurationResponseAllowedIpsList | undefined;
   /** List of allowed AWS VPC endpoint IDs. Empty means no VPC endpoint restriction. */
-  allowed_aws_vpc_ids?: DatabaseConfigurationResponseAllowedAwsVpcIdsList;
+  allowed_aws_vpc_ids?: DatabaseConfigurationResponseAllowedAwsVpcIdsList | undefined;
 }
 export interface GetDatabaseInstanceRequest {
   /** The slug of the organization or user account. */
@@ -396,18 +467,18 @@ export interface GetDatabaseInstanceRequest {
 export type InstanceType = "primary" | "replica";
 export interface Instance {
   /** The instance universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The name of the instance (location code). */
-  name?: string;
+  name?: string | undefined;
   /** The type of database instance this, will be `primary` or `replica`. */
-  type?: InstanceType;
+  type?: InstanceType | undefined;
   /** The location code for the region this instance is located. */
-  region?: string;
+  region?: string | undefined;
   /** The DNS hostname used for client libSQL and HTTP connections (specific to this instance only). */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export interface GetDatabaseInstanceResponse {
-  instance?: Instance;
+  instance?: Instance | undefined;
 }
 export interface GetDatabaseStatsRequest {
   /** The slug of the organization or user account. */
@@ -417,17 +488,17 @@ export interface GetDatabaseStatsRequest {
 }
 export interface DatabaseStatsOutput {
   /** A string representing the SQL query executed. */
-  query?: string;
+  query?: string | undefined;
   /** An integer indicating the number of rows read by the query, which reflects the volume of data the query processed from the database. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** An integer indicating the number of rows written (inserted, updated, or deleted) by the query, which reflects the impact of the query on the database data. */
-  rows_written?: number;
+  rows_written?: number | undefined;
 }
 /** The top queries performed on the given database as well as the total rows read and written. */
 export type GetDatabaseStatsResponseTopQueriesList = Array<DatabaseStatsOutput>;
 export interface GetDatabaseStatsResponse {
   /** The top queries performed on the given database as well as the total rows read and written. */
-  top_queries?: GetDatabaseStatsResponseTopQueriesList | null;
+  top_queries?: GetDatabaseStatsResponseTopQueriesList | null | undefined;
 }
 export interface GetDatabaseUsageRequest {
   /** The slug of the organization or user account. */
@@ -435,38 +506,38 @@ export interface GetDatabaseUsageRequest {
   /** The name of the database. */
   databaseName: string;
   /** The datetime to retrieve usage **from** in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Defaults to the current calendar month if not provided. Example: `2023-01-01T00:00:00Z` */
-  from?: string;
+  from?: string | undefined;
   /** The datetime to retrieve usage **to** in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Defaults to the current calendar month if not provided. Example: `2023-02-01T00:00:00Z` */
-  to?: string;
+  to?: string | undefined;
 }
 export interface DatabaseUsageObject {
   /** The total rows read in the time period. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** The total rows written in the time period. */
-  rows_written?: number;
+  rows_written?: number | undefined;
   /** The total storage used. */
-  storage_bytes?: number;
+  storage_bytes?: number | undefined;
   /** The total bytes synced. */
-  bytes_synced?: number;
+  bytes_synced?: number | undefined;
 }
 export interface DatabaseUsageOutputInstancesItem {
   /** The instance universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage for the current database instance. */
-  usage?: DatabaseUsageObject;
+  usage?: DatabaseUsageObject | undefined;
 }
 /** The usage objects for instances of the current database. */
 export type DatabaseUsageOutputInstancesList = Array<DatabaseUsageOutputInstancesItem>;
 export interface DatabaseUsageOutput {
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage objects for instances of the current database. */
-  instances?: DatabaseUsageOutputInstancesList;
+  instances?: DatabaseUsageOutputInstancesList | undefined;
   /** The total usage for the database. */
-  total?: DatabaseUsageObject;
+  total?: DatabaseUsageObject | undefined;
 }
 export interface GetDatabaseUsageResponse {
   /** The database usage object, containg the total and individual instance usage for rows read and written, as well as the total storage size (in bytes). */
-  database?: DatabaseUsageOutput;
+  database?: DatabaseUsageOutput | undefined;
 }
 export interface GetGroupRequest {
   /** The slug of the organization or user account. */
@@ -475,7 +546,7 @@ export interface GetGroupRequest {
   groupName: string;
 }
 export interface GetGroupResponse {
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface GetGroupConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -485,7 +556,7 @@ export interface GetGroupConfigurationRequest {
 }
 export interface GroupConfigurationResponse {
   /** Prevent the group from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface GetOrganizationRequest {
   /** The slug of the organization or user account. */
@@ -495,30 +566,30 @@ export interface GetOrganizationRequest {
 export type OrganizationType = "personal" | "team";
 export interface Organization {
   /** The organization name. Every user has a `personal` organization for their own account. */
-  name?: string;
+  name?: string | undefined;
   /** The organization slug. This will be your username for `personal` accounts. */
-  slug?: string;
+  slug?: string | undefined;
   /** The type of account this organization is. Will always be `personal` or `team`. */
-  type?: OrganizationType;
+  type?: OrganizationType | undefined;
   /** The name of the organization. Every user has a `personal` organization for their own account. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** Whether all members of the organization are required to have multi-factor authentication enabled. */
-  require_mfa?: boolean;
+  require_mfa?: boolean | undefined;
   /** Returns the current status for blocked reads. */
-  blocked_reads?: boolean;
+  blocked_reads?: boolean | undefined;
   /** Returns the current status for blocked writes. */
-  blocked_writes?: boolean;
+  blocked_writes?: boolean | undefined;
   /** The pricing plan identifier this organization is subscribed to. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** The billing cycle for the paid plan, if any. */
-  plan_timeline?: string;
+  plan_timeline?: string | undefined;
   /** The external platform this organization is managed by. Will be empty for Turso managed organizations. */
-  platform?: string;
+  platform?: string | undefined;
   /** Whether deleted database and group recovery is enabled for the organization. Returned when retrieving a single organization. */
-  restore_enabled?: boolean;
+  restore_enabled?: boolean | undefined;
 }
 export interface GetOrganizationResponse {
-  organization?: Organization;
+  organization?: Organization | undefined;
 }
 export interface GetOrganizationMemberRequest {
   /** The slug of the organization or user account. */
@@ -530,14 +601,14 @@ export interface GetOrganizationMemberRequest {
 export type MemberRole = "owner" | "admin" | "member" | "viewer";
 export interface Member {
   /** The username for the member. */
-  username?: string;
+  username?: string | undefined;
   /** The role assigned to the member. */
-  role?: MemberRole;
+  role?: MemberRole | undefined;
   /** The email for the member. */
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetOrganizationMemberResponse {
-  member?: Member;
+  member?: Member | undefined;
 }
 export interface GetOrganizationSubscriptionRequest {
   /** The slug of the organization or user account. */
@@ -545,16 +616,16 @@ export interface GetOrganizationSubscriptionRequest {
 }
 export interface GetOrganizationSubscriptionResponseSubscription {
   /** The name of the plan for the current subscription. */
-  name?: string;
+  name?: string | undefined;
   /** Whether overages are enabled for the organization. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** The name of the plan for the current subscription. */
-  plan?: string;
+  plan?: string | undefined;
   /** Whether the plan is billed monthly or yearly. */
-  timeline?: string;
+  timeline?: string | undefined;
 }
 export interface GetOrganizationSubscriptionResponse {
-  subscription?: GetOrganizationSubscriptionResponseSubscription;
+  subscription?: GetOrganizationSubscriptionResponseSubscription | undefined;
 }
 export interface GetOrganizationUsageRequest {
   /** The slug of the organization or user account. */
@@ -563,34 +634,34 @@ export interface GetOrganizationUsageRequest {
 /** The usage object for the organization. */
 export interface GetOrganizationUsageResponseOrganizationUsage {
   /** The number of rows read allowed for the specific plan. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** The number of rows written allowed for the specific plan. */
-  rows_written?: number;
+  rows_written?: number | undefined;
   /** The number of databases allowed for the specific plan. */
-  databases?: number;
+  databases?: number | undefined;
   /** The number of locations allowed for the specific plan. */
-  locations?: number;
+  locations?: number | undefined;
   /** The amount of storage allowed for the specific plan, in bytes. */
-  storage_bytes?: number;
+  storage_bytes?: number | undefined;
   /** The number of groups allowed for the specific plan. */
-  groups?: number;
+  groups?: number | undefined;
   /** The number of bytes synced allowed for the specific plan, in bytes. */
-  bytes_synced?: number;
+  bytes_synced?: number | undefined;
 }
 /** The databases for the organization and their usage. */
 export type GetOrganizationUsageResponseOrganizationDatabasesList = Array<DatabaseUsageOutput>;
 /** The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes). */
 export interface GetOrganizationUsageResponseOrganization {
   /** The UUID of the organization. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage object for the organization. */
-  usage?: GetOrganizationUsageResponseOrganizationUsage;
+  usage?: GetOrganizationUsageResponseOrganizationUsage | undefined;
   /** The databases for the organization and their usage. */
-  databases?: GetOrganizationUsageResponseOrganizationDatabasesList;
+  databases?: GetOrganizationUsageResponseOrganizationDatabasesList | undefined;
 }
 export interface GetOrganizationUsageResponse {
   /** The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes). */
-  organization?: GetOrganizationUsageResponseOrganization;
+  organization?: GetOrganizationUsageResponseOrganization | undefined;
 }
 export interface InvalidateDatabaseTokensRequest {
   /** The slug of the organization or user account. */
@@ -612,45 +683,45 @@ export interface InviteOrganizationMemberV2Request {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The email of the user you want to invite. Exactly one of email or username must be provided. */
-  email?: string;
+  email?: string | undefined;
   /** The username of an existing Turso user you want to invite. Exactly one of email or username must be provided. */
-  username?: string;
+  username?: string | undefined;
   /** The role given to the user. */
-  role?: InviteOrganizationMemberV2RequestRole | (string & {});
+  role?: InviteOrganizationMemberV2RequestRole | (string & {}) | undefined;
 }
 /** The assigned role for the invited user. */
 export type InviteCreatedV2Role = "admin" | "member" | "viewer";
 export interface InviteCreatedV2 {
   /** The email of the person invited. */
-  email?: string;
+  email?: string | undefined;
   /** The assigned role for the invited user. */
-  role?: InviteCreatedV2Role;
+  role?: InviteCreatedV2Role | undefined;
   /** The name of the organization the user was invited to. */
-  organization?: string;
+  organization?: string | undefined;
 }
 export interface InviteOrganizationMemberV2Response {
-  invited?: InviteCreatedV2;
+  invited?: InviteCreatedV2 | undefined;
 }
 export interface ListAPITokensRequest {}
-/** The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
+/** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
 export type APITokenScopesList = Array<string>;
 export interface APIToken {
   /** The name given to the API Token. */
-  name?: string;
+  name?: string | undefined;
   /** The ID generated by Turso for the API Token. */
-  id?: string;
+  id?: string | undefined;
   /** The organization slug this token is restricted to. Omitted if the token has access to all organizations. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name this token is pinned to. Present only for group-scoped tokens. */
-  group?: string;
-  /** The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
-  scopes?: APITokenScopesList;
+  group?: string | undefined;
+  /** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
+  scopes?: APITokenScopesList | undefined;
   /** The date the token was created, in `YYYY-MM-DD` format. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListAPITokensResponseTokensList = Array<APIToken>;
 export interface ListAPITokensResponse {
-  tokens?: ListAPITokensResponseTokensList;
+  tokens?: ListAPITokensResponseTokensList | undefined;
 }
 export interface ListDatabaseInstancesRequest {
   /** The slug of the organization or user account. */
@@ -660,21 +731,21 @@ export interface ListDatabaseInstancesRequest {
 }
 export type ListDatabaseInstancesResponseInstancesList = Array<Instance>;
 export interface ListDatabaseInstancesResponse {
-  instances?: ListDatabaseInstancesResponseInstancesList;
+  instances?: ListDatabaseInstancesResponseInstancesList | undefined;
 }
 export interface ListDatabasesRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** Filter databases by group name. */
-  group?: string;
+  group?: string | undefined;
   /** The schema database name that can be used to get databases that belong to that parent schema. */
-  schema?: string;
+  schema?: string | undefined;
   /** Filter database branches by using their parent database ID. */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type ListDatabasesResponseDatabasesList = Array<Database>;
 export interface ListDatabasesResponse {
-  databases?: ListDatabasesResponseDatabasesList;
+  databases?: ListDatabasesResponseDatabasesList | undefined;
 }
 export interface ListDeletedDatabasesRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -682,69 +753,69 @@ export interface ListDeletedDatabasesRequest {
   /** Must be `true` to list deleted databases. */
   deleted: boolean;
   /** Filter deleted databases by name. */
-  search?: string;
+  search?: string | undefined;
   /** Page size, from 1 to 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from the previous page's `pagination.next`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** The regions the database was located in. */
 export type DeletedDatabaseRegionsList = Array<string>;
 export interface DeletedDatabase {
   /** The database name. */
-  Name?: string;
+  Name?: string | undefined;
   /** The database UUID. Use it to restore the database. */
-  DbId?: string;
+  DbId?: string | undefined;
   /** The DNS hostname the database had, used for client and HTTP connections. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The name of the group the database belonged to. */
-  group?: string;
+  group?: string | undefined;
   /** The UUID of the group the database belonged to. */
-  group_id?: string;
+  group_id?: string | undefined;
   /** The UUID of the organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The regions the database was located in. */
-  regions?: DeletedDatabaseRegionsList;
+  regions?: DeletedDatabaseRegionsList | undefined;
   /** The primary region of the database. */
-  primaryRegion?: string;
+  primaryRegion?: string | undefined;
   /** Whether delete protection was enabled for the database. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** When the database was deleted. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** Set when the database's group was deleted with it. Restoring the database also restores the group. */
-  group_deleted_at?: string;
+  group_deleted_at?: string | undefined;
 }
 export type ListDeletedDatabasesResponseDatabasesList = Array<DeletedDatabase>;
 export interface Pagination {
   /** Opaque cursor for the next page. Pass it back as the `cursor` query parameter. Absent on the last page. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface ListDeletedDatabasesResponse {
-  databases?: ListDeletedDatabasesResponseDatabasesList;
-  pagination?: Pagination;
+  databases?: ListDeletedDatabasesResponseDatabasesList | undefined;
+  pagination?: Pagination | undefined;
 }
 export interface ListDeletedGroupsRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
   organizationId: string;
   /** Page size, from 1 to 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from the previous page's `pagination.next`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface DeletedGroup {
   /** The group UUID. Use it to restore the group. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The group name. */
-  name?: string;
+  name?: string | undefined;
   /** When the group was deleted. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** The number of member databases that restoring the group would bring back with it. */
-  cascade_databases?: number;
+  cascade_databases?: number | undefined;
 }
 export type ListDeletedGroupsResponseGroupsList = Array<DeletedGroup>;
 export interface ListDeletedGroupsResponse {
-  groups?: ListDeletedGroupsResponseGroupsList;
-  pagination?: Pagination;
+  groups?: ListDeletedGroupsResponseGroupsList | undefined;
+  pagination?: Pagination | undefined;
 }
 export interface ListGroupsRequest {
   /** The slug of the organization or user account. */
@@ -752,54 +823,54 @@ export interface ListGroupsRequest {
 }
 export type ListGroupsResponseGroupsList = Array<Group>;
 export interface ListGroupsResponse {
-  groups?: ListGroupsResponseGroupsList;
+  groups?: ListGroupsResponseGroupsList | undefined;
 }
 export interface ListLocationsRequest {}
 /** A mapping of location codes to location names. */
 export type ListLocationsResponseLocationsMap = { [key: string]: string | undefined };
 export interface ListLocationsResponse {
   /** A mapping of location codes to location names. */
-  locations?: ListLocationsResponseLocationsMap;
+  locations?: ListLocationsResponseLocationsMap | undefined;
 }
 export interface ListOrganizationAPITokensRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
 }
-/** The expanded scope list. Present only for group-scoped tokens. */
+/** The expanded scope list. Present only for tokens with scopes. */
 export type ListOrganizationAPITokensResponseTokensItemScopesList = Array<string>;
 /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
 export interface ListOrganizationAPITokensResponseTokensItemOwner {
-  username?: string;
-  email?: string;
+  username?: string | undefined;
+  email?: string | undefined;
 }
 export interface ListOrganizationAPITokensResponseTokensItem {
   /** The token name. */
-  name?: string;
+  name?: string | undefined;
   /** The token ID. Pass this to the revoke endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The organization slug. Always equal to the path parameter for tokens returned here. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name. Present only for group-scoped tokens. */
-  group?: string;
-  /** The expanded scope list. Present only for group-scoped tokens. */
-  scopes?: ListOrganizationAPITokensResponseTokensItemScopesList;
+  group?: string | undefined;
+  /** The expanded scope list. Present only for tokens with scopes. */
+  scopes?: ListOrganizationAPITokensResponseTokensItemScopesList | undefined;
   /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
-  owner?: ListOrganizationAPITokensResponseTokensItemOwner;
+  owner?: ListOrganizationAPITokensResponseTokensItemOwner | undefined;
   /** The date the token was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListOrganizationAPITokensResponseTokensList =
   Array<ListOrganizationAPITokensResponseTokensItem>;
 export interface ListOrganizationAPITokensResponse {
-  tokens?: ListOrganizationAPITokensResponseTokensList;
+  tokens?: ListOrganizationAPITokensResponseTokensList | undefined;
 }
 export interface ListOrganizationAuditLogsRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The limit of items to return per page. Defaults to 100. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The page number to return. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
 }
 /** The code associated to the action taken. */
 export type AuditLogCode =
@@ -829,32 +900,32 @@ export type AuditLogCode =
   | "user-delete";
 export interface AuditLog {
   /** The code associated to the action taken. */
-  code?: AuditLogCode;
+  code?: AuditLogCode | undefined;
   /** Additional context from the performed action. */
-  message?: string;
+  message?: string | undefined;
   /** Where this action was performed. Will be either `cli` or `web` depending on the `User-Agent` sent to the API. */
-  origin?: string;
+  origin?: string | undefined;
   /** The username of the user who performed the action. */
-  author?: string;
+  author?: string | undefined;
   /** A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp this action was performed. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The payload of the action performed. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export type ListOrganizationAuditLogsResponseAuditLogsList = Array<AuditLog>;
 export interface ListOrganizationAuditLogsResponsePagination {
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** The total number of items. */
-  total_rows?: number;
+  total_rows?: number | undefined;
 }
 export interface ListOrganizationAuditLogsResponse {
-  audit_logs?: ListOrganizationAuditLogsResponseAuditLogsList;
-  pagination?: ListOrganizationAuditLogsResponsePagination;
+  audit_logs?: ListOrganizationAuditLogsResponseAuditLogsList | undefined;
+  pagination?: ListOrganizationAuditLogsResponsePagination | undefined;
 }
 export interface ListOrganizationInvitesV2Request {
   /** The slug of the organization or user account. */
@@ -864,45 +935,45 @@ export interface ListOrganizationInvitesV2Request {
 export type InviteV2Role = "admin" | "member" | "viewer";
 export interface InviteV2 {
   /** The unique ID for the invite. */
-  id?: number;
+  id?: number | undefined;
   /** The email of the person invited. */
-  email?: string;
+  email?: string | undefined;
   /** The assigned role for the invited user. */
-  role?: InviteV2Role;
+  role?: InviteV2Role | undefined;
   /** The datetime the invite was created in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListOrganizationInvitesV2ResponseInvitesList = Array<InviteV2>;
 export interface ListOrganizationInvitesV2Response {
-  invites?: ListOrganizationInvitesV2ResponseInvitesList;
+  invites?: ListOrganizationInvitesV2ResponseInvitesList | undefined;
 }
 export type ListOrganizationInvoicesRequestType = "all" | "upcoming" | "issued";
 export interface ListOrganizationInvoicesRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The type of invoice to retrieve. */
-  type?: ListOrganizationInvoicesRequestType | (string & {});
+  type?: ListOrganizationInvoicesRequestType | (string & {}) | undefined;
 }
 export interface ListOrganizationInvoicesResponseInvoicesItem {
   /** The unique ID for the invoice. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The formatted price in USD for the invoice. */
-  amount_due?: string;
+  amount_due?: string | undefined;
   /** The due date for the invoice. */
-  due_date?: string;
+  due_date?: string | undefined;
   /** The date the invoice was paid. */
-  paid_at?: string;
+  paid_at?: string | undefined;
   /** The date the invoice payment last failed. */
-  payment_failed_at?: string;
+  payment_failed_at?: string | undefined;
   /** The link to the invoice PDF you can download. */
-  invoice_pdf?: string;
+  invoice_pdf?: string | undefined;
 }
 /** The list of invoices for the organization. */
 export type ListOrganizationInvoicesResponseInvoicesList =
   Array<ListOrganizationInvoicesResponseInvoicesItem>;
 export interface ListOrganizationInvoicesResponse {
   /** The list of invoices for the organization. */
-  invoices?: ListOrganizationInvoicesResponseInvoicesList;
+  invoices?: ListOrganizationInvoicesResponseInvoicesList | undefined;
 }
 export interface ListOrganizationMembersRequest {
   /** The slug of the organization or user account. */
@@ -910,7 +981,7 @@ export interface ListOrganizationMembersRequest {
 }
 export type ListOrganizationMembersResponseMembersList = Array<Member>;
 export interface ListOrganizationMembersResponse {
-  members?: ListOrganizationMembersResponseMembersList;
+  members?: ListOrganizationMembersResponseMembersList | undefined;
 }
 export interface ListOrganizationPlansRequest {
   /** The slug of the organization or user account. */
@@ -918,40 +989,40 @@ export interface ListOrganizationPlansRequest {
 }
 export interface PlanPrice {
   /** Price of the available plan. */
-  value?: string;
+  value?: string | undefined;
   /** Payment regularity. */
-  timeline?: string;
+  timeline?: string | undefined;
 }
 export type OrganizationPlanPricesList = Array<PlanPrice>;
 export interface PlanQuotas {
   /** The number of rows read allowed for the specific plan. */
-  rowsRead?: number;
+  rowsRead?: number | undefined;
   /** The number of rows written allowed for the specific plan. */
-  rowsWritten?: number;
+  rowsWritten?: number | undefined;
   /** The number of databases allowed for the specific plan. */
-  databases?: number | null;
+  databases?: number | null | undefined;
   /** The number of locations allowed for the specific plan. */
-  locations?: number;
+  locations?: number | undefined;
   /** The amount of storage allowed for the specific plan, in bytes. */
-  storage?: number;
+  storage?: number | undefined;
   /** The number of groups allowed for the specific plan. */
-  groups?: number;
+  groups?: number | undefined;
   /** The number of bytes synced allowed for the specific plan, in bytes. */
-  bytesSynced?: number;
+  bytesSynced?: number | undefined;
 }
 export interface OrganizationPlan {
   /** The name of the plan. */
-  name?: string;
+  name?: string | undefined;
   /** The monthly price of the plan. */
-  price?: string;
-  prices?: OrganizationPlanPricesList;
-  quotas?: PlanQuotas;
+  price?: string | undefined;
+  prices?: OrganizationPlanPricesList | undefined;
+  quotas?: PlanQuotas | undefined;
 }
 /** List of available plans. */
 export type ListOrganizationPlansResponsePlansList = Array<OrganizationPlan>;
 export interface ListOrganizationPlansResponse {
   /** List of available plans. */
-  plans?: ListOrganizationPlansResponsePlansList;
+  plans?: ListOrganizationPlansResponsePlansList | undefined;
 }
 export interface ListOrganizationsRequest {}
 export type ListOrganizationsResponseBodyList = Array<Organization>;
@@ -966,7 +1037,7 @@ export interface RemoveLocationFromGroupRequest {
 }
 export interface RemoveLocationFromGroupResponse {
   /** The group with the removed location */
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface RemoveOrganizationMemberRequest {
   /** The slug of the organization or user account. */
@@ -975,7 +1046,7 @@ export interface RemoveOrganizationMemberRequest {
   username: string;
 }
 export interface RemoveOrganizationMemberResponse {
-  member?: string;
+  member?: string | undefined;
 }
 export interface RestoreDatabaseRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -983,11 +1054,11 @@ export interface RestoreDatabaseRequest {
   /** The UUID of the database, as returned when listing deleted databases (the `DbId` field). */
   databaseId: string;
   /** Optional new name for the restored database. If omitted, the original name is reused. The hostname is re-derived from the name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RestoreDatabaseResponse {
   /** The restored database. */
-  database?: DeletedDatabase;
+  database?: DeletedDatabase | undefined;
 }
 export interface RestoreGroupRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -1001,11 +1072,11 @@ export type RestoreGroupResponseDatabasesList = Array<DeletedDatabase>;
 export type RestoreGroupResponseFailuresMap = { [key: string]: string | undefined };
 export interface RestoreGroupResponse {
   /** The restored group. */
-  group?: Group;
+  group?: Group | undefined;
   /** The member databases restored with the group, in restore order. */
-  databases?: RestoreGroupResponseDatabasesList;
+  databases?: RestoreGroupResponseDatabasesList | undefined;
   /** Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database. */
-  failures?: RestoreGroupResponseFailuresMap;
+  failures?: RestoreGroupResponseFailuresMap | undefined;
 }
 export interface RevokeAPITokenRequest {
   /** The name of the api token. */
@@ -1013,7 +1084,7 @@ export interface RevokeAPITokenRequest {
 }
 export interface RevokeAPITokenResponse {
   /** The revoked token name. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface RevokeOrganizationAPITokenRequest {
   /** The slug of the organization or user account. */
@@ -1023,7 +1094,7 @@ export interface RevokeOrganizationAPITokenRequest {
 }
 export interface RevokeOrganizationAPITokenResponse {
   /** The ID of the revoked token. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface TransferGroupRequest {
   /** The slug of the organization or user account. */
@@ -1031,23 +1102,23 @@ export interface TransferGroupRequest {
   /** The name of the group. */
   groupName: string;
   /** The slug of the organization to transfer the group to. */
-  organization?: string;
+  organization?: string | undefined;
 }
 /** An array of location keys the group is located. */
 export type TransferGroupResponseLocationsList = Array<string>;
 export interface TransferGroupResponse {
   /** The group name, unique across your organization. */
-  name?: string;
+  name?: string | undefined;
   /** The current libSQL server version the databases in that group are running. */
-  version?: string;
+  version?: string | undefined;
   /** The group universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** An array of location keys the group is located. */
-  locations?: TransferGroupResponseLocationsList;
+  locations?: TransferGroupResponseLocationsList | undefined;
   /** The primary location key. */
-  primary?: string;
+  primary?: string | undefined;
   /** The current status for delete protection. If enabled, the group and all its databases cannot be deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface UnarchiveGroupRequest {
   /** The slug of the organization or user account. */
@@ -1057,7 +1128,7 @@ export interface UnarchiveGroupRequest {
 }
 export interface UnarchiveGroupResponse {
   /** The group that was unarchived */
-  group?: Group;
+  group?: Group | undefined;
 }
 /** List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
 export type UpdateDatabaseConfigurationRequestAllowedIpsList = Array<string>;
@@ -1069,19 +1140,19 @@ export interface UpdateDatabaseConfigurationRequest {
   /** The name of the database. */
   databaseName: string;
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Allow or disallow attaching databases to the current database. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
   /** Block all database reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** Block all database writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** Prevent the database from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
-  allowed_ips?: UpdateDatabaseConfigurationRequestAllowedIpsList;
+  allowed_ips?: UpdateDatabaseConfigurationRequestAllowedIpsList | undefined;
   /** List of allowed AWS VPC endpoint IDs (vpce-...). Only connections arriving through these endpoints are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
-  allowed_aws_vpc_ids?: UpdateDatabaseConfigurationRequestAllowedAwsVpcIdsList;
+  allowed_aws_vpc_ids?: UpdateDatabaseConfigurationRequestAllowedAwsVpcIdsList | undefined;
 }
 export interface UpdateGroupConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -1089,7 +1160,7 @@ export interface UpdateGroupConfigurationRequest {
   /** The name of the group. */
   groupName: string;
   /** Prevent the group from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface UpdateGroupDatabasesRequest {
   /** The slug of the organization or user account. */
@@ -1112,34 +1183,55 @@ export interface UpdateMemberRoleRequest {
 export type UpdateMemberRoleResponseMemberRole = "admin" | "member" | "viewer";
 export interface UpdateMemberRoleResponseMember {
   /** The username of the updated member. */
-  username?: string;
+  username?: string | undefined;
   /** The email of the updated member. */
-  email?: string;
+  email?: string | undefined;
   /** The new role of the updated member. */
-  role?: UpdateMemberRoleResponseMemberRole;
+  role?: UpdateMemberRoleResponseMemberRole | undefined;
 }
 export interface UpdateMemberRoleResponse {
-  member?: UpdateMemberRoleResponseMember;
+  member?: UpdateMemberRoleResponseMember | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** Enable or disable overages for the organization. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement. */
-  require_mfa?: boolean;
+  require_mfa?: boolean | undefined;
   /** Enable or disable deleted database and group recovery for the organization. Must be updated separately from other organization settings. Requires an admin or owner. */
-  restore_enabled?: boolean;
+  restore_enabled?: boolean | undefined;
 }
 export interface UpdateOrganizationResponse {
   /** The updated organization. */
-  organization?: Organization;
+  organization?: Organization | undefined;
 }
 export interface ValidateAPITokenRequest {}
 export interface ValidateAPITokenResponse {
   /** The time of expiration for the provided token in unix epoch seconds, or `-1` if there is no expiration. */
-  exp?: number;
+  exp?: number | undefined;
 }
+export interface Error400Body4 {
+  /** The error message */
+  error?: string | undefined;
+}
+export type Error400Body = Error400Body4;
+export type Error400Body2 = Error400Body4;
+export type Error400Body3 = Error400Body4;
+export type Error400Body5 = Error400Body4;
+export type Error400Body6 = Error400Body4;
+export type Error409Body3 = Error400Body4;
+export type Error409Body = Error400Body4;
+export type Error409Body2 = Error400Body4;
+export type Error403Body = Error400Body4;
+export type Error404Body3 = Error400Body4;
+export type Error404Body = Error400Body4;
+export interface Error404Body6 {
+  error?: string | undefined;
+}
+export type Error404Body2 = Error400Body4;
+export type Error404Body4 = Error400Body4;
+export type Error404Body5 = Error400Body4;
 export type AddLocationToGroupError = BadRequest | NotFound | TursoOpError;
 /** Add Location to Group Adds a location to the specified group. */
 export const addLocationToGroup: API.OperationMethod<
@@ -1148,8 +1240,8 @@ export const addLocationToGroup: API.OperationMethod<
   AddLocationToGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<AddLocationToGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<AddLocationToGroupResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<AddLocationToGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<AddLocationToGroupResponse>,
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1165,8 +1257,8 @@ export const addOrganizationMember: API.OperationMethod<
   AddOrganizationMemberError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<AddOrganizationMemberRequest>,
-  output: __S(465, __c58, 1) as any as S.Schema<AddOrganizationMemberResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<AddOrganizationMemberRequest>,
+  output: __S(473, __c59, 1) as any as S.Schema<AddOrganizationMemberResponse>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1175,15 +1267,15 @@ export const addOrganizationMember: API.OperationMethod<
 }));
 
 export type CreateAPITokenError = BadRequest | NotFound | Conflict | TursoOpError;
-/** Create API Token Returns a new API token belonging to a user. The token can be minted at three levels of restriction, in increasing order of narrowness: - **Organization-scoped** -- pass `organization`. The token can only act on resources inside that organization. - **Group-scoped** -- pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization. - **Unrestricted** *(deprecated)* -- no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens. Group-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization. */
+/** Create API Token Returns a new API token belonging to a user. The token can be minted at three levels of restriction, in increasing order of narrowness: - **Organization-scoped** -- pass `organization`, and optionally `scopes`. The token can only act on resources inside that organization. With `scopes`, it can do only the listed operations, in every group of the organization. - **Group-scoped** -- pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization. - **Unrestricted** *(deprecated)* -- no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens. Group-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization. */
 export const createAPIToken: API.OperationMethod<
   CreateAPITokenRequest,
   CreateAPITokenResponse,
   CreateAPITokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(529, __c66, 1) as any as S.Schema<CreateAPITokenRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<CreateAPITokenResponse>,
+  input: __S(537, __c67, 1) as any as S.Schema<CreateAPITokenRequest>,
+  output: __S(538, __c67, 2) as any as S.Schema<CreateAPITokenResponse>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1199,8 +1291,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(538, __c67, 2) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(540, __c67, 4) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(546, __c68, 2) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(548, __c68, 4) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1216,8 +1308,8 @@ export const createDatabaseToken: API.OperationMethod<
   CreateDatabaseTokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<CreateDatabaseTokenRequest>,
-  output: __S(554, __c69, 2) as any as S.Schema<CreateDatabaseTokenResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<CreateDatabaseTokenRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<CreateDatabaseTokenResponse>,
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1233,8 +1325,8 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<CreateGroupResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<CreateGroupResponse>,
   errors: [BadRequest, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1250,8 +1342,8 @@ export const createGroupToken: API.OperationMethod<
   CreateGroupTokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateGroupTokenRequest>,
-  output: __S(554, __c69, 2) as any as S.Schema<CreateGroupTokenResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateGroupTokenRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<CreateGroupTokenResponse>,
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1267,8 +1359,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1284,8 +1376,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1301,8 +1393,8 @@ export const deleteOrganizationInviteByEmailV2: API.OperationMethod<
   DeleteOrganizationInviteByEmailV2Error,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Request>,
-  output: __S(32, __c4, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Response>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Request>,
+  output: __S(40, __c5, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Response>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1318,8 +1410,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<GetCurrentUserResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<GetCurrentUserResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1335,8 +1427,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<GetDatabaseResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1352,8 +1444,8 @@ export const getDatabaseConfiguration: API.OperationMethod<
   GetDatabaseConfigurationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetDatabaseConfigurationRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DatabaseConfigurationResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetDatabaseConfigurationRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DatabaseConfigurationResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1369,8 +1461,8 @@ export const getDatabaseInstance: API.OperationMethod<
   GetDatabaseInstanceError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetDatabaseInstanceRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<GetDatabaseInstanceResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetDatabaseInstanceRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetDatabaseInstanceResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1386,8 +1478,8 @@ export const getDatabaseStats: API.OperationMethod<
   GetDatabaseStatsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetDatabaseStatsRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<GetDatabaseStatsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetDatabaseStatsRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<GetDatabaseStatsResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1403,8 +1495,8 @@ export const getDatabaseUsage: API.OperationMethod<
   GetDatabaseUsageError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetDatabaseUsageRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetDatabaseUsageResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetDatabaseUsageRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetDatabaseUsageResponse>,
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1420,8 +1512,8 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<GetGroupResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<GetGroupResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1437,8 +1529,8 @@ export const getGroupConfiguration: API.OperationMethod<
   GetGroupConfigurationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetGroupConfigurationRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GroupConfigurationResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetGroupConfigurationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GroupConfigurationResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1454,8 +1546,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<GetOrganizationResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1471,8 +1563,8 @@ export const getOrganizationMember: API.OperationMethod<
   GetOrganizationMemberError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetOrganizationMemberRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<GetOrganizationMemberResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetOrganizationMemberRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<GetOrganizationMemberResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1488,8 +1580,8 @@ export const getOrganizationSubscription: API.OperationMethod<
   GetOrganizationSubscriptionError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetOrganizationSubscriptionRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<GetOrganizationSubscriptionResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetOrganizationSubscriptionRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<GetOrganizationSubscriptionResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1505,8 +1597,8 @@ export const getOrganizationUsage: API.OperationMethod<
   GetOrganizationUsageError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetOrganizationUsageRequest>,
-  output: __S(196, __c24, 4) as any as S.Schema<GetOrganizationUsageResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetOrganizationUsageRequest>,
+  output: __S(204, __c25, 4) as any as S.Schema<GetOrganizationUsageResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1522,8 +1614,8 @@ export const invalidateDatabaseTokens: API.OperationMethod<
   InvalidateDatabaseTokensError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<InvalidateDatabaseTokensRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<InvalidateDatabaseTokensResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<InvalidateDatabaseTokensRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<InvalidateDatabaseTokensResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1539,8 +1631,8 @@ export const invalidateGroupTokens: API.OperationMethod<
   InvalidateGroupTokensError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<InvalidateGroupTokensRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<InvalidateGroupTokensResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<InvalidateGroupTokensRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<InvalidateGroupTokensResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1556,8 +1648,8 @@ export const inviteOrganizationMemberV2: API.OperationMethod<
   InviteOrganizationMemberV2Error,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<InviteOrganizationMemberV2Request>,
-  output: __S(218, __c27, 2) as any as S.Schema<InviteOrganizationMemberV2Response>,
+  input: __S(224, __c28, 0) as any as S.Schema<InviteOrganizationMemberV2Request>,
+  output: __S(226, __c28, 2) as any as S.Schema<InviteOrganizationMemberV2Response>,
   errors: [BadRequest],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1573,8 +1665,8 @@ export const listAPITokens: API.OperationMethod<
   ListAPITokensError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListAPITokensRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<ListAPITokensResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListAPITokensRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<ListAPITokensResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1590,8 +1682,8 @@ export const listDatabaseInstances: API.OperationMethod<
   ListDatabaseInstancesError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListDatabaseInstancesRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<ListDatabaseInstancesResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<ListDatabaseInstancesRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<ListDatabaseInstancesResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1607,8 +1699,8 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1624,8 +1716,8 @@ export const listDeletedDatabases: API.OperationMethod<
   ListDeletedDatabasesError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ListDeletedDatabasesRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<ListDeletedDatabasesResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<ListDeletedDatabasesRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<ListDeletedDatabasesResponse>,
   errors: [Forbidden],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1641,8 +1733,8 @@ export const listDeletedGroups: API.OperationMethod<
   ListDeletedGroupsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListDeletedGroupsRequest>,
-  output: __S(283, __c35, 3) as any as S.Schema<ListDeletedGroupsResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<ListDeletedGroupsRequest>,
+  output: __S(291, __c36, 3) as any as S.Schema<ListDeletedGroupsResponse>,
   errors: [Forbidden],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1658,8 +1750,8 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ListGroupsResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1675,8 +1767,8 @@ export const listLocations: API.OperationMethod<
   ListLocationsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListLocationsRequest>,
-  output: __S(297, __c37, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<ListLocationsRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1692,8 +1784,8 @@ export const listOrganizationAPITokens: API.OperationMethod<
   ListOrganizationAPITokensError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListOrganizationAPITokensRequest>,
-  output: __S(316, __c39, 4) as any as S.Schema<ListOrganizationAPITokensResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<ListOrganizationAPITokensRequest>,
+  output: __S(324, __c40, 4) as any as S.Schema<ListOrganizationAPITokensResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1709,8 +1801,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   ListOrganizationAuditLogsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
-  output: __S(324, __c40, 4) as any as S.Schema<ListOrganizationAuditLogsResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
+  output: __S(332, __c41, 4) as any as S.Schema<ListOrganizationAuditLogsResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1818,8 @@ export const listOrganizationInvitesV2: API.OperationMethod<
   ListOrganizationInvitesV2Error,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListOrganizationInvitesV2Request>,
-  output: __S(331, __c41, 3) as any as S.Schema<ListOrganizationInvitesV2Response>,
+  input: __S(336, __c42, 0) as any as S.Schema<ListOrganizationInvitesV2Request>,
+  output: __S(339, __c42, 3) as any as S.Schema<ListOrganizationInvitesV2Response>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1743,8 +1835,8 @@ export const listOrganizationInvoices: API.OperationMethod<
   ListOrganizationInvoicesError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<ListOrganizationInvoicesRequest>,
-  output: __S(339, __c42, 3) as any as S.Schema<ListOrganizationInvoicesResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<ListOrganizationInvoicesRequest>,
+  output: __S(347, __c43, 3) as any as S.Schema<ListOrganizationInvoicesResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1760,8 +1852,8 @@ export const listOrganizationMembers: API.OperationMethod<
   ListOrganizationMembersError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListOrganizationMembersRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<ListOrganizationMembersResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<ListOrganizationMembersRequest>,
+  output: __S(386, __c48, 2) as any as S.Schema<ListOrganizationMembersResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1777,8 +1869,8 @@ export const listOrganizationPlans: API.OperationMethod<
   ListOrganizationPlansError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListOrganizationPlansRequest>,
-  output: __S(390, __c48, 6) as any as S.Schema<ListOrganizationPlansResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<ListOrganizationPlansRequest>,
+  output: __S(398, __c49, 6) as any as S.Schema<ListOrganizationPlansResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1794,8 +1886,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<ListOrganizationsResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(402, __c50, 2) as any as S.Schema<ListOrganizationsResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1811,8 +1903,8 @@ export const removeLocationFromGroup: API.OperationMethod<
   RemoveLocationFromGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<RemoveLocationFromGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<RemoveLocationFromGroupResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<RemoveLocationFromGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<RemoveLocationFromGroupResponse>,
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1828,8 +1920,8 @@ export const removeOrganizationMember: API.OperationMethod<
   RemoveOrganizationMemberError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
-  output: __S(409, __c51, 1) as any as S.Schema<RemoveOrganizationMemberResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
+  output: __S(417, __c52, 1) as any as S.Schema<RemoveOrganizationMemberResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1845,8 +1937,8 @@ export const restoreDatabase: API.OperationMethod<
   RestoreDatabaseError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<RestoreDatabaseRequest>,
-  output: __S(417, __c52, 1) as any as S.Schema<RestoreDatabaseResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<RestoreDatabaseRequest>,
+  output: __S(425, __c53, 1) as any as S.Schema<RestoreDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1862,8 +1954,8 @@ export const restoreGroup: API.OperationMethod<
   RestoreGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<RestoreGroupRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<RestoreGroupResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<RestoreGroupRequest>,
+  output: __S(433, __c54, 1) as any as S.Schema<RestoreGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1879,8 +1971,8 @@ export const revokeAPIToken: API.OperationMethod<
   RevokeAPITokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<RevokeAPITokenRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<RevokeAPITokenResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<RevokeAPITokenRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<RevokeAPITokenResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1896,8 +1988,8 @@ export const revokeOrganizationAPIToken: API.OperationMethod<
   RevokeOrganizationAPITokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<RevokeOrganizationAPITokenRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<RevokeOrganizationAPITokenResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<RevokeOrganizationAPITokenRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<RevokeOrganizationAPITokenResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1913,8 +2005,8 @@ export const transferGroup: API.OperationMethod<
   TransferGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<TransferGroupRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<TransferGroupResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<TransferGroupRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<TransferGroupResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1930,8 +2022,8 @@ export const unarchiveGroup: API.OperationMethod<
   UnarchiveGroupError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<UnarchiveGroupRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<UnarchiveGroupResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<UnarchiveGroupRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<UnarchiveGroupResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1947,8 +2039,8 @@ export const updateDatabaseConfiguration: API.OperationMethod<
   UpdateDatabaseConfigurationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<UpdateDatabaseConfigurationRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<DatabaseConfigurationResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<UpdateDatabaseConfigurationRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DatabaseConfigurationResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1964,8 +2056,8 @@ export const updateGroupConfiguration: API.OperationMethod<
   UpdateGroupConfigurationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<UpdateGroupConfigurationRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GroupConfigurationResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<UpdateGroupConfigurationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GroupConfigurationResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1981,8 +2073,8 @@ export const updateGroupDatabases: API.OperationMethod<
   UpdateGroupDatabasesError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<UpdateGroupDatabasesRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<UpdateGroupDatabasesResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<UpdateGroupDatabasesRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<UpdateGroupDatabasesResponse>,
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -1998,8 +2090,8 @@ export const updateMemberRole: API.OperationMethod<
   UpdateMemberRoleError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<UpdateMemberRoleRequest>,
-  output: __S(506, __c63, 2) as any as S.Schema<UpdateMemberRoleResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<UpdateMemberRoleRequest>,
+  output: __S(514, __c64, 2) as any as S.Schema<UpdateMemberRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -2015,8 +2107,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<UpdateOrganizationResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -2032,8 +2124,8 @@ export const validateAPIToken: API.OperationMethod<
   ValidateAPITokenError,
   TursoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<ValidateAPITokenRequest>,
-  output: __S(521, __c65, 1) as any as S.Schema<ValidateAPITokenResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<ValidateAPITokenRequest>,
+  output: __S(529, __c66, 1) as any as S.Schema<ValidateAPITokenResponse>,
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
@@ -2047,11 +2139,21 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body4" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           organizationSlug: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           expiration: S.optional(S.String.pipe(T.Query())),
           authorization: S.optional(S.String.pipe(T.Query())),
-          permissions: S.optional(__S(553, __c69, 1)),
+          permissions: S.optional(__S(561, __c70, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2062,7 +2164,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateGroupTokenRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2085,7 +2187,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2102,7 +2204,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2119,7 +2221,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationInviteByEmailV2Request" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2127,7 +2229,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2148,12 +2250,12 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(41, __c5, 1)),
+          user: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "GetCurrentUserResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2171,12 +2273,12 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(__S(57, __c7, 1)),
+          database: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2194,17 +2296,17 @@ function __c7(j: number): any {
           Hostname: S.optional(S.String),
           block_reads: S.optional(S.Boolean),
           block_writes: S.optional(S.Boolean),
-          regions: S.optional(__S(352, __c44, 0)),
+          regions: S.optional(__S(360, __c45, 0)),
           primaryRegion: S.optional(S.String),
           group: S.optional(S.String),
           delete_protection: S.optional(S.Boolean),
-          parent: S.optional(S.NullOr(__S(56, __c7, 0))),
+          parent: S.optional(S.NullOr(__S(64, __c8, 0))),
           allow_attach: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Database" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2221,7 +2323,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetDatabaseConfigurationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2231,13 +2333,13 @@ function __c9(j: number): any {
           block_reads: S.optional(S.Boolean),
           block_writes: S.optional(S.Boolean),
           delete_protection: S.optional(S.Boolean),
-          allowed_ips: S.optional(__S(352, __c44, 0)),
-          allowed_aws_vpc_ids: S.optional(__S(352, __c44, 0)),
+          allowed_ips: S.optional(__S(360, __c45, 0)),
+          allowed_aws_vpc_ids: S.optional(__S(360, __c45, 0)),
         }),
       ).annotate({ identifier: "DatabaseConfigurationResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2256,12 +2358,12 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instance: S.optional(__S(88, __c11, 0)),
+          instance: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "GetDatabaseInstanceResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2275,7 +2377,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2299,16 +2401,16 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseStatsOutput" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          top_queries: S.optional(S.NullOr(__S(98, __c12, 2))),
+          top_queries: S.optional(S.NullOr(__S(106, __c13, 2))),
         }),
       ).annotate({ identifier: "GetDatabaseStatsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2328,12 +2430,12 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(__S(115, __c14, 3)),
+          database: S.optional(__S(123, __c15, 3)),
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2348,22 +2450,22 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          usage: S.optional(__S(112, __c14, 0)),
+          usage: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "DatabaseUsageOutputInstancesItem" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          instances: S.optional(__S(114, __c14, 2)),
-          total: S.optional(__S(112, __c14, 0)),
+          instances: S.optional(__S(122, __c15, 2)),
+          total: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "DatabaseUsageOutput" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2380,7 +2482,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2397,7 +2499,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetGroupConfigurationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2407,7 +2509,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GroupConfigurationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2417,7 +2519,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2437,17 +2539,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organization: S.optional(__S(152, __c19, 0)),
+          organization: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "GetOrganizationResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2465,12 +2567,12 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(176, __c22, 0)),
+          member: S.optional(__S(184, __c23, 0)),
         }),
       ).annotate({ identifier: "GetOrganizationMemberResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2482,7 +2584,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "Member" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2508,12 +2610,12 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.optional(__S(185, __c23, 1)),
+          subscription: S.optional(__S(193, __c24, 1)),
         }),
       ).annotate({ identifier: "GetOrganizationSubscriptionResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2536,24 +2638,24 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "GetOrganizationUsageResponseOrganizationUsage" });
     case 2:
-      return S.Array(__S(115, __c14, 3));
+      return S.Array(__S(123, __c15, 3));
     case 3:
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          usage: S.optional(__S(193, __c24, 1)),
-          databases: S.optional(__S(194, __c24, 2)),
+          usage: S.optional(__S(201, __c25, 1)),
+          databases: S.optional(__S(202, __c25, 2)),
         }),
       ).annotate({ identifier: "GetOrganizationUsageResponseOrganization" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          organization: S.optional(__S(195, __c24, 3)),
+          organization: S.optional(__S(203, __c25, 3)),
         }),
       ).annotate({ identifier: "GetOrganizationUsageResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2570,7 +2672,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "InvalidateDatabaseTokensRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2587,7 +2689,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "InvalidateGroupTokensRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2615,12 +2717,12 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          invited: S.optional(__S(217, __c27, 1)),
+          invited: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "InviteOrganizationMemberV2Response" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2633,21 +2735,21 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           organization: S.optional(S.String),
           group: S.optional(S.String),
-          scopes: S.optional(__S(352, __c44, 0)),
+          scopes: S.optional(__S(360, __c45, 0)),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "APIToken" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(226, __c28, 2)),
+          tokens: S.optional(__S(234, __c29, 2)),
         }),
       ).annotate({ identifier: "ListAPITokensResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2663,16 +2765,16 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabaseInstancesRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(__S(233, __c29, 1)),
+          instances: S.optional(__S(241, __c30, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseInstancesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2690,16 +2792,16 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabasesRequest" });
     case 1:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(241, __c30, 1)),
+          databases: S.optional(__S(249, __c31, 1)),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2716,13 +2818,13 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(272, __c34, 0)),
-          pagination: S.optional(__S(256, __c32, 0)),
+          databases: S.optional(__S(280, __c35, 0)),
+          pagination: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "ListDeletedDatabasesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2732,7 +2834,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2743,7 +2845,7 @@ function __c33(j: number): any {
           group: S.optional(S.String),
           group_id: S.optional(S.String),
           organization_id: S.optional(S.String),
-          regions: S.optional(__S(352, __c44, 0)),
+          regions: S.optional(__S(360, __c45, 0)),
           primaryRegion: S.optional(S.String),
           delete_protection: S.optional(S.Boolean),
           deleted_at: S.optional(S.String),
@@ -2752,13 +2854,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeletedDatabase" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(272, __c34, 0));
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,17 +2886,17 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "DeletedGroup" });
     case 2:
-      return S.Array(__S(281, __c35, 1));
+      return S.Array(__S(289, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(282, __c35, 2)),
-          pagination: S.optional(__S(256, __c32, 0)),
+          groups: S.optional(__S(290, __c36, 2)),
+          pagination: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "ListDeletedGroupsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2805,16 +2907,16 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupsRequest" });
     case 1:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(368, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(289, __c36, 1)),
+          groups: S.optional(__S(297, __c37, 1)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2823,18 +2925,18 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(304, __c38, 0)),
+          locations: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2862,22 +2964,22 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           organization: S.optional(S.String),
           group: S.optional(S.String),
-          scopes: S.optional(__S(352, __c44, 0)),
-          owner: S.optional(__S(313, __c39, 1)),
+          scopes: S.optional(__S(360, __c45, 0)),
+          owner: S.optional(__S(321, __c40, 1)),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationAPITokensResponseTokensItem" });
     case 3:
-      return S.Array(__S(314, __c39, 2));
+      return S.Array(__S(322, __c40, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(315, __c39, 3)),
+          tokens: S.optional(__S(323, __c40, 3)),
         }),
       ).annotate({ identifier: "ListOrganizationAPITokensResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2905,7 +3007,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "AuditLog" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(329, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2918,13 +3020,13 @@ function __c40(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audit_logs: S.optional(__S(322, __c40, 2)),
-          pagination: S.optional(__S(323, __c40, 3)),
+          audit_logs: S.optional(__S(330, __c41, 2)),
+          pagination: S.optional(__S(331, __c41, 3)),
         }),
       ).annotate({ identifier: "ListOrganizationAuditLogsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2944,16 +3046,16 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "InviteV2" });
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          invites: S.optional(__S(330, __c41, 2)),
+          invites: S.optional(__S(338, __c42, 2)),
         }),
       ).annotate({ identifier: "ListOrganizationInvitesV2Response" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2980,16 +3082,16 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "ListOrganizationInvoicesResponseInvoicesItem" });
     case 2:
-      return S.Array(__S(337, __c42, 1));
+      return S.Array(__S(345, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          invoices: S.optional(__S(338, __c42, 2)),
+          invoices: S.optional(__S(346, __c43, 2)),
         }),
       ).annotate({ identifier: "ListOrganizationInvoicesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3007,25 +3109,10 @@ function __c43(j: number): any {
       ).annotate({ identifier: "AddLocationToGroupRequest" });
   }
 }
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          version: S.optional(S.String),
-          uuid: S.optional(S.String),
-          locations: S.optional(__S(352, __c44, 0)),
-          primary: S.optional(S.String),
-          delete_protection: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Group" });
+      return S.Array(S.String);
   }
 }
 function __c46(j: number): any {
@@ -3033,12 +3120,27 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(360, __c45, 0)),
+          name: S.optional(S.String),
+          version: S.optional(S.String),
+          uuid: S.optional(S.String),
+          locations: S.optional(__S(360, __c45, 0)),
+          primary: S.optional(S.String),
+          delete_protection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Group" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group: S.optional(__S(368, __c46, 0)),
         }),
       ).annotate({ identifier: "AddLocationToGroupResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3049,16 +3151,16 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationMembersRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(184, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(377, __c47, 1)),
+          members: S.optional(__S(385, __c48, 1)),
         }),
       ).annotate({ identifier: "ListOrganizationMembersResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3076,7 +3178,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "PlanPrice" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(393, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3094,35 +3196,35 @@ function __c48(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           price: S.optional(S.String),
-          prices: S.optional(__S(386, __c48, 2)),
-          quotas: S.optional(__S(387, __c48, 3)),
+          prices: S.optional(__S(394, __c49, 2)),
+          quotas: S.optional(__S(395, __c49, 3)),
         }),
       ).annotate({ identifier: "OrganizationPlan" });
     case 5:
-      return S.Array(__S(388, __c48, 4));
+      return S.Array(__S(396, __c49, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          plans: S.optional(__S(389, __c48, 5)),
+          plans: S.optional(__S(397, __c49, 5)),
         }),
       ).annotate({ identifier: "ListOrganizationPlansResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
-      return S.suspend(() => __S(393, __c49, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(401, __c50, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationsResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3140,7 +3242,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RemoveLocationFromGroupRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3163,7 +3265,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "RemoveOrganizationMemberResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3182,12 +3284,12 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(__S(264, __c33, 0)),
+          database: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "RestoreDatabaseResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3205,14 +3307,14 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(360, __c45, 0)),
-          databases: S.optional(__S(272, __c34, 0)),
-          failures: S.optional(__S(304, __c38, 0)),
+          group: S.optional(__S(368, __c46, 0)),
+          databases: S.optional(__S(280, __c35, 0)),
+          failures: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "RestoreGroupResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3222,7 +3324,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "RevokeAPITokenRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3232,7 +3334,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RevokeAPITokenResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3249,7 +3351,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RevokeOrganizationAPITokenRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3267,7 +3369,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "TransferGroupRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3292,7 +3394,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "AddOrganizationMemberResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3309,7 +3411,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UnarchiveGroupRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3321,8 +3423,8 @@ function __c60(j: number): any {
           block_reads: S.optional(S.Boolean),
           block_writes: S.optional(S.Boolean),
           delete_protection: S.optional(S.Boolean),
-          allowed_ips: S.optional(__S(352, __c44, 0)),
-          allowed_aws_vpc_ids: S.optional(__S(352, __c44, 0)),
+          allowed_ips: S.optional(__S(360, __c45, 0)),
+          allowed_aws_vpc_ids: S.optional(__S(360, __c45, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3333,7 +3435,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseConfigurationRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3351,7 +3453,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateGroupConfigurationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3368,7 +3470,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateGroupDatabasesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3395,12 +3497,12 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(505, __c63, 1)),
+          member: S.optional(__S(513, __c64, 1)),
         }),
       ).annotate({ identifier: "UpdateMemberRoleResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3415,7 +3517,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3429,7 +3531,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ValidateAPITokenResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -3439,7 +3541,7 @@ function __c66(j: number): any {
           tokenName: S.String.pipe(T.Label()),
           organization: S.optional(S.String),
           group: S.optional(S.String),
-          scopes: S.optional(__S(528, __c66, 0)),
+          scopes: S.optional(__S(536, __c67, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/auth/api-tokens/{tokenName}", code: 200 })),
       ).annotate({ identifier: "CreateAPITokenRequest" });
     case 2:
@@ -3452,7 +3554,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateAPITokenResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3475,9 +3577,9 @@ function __c67(j: number): any {
           organizationSlug: S.String.pipe(T.Label()),
           name: S.String,
           group: S.String,
-          seed: S.optional(__S(536, __c67, 0)),
+          seed: S.optional(__S(544, __c68, 0)),
           size_limit: S.optional(S.String),
-          remote_encryption: S.optional(__S(537, __c67, 1)),
+          remote_encryption: S.optional(__S(545, __c68, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3497,12 +3599,12 @@ function __c67(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(__S(539, __c67, 3)),
+          database: S.optional(__S(547, __c68, 3)),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3511,7 +3613,7 @@ function __c68(j: number): any {
           databaseName: S.String.pipe(T.Label()),
           expiration: S.optional(S.String.pipe(T.Query())),
           authorization: S.optional(S.String.pipe(T.Query())),
-          permissions: S.optional(__S(553, __c69, 1)),
+          permissions: S.optional(__S(561, __c70, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3522,18 +3624,18 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateDatabaseTokenRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(352, __c44, 0)),
+          databases: S.optional(__S(360, __c45, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseTokenRequestPermissionsReadAttach" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          read_attach: S.optional(__S(552, __c69, 0)),
+          read_attach: S.optional(__S(560, __c70, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseTokenRequestPermissions" });
     case 2:
@@ -3544,7 +3646,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateDatabaseTokenResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

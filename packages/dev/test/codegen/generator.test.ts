@@ -320,17 +320,186 @@ describe("proto3 defaults and server streams", () => {
   const { code } = generateService(grpcModel(), { ...spec, streams: true });
 
   test("a member with a default is required in a response-only shape", () => {
-    expect(code).toMatch(/export interface SayResponse \{\s*text: string;\s*note\?: string;/);
+    expect(code).toMatch(
+      /export interface SayResponse \{\s*text: string;\s*note\?: string \| undefined;/,
+    );
   });
 
   test("a member with a default stays optional where a request reaches it", () => {
-    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string;/);
-    expect(code).toMatch(/export interface Shared \{\s*label\?: string;/);
+    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string \| undefined;/);
+    expect(code).toMatch(/export interface Shared \{\s*label\?: string \| undefined;/);
   });
 
   test("a server-streaming operation is made with makeStreaming", () => {
     expect(code).toContain("API.StreamingOperationMethod<");
     expect(code).toContain("API.makeStreaming(");
     expect(code).toMatch(/export const say: API\.OperationMethod</);
+  });
+});
+
+describe("whole-body responses", () => {
+  test("a nullable response body becomes a `| null` output type", () => {
+    const { code } = generateService(
+      {
+        smithy: "2.0",
+        shapes: {
+          "com.example.raw#Example": {
+            type: "service",
+            version: "2024-01-01",
+            operations: [{ target: "com.example.raw#ListThings" }],
+          },
+          "com.example.raw#ListThings": {
+            type: "operation",
+            input: { target: "smithy.api#Unit" },
+            output: { target: "com.example.raw#ListThingsResponse" },
+            traits: { "smithy.api#http": { method: "GET", uri: "/things" } },
+          },
+          "com.example.raw#ListThingsResponse": {
+            type: "structure",
+            traits: { "smithy.api#output": {} },
+            members: {
+              body: {
+                target: "com.example.raw#Things",
+                traits: {
+                  "com.example.raw#rawResponse": {},
+                  "com.example.raw#nullable": {},
+                  "smithy.api#required": {},
+                },
+              },
+            },
+          },
+          "com.example.raw#Things": { type: "list", member: { target: "smithy.api#String" } },
+        },
+      },
+      {
+        ...spec,
+        nullableTrait: "com.example.raw#nullable",
+        extraBindings: [
+          {
+            trait: "com.example.raw#rawResponse",
+            binding: "rawResponse",
+            pipe: "T.RawResponse()",
+            rootPipe: "T.RawResponseRoot()",
+          },
+        ],
+      },
+    );
+    expect(code).toContain("export type ListThingsResponse = Things | null;");
+    expect(code).toContain("S.NullOr(Things).pipe(T.RawResponseRoot())");
+  });
+});
+
+describe("distilled.retry#policy", () => {
+  const withRetryTraits = (service?: object, operation?: object) => {
+    const model = primitiveUnionModel("enum", false) as any;
+    const shapes = model.shapes;
+    if (service) shapes["com.example.union#Example"].traits = { "distilled.retry#policy": service };
+    if (operation) {
+      shapes["com.example.union#GetValue"].traits["distilled.retry#policy"] = operation;
+    }
+    return model;
+  };
+
+  test("no trait emits no retryPolicy", () => {
+    expect(generateService(withRetryTraits(), spec).code).not.toContain("retryPolicy");
+  });
+
+  test("the service's trait applies to its operations", () => {
+    const { code } = generateService(withRetryTraits({ maxAttempts: 4, baseMs: 25 }), spec);
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":25},`);
+  });
+
+  test("the operation's trait wins over the service's, key by key", () => {
+    const { code } = generateService(
+      withRetryTraits({ maxAttempts: 4, baseMs: 25 }, { baseMs: 100, capMs: 5000 }),
+      spec,
+    );
+    expect(code).toContain(`  retryPolicy: {"maxAttempts":4,"baseMs":100,"capMs":5000},`);
+  });
+
+  test("an unknown key or a bad number fails the generation", () => {
+    expect(() => generateService(withRetryTraits({ retries: 2 }), spec)).toThrow(/unknown key/);
+    expect(() => generateService(withRetryTraits({ maxAttempts: 0 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ baseMs: 1.5 }), spec)).toThrow(/whole/);
+    expect(() => generateService(withRetryTraits({ factor: 0.5 }), spec)).toThrow(/at least 1/);
+  });
+
+  test("factor may be fractional", () => {
+    const { code } = generateService(withRetryTraits({ factor: 1.3 }), spec);
+    expect(code).toContain(`  retryPolicy: {"factor":1.3},`);
+  });
+});
+
+describe("service errors", () => {
+  const error = (status: number) => ({
+    type: "structure",
+    members: {},
+    traits: { "smithy.api#error": "client", "smithy.api#httpError": status },
+  });
+  const model = () => ({
+    smithy: "2.0",
+    shapes: {
+      "com.example.errors#Example": {
+        type: "service",
+        version: "2024-01-01",
+        operations: [{ target: "com.example.errors#GetValue" }],
+        errors: [{ target: "com.example.errors#Denied" }, { target: "com.example.errors#Missing" }],
+      },
+      "com.example.errors#GetValue": {
+        type: "operation",
+        input: { target: "smithy.api#Unit" },
+        output: { target: "smithy.api#Unit" },
+        errors: [{ target: "com.example.errors#Missing" }],
+        traits: { "smithy.api#http": { method: "GET", uri: "/value" } },
+      },
+      "com.example.errors#Denied": error(403),
+      "com.example.errors#Missing": error(404),
+    },
+  });
+
+  test("every operation returns the service's errors, after its own", () => {
+    const { code } = generateService(model(), spec);
+    expect(code).toContain("export class Denied ");
+    expect(code).toContain("  errors: [Missing, Denied],");
+  });
+});
+
+describe("error categories trait", () => {
+  const model = (categories: unknown) => ({
+    smithy: "2.0",
+    shapes: {
+      "com.example.cat#Example": {
+        type: "service",
+        version: "2024-01-01",
+        operations: [{ target: "com.example.cat#CreateThing" }],
+      },
+      "com.example.cat#CreateThing": {
+        type: "operation",
+        input: { target: "smithy.api#Unit" },
+        output: { target: "smithy.api#Unit" },
+        errors: [{ target: "com.example.cat#ThingExists" }],
+        traits: { "smithy.api#http": { method: "POST", uri: "/thing" } },
+      },
+      "com.example.cat#ThingExists": {
+        type: "structure",
+        members: {},
+        traits: {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "distilled.errors#categories": categories,
+        },
+      },
+    },
+  });
+
+  test("adds the declared categories after the status's", () => {
+    const { code } = generateService(model(["AlreadyExistsError"]), spec);
+    expect(code).toContain(".pipe(C.withConflictError, C.withAlreadyExistsError)");
+  });
+
+  test("rejects a category core does not define", () => {
+    expect(() => generateService(model(["AlreadyExists"]), spec)).toThrow(
+      /distilled\.errors#categories/,
+    );
   });
 });

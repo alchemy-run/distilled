@@ -254,7 +254,7 @@ describe("generateService", () => {
       },
     );
     expect(code).toContain('"verbose": S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),');
-    expect(code).toContain("verbose?: boolean;");
+    expect(code).toContain("verbose?: boolean | undefined;");
     expect(code).not.toContain('"true" | "false"');
   });
 });

@@ -115,23 +115,23 @@ export type FilterAttributeName = string;
 export type FilterAttributeValue = string | redacted.Redacted<string>;
 export type FilterValues = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface GetActionRecommendationsRequest {
-  campaignArn?: string;
-  userId?: string;
-  numResults?: number;
-  filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  campaignArn?: string | undefined;
+  userId?: string | undefined;
+  numResults?: number | undefined;
+  filterArn?: string | undefined;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type ActionID = string;
 export type Score = number;
 export interface PredictedAction {
-  actionId?: string;
-  score?: number;
+  actionId?: string | undefined;
+  score?: number | undefined;
 }
 export type ActionList = PredictedAction[];
 export type RecommendationID = string;
 export interface GetActionRecommendationsResponse {
-  actionList?: PredictedAction[];
-  recommendationId?: string;
+  actionList?: PredictedAction[] | undefined;
+  recommendationId?: string | undefined;
 }
 export type ItemID = string;
 export type InputList = string[];
@@ -146,10 +146,10 @@ export interface GetPersonalizedRankingRequest {
   campaignArn: string;
   inputList: string[];
   userId: string;
-  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  metadataColumns?: { [key: string]: string[] | undefined };
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  filterArn?: string | undefined;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  metadataColumns?: { [key: string]: string[] | undefined } | undefined;
 }
 export type Name = string;
 export type ColumnValue = string;
@@ -157,40 +157,40 @@ export type Metadata = { [key: string]: string | undefined };
 export type Reason = string;
 export type ReasonList = string[];
 export interface PredictedItem {
-  itemId?: string;
-  score?: number;
-  promotionName?: string;
-  metadata?: { [key: string]: string | undefined };
-  reason?: string[];
+  itemId?: string | undefined;
+  score?: number | undefined;
+  promotionName?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  reason?: string[] | undefined;
 }
 export type ItemList = PredictedItem[];
 export interface GetPersonalizedRankingResponse {
-  personalizedRanking?: PredictedItem[];
-  recommendationId?: string;
+  personalizedRanking?: PredictedItem[] | undefined;
+  recommendationId?: string | undefined;
 }
 export type PercentPromotedItems = number;
 export interface Promotion {
-  name?: string;
-  percentPromotedItems?: number;
-  filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  name?: string | undefined;
+  percentPromotedItems?: number | undefined;
+  filterArn?: string | undefined;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type PromotionList = Promotion[];
 export interface GetRecommendationsRequest {
-  campaignArn?: string;
-  itemId?: string;
-  userId?: string;
-  numResults?: number;
-  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  recommenderArn?: string;
-  promotions?: Promotion[];
-  metadataColumns?: { [key: string]: string[] | undefined };
+  campaignArn?: string | undefined;
+  itemId?: string | undefined;
+  userId?: string | undefined;
+  numResults?: number | undefined;
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  filterArn?: string | undefined;
+  filterValues?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  recommenderArn?: string | undefined;
+  promotions?: Promotion[] | undefined;
+  metadataColumns?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface GetRecommendationsResponse {
-  itemList?: PredictedItem[];
-  recommendationId?: string;
+  itemList?: PredictedItem[] | undefined;
+  recommendationId?: string | undefined;
 }
 export type ErrorMessage = string;
 export type GetActionRecommendationsError =

@@ -1,0 +1,37 @@
+{
+  "description": "Type deleteUserInvite under a non-user-owned credential as UserOwnedKeyRequired instead of a generic Forbidden: 403 'operation only permitted for user-owned keys' (live, 2026-10-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UserOwnedKeyRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The operation is only permitted for user-owned keys, such as a user's API access token, and the credential is not one (HTTP 403, 'operation only permitted for user-owned keys').",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "operation only permitted for user-owned keys"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteUserInvite/errors/-",
+      "value": {
+        "target": "com.tailscale.api#UserOwnedKeyRequired"
+      }
+    }
+  ]
+}

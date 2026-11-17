@@ -176,13 +176,14 @@ describe("request encoding", () => {
     );
   });
 
-  test("the HttpBody member is the whole JSON request body", async () => {
+  test("request body fields are top-level input fields", async () => {
     const { calls, layer } = fakeGoogle(200, JSON.stringify({ name: "projects/p/secrets/s" }));
     await run(
       createProjectsSecrets({
         parent: "projects/p",
         secretId: "s",
-        body: { replication: { automatic: {} }, labels: { env: "test" } },
+        replication: { automatic: {} },
+        labels: { env: "test" },
       }),
       layer,
     );
@@ -211,7 +212,7 @@ describe("request encoding", () => {
       allocateIdsProjects({
         projectId: "p",
         requestParams: "project_id=p",
-        body: { keys: [] },
+        keys: [],
       }),
       layer,
     );
@@ -341,7 +342,7 @@ describe("Google error envelope decoding", () => {
     expect(error).toMatchObject({ message, status: "FAILED_PRECONDITION", code: 400 });
   });
 
-  test("undeclared statuses fall back to HTTP_STATUS_MAP with envelope fields", async () => {
+  test("undeclared statuses fall back to HTTP_STATUS_MAP with the envelope in the body", async () => {
     const { layer } = fakeGoogle(
       429,
       envelope(429, "RESOURCE_EXHAUSTED", "Quota exceeded for quota metric 'Requests'."),
@@ -351,17 +352,17 @@ describe("Google error envelope decoding", () => {
     expect(error).toBeInstanceOf(TooManyRequests);
     expect(error).toMatchObject({
       message: "Quota exceeded for quota metric 'Requests'.",
-      status: "RESOURCE_EXHAUSTED",
+      body: { error: { status: "RESOURCE_EXHAUSTED" } },
     });
     expect((error as TooManyRequests).retryAfter).toBeDefined();
   });
 
-  test("unmapped statuses become UnknownGCPError carrying code and body", async () => {
+  test("unmapped statuses become UnknownGCPError carrying status, code and body", async () => {
     const body = { error: { code: 418, status: "UNKNOWN", message: "teapot" } };
     const { layer } = fakeGoogle(418, JSON.stringify(body));
     const error = await runFlip(accessProjectsSecretsVersions({ name }), layer);
     expect(error).toBeInstanceOf(UnknownGCPError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", status: "UNKNOWN", body });
+    expect(error).toMatchObject({ status: 418, code: "UNKNOWN", message: "teapot", body });
   });
 
   test("a non-JSON error body becomes the message", async () => {
@@ -369,7 +370,7 @@ describe("Google error envelope decoding", () => {
     const error = await runFlip(accessProjectsSecretsVersions({ name }), layer);
     expect(error).toBeInstanceOf(UnknownGCPError);
     expect(error).toMatchObject({
-      code: 418,
+      status: 418,
       message: "<html>bad gateway</html>",
       body: "<html>bad gateway</html>",
     });
@@ -397,6 +398,11 @@ describe("success decoding", () => {
       const { layer } = fakeGoogle(status, status === 204 ? null : "");
       expect(await run(deleteProjectsSecrets({ name: "projects/p/secrets/s" }), layer)).toEqual({});
     }
+  });
+
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeGoogle(200, "null");
+    expect(await run(deleteProjectsSecrets({ name: "projects/p/secrets/s" }), layer)).toBeNull();
   });
 
   test("strict validation fails a mismatched payload with GCPParseError", async () => {

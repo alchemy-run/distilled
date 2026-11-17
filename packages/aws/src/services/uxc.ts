@@ -93,13 +93,13 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -127,29 +127,29 @@ export type ServiceList = string[];
 export type Region = string;
 export type RegionsList = string[];
 export interface GetAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListServicesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListServicesOutput {
-  nextToken?: string;
-  services?: string[];
+  nextToken?: string | undefined;
+  services?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsInput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface ValidationExceptionField {
   path: string;

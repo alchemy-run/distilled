@@ -1,0 +1,21 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#ListImageScanFindingAggregations/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Image Builder serves scan aggregations from Amazon Inspector, so the API authorizes the dependent inspector2 action too — without it the call fails with AccessDeniedException even when the imagebuilder action is granted.",
+        "add": ["inspector2:ListFindingAggregations"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#ListImageScanFindings/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Image Builder serves scan findings from Amazon Inspector, so the API authorizes the dependent inspector2 action too — without it the call fails with AccessDeniedException even when the imagebuilder action is granted.",
+        "add": ["inspector2:ListFindings"]
+      }
+    }
+  ]
+}

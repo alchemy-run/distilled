@@ -1,0 +1,940 @@
+{
+  "description": "Every DigitalOcean v2 list endpoint that pages by number (`?page=N&per_page=M`) links to the next page with `links.pages.next`, the same as the droplet, firewall and SSH key lists in list-pagination.patch.json. Stamp `smithy.api#paginated` on the remaining ones whose response carries `links.pages.next` and one item list, so `.items(...)` streams every page instead of returning the first 20.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ActionsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "actions",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "apps",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsListDeployments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "deployments",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsListJobInvocations/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "job_invocations",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsListEvents/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "events",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CdnListEndpoints/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "endpoints",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CertificatesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "certificates",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InvoicesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "invoices",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferencesListAccelerators/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "accelerators",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferencesListTokens/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "tokens",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DomainsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "domains",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DomainsListRecords/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "domain_records",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsListBackups/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "backups",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsListSnapshots/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "snapshots",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletActionsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "actions",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsListKernels/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "kernels",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletsListFirewalls/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "firewalls",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "autoscale_pools",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsListMembers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "droplets",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsListHistory/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "history",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FloatingIPsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "floating_ips",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ImagesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "images",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InsightsListAlertInstances/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "alert_instances",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InsightsListAlertRules/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "alert_rules",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InsightsListNotificationChannels/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "notification_channels",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#KubernetesListClusters/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "kubernetes_clusters",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#LoadBalancersList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "load_balancers",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MicrovmsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "microvms",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MicrovmCheckpointsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "checkpoints",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringListAlertPolicy/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "policies",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PartnerAttachmentsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "partner_attachments",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#PartnerAttachmentsListRemoteRoutes/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "remote_routes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ProjectsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "projects",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ProjectsListResources/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#RegionsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "regions",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#RegistriesListRepositoriesV2/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "repositories",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#RegistriesListRepositoryTags/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "tags",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#RegistriesListRepositoryManifests/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "manifests",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "reserved_ips",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6List/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "reserved_ipv6s",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ByoipPrefixesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "byoip_prefixes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ByoipPrefixesListResources/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "ips",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SecurityListScans/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "scans",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SizesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "sizes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SnapshotsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "snapshots",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SpacesKeyList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "keys",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "volumes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeActionsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "actions",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeSnapshotsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "snapshots",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "vpcs",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcsListMembers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "members",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcsListPeerings/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "peerings",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcRoutesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "routes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcSubnetsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "vpc_subnet",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcSubnetsListMembers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "members",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcSubnetRoutesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "routes",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeeringsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "vpc_peerings",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcnatgatewaysList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "vpc_nat_gateways",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#UptimeListChecks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "checks",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#UptimeListAlerts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "alerts",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgents/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "agents",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgentApiKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "api_key_infos",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgentVersions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "agent_versions",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAnthropicApiKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "api_key_infos",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgentsByAnthropicKey/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "agents",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListCustomModels/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "models",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListIndexingJobs/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "jobs",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListKnowledgeBases/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "knowledge_bases",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListKnowledgeBaseDataSources/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "knowledge_base_data_sources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModels/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "models",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModelApiKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "api_key_infos",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModelRouters/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "model_routers",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModelRouterPresets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "presets",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModelRouterTaskPresets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "tasks",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListOpenaiApiKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "api_key_infos",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgentsByOpenaiKey/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "agents",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListAgentsByWorkspace/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "agents",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SecurityListSecrets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "secrets",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListModelEvaluationRuns/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "runs",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListScenarioLibrary/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "scenarios",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListScenarioLibraryScenarios/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "scenarios",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListScenarioSets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "scenario_sets",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListScenarios/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "scenarios",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListSimulationRuns/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "simulation_runs",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiListSimulationEpisodes/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "links.pages.next",
+        "items": "episodes",
+        "pageSize": "per_page"
+      }
+    }
+  ]
+}

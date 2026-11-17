@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * OvhProtocol -- hand-written.
  *
@@ -36,7 +41,8 @@ export type OvhOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | OvhParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated OVH operation. */
 export type OvhOpContext = Credentials | HttpClient.HttpClient;
@@ -68,11 +74,6 @@ export const OvhProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProt
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownOvhError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownOvhError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new OvhParseError({ body, cause }),
 });

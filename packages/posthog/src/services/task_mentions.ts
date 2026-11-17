@@ -27,11 +27,11 @@ export interface ListTaskMentionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of mentions to return (newest first). */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return mentions created after this ISO 8601 timestamp. */
-  since?: string;
+  since?: string | undefined;
 }
 export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** Response shape for a task creator, mirroring core ``UserBasicSerializer`` output. */
@@ -42,9 +42,9 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** Response shape for one @-mention of the requester in a task's thread. */
 export interface TaskMentionDTO {
@@ -54,15 +54,15 @@ export interface TaskMentionDTO {
   task_title: string;
   channel_id: string | null;
   channel_name: string | null;
-  author?: TaskUserBasicInfo | null;
+  author?: TaskUserBasicInfo | null | undefined;
   content: string;
   created_at: string;
 }
 export type PaginatedTaskMentionDTOListResultsList = Array<TaskMentionDTO>;
 export interface PaginatedTaskMentionDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaskMentionDTOListResultsList;
 }
 export type ListTaskMentionsError = PosthogOpError;

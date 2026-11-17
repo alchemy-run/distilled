@@ -44,10 +44,10 @@ export interface CommitMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: CommitMoveCollectionRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** The error details. */
 export type OperationStatusErrorDetailsList = Array<OperationStatusError>;
@@ -56,55 +56,55 @@ export type AffectedMoveResourceMoveResourcesList = Array<AffectedMoveResource>;
 /** The RP custom operation error info. */
 export interface AffectedMoveResource {
   /** The affected move resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The affected move resource source id. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The affected move resources. */
-  moveResources?: AffectedMoveResourceMoveResourcesList;
+  moveResources?: AffectedMoveResourceMoveResourcesList | undefined;
 }
 /** The affected move resources. */
 export type MoveErrorInfoMoveResourcesList = Array<AffectedMoveResource>;
 /** The move custom error info. */
 export interface MoveErrorInfo {
   /** The affected move resources. */
-  moveResources?: MoveErrorInfoMoveResourcesList;
+  moveResources?: MoveErrorInfoMoveResourcesList | undefined;
 }
 /** The operation error info. */
 export interface OperationErrorAdditionalInfo {
   /** The error type. */
-  type?: string;
+  type?: string | undefined;
   /** The operation error info. */
-  info?: MoveErrorInfo;
+  info?: MoveErrorInfo | undefined;
 }
 /** The additional info. */
 export type OperationStatusErrorAdditionalInfoList = Array<OperationErrorAdditionalInfo>;
 /** Class for operation status errors. */
 export interface OperationStatusError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error details. */
-  details?: OperationStatusErrorDetailsList;
+  details?: OperationStatusErrorDetailsList | undefined;
   /** The additional info. */
-  additionalInfo?: OperationStatusErrorAdditionalInfoList;
+  additionalInfo?: OperationStatusErrorAdditionalInfoList | undefined;
 }
 /** Operation status REST resource. */
 export interface OperationStatus {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Operation name. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running. */
-  status?: string;
+  status?: string | undefined;
   /** Start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error stating all error details for the operation. */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
   /** Custom data. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Resource tags. */
 export type CreateMoveCollectionRequestTagsMap = { [key: string]: string | undefined };
@@ -112,25 +112,25 @@ export type CreateMoveCollectionRequestTagsMap = { [key: string]: string | undef
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Defines the MSI properties of the Move Collection. */
 export interface Identity {
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** Gets or sets the principal id. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Gets or sets the tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Defines the MoveType. */
 export type MoveType = "RegionToRegion" | "RegionToZone";
 /** Defines the move collection properties. */
 export interface MoveCollectionPropertiesInput {
   /** Gets or sets the source region. */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
   /** Gets or sets the target region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
   /** Gets or sets the move region which indicates the region where the VM Regional to Zonal move will be conducted. */
-  moveRegion?: string;
+  moveRegion?: string | undefined;
   /** Gets or sets the version of move collection. */
-  version?: string;
-  moveType?: MoveType | (string & {});
+  version?: string | undefined;
+  moveType?: MoveType | (string & {}) | undefined;
 }
 export interface CreateMoveCollectionRequest {
   /** The Subscription ID. */
@@ -140,11 +140,11 @@ export interface CreateMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Resource tags. */
-  tags?: CreateMoveCollectionRequestTagsMap;
+  tags?: CreateMoveCollectionRequestTagsMap | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
-  identity?: Identity;
-  properties?: MoveCollectionPropertiesInput;
+  location?: string | undefined;
+  identity?: Identity | undefined;
+  properties?: MoveCollectionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type MoveCollectionTagsMap = { [key: string]: string | undefined };
@@ -155,33 +155,33 @@ export type MoveResourceErrorBodyDetailsList = Array<MoveResourceErrorBody>;
 /** An error response from the Azure Migrate service. */
 export interface MoveResourceErrorBody {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
+  code?: string | undefined;
   /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
+  message?: string | undefined;
   /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
+  target?: string | undefined;
   /** A list of additional details about the error. */
-  details?: MoveResourceErrorBodyDetailsList;
+  details?: MoveResourceErrorBodyDetailsList | undefined;
 }
 /** An error response from the azure resource mover service. */
 export interface MoveResourceError {
   /** The move resource error body. */
-  properties?: MoveResourceErrorBody;
+  properties?: MoveResourceErrorBody | undefined;
 }
 /** Defines the move collection properties. */
 export interface MoveCollectionProperties {
   /** Gets or sets the source region. */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
   /** Gets or sets the target region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
   /** Gets or sets the move region which indicates the region where the VM Regional to Zonal move will be conducted. */
-  moveRegion?: string;
-  provisioningState?: ProvisioningState;
+  moveRegion?: string | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the version of move collection. */
-  version?: string;
-  moveType?: MoveType;
+  version?: string | undefined;
+  moveType?: MoveType | undefined;
   /** Defines the move collection errors. */
-  errors?: MoveResourceError;
+  errors?: MoveResourceError | undefined;
 }
 /** The type of identity that created the resource. */
 export type MoveCollectionSystemDataCreatedByType =
@@ -198,52 +198,400 @@ export type MoveCollectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MoveCollectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MoveCollectionSystemDataCreatedByType;
+  createdByType?: MoveCollectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MoveCollectionSystemDataLastModifiedByType;
+  lastModifiedByType?: MoveCollectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Define the move collection. */
 export interface MoveCollection {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: MoveCollectionTagsMap;
+  tags?: MoveCollectionTagsMap | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
-  identity?: Identity;
-  properties?: MoveCollectionProperties;
+  location?: string | undefined;
+  identity?: Identity | undefined;
+  properties?: MoveCollectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MoveCollectionSystemData;
+  systemData?: MoveCollectionSystemData | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type VirtualMachineResourceSettingsResourceType = "Microsoft.Compute/virtualMachines";
+/** Gets or sets the Resource tags. */
+export type VirtualMachineResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Gets or sets user-managed identities */
+export type VirtualMachineResourceSettingsUserManagedIdentitiesList = Array<string>;
+/** Gets or sets the target availability zone. */
+export type VirtualMachineResourceSettingsTargetAvailabilityZone = "1" | "2" | "3" | "NA";
+/** Gets or sets the virtual machine resource settings. */
+export interface VirtualMachineResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: VirtualMachineResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: VirtualMachineResourceSettingsTagsMap | undefined;
+  /** Gets or sets user-managed identities */
+  userManagedIdentities?: VirtualMachineResourceSettingsUserManagedIdentitiesList | undefined;
+  /** Gets or sets the target availability zone. */
+  targetAvailabilityZone?:
+    | VirtualMachineResourceSettingsTargetAvailabilityZone
+    | (string & {})
+    | undefined;
+  /** Gets or sets the target virtual machine size. */
+  targetVmSize?: string | undefined;
+  /** Gets or sets the target availability set id for virtual machines not in an availability set at source. */
+  targetAvailabilitySetId?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type AvailabilitySetResourceSettingsResourceType = "Microsoft.Compute/availabilitySets";
+/** Gets or sets the Resource tags. */
+export type AvailabilitySetResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Gets or sets the availability set resource settings. */
+export interface AvailabilitySetResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: AvailabilitySetResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: AvailabilitySetResourceSettingsTagsMap | undefined;
+  /** Gets or sets the target fault domain. */
+  faultDomain?: number | null | undefined;
+  /** Gets or sets the target update domain. */
+  updateDomain?: number | null | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type VirtualNetworkResourceSettingsResourceType = "Microsoft.Network/virtualNetworks";
+/** Gets or sets the Resource tags. */
+export type VirtualNetworkResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Gets or sets the address prefixes for the virtual network. */
+export type VirtualNetworkResourceSettingsAddressSpaceList = Array<string>;
+/** Gets or sets DHCPOptions that contains an array of DNS servers available to VMs deployed in the virtual network. */
+export type VirtualNetworkResourceSettingsDnsServersList = Array<string>;
+/** Defines reference to NSG. */
+export interface NsgReference {
+  /** Gets the ARM resource ID of the tracked resource being referenced. */
+  sourceArmResourceId: string;
+}
+/** Defines the virtual network subnets resource settings. */
+export interface SubnetResourceSettings {
+  /** Gets or sets the Subnet name. */
+  name?: string | undefined;
+  /** Gets or sets address prefix for the subnet. */
+  addressPrefix?: string | undefined;
+  networkSecurityGroup?: NsgReference | undefined;
+}
+/** Gets or sets List of subnets in a VirtualNetwork. */
+export type VirtualNetworkResourceSettingsSubnetsList = Array<SubnetResourceSettings>;
+/** Defines the virtual network resource settings. */
+export interface VirtualNetworkResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: VirtualNetworkResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: VirtualNetworkResourceSettingsTagsMap | undefined;
+  /** Gets or sets a value indicating whether gets or sets whether the DDOS protection should be switched on. */
+  enableDdosProtection?: boolean | null | undefined;
+  /** Gets or sets the address prefixes for the virtual network. */
+  addressSpace?: VirtualNetworkResourceSettingsAddressSpaceList | undefined;
+  /** Gets or sets DHCPOptions that contains an array of DNS servers available to VMs deployed in the virtual network. */
+  dnsServers?: VirtualNetworkResourceSettingsDnsServersList | undefined;
+  /** Gets or sets List of subnets in a VirtualNetwork. */
+  subnets?: VirtualNetworkResourceSettingsSubnetsList | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type NetworkInterfaceResourceSettingsResourceType = "Microsoft.Network/networkInterfaces";
+/** Gets or sets the Resource tags. */
+export type NetworkInterfaceResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Defines reference to subnet. */
+export interface SubnetReference {
+  /** Gets the ARM resource ID of the tracked resource being referenced. */
+  sourceArmResourceId: string;
+  /** Gets the name of the proxy resource on the target side. */
+  name?: string | undefined;
+}
+/** Defines reference to load balancer backend address pools. */
+export type LoadBalancerBackendAddressPoolReference = SubnetReference;
+/** Gets or sets the references of the load balancer backend address pools. */
+export type NicIpConfigurationResourceSettingsLoadBalancerBackendAddressPoolsList =
+  Array<SubnetReference>;
+/** Defines reference to load balancer NAT rules. */
+export type LoadBalancerNatRuleReference = SubnetReference;
+/** Gets or sets the references of the load balancer NAT rules. */
+export type NicIpConfigurationResourceSettingsLoadBalancerNatRulesList = Array<SubnetReference>;
+/** Defines reference to a public IP. */
+export type PublicIpReference = NsgReference;
+/** Defines NIC IP configuration properties. */
+export interface NicIpConfigurationResourceSettings {
+  /** Gets or sets the IP configuration name. */
+  name?: string | undefined;
+  /** Gets or sets the private IP address of the network interface IP Configuration. */
+  privateIpAddress?: string | undefined;
+  /** Gets or sets the private IP address allocation method. */
+  privateIpAllocationMethod?: string | undefined;
+  subnet?: SubnetReference | undefined;
+  /** Gets or sets a value indicating whether this IP configuration is the primary. */
+  primary?: boolean | undefined;
+  /** Gets or sets the references of the load balancer backend address pools. */
+  loadBalancerBackendAddressPools?:
+    | NicIpConfigurationResourceSettingsLoadBalancerBackendAddressPoolsList
+    | undefined;
+  /** Gets or sets the references of the load balancer NAT rules. */
+  loadBalancerNatRules?: NicIpConfigurationResourceSettingsLoadBalancerNatRulesList | undefined;
+  publicIp?: NsgReference | undefined;
+}
+/** Gets or sets the IP configurations of the NIC. */
+export type NetworkInterfaceResourceSettingsIpConfigurationsList =
+  Array<NicIpConfigurationResourceSettings>;
+/** Defines the network interface resource settings. */
+export interface NetworkInterfaceResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: NetworkInterfaceResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: NetworkInterfaceResourceSettingsTagsMap | undefined;
+  /** Gets or sets the IP configurations of the NIC. */
+  ipConfigurations?: NetworkInterfaceResourceSettingsIpConfigurationsList | undefined;
+  /** Gets or sets a value indicating whether accelerated networking is enabled. */
+  enableAcceleratedNetworking?: boolean | null | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type NetworkSecurityGroupResourceSettingsResourceType =
+  "Microsoft.Network/networkSecurityGroups";
+/** Gets or sets the Resource tags. */
+export type NetworkSecurityGroupResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Security Rule data model for Network Security Groups. */
+export interface NsgSecurityRule {
+  /** Gets or sets the Security rule name. */
+  name?: string | undefined;
+  /** Gets or sets whether network traffic is allowed or denied. Possible values are "Allow" and "Deny". */
+  access?: string | undefined;
+  /** Gets or sets a description for this rule. Restricted to 140 chars. */
+  description?: string | undefined;
+  /** Gets or sets destination address prefix. CIDR or source IP range. A "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. */
+  destinationAddressPrefix?: string | undefined;
+  /** Gets or sets Destination Port or Range. Integer or range between 0 and 65535. A "*" can also be used to match all ports. */
+  destinationPortRange?: string | undefined;
+  /** Gets or sets the direction of the rule.InBound or Outbound. The direction specifies if rule will be evaluated on incoming or outgoing traffic. */
+  direction?: string | undefined;
+  /** Gets or sets the priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. */
+  priority?: number | undefined;
+  /** Gets or sets Network protocol this rule applies to. Can be Tcp, Udp or All(*). */
+  protocol?: string | undefined;
+  /** Gets or sets source address prefix. CIDR or source IP range. A "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. */
+  sourceAddressPrefix?: string | undefined;
+  /** Gets or sets Source Port or Range. Integer or range between 0 and 65535. A "*" can also be used to match all ports. */
+  sourcePortRange?: string | undefined;
+}
+/** Gets or sets Security rules of network security group. */
+export type NetworkSecurityGroupResourceSettingsSecurityRulesList = Array<NsgSecurityRule>;
+/** Defines the NSG resource settings. */
+export interface NetworkSecurityGroupResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: NetworkSecurityGroupResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: NetworkSecurityGroupResourceSettingsTagsMap | undefined;
+  /** Gets or sets Security rules of network security group. */
+  securityRules?: NetworkSecurityGroupResourceSettingsSecurityRulesList | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type LoadBalancerResourceSettingsResourceType = "Microsoft.Network/loadBalancers";
+/** Gets or sets the Resource tags. */
+export type LoadBalancerResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Defines load balancer frontend IP configuration properties. */
+export interface LBFrontendIPConfigurationResourceSettings {
+  /** Gets or sets the frontend IP configuration name. */
+  name?: string | undefined;
+  /** Gets or sets the IP address of the Load Balancer.This is only specified if a specific private IP address shall be allocated from the subnet specified in subnetRef. */
+  privateIpAddress?: string | undefined;
+  /** Gets or sets PrivateIP allocation method (Static/Dynamic). */
+  privateIpAllocationMethod?: string | undefined;
+  subnet?: SubnetReference | undefined;
+  /** Gets or sets the csv list of zones. */
+  zones?: string | undefined;
+}
+/** Gets or sets the frontend IP configurations of the load balancer. */
+export type LoadBalancerResourceSettingsFrontendIPConfigurationsList =
+  Array<LBFrontendIPConfigurationResourceSettings>;
+/** Defines load balancer backend address pool properties. */
+export interface LBBackendAddressPoolResourceSettings {
+  /** Gets or sets the backend address pool name. */
+  name?: string | undefined;
+}
+/** Gets or sets the backend address pools of the load balancer. */
+export type LoadBalancerResourceSettingsBackendAddressPoolsList =
+  Array<LBBackendAddressPoolResourceSettings>;
+/** Defines the load balancer resource settings. */
+export interface LoadBalancerResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: LoadBalancerResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: LoadBalancerResourceSettingsTagsMap | undefined;
+  /** Gets or sets load balancer sku (Basic/Standard). */
+  sku?: string | undefined;
+  /** Gets or sets the frontend IP configurations of the load balancer. */
+  frontendIPConfigurations?: LoadBalancerResourceSettingsFrontendIPConfigurationsList | undefined;
+  /** Gets or sets the backend address pools of the load balancer. */
+  backendAddressPools?: LoadBalancerResourceSettingsBackendAddressPoolsList | undefined;
+  /** Gets or sets the csv list of zones common for all frontend IP configurations. Note this is given precedence only if frontend IP configurations settings are not present. */
+  zones?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type SqlServerResourceSettingsResourceType = "Microsoft.Sql/servers";
+/** Defines the SQL Server resource settings. */
+export interface SqlServerResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: SqlServerResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type SqlElasticPoolResourceSettingsResourceType = "Microsoft.Sql/servers/elasticPools";
+/** Gets or sets the Resource tags. */
+export type SqlElasticPoolResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Defines the zone redundant resource setting. */
+export type ZoneRedundant = "Enable" | "Disable";
+/** Defines the Sql ElasticPool resource settings. */
+export interface SqlElasticPoolResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: SqlElasticPoolResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: SqlElasticPoolResourceSettingsTagsMap | undefined;
+  zoneRedundant?: ZoneRedundant | (string & {}) | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type SqlDatabaseResourceSettingsResourceType = "Microsoft.Sql/servers/databases";
+/** Gets or sets the Resource tags. */
+export type SqlDatabaseResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Defines the Sql Database resource settings. */
+export interface SqlDatabaseResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: SqlDatabaseResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: SqlDatabaseResourceSettingsTagsMap | undefined;
+  zoneRedundant?: ZoneRedundant | (string & {}) | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type ResourceGroupResourceSettingsResourceType = "resourceGroups";
+/** Defines the resource group resource settings. */
+export interface ResourceGroupResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: ResourceGroupResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type PublicIPAddressResourceSettingsResourceType = "Microsoft.Network/publicIPAddresses";
+/** Gets or sets the Resource tags. */
+export type PublicIPAddressResourceSettingsTagsMap = { [key: string]: string | undefined };
+/** Defines the public IP address resource settings. */
+export interface PublicIPAddressResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: PublicIPAddressResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+  /** Gets or sets the Resource tags. */
+  tags?: PublicIPAddressResourceSettingsTagsMap | undefined;
+  /** Gets or sets the domain name label. */
+  domainNameLabel?: string | undefined;
+  /** Gets or sets the fully qualified domain name. */
+  fqdn?: string | undefined;
+  /** Gets or sets public IP allocation method. */
+  publicIpAllocationMethod?: string | undefined;
+  /** Gets or sets public IP sku. */
+  sku?: string | undefined;
+  /** Gets or sets public IP zones. */
+  zones?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type KeyVaultResourceSettingsResourceType = "Microsoft.KeyVault/vaults";
+/** Defines the key vault resource settings. */
+export interface KeyVaultResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: KeyVaultResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
+}
+/** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+export type DiskEncryptionSetResourceSettingsResourceType = "Microsoft.Compute/diskEncryptionSets";
+/** Defines the disk encryption set resource settings. */
+export interface DiskEncryptionSetResourceSettings {
+  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
+  resourceType: DiskEncryptionSetResourceSettingsResourceType;
+  /** Gets or sets the target Resource name. */
+  targetResourceName?: string | undefined;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string | undefined;
 }
 /** Gets or sets the resource settings. */
-export interface ResourceSettings {
-  /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
-  resourceType: string;
-  /** Gets or sets the target Resource name. */
-  targetResourceName?: string;
-  /** Gets or sets the target resource group name. */
-  targetResourceGroupName?: string;
-}
+export type ResourceSettings =
+  | VirtualMachineResourceSettings
+  | AvailabilitySetResourceSettings
+  | VirtualNetworkResourceSettings
+  | NetworkInterfaceResourceSettings
+  | NetworkSecurityGroupResourceSettings
+  | LoadBalancerResourceSettings
+  | SqlServerResourceSettings
+  | SqlElasticPoolResourceSettings
+  | SqlDatabaseResourceSettings
+  | ResourceGroupResourceSettings
+  | PublicIPAddressResourceSettings
+  | KeyVaultResourceSettings
+  | DiskEncryptionSetResourceSettings;
 /** Defines the dependency override of the move resource. */
 export interface MoveResourceDependencyOverride {
   /** Gets or sets the ARM ID of the dependent resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the resource ARM id of either the MoveResource or the resource ARM ID of the dependent resource. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 /** Gets or sets the move resource dependencies overrides. */
 export type MoveResourcePropertiesInputDependsOnOverridesList =
@@ -253,11 +601,11 @@ export interface MoveResourcePropertiesInput {
   /** Gets or sets the Source ARM Id of the resource. */
   sourceId: string;
   /** Gets or sets the existing target ARM Id of the resource. */
-  existingTargetId?: string;
+  existingTargetId?: string | undefined;
   /** Gets or sets the resource settings. */
-  resourceSettings?: ResourceSettings;
+  resourceSettings?: ResourceSettings | undefined;
   /** Gets or sets the move resource dependencies overrides. */
-  dependsOnOverrides?: MoveResourcePropertiesInputDependsOnOverridesList;
+  dependsOnOverrides?: MoveResourcePropertiesInputDependsOnOverridesList | undefined;
 }
 export interface CreateMoveResourceRequest {
   /** The Subscription ID. */
@@ -268,7 +616,7 @@ export interface CreateMoveResourceRequest {
   moveCollectionName: string;
   /** The Move Resource Name. */
   moveResourceName: string;
-  properties?: MoveResourcePropertiesInput;
+  properties?: MoveResourcePropertiesInput | undefined;
 }
 /** Defines the MoveResource states. */
 export type MoveState =
@@ -291,15 +639,15 @@ export type MoveState =
 export type JobName = "InitialSync";
 /** Defines the job status. */
 export interface JobStatus {
-  jobName?: JobName;
+  jobName?: JobName | undefined;
   /** Gets or sets the monitoring job percentage. */
-  jobProgress?: string;
+  jobProgress?: string | undefined;
 }
 /** Defines the move resource status. */
 export interface MoveResourceStatus {
-  moveState?: MoveState;
-  jobStatus?: JobStatus;
-  errors?: MoveResourceError;
+  moveState?: MoveState | undefined;
+  jobStatus?: JobStatus | undefined;
+  errors?: MoveResourceError | undefined;
 }
 /** Defines the resolution type. */
 export type ResolutionType = "Manual" | "Automatic";
@@ -308,25 +656,25 @@ export type DependencyType = "RequiredForPrepare" | "RequiredForMove";
 /** Defines the properties for manual resolution. */
 export interface ManualResolutionProperties {
   /** Gets or sets the target resource ARM ID of the dependent resource if the resource type is Manual. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 /** Defines the properties for automatic resolution. */
 export interface AutomaticResolutionProperties {
   /** Gets the MoveResource ARM ID of the dependent resource if the resolution type is Automatic. */
-  moveResourceId?: string;
+  moveResourceId?: string | undefined;
 }
 /** Defines the dependency of the move resource. */
 export interface MoveResourceDependency {
   /** Gets the source ARM ID of the dependent resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the dependency resolution status. */
-  resolutionStatus?: string;
-  resolutionType?: ResolutionType;
-  dependencyType?: DependencyType;
-  manualResolution?: ManualResolutionProperties;
-  automaticResolution?: AutomaticResolutionProperties;
+  resolutionStatus?: string | undefined;
+  resolutionType?: ResolutionType | undefined;
+  dependencyType?: DependencyType | undefined;
+  manualResolution?: ManualResolutionProperties | undefined;
+  automaticResolution?: AutomaticResolutionProperties | undefined;
   /** Gets or sets a value indicating whether the dependency is optional. */
-  isOptional?: string;
+  isOptional?: string | undefined;
 }
 /** Gets or sets the move resource dependencies. */
 export type MoveResourcePropertiesDependsOnList = Array<MoveResourceDependency>;
@@ -334,27 +682,27 @@ export type MoveResourcePropertiesDependsOnList = Array<MoveResourceDependency>;
 export type MoveResourcePropertiesDependsOnOverridesList = Array<MoveResourceDependencyOverride>;
 /** Defines the move resource properties. */
 export interface MoveResourceProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the Source ARM Id of the resource. */
   sourceId: string;
   /** Gets or sets the Target ARM Id of the resource. */
-  targetId?: string;
+  targetId?: string | undefined;
   /** Gets or sets the existing target ARM Id of the resource. */
-  existingTargetId?: string;
+  existingTargetId?: string | undefined;
   /** Gets or sets the resource settings. */
-  resourceSettings?: ResourceSettings;
+  resourceSettings?: ResourceSettings | undefined;
   /** Gets or sets the source resource settings. */
-  sourceResourceSettings?: ResourceSettings;
+  sourceResourceSettings?: ResourceSettings | undefined;
   /** Defines the move resource status. */
-  moveStatus?: MoveResourceStatus;
+  moveStatus?: MoveResourceStatus | undefined;
   /** Gets or sets the move resource dependencies. */
-  dependsOn?: MoveResourcePropertiesDependsOnList;
+  dependsOn?: MoveResourcePropertiesDependsOnList | undefined;
   /** Gets or sets the move resource dependencies overrides. */
-  dependsOnOverrides?: MoveResourcePropertiesDependsOnOverridesList;
+  dependsOnOverrides?: MoveResourcePropertiesDependsOnOverridesList | undefined;
   /** Gets a value indicating whether the resolve action is required over the move collection. */
-  isResolveRequired?: boolean;
+  isResolveRequired?: boolean | undefined;
   /** Defines the move resource errors. */
-  errors?: MoveResourceError;
+  errors?: MoveResourceError | undefined;
 }
 /** The type of identity that created the resource. */
 export type MoveResourceSystemDataCreatedByType =
@@ -371,29 +719,29 @@ export type MoveResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MoveResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MoveResourceSystemDataCreatedByType;
+  createdByType?: MoveResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MoveResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: MoveResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Defines the move resource. */
 export interface MoveResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  properties?: MoveResourceProperties;
+  type?: string | undefined;
+  properties?: MoveResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MoveResourceSystemData;
+  systemData?: MoveResourceSystemData | undefined;
 }
 export interface DeleteMoveCollectionRequest {
   /** The Subscription ID. */
@@ -435,33 +783,33 @@ export interface GetOperationsDiscoveryRequest {}
 /** Contains the localized display information for this particular operation / action. These value will be used by several clients for (1) custom role definitions for RBAC; (2) complex query filters for the event service; and (3) audit history / records for management operations. */
 export interface Display {
   /** Gets or sets the provider. The localized friendly form of the resource provider name - it is expected to also include the publisher/company responsible. It should use Title Casing and begin with "Microsoft" for 1st party services. e.g. "Microsoft Monitoring Insights" or "Microsoft Compute.". */
-  provider?: string;
+  provider?: string | undefined;
   /** Gets or sets the resource. The localized friendly form of the resource related to this action/operation - it should match the public documentation for the resource provider. It should use Title Casing. This value should be unique for a particular URL type (e.g. nested types should *not* reuse their parent's display.resource field) e.g. "Virtual Machines" or "Scheduler Job Collections", or "Virtual Machine VM Sizes" or "Scheduler Jobs". */
-  resource?: string;
+  resource?: string | undefined;
   /** Gets or sets the operation. The localized friendly name for the operation, as it should be shown to the user. It should be concise (to fit in drop downs) but clear (i.e. self-documenting). It should use Title Casing. Prescriptive guidance: Read Create or Update Delete 'ActionName'. */
-  operation?: string;
+  operation?: string | undefined;
   /** Gets or sets the description. The localized friendly description for the operation, as it should be shown to the user. It should be thorough, yet concise - it will be used in tool tips and detailed views. Prescriptive guidance for namespace: Read any 'display.provider' resource Create or Update any 'display.provider' resource Delete any 'display.provider' resource Perform any other action on any 'display.provider' resource Prescriptive guidance for namespace: Read any 'display.resource' Create or Update any 'display.resource' Delete any 'display.resource' 'ActionName' any 'display.resources'. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operations discovery class. */
 export interface OperationsDiscovery {
   /** Gets or sets Name of the API. The name of the operation being performed on this particular object. It should match the action name that appears in RBAC / the event service. Examples of operations include: * Microsoft.Compute/virtualMachine/capture/action * Microsoft.Compute/virtualMachine/restart/action * Microsoft.Compute/virtualMachine/write * Microsoft.Compute/virtualMachine/read * Microsoft.Compute/virtualMachine/delete Each action should include, in order: (1) Resource Provider Namespace (2) Type hierarchy for which the action applies (e.g. server/databases for a SQL Azure database) (3) Read, Write, Action or Delete indicating which type applies. If it is a PUT/PATCH on a collection or named value, Write should be used. If it is a GET, Read should be used. If it is a DELETE, Delete should be used. If it is a POST, Action should be used. As a note: all resource providers would need to include the "{Resource Provider Namespace}/register/action" operation in their response. This API is used to register for their service, and should include details about the operation (e.g. a localized name for the resource provider + any special considerations like PII release). */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  display?: Display;
+  isDataAction?: boolean | undefined;
+  display?: Display | undefined;
   /** Gets or sets Origin. The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. Default value is "user,system". */
-  origin?: string;
-  properties?: unknown;
+  origin?: string | undefined;
+  properties?: unknown | undefined;
 }
 /** Gets or sets the ClientDiscovery details. */
 export type OperationsDiscoveryCollectionValueList = Array<OperationsDiscovery>;
 /** Collection of ClientDiscovery details. */
 export interface OperationsDiscoveryCollection {
   /** Gets or sets the ClientDiscovery details. */
-  value?: OperationsDiscoveryCollectionValueList;
+  value?: OperationsDiscoveryCollectionValueList | undefined;
   /** Gets or sets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type GetUnresolvedDependencyRequestDependencyLevel = "Direct" | "Descendant";
 export interface GetUnresolvedDependencyRequest {
@@ -472,47 +820,47 @@ export interface GetUnresolvedDependencyRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Defines the dependency level. */
-  dependencyLevel?: GetUnresolvedDependencyRequestDependencyLevel | (string & {});
+  dependencyLevel?: GetUnresolvedDependencyRequestDependencyLevel | (string & {}) | undefined;
   /** OData order by query option. For example, you can use $orderby=Count desc. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Unresolved dependency. */
 export interface UnresolvedDependency {
   /** Gets or sets the count. */
-  count?: number;
+  count?: number | undefined;
   /** Gets or sets the arm id of the dependency. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets or sets the list of unresolved dependencies. */
 export type UnresolvedDependencyCollectionValueList = Array<UnresolvedDependency>;
 /** Summary item. */
 export interface Summary {
   /** Gets the count. */
-  count?: number;
+  count?: number | undefined;
   /** Gets the item. */
-  item?: string;
+  item?: string | undefined;
 }
 /** Gets or sets the list of summary items. */
 export type SummaryCollectionSummaryList = Array<Summary>;
 /** Summary Collection. */
 export interface SummaryCollection {
   /** Gets or sets the field name on which summary is done. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** Gets or sets the list of summary items. */
-  summary?: SummaryCollectionSummaryList;
+  summary?: SummaryCollectionSummaryList | undefined;
 }
 /** Unresolved dependency collection. */
 export interface UnresolvedDependencyCollection {
   /** Gets or sets the list of unresolved dependencies. */
-  value?: UnresolvedDependencyCollectionValueList;
+  value?: UnresolvedDependencyCollectionValueList | undefined;
   /** Gets or sets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
-  summaryCollection?: SummaryCollection;
+  summaryCollection?: SummaryCollection | undefined;
   /** Gets the total count. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListMoveCollectionRequiredForRequest {
   /** The Subscription ID. */
@@ -529,7 +877,7 @@ export type RequiredForResourcesCollectionSourceIdsList = Array<string>;
 /** Required for resources collection. */
 export interface RequiredForResourcesCollection {
   /** Gets or sets the list of source Ids for which the input resource is required. */
-  sourceIds?: RequiredForResourcesCollectionSourceIdsList;
+  sourceIds?: RequiredForResourcesCollectionSourceIdsList | undefined;
 }
 export interface ListMoveResourcesRequest {
   /** The Subscription ID. */
@@ -539,20 +887,20 @@ export interface ListMoveResourcesRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Gets the list of move resources. */
 export type MoveResourceCollectionValueList = Array<MoveResource>;
 /** Defines the collection of move resources. */
 export interface MoveResourceCollection {
   /** Gets the list of move resources. */
-  value?: MoveResourceCollectionValueList;
+  value?: MoveResourceCollectionValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
-  summaryCollection?: SummaryCollection;
+  summaryCollection?: SummaryCollection | undefined;
   /** Gets the total count. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsBulkRemoveRequestMoveResourcesList = Array<string>;
@@ -562,10 +910,10 @@ export interface MoveCollectionsBulkRemoveRequest {
   resourceGroupName: string;
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
-  moveResources?: MoveCollectionsBulkRemoveRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResources?: MoveCollectionsBulkRemoveRequestMoveResourcesList | undefined;
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsDiscardRequestMoveResourcesList = Array<string>;
@@ -577,10 +925,10 @@ export interface MoveCollectionsDiscardRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsDiscardRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsInitiateMoveRequestMoveResourcesList = Array<string>;
@@ -592,10 +940,10 @@ export interface MoveCollectionsInitiateMoveRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsInitiateMoveRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 export interface MoveCollectionsListMoveCollectionsByResourceGroupRequest {
   /** The Subscription ID. */
@@ -608,9 +956,9 @@ export type MoveCollectionResultListValueList = Array<MoveCollection>;
 /** Defines the collection of move collections. */
 export interface MoveCollectionResultList {
   /** Gets the list of move collections. */
-  value?: MoveCollectionResultListValueList;
+  value?: MoveCollectionResultListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MoveCollectionsListMoveCollectionsBySubscriptionRequest {
   /** The Subscription ID. */
@@ -626,10 +974,10 @@ export interface MoveCollectionsPrepareRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsPrepareRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 export interface MoveCollectionsResolveDependenciesRequest {
   /** The Subscription ID. */
@@ -649,8 +997,8 @@ export interface UpdateMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateMoveCollectionRequestTagsMap;
-  identity?: Identity;
+  tags?: UpdateMoveCollectionRequestTagsMap | undefined;
+  identity?: Identity | undefined;
 }
 export type CommitMoveCollectionError = AzureOpError;
 /** Commits the set of resources included in the request body. The commit operation is triggered on the moveResources in the moveState 'CommitPending' or 'CommitFailed', on a successful completion the moveResource moveState do a transition to Committed. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true. */
@@ -661,7 +1009,7 @@ export const CommitMoveCollection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CommitMoveCollectionRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -677,8 +1025,8 @@ export const CreateMoveCollection: API.OperationMethod<
   CreateMoveCollectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<CreateMoveCollectionRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<MoveCollection>,
+  input: __S(97, __c3, 1) as any as S.Schema<CreateMoveCollectionRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<MoveCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -694,8 +1042,8 @@ export const CreateMoveResource: API.OperationMethod<
   CreateMoveResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c16, 1) as any as S.Schema<CreateMoveResourceRequest>,
-  output: __S(282, __c17, 10) as any as S.Schema<MoveResource>,
+  input: __S(513, __c16, 1) as any as S.Schema<CreateMoveResourceRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<MoveResource>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -711,8 +1059,8 @@ export const DeleteMoveCollection: API.OperationMethod<
   DeleteMoveCollectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteMoveCollectionRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteMoveCollectionRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -728,8 +1076,8 @@ export const DeleteMoveResource: API.OperationMethod<
   DeleteMoveResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteMoveResourceRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(640, __c20, 0) as any as S.Schema<DeleteMoveResourceRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -745,8 +1093,8 @@ export const GetMoveCollection: API.OperationMethod<
   GetMoveCollectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetMoveCollectionRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<MoveCollection>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetMoveCollectionRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<MoveCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -762,8 +1110,8 @@ export const GetMoveResource: API.OperationMethod<
   GetMoveResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetMoveResourceRequest>,
-  output: __S(282, __c17, 10) as any as S.Schema<MoveResource>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetMoveResourceRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<MoveResource>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -778,8 +1126,8 @@ export const GetOperationsDiscovery: API.OperationMethod<
   GetOperationsDiscoveryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetOperationsDiscoveryRequest>,
-  output: __S(356, __c22, 4) as any as S.Schema<OperationsDiscoveryCollection>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetOperationsDiscoveryRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<OperationsDiscoveryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -795,8 +1143,8 @@ export const GetUnresolvedDependency: API.OperationMethod<
   GetUnresolvedDependencyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetUnresolvedDependencyRequest>,
-  output: __S(371, __c23, 3) as any as S.Schema<UnresolvedDependencyCollection>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetUnresolvedDependencyRequest>,
+  output: __S(771, __c24, 3) as any as S.Schema<UnresolvedDependencyCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -812,8 +1160,8 @@ export const ListMoveCollectionRequiredFor: API.OperationMethod<
   ListMoveCollectionRequiredForError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListMoveCollectionRequiredForRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<RequiredForResourcesCollection>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListMoveCollectionRequiredForRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<RequiredForResourcesCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -829,8 +1177,8 @@ export const ListMoveResources: API.OperationMethod<
   ListMoveResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListMoveResourcesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<MoveResourceCollection>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListMoveResourcesRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<MoveResourceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -846,8 +1194,8 @@ export const MoveCollectionsBulkRemove: API.OperationMethod<
   MoveCollectionsBulkRemoveError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<MoveCollectionsBulkRemoveRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(224, __c7, 0) as any as S.Schema<MoveCollectionsBulkRemoveRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -863,8 +1211,8 @@ export const MoveCollectionsDiscard: API.OperationMethod<
   MoveCollectionsDiscardError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<MoveCollectionsDiscardRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(256, __c8, 0) as any as S.Schema<MoveCollectionsDiscardRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -880,8 +1228,8 @@ export const MoveCollectionsInitiateMove: API.OperationMethod<
   MoveCollectionsInitiateMoveError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<MoveCollectionsInitiateMoveRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(288, __c9, 0) as any as S.Schema<MoveCollectionsInitiateMoveRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -898,11 +1246,11 @@ export const MoveCollectionsListMoveCollectionsByResourceGroup: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
+    320,
     __c10,
     0,
   ) as any as S.Schema<MoveCollectionsListMoveCollectionsByResourceGroupRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<MoveCollectionResultList>,
+  output: __S(353, __c11, 1) as any as S.Schema<MoveCollectionResultList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -919,11 +1267,11 @@ export const MoveCollectionsListMoveCollectionsBySubscription: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
+    384,
     __c12,
     0,
   ) as any as S.Schema<MoveCollectionsListMoveCollectionsBySubscriptionRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<MoveCollectionResultList>,
+  output: __S(353, __c11, 1) as any as S.Schema<MoveCollectionResultList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -939,8 +1287,8 @@ export const MoveCollectionsPrepare: API.OperationMethod<
   MoveCollectionsPrepareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<MoveCollectionsPrepareRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(416, __c13, 0) as any as S.Schema<MoveCollectionsPrepareRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -956,8 +1304,8 @@ export const MoveCollectionsResolveDependencies: API.OperationMethod<
   MoveCollectionsResolveDependenciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<MoveCollectionsResolveDependenciesRequest>,
-  output: __S(24, __c1, 8) as any as S.Schema<OperationStatus>,
+  input: __S(448, __c14, 0) as any as S.Schema<MoveCollectionsResolveDependenciesRequest>,
+  output: __S(72, __c2, 8) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -973,8 +1321,8 @@ export const UpdateMoveCollection: API.OperationMethod<
   UpdateMoveCollectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateMoveCollectionRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<MoveCollection>,
+  input: __S(480, __c15, 0) as any as S.Schema<UpdateMoveCollectionRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<MoveCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -992,7 +1340,7 @@ function __c0(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          moveResources: __S(32, __c2, 0),
+          moveResources: __S(32, __c1, 0),
           moveResourceInputType: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1008,41 +1356,47 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(23, __c1, 7)));
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(71, __c2, 7)));
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(18, __c1, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(66, __c2, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           sourceId: S.optional(S.String),
-          moveResources: S.optional(__S(17, __c1, 1)),
+          moveResources: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "AffectedMoveResource" });
     case 3:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(66, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          moveResources: S.optional(__S(19, __c1, 3)),
+          moveResources: S.optional(__S(67, __c2, 3)),
         }),
       ).annotate({ identifier: "MoveErrorInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          info: S.optional(__S(20, __c1, 4)),
+          info: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "OperationErrorAdditionalInfo" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(69, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          details: S.optional(__S(16, __c1, 0)),
-          additionalInfo: S.optional(__S(22, __c1, 6)),
+          details: S.optional(__S(64, __c2, 0)),
+          additionalInfo: S.optional(__S(70, __c2, 6)),
         }),
       ).annotate({ identifier: "OperationStatusError" });
     case 8:
@@ -1053,16 +1407,10 @@ function __c1(j: number): any {
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          error: S.optional(__S(23, __c1, 7)),
+          error: S.optional(__S(71, __c2, 7)),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "OperationStatus" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c3(j: number): any {
@@ -1083,10 +1431,10 @@ function __c3(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(80, __c5, 0)),
+          tags: S.optional(__S(128, __c4, 0)),
           location: S.optional(S.String),
-          identity: S.optional(__S(81, __c5, 1)),
-          properties: S.optional(__S(48, __c3, 0)),
+          identity: S.optional(__S(160, __c5, 0)),
+          properties: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1101,23 +1449,25 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)));
+      return S.Record(S.String, S.String);
     case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(130, __c4, 2)));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(64, __c4, 0)),
+          details: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "MoveResourceErrorBody" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(65, __c4, 1)),
+          properties: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "MoveResourceError" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           createdBy: S.optional(S.String),
@@ -1133,8 +1483,6 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -1142,7 +1490,7 @@ function __c5(j: number): any {
           tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Identity" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           sourceRegion: S.optional(S.String),
@@ -1151,21 +1499,21 @@ function __c5(j: number): any {
           provisioningState: S.optional(S.String),
           version: S.optional(S.String),
           moveType: S.optional(S.String),
-          errors: S.optional(__S(66, __c4, 2)),
+          errors: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "MoveCollectionProperties" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           etag: S.optional(S.String),
-          tags: S.optional(__S(80, __c5, 0)),
+          tags: S.optional(__S(128, __c4, 0)),
           location: S.optional(S.String),
-          identity: S.optional(__S(81, __c5, 1)),
-          properties: S.optional(__S(82, __c5, 2)),
-          systemData: S.optional(__S(67, __c4, 3)),
+          identity: S.optional(__S(160, __c5, 0)),
+          properties: S.optional(__S(161, __c5, 1)),
+          systemData: S.optional(__S(132, __c4, 4)),
         }),
       ).annotate({ identifier: "MoveCollection" });
   }
@@ -1189,13 +1537,13 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListMoveResourcesRequest" });
     case 1:
-      return S.Array(__S(282, __c17, 10));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(97, __c6, 1)),
+          value: S.optional(__S(193, __c6, 1)),
           nextLink: S.optional(S.String),
-          summaryCollection: S.optional(__S(386, __c24, 2)),
+          summaryCollection: S.optional(__S(802, __c25, 2)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MoveResourceCollection" });
@@ -1210,7 +1558,7 @@ function __c7(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          moveResources: S.optional(__S(32, __c2, 0)),
+          moveResources: S.optional(__S(32, __c1, 0)),
           moveResourceInputType: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1232,7 +1580,7 @@ function __c8(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          moveResources: __S(32, __c2, 0),
+          moveResources: __S(32, __c1, 0),
           moveResourceInputType: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1254,7 +1602,7 @@ function __c9(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          moveResources: __S(32, __c2, 0),
+          moveResources: __S(32, __c1, 0),
           moveResourceInputType: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1288,11 +1636,11 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(162, __c5, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(176, __c11, 0)),
+          value: S.optional(__S(352, __c11, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoveCollectionResultList" });
@@ -1324,7 +1672,7 @@ function __c13(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          moveResources: __S(32, __c2, 0),
+          moveResources: __S(32, __c1, 0),
           moveResourceInputType: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1364,8 +1712,8 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(80, __c5, 0)),
-          identity: S.optional(__S(81, __c5, 1)),
+          tags: S.optional(__S(128, __c4, 0)),
+          identity: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1384,8 +1732,8 @@ function __c16(j: number): any {
         S.Struct({
           sourceId: S.String,
           existingTargetId: S.optional(S.String),
-          resourceSettings: S.optional(__S(272, __c17, 0)),
-          dependsOnOverrides: S.optional(__S(274, __c17, 2)),
+          resourceSettings: S.optional(__S(566, __c17, 22)),
+          dependsOnOverrides: S.optional(__S(568, __c17, 24)),
         }),
       ).annotate({ identifier: "MoveResourcePropertiesInput" });
     case 1:
@@ -1395,7 +1743,7 @@ function __c16(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           moveCollectionName: S.String.pipe(T.Label()),
           moveResourceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(256, __c16, 0)),
+          properties: S.optional(__S(512, __c16, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1415,87 +1763,279 @@ function __c17(j: number): any {
           resourceType: S.String,
           targetResourceName: S.optional(S.String),
           targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          userManagedIdentities: S.optional(__S(32, __c1, 0)),
+          targetAvailabilityZone: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceSettings" });
+      ).annotate({ identifier: "VirtualMachineResourceSettings" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          faultDomain: S.optional(S.NullOr(S.Number)),
+          updateDomain: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "AvailabilitySetResourceSettings" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sourceArmResourceId: S.String,
+        }),
+      ).annotate({ identifier: "NsgReference" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          addressPrefix: S.optional(S.String),
+          networkSecurityGroup: S.optional(__S(546, __c17, 2)),
+        }),
+      ).annotate({ identifier: "SubnetResourceSettings" });
+    case 4:
+      return S.Array(__S(547, __c17, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          enableDdosProtection: S.optional(S.NullOr(S.Boolean)),
+          addressSpace: S.optional(__S(32, __c1, 0)),
+          dnsServers: S.optional(__S(32, __c1, 0)),
+          subnets: S.optional(__S(548, __c17, 4)),
+        }),
+      ).annotate({ identifier: "VirtualNetworkResourceSettings" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sourceArmResourceId: S.String,
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SubnetReference" });
+    case 7:
+      return S.Array(__S(550, __c17, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          privateIpAddress: S.optional(S.String),
+          privateIpAllocationMethod: S.optional(S.String),
+          subnet: S.optional(__S(550, __c17, 6)),
+          primary: S.optional(S.Boolean),
+          loadBalancerBackendAddressPools: S.optional(__S(551, __c17, 7)),
+          loadBalancerNatRules: S.optional(__S(551, __c17, 7)),
+          publicIp: S.optional(__S(546, __c17, 2)),
+        }),
+      ).annotate({ identifier: "NicIpConfigurationResourceSettings" });
+    case 9:
+      return S.Array(__S(552, __c17, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          ipConfigurations: S.optional(__S(553, __c17, 9)),
+          enableAcceleratedNetworking: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "NetworkInterfaceResourceSettings" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          access: S.optional(S.String),
+          description: S.optional(S.String),
+          destinationAddressPrefix: S.optional(S.String),
+          destinationPortRange: S.optional(S.String),
+          direction: S.optional(S.String),
+          priority: S.optional(S.Number),
+          protocol: S.optional(S.String),
+          sourceAddressPrefix: S.optional(S.String),
+          sourcePortRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NsgSecurityRule" });
+    case 12:
+      return S.Array(__S(555, __c17, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          securityRules: S.optional(__S(556, __c17, 12)),
+        }),
+      ).annotate({ identifier: "NetworkSecurityGroupResourceSettings" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          privateIpAddress: S.optional(S.String),
+          privateIpAllocationMethod: S.optional(S.String),
+          subnet: S.optional(__S(550, __c17, 6)),
+          zones: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LBFrontendIPConfigurationResourceSettings" });
+    case 15:
+      return S.Array(__S(558, __c17, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LBBackendAddressPoolResourceSettings" });
+    case 17:
+      return S.Array(__S(560, __c17, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          sku: S.optional(S.String),
+          frontendIPConfigurations: S.optional(__S(559, __c17, 15)),
+          backendAddressPools: S.optional(__S(561, __c17, 17)),
+          zones: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoadBalancerResourceSettings" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlServerResourceSettings" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          zoneRedundant: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlElasticPoolResourceSettings" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          targetResourceName: S.optional(S.String),
+          targetResourceGroupName: S.optional(S.String),
+          tags: S.optional(__S(128, __c4, 0)),
+          domainNameLabel: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          publicIpAllocationMethod: S.optional(S.String),
+          sku: S.optional(S.String),
+          zones: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PublicIPAddressResourceSettings" });
+    case 22:
+      return S.Union([
+        __S(544, __c17, 0),
+        __S(545, __c17, 1),
+        __S(549, __c17, 5),
+        __S(554, __c17, 10),
+        __S(557, __c17, 13),
+        __S(562, __c17, 18),
+        __S(563, __c17, 19),
+        __S(564, __c17, 20),
+        __S(564, __c17, 20),
+        __S(563, __c17, 19),
+        __S(565, __c17, 21),
+        __S(563, __c17, 19),
+        __S(563, __c17, 19),
+      ]);
+    case 23:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           targetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoveResourceDependencyOverride" });
-    case 2:
-      return S.Array(__S(273, __c17, 1));
-    case 3:
+    case 24:
+      return S.Array(__S(567, __c17, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           jobName: S.optional(S.String),
           jobProgress: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobStatus" });
-    case 4:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           moveState: S.optional(S.String),
-          jobStatus: S.optional(__S(275, __c17, 3)),
-          errors: S.optional(__S(66, __c4, 2)),
+          jobStatus: S.optional(__S(569, __c17, 25)),
+          errors: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "MoveResourceStatus" });
-    case 5:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           targetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManualResolutionProperties" });
-    case 6:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           moveResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomaticResolutionProperties" });
-    case 7:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           resolutionStatus: S.optional(S.String),
           resolutionType: S.optional(S.String),
           dependencyType: S.optional(S.String),
-          manualResolution: S.optional(__S(277, __c17, 5)),
-          automaticResolution: S.optional(__S(278, __c17, 6)),
+          manualResolution: S.optional(__S(571, __c17, 27)),
+          automaticResolution: S.optional(__S(572, __c17, 28)),
           isOptional: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoveResourceDependency" });
-    case 8:
-      return S.Array(__S(279, __c17, 7));
-    case 9:
+    case 30:
+      return S.Array(__S(573, __c17, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           sourceId: S.String,
           targetId: S.optional(S.String),
           existingTargetId: S.optional(S.String),
-          resourceSettings: S.optional(__S(272, __c17, 0)),
-          sourceResourceSettings: S.optional(__S(272, __c17, 0)),
-          moveStatus: S.optional(__S(276, __c17, 4)),
-          dependsOn: S.optional(__S(280, __c17, 8)),
-          dependsOnOverrides: S.optional(__S(274, __c17, 2)),
+          resourceSettings: S.optional(__S(566, __c17, 22)),
+          sourceResourceSettings: S.optional(__S(566, __c17, 22)),
+          moveStatus: S.optional(__S(570, __c17, 26)),
+          dependsOn: S.optional(__S(574, __c17, 30)),
+          dependsOnOverrides: S.optional(__S(568, __c17, 24)),
           isResolveRequired: S.optional(S.Boolean),
-          errors: S.optional(__S(66, __c4, 2)),
+          errors: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "MoveResourceProperties" });
-    case 10:
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(281, __c17, 9)),
-          systemData: S.optional(__S(67, __c4, 3)),
+          properties: S.optional(__S(575, __c17, 31)),
+          systemData: S.optional(__S(132, __c4, 4)),
         }),
       ).annotate({ identifier: "MoveResource" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1514,7 +2054,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteMoveCollectionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1534,7 +2074,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteMoveResourceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1553,7 +2093,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetMoveCollectionRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1573,7 +2113,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetMoveResourceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1600,23 +2140,23 @@ function __c22(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(353, __c22, 1)),
+          display: S.optional(__S(737, __c23, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "OperationsDiscovery" });
     case 3:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(355, __c22, 3)),
+          value: S.optional(__S(739, __c23, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationsDiscoveryCollection" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1644,19 +2184,19 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "UnresolvedDependency" });
     case 2:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(370, __c23, 2)),
+          value: S.optional(__S(770, __c24, 2)),
           nextLink: S.optional(S.String),
-          summaryCollection: S.optional(__S(386, __c24, 2)),
+          summaryCollection: S.optional(__S(802, __c25, 2)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UnresolvedDependencyCollection" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1666,17 +2206,17 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "Summary" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fieldName: S.optional(S.String),
-          summary: S.optional(__S(385, __c24, 1)),
+          summary: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "SummaryCollection" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1697,7 +2237,7 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sourceIds: S.optional(__S(32, __c2, 0)),
+          sourceIds: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "RequiredForResourcesCollection" });
   }

@@ -5,11 +5,14 @@
  * per request; the protocol layer sends them as `x-modal-token-id` /
  * `x-modal-token-secret` (the same headers the official JS/Go clients use).
  */
+import { isThrottling, isTransientError, retryableKey } from "@distilled.cloud/core/category";
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { GrpcTransport } from "@distilled.cloud/core/grpc-transport";
+import * as CloudflareHttp2 from "@distilled.cloud/core/grpc-transport-cloudflare-http2";
 import * as NodeHttp2 from "@distilled.cloud/core/grpc-transport-node-http2";
 import * as Context from "effect/Context";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
@@ -48,10 +51,38 @@ export interface Config {
   readonly container?: boolean;
 }
 
+/**
+ * `AuthTokenGet`, the call that fetches the short-lived token Modal wants in
+ * `x-modal-auth-token`, failed and no unexpired token was cached. `cause` is
+ * that call's own error. It is retryable when its cause is (a 503, a dropped
+ * connection), so the operation's retry policy retries it.
+ */
+export class AuthTokenError
+  extends /*@__PURE__*/ Data.TaggedError("ModalAuthTokenError")<{
+    readonly message: string;
+    readonly cause: unknown;
+  }> {}
+
+/** An {@link AuthTokenError} for `cause`, carrying its retryability. */
+export const authTokenError = (cause: unknown): AuthTokenError => {
+  const error = new AuthTokenError({
+    message: `Could not get a Modal auth token: ${
+      typeof cause === "object" && cause !== null && "message" in cause
+        ? String((cause as { message: unknown }).message)
+        : String(cause)
+    }`,
+    cause,
+  });
+  return isTransientError(cause)
+    ? Object.assign(error, { [retryableKey]: { throttling: isThrottling(cause) } })
+    : error;
+};
+
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "ModalCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, ConfigError | AuthTokenError>
+  >()("ModalCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
@@ -169,8 +200,8 @@ export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
  * filesystem, snapshots, mounts) are served at a per-task URL with a JWT,
  * both returned by `sandboxGetCommandRouterAccess` /
  * `taskGetCommandRouterAccess`. The router speaks only HTTP/2, so `effect`
- * runs with core's HTTP/2 gRPC transport (`node:http2`; not available on
- * Cloudflare Workers).
+ * runs with one of core's HTTP/2 gRPC transports: `node:http2`, or on a
+ * Cloudflare Worker, HTTP/2 over a `cloudflare:sockets` socket.
  *
  * A server-streaming router call follows its output as it arrives with
  * `.stream` (`taskExecStdioRead.stream({ taskId, execId, offset: "0", ... })`);
@@ -191,7 +222,7 @@ export const withTaskCommandRouter =
   ): Effect.Effect<A, E, Exclude<R, Credentials | HttpClient.HttpClient>> =>
     Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
       effect.pipe(
-        Effect.provideService(GrpcTransport, NodeHttp2.client),
+        Effect.provideService(GrpcTransport, routerTransport()),
         Effect.provide(FetchHttpClient.layer),
         Effect.provideService(Credentials, routerCredentials(outer, access)),
       ),
@@ -216,12 +247,22 @@ export const streamTaskCommandRouter =
     Stream.unwrap(
       Effect.map(Effect.serviceOption(Credentials), (outer) =>
         stream.pipe(
-          Stream.provideService(GrpcTransport, NodeHttp2.client),
+          Stream.provideService(GrpcTransport, routerTransport()),
           Stream.provide(FetchHttpClient.layer),
           Stream.provideService(Credentials, routerCredentials(outer, access)),
         ),
       ),
     ) as Stream.Stream<A, E, Exclude<R, Credentials | HttpClient.HttpClient>>;
+
+/**
+ * A command router serves gRPC over HTTP/2 and nothing else. A Cloudflare
+ * Worker has no working `node:http2`, so there the calls go over HTTP/2 on a
+ * `cloudflare:sockets` socket.
+ */
+const routerTransport = (): HttpClient.HttpClient =>
+  typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers"
+    ? CloudflareHttp2.client
+    : NodeHttp2.client;
 
 /** Where a task's command router serves, from `sandboxGetCommandRouterAccess`. */
 export interface RouterAccess {
@@ -231,9 +272,9 @@ export interface RouterAccess {
 
 /** The caller's credentials (or none), aimed at the router with its JWT. */
 const routerCredentials = (
-  outer: Option.Option<Effect.Effect<Config, ConfigError>>,
+  outer: Option.Option<Effect.Effect<Config, ConfigError | AuthTokenError>>,
   access: RouterAccess,
-): Effect.Effect<Config, ConfigError> =>
+): Effect.Effect<Config, ConfigError | AuthTokenError> =>
   Effect.map(
     Option.isSome(outer)
       ? outer.value

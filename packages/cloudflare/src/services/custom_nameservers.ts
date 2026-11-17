@@ -44,6 +44,8 @@ export class CustomNameserverAlreadyExists
     /*@__PURE__*/ S.TaggedError<CustomNameserverAlreadyExists>()("CustomNameserverAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "already exist" } }],
   ) {}
@@ -53,6 +55,8 @@ export class CustomNameserverNotFound
     /*@__PURE__*/ S.TaggedError<CustomNameserverNotFound>()("CustomNameserverNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -62,6 +66,8 @@ export class CustomNameserversNotEnabled
     /*@__PURE__*/ S.TaggedError<CustomNameserversNotEnabled>()("CustomNameserversNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "not enabled" } }],
   ) {}
@@ -71,6 +77,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -81,14 +89,14 @@ export interface CreateCustomNameserverRequest {
   /** The FQDN of the name server. */
   nsName: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number;
+  nsSet?: number | undefined;
 }
 export type CreateResponseDnsRecordsItemType = "A" | "AAAA";
 export interface CreateResponseDnsRecordsItem {
   /** DNS record type. */
-  type?: CreateResponseDnsRecordsItemType | null;
+  type?: CreateResponseDnsRecordsItemType | null | undefined;
   /** DNS record contents (an IPv4 or IPv6 address). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type CreateResponseDnsRecordsList = Array<CreateResponseDnsRecordsItem>;
 export type CreateResponseStatus = "moved" | "pending" | "verified";
@@ -103,7 +111,7 @@ export interface CreateCustomNameserverResponse {
   /** Identifier. */
   zoneTag: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export interface DeleteCustomNameserverRequest {
   /** Account identifier tag. */
@@ -116,7 +124,7 @@ export interface DeleteCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DeleteResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetCustomNameserverRequest {
   /** Account identifier tag. */
@@ -125,9 +133,9 @@ export interface GetCustomNameserverRequest {
 export type GetResultItemDnsRecordsItemType = "A" | "AAAA";
 export interface GetResultItemDnsRecordsItem {
   /** DNS record type. */
-  type?: GetResultItemDnsRecordsItemType | null;
+  type?: GetResultItemDnsRecordsItemType | null | undefined;
   /** DNS record contents (an IPv4 or IPv6 address). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type GetResultItemDnsRecordsList = Array<GetResultItemDnsRecordsItem>;
 export type GetResultItemStatus = "moved" | "pending" | "verified";
@@ -141,14 +149,14 @@ export interface GetResultItem {
   /** Identifier. */
   zoneTag: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export type GetResultList = Array<GetResultItem>;
 export interface GetCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: GetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateCustomNameserverError =
   | CustomNameserversNotEnabled

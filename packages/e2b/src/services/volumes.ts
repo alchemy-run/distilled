@@ -31,6 +31,8 @@ export class VolumesNotEnabled
     /*@__PURE__*/ S.TaggedError<VolumesNotEnabled>()("VolumesNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "use of volumes is not enabled" } }],
   ) {}
@@ -47,7 +49,7 @@ export interface VolumeAndToken {
   /** Auth token to use for interacting with volume content */
   token: string | Redacted.Redacted<string>;
   /** Domain to use as the destination for volume content requests, replacing the default `api.<E2B_DOMAIN>`. Only returned when the team is connected to a custom (BYOC) cluster; absent otherwise, in which case the default domain is used. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface DeleteVolumeRequest {
   volumeID: string;

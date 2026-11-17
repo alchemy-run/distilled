@@ -29,7 +29,7 @@ export interface ChangeImageProtectionRequest {
   /** ID of the Image. */
   id: number;
   /** If true, prevents the snapshot from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeImageProtectionResponseActionStatus = "running" | "success" | "error";
@@ -132,13 +132,13 @@ export interface ListImageActionsRequest {
   /** ID of the Image. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListImageActionsRequestSortList;
+  sort?: ListImageActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListImageActionsRequestStatusList;
+  status?: ListImageActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListImageActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -218,15 +218,15 @@ export type ListImagesActionsRequestStatusList = Array<
 >;
 export interface ListImagesActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListImagesActionsRequestIdList;
+  id?: ListImagesActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListImagesActionsRequestSortList;
+  sort?: ListImagesActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListImagesActionsRequestStatusList;
+  status?: ListImagesActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListImagesActionsResponseActionsItemStatus = "running" | "success" | "error";

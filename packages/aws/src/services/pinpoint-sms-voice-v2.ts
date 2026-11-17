@@ -149,15 +149,15 @@ export type ClientToken = string;
 export interface AssociateOriginationIdentityRequest {
   PoolId: string;
   OriginationIdentity: string;
-  IsoCountryCode?: string;
-  ClientToken?: string;
+  IsoCountryCode?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface AssociateOriginationIdentityResult {
-  PoolArn?: string;
-  PoolId?: string;
-  OriginationIdentityArn?: string;
-  OriginationIdentity?: string;
-  IsoCountryCode?: string;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  OriginationIdentityArn?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  IsoCountryCode?: string | undefined;
 }
 export type ProtectConfigurationIdOrArn = string;
 export type ConfigurationSetNameOrArn = string;
@@ -177,7 +177,7 @@ export interface AssociateProtectConfigurationResult {
 export type CarrierLookupInputPhoneNumberType = string;
 export interface CarrierLookupRequest {
   PhoneNumber: string;
-  EnableCleansing?: boolean;
+  EnableCleansing?: boolean | undefined;
 }
 export type E164PhoneNumberType = string;
 export type DialingCountryCodeType = string;
@@ -186,14 +186,14 @@ export type MNCType = string;
 export type PhoneNumberType = string;
 export interface CarrierLookupResult {
   E164PhoneNumber: string;
-  DialingCountryCode?: string;
-  IsoCountryCode?: string;
-  Country?: string;
-  MCC?: string;
-  MNC?: string;
-  Carrier?: string;
+  DialingCountryCode?: string | undefined;
+  IsoCountryCode?: string | undefined;
+  Country?: string | undefined;
+  MCC?: string | undefined;
+  MNC?: string | undefined;
+  Carrier?: string | undefined;
   PhoneNumberType: string;
-  OriginalPhoneNumber?: string;
+  OriginalPhoneNumber?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -204,14 +204,14 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateConfigurationSetRequest {
   ConfigurationSetName: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateConfigurationSetResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  Tags?: Tag[];
-  CreatedTimestamp?: Date;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type EventDestinationName = string;
 export type EventType = string;
@@ -235,23 +235,23 @@ export interface CreateEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
   MatchingEventTypes: string[];
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  SnsDestination?: SnsDestination;
-  ClientToken?: string;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  SnsDestination?: SnsDestination | undefined;
+  ClientToken?: string | undefined;
 }
 export interface EventDestination {
   EventDestinationName: string;
   Enabled: boolean;
   MatchingEventTypes: string[];
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  SnsDestination?: SnsDestination;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export interface CreateEventDestinationResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  EventDestination?: EventDestination;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  EventDestination?: EventDestination | undefined;
 }
 export type NotifyConfigurationDisplayName = string;
 export type NotifyConfigurationUseCase = string;
@@ -262,13 +262,13 @@ export type NotifyEnabledChannelsList = string[];
 export interface CreateNotifyConfigurationRequest {
   DisplayName: string;
   UseCase: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
   EnabledChannels: string[];
-  DeletionProtectionEnabled?: boolean;
-  ClientToken?: string;
-  Tags?: Tag[];
+  DeletionProtectionEnabled?: boolean | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type NotifyConfigurationArn = string;
 export type NotifyConfigurationId = string;
@@ -280,60 +280,60 @@ export interface CreateNotifyConfigurationResult {
   NotifyConfigurationId: string;
   DisplayName: string;
   UseCase: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
   EnabledChannels: string[];
   Tier: string;
   TierUpgradeStatus: string;
   Status: string;
-  RejectionReason?: string;
+  RejectionReason?: string | undefined;
   DeletionProtectionEnabled: boolean;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   CreatedTimestamp: Date;
 }
 export type OptOutListName = string;
 export interface CreateOptOutListRequest {
   OptOutListName: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateOptOutListResult {
-  OptOutListArn?: string;
-  OptOutListName?: string;
-  Tags?: Tag[];
-  CreatedTimestamp?: Date;
+  OptOutListArn?: string | undefined;
+  OptOutListName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type MessageType = string;
 export interface CreatePoolRequest {
   OriginationIdentity: string;
-  IsoCountryCode?: string;
+  IsoCountryCode?: string | undefined;
   MessageType: string;
-  DeletionProtectionEnabled?: boolean;
-  Tags?: Tag[];
-  ClientToken?: string;
+  DeletionProtectionEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type PoolStatus = string;
 export type TwoWayChannelArn = string;
 export interface CreatePoolResult {
-  PoolArn?: string;
-  PoolId?: string;
-  Status?: string;
-  MessageType?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  SharedRoutesEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
-  Tags?: Tag[];
-  CreatedTimestamp?: Date;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  Status?: string | undefined;
+  MessageType?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  SharedRoutesEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface CreateProtectConfigurationRequest {
-  ClientToken?: string;
-  DeletionProtectionEnabled?: boolean;
-  Tags?: Tag[];
+  ClientToken?: string | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProtectConfigurationResult {
   ProtectConfigurationArn: string;
@@ -341,14 +341,14 @@ export interface CreateProtectConfigurationResult {
   CreatedTimestamp: Date;
   AccountDefault: boolean;
   DeletionProtectionEnabled: boolean;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type OptOutListNameOrArn = string;
 export interface CreateRcsAgentRequest {
-  DeletionProtectionEnabled?: boolean;
-  OptOutListName?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  DeletionProtectionEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type RcsAgentStatus = string;
 export type TwoWayMediaS3BucketName = string;
@@ -360,23 +360,23 @@ export interface CreateRcsAgentResult {
   RcsAgentId: string;
   Status: string;
   DeletionProtectionEnabled: boolean;
-  OptOutListName?: string;
+  OptOutListName?: string | undefined;
   CreatedTimestamp: Date;
   SelfManagedOptOutsEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   TwoWayEnabled: boolean;
-  TwoWayMediaS3BucketName?: string;
-  TwoWayMediaS3KeyPrefix?: string;
-  TwoWayMediaS3Role?: string;
-  TwoWayRcsEventsEnabled?: string[];
-  Tags?: Tag[];
+  TwoWayMediaS3BucketName?: string | undefined;
+  TwoWayMediaS3KeyPrefix?: string | undefined;
+  TwoWayMediaS3Role?: string | undefined;
+  TwoWayRcsEventsEnabled?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type RegistrationType = string;
 export interface CreateRegistrationRequest {
   RegistrationType: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type RegistrationStatus = string;
 export type RegistrationVersionNumber = number;
@@ -387,8 +387,8 @@ export interface CreateRegistrationResult {
   RegistrationType: string;
   RegistrationStatus: string;
   CurrentVersionNumber: number;
-  AdditionalAttributes?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  AdditionalAttributes?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   CreatedTimestamp: Date;
 }
 export type RegistrationIdOrArn = string;
@@ -405,23 +405,23 @@ export interface CreateRegistrationAssociationResult {
   ResourceArn: string;
   ResourceId: string;
   ResourceType: string;
-  IsoCountryCode?: string;
-  PhoneNumber?: string;
+  IsoCountryCode?: string | undefined;
+  PhoneNumber?: string | undefined;
 }
 export type AttachmentBody = Uint8Array;
 export type AttachmentUrl = string;
 export interface CreateRegistrationAttachmentRequest {
-  AttachmentBody?: Uint8Array;
-  AttachmentUrl?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  AttachmentBody?: Uint8Array | undefined;
+  AttachmentUrl?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type AttachmentStatus = string;
 export interface CreateRegistrationAttachmentResult {
   RegistrationAttachmentArn: string;
   RegistrationAttachmentId: string;
   AttachmentStatus: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   CreatedTimestamp: Date;
 }
 export interface CreateRegistrationVersionRequest {
@@ -430,15 +430,15 @@ export interface CreateRegistrationVersionRequest {
 export type RegistrationVersionStatus = string;
 export interface RegistrationVersionStatusHistory {
   DraftTimestamp: Date;
-  SubmittedTimestamp?: Date;
-  AwsReviewingTimestamp?: Date;
-  ReviewingTimestamp?: Date;
-  RequiresAuthenticationTimestamp?: Date;
-  ApprovedTimestamp?: Date;
-  DiscardedTimestamp?: Date;
-  DeniedTimestamp?: Date;
-  RevokedTimestamp?: Date;
-  ArchivedTimestamp?: Date;
+  SubmittedTimestamp?: Date | undefined;
+  AwsReviewingTimestamp?: Date | undefined;
+  ReviewingTimestamp?: Date | undefined;
+  RequiresAuthenticationTimestamp?: Date | undefined;
+  ApprovedTimestamp?: Date | undefined;
+  DiscardedTimestamp?: Date | undefined;
+  DeniedTimestamp?: Date | undefined;
+  RevokedTimestamp?: Date | undefined;
+  ArchivedTimestamp?: Date | undefined;
 }
 export interface CreateRegistrationVersionResult {
   RegistrationArn: string;
@@ -450,9 +450,9 @@ export interface CreateRegistrationVersionResult {
 export type RcsAgentIdOrArn = string;
 export interface CreateVerifiedDestinationNumberRequest {
   DestinationPhoneNumber: string;
-  RcsAgentId?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  RcsAgentId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type VerificationStatus = string;
 export interface CreateVerifiedDestinationNumberResult {
@@ -460,8 +460,8 @@ export interface CreateVerifiedDestinationNumberResult {
   VerifiedDestinationNumberId: string;
   DestinationPhoneNumber: string;
   Status: string;
-  RcsAgentId?: string;
-  Tags?: Tag[];
+  RcsAgentId?: string | undefined;
+  Tags?: Tag[] | undefined;
   CreatedTimestamp: Date;
 }
 export interface DeleteAccountDefaultProtectConfigurationRequest {}
@@ -475,38 +475,38 @@ export interface DeleteConfigurationSetRequest {
 export type EventDestinationList = EventDestination[];
 export type SenderId = string;
 export interface DeleteConfigurationSetResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  EventDestinations?: EventDestination[];
-  DefaultMessageType?: string;
-  DefaultSenderId?: string;
-  DefaultMessageFeedbackEnabled?: boolean;
-  CreatedTimestamp?: Date;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  EventDestinations?: EventDestination[] | undefined;
+  DefaultMessageType?: string | undefined;
+  DefaultSenderId?: string | undefined;
+  DefaultMessageFeedbackEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface DeleteDefaultMessageTypeRequest {
   ConfigurationSetName: string;
 }
 export interface DeleteDefaultMessageTypeResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  MessageType?: string;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MessageType?: string | undefined;
 }
 export interface DeleteDefaultSenderIdRequest {
   ConfigurationSetName: string;
 }
 export interface DeleteDefaultSenderIdResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  SenderId?: string;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  SenderId?: string | undefined;
 }
 export interface DeleteEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
 }
 export interface DeleteEventDestinationResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  EventDestination?: EventDestination;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  EventDestination?: EventDestination | undefined;
 }
 export type PhoneOrPoolIdOrArn = string;
 export type Keyword = string;
@@ -517,16 +517,16 @@ export interface DeleteKeywordRequest {
 export type KeywordMessage = string;
 export type KeywordAction = string;
 export interface DeleteKeywordResult {
-  OriginationIdentityArn?: string;
-  OriginationIdentity?: string;
-  Keyword?: string;
-  KeywordMessage?: string;
-  KeywordAction?: string;
+  OriginationIdentityArn?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  Keyword?: string | undefined;
+  KeywordMessage?: string | undefined;
+  KeywordAction?: string | undefined;
 }
 export interface DeleteMediaMessageSpendLimitOverrideRequest {}
 export type MonthlyLimit = number;
 export interface DeleteMediaMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export type NotifyConfigurationIdOrArn = string;
 export interface DeleteNotifyConfigurationRequest {
@@ -537,55 +537,55 @@ export interface DeleteNotifyConfigurationResult {
   NotifyConfigurationId: string;
   DisplayName: string;
   UseCase: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
   EnabledChannels: string[];
   Tier: string;
   TierUpgradeStatus: string;
   Status: string;
-  RejectionReason?: string;
+  RejectionReason?: string | undefined;
   DeletionProtectionEnabled: boolean;
   CreatedTimestamp: Date;
 }
 export interface DeleteNotifyMessageSpendLimitOverrideRequest {}
 export interface DeleteNotifyMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface DeleteOptedOutNumberRequest {
   OptOutListName: string;
   OptedOutNumber: string;
 }
 export interface DeleteOptedOutNumberResult {
-  OptOutListArn?: string;
-  OptOutListName?: string;
-  OptedOutNumber?: string;
-  OptedOutTimestamp?: Date;
-  EndUserOptedOut?: boolean;
+  OptOutListArn?: string | undefined;
+  OptOutListName?: string | undefined;
+  OptedOutNumber?: string | undefined;
+  OptedOutTimestamp?: Date | undefined;
+  EndUserOptedOut?: boolean | undefined;
 }
 export interface DeleteOptOutListRequest {
   OptOutListName: string;
 }
 export interface DeleteOptOutListResult {
-  OptOutListArn?: string;
-  OptOutListName?: string;
-  CreatedTimestamp?: Date;
+  OptOutListArn?: string | undefined;
+  OptOutListName?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface DeletePoolRequest {
   PoolId: string;
 }
 export interface DeletePoolResult {
-  PoolArn?: string;
-  PoolId?: string;
-  Status?: string;
-  MessageType?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  SharedRoutesEnabled?: boolean;
-  CreatedTimestamp?: Date;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  Status?: string | undefined;
+  MessageType?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  SharedRoutesEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface DeleteProtectConfigurationRequest {
   ProtectConfigurationId: string;
@@ -608,8 +608,8 @@ export interface DeleteProtectConfigurationRuleSetNumberOverrideResult {
   DestinationPhoneNumber: string;
   CreatedTimestamp: Date;
   Action: string;
-  IsoCountryCode?: string;
-  ExpirationTimestamp?: Date;
+  IsoCountryCode?: string | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export interface DeleteRcsAgentRequest {
   RcsAgentId: string;
@@ -620,16 +620,16 @@ export interface DeleteRcsAgentResult {
   Status: string;
   CreatedTimestamp: Date;
   DeletionProtectionEnabled: boolean;
-  OptOutListName?: string;
+  OptOutListName?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   TwoWayEnabled: boolean;
-  TwoWayRcsEventsEnabled?: string[];
+  TwoWayRcsEventsEnabled?: string[] | undefined;
 }
 export interface DeleteRcsMessageSpendLimitOverrideRequest {}
 export interface DeleteRcsMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface DeleteRegistrationRequest {
   RegistrationId: string;
@@ -640,9 +640,9 @@ export interface DeleteRegistrationResult {
   RegistrationType: string;
   RegistrationStatus: string;
   CurrentVersionNumber: number;
-  ApprovedVersionNumber?: number;
-  LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: { [key: string]: string | undefined };
+  ApprovedVersionNumber?: number | undefined;
+  LatestDeniedVersionNumber?: number | undefined;
+  AdditionalAttributes?: { [key: string]: string | undefined } | undefined;
   CreatedTimestamp: Date;
 }
 export type RegistrationAttachmentIdOrArn = string;
@@ -654,7 +654,7 @@ export interface DeleteRegistrationAttachmentResult {
   RegistrationAttachmentArn: string;
   RegistrationAttachmentId: string;
   AttachmentStatus: string;
-  AttachmentUploadErrorReason?: string;
+  AttachmentUploadErrorReason?: string | undefined;
   CreatedTimestamp: Date;
 }
 export type FieldPath = string;
@@ -670,9 +670,9 @@ export interface DeleteRegistrationFieldValueResult {
   RegistrationId: string;
   VersionNumber: number;
   FieldPath: string;
-  SelectChoices?: string[];
-  TextValue?: string;
-  RegistrationAttachmentId?: string;
+  SelectChoices?: string[] | undefined;
+  TextValue?: string | undefined;
+  RegistrationAttachmentId?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface DeleteResourcePolicyRequest {
@@ -680,13 +680,13 @@ export interface DeleteResourcePolicyRequest {
 }
 export type ResourcePolicy = string;
 export interface DeleteResourcePolicyResult {
-  ResourceArn?: string;
-  Policy?: string;
-  CreatedTimestamp?: Date;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface DeleteTextMessageSpendLimitOverrideRequest {}
 export interface DeleteTextMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export type VerifiedDestinationNumberIdOrArn = string;
 export interface DeleteVerifiedDestinationNumberRequest {
@@ -700,13 +700,13 @@ export interface DeleteVerifiedDestinationNumberResult {
 }
 export interface DeleteVoiceMessageSpendLimitOverrideRequest {}
 export interface DeleteVoiceMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeAccountAttributesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AccountAttributeName = string;
 export interface AccountAttribute {
@@ -715,12 +715,12 @@ export interface AccountAttribute {
 }
 export type AccountAttributeList = AccountAttribute[];
 export interface DescribeAccountAttributesResult {
-  AccountAttributes?: AccountAttribute[];
-  NextToken?: string;
+  AccountAttributes?: AccountAttribute[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAccountLimitsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AccountLimitName = string;
 export interface AccountLimit {
@@ -730,8 +730,8 @@ export interface AccountLimit {
 }
 export type AccountLimitList = AccountLimit[];
 export interface DescribeAccountLimitsResult {
-  AccountLimits?: AccountLimit[];
-  NextToken?: string;
+  AccountLimits?: AccountLimit[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationSetNameList = string[];
 export type ConfigurationSetFilterName = string;
@@ -743,25 +743,25 @@ export interface ConfigurationSetFilter {
 }
 export type ConfigurationSetFilterList = ConfigurationSetFilter[];
 export interface DescribeConfigurationSetsRequest {
-  ConfigurationSetNames?: string[];
-  Filters?: ConfigurationSetFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  ConfigurationSetNames?: string[] | undefined;
+  Filters?: ConfigurationSetFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ConfigurationSetInformation {
   ConfigurationSetArn: string;
   ConfigurationSetName: string;
   EventDestinations: EventDestination[];
-  DefaultMessageType?: string;
-  DefaultSenderId?: string;
-  DefaultMessageFeedbackEnabled?: boolean;
+  DefaultMessageType?: string | undefined;
+  DefaultSenderId?: string | undefined;
+  DefaultMessageFeedbackEnabled?: boolean | undefined;
   CreatedTimestamp: Date;
-  ProtectConfigurationId?: string;
+  ProtectConfigurationId?: string | undefined;
 }
 export type ConfigurationSetInformationList = ConfigurationSetInformation[];
 export interface DescribeConfigurationSetsResult {
-  ConfigurationSets?: ConfigurationSetInformation[];
-  NextToken?: string;
+  ConfigurationSets?: ConfigurationSetInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type KeywordList = string[];
 export type KeywordFilterName = string;
@@ -772,10 +772,10 @@ export interface KeywordFilter {
 export type KeywordFilterList = KeywordFilter[];
 export interface DescribeKeywordsRequest {
   OriginationIdentity: string;
-  Keywords?: string[];
-  Filters?: KeywordFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Keywords?: string[] | undefined;
+  Filters?: KeywordFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface KeywordInformation {
   Keyword: string;
@@ -784,10 +784,10 @@ export interface KeywordInformation {
 }
 export type KeywordInformationList = KeywordInformation[];
 export interface DescribeKeywordsResult {
-  OriginationIdentityArn?: string;
-  OriginationIdentity?: string;
-  Keywords?: KeywordInformation[];
-  NextToken?: string;
+  OriginationIdentityArn?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  Keywords?: KeywordInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NotifyConfigurationIdList = string[];
 export type NotifyConfigurationFilterName = string;
@@ -797,31 +797,31 @@ export interface NotifyConfigurationFilter {
 }
 export type NotifyConfigurationFilterList = NotifyConfigurationFilter[];
 export interface DescribeNotifyConfigurationsRequest {
-  NotifyConfigurationIds?: string[];
-  Filters?: NotifyConfigurationFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NotifyConfigurationIds?: string[] | undefined;
+  Filters?: NotifyConfigurationFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface NotifyConfigurationInformation {
   NotifyConfigurationArn: string;
   NotifyConfigurationId: string;
   DisplayName: string;
   UseCase: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
   EnabledChannels: string[];
   Tier: string;
   TierUpgradeStatus: string;
   Status: string;
-  RejectionReason?: string;
+  RejectionReason?: string | undefined;
   DeletionProtectionEnabled: boolean;
   CreatedTimestamp: Date;
 }
 export type NotifyConfigurationInformationList = NotifyConfigurationInformation[];
 export interface DescribeNotifyConfigurationsResult {
-  NotifyConfigurations?: NotifyConfigurationInformation[];
-  NextToken?: string;
+  NotifyConfigurations?: NotifyConfigurationInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NotifyTemplateIdList = string[];
 export type NotifyTemplateFilterName = string;
@@ -831,10 +831,10 @@ export interface NotifyTemplateFilter {
 }
 export type NotifyTemplateFilterList = NotifyTemplateFilter[];
 export interface DescribeNotifyTemplatesRequest {
-  TemplateIds?: string[];
-  Filters?: NotifyTemplateFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  TemplateIds?: string[] | undefined;
+  Filters?: NotifyTemplateFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NotifyTemplateVersion = number;
 export type NotifyTemplateType = string;
@@ -848,14 +848,14 @@ export type TemplateVariableSource = string;
 export interface TemplateVariableMetadata {
   Type: string;
   Required: boolean;
-  Description?: string;
-  MaxLength?: number;
-  MinValue?: number;
-  MaxValue?: number;
-  DefaultValue?: string;
-  Pattern?: string;
-  Sample?: string;
-  Source?: string;
+  Description?: string | undefined;
+  MaxLength?: number | undefined;
+  MinValue?: number | undefined;
+  MaxValue?: number | undefined;
+  DefaultValue?: string | undefined;
+  Pattern?: string | undefined;
+  Sample?: string | undefined;
+  Source?: string | undefined;
 }
 export type TemplateVariablesMap = { [key: string]: TemplateVariableMetadata | undefined };
 export type VoiceId = string;
@@ -865,19 +865,19 @@ export interface NotifyTemplateInformation {
   Version: number;
   TemplateType: string;
   Channels: string[];
-  TierAccess?: string[];
-  Status?: string;
-  SupportedCountries?: string[];
-  LanguageCode?: string;
-  Content?: string;
-  Variables?: { [key: string]: TemplateVariableMetadata | undefined };
-  SupportedVoiceIds?: string[];
+  TierAccess?: string[] | undefined;
+  Status?: string | undefined;
+  SupportedCountries?: string[] | undefined;
+  LanguageCode?: string | undefined;
+  Content?: string | undefined;
+  Variables?: { [key: string]: TemplateVariableMetadata | undefined } | undefined;
+  SupportedVoiceIds?: string[] | undefined;
   CreatedTimestamp: Date;
 }
 export type NotifyTemplateInformationList = NotifyTemplateInformation[];
 export interface DescribeNotifyTemplatesResult {
-  NotifyTemplates?: NotifyTemplateInformation[];
-  NextToken?: string;
+  NotifyTemplates?: NotifyTemplateInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptedOutNumberList = string[];
 export type OptedOutFilterName = string;
@@ -888,10 +888,10 @@ export interface OptedOutFilter {
 export type OptedOutFilterList = OptedOutFilter[];
 export interface DescribeOptedOutNumbersRequest {
   OptOutListName: string;
-  OptedOutNumbers?: string[];
-  Filters?: OptedOutFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  OptedOutNumbers?: string[] | undefined;
+  Filters?: OptedOutFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OptedOutNumberInformation {
   OptedOutNumber: string;
@@ -900,18 +900,18 @@ export interface OptedOutNumberInformation {
 }
 export type OptedOutNumberInformationList = OptedOutNumberInformation[];
 export interface DescribeOptedOutNumbersResult {
-  OptOutListArn?: string;
-  OptOutListName?: string;
-  OptedOutNumbers?: OptedOutNumberInformation[];
-  NextToken?: string;
+  OptOutListArn?: string | undefined;
+  OptOutListName?: string | undefined;
+  OptedOutNumbers?: OptedOutNumberInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptOutListNameList = string[];
 export type Owner = string;
 export interface DescribeOptOutListsRequest {
-  OptOutListNames?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  Owner?: string;
+  OptOutListNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface OptOutListInformation {
   OptOutListArn: string;
@@ -920,8 +920,8 @@ export interface OptOutListInformation {
 }
 export type OptOutListInformationList = OptOutListInformation[];
 export interface DescribeOptOutListsResult {
-  OptOutLists?: OptOutListInformation[];
-  NextToken?: string;
+  OptOutLists?: OptOutListInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PhoneNumberIdOrArn = string;
 export type PhoneNumberIdList = string[];
@@ -932,22 +932,22 @@ export interface PhoneNumberFilter {
 }
 export type PhoneNumberFilterList = PhoneNumberFilter[];
 export interface DescribePhoneNumbersRequest {
-  PhoneNumberIds?: string[];
-  Filters?: PhoneNumberFilter[];
-  NextToken?: string;
-  MaxResults?: number;
-  Owner?: string;
+  PhoneNumberIds?: string[] | undefined;
+  Filters?: PhoneNumberFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Owner?: string | undefined;
 }
 export type NumberStatus = string;
 export type NumberType = string;
 export type LongMap = { [key: string]: number | undefined };
 export interface MessagingLimits {
-  RateLimits?: { [key: string]: number | undefined };
-  DailyMessageCaps?: { [key: string]: number | undefined };
+  RateLimits?: { [key: string]: number | undefined } | undefined;
+  DailyMessageCaps?: { [key: string]: number | undefined } | undefined;
 }
 export interface PhoneNumberInformation {
   PhoneNumberArn: string;
-  PhoneNumberId?: string;
+  PhoneNumberId?: string | undefined;
   PhoneNumber: string;
   Status: string;
   IsoCountryCode: string;
@@ -956,22 +956,22 @@ export interface PhoneNumberInformation {
   NumberType: string;
   MonthlyLeasingPrice: string;
   TwoWayEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
   OptOutListName: string;
-  InternationalSendingEnabled?: boolean;
+  InternationalSendingEnabled?: boolean | undefined;
   DeletionProtectionEnabled: boolean;
-  PoolId?: string;
-  RegistrationId?: string;
-  MessagingLimits?: MessagingLimits;
-  PricingTier?: string;
+  PoolId?: string | undefined;
+  RegistrationId?: string | undefined;
+  MessagingLimits?: MessagingLimits | undefined;
+  PricingTier?: string | undefined;
   CreatedTimestamp: Date;
 }
 export type PhoneNumberInformationList = PhoneNumberInformation[];
 export interface DescribePhoneNumbersResult {
-  PhoneNumbers?: PhoneNumberInformation[];
-  NextToken?: string;
+  PhoneNumbers?: PhoneNumberInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PoolIdList = string[];
 export type PoolFilterName = string;
@@ -981,11 +981,11 @@ export interface PoolFilter {
 }
 export type PoolFilterList = PoolFilter[];
 export interface DescribePoolsRequest {
-  PoolIds?: string[];
-  Filters?: PoolFilter[];
-  NextToken?: string;
-  MaxResults?: number;
-  Owner?: string;
+  PoolIds?: string[] | undefined;
+  Filters?: PoolFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface PoolInformation {
   PoolArn: string;
@@ -993,8 +993,8 @@ export interface PoolInformation {
   Status: string;
   MessageType: string;
   TwoWayEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
   OptOutListName: string;
   SharedRoutesEnabled: boolean;
@@ -1003,8 +1003,8 @@ export interface PoolInformation {
 }
 export type PoolInformationList = PoolInformation[];
 export interface DescribePoolsResult {
-  Pools?: PoolInformation[];
-  NextToken?: string;
+  Pools?: PoolInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProtectConfigurationIdList = string[];
 export type ProtectConfigurationFilterName = string;
@@ -1014,10 +1014,10 @@ export interface ProtectConfigurationFilter {
 }
 export type ProtectConfigurationFilterList = ProtectConfigurationFilter[];
 export interface DescribeProtectConfigurationsRequest {
-  ProtectConfigurationIds?: string[];
-  Filters?: ProtectConfigurationFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  ProtectConfigurationIds?: string[] | undefined;
+  Filters?: ProtectConfigurationFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProtectConfigurationInformation {
   ProtectConfigurationArn: string;
@@ -1028,8 +1028,8 @@ export interface ProtectConfigurationInformation {
 }
 export type ProtectConfigurationInformationList = ProtectConfigurationInformation[];
 export interface DescribeProtectConfigurationsResult {
-  ProtectConfigurations?: ProtectConfigurationInformation[];
-  NextToken?: string;
+  ProtectConfigurations?: ProtectConfigurationInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CountryLaunchStatusFilterName = string;
 export interface CountryLaunchStatusFilter {
@@ -1039,10 +1039,10 @@ export interface CountryLaunchStatusFilter {
 export type CountryLaunchStatusFilterList = CountryLaunchStatusFilter[];
 export interface DescribeRcsAgentCountryLaunchStatusRequest {
   RcsAgentId: string;
-  IsoCountryCodes?: string[];
-  Filters?: CountryLaunchStatusFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  IsoCountryCodes?: string[] | undefined;
+  Filters?: CountryLaunchStatusFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CountryLaunchStatus = string;
 export type CarrierStatus = string;
@@ -1054,7 +1054,7 @@ export type CarrierStatusInformationList = CarrierStatusInformation[];
 export interface CountryLaunchStatusInformation {
   IsoCountryCode: string;
   Status: string;
-  RcsPlatformId?: string;
+  RcsPlatformId?: string | undefined;
   RegistrationId: string;
   CarrierStatus: CarrierStatusInformation[];
 }
@@ -1062,8 +1062,8 @@ export type CountryLaunchStatusInformationList = CountryLaunchStatusInformation[
 export interface DescribeRcsAgentCountryLaunchStatusResult {
   RcsAgentId: string;
   RcsAgentArn: string;
-  CountryLaunchStatus?: CountryLaunchStatusInformation[];
-  NextToken?: string;
+  CountryLaunchStatus?: CountryLaunchStatusInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RcsAgentIdList = string[];
 export type RcsAgentFilterName = string;
@@ -1073,16 +1073,16 @@ export interface RcsAgentFilter {
 }
 export type RcsAgentFilterList = RcsAgentFilter[];
 export interface DescribeRcsAgentsRequest {
-  RcsAgentIds?: string[];
-  Owner?: string;
-  Filters?: RcsAgentFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RcsAgentIds?: string[] | undefined;
+  Owner?: string | undefined;
+  Filters?: RcsAgentFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TestingAgentStatus = string;
 export interface TestingAgentInformation {
   Status: string;
-  TestingAgentId?: string;
+  TestingAgentId?: string | undefined;
   RegistrationId: string;
 }
 export interface RcsAgentInformation {
@@ -1091,23 +1091,23 @@ export interface RcsAgentInformation {
   Status: string;
   CreatedTimestamp: Date;
   DeletionProtectionEnabled: boolean;
-  OptOutListName?: string;
+  OptOutListName?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   TwoWayEnabled: boolean;
-  PoolId?: string;
-  TwoWayMediaS3BucketName?: string;
-  TwoWayMediaS3KeyPrefix?: string;
-  TwoWayMediaS3Role?: string;
-  TwoWayRcsEventsEnabled?: string[];
-  TestingAgent?: TestingAgentInformation;
-  MessagingLimits?: MessagingLimits;
+  PoolId?: string | undefined;
+  TwoWayMediaS3BucketName?: string | undefined;
+  TwoWayMediaS3KeyPrefix?: string | undefined;
+  TwoWayMediaS3Role?: string | undefined;
+  TwoWayRcsEventsEnabled?: string[] | undefined;
+  TestingAgent?: TestingAgentInformation | undefined;
+  MessagingLimits?: MessagingLimits | undefined;
 }
 export type RcsAgentInformationList = RcsAgentInformation[];
 export interface DescribeRcsAgentsResult {
-  RcsAgents?: RcsAgentInformation[];
-  NextToken?: string;
+  RcsAgents?: RcsAgentInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RegistrationAttachmentIdList = string[];
 export type RegistrationAttachmentFilterName = string;
@@ -1117,32 +1117,32 @@ export interface RegistrationAttachmentFilter {
 }
 export type RegistrationAttachmentFilterList = RegistrationAttachmentFilter[];
 export interface DescribeRegistrationAttachmentsRequest {
-  RegistrationAttachmentIds?: string[];
-  Filters?: RegistrationAttachmentFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RegistrationAttachmentIds?: string[] | undefined;
+  Filters?: RegistrationAttachmentFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationAttachmentsInformation {
   RegistrationAttachmentArn: string;
   RegistrationAttachmentId: string;
   AttachmentStatus: string;
-  AttachmentUploadErrorReason?: string;
+  AttachmentUploadErrorReason?: string | undefined;
   CreatedTimestamp: Date;
-  AttachmentUrl?: string;
+  AttachmentUrl?: string | undefined;
 }
 export type RegistrationAttachmentsInformationList = RegistrationAttachmentsInformation[];
 export interface DescribeRegistrationAttachmentsResult {
   RegistrationAttachments: RegistrationAttachmentsInformation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SectionPath = string;
 export type FieldPathList = string[];
 export interface DescribeRegistrationFieldDefinitionsRequest {
   RegistrationType: string;
-  SectionPath?: string;
-  FieldPaths?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  SectionPath?: string | undefined;
+  FieldPaths?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FieldType = string;
 export type FieldRequirement = string;
@@ -1159,19 +1159,19 @@ export interface TextValidation {
 }
 export interface SelectOptionDescription {
   Option: string;
-  Title?: string;
-  Description?: string;
+  Title?: string | undefined;
+  Description?: string | undefined;
 }
 export type SelectOptionDescriptionsList = SelectOptionDescription[];
 export interface RegistrationFieldDisplayHints {
   Title: string;
   ShortDescription: string;
-  LongDescription?: string;
-  DocumentationTitle?: string;
-  DocumentationLink?: string;
-  SelectOptionDescriptions?: SelectOptionDescription[];
-  TextValidationDescription?: string;
-  ExampleTextValue?: string;
+  LongDescription?: string | undefined;
+  DocumentationTitle?: string | undefined;
+  DocumentationLink?: string | undefined;
+  SelectOptionDescriptions?: SelectOptionDescription[] | undefined;
+  TextValidationDescription?: string | undefined;
+  ExampleTextValue?: string | undefined;
 }
 export type ConditionOperator = string;
 export type ConditionValue = string;
@@ -1179,20 +1179,20 @@ export type ConditionValueList = string[];
 export interface FieldCondition {
   DependsOnFieldPath: string;
   Operator: string;
-  Values?: string[];
+  Values?: string[] | undefined;
 }
 export type FieldConditionList = FieldCondition[];
 export type ConditionalFieldBehavior = string;
 export interface ConditionalValidation {
-  MinLength?: number;
-  MaxLength?: number;
-  Pattern?: string;
-  AllowedValues?: string[];
+  MinLength?: number | undefined;
+  MaxLength?: number | undefined;
+  Pattern?: string | undefined;
+  AllowedValues?: string[] | undefined;
 }
 export interface ConditionalRule {
   Conditions: FieldCondition[];
   RuleBehavior: string;
-  ConditionalValidation?: ConditionalValidation;
+  ConditionalValidation?: ConditionalValidation | undefined;
 }
 export type ConditionalRuleList = ConditionalRule[];
 export interface ConditionalBehavior {
@@ -1204,32 +1204,32 @@ export interface RegistrationFieldDefinition {
   FieldPath: string;
   FieldType: string;
   FieldRequirement: string;
-  SelectValidation?: SelectValidation;
-  TextValidation?: TextValidation;
+  SelectValidation?: SelectValidation | undefined;
+  TextValidation?: TextValidation | undefined;
   DisplayHints: RegistrationFieldDisplayHints;
-  ConditionalBehavior?: ConditionalBehavior;
+  ConditionalBehavior?: ConditionalBehavior | undefined;
 }
 export type RegistrationFieldDefinitionList = RegistrationFieldDefinition[];
 export interface DescribeRegistrationFieldDefinitionsResult {
   RegistrationType: string;
   RegistrationFieldDefinitions: RegistrationFieldDefinition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeRegistrationFieldValuesRequest {
   RegistrationId: string;
-  VersionNumber?: number;
-  SectionPath?: string;
-  FieldPaths?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  VersionNumber?: number | undefined;
+  SectionPath?: string | undefined;
+  FieldPaths?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationFieldValueInformation {
   FieldPath: string;
-  SelectChoices?: string[];
-  TextValue?: string;
-  RegistrationAttachmentId?: string;
-  DeniedReason?: string;
-  Feedback?: string;
+  SelectChoices?: string[] | undefined;
+  TextValue?: string | undefined;
+  RegistrationAttachmentId?: string | undefined;
+  DeniedReason?: string | undefined;
+  Feedback?: string | undefined;
 }
 export type RegistrationFieldValueInformationList = RegistrationFieldValueInformation[];
 export interface DescribeRegistrationFieldValuesResult {
@@ -1237,7 +1237,7 @@ export interface DescribeRegistrationFieldValuesResult {
   RegistrationId: string;
   VersionNumber: number;
   RegistrationFieldValues: RegistrationFieldValueInformation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RegistrationIdList = string[];
 export type RegistrationFilterName = string;
@@ -1247,10 +1247,10 @@ export interface RegistrationFilter {
 }
 export type RegistrationFilterList = RegistrationFilter[];
 export interface DescribeRegistrationsRequest {
-  RegistrationIds?: string[];
-  Filters?: RegistrationFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RegistrationIds?: string[] | undefined;
+  Filters?: RegistrationFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationInformation {
   RegistrationArn: string;
@@ -1258,29 +1258,29 @@ export interface RegistrationInformation {
   RegistrationType: string;
   RegistrationStatus: string;
   CurrentVersionNumber: number;
-  ApprovedVersionNumber?: number;
-  LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: { [key: string]: string | undefined };
+  ApprovedVersionNumber?: number | undefined;
+  LatestDeniedVersionNumber?: number | undefined;
+  AdditionalAttributes?: { [key: string]: string | undefined } | undefined;
   CreatedTimestamp: Date;
 }
 export type RegistrationInformationList = RegistrationInformation[];
 export interface DescribeRegistrationsResult {
   Registrations: RegistrationInformation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SectionPathList = string[];
 export interface DescribeRegistrationSectionDefinitionsRequest {
   RegistrationType: string;
-  SectionPaths?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  SectionPaths?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationSectionDisplayHints {
   Title: string;
   ShortDescription: string;
-  LongDescription?: string;
-  DocumentationTitle?: string;
-  DocumentationLink?: string;
+  LongDescription?: string | undefined;
+  DocumentationTitle?: string | undefined;
+  DocumentationLink?: string | undefined;
 }
 export interface RegistrationSectionDefinition {
   SectionPath: string;
@@ -1290,7 +1290,7 @@ export type RegistrationSectionDefinitionList = RegistrationSectionDefinition[];
 export interface DescribeRegistrationSectionDefinitionsResult {
   RegistrationType: string;
   RegistrationSectionDefinitions: RegistrationSectionDefinition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RegistrationTypeList = string[];
 export type RegistrationTypeFilterName = string;
@@ -1300,36 +1300,36 @@ export interface RegistrationTypeFilter {
 }
 export type RegistrationTypeFilterList = RegistrationTypeFilter[];
 export interface DescribeRegistrationTypeDefinitionsRequest {
-  RegistrationTypes?: string[];
-  Filters?: RegistrationTypeFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RegistrationTypes?: string[] | undefined;
+  Filters?: RegistrationTypeFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type RegistrationAssociationBehavior = string;
 export type RegistrationDisassociationBehavior = string;
 export interface SupportedAssociation {
   ResourceType: string;
-  IsoCountryCode?: string;
+  IsoCountryCode?: string | undefined;
   AssociationBehavior: string;
   DisassociationBehavior: string;
 }
 export type SupportedAssociationList = SupportedAssociation[];
 export interface RegistrationTypeDisplayHints {
   Title: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  DocumentationTitle?: string;
-  DocumentationLink?: string;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  DocumentationTitle?: string | undefined;
+  DocumentationLink?: string | undefined;
 }
 export interface RegistrationTypeDefinition {
   RegistrationType: string;
-  SupportedAssociations?: SupportedAssociation[];
+  SupportedAssociations?: SupportedAssociation[] | undefined;
   DisplayHints: RegistrationTypeDisplayHints;
 }
 export type RegistrationTypeDefinitionList = RegistrationTypeDefinition[];
 export interface DescribeRegistrationTypeDefinitionsResult {
   RegistrationTypeDefinitions: RegistrationTypeDefinition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RegistrationVersionNumberList = number[];
 export type RegistrationVersionFilterName = string;
@@ -1340,32 +1340,32 @@ export interface RegistrationVersionFilter {
 export type RegistrationVersionFilterList = RegistrationVersionFilter[];
 export interface DescribeRegistrationVersionsRequest {
   RegistrationId: string;
-  VersionNumbers?: number[];
-  Filters?: RegistrationVersionFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  VersionNumbers?: number[] | undefined;
+  Filters?: RegistrationVersionFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationDeniedReasonInformation {
   Reason: string;
   ShortDescription: string;
-  LongDescription?: string;
-  DocumentationTitle?: string;
-  DocumentationLink?: string;
+  LongDescription?: string | undefined;
+  DocumentationTitle?: string | undefined;
+  DocumentationLink?: string | undefined;
 }
 export type RegistrationDeniedReasonInformationList = RegistrationDeniedReasonInformation[];
 export interface RegistrationVersionInformation {
   VersionNumber: number;
   RegistrationVersionStatus: string;
   RegistrationVersionStatusHistory: RegistrationVersionStatusHistory;
-  DeniedReasons?: RegistrationDeniedReasonInformation[];
-  Feedback?: string;
+  DeniedReasons?: RegistrationDeniedReasonInformation[] | undefined;
+  Feedback?: string | undefined;
 }
 export type RegistrationVersionInformationList = RegistrationVersionInformation[];
 export interface DescribeRegistrationVersionsResult {
   RegistrationArn: string;
   RegistrationId: string;
   RegistrationVersions: RegistrationVersionInformation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SenderIdOrArn = string;
 export interface SenderIdAndCountry {
@@ -1380,11 +1380,11 @@ export interface SenderIdFilter {
 }
 export type SenderIdFilterList = SenderIdFilter[];
 export interface DescribeSenderIdsRequest {
-  SenderIds?: SenderIdAndCountry[];
-  Filters?: SenderIdFilter[];
-  NextToken?: string;
-  MaxResults?: number;
-  Owner?: string;
+  SenderIds?: SenderIdAndCountry[] | undefined;
+  Filters?: SenderIdFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Owner?: string | undefined;
 }
 export type MessageTypeList = string[];
 export interface SenderIdInformation {
@@ -1395,18 +1395,18 @@ export interface SenderIdInformation {
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
-  RegistrationId?: string;
-  MessagingLimits?: MessagingLimits;
-  PricingTier?: string;
+  RegistrationId?: string | undefined;
+  MessagingLimits?: MessagingLimits | undefined;
+  PricingTier?: string | undefined;
 }
 export type SenderIdInformationList = SenderIdInformation[];
 export interface DescribeSenderIdsResult {
-  SenderIds?: SenderIdInformation[];
-  NextToken?: string;
+  SenderIds?: SenderIdInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeSpendLimitsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SpendLimitName = string;
 export interface SpendLimit {
@@ -1417,8 +1417,8 @@ export interface SpendLimit {
 }
 export type SpendLimitList = SpendLimit[];
 export interface DescribeSpendLimitsResult {
-  SpendLimits?: SpendLimit[];
-  NextToken?: string;
+  SpendLimits?: SpendLimit[] | undefined;
+  NextToken?: string | undefined;
 }
 export type VerifiedDestinationNumberIdList = string[];
 export type DestinationPhoneNumberList = string[];
@@ -1429,37 +1429,37 @@ export interface VerifiedDestinationNumberFilter {
 }
 export type VerifiedDestinationNumberFilterList = VerifiedDestinationNumberFilter[];
 export interface DescribeVerifiedDestinationNumbersRequest {
-  VerifiedDestinationNumberIds?: string[];
-  DestinationPhoneNumbers?: string[];
-  Filters?: VerifiedDestinationNumberFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  VerifiedDestinationNumberIds?: string[] | undefined;
+  DestinationPhoneNumbers?: string[] | undefined;
+  Filters?: VerifiedDestinationNumberFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface VerifiedDestinationNumberInformation {
   VerifiedDestinationNumberArn: string;
   VerifiedDestinationNumberId: string;
   DestinationPhoneNumber: string;
   Status: string;
-  RcsAgentId?: string;
+  RcsAgentId?: string | undefined;
   CreatedTimestamp: Date;
 }
 export type VerifiedDestinationNumberInformationList = VerifiedDestinationNumberInformation[];
 export interface DescribeVerifiedDestinationNumbersResult {
   VerifiedDestinationNumbers: VerifiedDestinationNumberInformation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DisassociateOriginationIdentityRequest {
   PoolId: string;
   OriginationIdentity: string;
-  IsoCountryCode?: string;
-  ClientToken?: string;
+  IsoCountryCode?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateOriginationIdentityResult {
-  PoolArn?: string;
-  PoolId?: string;
-  OriginationIdentityArn?: string;
-  OriginationIdentity?: string;
-  IsoCountryCode?: string;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  OriginationIdentityArn?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  IsoCountryCode?: string | undefined;
 }
 export interface DisassociateProtectConfigurationRequest {
   ProtectConfigurationId: string;
@@ -1502,9 +1502,9 @@ export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export interface GetResourcePolicyResult {
-  ResourceArn?: string;
-  Policy?: string;
-  CreatedTimestamp?: Date;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type SearchableNumberType = string;
 export type PreferenceType = string;
@@ -1521,23 +1521,23 @@ export interface ListAvailablePhoneNumbersRequest {
   IsoCountryCode: string;
   NumberCapabilities: string[];
   NumberType: string;
-  RegistrationId?: string;
-  NumberPreference?: NumberPreferenceItem[];
-  NextToken?: string;
-  MaxResults?: number;
+  RegistrationId?: string | undefined;
+  NumberPreference?: NumberPreferenceItem[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AvailablePhoneNumberList = string[];
 export interface ListAvailablePhoneNumbersResult {
   AvailablePhoneNumbers: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type NotifyUseCaseList = string[];
 export interface ListNotifyCountriesRequest {
-  Channels?: string[];
-  UseCases?: string[];
-  Tier?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Channels?: string[] | undefined;
+  UseCases?: string[] | undefined;
+  Tier?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NotifyTierList = string[];
 export interface NotifyCountryInformation {
@@ -1550,8 +1550,8 @@ export interface NotifyCountryInformation {
 }
 export type NotifyCountryInformationList = NotifyCountryInformation[];
 export interface ListNotifyCountriesResult {
-  NotifyCountries?: NotifyCountryInformation[];
-  NextToken?: string;
+  NotifyCountries?: NotifyCountryInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PoolOriginationIdentitiesFilterName = string;
 export interface PoolOriginationIdentitiesFilter {
@@ -1561,23 +1561,23 @@ export interface PoolOriginationIdentitiesFilter {
 export type PoolOriginationIdentitiesFilterList = PoolOriginationIdentitiesFilter[];
 export interface ListPoolOriginationIdentitiesRequest {
   PoolId: string;
-  Filters?: PoolOriginationIdentitiesFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: PoolOriginationIdentitiesFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OriginationIdentityMetadata {
   OriginationIdentityArn: string;
   OriginationIdentity: string;
   IsoCountryCode: string;
   NumberCapabilities: string[];
-  PhoneNumber?: string;
+  PhoneNumber?: string | undefined;
 }
 export type OriginationIdentityMetadataList = OriginationIdentityMetadata[];
 export interface ListPoolOriginationIdentitiesResult {
-  PoolArn?: string;
-  PoolId?: string;
-  OriginationIdentities?: OriginationIdentityMetadata[];
-  NextToken?: string;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  OriginationIdentities?: OriginationIdentityMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProtectConfigurationRuleSetNumberOverrideFilterName = string;
 export interface ProtectConfigurationRuleSetNumberOverrideFilterItem {
@@ -1588,24 +1588,24 @@ export type ListProtectConfigurationRuleSetNumberOverrideFilter =
   ProtectConfigurationRuleSetNumberOverrideFilterItem[];
 export interface ListProtectConfigurationRuleSetNumberOverridesRequest {
   ProtectConfigurationId: string;
-  Filters?: ProtectConfigurationRuleSetNumberOverrideFilterItem[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ProtectConfigurationRuleSetNumberOverrideFilterItem[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProtectConfigurationRuleSetNumberOverride {
   DestinationPhoneNumber: string;
   CreatedTimestamp: Date;
   Action: string;
-  IsoCountryCode?: string;
-  ExpirationTimestamp?: Date;
+  IsoCountryCode?: string | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export type ProtectConfigurationRuleSetNumberOverrideList =
   ProtectConfigurationRuleSetNumberOverride[];
 export interface ListProtectConfigurationRuleSetNumberOverridesResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
-  RuleSetNumberOverrides?: ProtectConfigurationRuleSetNumberOverride[];
-  NextToken?: string;
+  RuleSetNumberOverrides?: ProtectConfigurationRuleSetNumberOverride[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RegistrationAssociationFilterName = string;
 export interface RegistrationAssociationFilter {
@@ -1615,16 +1615,16 @@ export interface RegistrationAssociationFilter {
 export type RegistrationAssociationFilterList = RegistrationAssociationFilter[];
 export interface ListRegistrationAssociationsRequest {
   RegistrationId: string;
-  Filters?: RegistrationAssociationFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: RegistrationAssociationFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RegistrationAssociationMetadata {
   ResourceArn: string;
   ResourceId: string;
   ResourceType: string;
-  IsoCountryCode?: string;
-  PhoneNumber?: string;
+  IsoCountryCode?: string | undefined;
+  PhoneNumber?: string | undefined;
 }
 export type RegistrationAssociationMetadataList = RegistrationAssociationMetadata[];
 export interface ListRegistrationAssociationsResult {
@@ -1632,27 +1632,27 @@ export interface ListRegistrationAssociationsResult {
   RegistrationId: string;
   RegistrationType: string;
   RegistrationAssociations: RegistrationAssociationMetadata[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResult {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PutKeywordRequest {
   OriginationIdentity: string;
   Keyword: string;
   KeywordMessage: string;
-  KeywordAction?: string;
+  KeywordAction?: string | undefined;
 }
 export interface PutKeywordResult {
-  OriginationIdentityArn?: string;
-  OriginationIdentity?: string;
-  Keyword?: string;
-  KeywordMessage?: string;
-  KeywordAction?: string;
+  OriginationIdentityArn?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  Keyword?: string | undefined;
+  KeywordMessage?: string | undefined;
+  KeywordAction?: string | undefined;
 }
 export type MessageId = string;
 export type MessageFeedbackStatus = string;
@@ -1669,18 +1669,18 @@ export interface PutOptedOutNumberRequest {
   OptedOutNumber: string;
 }
 export interface PutOptedOutNumberResult {
-  OptOutListArn?: string;
-  OptOutListName?: string;
-  OptedOutNumber?: string;
-  OptedOutTimestamp?: Date;
-  EndUserOptedOut?: boolean;
+  OptOutListArn?: string | undefined;
+  OptOutListName?: string | undefined;
+  OptedOutNumber?: string | undefined;
+  OptedOutTimestamp?: Date | undefined;
+  EndUserOptedOut?: boolean | undefined;
 }
 export interface PutProtectConfigurationRuleSetNumberOverrideRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ProtectConfigurationId: string;
   DestinationPhoneNumber: string;
   Action: string;
-  ExpirationTimestamp?: Date;
+  ExpirationTimestamp?: Date | undefined;
 }
 export interface PutProtectConfigurationRuleSetNumberOverrideResult {
   ProtectConfigurationArn: string;
@@ -1688,54 +1688,54 @@ export interface PutProtectConfigurationRuleSetNumberOverrideResult {
   DestinationPhoneNumber: string;
   CreatedTimestamp: Date;
   Action: string;
-  IsoCountryCode?: string;
-  ExpirationTimestamp?: Date;
+  IsoCountryCode?: string | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export interface PutRegistrationFieldValueRequest {
   RegistrationId: string;
   FieldPath: string;
-  SelectChoices?: string[];
-  TextValue?: string;
-  RegistrationAttachmentId?: string;
+  SelectChoices?: string[] | undefined;
+  TextValue?: string | undefined;
+  RegistrationAttachmentId?: string | undefined;
 }
 export interface PutRegistrationFieldValueResult {
   RegistrationArn: string;
   RegistrationId: string;
   VersionNumber: number;
   FieldPath: string;
-  SelectChoices?: string[];
-  TextValue?: string;
-  RegistrationAttachmentId?: string;
+  SelectChoices?: string[] | undefined;
+  TextValue?: string | undefined;
+  RegistrationAttachmentId?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   Policy: string;
 }
 export interface PutResourcePolicyResult {
-  ResourceArn?: string;
-  Policy?: string;
-  CreatedTimestamp?: Date;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface ReleasePhoneNumberRequest {
   PhoneNumberId: string;
 }
 export interface ReleasePhoneNumberResult {
-  PhoneNumberArn?: string;
-  PhoneNumberId?: string;
-  PhoneNumber?: string;
-  Status?: string;
-  IsoCountryCode?: string;
-  MessageType?: string;
-  NumberCapabilities?: string[];
-  NumberType?: string;
-  MonthlyLeasingPrice?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  RegistrationId?: string;
-  CreatedTimestamp?: Date;
+  PhoneNumberArn?: string | undefined;
+  PhoneNumberId?: string | undefined;
+  PhoneNumber?: string | undefined;
+  Status?: string | undefined;
+  IsoCountryCode?: string | undefined;
+  MessageType?: string | undefined;
+  NumberCapabilities?: string[] | undefined;
+  NumberType?: string | undefined;
+  MonthlyLeasingPrice?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  RegistrationId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface ReleaseSenderIdRequest {
   SenderId: string;
@@ -1748,7 +1748,7 @@ export interface ReleaseSenderIdResult {
   MessageTypes: string[];
   MonthlyLeasingPrice: string;
   Registered: boolean;
-  RegistrationId?: string;
+  RegistrationId?: string | undefined;
 }
 export type RequestableNumberType = string;
 export interface RequestPhoneNumberRequest {
@@ -1756,44 +1756,44 @@ export interface RequestPhoneNumberRequest {
   MessageType: string;
   NumberCapabilities: string[];
   NumberType: string;
-  OptOutListName?: string;
-  PoolId?: string;
-  RegistrationId?: string;
-  NumberPreference?: NumberPreferenceItem[];
-  InternationalSendingEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
-  Tags?: Tag[];
-  ClientToken?: string;
+  OptOutListName?: string | undefined;
+  PoolId?: string | undefined;
+  RegistrationId?: string | undefined;
+  NumberPreference?: NumberPreferenceItem[] | undefined;
+  InternationalSendingEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RequestPhoneNumberResult {
-  PhoneNumberArn?: string;
-  PhoneNumberId?: string;
-  PhoneNumber?: string;
-  Status?: string;
-  IsoCountryCode?: string;
-  MessageType?: string;
-  NumberCapabilities?: string[];
-  NumberType?: string;
-  MonthlyLeasingPrice?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  InternationalSendingEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
-  PoolId?: string;
-  RegistrationId?: string;
-  Tags?: Tag[];
-  CreatedTimestamp?: Date;
+  PhoneNumberArn?: string | undefined;
+  PhoneNumberId?: string | undefined;
+  PhoneNumber?: string | undefined;
+  Status?: string | undefined;
+  IsoCountryCode?: string | undefined;
+  MessageType?: string | undefined;
+  NumberCapabilities?: string[] | undefined;
+  NumberType?: string | undefined;
+  MonthlyLeasingPrice?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  InternationalSendingEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  PoolId?: string | undefined;
+  RegistrationId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface RequestSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
-  MessageTypes?: string[];
-  DeletionProtectionEnabled?: boolean;
-  Tags?: Tag[];
-  ClientToken?: string;
+  MessageTypes?: string[] | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RequestSenderIdResult {
   SenderIdArn: string;
@@ -1803,7 +1803,7 @@ export interface RequestSenderIdResult {
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type VerificationChannel = string;
 export type LanguageCode = string;
@@ -1817,11 +1817,11 @@ export type DestinationCountryParameters = { [key: string]: string | undefined }
 export interface SendDestinationNumberVerificationCodeRequest {
   VerifiedDestinationNumberId: string;
   VerificationChannel: string;
-  LanguageCode?: string;
-  OriginationIdentity?: string;
-  ConfigurationSetName?: string;
-  Context?: { [key: string]: string | undefined };
-  DestinationCountryParameters?: { [key: string]: string | undefined };
+  LanguageCode?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  DestinationCountryParameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface SendDestinationNumberVerificationCodeResult {
   MessageId: string;
@@ -1835,18 +1835,18 @@ export type TimeToLive = number;
 export interface SendMediaMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
-  MessageBody?: string;
-  MediaUrls?: string[];
-  ConfigurationSetName?: string;
-  MaxPrice?: string;
-  TimeToLive?: number;
-  Context?: { [key: string]: string | undefined };
-  DryRun?: boolean;
-  ProtectConfigurationId?: string;
-  MessageFeedbackEnabled?: boolean;
+  MessageBody?: string | undefined;
+  MediaUrls?: string[] | undefined;
+  ConfigurationSetName?: string | undefined;
+  MaxPrice?: string | undefined;
+  TimeToLive?: number | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  DryRun?: boolean | undefined;
+  ProtectConfigurationId?: string | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendMediaMessageResult {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type TemplateVariableName = string;
 export type TemplateVariableValue = string;
@@ -1854,35 +1854,35 @@ export type TemplateVariableSubstitutionMap = { [key: string]: string | undefine
 export interface SendNotifyTextMessageRequest {
   NotifyConfigurationId: string;
   DestinationPhoneNumber: string;
-  TemplateId?: string;
+  TemplateId?: string | undefined;
   TemplateVariables: { [key: string]: string | undefined };
-  TimeToLive?: number;
-  Context?: { [key: string]: string | undefined };
-  ConfigurationSetName?: string;
-  DryRun?: boolean;
-  MessageFeedbackEnabled?: boolean;
+  TimeToLive?: number | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  ConfigurationSetName?: string | undefined;
+  DryRun?: boolean | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendNotifyTextMessageResult {
-  MessageId?: string;
-  TemplateId?: string;
-  ResolvedMessageBody?: string;
+  MessageId?: string | undefined;
+  TemplateId?: string | undefined;
+  ResolvedMessageBody?: string | undefined;
 }
 export interface SendNotifyVoiceMessageRequest {
   NotifyConfigurationId: string;
   DestinationPhoneNumber: string;
-  TemplateId?: string;
+  TemplateId?: string | undefined;
   TemplateVariables: { [key: string]: string | undefined };
-  VoiceId?: string;
-  TimeToLive?: number;
-  Context?: { [key: string]: string | undefined };
-  ConfigurationSetName?: string;
-  DryRun?: boolean;
-  MessageFeedbackEnabled?: boolean;
+  VoiceId?: string | undefined;
+  TimeToLive?: number | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  ConfigurationSetName?: string | undefined;
+  DryRun?: boolean | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendNotifyVoiceMessageResult {
-  MessageId?: string;
-  TemplateId?: string;
-  ResolvedMessageBody?: string;
+  MessageId?: string | undefined;
+  TemplateId?: string | undefined;
+  ResolvedMessageBody?: string | undefined;
 }
 export type RcsMessageOriginationIdentity = string;
 export type RcsTextBody = string;
@@ -1892,14 +1892,14 @@ export interface RcsTextMessage {
 export type RcsMediaUrl = string;
 export interface RcsFileMessage {
   FileUrl: string;
-  ThumbnailUrl?: string;
+  ThumbnailUrl?: string | undefined;
 }
 export type RcsCardTitle = string;
 export type RcsCardDescription = string;
 export interface RcsCardMedia {
   FileUrl: string;
-  ThumbnailUrl?: string;
-  Height?: string;
+  ThumbnailUrl?: string | undefined;
+  Height?: string | undefined;
 }
 export type RcsSuggestedActionText = string;
 export type RcsPostbackData = string;
@@ -1912,8 +1912,8 @@ export interface RcsOpenUrlAction {
   Text: string;
   PostbackData: string;
   Url: string;
-  Application?: string;
-  WebviewViewMode?: string;
+  Application?: string | undefined;
+  WebviewViewMode?: string | undefined;
 }
 export interface RcsDialPhoneAction {
   Text: string;
@@ -1926,7 +1926,7 @@ export interface RcsShowLocationAction {
   PostbackData: string;
   Latitude: number;
   Longitude: number;
-  Label?: string;
+  Label?: string | undefined;
 }
 export interface RcsRequestLocationAction {
   Text: string;
@@ -1940,79 +1940,79 @@ export interface RcsCreateCalendarEventAction {
   Title: string;
   StartTime: Date;
   EndTime: Date;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type RcsSuggestedAction =
   | {
       Reply: RcsReplyAction;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
+      Reply?: undefined;
       OpenUrl: RcsOpenUrlAction;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
       DialPhone: RcsDialPhoneAction;
-      ShowLocation?: never;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
       ShowLocation: RcsShowLocationAction;
-      RequestLocation?: never;
-      CreateCalendarEvent?: never;
+      RequestLocation?: undefined;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
       RequestLocation: RcsRequestLocationAction;
-      CreateCalendarEvent?: never;
+      CreateCalendarEvent?: undefined;
     }
   | {
-      Reply?: never;
-      OpenUrl?: never;
-      DialPhone?: never;
-      ShowLocation?: never;
-      RequestLocation?: never;
+      Reply?: undefined;
+      OpenUrl?: undefined;
+      DialPhone?: undefined;
+      ShowLocation?: undefined;
+      RequestLocation?: undefined;
       CreateCalendarEvent: RcsCreateCalendarEventAction;
     };
 export type RcsCardSuggestedActionList = RcsSuggestedAction[];
 export interface RcsCardContent {
-  Title?: string;
-  Description?: string;
-  Media?: RcsCardMedia;
-  Suggestions?: RcsSuggestedAction[];
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Media?: RcsCardMedia | undefined;
+  Suggestions?: RcsSuggestedAction[] | undefined;
 }
 export interface RcsStandaloneCard {
   CardOrientation: string;
-  ThumbnailImageAlignment?: string;
+  ThumbnailImageAlignment?: string | undefined;
   CardContent: RcsCardContent;
 }
 export interface RcsCarouselCardMedia {
   FileUrl: string;
-  ThumbnailUrl?: string;
-  Height?: string;
+  ThumbnailUrl?: string | undefined;
+  Height?: string | undefined;
 }
 export interface RcsCarouselCardContent {
-  Title?: string;
-  Description?: string;
-  Media?: RcsCarouselCardMedia;
-  Suggestions?: RcsSuggestedAction[];
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Media?: RcsCarouselCardMedia | undefined;
+  Suggestions?: RcsSuggestedAction[] | undefined;
 }
 export type RcsCarouselCardContentList = RcsCarouselCardContent[];
 export interface RcsCarousel {
@@ -2020,14 +2020,34 @@ export interface RcsCarousel {
   CardContents: RcsCarouselCardContent[];
 }
 export type RcsContent =
-  | { TextMessage: RcsTextMessage; FileMessage?: never; RichCard?: never; Carousel?: never }
-  | { TextMessage?: never; FileMessage: RcsFileMessage; RichCard?: never; Carousel?: never }
-  | { TextMessage?: never; FileMessage?: never; RichCard: RcsStandaloneCard; Carousel?: never }
-  | { TextMessage?: never; FileMessage?: never; RichCard?: never; Carousel: RcsCarousel };
+  | {
+      TextMessage: RcsTextMessage;
+      FileMessage?: undefined;
+      RichCard?: undefined;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage: RcsFileMessage;
+      RichCard?: undefined;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage?: undefined;
+      RichCard: RcsStandaloneCard;
+      Carousel?: undefined;
+    }
+  | {
+      TextMessage?: undefined;
+      FileMessage?: undefined;
+      RichCard?: undefined;
+      Carousel: RcsCarousel;
+    };
 export type RcsSuggestedActionList = RcsSuggestedAction[];
 export interface RcsMessageContent {
   Content: RcsContent;
-  Suggestions?: RcsSuggestedAction[];
+  Suggestions?: RcsSuggestedAction[] | undefined;
 }
 export type RcsTimeToLive = number;
 export type RcsMessageTrafficType = string;
@@ -2036,45 +2056,45 @@ export type RcsFallbackMessageBody = string;
 export type RcsFallbackOriginationIdentity = string;
 export interface RcsFallbackConfiguration {
   Channel: string;
-  MessageBody?: string;
-  MediaUrls?: string[];
-  OriginationIdentity?: string;
+  MessageBody?: string | undefined;
+  MediaUrls?: string[] | undefined;
+  OriginationIdentity?: string | undefined;
 }
 export interface SendRcsMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
-  RcsMessageContent?: RcsMessageContent;
-  TimeToLive?: number;
-  MessageTrafficType?: string;
-  FallbackConfiguration?: RcsFallbackConfiguration;
-  ProtectConfigurationId?: string;
-  ConfigurationSetName?: string;
-  MaxPrice?: string;
-  DryRun?: boolean;
-  Context?: { [key: string]: string | undefined };
-  MessageFeedbackEnabled?: boolean;
+  RcsMessageContent?: RcsMessageContent | undefined;
+  TimeToLive?: number | undefined;
+  MessageTrafficType?: string | undefined;
+  FallbackConfiguration?: RcsFallbackConfiguration | undefined;
+  ProtectConfigurationId?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MaxPrice?: string | undefined;
+  DryRun?: boolean | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendRcsMessageResult {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type TextMessageOriginationIdentity = string;
 export interface SendTextMessageRequest {
   DestinationPhoneNumber: string;
-  OriginationIdentity?: string;
-  MessageBody?: string;
-  MessageType?: string;
-  Keyword?: string;
-  ConfigurationSetName?: string;
-  MaxPrice?: string;
-  TimeToLive?: number;
-  Context?: { [key: string]: string | undefined };
-  DestinationCountryParameters?: { [key: string]: string | undefined };
-  DryRun?: boolean;
-  ProtectConfigurationId?: string;
-  MessageFeedbackEnabled?: boolean;
+  OriginationIdentity?: string | undefined;
+  MessageBody?: string | undefined;
+  MessageType?: string | undefined;
+  Keyword?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MaxPrice?: string | undefined;
+  TimeToLive?: number | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  DestinationCountryParameters?: { [key: string]: string | undefined } | undefined;
+  DryRun?: boolean | undefined;
+  ProtectConfigurationId?: string | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendTextMessageResult {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type VoiceMessageOriginationIdentity = string;
 export type VoiceMessageBody = string;
@@ -2082,19 +2102,19 @@ export type VoiceMessageBodyTextType = string;
 export interface SendVoiceMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
-  MessageBody?: string;
-  MessageBodyTextType?: string;
-  VoiceId?: string;
-  ConfigurationSetName?: string;
-  MaxPricePerMinute?: string;
-  TimeToLive?: number;
-  Context?: { [key: string]: string | undefined };
-  DryRun?: boolean;
-  ProtectConfigurationId?: string;
-  MessageFeedbackEnabled?: boolean;
+  MessageBody?: string | undefined;
+  MessageBodyTextType?: string | undefined;
+  VoiceId?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MaxPricePerMinute?: string | undefined;
+  TimeToLive?: number | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  DryRun?: boolean | undefined;
+  ProtectConfigurationId?: string | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SendVoiceMessageResult {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export interface SetAccountDefaultProtectConfigurationRequest {
   ProtectConfigurationId: string;
@@ -2108,61 +2128,61 @@ export interface SetDefaultMessageFeedbackEnabledRequest {
   MessageFeedbackEnabled: boolean;
 }
 export interface SetDefaultMessageFeedbackEnabledResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  MessageFeedbackEnabled?: boolean;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MessageFeedbackEnabled?: boolean | undefined;
 }
 export interface SetDefaultMessageTypeRequest {
   ConfigurationSetName: string;
   MessageType: string;
 }
 export interface SetDefaultMessageTypeResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  MessageType?: string;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  MessageType?: string | undefined;
 }
 export interface SetDefaultSenderIdRequest {
   ConfigurationSetName: string;
   SenderId: string;
 }
 export interface SetDefaultSenderIdResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  SenderId?: string;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  SenderId?: string | undefined;
 }
 export interface SetMediaMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
 export interface SetMediaMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface SetNotifyMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
 export interface SetNotifyMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface SetRcsMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
 export interface SetRcsMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface SetTextMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
 export interface SetTextMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface SetVoiceMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
 export interface SetVoiceMessageSpendLimitOverrideResult {
-  MonthlyLimit?: number;
+  MonthlyLimit?: number | undefined;
 }
 export interface SubmitRegistrationVersionRequest {
   RegistrationId: string;
-  AwsReview?: boolean;
+  AwsReview?: boolean | undefined;
 }
 export interface SubmitRegistrationVersionResult {
   RegistrationArn: string;
@@ -2187,99 +2207,99 @@ export interface UntagResourceResult {}
 export interface UpdateEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
-  Enabled?: boolean;
-  MatchingEventTypes?: string[];
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  SnsDestination?: SnsDestination;
+  Enabled?: boolean | undefined;
+  MatchingEventTypes?: string[] | undefined;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export interface UpdateEventDestinationResult {
-  ConfigurationSetArn?: string;
-  ConfigurationSetName?: string;
-  EventDestination?: EventDestination;
+  ConfigurationSetArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  EventDestination?: EventDestination | undefined;
 }
 export type NotifyPoolIdOrUnset = string;
 export interface UpdateNotifyConfigurationRequest {
   NotifyConfigurationId: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
-  EnabledChannels?: string[];
-  DeletionProtectionEnabled?: boolean;
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
+  EnabledChannels?: string[] | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateNotifyConfigurationResult {
   NotifyConfigurationArn: string;
   NotifyConfigurationId: string;
   DisplayName: string;
   UseCase: string;
-  DefaultTemplateId?: string;
-  PoolId?: string;
-  EnabledCountries?: string[];
+  DefaultTemplateId?: string | undefined;
+  PoolId?: string | undefined;
+  EnabledCountries?: string[] | undefined;
   EnabledChannels: string[];
   Tier: string;
   TierUpgradeStatus: string;
   Status: string;
-  RejectionReason?: string;
+  RejectionReason?: string | undefined;
   DeletionProtectionEnabled: boolean;
   CreatedTimestamp: Date;
 }
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  InternationalSendingEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  InternationalSendingEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdatePhoneNumberResult {
-  PhoneNumberArn?: string;
-  PhoneNumberId?: string;
-  PhoneNumber?: string;
-  Status?: string;
-  IsoCountryCode?: string;
-  MessageType?: string;
-  NumberCapabilities?: string[];
-  NumberType?: string;
-  MonthlyLeasingPrice?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  InternationalSendingEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
-  RegistrationId?: string;
-  CreatedTimestamp?: Date;
+  PhoneNumberArn?: string | undefined;
+  PhoneNumberId?: string | undefined;
+  PhoneNumber?: string | undefined;
+  Status?: string | undefined;
+  IsoCountryCode?: string | undefined;
+  MessageType?: string | undefined;
+  NumberCapabilities?: string[] | undefined;
+  NumberType?: string | undefined;
+  MonthlyLeasingPrice?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  InternationalSendingEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  RegistrationId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface UpdatePoolRequest {
   PoolId: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  SharedRoutesEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  SharedRoutesEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdatePoolResult {
-  PoolArn?: string;
-  PoolId?: string;
-  Status?: string;
-  MessageType?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  OptOutListName?: string;
-  SharedRoutesEnabled?: boolean;
-  DeletionProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
+  PoolArn?: string | undefined;
+  PoolId?: string | undefined;
+  Status?: string | undefined;
+  MessageType?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  SharedRoutesEnabled?: boolean | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface UpdateProtectConfigurationRequest {
   ProtectConfigurationId: string;
-  DeletionProtectionEnabled?: boolean;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateProtectConfigurationResult {
   ProtectConfigurationArn: string;
@@ -2305,16 +2325,16 @@ export type TwoWayMediaS3BucketNameOrUnset = string;
 export type IamRoleArnOrUnset = string;
 export interface UpdateRcsAgentRequest {
   RcsAgentId: string;
-  DeletionProtectionEnabled?: boolean;
-  OptOutListName?: string;
-  SelfManagedOptOutsEnabled?: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
-  TwoWayEnabled?: boolean;
-  TwoWayMediaS3BucketName?: string;
-  TwoWayMediaS3KeyPrefix?: string;
-  TwoWayMediaS3Role?: string;
-  TwoWayRcsEventsEnabled?: string[];
+  DeletionProtectionEnabled?: boolean | undefined;
+  OptOutListName?: string | undefined;
+  SelfManagedOptOutsEnabled?: boolean | undefined;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
+  TwoWayEnabled?: boolean | undefined;
+  TwoWayMediaS3BucketName?: string | undefined;
+  TwoWayMediaS3KeyPrefix?: string | undefined;
+  TwoWayMediaS3Role?: string | undefined;
+  TwoWayRcsEventsEnabled?: string[] | undefined;
 }
 export interface UpdateRcsAgentResult {
   RcsAgentArn: string;
@@ -2322,20 +2342,20 @@ export interface UpdateRcsAgentResult {
   Status: string;
   CreatedTimestamp: Date;
   DeletionProtectionEnabled: boolean;
-  OptOutListName?: string;
+  OptOutListName?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
-  TwoWayChannelArn?: string;
-  TwoWayChannelRole?: string;
+  TwoWayChannelArn?: string | undefined;
+  TwoWayChannelRole?: string | undefined;
   TwoWayEnabled: boolean;
-  TwoWayMediaS3BucketName?: string;
-  TwoWayMediaS3KeyPrefix?: string;
-  TwoWayMediaS3Role?: string;
-  TwoWayRcsEventsEnabled?: string[];
+  TwoWayMediaS3BucketName?: string | undefined;
+  TwoWayMediaS3KeyPrefix?: string | undefined;
+  TwoWayMediaS3Role?: string | undefined;
+  TwoWayRcsEventsEnabled?: string[] | undefined;
 }
 export interface UpdateSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
-  DeletionProtectionEnabled?: boolean;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateSenderIdResult {
   SenderIdArn: string;
@@ -2345,7 +2365,7 @@ export interface UpdateSenderIdResult {
   MonthlyLeasingPrice: string;
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
-  RegistrationId?: string;
+  RegistrationId?: string | undefined;
 }
 export type VerificationCode = string;
 export interface VerifyDestinationNumberRequest {

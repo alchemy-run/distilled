@@ -648,21 +648,21 @@ export class UserQuotaExceededFault
   ).pipe(C.withBadRequestError) {}
 export type ClusterNameList = string[];
 export interface ServiceUpdateRequest {
-  ServiceUpdateNameToApply?: string;
+  ServiceUpdateNameToApply?: string | undefined;
 }
 export interface BatchUpdateClusterRequest {
   ClusterNames: string[];
-  ServiceUpdate?: ServiceUpdateRequest;
+  ServiceUpdate?: ServiceUpdateRequest | undefined;
 }
 export interface SlotMigration {
-  ProgressPercentage?: number;
+  ProgressPercentage?: number | undefined;
 }
 export interface ReshardingStatus {
-  SlotMigration?: SlotMigration;
+  SlotMigration?: SlotMigration | undefined;
 }
 export type ACLName = string;
 export interface ACLsUpdateStatus {
-  ACLToApply?: string;
+  ACLToApply?: string | undefined;
 }
 export type ServiceUpdateStatus =
   | "available"
@@ -671,401 +671,401 @@ export type ServiceUpdateStatus =
   | "scheduled"
   | (string & {});
 export interface PendingModifiedServiceUpdate {
-  ServiceUpdateName?: string;
-  Status?: ServiceUpdateStatus;
+  ServiceUpdateName?: string | undefined;
+  Status?: ServiceUpdateStatus | undefined;
 }
 export type PendingModifiedServiceUpdateList = PendingModifiedServiceUpdate[];
 export interface ClusterPendingUpdates {
-  Resharding?: ReshardingStatus;
-  ACLs?: ACLsUpdateStatus;
-  ServiceUpdates?: PendingModifiedServiceUpdate[];
+  Resharding?: ReshardingStatus | undefined;
+  ACLs?: ACLsUpdateStatus | undefined;
+  ServiceUpdates?: PendingModifiedServiceUpdate[] | undefined;
 }
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
+  Address?: string | undefined;
+  Port?: number | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c3, 0) as any as S.Schema<Endpoint>;
 export interface Node {
-  Name?: string;
-  Status?: string;
-  AvailabilityZone?: string;
-  CreateTime?: Date;
-  Endpoint?: Endpoint;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  CreateTime?: Date | undefined;
+  Endpoint?: Endpoint | undefined;
 }
 export type NodeList = Node[];
 export interface Shard {
-  Name?: string;
-  Status?: string;
-  Slots?: string;
-  Nodes?: Node[];
-  NumberOfNodes?: number;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Slots?: string | undefined;
+  Nodes?: Node[] | undefined;
+  NumberOfNodes?: number | undefined;
 }
 export type ShardList = Shard[];
 export type AZStatus = "singleaz" | "multiaz" | (string & {});
 export interface SecurityGroupMembership {
-  SecurityGroupId?: string;
-  Status?: string;
+  SecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export type DataTieringStatus = "true" | "false" | (string & {});
 export type NetworkType = "ipv4" | "ipv6" | "dual_stack" | (string & {});
 export type IpDiscovery = "ipv4" | "ipv6" | (string & {});
 export interface Cluster {
-  Name?: string;
-  Description?: string;
-  Status?: string;
-  PendingUpdates?: ClusterPendingUpdates;
-  MultiRegionClusterName?: string;
-  NumberOfShards?: number;
-  Shards?: Shard[];
-  AvailabilityMode?: AZStatus;
-  ClusterEndpoint?: Endpoint;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  EnginePatchVersion?: string;
-  ParameterGroupName?: string;
-  ParameterGroupStatus?: string;
-  SecurityGroups?: SecurityGroupMembership[];
-  SubnetGroupName?: string;
-  TLSEnabled?: boolean;
-  KmsKeyId?: string;
-  ARN?: string;
-  SnsTopicArn?: string;
-  SnsTopicStatus?: string;
-  SnapshotRetentionLimit?: number;
-  MaintenanceWindow?: string;
-  SnapshotWindow?: string;
-  ACLName?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  DataTiering?: DataTieringStatus;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: string | undefined;
+  PendingUpdates?: ClusterPendingUpdates | undefined;
+  MultiRegionClusterName?: string | undefined;
+  NumberOfShards?: number | undefined;
+  Shards?: Shard[] | undefined;
+  AvailabilityMode?: AZStatus | undefined;
+  ClusterEndpoint?: Endpoint | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  EnginePatchVersion?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  ParameterGroupStatus?: string | undefined;
+  SecurityGroups?: SecurityGroupMembership[] | undefined;
+  SubnetGroupName?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ARN?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SnsTopicStatus?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  MaintenanceWindow?: string | undefined;
+  SnapshotWindow?: string | undefined;
+  ACLName?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  DataTiering?: DataTieringStatus | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
 export type ClusterList = Cluster[];
 export interface UnprocessedCluster {
-  ClusterName?: string;
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ClusterName?: string | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedClusterList = UnprocessedCluster[];
 export interface BatchUpdateClusterResponse {
-  ProcessedClusters?: Cluster[];
-  UnprocessedClusters?: UnprocessedCluster[];
+  ProcessedClusters?: Cluster[] | undefined;
+  UnprocessedClusters?: UnprocessedCluster[] | undefined;
 }
 export type TargetBucket = string;
 export type KmsKeyId = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CopySnapshotRequest {
   SourceSnapshotName: string;
   TargetSnapshotName: string;
-  TargetBucket?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  TargetBucket?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ShardConfiguration {
-  Slots?: string;
-  ReplicaCount?: number;
+  Slots?: string | undefined;
+  ReplicaCount?: number | undefined;
 }
 export interface ShardDetail {
-  Name?: string;
-  Configuration?: ShardConfiguration;
-  Size?: string;
-  SnapshotCreationTime?: Date;
+  Name?: string | undefined;
+  Configuration?: ShardConfiguration | undefined;
+  Size?: string | undefined;
+  SnapshotCreationTime?: Date | undefined;
 }
 export type ShardDetails = ShardDetail[];
 export interface ClusterConfiguration {
-  Name?: string;
-  Description?: string;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  MaintenanceWindow?: string;
-  TopicArn?: string;
-  Port?: number;
-  ParameterGroupName?: string;
-  SubnetGroupName?: string;
-  VpcId?: string;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  NumShards?: number;
-  Shards?: ShardDetail[];
-  MultiRegionParameterGroupName?: string;
-  MultiRegionClusterName?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  MaintenanceWindow?: string | undefined;
+  TopicArn?: string | undefined;
+  Port?: number | undefined;
+  ParameterGroupName?: string | undefined;
+  SubnetGroupName?: string | undefined;
+  VpcId?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  NumShards?: number | undefined;
+  Shards?: ShardDetail[] | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  MultiRegionClusterName?: string | undefined;
 }
 export interface Snapshot {
-  Name?: string;
-  Status?: string;
-  Source?: string;
-  KmsKeyId?: string;
-  ARN?: string;
-  ClusterConfiguration?: ClusterConfiguration;
-  DataTiering?: DataTieringStatus;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Source?: string | undefined;
+  KmsKeyId?: string | undefined;
+  ARN?: string | undefined;
+  ClusterConfiguration?: ClusterConfiguration | undefined;
+  DataTiering?: DataTieringStatus | undefined;
 }
 export interface CopySnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type UserName = string;
 export type UserNameListInput = string[];
 export interface CreateACLRequest {
   ACLName: string;
-  UserNames?: string[];
-  Tags?: Tag[];
+  UserNames?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type UserNameList = string[];
 export interface ACLPendingChanges {
-  UserNamesToRemove?: string[];
-  UserNamesToAdd?: string[];
+  UserNamesToRemove?: string[] | undefined;
+  UserNamesToAdd?: string[] | undefined;
 }
 export type ACLClusterNameList = string[];
 export interface ACL {
-  Name?: string;
-  Status?: string;
-  UserNames?: string[];
-  MinimumEngineVersion?: string;
-  PendingChanges?: ACLPendingChanges;
-  Clusters?: string[];
-  ARN?: string;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  UserNames?: string[] | undefined;
+  MinimumEngineVersion?: string | undefined;
+  PendingChanges?: ACLPendingChanges | undefined;
+  Clusters?: string[] | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
 export type SecurityGroupIdsList = string[];
 export type SnapshotArnsList = string[];
 export interface CreateClusterRequest {
   ClusterName: string;
   NodeType: string;
-  MultiRegionClusterName?: string;
-  ParameterGroupName?: string;
-  Description?: string;
-  NumShards?: number;
-  NumReplicasPerShard?: number;
-  SubnetGroupName?: string;
-  SecurityGroupIds?: string[];
-  MaintenanceWindow?: string;
-  Port?: number;
-  SnsTopicArn?: string;
-  TLSEnabled?: boolean;
-  KmsKeyId?: string;
-  SnapshotArns?: string[];
-  SnapshotName?: string;
-  SnapshotRetentionLimit?: number;
-  Tags?: Tag[];
-  SnapshotWindow?: string;
+  MultiRegionClusterName?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  Description?: string | undefined;
+  NumShards?: number | undefined;
+  NumReplicasPerShard?: number | undefined;
+  SubnetGroupName?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  MaintenanceWindow?: string | undefined;
+  Port?: number | undefined;
+  SnsTopicArn?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  SnapshotArns?: string[] | undefined;
+  SnapshotName?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  Tags?: Tag[] | undefined;
+  SnapshotWindow?: string | undefined;
   ACLName: string;
-  Engine?: string;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  DataTiering?: boolean;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  DataTiering?: boolean | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateMultiRegionClusterRequest {
   MultiRegionClusterNameSuffix: string;
-  Description?: string;
-  Engine?: string;
-  EngineVersion?: string;
+  Description?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
   NodeType: string;
-  MultiRegionParameterGroupName?: string;
-  NumShards?: number;
-  TLSEnabled?: boolean;
-  Tags?: Tag[];
+  MultiRegionParameterGroupName?: string | undefined;
+  NumShards?: number | undefined;
+  TLSEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface RegionalCluster {
-  ClusterName?: string;
-  Region?: string;
-  Status?: string;
-  ARN?: string;
+  ClusterName?: string | undefined;
+  Region?: string | undefined;
+  Status?: string | undefined;
+  ARN?: string | undefined;
 }
 export type RegionalClusterList = RegionalCluster[];
 export interface MultiRegionCluster {
-  MultiRegionClusterName?: string;
-  Description?: string;
-  Status?: string;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  NumberOfShards?: number;
-  Clusters?: RegionalCluster[];
-  MultiRegionParameterGroupName?: string;
-  TLSEnabled?: boolean;
-  ARN?: string;
+  MultiRegionClusterName?: string | undefined;
+  Description?: string | undefined;
+  Status?: string | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  NumberOfShards?: number | undefined;
+  Clusters?: RegionalCluster[] | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
 export interface CreateParameterGroupRequest {
   ParameterGroupName: string;
   Family: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ParameterGroup {
-  Name?: string;
-  Family?: string;
-  Description?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Family?: string | undefined;
+  Description?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export interface CreateSnapshotRequest {
   ClusterName: string;
   SnapshotName: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
+  Description?: string | undefined;
   SubnetIds: string[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type NetworkTypeList = NetworkType[];
 export interface Subnet {
-  Identifier?: string;
-  AvailabilityZone?: AvailabilityZone;
-  SupportedNetworkTypes?: NetworkType[];
+  Identifier?: string | undefined;
+  AvailabilityZone?: AvailabilityZone | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export type SubnetList = Subnet[];
 export interface SubnetGroup {
-  Name?: string;
-  Description?: string;
-  VpcId?: string;
-  Subnets?: Subnet[];
-  ARN?: string;
-  SupportedNetworkTypes?: NetworkType[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  VpcId?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  ARN?: string | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export interface CreateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
 export type InputAuthenticationType = "password" | "iam" | (string & {});
 export type PasswordListInput = string[];
 export interface AuthenticationMode {
-  Type?: InputAuthenticationType;
-  Passwords?: Array<string | redacted.Redacted<string>>;
+  Type?: InputAuthenticationType | undefined;
+  Passwords?: Array<string | redacted.Redacted<string>> | undefined;
 }
 export type AccessString = string;
 export interface CreateUserRequest {
   UserName: string;
   AuthenticationMode: AuthenticationMode;
   AccessString: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ACLNameList = string[];
 export type AuthenticationType = "password" | "no-password" | "iam" | (string & {});
 export interface Authentication {
-  Type?: AuthenticationType;
-  PasswordCount?: number;
+  Type?: AuthenticationType | undefined;
+  PasswordCount?: number | undefined;
 }
 export interface User {
-  Name?: string;
-  Status?: string;
-  AccessString?: string;
-  ACLNames?: string[];
-  MinimumEngineVersion?: string;
-  Authentication?: Authentication;
-  ARN?: string;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  AccessString?: string | undefined;
+  ACLNames?: string[] | undefined;
+  MinimumEngineVersion?: string | undefined;
+  Authentication?: Authentication | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DeleteACLRequest {
   ACLName: string;
 }
 export interface DeleteACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterName: string;
-  MultiRegionClusterName?: string;
-  FinalSnapshotName?: string;
+  MultiRegionClusterName?: string | undefined;
+  FinalSnapshotName?: string | undefined;
 }
 export interface DeleteClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteMultiRegionClusterRequest {
   MultiRegionClusterName: string;
 }
 export interface DeleteMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
 export interface DeleteParameterGroupRequest {
   ParameterGroupName: string;
 }
 export interface DeleteParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export interface DeleteSnapshotRequest {
   SnapshotName: string;
 }
 export interface DeleteSnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface DeleteSubnetGroupRequest {
   SubnetGroupName: string;
 }
 export interface DeleteSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
 export interface DeleteUserRequest {
   UserName: string;
 }
 export interface DeleteUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DescribeACLsRequest {
-  ACLName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ACLName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ACLList = ACL[];
 export interface DescribeACLsResponse {
-  ACLs?: ACL[];
-  NextToken?: string;
+  ACLs?: ACL[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeClustersRequest {
-  ClusterName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ShowShardDetails?: boolean;
+  ClusterName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ShowShardDetails?: boolean | undefined;
 }
 export interface DescribeClustersResponse {
-  NextToken?: string;
-  Clusters?: Cluster[];
+  NextToken?: string | undefined;
+  Clusters?: Cluster[] | undefined;
 }
 export interface DescribeEngineVersionsRequest {
-  Engine?: string;
-  EngineVersion?: string;
-  ParameterGroupFamily?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  DefaultOnly?: boolean;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  DefaultOnly?: boolean | undefined;
 }
 export interface EngineVersionInfo {
-  Engine?: string;
-  EngineVersion?: string;
-  EnginePatchVersion?: string;
-  ParameterGroupFamily?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  EnginePatchVersion?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
 }
 export type EngineVersionInfoList = EngineVersionInfo[];
 export interface DescribeEngineVersionsResponse {
-  NextToken?: string;
-  EngineVersions?: EngineVersionInfo[];
+  NextToken?: string | undefined;
+  EngineVersions?: EngineVersionInfo[] | undefined;
 }
 export type SourceType =
   | "node"
@@ -1076,200 +1076,200 @@ export type SourceType =
   | "acl"
   | (string & {});
 export interface DescribeEventsRequest {
-  SourceName?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Event {
-  SourceName?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  Date?: Date;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  Date?: Date | undefined;
 }
 export type EventList = Event[];
 export interface DescribeEventsResponse {
-  NextToken?: string;
-  Events?: Event[];
+  NextToken?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export interface DescribeMultiRegionClustersRequest {
-  MultiRegionClusterName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ShowClusterDetails?: boolean;
+  MultiRegionClusterName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ShowClusterDetails?: boolean | undefined;
 }
 export type MultiRegionClusterList = MultiRegionCluster[];
 export interface DescribeMultiRegionClustersResponse {
-  NextToken?: string;
-  MultiRegionClusters?: MultiRegionCluster[];
+  NextToken?: string | undefined;
+  MultiRegionClusters?: MultiRegionCluster[] | undefined;
 }
 export interface DescribeMultiRegionParameterGroupsRequest {
-  MultiRegionParameterGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MultiRegionParameterGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MultiRegionParameterGroup {
-  Name?: string;
-  Family?: string;
-  Description?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Family?: string | undefined;
+  Description?: string | undefined;
+  ARN?: string | undefined;
 }
 export type MultiRegionParameterGroupList = MultiRegionParameterGroup[];
 export interface DescribeMultiRegionParameterGroupsResponse {
-  NextToken?: string;
-  MultiRegionParameterGroups?: MultiRegionParameterGroup[];
+  NextToken?: string | undefined;
+  MultiRegionParameterGroups?: MultiRegionParameterGroup[] | undefined;
 }
 export interface DescribeMultiRegionParametersRequest {
   MultiRegionParameterGroupName: string;
-  Source?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Source?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MultiRegionParameter {
-  Name?: string;
-  Value?: string;
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  MinimumEngineVersion?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  MinimumEngineVersion?: string | undefined;
 }
 export type MultiRegionParametersList = MultiRegionParameter[];
 export interface DescribeMultiRegionParametersResponse {
-  NextToken?: string;
-  MultiRegionParameters?: MultiRegionParameter[];
+  NextToken?: string | undefined;
+  MultiRegionParameters?: MultiRegionParameter[] | undefined;
 }
 export interface DescribeParameterGroupsRequest {
-  ParameterGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ParameterGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ParameterGroupList = ParameterGroup[];
 export interface DescribeParameterGroupsResponse {
-  NextToken?: string;
-  ParameterGroups?: ParameterGroup[];
+  NextToken?: string | undefined;
+  ParameterGroups?: ParameterGroup[] | undefined;
 }
 export interface DescribeParametersRequest {
   ParameterGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Parameter {
-  Name?: string;
-  Value?: string;
-  Description?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  MinimumEngineVersion?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Description?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  MinimumEngineVersion?: string | undefined;
 }
 export type ParametersList = Parameter[];
 export interface DescribeParametersResponse {
-  NextToken?: string;
-  Parameters?: Parameter[];
+  NextToken?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface DescribeReservedNodesRequest {
-  ReservationId?: string;
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: string;
-  OfferingType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservationId?: string | undefined;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export interface ReservedNode {
-  ReservationId?: string;
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  NodeCount?: number;
-  OfferingType?: string;
-  State?: string;
-  RecurringCharges?: RecurringCharge[];
-  ARN?: string;
+  ReservationId?: string | undefined;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  NodeCount?: number | undefined;
+  OfferingType?: string | undefined;
+  State?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
+  ARN?: string | undefined;
 }
 export type ReservedNodeList = ReservedNode[];
 export interface DescribeReservedNodesResponse {
-  NextToken?: string;
-  ReservedNodes?: ReservedNode[];
+  NextToken?: string | undefined;
+  ReservedNodes?: ReservedNode[] | undefined;
 }
 export interface DescribeReservedNodesOfferingsRequest {
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: string;
-  OfferingType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ReservedNodesOffering {
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: number;
-  FixedPrice?: number;
-  OfferingType?: string;
-  RecurringCharges?: RecurringCharge[];
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  OfferingType?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedNodesOfferingList = ReservedNodesOffering[];
 export interface DescribeReservedNodesOfferingsResponse {
-  NextToken?: string;
-  ReservedNodesOfferings?: ReservedNodesOffering[];
+  NextToken?: string | undefined;
+  ReservedNodesOfferings?: ReservedNodesOffering[] | undefined;
 }
 export type ServiceUpdateStatusList = ServiceUpdateStatus[];
 export interface DescribeServiceUpdatesRequest {
-  ServiceUpdateName?: string;
-  ClusterNames?: string[];
-  Status?: ServiceUpdateStatus[];
-  MaxResults?: number;
-  NextToken?: string;
+  ServiceUpdateName?: string | undefined;
+  ClusterNames?: string[] | undefined;
+  Status?: ServiceUpdateStatus[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceUpdateType = "security-update" | (string & {});
 export interface ServiceUpdate {
-  ClusterName?: string;
-  ServiceUpdateName?: string;
-  ReleaseDate?: Date;
-  Description?: string;
-  Status?: ServiceUpdateStatus;
-  Type?: ServiceUpdateType;
-  Engine?: string;
-  NodesUpdated?: string;
-  AutoUpdateStartDate?: Date;
+  ClusterName?: string | undefined;
+  ServiceUpdateName?: string | undefined;
+  ReleaseDate?: Date | undefined;
+  Description?: string | undefined;
+  Status?: ServiceUpdateStatus | undefined;
+  Type?: ServiceUpdateType | undefined;
+  Engine?: string | undefined;
+  NodesUpdated?: string | undefined;
+  AutoUpdateStartDate?: Date | undefined;
 }
 export type ServiceUpdateList = ServiceUpdate[];
 export interface DescribeServiceUpdatesResponse {
-  NextToken?: string;
-  ServiceUpdates?: ServiceUpdate[];
+  NextToken?: string | undefined;
+  ServiceUpdates?: ServiceUpdate[] | undefined;
 }
 export interface DescribeSnapshotsRequest {
-  ClusterName?: string;
-  SnapshotName?: string;
-  Source?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ShowDetail?: boolean;
+  ClusterName?: string | undefined;
+  SnapshotName?: string | undefined;
+  Source?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ShowDetail?: boolean | undefined;
 }
 export type SnapshotList = Snapshot[];
 export interface DescribeSnapshotsResponse {
-  NextToken?: string;
-  Snapshots?: Snapshot[];
+  NextToken?: string | undefined;
+  Snapshots?: Snapshot[] | undefined;
 }
 export interface DescribeSubnetGroupsRequest {
-  SubnetGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  SubnetGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SubnetGroupList = SubnetGroup[];
 export interface DescribeSubnetGroupsResponse {
-  NextToken?: string;
-  SubnetGroups?: SubnetGroup[];
+  NextToken?: string | undefined;
+  SubnetGroups?: SubnetGroup[] | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
@@ -1280,68 +1280,68 @@ export interface Filter {
 }
 export type FilterList = Filter[];
 export interface DescribeUsersRequest {
-  UserName?: string;
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  UserName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UserList = User[];
 export interface DescribeUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface FailoverShardRequest {
   ClusterName: string;
   ShardName: string;
 }
 export interface FailoverShardResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ListAllowedMultiRegionClusterUpdatesRequest {
   MultiRegionClusterName: string;
 }
 export type NodeTypeList = string[];
 export interface ListAllowedMultiRegionClusterUpdatesResponse {
-  ScaleUpNodeTypes?: string[];
-  ScaleDownNodeTypes?: string[];
+  ScaleUpNodeTypes?: string[] | undefined;
+  ScaleDownNodeTypes?: string[] | undefined;
 }
 export interface ListAllowedNodeTypeUpdatesRequest {
   ClusterName: string;
 }
 export interface ListAllowedNodeTypeUpdatesResponse {
-  ScaleUpNodeTypes?: string[];
-  ScaleDownNodeTypes?: string[];
+  ScaleUpNodeTypes?: string[] | undefined;
+  ScaleDownNodeTypes?: string[] | undefined;
 }
 export interface ListTagsRequest {
   ResourceArn: string;
 }
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PurchaseReservedNodesOfferingRequest {
   ReservedNodesOfferingId: string;
-  ReservationId?: string;
-  NodeCount?: number;
-  Tags?: Tag[];
+  ReservationId?: string | undefined;
+  NodeCount?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PurchaseReservedNodesOfferingResponse {
-  ReservedNode?: ReservedNode;
+  ReservedNode?: ReservedNode | undefined;
 }
 export type ParameterNameList = string[];
 export interface ResetParameterGroupRequest {
   ParameterGroupName: string;
-  AllParameters?: boolean;
-  ParameterNames?: string[];
+  AllParameters?: boolean | undefined;
+  ParameterNames?: string[] | undefined;
 }
 export interface ResetParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
 export interface TagResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export type KeyList = string[];
 export interface UntagResourceRequest {
@@ -1349,59 +1349,59 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export interface UntagResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface UpdateACLRequest {
   ACLName: string;
-  UserNamesToAdd?: string[];
-  UserNamesToRemove?: string[];
+  UserNamesToAdd?: string[] | undefined;
+  UserNamesToRemove?: string[] | undefined;
 }
 export interface UpdateACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
 export interface ReplicaConfigurationRequest {
-  ReplicaCount?: number;
+  ReplicaCount?: number | undefined;
 }
 export interface ShardConfigurationRequest {
-  ShardCount?: number;
+  ShardCount?: number | undefined;
 }
 export interface UpdateClusterRequest {
   ClusterName: string;
-  Description?: string;
-  SecurityGroupIds?: string[];
-  MaintenanceWindow?: string;
-  SnsTopicArn?: string;
-  SnsTopicStatus?: string;
-  ParameterGroupName?: string;
-  SnapshotWindow?: string;
-  SnapshotRetentionLimit?: number;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  ReplicaConfiguration?: ReplicaConfigurationRequest;
-  ShardConfiguration?: ShardConfigurationRequest;
-  ACLName?: string;
-  IpDiscovery?: IpDiscovery;
+  Description?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  MaintenanceWindow?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SnsTopicStatus?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  SnapshotWindow?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  ReplicaConfiguration?: ReplicaConfigurationRequest | undefined;
+  ShardConfiguration?: ShardConfigurationRequest | undefined;
+  ACLName?: string | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
 export interface UpdateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export type UpdateStrategy = "coordinated" | "uncoordinated" | (string & {});
 export interface UpdateMultiRegionClusterRequest {
   MultiRegionClusterName: string;
-  NodeType?: string;
-  Description?: string;
-  EngineVersion?: string;
-  ShardConfiguration?: ShardConfigurationRequest;
-  MultiRegionParameterGroupName?: string;
-  UpdateStrategy?: UpdateStrategy;
+  NodeType?: string | undefined;
+  Description?: string | undefined;
+  EngineVersion?: string | undefined;
+  ShardConfiguration?: ShardConfigurationRequest | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  UpdateStrategy?: UpdateStrategy | undefined;
 }
 export interface UpdateMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
 export interface ParameterNameValue {
-  ParameterName?: string;
-  ParameterValue?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
 }
 export type ParameterNameValueList = ParameterNameValue[];
 export interface UpdateParameterGroupRequest {
@@ -1409,23 +1409,23 @@ export interface UpdateParameterGroupRequest {
   ParameterNameValues: ParameterNameValue[];
 }
 export interface UpdateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export interface UpdateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
-  SubnetIds?: string[];
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface UpdateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
 export interface UpdateUserRequest {
   UserName: string;
-  AuthenticationMode?: AuthenticationMode;
-  AccessString?: string;
+  AuthenticationMode?: AuthenticationMode | undefined;
+  AccessString?: string | undefined;
 }
 export interface UpdateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export type AwsQueryErrorMessage = string;
 export type ExceptionMessage = string;

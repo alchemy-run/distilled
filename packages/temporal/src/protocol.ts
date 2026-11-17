@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TemporalProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type TemporalOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | TemporalParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Temporal operation. */
 export type TemporalOpContext = Credentials | HttpClient.HttpClient;
@@ -53,11 +55,6 @@ export const TemporalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
   }),
   // Temporal's google.rpc.Status error body is `{ code?, message, details? }`
   // -- the factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownTemporalError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownTemporalError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new TemporalParseError({ body, cause }),
 });

@@ -31,44 +31,76 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(45, __c11, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | AuthError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface CreateFederatedIdentityProviderRequestAssertionsItem {
   /** Item to compare */
-  item?: string;
+  item?: string | undefined;
   /** Operator for the comparison */
-  operator?: string;
+  operator?: string | undefined;
   /** Value which the item is compared to */
-  value?: string;
+  value?: string | undefined;
 }
 /** list of assertions of the federated identity provider */
 export type CreateFederatedIdentityProviderRequestAssertionsList =
@@ -79,7 +111,7 @@ export interface CreateFederatedIdentityProviderRequest {
   /** The email of the service account. */
   serviceAccountEmail: string;
   /** list of assertions of the federated identity provider */
-  assertions?: CreateFederatedIdentityProviderRequestAssertionsList;
+  assertions?: CreateFederatedIdentityProviderRequestAssertionsList | undefined;
   /** Issuer of the federated identity provider. */
   issuer: string;
   /** Unique name used as identifier of the federated identity provider. */
@@ -102,7 +134,7 @@ export interface FederatedIdentityProvider {
   /** Creation time of the federated identity provider. */
   createdAt: string;
   /** Unique ID of the federated identity provider. */
-  id?: string;
+  id?: string | undefined;
   /** Issuer of the federated identity provider. */
   issuer: string;
   /** Unique name of the federated identity provider. */
@@ -134,11 +166,11 @@ export interface CreateServiceAccountKeyRequest {
   /** The email of the service account. */
   serviceAccountEmail: string;
   /** Optional, key algorithm of the generated key-pair. Used only if publicKey attribute is not specified, otherwise the algorithm is derived from the public key. */
-  algorithm?: CreateServiceAccountKeyRequestAlgorithm | (string & {});
+  algorithm?: CreateServiceAccountKeyRequestAlgorithm | (string & {}) | undefined;
   /** Optional, public key part of the user generated RSA key-pair wrapped in a [X.509 v3 certificate](https://www.rfc-editor.org/rfc/rfc5280) */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Optional, date of key expiration. When omitted, key is valid until deleted */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export interface CreateServiceAccountKeyResponseCredentials {
   /** Audience - service account API URL */
@@ -148,11 +180,11 @@ export interface CreateServiceAccountKeyResponseCredentials {
   /** Key id to use */
   kid: string;
   /** Private key. Only present, if the service account API was generating the key. Not recoverable later. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Service account id */
   sub: string;
   /** Endpoint used to obtain access tokens for the service account. */
-  tokenEndpoint?: string;
+  tokenEndpoint?: string | undefined;
 }
 export type CreateServiceAccountKeyResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
 export type CreateServiceAccountKeyResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
@@ -170,7 +202,7 @@ export interface CreateServiceAccountKeyResponse {
   /** Public key, that was provider, or was generated by the service account API */
   publicKey: string;
   /** If specified, the timestamp until the key is active. May be null */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 /** Always use URL encoded values. E.g. urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer */
 export type CreateShortLivedAccessTokenRequestGrantType =
@@ -178,11 +210,11 @@ export type CreateShortLivedAccessTokenRequestGrantType =
   | "refresh_token";
 export interface CreateShortLivedAccessTokenRequest {
   /** The self signed JWT. Must be given when grant_type is urn:ietf:params:oauth:grant-type:jwt-bearer */
-  assertion?: string;
+  assertion?: string | undefined;
   /** Always use URL encoded values. E.g. urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer */
   grant_type: CreateShortLivedAccessTokenRequestGrantType | (string & {});
   /** Refresh token provided by a previous call with a self signed token. Must be given when grant_type is refresh_token */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateShortLivedAccessTokenResponseTokenType = "Bearer";
 export interface CreateShortLivedAccessTokenResponse {
@@ -234,17 +266,17 @@ export interface GetJWKSRequest {
 }
 /** JSON Web Key according to https://datatracker.ietf.org/doc/html/rfc7517#section-4 */
 export interface JWK {
-  alg?: string;
+  alg?: string | undefined;
   e: string;
-  kid?: string;
-  ks?: string;
+  kid?: string | undefined;
+  ks?: string | undefined;
   n: string;
-  ops?: string;
-  use?: string;
-  x5c?: string;
-  x5t?: string;
-  x5t256?: string;
-  x5u?: string;
+  ops?: string | undefined;
+  use?: string | undefined;
+  x5c?: string | undefined;
+  x5t?: string | undefined;
+  x5t256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSKeysList = Array<JWK>;
 export interface JWKS {
@@ -259,7 +291,7 @@ export interface GetServiceAccountKeyRequest {
   /** ID of the key. */
   keyId: string;
   /** Requested format for the public key */
-  format?: GetServiceAccountKeyRequestFormat | (string & {});
+  format?: GetServiceAccountKeyRequestFormat | (string & {}) | undefined;
 }
 export interface GetServiceAccountKeyResponseCredentials {
   /** Audience - service account API URL */
@@ -285,9 +317,9 @@ export interface GetServiceAccountKeyResponse {
   keyOrigin: GetServiceAccountKeyResponseKeyOrigin;
   keyType: GetServiceAccountKeyResponseKeyType;
   /** Public key, in the requested format */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** If specified, the timestamp until the key is active. May be null */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export interface ListFederatedIdentityProvidersRequest {
   /** The ID of the project. */
@@ -322,7 +354,7 @@ export interface ServiceAccountKeyListResponse {
   keyOrigin: ServiceAccountKeyListResponseKeyOrigin;
   keyType: ServiceAccountKeyListResponseKeyType;
   /** If specified, the timestamp until the key is active. May be null */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export type ListServiceAccountKeysResponseItemsList = Array<ServiceAccountKeyListResponse>;
 export interface ListServiceAccountKeysResponse {
@@ -349,7 +381,9 @@ export interface PartialUpdateServiceAccountFederatedIdentityProviderRequest {
   /** ID of the Federated Identity Provider. */
   federationId: string;
   /** list of assertions of the federated identity provider */
-  assertions?: PartialUpdateServiceAccountFederatedIdentityProviderRequestAssertionsList;
+  assertions?:
+    | PartialUpdateServiceAccountFederatedIdentityProviderRequestAssertionsList
+    | undefined;
   /** Issuer of the federated identity provider. */
   issuer: string;
   /** Unique name used as identifier of the federated identity provider. */
@@ -363,9 +397,9 @@ export interface PartialUpdateServiceAccountKeyRequest {
   /** ID of the key. */
   keyId: string;
   /** Active keys are valid, while inactive keys are temporarily deactivated. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Optional, date of key expiration. To disable, set time to "9999-01-01T01:01:01Z" */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export type PartialUpdateServiceAccountKeyResponseKeyAlgorithm = "RSA_2048" | "RSA_4096";
 export type PartialUpdateServiceAccountKeyResponseKeyOrigin = "USER_PROVIDED" | "GENERATED";
@@ -380,7 +414,23 @@ export interface PartialUpdateServiceAccountKeyResponse {
   keyOrigin: PartialUpdateServiceAccountKeyResponseKeyOrigin;
   keyType: PartialUpdateServiceAccountKeyResponseKeyType;
   /** If specified, the timestamp until the key is active. May be null */
-  validUntil?: string;
+  validUntil?: string | undefined;
+}
+/** Contains error information. */
+export interface Error {
+  error: string;
+  message: string;
+  path: string;
+  status: number;
+  timeStamp: string;
+}
+export interface AuthErrorError {
+  code: number;
+  message: string;
+  status: string;
+}
+export interface AuthError {
+  error: AuthErrorError;
 }
 export type CreateFederatedIdentityProviderError =
   | BadRequest
@@ -394,8 +444,8 @@ export const createFederatedIdentityProvider: API.OperationMethod<
   CreateFederatedIdentityProviderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<CreateFederatedIdentityProviderRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<FederatedIdentityProvider>,
+  input: __S(48, __c12, 0) as any as S.Schema<CreateFederatedIdentityProviderRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -411,8 +461,8 @@ export const createServiceAccount: API.OperationMethod<
   CreateServiceAccountError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<CreateServiceAccountRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<ServiceAccount2>,
+  input: __S(60, __c15, 0) as any as S.Schema<CreateServiceAccountRequest>,
+  output: __S(64, __c16, 0) as any as S.Schema<ServiceAccount2>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -428,8 +478,8 @@ export const createServiceAccountKey: API.OperationMethod<
   CreateServiceAccountKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<CreateServiceAccountKeyRequest>,
-  output: __S(62, __c15, 2) as any as S.Schema<CreateServiceAccountKeyResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<CreateServiceAccountKeyRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<CreateServiceAccountKeyResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -445,8 +495,8 @@ export const createShortLivedAccessToken: API.OperationMethod<
   CreateShortLivedAccessTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<CreateShortLivedAccessTokenRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<CreateShortLivedAccessTokenResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<CreateShortLivedAccessTokenRequest>,
+  output: __S(73, __c18, 1) as any as S.Schema<CreateShortLivedAccessTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -462,8 +512,8 @@ export const deleteServiceAccount: API.OperationMethod<
   DeleteServiceAccountError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<DeleteServiceAccountRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<DeleteServiceAccountResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<DeleteServiceAccountRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -479,8 +529,8 @@ export const deleteServiceAccountKey: API.OperationMethod<
   DeleteServiceAccountKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<DeleteServiceAccountKeyRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<DeleteServiceAccountKeyResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<DeleteServiceAccountKeyRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceAccountKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -496,8 +546,8 @@ export const deleteServiceFederatedIdentityProvider: API.OperationMethod<
   DeleteServiceFederatedIdentityProviderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -513,8 +563,8 @@ export const getFederatedIdentityProvider: API.OperationMethod<
   GetFederatedIdentityProviderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetFederatedIdentityProviderRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<FederatedIdentityProvider>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetFederatedIdentityProviderRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -526,8 +576,8 @@ export type GetJWKSError = StackitOpError;
 /** Get JSON Web Key set of the service account Get JSON Web Key set of the service account */
 export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(8, __c2, 0) as any as S.Schema<GetJWKSRequest>,
-    output: __S(11, __c2, 3) as any as S.Schema<JWKS>,
+    input: __S(12, __c3, 0) as any as S.Schema<GetJWKSRequest>,
+    output: __S(15, __c3, 3) as any as S.Schema<JWKS>,
     errors: [UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -543,8 +593,8 @@ export const getServiceAccountKey: API.OperationMethod<
   GetServiceAccountKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetServiceAccountKeyRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<GetServiceAccountKeyResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetServiceAccountKeyRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<GetServiceAccountKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -560,8 +610,8 @@ export const listFederatedIdentityProviders: API.OperationMethod<
   ListFederatedIdentityProvidersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListFederatedIdentityProvidersRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<FederatedListFederatedIdentityProvidersResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListFederatedIdentityProvidersRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<FederatedListFederatedIdentityProvidersResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -577,8 +627,8 @@ export const listServiceAccountKeys: API.OperationMethod<
   ListServiceAccountKeysError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListServiceAccountKeysRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<ListServiceAccountKeysResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListServiceAccountKeysRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<ListServiceAccountKeysResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -594,8 +644,8 @@ export const listServiceAccounts: API.OperationMethod<
   ListServiceAccountsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListServiceAccountsRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<ListServiceAccountsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListServiceAccountsRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListServiceAccountsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -616,11 +666,11 @@ export const partialUpdateServiceAccountFederatedIdentityProvider: API.Operation
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    32,
-    __c8,
+    36,
+    __c9,
     0,
   ) as any as S.Schema<PartialUpdateServiceAccountFederatedIdentityProviderRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<FederatedIdentityProvider>,
+  output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -640,8 +690,8 @@ export const partialUpdateServiceAccountKey: API.OperationMethod<
   PartialUpdateServiceAccountKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<PartialUpdateServiceAccountKeyRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<PartialUpdateServiceAccountKeyResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<PartialUpdateServiceAccountKeyRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<PartialUpdateServiceAccountKeyResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -651,6 +701,20 @@ export const partialUpdateServiceAccountKey: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          message: S.String,
+          path: S.String,
+          status: S.Number,
+          timeStamp: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -669,7 +733,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteServiceFederatedIdentityProviderRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,7 +752,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetFederatedIdentityProviderRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -720,16 +784,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "JWK" });
     case 2:
-      return S.Array(__S(9, __c2, 1));
+      return S.Array(__S(13, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(10, __c2, 2),
+          keys: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "JWKS" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -761,7 +825,7 @@ function __c3(j: number): any {
         S.Struct({
           active: S.Boolean,
           createdAt: S.String,
-          credentials: __S(13, __c3, 1),
+          credentials: __S(17, __c4, 1),
           id: S.String,
           keyAlgorithm: S.String,
           keyOrigin: S.String,
@@ -772,7 +836,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetServiceAccountKeyResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -789,19 +853,19 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListFederatedIdentityProvidersRequest" });
     case 1:
-      return S.Array(__S(46, __c11, 2));
+      return S.Array(__S(54, __c13, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           itemsPerPage: S.Number,
-          resources: __S(17, __c4, 1),
+          resources: __S(21, __c5, 1),
           startIndex: S.Number,
           totalResults: S.Number,
         }),
       ).annotate({ identifier: "FederatedListFederatedIdentityProvidersResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -818,16 +882,16 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListServiceAccountKeysRequest" });
     case 1:
-      return S.Array(__S(24, __c6, 0));
+      return S.Array(__S(28, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(21, __c5, 1),
+          items: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "ListServiceAccountKeysResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -843,7 +907,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ServiceAccountKeyListResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -859,16 +923,16 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListServiceAccountsRequest" });
     case 1:
-      return S.Array(__S(56, __c14, 0));
+      return S.Array(__S(64, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(29, __c7, 1),
+          items: __S(33, __c8, 1),
         }),
       ).annotate({ identifier: "ListServiceAccountsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -876,7 +940,7 @@ function __c8(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceAccountEmail: S.String.pipe(T.Label()),
           federationId: S.String.pipe(T.Label()),
-          assertions: S.optional(__S(49, __c12, 1)),
+          assertions: S.optional(__S(57, __c14, 1)),
           issuer: S.String,
           name: S.String,
         }).pipe(
@@ -890,7 +954,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PartialUpdateServiceAccountFederatedIdentityProviderRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -911,14 +975,32 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PartialUpdateServiceAccountKeyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          message: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "AuthErrorError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(44, __c11, 0),
+        }),
+      ).annotate({ identifier: "AuthError" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceAccountEmail: S.String.pipe(T.Label()),
-          assertions: S.optional(__S(49, __c12, 1)),
+          assertions: S.optional(__S(57, __c14, 1)),
           issuer: S.String,
           name: S.String,
         }).pipe(
@@ -932,7 +1014,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateFederatedIdentityProviderRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -943,11 +1025,11 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "FederatedIdentityProviderAssertionsItem" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(52, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assertions: __S(45, __c11, 1),
+          assertions: __S(53, __c13, 1),
           createdAt: S.String,
           id: S.optional(S.String),
           issuer: S.String,
@@ -957,7 +1039,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "FederatedIdentityProvider" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -968,10 +1050,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "CreateFederatedIdentityProviderRequestAssertionsItem" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(56, __c14, 0));
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -989,7 +1071,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1002,7 +1084,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ServiceAccount2" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1037,7 +1119,7 @@ function __c15(j: number): any {
         S.Struct({
           active: S.Boolean,
           createdAt: S.String,
-          credentials: __S(61, __c15, 1),
+          credentials: __S(69, __c17, 1),
           id: S.String,
           keyAlgorithm: S.String,
           keyOrigin: S.String,
@@ -1048,7 +1130,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountKeyResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1077,7 +1159,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateShortLivedAccessTokenResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1095,13 +1177,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteServiceAccountResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

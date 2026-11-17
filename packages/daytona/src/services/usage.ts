@@ -33,14 +33,14 @@ export interface GetOrganizationUsageAggregatedRequest {
   to: string;
 }
 export interface ModelsAggregatedUsage {
-  firstStart?: string;
-  lastEnd?: string;
-  sandboxCount?: number;
-  totalCPUSeconds?: number;
-  totalDiskGBSeconds?: number;
-  totalGPUSeconds?: number;
-  totalPrice?: number;
-  totalRAMGBSeconds?: number;
+  firstStart?: string | undefined;
+  lastEnd?: string | undefined;
+  sandboxCount?: number | undefined;
+  totalCPUSeconds?: number | undefined;
+  totalDiskGBSeconds?: number | undefined;
+  totalGPUSeconds?: number | undefined;
+  totalPrice?: number | undefined;
+  totalRAMGBSeconds?: number | undefined;
 }
 export interface ListOrganizationSandboxUsageRequest {
   /** Organization ID */
@@ -53,13 +53,13 @@ export interface ListOrganizationSandboxUsageRequest {
   to: string;
 }
 export interface ModelsUsagePeriod {
-  cpu?: number;
-  diskGB?: number;
-  endAt?: string;
-  gpu?: number;
-  price?: number;
-  ramGB?: number;
-  startAt?: string;
+  cpu?: number | undefined;
+  diskGB?: number | undefined;
+  endAt?: string | undefined;
+  gpu?: number | undefined;
+  price?: number | undefined;
+  ramGB?: number | undefined;
+  startAt?: string | undefined;
 }
 export type ListOrganizationSandboxUsageResponseBodyList = Array<ModelsUsagePeriod>;
 export type ListOrganizationSandboxUsageResponse = ListOrganizationSandboxUsageResponseBodyList;
@@ -71,16 +71,16 @@ export interface ListOrganizationUsageChartRequest {
   /** End time (RFC3339) */
   to: string;
   /** Region filter */
-  region?: string;
+  region?: string | undefined;
 }
 export interface ModelsUsageChartPoint {
-  cpu?: number;
-  cpuPrice?: number;
-  diskGB?: number;
-  diskPrice?: number;
-  ramGB?: number;
-  ramPrice?: number;
-  time?: string;
+  cpu?: number | undefined;
+  cpuPrice?: number | undefined;
+  diskGB?: number | undefined;
+  diskPrice?: number | undefined;
+  ramGB?: number | undefined;
+  ramPrice?: number | undefined;
+  time?: string | undefined;
 }
 export type ListOrganizationUsageChartResponseBodyList = Array<ModelsUsageChartPoint>;
 export type ListOrganizationUsageChartResponse = ListOrganizationUsageChartResponseBodyList;
@@ -93,14 +93,14 @@ export interface ListOrganizationUsageSandboxRequest {
   to: string;
 }
 export interface ModelsSandboxUsage {
-  firstStart?: string;
-  lastEnd?: string;
-  sandboxId?: string;
-  totalCPUSeconds?: number;
-  totalDiskGBSeconds?: number;
-  totalGPUSeconds?: number;
-  totalPrice?: number;
-  totalRAMGBSeconds?: number;
+  firstStart?: string | undefined;
+  lastEnd?: string | undefined;
+  sandboxId?: string | undefined;
+  totalCPUSeconds?: number | undefined;
+  totalDiskGBSeconds?: number | undefined;
+  totalGPUSeconds?: number | undefined;
+  totalPrice?: number | undefined;
+  totalRAMGBSeconds?: number | undefined;
 }
 export type ListOrganizationUsageSandboxResponseBodyList = Array<ModelsSandboxUsage>;
 export type ListOrganizationUsageSandboxResponse = ListOrganizationUsageSandboxResponseBodyList;

@@ -30,6 +30,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
@@ -40,25 +42,27 @@ export class WebhookTokenNotFound
     /*@__PURE__*/ S.TaggedError<WebhookTokenNotFound>()("WebhookTokenNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface AddWebhookTokenEnvironmentRequest {
-  tokenId?: string;
-  environmentId?: string;
+  tokenId?: string | undefined;
+  environmentId?: string | undefined;
 }
 export interface AddWebhookTokenEnvironmentResponse {}
 export interface CreateWebhookTokenRequest {
-  scoped?: boolean;
-  name?: string;
+  scoped?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface CreateWebhookTokenResponse {
   tokenId: string;
   tokenSecret: string | Redacted.Redacted<string>;
 }
 export interface DeleteWebhookTokenRequest {
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 export interface DeleteWebhookTokenResponse {}
 export interface ListWebhookTokenRequest {}
@@ -66,43 +70,42 @@ export interface UserIdentity {
   userId: string;
   username: string;
 }
-/** Additional URL suffix added for ephemeral Apps */
 export interface WebhookToken {
   tokenId: string;
   createdAt: number;
   scoped: boolean;
   name: string;
-  createdBy?: UserIdentity;
+  createdBy?: UserIdentity | undefined;
 }
 export type WebhookTokenList2 = Array<WebhookToken>;
 export interface ListWebhookTokenResponse {
   tokens: WebhookTokenList2;
 }
 export interface ListWebhookTokenEnvironmentRequest {
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ListWebhookTokenEnvironmentResponse {
   environmentIds: StringList;
 }
 export interface RemoveWebhookTokenEnvironmentRequest {
-  tokenId?: string;
-  environmentId?: string;
+  tokenId?: string | undefined;
+  environmentId?: string | undefined;
 }
 export interface RemoveWebhookTokenEnvironmentResponse {}
 export interface UpdateWebhookTokenRequest {
-  tokenId?: string;
-  name?: string;
+  tokenId?: string | undefined;
+  name?: string | undefined;
 }
 export interface UpdateWebhookTokenResponse {
   tokenId: string;
   createdAt: number;
   scoped: boolean;
   name: string;
-  createdBy?: UserIdentity;
+  createdBy?: UserIdentity | undefined;
 }
 export interface WebhookTokenListForEnvironmentRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface WebhookTokenListForEnvironmentResponse {
   tokens: WebhookTokenList2;

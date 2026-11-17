@@ -58,14 +58,14 @@ export interface DismissInsightForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   issueId: string;
-  dismiss?: boolean;
+  dismiss?: boolean | undefined;
 }
 export interface DismissInsightForAccountResponse {}
 export interface DismissInsightForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   issueId: string;
-  dismiss?: boolean;
+  dismiss?: boolean | undefined;
 }
 export interface DismissInsightForZoneResponse {}
 export type InsightsClassGetRequestIssueClassList = Array<string>;
@@ -85,40 +85,40 @@ export type InsightsClassGetRequestSubjectNeqList = Array<string>;
 export interface GetInsightClassForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsClassGetRequestIssueClassList;
-  issueClassNeq?: InsightsClassGetRequestIssueClassNeqList;
-  issueType?: InsightsClassGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsClassGetRequestIssueTypeNeqList;
-  product?: InsightsClassGetRequestProductList;
-  productNeq?: InsightsClassGetRequestProductNeqList;
-  severity?: InsightsClassGetRequestSeverityList;
-  severityNeq?: InsightsClassGetRequestSeverityNeqList;
-  source?: InsightsClassGetRequestSourceList;
-  subject?: InsightsClassGetRequestSubjectList;
-  subjectNeq?: InsightsClassGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsClassGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsClassGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsClassGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsClassGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsClassGetRequestProductList | undefined;
+  productNeq?: InsightsClassGetRequestProductNeqList | undefined;
+  severity?: InsightsClassGetRequestSeverityList | undefined;
+  severityNeq?: InsightsClassGetRequestSeverityNeqList | undefined;
+  source?: InsightsClassGetRequestSourceList | undefined;
+  subject?: InsightsClassGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsClassGetRequestSubjectNeqList | undefined;
 }
 export interface InsightsClassGetResultItem {
-  count?: number | null;
-  value?: string | null;
+  count?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type InsightsClassGetResultList = Array<InsightsClassGetResultItem>;
 export type GetInsightClassResponse = InsightsClassGetResultList;
 export interface GetInsightClassForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsClassGetRequestIssueClassList;
-  issueClassNeq?: InsightsClassGetRequestIssueClassNeqList;
-  issueType?: InsightsClassGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsClassGetRequestIssueTypeNeqList;
-  product?: InsightsClassGetRequestProductList;
-  productNeq?: InsightsClassGetRequestProductNeqList;
-  severity?: InsightsClassGetRequestSeverityList;
-  severityNeq?: InsightsClassGetRequestSeverityNeqList;
-  source?: InsightsClassGetRequestSourceList;
-  subject?: InsightsClassGetRequestSubjectList;
-  subjectNeq?: InsightsClassGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsClassGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsClassGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsClassGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsClassGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsClassGetRequestProductList | undefined;
+  productNeq?: InsightsClassGetRequestProductNeqList | undefined;
+  severity?: InsightsClassGetRequestSeverityList | undefined;
+  severityNeq?: InsightsClassGetRequestSeverityNeqList | undefined;
+  source?: InsightsClassGetRequestSourceList | undefined;
+  subject?: InsightsClassGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsClassGetRequestSubjectNeqList | undefined;
 }
 export interface GetInsightContextRequest {
   /** Identifier. */
@@ -144,18 +144,18 @@ export type InsightsSeverityGetRequestSubjectNeqList = Array<string>;
 export interface GetInsightSeverityForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsSeverityGetRequestIssueClassList;
-  issueClassNeq?: InsightsSeverityGetRequestIssueClassNeqList;
-  issueType?: InsightsSeverityGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsSeverityGetRequestIssueTypeNeqList;
-  product?: InsightsSeverityGetRequestProductList;
-  productNeq?: InsightsSeverityGetRequestProductNeqList;
-  severity?: InsightsSeverityGetRequestSeverityList;
-  severityNeq?: InsightsSeverityGetRequestSeverityNeqList;
-  source?: InsightsSeverityGetRequestSourceList;
-  subject?: InsightsSeverityGetRequestSubjectList;
-  subjectNeq?: InsightsSeverityGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsSeverityGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsSeverityGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsSeverityGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsSeverityGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsSeverityGetRequestProductList | undefined;
+  productNeq?: InsightsSeverityGetRequestProductNeqList | undefined;
+  severity?: InsightsSeverityGetRequestSeverityList | undefined;
+  severityNeq?: InsightsSeverityGetRequestSeverityNeqList | undefined;
+  source?: InsightsSeverityGetRequestSourceList | undefined;
+  subject?: InsightsSeverityGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsSeverityGetRequestSubjectNeqList | undefined;
 }
 export type InsightsSeverityGetResultItem = InsightsClassGetResultItem;
 export type InsightsSeverityGetResultList = Array<InsightsClassGetResultItem>;
@@ -163,18 +163,18 @@ export type GetInsightSeverityResponse = InsightsSeverityGetResultList;
 export interface GetInsightSeverityForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsSeverityGetRequestIssueClassList;
-  issueClassNeq?: InsightsSeverityGetRequestIssueClassNeqList;
-  issueType?: InsightsSeverityGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsSeverityGetRequestIssueTypeNeqList;
-  product?: InsightsSeverityGetRequestProductList;
-  productNeq?: InsightsSeverityGetRequestProductNeqList;
-  severity?: InsightsSeverityGetRequestSeverityList;
-  severityNeq?: InsightsSeverityGetRequestSeverityNeqList;
-  source?: InsightsSeverityGetRequestSourceList;
-  subject?: InsightsSeverityGetRequestSubjectList;
-  subjectNeq?: InsightsSeverityGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsSeverityGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsSeverityGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsSeverityGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsSeverityGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsSeverityGetRequestProductList | undefined;
+  productNeq?: InsightsSeverityGetRequestProductNeqList | undefined;
+  severity?: InsightsSeverityGetRequestSeverityList | undefined;
+  severityNeq?: InsightsSeverityGetRequestSeverityNeqList | undefined;
+  source?: InsightsSeverityGetRequestSourceList | undefined;
+  subject?: InsightsSeverityGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsSeverityGetRequestSubjectNeqList | undefined;
 }
 export type InsightsTypeGetRequestIssueClassList = Array<string>;
 export type InsightsTypeGetRequestIssueClassNeqList = Array<string>;
@@ -191,18 +191,18 @@ export type InsightsTypeGetRequestSubjectNeqList = Array<string>;
 export interface GetInsightTypeForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsTypeGetRequestIssueClassList;
-  issueClassNeq?: InsightsTypeGetRequestIssueClassNeqList;
-  issueType?: InsightsTypeGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsTypeGetRequestIssueTypeNeqList;
-  product?: InsightsTypeGetRequestProductList;
-  productNeq?: InsightsTypeGetRequestProductNeqList;
-  severity?: InsightsTypeGetRequestSeverityList;
-  severityNeq?: InsightsTypeGetRequestSeverityNeqList;
-  source?: InsightsTypeGetRequestSourceList;
-  subject?: InsightsTypeGetRequestSubjectList;
-  subjectNeq?: InsightsTypeGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsTypeGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsTypeGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsTypeGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsTypeGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsTypeGetRequestProductList | undefined;
+  productNeq?: InsightsTypeGetRequestProductNeqList | undefined;
+  severity?: InsightsTypeGetRequestSeverityList | undefined;
+  severityNeq?: InsightsTypeGetRequestSeverityNeqList | undefined;
+  source?: InsightsTypeGetRequestSourceList | undefined;
+  subject?: InsightsTypeGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsTypeGetRequestSubjectNeqList | undefined;
 }
 export type InsightsTypeGetResultItem = InsightsClassGetResultItem;
 export type InsightsTypeGetResultList = Array<InsightsClassGetResultItem>;
@@ -210,18 +210,18 @@ export type GetInsightTypeResponse = InsightsTypeGetResultList;
 export interface GetInsightTypeForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsTypeGetRequestIssueClassList;
-  issueClassNeq?: InsightsTypeGetRequestIssueClassNeqList;
-  issueType?: InsightsTypeGetRequestIssueTypeList;
-  issueTypeNeq?: InsightsTypeGetRequestIssueTypeNeqList;
-  product?: InsightsTypeGetRequestProductList;
-  productNeq?: InsightsTypeGetRequestProductNeqList;
-  severity?: InsightsTypeGetRequestSeverityList;
-  severityNeq?: InsightsTypeGetRequestSeverityNeqList;
-  source?: InsightsTypeGetRequestSourceList;
-  subject?: InsightsTypeGetRequestSubjectList;
-  subjectNeq?: InsightsTypeGetRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsTypeGetRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsTypeGetRequestIssueClassNeqList | undefined;
+  issueType?: InsightsTypeGetRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsTypeGetRequestIssueTypeNeqList | undefined;
+  product?: InsightsTypeGetRequestProductList | undefined;
+  productNeq?: InsightsTypeGetRequestProductNeqList | undefined;
+  severity?: InsightsTypeGetRequestSeverityList | undefined;
+  severityNeq?: InsightsTypeGetRequestSeverityNeqList | undefined;
+  source?: InsightsTypeGetRequestSourceList | undefined;
+  subject?: InsightsTypeGetRequestSubjectList | undefined;
+  subjectNeq?: InsightsTypeGetRequestSubjectNeqList | undefined;
 }
 export type InsightsAuditLogsListByInsightRequestFieldChanged = "status" | "user_classification";
 export type InsightsAuditLogsListByInsightRequestOrder = "asc" | "desc";
@@ -230,40 +230,40 @@ export interface ListByInsightInsightAuditLogForAccountRequest {
   accountId: string;
   issueId: string;
   /** Filter entries changed before this timestamp (RFC 3339). */
-  before?: string;
+  before?: string | undefined;
   /** Filter by the actor that made the change. */
-  changedBy?: string;
+  changedBy?: string | undefined;
   /** Opaque cursor for pagination. Use the cursor value from result_info of the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the field that was changed. */
-  fieldChanged?: InsightsAuditLogsListByInsightRequestFieldChanged | (string & {});
+  fieldChanged?: InsightsAuditLogsListByInsightRequestFieldChanged | (string & {}) | undefined;
   /** Sort order for results. Use 'asc' for oldest first or 'desc' for newest first. */
-  order?: InsightsAuditLogsListByInsightRequestOrder | (string & {});
+  order?: InsightsAuditLogsListByInsightRequestOrder | (string & {}) | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter entries changed at or after this timestamp (RFC 3339). */
-  since?: string;
+  since?: string | undefined;
 }
 export type InsightsAuditLogsListByInsightResultItemFieldChanged = "status" | "user_classification";
 export interface InsightsAuditLogsListByInsightResultItem {
   /** UUIDv7 identifier for the audit log entry, time-ordered. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The timestamp when the change occurred. */
-  changedAt?: string | null;
+  changedAt?: string | null | undefined;
   /** The actor that made the change. 'system' for automated changes, or a user identifier. */
-  changedBy?: string | null;
+  changedBy?: string | null | undefined;
   /** The value of the field after the change. Null if the field was cleared. */
-  currentValue?: string | null;
+  currentValue?: string | null | undefined;
   /** The field that was changed. */
-  fieldChanged?: InsightsAuditLogsListByInsightResultItemFieldChanged | null;
+  fieldChanged?: InsightsAuditLogsListByInsightResultItemFieldChanged | null | undefined;
   /** The ID of the insight this audit log entry relates to. */
-  issueId?: string | null;
+  issueId?: string | null | undefined;
   /** The value of the field before the change. Null if the field was not previously set. */
-  previousValue?: string | null;
+  previousValue?: string | null | undefined;
   /** Optional rationale provided for the change. */
-  rationale?: string | null;
+  rationale?: string | null | undefined;
   /** The zone ID associated with the insight. Only present for zone-level insights. */
-  zoneId?: number | null;
+  zoneId?: number | null | undefined;
 }
 export type InsightsAuditLogsListByInsightResultList =
   Array<InsightsAuditLogsListByInsightResultItem>;
@@ -271,26 +271,26 @@ export interface ListByInsightInsightAuditLogResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InsightsAuditLogsListByInsightResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListByInsightInsightAuditLogForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   issueId: string;
   /** Filter entries changed before this timestamp (RFC 3339). */
-  before?: string;
+  before?: string | undefined;
   /** Filter by the actor that made the change. */
-  changedBy?: string;
+  changedBy?: string | undefined;
   /** Opaque cursor for pagination. Use the cursor value from result_info of the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the field that was changed. */
-  fieldChanged?: InsightsAuditLogsListByInsightRequestFieldChanged | (string & {});
+  fieldChanged?: InsightsAuditLogsListByInsightRequestFieldChanged | (string & {}) | undefined;
   /** Sort order for results. Use 'asc' for oldest first or 'desc' for newest first. */
-  order?: InsightsAuditLogsListByInsightRequestOrder | (string & {});
+  order?: InsightsAuditLogsListByInsightRequestOrder | (string & {}) | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter entries changed at or after this timestamp (RFC 3339). */
-  since?: string;
+  since?: string | undefined;
 }
 export type InsightsAuditLogsListRequestFieldChanged = "status" | "user_classification";
 export type InsightsAuditLogsListRequestOrder = "asc" | "desc";
@@ -298,65 +298,65 @@ export interface ListInsightAuditLogsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** Filter entries changed before this timestamp (RFC 3339). */
-  before?: string;
+  before?: string | undefined;
   /** Filter by the actor that made the change. */
-  changedBy?: string;
+  changedBy?: string | undefined;
   /** Opaque cursor for pagination. Use the cursor value from result_info of the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the field that was changed. */
-  fieldChanged?: InsightsAuditLogsListRequestFieldChanged | (string & {});
+  fieldChanged?: InsightsAuditLogsListRequestFieldChanged | (string & {}) | undefined;
   /** Sort order for results. Use 'asc' for oldest first or 'desc' for newest first. */
-  order?: InsightsAuditLogsListRequestOrder | (string & {});
+  order?: InsightsAuditLogsListRequestOrder | (string & {}) | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter entries changed at or after this timestamp (RFC 3339). */
-  since?: string;
+  since?: string | undefined;
 }
 export type InsightsAuditLogsListResultItemFieldChanged = "status" | "user_classification";
 export interface InsightsAuditLogsListResultItem {
   /** UUIDv7 identifier for the audit log entry, time-ordered. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The timestamp when the change occurred. */
-  changedAt?: string | null;
+  changedAt?: string | null | undefined;
   /** The actor that made the change. 'system' for automated changes, or a user identifier. */
-  changedBy?: string | null;
+  changedBy?: string | null | undefined;
   /** The value of the field after the change. Null if the field was cleared. */
-  currentValue?: string | null;
+  currentValue?: string | null | undefined;
   /** The field that was changed. */
-  fieldChanged?: InsightsAuditLogsListResultItemFieldChanged | null;
+  fieldChanged?: InsightsAuditLogsListResultItemFieldChanged | null | undefined;
   /** The ID of the insight this audit log entry relates to. */
-  issueId?: string | null;
+  issueId?: string | null | undefined;
   /** The value of the field before the change. Null if the field was not previously set. */
-  previousValue?: string | null;
+  previousValue?: string | null | undefined;
   /** Optional rationale provided for the change. */
-  rationale?: string | null;
+  rationale?: string | null | undefined;
   /** The zone ID associated with the insight. Only present for zone-level insights. */
-  zoneId?: number | null;
+  zoneId?: number | null | undefined;
 }
 export type InsightsAuditLogsListResultList = Array<InsightsAuditLogsListResultItem>;
 export interface ListInsightAuditLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InsightsAuditLogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListInsightAuditLogsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** Filter entries changed before this timestamp (RFC 3339). */
-  before?: string;
+  before?: string | undefined;
   /** Filter by the actor that made the change. */
-  changedBy?: string;
+  changedBy?: string | undefined;
   /** Opaque cursor for pagination. Use the cursor value from result_info of the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the field that was changed. */
-  fieldChanged?: InsightsAuditLogsListRequestFieldChanged | (string & {});
+  fieldChanged?: InsightsAuditLogsListRequestFieldChanged | (string & {}) | undefined;
   /** Sort order for results. Use 'asc' for oldest first or 'desc' for newest first. */
-  order?: InsightsAuditLogsListRequestOrder | (string & {});
+  order?: InsightsAuditLogsListRequestOrder | (string & {}) | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter entries changed at or after this timestamp (RFC 3339). */
-  since?: string;
+  since?: string | undefined;
 }
 export type InsightsListRequestIssueClassList = Array<string>;
 export type InsightsListRequestIssueClassNeqList = Array<string>;
@@ -373,22 +373,22 @@ export type InsightsListRequestSubjectNeqList = Array<string>;
 export interface ListInsightsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsListRequestIssueClassList;
-  issueClassNeq?: InsightsListRequestIssueClassNeqList;
-  issueType?: InsightsListRequestIssueTypeList;
-  issueTypeNeq?: InsightsListRequestIssueTypeNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsListRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsListRequestIssueClassNeqList | undefined;
+  issueType?: InsightsListRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsListRequestIssueTypeNeqList | undefined;
   /** Specifies the current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the number of results per page of results. */
-  perPage?: number;
-  product?: InsightsListRequestProductList;
-  productNeq?: InsightsListRequestProductNeqList;
-  severity?: InsightsListRequestSeverityList;
-  severityNeq?: InsightsListRequestSeverityNeqList;
-  source?: InsightsListRequestSourceList;
-  subject?: InsightsListRequestSubjectList;
-  subjectNeq?: InsightsListRequestSubjectNeqList;
+  perPage?: number | undefined;
+  product?: InsightsListRequestProductList | undefined;
+  productNeq?: InsightsListRequestProductNeqList | undefined;
+  severity?: InsightsListRequestSeverityList | undefined;
+  severityNeq?: InsightsListRequestSeverityNeqList | undefined;
+  source?: InsightsListRequestSourceList | undefined;
+  subject?: InsightsListRequestSubjectList | undefined;
+  subjectNeq?: InsightsListRequestSubjectNeqList | undefined;
 }
 export type InsightsListResponseIssuesItemIssueType =
   | "compliance_violation"
@@ -399,8 +399,8 @@ export type InsightsListResponseIssuesItemIssueType =
   | "configuration_suggestion";
 export interface InsightsListResponseIssuesItemPayload {
   /** Describes the method used to detect insight. */
-  detectionMethod?: string | null;
-  zoneTag?: string | null;
+  detectionMethod?: string | null | undefined;
+  zoneTag?: string | null | undefined;
 }
 export type InsightsListResponseIssuesItemSeverity = "Low" | "Moderate" | "Critical";
 export type InsightsListResponseIssuesItemSource = "cloudflare" | "riskrecon";
@@ -410,56 +410,56 @@ export type InsightsListResponseIssuesItemUserClassification =
   | "accept_risk"
   | "other";
 export interface InsightsListResponseIssuesItem {
-  id?: string | null;
-  dismissed?: boolean | null;
+  id?: string | null | undefined;
+  dismissed?: boolean | null | undefined;
   /** Indicates whether the insight has a large payload that requires fetching via the context endpoint. */
-  hasExtendedContext?: boolean | null;
-  issueClass?: string | null;
-  issueType?: InsightsListResponseIssuesItemIssueType | null;
-  payload?: InsightsListResponseIssuesItemPayload | null;
-  resolveLink?: string | null;
-  resolveText?: string | null;
-  severity?: InsightsListResponseIssuesItemSeverity | null;
-  since?: string | null;
+  hasExtendedContext?: boolean | null | undefined;
+  issueClass?: string | null | undefined;
+  issueType?: InsightsListResponseIssuesItemIssueType | null | undefined;
+  payload?: InsightsListResponseIssuesItemPayload | null | undefined;
+  resolveLink?: string | null | undefined;
+  resolveText?: string | null | undefined;
+  severity?: InsightsListResponseIssuesItemSeverity | null | undefined;
+  since?: string | null | undefined;
   /** Who generated the insight. `cloudflare` for Cloudflare-generated insights, otherwise the partner. */
-  source?: InsightsListResponseIssuesItemSource | null;
+  source?: InsightsListResponseIssuesItemSource | null | undefined;
   /** The current status of the insight. */
-  status?: InsightsListResponseIssuesItemStatus | null;
-  subject?: string | null;
-  timestamp?: string | null;
+  status?: InsightsListResponseIssuesItemStatus | null | undefined;
+  subject?: string | null | undefined;
+  timestamp?: string | null | undefined;
   /** User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null. */
-  userClassification?: InsightsListResponseIssuesItemUserClassification | null;
+  userClassification?: InsightsListResponseIssuesItemUserClassification | null | undefined;
 }
 export type InsightsListResponseIssuesList = Array<InsightsListResponseIssuesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListInsightsResponse {
   /** Indicates the total number of results. */
-  count?: number | null;
-  issues?: InsightsListResponseIssuesList | null;
+  count?: number | null | undefined;
+  issues?: InsightsListResponseIssuesList | null | undefined;
   /** Specifies the current page within paginated list of results. */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Sets the number of results per page of results. */
-  perPage?: number | null;
+  perPage?: number | null | undefined;
 }
 export interface ListInsightsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  dismissed?: boolean;
-  issueClass?: InsightsListRequestIssueClassList;
-  issueClassNeq?: InsightsListRequestIssueClassNeqList;
-  issueType?: InsightsListRequestIssueTypeList;
-  issueTypeNeq?: InsightsListRequestIssueTypeNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: InsightsListRequestIssueClassList | undefined;
+  issueClassNeq?: InsightsListRequestIssueClassNeqList | undefined;
+  issueType?: InsightsListRequestIssueTypeList | undefined;
+  issueTypeNeq?: InsightsListRequestIssueTypeNeqList | undefined;
   /** Specifies the current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the number of results per page of results. */
-  perPage?: number;
-  product?: InsightsListRequestProductList;
-  productNeq?: InsightsListRequestProductNeqList;
-  severity?: InsightsListRequestSeverityList;
-  severityNeq?: InsightsListRequestSeverityNeqList;
-  source?: InsightsListRequestSourceList;
-  subject?: InsightsListRequestSubjectList;
-  subjectNeq?: InsightsListRequestSubjectNeqList;
+  perPage?: number | undefined;
+  product?: InsightsListRequestProductList | undefined;
+  productNeq?: InsightsListRequestProductNeqList | undefined;
+  severity?: InsightsListRequestSeverityList | undefined;
+  severityNeq?: InsightsListRequestSeverityNeqList | undefined;
+  source?: InsightsListRequestSourceList | undefined;
+  subject?: InsightsListRequestSubjectList | undefined;
+  subjectNeq?: InsightsListRequestSubjectNeqList | undefined;
 }
 export type InsightsClassificationUpdateRequestClassification =
   | "false_positive"
@@ -470,9 +470,9 @@ export interface PatchInsightClassificationForAccountRequest {
   accountId: string;
   issueId: string;
   /** User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null. */
-  classification?: InsightsClassificationUpdateRequestClassification | (string & {});
+  classification?: InsightsClassificationUpdateRequestClassification | (string & {}) | undefined;
   /** Rationale for the classification change. Required when classification is 'accept_risk' or 'other'. */
-  rationale?: string;
+  rationale?: string | undefined;
 }
 export interface PatchInsightClassificationForAccountResponse {}
 export interface PatchInsightClassificationForZoneRequest {
@@ -480,9 +480,9 @@ export interface PatchInsightClassificationForZoneRequest {
   zoneId: string;
   issueId: string;
   /** User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null. */
-  classification?: InsightsClassificationUpdateRequestClassification | (string & {});
+  classification?: InsightsClassificationUpdateRequestClassification | (string & {}) | undefined;
   /** Rationale for the classification change. Required when classification is 'accept_risk' or 'other'. */
-  rationale?: string;
+  rationale?: string | undefined;
 }
 export interface PatchInsightClassificationForZoneResponse {}
 export type DismissInsightForAccountError = CloudflareOpError;

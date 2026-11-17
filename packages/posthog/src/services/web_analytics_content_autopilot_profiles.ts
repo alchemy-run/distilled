@@ -33,7 +33,7 @@ export interface CreateWebAnalyticsContentAutopilotProfileRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Name used to identify this site in the workspace. */
-  name?: string;
+  name?: string | undefined;
   /** Authorized site origin for this profile. */
   domain: string;
   /** Public sitemap and factual source URLs used to build the site profile. */
@@ -43,7 +43,7 @@ export interface CreateWebAnalyticsContentAutopilotProfileRequest {
   /** Brand, terminology, and editorial rules applied to every proposal. */
   brand_rules: CreateWebAnalyticsContentAutopilotProfileRequestBrandRulesList;
   /** Whether to use connected Google Search Console data. */
-  search_console_enabled?: boolean;
+  search_console_enabled?: boolean | undefined;
 }
 /** Public sitemap and factual source URLs used to build the site profile. */
 export type ContentAutopilotSiteProfileSourceUrlsList = Array<string>;
@@ -54,7 +54,7 @@ export type ContentAutopilotSiteProfileBrandRulesList = Array<string>;
 export interface ContentAutopilotSiteProfile {
   id: string;
   /** Name used to identify this site in the workspace. */
-  name?: string;
+  name?: string | undefined;
   /** Authorized site origin for this profile. */
   domain: string;
   /** Public sitemap and factual source URLs used to build the site profile. */
@@ -64,7 +64,7 @@ export interface ContentAutopilotSiteProfile {
   /** Brand, terminology, and editorial rules applied to every proposal. */
   brand_rules: ContentAutopilotSiteProfileBrandRulesList;
   /** Whether to use connected Google Search Console data. */
-  search_console_enabled?: boolean;
+  search_console_enabled?: boolean | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -78,16 +78,16 @@ export interface ListWebAnalyticsContentAutopilotProfilesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedContentAutopilotSiteProfileListResultsList =
   Array<ContentAutopilotSiteProfile>;
 export interface PaginatedContentAutopilotSiteProfileList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedContentAutopilotSiteProfileListResultsList;
 }
 /** Public sitemap and factual source URLs used to build the site profile. */
@@ -103,17 +103,19 @@ export interface UpdateWebAnalyticsContentAutopilotProfilesPartialRequest {
   /** A UUID string identifying this content autopilot site profile. */
   id: string;
   /** Name used to identify this site in the workspace. */
-  name?: string;
+  name?: string | undefined;
   /** Authorized site origin for this profile. */
-  domain?: string;
+  domain?: string | undefined;
   /** Public sitemap and factual source URLs used to build the site profile. */
-  source_urls?: UpdateWebAnalyticsContentAutopilotProfilesPartialRequestSourceUrlsList;
+  source_urls?: UpdateWebAnalyticsContentAutopilotProfilesPartialRequestSourceUrlsList | undefined;
   /** Same-origin URL path prefixes allowed for research. */
-  content_boundaries?: UpdateWebAnalyticsContentAutopilotProfilesPartialRequestContentBoundariesList;
+  content_boundaries?:
+    | UpdateWebAnalyticsContentAutopilotProfilesPartialRequestContentBoundariesList
+    | undefined;
   /** Brand, terminology, and editorial rules applied to every proposal. */
-  brand_rules?: UpdateWebAnalyticsContentAutopilotProfilesPartialRequestBrandRulesList;
+  brand_rules?: UpdateWebAnalyticsContentAutopilotProfilesPartialRequestBrandRulesList | undefined;
   /** Whether to use connected Google Search Console data. */
-  search_console_enabled?: boolean;
+  search_console_enabled?: boolean | undefined;
 }
 export interface WebAnalyticsContentAutopilotProfilesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

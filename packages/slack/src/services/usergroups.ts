@@ -30,21 +30,21 @@ export type CreateUsergroupRequestChannelsList = Array<string>;
 export type CreateUsergroupRequestAdditionalChannelsList = Array<string>;
 export interface CreateUsergroupRequest {
   /** A comma separated string of encoded channel IDs for which the User Group uses as a default. */
-  channels?: CreateUsergroupRequestChannelsList;
+  channels?: CreateUsergroupRequestChannelsList | undefined;
   /** A comma separated string of encoded channel IDs for which the User Group can custom add usergroup members too. */
-  additional_channels?: CreateUsergroupRequestAdditionalChannelsList;
+  additional_channels?: CreateUsergroupRequestAdditionalChannelsList | undefined;
   /** A short description of the User Group. */
-  description?: string;
+  description?: string | undefined;
   /** A mention handle. Must be unique among channels, users and User Groups. */
-  handle?: string;
+  handle?: string | undefined;
   /** Include the number of users in each User Group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** A name for the User Group. Must be unique among User Groups. */
   name: string;
   /** Encoded team id where the user group has to be created, required if org token is used. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Configure this user group to show as a sidebar section for all group members. Note: Only relevant if group has 1 or more default channels added. */
-  enable_section?: boolean;
+  enable_section?: boolean | undefined;
 }
 export interface CreateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -53,9 +53,9 @@ export interface CreateUsergroupResponse {
 }
 export interface DisableUsergroupRequest {
   /** Include the number of users in the User Group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** Encoded target team id where the user group is, required if org token is used. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The encoded ID of the User Group to disable. */
   usergroup: string;
 }
@@ -66,9 +66,9 @@ export interface DisableUsergroupResponse {
 }
 export interface EnableUsergroupRequest {
   /** Include the number of users in the User Group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** Encoded team id where the user group is, required if org token is used. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The encoded ID of the User Group to enable. */
   usergroup: string;
 }
@@ -79,13 +79,13 @@ export interface EnableUsergroupResponse {
 }
 export interface ListUsergroupsRequest {
   /** Include the number of users in each User Group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** Include results for disabled User Groups. */
-  include_disabled?: boolean;
+  include_disabled?: boolean | undefined;
   /** Include the list of users for each User Group. */
-  include_users?: boolean;
+  include_users?: boolean | undefined;
   /** The user group's encoded team ID. Required if org token is used. */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListUsergroupsResponseUsergroupsList = Array<unknown>;
 export interface ListUsergroupsResponse {
@@ -95,11 +95,11 @@ export interface ListUsergroupsResponse {
 }
 export interface ListUsersRequest {
   /** Include results for disabled User Groups. */
-  include_disabled?: boolean;
+  include_disabled?: boolean | undefined;
   /** The encoded ID of the User Group. */
   usergroup: string;
   /** The user group's encoded team ID. Required if org token is used. */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListUsersResponseUsersList = Array<unknown>;
 export interface ListUsersResponse {
@@ -113,17 +113,17 @@ export type UpdateUserRequestUsersList = Array<string>;
 export type UpdateUserRequestAdditionalChannelsList = Array<string>;
 export interface UpdateUserRequest {
   /** Include the number of users in the user group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** encoded team id where the user group exists, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The encoded ID of the user group to update. */
   usergroup: string;
   /** A comma separated string of encoded user IDs that represent the entire list of users for the user group. */
   users: UpdateUserRequestUsersList;
   /** A comma separated string of encoded channel IDs for which the User Group can custom add usergroup members too. */
-  additional_channels?: UpdateUserRequestAdditionalChannelsList;
+  additional_channels?: UpdateUserRequestAdditionalChannelsList | undefined;
   /** Boolean to identify if the API is getting called when a shared section is getting shared */
-  is_shared?: boolean;
+  is_shared?: boolean | undefined;
 }
 export interface UpdateUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -136,23 +136,23 @@ export type UpdateUsergroupRequestChannelsList = Array<string>;
 export type UpdateUsergroupRequestAdditionalChannelsList = Array<string>;
 export interface UpdateUsergroupRequest {
   /** A comma separated string of encoded channel IDs for which the User Group uses as a default. */
-  channels?: UpdateUsergroupRequestChannelsList;
+  channels?: UpdateUsergroupRequestChannelsList | undefined;
   /** A comma separated string of encoded channel IDs for which the User Group can custom add usergroup members too. */
-  additional_channels?: UpdateUsergroupRequestAdditionalChannelsList;
+  additional_channels?: UpdateUsergroupRequestAdditionalChannelsList | undefined;
   /** A short description of the User Group. */
-  description?: string;
+  description?: string | undefined;
   /** A mention handle. Must be unique among channels, users and User Groups. */
-  handle?: string;
+  handle?: string | undefined;
   /** Include the number of users in the User Group. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
   /** A name for the User Group. Must be unique among User Groups. */
-  name?: string;
+  name?: string | undefined;
   /** encoded team id where the user group exists, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The encoded ID of the User Group to update. */
   usergroup: string;
   /** Configure this user group to show as a sidebar section for all group members. Note: Only relevant if group has 1 or more default channels added. */
-  enable_section?: boolean;
+  enable_section?: boolean | undefined;
 }
 /** List of user IDs who would exceed their channel limit */
 export type UpdateUsergroupResponseChannelLimitUserIdsList = Array<string>;
@@ -161,7 +161,7 @@ export interface UpdateUsergroupResponse {
   ok: boolean;
   usergroup: unknown;
   /** List of user IDs who would exceed their channel limit */
-  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList;
+  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList | undefined;
 }
 export type CreateUsergroupError = SlackOpError;
 /** Create a User Group. Required scopes -- bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_handle` -- Handle is invalid - `description_too_long` -- Given usergroup description is too long - `forbidden_handle` -- Handle is invalid - `handle_already_exists` -- Handle is already in use on this workspace - `invalid_channel_provided` -- An invalid channel ID was provided - `invalid_group_provided` -- An invalid group ID was provided - `missing_argument` -- A required argument is missing. - `missing_subteam_name` -- Subteam name is required - `name_already_exists` -- Name is already in use on this workspace - `name_too_long` -- Name too long. - `paid_teams_only` -- Usergroups can only be used on paid Slack teams - `permission_denied` -- The user does not have permission to create a User Group. - `plan_upgrade_required` -- This workspace does not have access to User Groups, as that feature is only available on Standard and above plans. - `target_team_not_on_org` -- Target team specified is not on the org in context - `target_team_must_be_specified_in_org_context` -- No target team was specified but the team in context is an org See https://docs.slack.dev/reference/methods/usergroups.create */

@@ -29,15 +29,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorDetail | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -47,6 +56,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -54,19 +65,19 @@ export class NotFound
 export interface CreateVisualReviewReposRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  repo_full_name?: string;
-  repo_external_id?: number | null;
+  repo_full_name?: string | undefined;
+  repo_external_id?: number | null | undefined;
 }
 export type RepoBaselineFilePathsMap = { [key: string]: string | undefined };
 export interface Repo {
-  id?: string;
-  team_id?: number;
-  repo_external_id?: number;
-  repo_full_name?: string;
-  baseline_file_paths?: RepoBaselineFilePathsMap;
-  enable_pr_comments?: boolean;
-  debt_digest_enabled?: boolean;
-  created_at?: string;
+  id?: string | undefined;
+  team_id?: number | undefined;
+  repo_external_id?: number | undefined;
+  repo_full_name?: string | undefined;
+  baseline_file_paths?: RepoBaselineFilePathsMap | undefined;
+  enable_pr_comments?: boolean | undefined;
+  debt_digest_enabled?: boolean | undefined;
+  created_at?: string | undefined;
 }
 export interface CreateVisualReviewReposQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -74,40 +85,40 @@ export interface CreateVisualReviewReposQuarantineRequest {
   id: string;
   run_type: string;
   /** Snapshot identifier to quarantine. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Why this snapshot is being quarantined. */
-  reason?: string;
+  reason?: string | undefined;
   /** When the quarantine lifts itself, as an ISO 8601 datetime. Through MCP an omitted or later expiry becomes 30 days from now; anywhere else omitting it means no expiry. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Optional pointer to the run whose failing snapshot prompted this quarantine -- used to surface a 'view the failing run' link later. */
-  source_run_id?: string | null;
+  source_run_id?: string | null | undefined;
   /** Post the quarantine to the Slack channel of the team that owns the story, naming the user who quarantined it. Only Storybook snapshots have an owning team. Best effort: skipped when the story has no owning team or the project has no Slack integration. */
-  notify_owners?: boolean;
+  notify_owners?: boolean | undefined;
 }
 export interface UserBasicInfo {
-  id?: number;
-  first_name?: string;
-  email?: string;
+  id?: number | undefined;
+  first_name?: string | undefined;
+  email?: string | undefined;
 }
 export interface QuarantineSourceRun {
   id: string;
   branch: string;
   commit_sha: string;
   created_at: string;
-  pr_number?: number | null;
+  pr_number?: number | null | undefined;
 }
 export interface QuarantinedIdentifierEntry {
-  created_by?: UserBasicInfo | null;
+  created_by?: UserBasicInfo | null | undefined;
   /** Run whose failing snapshot prompted this quarantine. Null when quarantine was created without run context. */
-  source_run?: QuarantineSourceRun | null;
-  id?: string;
-  identifier?: string;
-  run_type?: string;
-  reason?: string;
-  source?: string;
-  expires_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  source_run?: QuarantineSourceRun | null | undefined;
+  id?: string | undefined;
+  identifier?: string | undefined;
+  run_type?: string | undefined;
+  reason?: string | undefined;
+  source?: string | undefined;
+  expires_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateVisualReviewReposQuarantineExpireRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -120,11 +131,11 @@ export interface CreateVisualReviewReposQuarantineExpireRequest {
 export interface CreateVisualReviewReposQuarantineExpireResponse {}
 export type SnapshotManifestItemMetadataMap = { [key: string]: unknown | undefined };
 export interface SnapshotManifestItem {
-  identifier?: string;
-  content_hash?: string;
-  width?: number | null;
-  height?: number | null;
-  metadata?: SnapshotManifestItemMetadataMap;
+  identifier?: string | undefined;
+  content_hash?: string | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  metadata?: SnapshotManifestItemMetadataMap | undefined;
 }
 export type CreateVisualReviewRunRequestSnapshotsList = Array<SnapshotManifestItem>;
 export type CreateVisualReviewRunRequestBaselineHashesMap = { [key: string]: string | undefined };
@@ -133,83 +144,83 @@ export type CreateVisualReviewRunRequestMetadataMap = { [key: string]: unknown |
 export interface CreateVisualReviewRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  repo_id?: string;
-  run_type?: string;
-  commit_sha?: string;
-  branch?: string;
-  snapshots?: CreateVisualReviewRunRequestSnapshotsList;
-  pr_number?: number | null;
-  baseline_hashes?: CreateVisualReviewRunRequestBaselineHashesMap;
-  unchanged_count?: number;
-  removed_identifiers?: CreateVisualReviewRunRequestRemovedIdentifiersList;
-  purpose?: string;
-  metadata?: CreateVisualReviewRunRequestMetadataMap;
-  is_partial?: boolean;
+  repo_id?: string | undefined;
+  run_type?: string | undefined;
+  commit_sha?: string | undefined;
+  branch?: string | undefined;
+  snapshots?: CreateVisualReviewRunRequestSnapshotsList | undefined;
+  pr_number?: number | null | undefined;
+  baseline_hashes?: CreateVisualReviewRunRequestBaselineHashesMap | undefined;
+  unchanged_count?: number | undefined;
+  removed_identifiers?: CreateVisualReviewRunRequestRemovedIdentifiersList | undefined;
+  purpose?: string | undefined;
+  metadata?: CreateVisualReviewRunRequestMetadataMap | undefined;
+  is_partial?: boolean | undefined;
 }
 export type UploadTargetFieldsMap = { [key: string]: string | undefined };
 export interface UploadTarget {
-  content_hash?: string;
-  url?: string;
-  fields?: UploadTargetFieldsMap;
+  content_hash?: string | undefined;
+  url?: string | undefined;
+  fields?: UploadTargetFieldsMap | undefined;
 }
 export type CreateRunResultUploadsList = Array<UploadTarget>;
 export interface CreateRunResult {
-  run_id?: string;
-  uploads?: CreateRunResultUploadsList;
+  run_id?: string | undefined;
+  uploads?: CreateRunResultUploadsList | undefined;
 }
 export interface CreateVisualReviewRunsCompleteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Numeric GitHub Actions job ID of the CI job that completes the run, from `${{ job.check_run_id }}`. Recompute re-runs this job, so it re-reads the verdict without capturing the snapshots again. Omit it outside GitHub Actions. */
-  check_run_id?: string;
+  check_run_id?: string | undefined;
 }
 /** * `review` - review * `observe` - observe */
-export type PurposeEnum = "review" | "observe";
+export type RunPurposeEnum = "review" | "observe";
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface RunSummary {
-  total?: number;
-  changed?: number;
-  new?: number;
-  removed?: number;
-  unchanged?: number;
-  unresolved?: number;
-  tolerated_matched?: number;
+  total?: number | undefined;
+  changed?: number | undefined;
+  new?: number | undefined;
+  removed?: number | undefined;
+  unchanged?: number | undefined;
+  unresolved?: number | undefined;
+  tolerated_matched?: number | undefined;
 }
 export type RunMetadataMap = { [key: string]: unknown | undefined };
 export interface Run {
-  approved_by?: UserBasicInfo | null;
+  approved_by?: UserBasicInfo | null | undefined;
   /** Why CI submitted the run. `review` runs gate the PR and need approval. `observe` runs are tracking-only, for example default-branch pushes and merge-queue runs, and can never be approved. * `review` - review * `observe` - observe */
-  purpose?: PurposeEnum;
+  purpose?: RunPurposeEnum | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of branch/run type, a commit SHA prefix, or an exact PR number) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. * `exact` - exact * `similar` - similar */
-  search_match_type?: SearchMatchTypeEnum | null;
-  id?: string;
-  repo_id?: string;
-  status?: string;
-  run_type?: string;
-  commit_sha?: string;
-  branch?: string;
-  pr_number?: number | null;
-  approved?: boolean;
-  approved_at?: string | null;
-  summary?: RunSummary;
-  error_message?: string | null;
-  created_at?: string;
-  completed_at?: string | null;
-  is_stale?: boolean;
-  superseded_by_id?: string | null;
-  metadata?: RunMetadataMap;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
+  id?: string | undefined;
+  repo_id?: string | undefined;
+  status?: string | undefined;
+  run_type?: string | undefined;
+  commit_sha?: string | undefined;
+  branch?: string | undefined;
+  pr_number?: number | null | undefined;
+  approved?: boolean | undefined;
+  approved_at?: string | null | undefined;
+  summary?: RunSummary | undefined;
+  error_message?: string | null | undefined;
+  created_at?: string | undefined;
+  completed_at?: string | null | undefined;
+  is_stale?: boolean | undefined;
+  superseded_by_id?: string | null | undefined;
+  metadata?: RunMetadataMap | undefined;
 }
 export interface CreateVisualReviewRunsFinalizeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Approve every still-pending changed and new snapshot before finalizing (tolerated snapshots are left untouched). Leave false to finalize a run you've already reviewed -- finalizing fails if any changed/new snapshot is still unreviewed. */
-  approve_all?: boolean;
+  approve_all?: boolean | undefined;
   /** Whether the server commits the approved baseline to the PR branch and greens the gate (the normal path -- leave true). Set false only for tooling that commits the baseline itself: the server skips the commit and returns the signed YAML in `baseline_content` instead. With false, the gate is NOT greened, `metadata.baseline_commit_sha` is absent, and no post-approval PR comment is posted. */
-  commit_to_github?: boolean;
+  commit_to_github?: boolean | undefined;
   /** Whether to embed the before/after snapshot images in the post-approval PR comment. The comment itself is posted when the repo has PR comments enabled and `commit_to_github` is true: it updates the run's review prompt when the run has one, and posts a new comment when it does not. This flag only controls the images. Defaults false -- the comment stays a text summary unless the reviewer opts in to attach the snapshots. */
-  add_images_to_comment_on_pr?: boolean;
+  add_images_to_comment_on_pr?: boolean | undefined;
 }
 export interface FinalizeResult {
   run: Run;
@@ -246,15 +257,15 @@ export interface QuarantineLiftEntry {
   /** When the request last changed. */
   updated_at: string;
   /** When the request left `pending`. Null while it waits. */
-  resolved_at?: string | null;
+  resolved_at?: string | null | undefined;
   /** Run the lift was requested from. Null after that run is deleted. */
-  source_run_id?: string | null;
+  source_run_id?: string | null | undefined;
   /** User who requested the lift, or on whose behalf an agent did. */
-  requested_by?: UserBasicInfo | null;
+  requested_by?: UserBasicInfo | null | undefined;
   /** Merge commit of the pull request. Set when the lift applies. */
-  merge_commit_sha?: string | null;
+  merge_commit_sha?: string | null | undefined;
   /** Commit of the default-branch run that proved the fix and lifted the quarantine. A branch that does not contain it still treats the snapshot as quarantined. */
-  lifted_at_sha?: string | null;
+  lifted_at_sha?: string | null | undefined;
   /** Who requested the lift: `human` for a person in the UI, `agent` for an agent through MCP. */
   source: string;
 }
@@ -264,25 +275,25 @@ export interface CreateVisualReviewRunsRecomputeRequest {
   id: string;
 }
 export interface RecomputeResult {
-  run?: Run;
-  counts_changed?: boolean;
-  unresolved?: number;
-  ci_rerun_triggered?: boolean;
-  ci_rerun_error?: string | null;
+  run?: Run | undefined;
+  counts_changed?: boolean | undefined;
+  unresolved?: number | undefined;
+  ci_rerun_triggered?: boolean | undefined;
+  ci_rerun_error?: string | null | undefined;
 }
 export interface CreateVisualReviewRunsTolerateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** UUID of the changed snapshot to mark as a known tolerated alternate. Future runs that produce the same alternate hash for this identifier will not be flagged as changes. */
-  snapshot_id?: string;
+  snapshot_id?: string | undefined;
 }
 export interface Artifact {
-  id?: string;
-  content_hash?: string;
-  width?: number | null;
-  height?: number | null;
-  download_url?: string | null;
+  id?: string | undefined;
+  content_hash?: string | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  download_url?: string | null | undefined;
 }
 export interface DiffCluster {
   x: number;
@@ -325,28 +336,29 @@ export interface RowShift {
 }
 export type SnapshotMetadataMap = { [key: string]: unknown | undefined };
 export interface Snapshot {
-  current_artifact?: Artifact | null;
-  baseline_artifact?: Artifact | null;
-  diff_artifact?: Artifact | null;
-  reviewed_by?: UserBasicInfo | null;
-  cluster_summary?: ClusterSummary | null;
-  row_shift?: RowShift | null;
-  id?: string;
-  run_id?: string;
-  identifier?: string;
-  result?: string;
-  classification_reason?: string;
-  diff_percentage?: number | null;
-  diff_pixel_count?: number | null;
-  review_state?: string;
-  reviewed_at?: string | null;
-  approved_hash?: string;
-  tolerated_hash_id?: string | null;
-  is_quarantined?: boolean;
-  metadata?: SnapshotMetadataMap;
-  ssim_score?: number | null;
-  change_kind?: string;
-  size_mismatch?: boolean;
+  current_artifact?: Artifact | null | undefined;
+  baseline_artifact?: Artifact | null | undefined;
+  diff_artifact?: Artifact | null | undefined;
+  reviewed_by?: UserBasicInfo | null | undefined;
+  cluster_summary?: ClusterSummary | null | undefined;
+  row_shift?: RowShift | null | undefined;
+  /** Whether a quarantine covered this snapshot when the run was last gated, so its diff did not block the pull request. It keeps that value after the quarantine ends or a new one starts. */
+  is_quarantined?: boolean | undefined;
+  id?: string | undefined;
+  run_id?: string | undefined;
+  identifier?: string | undefined;
+  result?: string | undefined;
+  classification_reason?: string | undefined;
+  diff_percentage?: number | null | undefined;
+  diff_pixel_count?: number | null | undefined;
+  review_state?: string | undefined;
+  reviewed_at?: string | null | undefined;
+  approved_hash?: string | undefined;
+  tolerated_hash_id?: string | null | undefined;
+  metadata?: SnapshotMetadataMap | undefined;
+  ssim_score?: number | null | undefined;
+  change_kind?: string | undefined;
+  size_mismatch?: boolean | undefined;
 }
 export interface GetVisualReviewReposRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -359,8 +371,8 @@ export interface GetVisualReviewReposBaselineRequest {
   id: string;
 }
 export interface BaselineQuarantineSummary {
-  created_by?: UserBasicInfo | null;
-  source_run?: QuarantineSourceRun | null;
+  created_by?: UserBasicInfo | null | undefined;
+  source_run?: QuarantineSourceRun | null | undefined;
   id: string;
   reason: string;
   source: string;
@@ -369,7 +381,7 @@ export interface BaselineQuarantineSummary {
 }
 export interface BaselineEntry {
   /** Active quarantine details when `is_quarantined` is true. Null otherwise. */
-  quarantine?: BaselineQuarantineSummary | null;
+  quarantine?: BaselineQuarantineSummary | null | undefined;
   /** Accepted variants still recorded against this baseline's current hash. Unlike the 30-day and 90-day counts, this has no time window: an accepted variant keeps matching without a new record. A baseline change resets it to zero. */
   active_variants_current_baseline: number;
   identifier: string;
@@ -411,8 +423,8 @@ export interface GetVisualReviewReposFlakinessRequest {
 export type FlakinessEntryDailyHardCountsList = Array<number>;
 /** Absorbed runs per day over the same 30 days, oldest first. */
 export type FlakinessEntryDailySoftCountsList = Array<number>;
-/** * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `noisy` - noisy * `clean` - clean */
-export type FlakinessStateEnum = "broken" | "unstable" | "at_risk" | "noisy" | "clean";
+/** * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `clean` - clean */
+export type FlakinessStateEnum = "broken" | "unstable" | "at_risk" | "clean";
 export interface FlakinessEntry {
   /** Distinct alternate hashes the classifier can still match for this snapshot's current baseline. Reads as how many different images this snapshot is currently allowed to produce. Resets when the baseline moves, because tolerations recorded against an old baseline hash can never match again. */
   variant_count: number;
@@ -427,29 +439,29 @@ export interface FlakinessEntry {
   /** `soft_count` over `window_runs`. */
   soft_rate: number;
   /** Last default-branch run in the last 30 days that rendered this snapshot differently from its baseline, whether the gate failed or a toleration absorbed it. Reads over the full window rather than the rate span, so a snapshot that stopped failing still reports when it last did. Null when nothing happened at all. */
-  last_flaked_at?: string | null;
+  last_flaked_at?: string | null | undefined;
   /** Mean fraction of pixels that differed across the live variants. Separates sub-pixel noise from a small but real rendering change. */
-  avg_diff_percentage?: number | null;
+  avg_diff_percentage?: number | null | undefined;
   /** Largest pixel diff any absorbed run in the last 30 days produced. Reads the full window rather than the rate span, because it asks for the worst case a snapshot can produce and more days are better evidence of that. Null when nothing was absorbed. */
-  worst_soft_diff_percentage?: number | null;
+  worst_soft_diff_percentage?: number | null | undefined;
   /** Fraction of the 2.5% pixel threshold that `worst_soft_diff_percentage` leaves free. A snapshot is absorbed only while it stays under the threshold, so this is what says whether it will keep doing so: 1.0 means it rendered identically every time it was absorbed, 0.0 means it reached the line and only luck kept it on the passing side. Null when nothing was absorbed, which is not the same as full headroom. */
-  headroom?: number | null;
+  headroom?: number | null | undefined;
   /** Days since the first default-branch run that compared against the current baseline, which is when that baseline took effect. Reads too new for a `broken` snapshot, which records a change against an unmoved baseline on every run. */
-  baseline_age_days?: number | null;
+  baseline_age_days?: number | null | undefined;
   /** Gate-failing runs per day over the last 30 days, oldest first. Always that length, so a fixed time axis can be rendered. */
   daily_hard_counts: FlakinessEntryDailyHardCountsList;
   /** Absorbed runs per day over the same 30 days, oldest first. */
   daily_soft_counts: FlakinessEntryDailySoftCountsList;
   /** Index into the daily series where the baseline moved. Null when it moved before the window opened, which is the common case. */
-  baseline_moved_day_index?: number | null;
-  /** An urgency ladder, where each rung asks for a different fix. `broken` fails nearly every run, so its baseline is wrong and quarantining it only hides that. `unstable` fails some runs and not others, the classic flake. `at_risk` never fails, but its worst absorbed diff is already touching the threshold, so the next unrelated change turns it red. `noisy` renders variants and absorbs them with room to spare. `clean` matched its baseline on every run in the window. * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `noisy` - noisy * `clean` - clean */
+  baseline_moved_day_index?: number | null | undefined;
+  /** An urgency ladder, where each rung asks for a different fix. `broken` fails nearly every run, so its baseline is wrong and quarantining it only hides that. `unstable` fails some runs and not others, the classic flake. `at_risk` never fails, but its worst absorbed diff is already touching the threshold, so the next unrelated change turns it red. `clean` has no gate failure inside the rate span, and any diff it absorbed sits far below the threshold. * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `clean` - clean */
   flakiness_state: FlakinessStateEnum;
   /** True when an active quarantine has run out, is about to, or covers a snapshot that has stopped failing the gate. All three mean a human has to extend it or lift it. */
   needs_decision: boolean;
   /** Active quarantine details when `is_quarantined` is true. Null otherwise. */
-  quarantine?: BaselineQuarantineSummary | null;
+  quarantine?: BaselineQuarantineSummary | null | undefined;
   /** Slug of the team that owns the file this snapshot's story lives in, from the repository's ownership files. `unowned` when no entry covers the file. Null when ownership is unknown: the snapshot is not a Storybook snapshot, the newest default-branch run sent no story index, the story is not in it, or the ownership files could not be read. */
-  owner_team?: string | null;
+  owner_team?: string | null | undefined;
   identifier: string;
   run_type: string;
   browser: string | null;
@@ -472,9 +484,7 @@ export interface FlakinessTotals {
   unstable: number;
   /** Identifiers whose `flakiness_state` is `at_risk`. */
   at_risk: number;
-  /** Identifiers whose `flakiness_state` is `noisy`. */
-  noisy: number;
-  /** Identifiers whose `flakiness_state` is `clean`. They are listed because they carry live variants or older history, and reported here so every listed entry is reachable. */
+  /** Identifiers whose `flakiness_state` is `clean`. They are listed because they carry a quarantine or older gate failures, and reported here so every listed entry is reachable. */
   clean: number;
   /** Listed identifiers per run type, so one suite's noise can be told from another's. */
   by_run_type: FlakinessTotalsByRunTypeMap;
@@ -493,10 +503,10 @@ export interface GetVisualReviewReposRunsCountRequest {
   repo_id: string;
 }
 export interface ReviewStateCounts {
-  needs_review?: number;
-  clean?: number;
-  processing?: number;
-  stale?: number;
+  needs_review?: number | undefined;
+  clean?: number | undefined;
+  processing?: number | undefined;
+  stale?: number | undefined;
 }
 export interface GetVisualReviewReposThumbnailRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -504,7 +514,7 @@ export interface GetVisualReviewReposThumbnailRequest {
   id: string;
   identifier: string;
   /** Narrow the lookup to one run type. The same identifier under two run types is two different images, so omit this only when the caller shows one run type. */
-  run_type?: string;
+  run_type?: string | undefined;
 }
 export interface GetVisualReviewReposThumbnailResponse {}
 export interface GetVisualReviewReposTolerationPileupRequest {
@@ -512,17 +522,17 @@ export interface GetVisualReviewReposTolerationPileupRequest {
   project_id: string;
   id: string;
   /** Keep snapshots that an active quarantine already covers. They are marked with `is_quarantined`. Set to false to see only piles nobody has acted on yet. */
-  include_quarantined?: boolean;
+  include_quarantined?: boolean | undefined;
   /** Maximum number of snapshots to return. `total` and `truncated` say whether more matched. */
-  limit?: number;
+  limit?: number | undefined;
   /** Also list a snapshot when it collected at least this many automatic tolerations in the window. An automatic toleration is a rendering under both diff thresholds, so it never blocked anybody; many of them still mean the story is unstable. Omit to ignore automatic tolerations when deciding what to list. With 10, the list matches the Tolerate dialog's quarantine suggestion. */
-  min_automatic_tolerations?: number;
+  min_automatic_tolerations?: number | undefined;
   /** List a snapshot when a person or agent tolerated it at least this many times in the window. The default, 3, is the weekly debt digest's rule. Lower it to see snapshots that are starting to pile up, raise it to see only the worst ones. */
-  min_tolerations?: number;
+  min_tolerations?: number | undefined;
   /** Only list snapshots of this run type, for example `storybook` or `playwright`. */
-  run_type?: string;
+  run_type?: string | undefined;
   /** How many days back to count tolerations. Defaults to 30. */
-  window_days?: number;
+  window_days?: number | undefined;
 }
 export interface TolerationPileupEntry {
   /** Snapshot identifier, for example a Storybook story id plus theme. */
@@ -567,56 +577,61 @@ export interface ListVisualReviewReposRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedRepoListResultsList = Array<Repo>;
 export interface PaginatedRepoList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedRepoListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedRepoListResultsList | undefined;
 }
 export interface ListVisualReviewReposQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Filter by identifier (returns full history) */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by run type */
-  run_type?: string;
+  run_type?: string | undefined;
 }
 export type PaginatedQuarantinedIdentifierEntryListResultsList = Array<QuarantinedIdentifierEntry>;
 export interface PaginatedQuarantinedIdentifierEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedQuarantinedIdentifierEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedQuarantinedIdentifierEntryListResultsList | undefined;
 }
+export type ListVisualReviewReposRunsRequestReviewState =
+  | "clean"
+  | "needs_review"
+  | "processing"
+  | "stale";
 export interface ListVisualReviewReposRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   repo_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  /** Filter by review state */
-  review_state?: string;
+  offset?: number | undefined;
+  /** Filter by where the run stands in review. `needs_review`: a completed pull request run with changes nobody approved yet. `clean`: no changes, or approved. `processing`: diffs still computing. `stale`: superseded by a newer run while its changes were unapproved. */
+  review_state?: ListVisualReviewReposRunsRequestReviewState | (string & {}) | undefined;
   /** Free-text search over branch, commit SHA, run type, and PR number */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedRunListResultsList = Array<Run>;
 export interface PaginatedRunList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedRunListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedRunListResultsList | undefined;
 }
 export interface ListVisualReviewReposSnapshotsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -627,50 +642,55 @@ export interface ListVisualReviewReposSnapshotsRequest {
   /** Snapshot identifier; clients must percent-encode before sending */
   identifier: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface SnapshotHistoryEntry {
-  current_artifact?: Artifact | null;
-  row_shift?: RowShift | null;
-  run_id?: string;
-  snapshot_id?: string;
-  result?: string;
-  branch?: string;
-  commit_sha?: string;
-  created_at?: string;
-  pr_number?: number | null;
-  diff_percentage?: number | null;
-  review_state?: string;
-  ssim_score?: number | null;
-  change_kind?: string;
-  size_mismatch?: boolean;
+  current_artifact?: Artifact | null | undefined;
+  row_shift?: RowShift | null | undefined;
+  run_id?: string | undefined;
+  snapshot_id?: string | undefined;
+  result?: string | undefined;
+  branch?: string | undefined;
+  commit_sha?: string | undefined;
+  created_at?: string | undefined;
+  pr_number?: number | null | undefined;
+  diff_percentage?: number | null | undefined;
+  review_state?: string | undefined;
+  ssim_score?: number | null | undefined;
+  change_kind?: string | undefined;
+  size_mismatch?: boolean | undefined;
 }
 export type PaginatedSnapshotHistoryEntryListResultsList = Array<SnapshotHistoryEntry>;
 export interface PaginatedSnapshotHistoryEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSnapshotHistoryEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSnapshotHistoryEntryListResultsList | undefined;
 }
+export type ListVisualReviewRunsRequestReviewState =
+  | "clean"
+  | "needs_review"
+  | "processing"
+  | "stale";
 export interface ListVisualReviewRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by branch name */
-  branch?: string;
+  branch?: string | undefined;
   /** Filter by full commit SHA */
-  commit_sha?: string;
+  commit_sha?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by GitHub PR number */
-  pr_number?: number;
-  /** Filter by review state */
-  review_state?: string;
+  pr_number?: number | undefined;
+  /** Filter by where the run stands in review. `needs_review`: a completed pull request run with changes nobody approved yet. `clean`: no changes, or approved. `processing`: diffs still computing. `stale`: superseded by a newer run while its changes were unapproved. */
+  review_state?: ListVisualReviewRunsRequestReviewState | (string & {}) | undefined;
   /** Free-text search over branch, commit SHA, run type, and PR number */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListVisualReviewRunsQuarantineLiftsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -688,35 +708,35 @@ export interface ListVisualReviewRunsSnapshotHistoryRequest {
   /** Identifier of the snapshot to look up, for example a Storybook story id plus theme. Read it from the `identifier` field of a snapshot in the run. It is a name rather than a UUID, and it is required in addition to the run id in the path. */
   identifier: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListVisualReviewRunsSnapshotsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Whether to leave out snapshots whose result is `unchanged`. Defaults to false. Pass true to list only the changed, new and removed snapshots, which is what a review needs. A large run holds thousands of unchanged snapshots and few changes. */
-  exclude_unchanged?: boolean;
-  /** Whether to include snapshots whose identifier is currently quarantined. Defaults to false: quarantined snapshots are excluded from results and reported in quarantined_count instead, since they are noise when reviewing real changes. */
-  include_quarantined?: boolean;
+  exclude_unchanged?: boolean | undefined;
+  /** Whether to include snapshots whose identifier is currently quarantined. Defaults to false: quarantined snapshots are excluded from results and reported in quarantined_count instead, since they are noise when reviewing real changes. This filter uses the quarantines active now. Each snapshot's `is_quarantined` flag holds the state when the run was gated, so for an older run pass true and read the flag. */
+  include_quarantined?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  /** Whether to list only the snapshots whose identifier is currently quarantined. Defaults to false. When true, `include_quarantined` is ignored and quarantined snapshots are returned. Combine with `exclude_unchanged=false` to find a quarantined story that rendered `unchanged`, which is the snapshot to request a lift on merge for. */
-  quarantined_only?: boolean;
+  offset?: number | undefined;
+  /** Whether to list only the snapshots whose identifier is currently quarantined. Defaults to false. When true, `include_quarantined` is ignored and quarantined snapshots are returned. Combine with `exclude_unchanged=false` to find a quarantined story that rendered `unchanged`, which is the snapshot to request a lift on merge for. This uses the quarantines active now, not each snapshot's `is_quarantined` flag, so on an older run it misses stories whose quarantine has ended since. */
+  quarantined_only?: boolean | undefined;
   /** Return only the snapshot with this id, read from the `id` field of a snapshot in the run. Use it to fetch one snapshot without listing the whole run. */
-  snapshot_id?: string;
+  snapshot_id?: string | undefined;
 }
 export type PaginatedSnapshotListResultsList = Array<Snapshot>;
 export interface PaginatedSnapshotList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSnapshotListResultsList;
-  /** Count of this run's snapshots that match the other filters and whose identifier is currently quarantined. Excluded from results unless include_quarantined=true is passed. */
-  quarantined_count?: number;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSnapshotListResultsList | undefined;
+  /** Count of this run's snapshots that match the other filters and whose identifier is quarantined now. Excluded from results unless include_quarantined=true is passed. This can differ from the run's own counts, which use the quarantines at gating time. */
+  quarantined_count?: number | undefined;
 }
 export interface ListVisualReviewRunsToleratedHashesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -726,25 +746,25 @@ export interface ListVisualReviewRunsToleratedHashesRequest {
   /** Identifier of the snapshot to look up, for example a Storybook story id plus theme. Read it from the `identifier` field of a snapshot in the run. It is a name rather than a UUID, and it is required in addition to the run id in the path. */
   identifier: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ToleratedHashEntry {
-  id?: string;
-  alternate_hash?: string;
-  baseline_hash?: string;
-  reason?: string;
-  diff_percentage?: number | null;
-  created_at?: string;
-  source_run_id?: string | null;
+  id?: string | undefined;
+  alternate_hash?: string | undefined;
+  baseline_hash?: string | undefined;
+  reason?: string | undefined;
+  diff_percentage?: number | null | undefined;
+  created_at?: string | undefined;
+  source_run_id?: string | null | undefined;
 }
 export type PaginatedToleratedHashEntryListResultsList = Array<ToleratedHashEntry>;
 export interface PaginatedToleratedHashEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedToleratedHashEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedToleratedHashEntryListResultsList | undefined;
 }
 export type UpdateVisualReviewReposPartialRequestBaselineFilePathsMap = {
   [key: string]: string | undefined;
@@ -753,11 +773,14 @@ export interface UpdateVisualReviewReposPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  baseline_file_paths?: UpdateVisualReviewReposPartialRequestBaselineFilePathsMap | null;
+  baseline_file_paths?:
+    | UpdateVisualReviewReposPartialRequestBaselineFilePathsMap
+    | null
+    | undefined;
   /** Post a pull request comment when a run finds visual changes to review. */
-  enable_pr_comments?: boolean | null;
+  enable_pr_comments?: boolean | null | undefined;
   /** Post the visual review debt digest to the Slack channels of the teams that own the snapshots. Off by default. The digest goes out every Monday morning. */
-  debt_digest_enabled?: boolean | null;
+  debt_digest_enabled?: boolean | null | undefined;
 }
 export type VisualReviewRunsAddSnapshotsCreateRequestSnapshotsList = Array<SnapshotManifestItem>;
 export type VisualReviewRunsAddSnapshotsCreateRequestBaselineHashesMap = {
@@ -767,23 +790,23 @@ export interface VisualReviewRunsAddSnapshotsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  snapshots?: VisualReviewRunsAddSnapshotsCreateRequestSnapshotsList;
-  baseline_hashes?: VisualReviewRunsAddSnapshotsCreateRequestBaselineHashesMap;
+  snapshots?: VisualReviewRunsAddSnapshotsCreateRequestSnapshotsList | undefined;
+  baseline_hashes?: VisualReviewRunsAddSnapshotsCreateRequestBaselineHashesMap | undefined;
   /** SHA-256 of the story-to-file map the CLI built from the Storybook index.json of this run's build. Every shard of a run sends the same value. Empty when the run sends no map. */
-  story_index_hash?: string;
+  story_index_hash?: string | undefined;
 }
 export type AddSnapshotsResultUploadsList = Array<UploadTarget>;
 export interface AddSnapshotsResult {
   /** Where to upload the story-to-file map, as a presigned POST with a JSON body. Null when the request sent no map, or the store already holds a map with that hash. */
-  story_index_upload?: UploadTarget | null;
-  added?: number;
-  uploads?: AddSnapshotsResultUploadsList;
+  story_index_upload?: UploadTarget | null | undefined;
+  added?: number | undefined;
+  uploads?: AddSnapshotsResultUploadsList | undefined;
 }
 export interface ApproveSnapshotInput {
   /** The snapshot identifier to approve (e.g. Storybook story id plus theme). */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The content hash of the new baseline image to record for this identifier. */
-  new_hash?: string;
+  new_hash?: string | undefined;
 }
 /** Snapshots to mark reviewed, each with `identifier` and `new_hash`. This only records the review in the database (the per-snapshot "Accept change" action) -- it does not change the baseline or the GitHub gate. Commit the baseline and green the gate with the finalize endpoint. */
 export type VisualReviewRunsApproveCreateRequestSnapshotsList = Array<ApproveSnapshotInput>;
@@ -802,6 +825,12 @@ export interface VisualReviewRunsQuarantineLiftsCancelCreateRequest {
   request_id: string;
 }
 export interface VisualReviewRunsQuarantineLiftsCancelCreateResponse {}
+export interface ErrorDetail {
+  /** What went wrong and what to do next. */
+  detail: string;
+  /** A stable code for the error, such as `lift_commit_unknown` or `rate_limited`. */
+  code?: string | undefined;
+}
 export type CreateVisualReviewReposError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create a new repo. */
 export const createVisualReviewRepos: API.OperationMethod<
@@ -810,8 +839,8 @@ export const createVisualReviewRepos: API.OperationMethod<
   CreateVisualReviewReposError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<CreateVisualReviewReposRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<Repo>,
+  input: __S(216, __c27, 0) as any as S.Schema<CreateVisualReviewReposRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<Repo>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -831,8 +860,8 @@ export const createVisualReviewReposQuarantine: API.OperationMethod<
   CreateVisualReviewReposQuarantineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateVisualReviewReposQuarantineRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<QuarantinedIdentifierEntry>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateVisualReviewReposQuarantineRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<QuarantinedIdentifierEntry>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -852,8 +881,8 @@ export const createVisualReviewReposQuarantineExpire: API.OperationMethod<
   CreateVisualReviewReposQuarantineExpireError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateVisualReviewReposQuarantineExpireRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<CreateVisualReviewReposQuarantineExpireResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<CreateVisualReviewReposQuarantineExpireRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<CreateVisualReviewReposQuarantineExpireResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -869,8 +898,8 @@ export const createVisualReviewRun: API.OperationMethod<
   CreateVisualReviewRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(305, __c38, 1) as any as S.Schema<CreateVisualReviewRunRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<CreateRunResult>,
+  input: __S(313, __c39, 1) as any as S.Schema<CreateVisualReviewRunRequest>,
+  output: __S(314, __c39, 2) as any as S.Schema<CreateRunResult>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -886,8 +915,8 @@ export const createVisualReviewRunsComplete: API.OperationMethod<
   CreateVisualReviewRunsCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CreateVisualReviewRunsCompleteRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<Run>,
+  input: __S(336, __c42, 0) as any as S.Schema<CreateVisualReviewRunsCompleteRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<Run>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -903,8 +932,8 @@ export const createVisualReviewRunsFinalize: API.OperationMethod<
   CreateVisualReviewRunsFinalizeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CreateVisualReviewRunsFinalizeRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<FinalizeResult>,
+  input: __S(352, __c44, 0) as any as S.Schema<CreateVisualReviewRunsFinalizeRequest>,
+  output: __S(353, __c44, 1) as any as S.Schema<FinalizeResult>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -920,8 +949,8 @@ export const createVisualReviewRunsLiftOnMerge: API.OperationMethod<
   CreateVisualReviewRunsLiftOnMergeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<CreateVisualReviewRunsLiftOnMergeRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<QuarantineLiftEntry>,
+  input: __S(360, __c45, 0) as any as S.Schema<CreateVisualReviewRunsLiftOnMergeRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<QuarantineLiftEntry>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -937,8 +966,8 @@ export const createVisualReviewRunsRecompute: API.OperationMethod<
   CreateVisualReviewRunsRecomputeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateVisualReviewRunsRecomputeRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<RecomputeResult>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateVisualReviewRunsRecomputeRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<RecomputeResult>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -958,8 +987,8 @@ export const createVisualReviewRunsTolerate: API.OperationMethod<
   CreateVisualReviewRunsTolerateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateVisualReviewRunsTolerateRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Snapshot>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateVisualReviewRunsTolerateRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<Snapshot>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -975,8 +1004,8 @@ export const getVisualReviewRepos: API.OperationMethod<
   GetVisualReviewReposError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetVisualReviewReposRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<Repo>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetVisualReviewReposRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<Repo>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -992,8 +1021,8 @@ export const getVisualReviewReposBaseline: API.OperationMethod<
   GetVisualReviewReposBaselineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetVisualReviewReposBaselineRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<BaselineOverview>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetVisualReviewReposBaselineRequest>,
+  output: __S(52, __c6, 4) as any as S.Schema<BaselineOverview>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1002,15 +1031,15 @@ export const getVisualReviewReposBaseline: API.OperationMethod<
 }));
 
 export type GetVisualReviewReposFlakinessError = PosthogOpError;
-/** Snapshots in a repo whose rendering cannot be trusted: those that failed the gate or were absorbed by a toleration on a recent default-branch run, and those under an active quarantine. Everything else is omitted, so this is far smaller than the baselines universe; `totals.tracked` gives the full denominator. Each entry carries the share of the last 7 days of default-branch runs that failed the gate (`hard_rate`) and the share a toleration absorbed (`soft_rate`), plus `headroom`, the fraction of the diff threshold its worst absorbed run leaves free. Capped at 2000 entries, which sets `truncated`. Filtering, faceting and search are done client-side; this endpoint takes no filter query params. */
+/** Snapshots in a repo whose rendering cannot be trusted: those that failed the gate on a recent default-branch run, those whose absorbed diff is close to the threshold, and those under an active quarantine. Small absorbed diffs well under the threshold are omitted, as is everything else, so this is far smaller than the baselines universe; `totals.tracked` gives the full denominator. Each entry carries the share of the last 7 days of default-branch runs that failed the gate (`hard_rate`) and the share a toleration absorbed (`soft_rate`), plus `headroom`, the fraction of the diff threshold its worst absorbed run leaves free. Capped at 2000 entries, which sets `truncated`. Filtering, faceting and search are done client-side; this endpoint takes no filter query params. */
 export const getVisualReviewReposFlakiness: API.OperationMethod<
   GetVisualReviewReposFlakinessRequest,
   FlakinessOverview,
   GetVisualReviewReposFlakinessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetVisualReviewReposFlakinessRequest>,
-  output: __S(61, __c7, 5) as any as S.Schema<FlakinessOverview>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetVisualReviewReposFlakinessRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<FlakinessOverview>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1026,8 +1055,8 @@ export const getVisualReviewReposRunsCount: API.OperationMethod<
   GetVisualReviewReposRunsCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetVisualReviewReposRunsCountRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReviewStateCounts>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetVisualReviewReposRunsCountRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReviewStateCounts>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1043,8 +1072,8 @@ export const getVisualReviewReposThumbnail: API.OperationMethod<
   GetVisualReviewReposThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetVisualReviewReposThumbnailRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<GetVisualReviewReposThumbnailResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetVisualReviewReposThumbnailRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<GetVisualReviewReposThumbnailResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1060,8 +1089,8 @@ export const getVisualReviewReposTolerationPileup: API.OperationMethod<
   GetVisualReviewReposTolerationPileupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetVisualReviewReposTolerationPileupRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<TolerationPileups>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetVisualReviewReposTolerationPileupRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<TolerationPileups>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1077,8 +1106,8 @@ export const getVisualReviewRun: API.OperationMethod<
   GetVisualReviewRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetVisualReviewRunRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<Run>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetVisualReviewRunRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<Run>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1094,8 +1123,8 @@ export const getVisualReviewRunsCount: API.OperationMethod<
   GetVisualReviewRunsCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetVisualReviewRunsCountRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReviewStateCounts>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetVisualReviewRunsCountRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReviewStateCounts>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1111,8 +1140,8 @@ export const listVisualReviewRepos: API.OperationMethod<
   ListVisualReviewReposError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListVisualReviewReposRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<PaginatedRepoList>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListVisualReviewReposRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<PaginatedRepoList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1132,8 +1161,8 @@ export const listVisualReviewReposQuarantine: API.OperationMethod<
   ListVisualReviewReposQuarantineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListVisualReviewReposQuarantineRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<PaginatedQuarantinedIdentifierEntryList>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListVisualReviewReposQuarantineRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<PaginatedQuarantinedIdentifierEntryList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1149,8 +1178,8 @@ export const listVisualReviewReposRuns: API.OperationMethod<
   ListVisualReviewReposRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListVisualReviewReposRunsRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<PaginatedRunList>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListVisualReviewReposRunsRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<PaginatedRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1166,8 +1195,8 @@ export const listVisualReviewReposSnapshots: API.OperationMethod<
   ListVisualReviewReposSnapshotsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListVisualReviewReposSnapshotsRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<PaginatedSnapshotHistoryEntryList>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListVisualReviewReposSnapshotsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<PaginatedSnapshotHistoryEntryList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1183,8 +1212,8 @@ export const listVisualReviewRuns: API.OperationMethod<
   ListVisualReviewRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListVisualReviewRunsRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<PaginatedRunList>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListVisualReviewRunsRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<PaginatedRunList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1200,8 +1229,8 @@ export const listVisualReviewRunsQuarantineLifts: API.OperationMethod<
   ListVisualReviewRunsQuarantineLiftsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListVisualReviewRunsQuarantineLiftsRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<ListVisualReviewRunsQuarantineLiftsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListVisualReviewRunsQuarantineLiftsRequest>,
+  output: __S(178, __c22, 2) as any as S.Schema<ListVisualReviewRunsQuarantineLiftsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1221,8 +1250,8 @@ export const listVisualReviewRunsSnapshotHistory: API.OperationMethod<
   ListVisualReviewRunsSnapshotHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListVisualReviewRunsSnapshotHistoryRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<PaginatedSnapshotHistoryEntryList>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListVisualReviewRunsSnapshotHistoryRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<PaginatedSnapshotHistoryEntryList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1238,8 +1267,8 @@ export const listVisualReviewRunsSnapshots: API.OperationMethod<
   ListVisualReviewRunsSnapshotsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListVisualReviewRunsSnapshotsRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<PaginatedSnapshotList>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListVisualReviewRunsSnapshotsRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<PaginatedSnapshotList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1259,8 +1288,8 @@ export const listVisualReviewRunsToleratedHashes: API.OperationMethod<
   ListVisualReviewRunsToleratedHashesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListVisualReviewRunsToleratedHashesRequest>,
-  output: __S(195, __c24, 3) as any as S.Schema<PaginatedToleratedHashEntryList>,
+  input: __S(200, __c25, 0) as any as S.Schema<ListVisualReviewRunsToleratedHashesRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<PaginatedToleratedHashEntryList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1280,8 +1309,8 @@ export const updateVisualReviewReposPartial: API.OperationMethod<
   UpdateVisualReviewReposPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateVisualReviewReposPartialRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<Repo>,
+  input: __S(208, __c26, 0) as any as S.Schema<UpdateVisualReviewReposPartialRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<Repo>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1301,8 +1330,8 @@ export const visualReviewRunsAddSnapshotsCreate: API.OperationMethod<
   VisualReviewRunsAddSnapshotsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<VisualReviewRunsAddSnapshotsCreateRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<AddSnapshotsResult>,
+  input: __S(240, __c30, 0) as any as S.Schema<VisualReviewRunsAddSnapshotsCreateRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<AddSnapshotsResult>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1318,8 +1347,8 @@ export const visualReviewRunsApproveCreate: API.OperationMethod<
   VisualReviewRunsApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(242, __c30, 2) as any as S.Schema<VisualReviewRunsApproveCreateRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<Run>,
+  input: __S(250, __c31, 2) as any as S.Schema<VisualReviewRunsApproveCreateRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<Run>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1335,10 +1364,10 @@ export const visualReviewRunsQuarantineLiftsCancelCreate: API.OperationMethod<
   VisualReviewRunsQuarantineLiftsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<VisualReviewRunsQuarantineLiftsCancelCreateRequest>,
+  input: __S(256, __c32, 0) as any as S.Schema<VisualReviewRunsQuarantineLiftsCancelCreateRequest>,
   output: __S(
-    296,
-    __c37,
+    304,
+    __c38,
     0,
   ) as any as S.Schema<VisualReviewRunsQuarantineLiftsCancelCreateResponse>,
   errors: [],
@@ -1350,6 +1379,17 @@ export const visualReviewRunsQuarantineLiftsCancelCreate: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,7 +1407,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          run: S.optional(__S(337, __c42, 1)),
+          run: S.optional(__S(345, __c43, 1)),
           counts_changed: S.optional(S.Boolean),
           unresolved: S.optional(S.Number),
           ci_rerun_triggered: S.optional(S.Boolean),
@@ -1376,7 +1416,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "RecomputeResult" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1394,7 +1434,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewRunsTolerateRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1415,11 +1455,11 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ShiftBand" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bands: __S(18, __c2, 2),
+          bands: __S(26, __c3, 2),
           inserted_rows: S.Number,
           deleted_rows: S.Number,
           residual_percentage: S.Number,
@@ -1428,7 +1468,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RowShift" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1443,11 +1483,11 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "DiffCluster" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(25, __c3, 1),
+          items: __S(33, __c4, 1),
           total: S.Number,
           truncated: S.Boolean,
         }),
@@ -1455,12 +1495,13 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          current_artifact: S.optional(S.NullOr(__S(16, __c2, 0))),
-          baseline_artifact: S.optional(S.NullOr(__S(16, __c2, 0))),
-          diff_artifact: S.optional(S.NullOr(__S(16, __c2, 0))),
-          reviewed_by: S.optional(S.NullOr(__S(280, __c35, 0))),
-          cluster_summary: S.optional(S.NullOr(__S(26, __c3, 2))),
-          row_shift: S.optional(S.NullOr(__S(19, __c2, 3))),
+          current_artifact: S.optional(S.NullOr(__S(24, __c3, 0))),
+          baseline_artifact: S.optional(S.NullOr(__S(24, __c3, 0))),
+          diff_artifact: S.optional(S.NullOr(__S(24, __c3, 0))),
+          reviewed_by: S.optional(S.NullOr(__S(288, __c36, 0))),
+          cluster_summary: S.optional(S.NullOr(__S(34, __c4, 2))),
+          row_shift: S.optional(S.NullOr(__S(27, __c3, 3))),
+          is_quarantined: S.optional(S.Boolean),
           id: S.optional(S.String),
           run_id: S.optional(S.String),
           identifier: S.optional(S.String),
@@ -1472,8 +1513,7 @@ function __c3(j: number): any {
           reviewed_at: S.optional(S.NullOr(S.String)),
           approved_hash: S.optional(S.String),
           tolerated_hash_id: S.optional(S.NullOr(S.String)),
-          is_quarantined: S.optional(S.Boolean),
-          metadata: S.optional(__S(320, __c40, 0)),
+          metadata: S.optional(__S(328, __c41, 0)),
           ssim_score: S.optional(S.NullOr(S.Number)),
           change_kind: S.optional(S.String),
           size_mismatch: S.optional(S.Boolean),
@@ -1481,7 +1521,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1498,7 +1538,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetVisualReviewReposRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1516,7 +1556,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          quarantine: S.optional(S.NullOr(__S(48, __c6, 0))),
+          quarantine: S.optional(S.NullOr(__S(56, __c7, 0))),
           active_variants_current_baseline: S.Number,
           identifier: S.String,
           run_type: S.String,
@@ -1533,11 +1573,11 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "BaselineEntry" });
     case 2:
-      return S.Array(__S(41, __c5, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          by_run_type: __S(49, __c6, 1),
+          by_run_type: __S(57, __c7, 1),
           variant_pileups: S.Number,
           all_snapshots: S.Number,
           recently_tolerated: S.Number,
@@ -1548,21 +1588,21 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(42, __c5, 2),
-          totals: __S(43, __c5, 3),
+          entries: __S(50, __c6, 2),
+          totals: __S(51, __c6, 3),
           truncated: S.Boolean,
           generated_at: S.String,
         }),
       ).annotate({ identifier: "BaselineOverview" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.optional(S.NullOr(__S(280, __c35, 0))),
-          source_run: S.optional(S.NullOr(__S(264, __c33, 0))),
+          created_by: S.optional(S.NullOr(__S(288, __c36, 0))),
+          source_run: S.optional(S.NullOr(__S(272, __c34, 0))),
           id: S.String,
           reason: S.String,
           source: S.String,
@@ -1574,7 +1614,7 @@ function __c6(j: number): any {
       return S.Record(S.String, S.Number);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1605,12 +1645,12 @@ function __c7(j: number): any {
           worst_soft_diff_percentage: S.optional(S.NullOr(S.Number)),
           headroom: S.optional(S.NullOr(S.Number)),
           baseline_age_days: S.optional(S.NullOr(S.Number)),
-          daily_hard_counts: __S(57, __c7, 1),
-          daily_soft_counts: __S(57, __c7, 1),
+          daily_hard_counts: __S(65, __c8, 1),
+          daily_soft_counts: __S(65, __c8, 1),
           baseline_moved_day_index: S.optional(S.NullOr(S.Number)),
           flakiness_state: S.String,
           needs_decision: S.Boolean,
-          quarantine: S.optional(S.NullOr(__S(48, __c6, 0))),
+          quarantine: S.optional(S.NullOr(__S(56, __c7, 0))),
           owner_team: S.optional(S.NullOr(S.String)),
           identifier: S.String,
           run_type: S.String,
@@ -1622,7 +1662,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "FlakinessEntry" });
     case 3:
-      return S.Array(__S(58, __c7, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1631,9 +1671,8 @@ function __c7(j: number): any {
           broken: S.Number,
           unstable: S.Number,
           at_risk: S.Number,
-          noisy: S.Number,
           clean: S.Number,
-          by_run_type: __S(49, __c6, 1),
+          by_run_type: __S(57, __c7, 1),
           quarantined: S.Number,
           needs_decision: S.Number,
         }),
@@ -1641,15 +1680,15 @@ function __c7(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(59, __c7, 3),
-          totals: __S(60, __c7, 4),
+          entries: __S(67, __c8, 3),
+          totals: __S(68, __c8, 4),
           truncated: S.Boolean,
           generated_at: S.String,
         }),
       ).annotate({ identifier: "FlakinessOverview" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1666,7 +1705,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetVisualReviewReposRunsCountRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1679,7 +1718,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ReviewStateCounts" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1698,7 +1737,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetVisualReviewReposThumbnailRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1730,11 +1769,11 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "TolerationPileupEntry" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(90, __c11, 2),
+          entries: __S(98, __c12, 2),
           window_days: S.Number,
           min_tolerations: S.Number,
           min_automatic_tolerations: S.NullOr(S.Number),
@@ -1745,7 +1784,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TolerationPileups" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1762,7 +1801,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetVisualReviewRunRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1778,7 +1817,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetVisualReviewRunsCountRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1795,19 +1834,19 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListVisualReviewReposRequest" });
     case 1:
-      return S.Array(__S(216, __c27, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(113, __c14, 1)),
+          results: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "PaginatedRepoList" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1827,19 +1866,19 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListVisualReviewReposQuarantineRequest" });
     case 1:
-      return S.Array(__S(272, __c34, 0));
+      return S.Array(__S(280, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(121, __c15, 1)),
+          results: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "PaginatedQuarantinedIdentifierEntryList" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1860,22 +1899,22 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListVisualReviewReposRunsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(337, __c42, 1));
+      return S.Array(__S(345, __c43, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(136, __c17, 0)),
+          results: S.optional(__S(144, __c18, 0)),
         }),
       ).annotate({ identifier: "PaginatedRunList" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1896,13 +1935,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListVisualReviewReposSnapshotsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          current_artifact: S.optional(S.NullOr(__S(16, __c2, 0))),
-          row_shift: S.optional(S.NullOr(__S(19, __c2, 3))),
+          current_artifact: S.optional(S.NullOr(__S(24, __c3, 0))),
+          row_shift: S.optional(S.NullOr(__S(27, __c3, 3))),
           run_id: S.optional(S.String),
           snapshot_id: S.optional(S.String),
           result: S.optional(S.String),
@@ -1918,19 +1957,19 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotHistoryEntry" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(153, __c19, 1)),
+          results: S.optional(__S(161, __c20, 1)),
         }),
       ).annotate({ identifier: "PaginatedSnapshotHistoryEntryList" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1953,7 +1992,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListVisualReviewRunsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,14 +2008,14 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListVisualReviewRunsQuarantineLiftsRequest" });
     case 1:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(368, __c46, 0));
     case 2:
-      return S.suspend(() => __S(169, __c21, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(177, __c22, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisualReviewRunsQuarantineLiftsResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1996,7 +2035,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListVisualReviewRunsSnapshotHistoryRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2018,20 +2057,20 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListVisualReviewRunsSnapshotsRequest" });
     case 1:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(35, __c4, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(185, __c23, 1)),
+          results: S.optional(__S(193, __c24, 1)),
           quarantined_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PaginatedSnapshotList" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2062,26 +2101,26 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ToleratedHashEntry" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(194, __c24, 2)),
+          results: S.optional(__S(202, __c25, 2)),
         }),
       ).annotate({ identifier: "PaginatedToleratedHashEntryList" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          baseline_file_paths: S.optional(S.NullOr(__S(224, __c28, 0))),
+          baseline_file_paths: S.optional(S.NullOr(__S(232, __c29, 0))),
           enable_pr_comments: S.optional(S.NullOr(S.Boolean)),
           debt_digest_enabled: S.optional(S.NullOr(S.Boolean)),
         }).pipe(
@@ -2094,7 +2133,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateVisualReviewReposPartialRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2112,7 +2151,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewReposRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2121,7 +2160,7 @@ function __c27(j: number): any {
           team_id: S.optional(S.Number),
           repo_external_id: S.optional(S.Number),
           repo_full_name: S.optional(S.String),
-          baseline_file_paths: S.optional(__S(224, __c28, 0)),
+          baseline_file_paths: S.optional(__S(232, __c29, 0)),
           enable_pr_comments: S.optional(S.Boolean),
           debt_digest_enabled: S.optional(S.Boolean),
           created_at: S.optional(S.String),
@@ -2129,21 +2168,21 @@ function __c27(j: number): any {
       ).annotate({ identifier: "Repo" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          snapshots: S.optional(__S(313, __c39, 1)),
-          baseline_hashes: S.optional(__S(224, __c28, 0)),
+          snapshots: S.optional(__S(321, __c40, 1)),
+          baseline_hashes: S.optional(__S(232, __c29, 0)),
           story_index_hash: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2156,14 +2195,14 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          story_index_upload: S.optional(S.NullOr(__S(314, __c39, 2))),
+          story_index_upload: S.optional(S.NullOr(__S(322, __c40, 2))),
           added: S.optional(S.Number),
-          uploads: S.optional(__S(315, __c39, 3)),
+          uploads: S.optional(__S(323, __c40, 3)),
         }),
       ).annotate({ identifier: "AddSnapshotsResult" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2173,13 +2212,13 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "ApproveSnapshotInput" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          snapshots: __S(241, __c30, 1),
+          snapshots: __S(249, __c31, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2190,7 +2229,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "VisualReviewRunsApproveCreateRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2208,7 +2247,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "VisualReviewRunsQuarantineLiftsCancelCreateRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2231,7 +2270,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewReposQuarantineRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2245,13 +2284,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "QuarantineSourceRun" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.optional(S.NullOr(__S(280, __c35, 0))),
-          source_run: S.optional(S.NullOr(__S(264, __c33, 0))),
+          created_by: S.optional(S.NullOr(__S(288, __c36, 0))),
+          source_run: S.optional(S.NullOr(__S(272, __c34, 0))),
           id: S.optional(S.String),
           identifier: S.optional(S.String),
           run_type: S.optional(S.String),
@@ -2264,7 +2303,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "QuarantinedIdentifierEntry" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2276,7 +2315,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UserBasicInfo" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2295,7 +2334,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewReposQuarantineExpireRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2303,7 +2342,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2315,13 +2354,13 @@ function __c38(j: number): any {
           run_type: S.optional(S.String),
           commit_sha: S.optional(S.String),
           branch: S.optional(S.String),
-          snapshots: S.optional(__S(313, __c39, 1)),
+          snapshots: S.optional(__S(321, __c40, 1)),
           pr_number: S.optional(S.NullOr(S.Number)),
-          baseline_hashes: S.optional(__S(224, __c28, 0)),
+          baseline_hashes: S.optional(__S(232, __c29, 0)),
           unchanged_count: S.optional(S.Number),
-          removed_identifiers: S.optional(__S(304, __c38, 0)),
+          removed_identifiers: S.optional(__S(312, __c39, 0)),
           purpose: S.optional(S.String),
-          metadata: S.optional(__S(320, __c40, 0)),
+          metadata: S.optional(__S(328, __c41, 0)),
           is_partial: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2335,12 +2374,12 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           run_id: S.optional(S.String),
-          uploads: S.optional(__S(315, __c39, 3)),
+          uploads: S.optional(__S(323, __c40, 3)),
         }),
       ).annotate({ identifier: "CreateRunResult" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2349,30 +2388,30 @@ function __c39(j: number): any {
           content_hash: S.optional(S.String),
           width: S.optional(S.NullOr(S.Number)),
           height: S.optional(S.NullOr(S.Number)),
-          metadata: S.optional(__S(320, __c40, 0)),
+          metadata: S.optional(__S(328, __c41, 0)),
         }),
       ).annotate({ identifier: "SnapshotManifestItem" });
     case 1:
-      return S.Array(__S(312, __c39, 0));
+      return S.Array(__S(320, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           content_hash: S.optional(S.String),
           url: S.optional(S.String),
-          fields: S.optional(__S(224, __c28, 0)),
+          fields: S.optional(__S(232, __c29, 0)),
         }),
       ).annotate({ identifier: "UploadTarget" });
     case 3:
-      return S.Array(__S(314, __c39, 2));
+      return S.Array(__S(322, __c40, 2));
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2390,7 +2429,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewRunsCompleteRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2407,7 +2446,7 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approved_by: S.optional(S.NullOr(__S(280, __c35, 0))),
+          approved_by: S.optional(S.NullOr(__S(288, __c36, 0))),
           purpose: S.optional(S.String),
           search_match_type: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
@@ -2419,18 +2458,18 @@ function __c42(j: number): any {
           pr_number: S.optional(S.NullOr(S.Number)),
           approved: S.optional(S.Boolean),
           approved_at: S.optional(S.NullOr(S.String)),
-          summary: S.optional(__S(336, __c42, 0)),
+          summary: S.optional(__S(344, __c43, 0)),
           error_message: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           completed_at: S.optional(S.NullOr(S.String)),
           is_stale: S.optional(S.Boolean),
           superseded_by_id: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(320, __c40, 0)),
+          metadata: S.optional(__S(328, __c41, 0)),
         }),
       ).annotate({ identifier: "Run" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2451,13 +2490,13 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          run: __S(337, __c42, 1),
+          run: __S(345, __c43, 1),
           baseline_content: S.String,
         }),
       ).annotate({ identifier: "FinalizeResult" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2475,7 +2514,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateVisualReviewRunsLiftOnMergeRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2492,7 +2531,7 @@ function __c45(j: number): any {
           updated_at: S.String,
           resolved_at: S.optional(S.NullOr(S.String)),
           source_run_id: S.optional(S.NullOr(S.String)),
-          requested_by: S.optional(S.NullOr(__S(280, __c35, 0))),
+          requested_by: S.optional(S.NullOr(__S(288, __c36, 0))),
           merge_commit_sha: S.optional(S.NullOr(S.String)),
           lifted_at_sha: S.optional(S.NullOr(S.String)),
           source: S.String,

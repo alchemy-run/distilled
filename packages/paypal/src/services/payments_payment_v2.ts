@@ -31,45 +31,80 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface AuthorizationsReauthorizeRequestAmount {
   currency_code: string;
@@ -80,12 +115,12 @@ export interface AuthorizationsReauthorizeRequest {
   /** The PayPal-generated ID for the authorized payment to reauthorize. */
   authorization_id: string;
   /** A unique ID identifying the request header for idempotency purposes. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  amount?: AuthorizationsReauthorizeRequestAmount;
+  payPalAuthAssertion?: string | undefined;
+  amount?: AuthorizationsReauthorizeRequestAmount | undefined;
 }
 /** The status for the authorized payment. */
 export type AuthorizationsReauthorizeResponseStatus =
@@ -101,7 +136,7 @@ export type AuthorizationsReauthorizeResponseStatusDetailsReason =
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface AuthorizationsReauthorizeResponseStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: AuthorizationsReauthorizeResponseStatusDetailsReason;
+  reason?: AuthorizationsReauthorizeResponseStatusDetailsReason | undefined;
 }
 export type AmountBreakdownItemTotal = AuthorizationsReauthorizeRequestAmount;
 export type AmountBreakdownShipping = AuthorizationsReauthorizeRequestAmount;
@@ -112,29 +147,29 @@ export type AmountBreakdownShippingDiscount = AuthorizationsReauthorizeRequestAm
 export type AmountBreakdownDiscount = AuthorizationsReauthorizeRequestAmount;
 /** The breakdown of the amount. Breakdown provides details such as total item amount, total tax amount, shipping, handling, insurance, and discounts, if any. */
 export interface AmountBreakdown {
-  item_total?: AuthorizationsReauthorizeRequestAmount;
-  shipping?: AuthorizationsReauthorizeRequestAmount;
-  handling?: AuthorizationsReauthorizeRequestAmount;
-  tax_total?: AuthorizationsReauthorizeRequestAmount;
-  insurance?: AuthorizationsReauthorizeRequestAmount;
-  shipping_discount?: AuthorizationsReauthorizeRequestAmount;
-  discount?: AuthorizationsReauthorizeRequestAmount;
+  item_total?: AuthorizationsReauthorizeRequestAmount | undefined;
+  shipping?: AuthorizationsReauthorizeRequestAmount | undefined;
+  handling?: AuthorizationsReauthorizeRequestAmount | undefined;
+  tax_total?: AuthorizationsReauthorizeRequestAmount | undefined;
+  insurance?: AuthorizationsReauthorizeRequestAmount | undefined;
+  shipping_discount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  discount?: AuthorizationsReauthorizeRequestAmount | undefined;
 }
 export interface AuthorizationsReauthorizeResponseAmount {
   currency_code: string;
   /** The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/). */
   value: string;
-  breakdown?: AmountBreakdown;
+  breakdown?: AmountBreakdown | undefined;
 }
 /** Reference values used by the card network to identify a transaction. */
 export interface NetworkTransaction {
   /** Transaction reference id returned by the scheme. For Visa and Amex, this is the "Tran id" field in response. For MasterCard, this is the "BankNet reference id" field in response. For Discover, this is the "NRID" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -. */
-  id?: string;
+  id?: string | undefined;
   /** The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as "BankNet reference date". For some specific networks, such as MasterCard and Discover, this date field is mandatory when the `previous_network_transaction_reference_id` is passed. */
-  date?: string;
-  network?: unknown;
+  date?: string | undefined;
+  network?: unknown | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
 }
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
 export type AuthorizationsReauthorizeResponseSellerProtectionStatus =
@@ -150,9 +185,11 @@ export type AuthorizationsReauthorizeResponseSellerProtectionDisputeCategoriesLi
   Array<AuthorizationsReauthorizeResponseSellerProtectionDisputeCategoriesItem>;
 export interface AuthorizationsReauthorizeResponseSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: AuthorizationsReauthorizeResponseSellerProtectionStatus;
+  status?: AuthorizationsReauthorizeResponseSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: AuthorizationsReauthorizeResponseSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | AuthorizationsReauthorizeResponseSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type AuthorizationsReauthorizeResponseLinksItemMethod =
@@ -175,39 +212,39 @@ export type AuthorizationsReauthorizeResponseLinksItemSchemaLinksList = Array<un
 /** The media type and context-encoding scheme. */
 export interface AuthorizationsReauthorizeResponseLinksItemSchemaMedia {
   /** The media type. See [Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types](https://tools.ietf.org/html/rfc2046). */
-  type?: string;
+  type?: string | undefined;
   /** The content-encoding scheme. See [Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies](https://tools.ietf.org/html/rfc2045). */
-  binaryEncoding?: string;
+  binaryEncoding?: string | undefined;
 }
 export interface AuthorizationsReauthorizeResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizationsReauthorizeResponseLinksItemSchemaAllOfList;
+  allOf?: AuthorizationsReauthorizeResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizationsReauthorizeResponseLinksItemSchemaAnyOfList;
+  anyOf?: AuthorizationsReauthorizeResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizationsReauthorizeResponseLinksItemSchemaOneOfList;
+  oneOf?: AuthorizationsReauthorizeResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizationsReauthorizeResponseLinksItemSchemaLinksList;
+  links?: AuthorizationsReauthorizeResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type AuthorizationsReauthorizeResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -222,33 +259,33 @@ export type AuthorizationsReauthorizeResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface AuthorizationsReauthorizeResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaAllOfList;
+  allOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaLinksList;
+  links?: AuthorizationsReauthorizeResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface AuthorizationsReauthorizeResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -256,54 +293,54 @@ export interface AuthorizationsReauthorizeResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: AuthorizationsReauthorizeResponseLinksItemMethod;
+  method?: AuthorizationsReauthorizeResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: AuthorizationsReauthorizeResponseLinksItemSchema;
-  targetSchema?: AuthorizationsReauthorizeResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: AuthorizationsReauthorizeResponseLinksItemSchema | undefined;
+  targetSchema?: AuthorizationsReauthorizeResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type AuthorizationsReauthorizeResponseLinksList =
   Array<AuthorizationsReauthorizeResponseLinksItem>;
 export interface AuthorizationsReauthorizeResponseSupplementaryDataRelatedIds {
   /** Order ID related to the resource. */
-  order_id?: string;
+  order_id?: string | undefined;
   /** Authorization ID related to the resource. */
-  authorization_id?: string;
+  authorization_id?: string | undefined;
   /** Capture ID related to the resource. */
-  capture_id?: string;
+  capture_id?: string | undefined;
 }
 export interface AuthorizationsReauthorizeResponseSupplementaryData {
-  related_ids?: AuthorizationsReauthorizeResponseSupplementaryDataRelatedIds;
+  related_ids?: AuthorizationsReauthorizeResponseSupplementaryDataRelatedIds | undefined;
 }
 export interface AuthorizationsReauthorizeResponsePayee {
-  email_address?: unknown;
-  merchant_id?: unknown;
+  email_address?: unknown | undefined;
+  merchant_id?: unknown | undefined;
 }
 export interface AuthorizationsReauthorizeResponse {
   /** The status for the authorized payment. */
-  status?: AuthorizationsReauthorizeResponseStatus;
-  status_details?: AuthorizationsReauthorizeResponseStatusDetails;
+  status?: AuthorizationsReauthorizeResponseStatus | undefined;
+  status_details?: AuthorizationsReauthorizeResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeResponseAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: AuthorizationsReauthorizeResponseSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?: AuthorizationsReauthorizeResponseSellerProtection | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: AuthorizationsReauthorizeResponseLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  links?: AuthorizationsReauthorizeResponseLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 export type CaptureAuthorizationRequestAmount = AuthorizationsReauthorizeRequestAmount;
 export type CaptureAuthorizationRequestPaymentInstructionPlatformFeesItemAmount =
@@ -312,39 +349,39 @@ export type CaptureAuthorizationRequestPaymentInstructionPlatformFeesItemPayee =
   AuthorizationsReauthorizeResponsePayee;
 export interface CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem {
   amount: AuthorizationsReauthorizeRequestAmount;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 /** An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Complete Payments Platform for Marketplaces and Platforms capability. */
 export type CaptureAuthorizationRequestPaymentInstructionPlatformFeesList =
   Array<CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem>;
 export interface CaptureAuthorizationRequestPaymentInstruction {
   /** An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Complete Payments Platform for Marketplaces and Platforms capability. */
-  platform_fees?: CaptureAuthorizationRequestPaymentInstructionPlatformFeesList;
-  disbursement_mode?: unknown;
+  platform_fees?: CaptureAuthorizationRequestPaymentInstructionPlatformFeesList | undefined;
+  disbursement_mode?: unknown | undefined;
   /** This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error. */
-  payee_pricing_tier_id?: string;
+  payee_pricing_tier_id?: string | undefined;
   /** FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account. */
-  payee_receivable_fx_rate_id?: string;
+  payee_receivable_fx_rate_id?: string | undefined;
 }
 export interface CaptureAuthorizationRequest {
   /** The PayPal-generated ID for the authorized payment to capture. */
   authorization_id: string;
   /** A unique ID identifying the request header for idempotency purposes. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
-  amount?: AuthorizationsReauthorizeRequestAmount;
+  note_to_payer?: string | undefined;
+  amount?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  payment_instruction?: CaptureAuthorizationRequestPaymentInstruction;
+  final_capture?: boolean | undefined;
+  payment_instruction?: CaptureAuthorizationRequestPaymentInstruction | undefined;
   /** The payment descriptor on the payer's account statement. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
 }
 /** The status of the captured payment. */
 export type CaptureAuthorizationResponseStatus =
@@ -370,7 +407,7 @@ export type CaptureAuthorizationResponseStatusDetailsReason =
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CaptureAuthorizationResponseStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: CaptureAuthorizationResponseStatusDetailsReason;
+  reason?: CaptureAuthorizationResponseStatusDetailsReason | undefined;
 }
 export type CaptureAuthorizationResponseAmount = AuthorizationsReauthorizeResponseAmount;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -387,9 +424,11 @@ export type CaptureAuthorizationResponseSellerProtectionDisputeCategoriesList =
   Array<CaptureAuthorizationResponseSellerProtectionDisputeCategoriesItem>;
 export interface CaptureAuthorizationResponseSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CaptureAuthorizationResponseSellerProtectionStatus;
+  status?: CaptureAuthorizationResponseSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CaptureAuthorizationResponseSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CaptureAuthorizationResponseSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type CaptureAuthorizationResponseSellerReceivableBreakdownGrossAmount =
   AuthorizationsReauthorizeRequestAmount;
@@ -402,10 +441,10 @@ export type CaptureAuthorizationResponseSellerReceivableBreakdownNetAmount =
 export type CaptureAuthorizationResponseSellerReceivableBreakdownReceivableAmount =
   AuthorizationsReauthorizeRequestAmount;
 export interface CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate {
-  source_currency?: unknown;
-  target_currency?: unknown;
+  source_currency?: unknown | undefined;
+  target_currency?: unknown | undefined;
   /** The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CaptureAuthorizationResponseSellerReceivableBreakdownPlatformFeesItemAmount =
   AuthorizationsReauthorizeRequestAmount;
@@ -418,13 +457,13 @@ export type CaptureAuthorizationResponseSellerReceivableBreakdownPlatformFeesLis
   Array<CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem>;
 export interface CaptureAuthorizationResponseSellerReceivableBreakdown {
   gross_amount: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
-  net_amount?: AuthorizationsReauthorizeRequestAmount;
-  receivable_amount?: AuthorizationsReauthorizeRequestAmount;
-  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate;
+  paypal_fee?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  receivable_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: CaptureAuthorizationResponseSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?: CaptureAuthorizationResponseSellerReceivableBreakdownPlatformFeesList | undefined;
 }
 /** The funds that are held on behalf of the merchant. */
 export type DisbursementMode = "INSTANT" | "DELAYED";
@@ -451,33 +490,33 @@ export type CaptureAuthorizationResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface CaptureAuthorizationResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureAuthorizationResponseLinksItemSchemaAllOfList;
+  allOf?: CaptureAuthorizationResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureAuthorizationResponseLinksItemSchemaAnyOfList;
+  anyOf?: CaptureAuthorizationResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureAuthorizationResponseLinksItemSchemaOneOfList;
+  oneOf?: CaptureAuthorizationResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureAuthorizationResponseLinksItemSchemaLinksList;
+  links?: CaptureAuthorizationResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CaptureAuthorizationResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -492,33 +531,33 @@ export type CaptureAuthorizationResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface CaptureAuthorizationResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureAuthorizationResponseLinksItemTargetSchemaAllOfList;
+  allOf?: CaptureAuthorizationResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureAuthorizationResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: CaptureAuthorizationResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureAuthorizationResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: CaptureAuthorizationResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureAuthorizationResponseLinksItemTargetSchemaLinksList;
+  links?: CaptureAuthorizationResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CaptureAuthorizationResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -526,15 +565,15 @@ export interface CaptureAuthorizationResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CaptureAuthorizationResponseLinksItemMethod;
+  method?: CaptureAuthorizationResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CaptureAuthorizationResponseLinksItemSchema;
-  targetSchema?: CaptureAuthorizationResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CaptureAuthorizationResponseLinksItemSchema | undefined;
+  targetSchema?: CaptureAuthorizationResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CaptureAuthorizationResponseLinksList = Array<CaptureAuthorizationResponseLinksItem>;
@@ -755,13 +794,13 @@ export type CaptureAuthorizationResponseProcessorResponsePaymentAdviceCode =
   | "43";
 export interface CaptureAuthorizationResponseProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CaptureAuthorizationResponseProcessorResponseAvsCode;
+  avs_code?: CaptureAuthorizationResponseProcessorResponseAvsCode | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CaptureAuthorizationResponseProcessorResponseCvvCode;
+  cvv_code?: CaptureAuthorizationResponseProcessorResponseCvvCode | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CaptureAuthorizationResponseProcessorResponseResponseCode;
+  response_code?: CaptureAuthorizationResponseProcessorResponseResponseCode | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CaptureAuthorizationResponseProcessorResponsePaymentAdviceCode;
+  payment_advice_code?: CaptureAuthorizationResponseProcessorResponsePaymentAdviceCode | undefined;
 }
 export type CaptureAuthorizationResponseSupplementaryDataRelatedIds =
   AuthorizationsReauthorizeResponseSupplementaryDataRelatedIds;
@@ -770,36 +809,36 @@ export type CaptureAuthorizationResponseSupplementaryData =
 export type CaptureAuthorizationResponsePayee = AuthorizationsReauthorizeResponsePayee;
 export interface CaptureAuthorizationResponse {
   /** The status of the captured payment. */
-  status?: CaptureAuthorizationResponseStatus;
-  status_details?: CaptureAuthorizationResponseStatusDetails;
+  status?: CaptureAuthorizationResponseStatus | undefined;
+  status_details?: CaptureAuthorizationResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeResponseAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CaptureAuthorizationResponseSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?: CaptureAuthorizationResponseSellerProtection | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: CaptureAuthorizationResponseSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?: CaptureAuthorizationResponseSellerReceivableBreakdown | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CaptureAuthorizationResponseLinksList;
-  processor_response?: CaptureAuthorizationResponseProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
-  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  links?: CaptureAuthorizationResponseLinksList | undefined;
+  processor_response?: CaptureAuthorizationResponseProcessorResponse | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 export interface FindEligibleMethodsRequestCustomerChannel {
   /** The browser used by the customer. Example: Safari, Chrome, etc. */
-  browser_type?: string;
+  browser_type?: string | undefined;
   /** The operating system on the device used by the customer. Example: iOS 16.5, Android 30, etc. */
-  client_os?: string;
+  client_os?: string | undefined;
   /** The type of device used by the customer. Example: Mobile, Desktop, Tablet, etc. */
-  device_type?: string;
+  device_type?: string | undefined;
 }
 export interface FindEligibleMethodsRequestCustomerPhone {
   /** The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
@@ -807,16 +846,16 @@ export interface FindEligibleMethodsRequestCustomerPhone {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
 }
 /** Customer who is making a purchase from the merchant/partner. */
 export interface FindEligibleMethodsRequestCustomer {
-  country_code?: unknown;
-  channel?: FindEligibleMethodsRequestCustomerChannel;
+  country_code?: unknown | undefined;
+  channel?: FindEligibleMethodsRequestCustomerChannel | undefined;
   /** The unique ID for a customer in merchant's or partner's system of records. */
-  id?: string;
-  email?: string;
-  phone?: FindEligibleMethodsRequestCustomerPhone;
+  id?: string | undefined;
+  email?: string | undefined;
+  phone?: FindEligibleMethodsRequestCustomerPhone | undefined;
 }
 /** The total order amount with an optional breakdown that provides details, such as the total item amount, total tax amount, shipping, handling, insurance, and discounts, if any.<br/>If you specify `amount.breakdown`, the amount equals `item_total` plus `tax_total` plus `shipping` plus `handling` plus `insurance` minus `shipping_discount` minus discount.<br/>The amount must be a positive number. For listed of supported currencies and decimal precision, see the PayPal REST APIs <a href="/docs/integration/direct/rest/currency-codes/">Currency Codes</a>. */
 export type AmountWithBreakdown = AuthorizationsReauthorizeResponseAmount;
@@ -824,8 +863,8 @@ export type AmountWithBreakdown = AuthorizationsReauthorizeResponseAmount;
 export type Payee = AuthorizationsReauthorizeResponsePayee;
 /** Purchase unit for payment eligibility. */
 export interface EligibilityPurchaseUnitRequest {
-  amount?: AuthorizationsReauthorizeResponseAmount;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 /** Array of purchase units. */
 export type FindEligibleMethodsRequestPurchaseUnitsList = Array<EligibilityPurchaseUnitRequest>;
@@ -857,66 +896,68 @@ export interface FindEligibleMethodsRequestPreferencesPaymentSourceConstraint {
 /** Preferences of merchant/partner consuming the API. */
 export interface FindEligibleMethodsRequestPreferences {
   /** This field specifies the payment flow, expected to provide a hint about which payment action the customer is intending to perform. */
-  payment_flow?: FindEligibleMethodsRequestPreferencesPaymentFlow | (string & {});
+  payment_flow?: FindEligibleMethodsRequestPreferencesPaymentFlow | (string & {}) | undefined;
   /** If this value is set to true, response will include confirmation if the customer has PayPal and/or Venmo accounts if they are eligible payment methods. Value defaults to false. */
-  include_account_details?: boolean;
+  include_account_details?: boolean | undefined;
   /** If this value is set to true, response will include vaulted token information if the eligible funding source has any instrument vaulted for the customer. Value defaults to false. */
-  include_vault_tokens?: boolean;
+  include_vault_tokens?: boolean | undefined;
   /** Payment source constraint defines the payment methods that needs to be included/excluded for eligibility assessment. If not passed, all payment methods will be assessed for eligibility. */
-  payment_source_constraint?: FindEligibleMethodsRequestPreferencesPaymentSourceConstraint;
+  payment_source_constraint?:
+    | FindEligibleMethodsRequestPreferencesPaymentSourceConstraint
+    | undefined;
 }
 export interface FindEligibleMethodsRequest {
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   /** A characteristic string that lets servers and network peers identify the application, operating system, vendor, and/or version of the requesting user agent. API calls made by PayPal SDKs SHOULD be identified using this request header. */
-  userAgent?: string;
+  userAgent?: string | undefined;
   /** A GUID value originating from Fraudnet and Dyson passed from external API clients via HTTP header. The value is used by Risk decisions to correlate calls which, in turn, might result in lower decline rates.. */
-  payPalClientMetadataId?: string;
-  customer?: FindEligibleMethodsRequestCustomer;
+  payPalClientMetadataId?: string | undefined;
+  customer?: FindEligibleMethodsRequestCustomer | undefined;
   /** Array of purchase units. */
-  purchase_units?: FindEligibleMethodsRequestPurchaseUnitsList;
-  preferences?: FindEligibleMethodsRequestPreferences;
+  purchase_units?: FindEligibleMethodsRequestPurchaseUnitsList | undefined;
+  preferences?: FindEligibleMethodsRequestPreferences | undefined;
 }
 export interface FindEligibleMethodsResponseEligibleMethodsPaypal {
   /** Indicates if the payment method can be vaulted or not. A true value indicates the payment method can be vaulted using our vaults product. If false, vaulting is not currently supported for this payment method. */
-  can_be_vaulted?: boolean;
-  country_code?: unknown;
-  product_code?: unknown;
-  eligible_in_paypal_network?: boolean;
+  can_be_vaulted?: boolean | undefined;
+  country_code?: unknown | undefined;
+  product_code?: unknown | undefined;
+  eligible_in_paypal_network?: boolean | undefined;
   /** Indicates if the payment method is recommended or not. A true value indicates the customer is payment ready and this payment method may be presented upfront. */
-  recommended?: boolean;
+  recommended?: boolean | undefined;
   /** This value is included in the response when recommended is true for a payment method. It indicates the priority of recommendation for payment readiness of eligible payment methods with lowest number taking the highest precedence. */
-  recommended_priority?: number;
+  recommended_priority?: number | undefined;
 }
 export type FindEligibleMethodsResponseEligibleMethodsVenmo =
   FindEligibleMethodsResponseEligibleMethodsPaypal;
 export interface FindEligibleMethodsResponseEligibleMethodsPaypalCredit {
   /** Indicates if the payment method can be vaulted or not. A true value indicates the payment method can be vaulted using our vaults product. If false, vaulting is not currently supported for this payment method. */
-  can_be_vaulted?: boolean;
-  country_code?: unknown;
-  product_code?: unknown;
+  can_be_vaulted?: boolean | undefined;
+  country_code?: unknown | undefined;
+  product_code?: unknown | undefined;
 }
 export type FindEligibleMethodsResponseEligibleMethodsPaypalPayLater =
   FindEligibleMethodsResponseEligibleMethodsPaypalCredit;
 export interface FindEligibleMethodsResponseEligibleMethods {
-  paypal?: FindEligibleMethodsResponseEligibleMethodsPaypal;
-  venmo?: FindEligibleMethodsResponseEligibleMethodsPaypal;
-  paypal_credit?: FindEligibleMethodsResponseEligibleMethodsPaypalCredit;
-  paypal_pay_later?: FindEligibleMethodsResponseEligibleMethodsPaypalCredit;
+  paypal?: FindEligibleMethodsResponseEligibleMethodsPaypal | undefined;
+  venmo?: FindEligibleMethodsResponseEligibleMethodsPaypal | undefined;
+  paypal_credit?: FindEligibleMethodsResponseEligibleMethodsPaypalCredit | undefined;
+  paypal_pay_later?: FindEligibleMethodsResponseEligibleMethodsPaypalCredit | undefined;
 }
 export interface FindEligibleMethodsResponsePaymentTokensItemPaymentSourcePaypal {
-  email_address?: unknown;
-  payer_id?: unknown;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
 }
 /** Payment Token info for Venmo payment source. */
 export interface VenmoPaymentTokenInfo {
   /** The Venmo username, as chosen by the user. */
-  user_name?: string;
+  user_name?: string | undefined;
 }
 /** The vaulted payment method details. */
 export interface FindEligibleMethodsResponsePaymentTokensItemPaymentSource {
-  paypal?: FindEligibleMethodsResponsePaymentTokensItemPaymentSourcePaypal;
-  venmo?: VenmoPaymentTokenInfo;
+  paypal?: FindEligibleMethodsResponsePaymentTokensItemPaymentSourcePaypal | undefined;
+  venmo?: VenmoPaymentTokenInfo | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -940,33 +981,33 @@ export type LinkDescriptionSchemaLinksList = Array<unknown>;
 export type LinkDescriptionSchemaMedia = AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface LinkDescriptionSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: LinkDescriptionSchemaAllOfList;
+  allOf?: LinkDescriptionSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: LinkDescriptionSchemaAnyOfList;
+  anyOf?: LinkDescriptionSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: LinkDescriptionSchemaOneOfList;
+  oneOf?: LinkDescriptionSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: LinkDescriptionSchemaLinksList;
+  links?: LinkDescriptionSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type LinkDescriptionTargetSchemaAllOfList = Array<unknown>;
@@ -981,33 +1022,33 @@ export type LinkDescriptionTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface LinkDescriptionTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: LinkDescriptionTargetSchemaAllOfList;
+  allOf?: LinkDescriptionTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: LinkDescriptionTargetSchemaAnyOfList;
+  anyOf?: LinkDescriptionTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: LinkDescriptionTargetSchemaOneOfList;
+  oneOf?: LinkDescriptionTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: LinkDescriptionTargetSchemaLinksList;
+  links?: LinkDescriptionTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information. */
 export interface LinkDescription {
@@ -1016,40 +1057,40 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: LinkDescriptionSchema;
-  targetSchema?: LinkDescriptionTargetSchema;
+  encType?: string | undefined;
+  schema?: LinkDescriptionSchema | undefined;
+  targetSchema?: LinkDescriptionTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/api/rest/responses/#hateoas). */
 export type FindEligibleMethodsResponsePaymentTokensItemLinksList = Array<LinkDescription>;
 export interface FindEligibleMethodsResponsePaymentTokensItem {
   /** The PayPal-generated ID for the vault token. */
-  id?: string;
+  id?: string | undefined;
   /** The vaulted payment method details. */
-  payment_source?: FindEligibleMethodsResponsePaymentTokensItemPaymentSource;
+  payment_source?: FindEligibleMethodsResponsePaymentTokensItemPaymentSource | undefined;
   /** An array of related [HATEOAS links](/api/rest/responses/#hateoas). */
-  links?: FindEligibleMethodsResponsePaymentTokensItemLinksList;
+  links?: FindEligibleMethodsResponsePaymentTokensItemLinksList | undefined;
 }
 /** Payment tokens for vaulted instruments, if available. This object will be included only if include_vault_tokens is set to true in the request. */
 export type FindEligibleMethodsResponsePaymentTokensList =
   Array<FindEligibleMethodsResponsePaymentTokensItem>;
 /** Eligible payment methods along with applicable vault tokens, if requested. */
 export interface FindEligibleMethodsResponse {
-  eligible_methods?: FindEligibleMethodsResponseEligibleMethods;
+  eligible_methods?: FindEligibleMethodsResponseEligibleMethods | undefined;
   /** Payment tokens for vaulted instruments, if available. This object will be included only if include_vault_tokens is set to true in the request. */
-  payment_tokens?: FindEligibleMethodsResponsePaymentTokensList;
+  payment_tokens?: FindEligibleMethodsResponsePaymentTokensList | undefined;
 }
 export interface GetAuthorizationRequest {
   /** The ID of the authorized payment for which to show details. */
   authorization_id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
 }
 /** The status for the authorized payment. */
 export type GetAuthorizationResponseStatus =
@@ -1065,7 +1106,7 @@ export type GetAuthorizationResponseStatusDetailsReason =
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface GetAuthorizationResponseStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: GetAuthorizationResponseStatusDetailsReason;
+  reason?: GetAuthorizationResponseStatusDetailsReason | undefined;
 }
 export type GetAuthorizationResponseAmount = AuthorizationsReauthorizeResponseAmount;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -1082,9 +1123,9 @@ export type GetAuthorizationResponseSellerProtectionDisputeCategoriesList =
   Array<GetAuthorizationResponseSellerProtectionDisputeCategoriesItem>;
 export interface GetAuthorizationResponseSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: GetAuthorizationResponseSellerProtectionStatus;
+  status?: GetAuthorizationResponseSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: GetAuthorizationResponseSellerProtectionDisputeCategoriesList;
+  dispute_categories?: GetAuthorizationResponseSellerProtectionDisputeCategoriesList | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type GetAuthorizationResponseLinksItemMethod =
@@ -1109,33 +1150,33 @@ export type GetAuthorizationResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetAuthorizationResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetAuthorizationResponseLinksItemSchemaAllOfList;
+  allOf?: GetAuthorizationResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetAuthorizationResponseLinksItemSchemaAnyOfList;
+  anyOf?: GetAuthorizationResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetAuthorizationResponseLinksItemSchemaOneOfList;
+  oneOf?: GetAuthorizationResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetAuthorizationResponseLinksItemSchemaLinksList;
+  links?: GetAuthorizationResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetAuthorizationResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1150,33 +1191,33 @@ export type GetAuthorizationResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetAuthorizationResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetAuthorizationResponseLinksItemTargetSchemaAllOfList;
+  allOf?: GetAuthorizationResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetAuthorizationResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: GetAuthorizationResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetAuthorizationResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: GetAuthorizationResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetAuthorizationResponseLinksItemTargetSchemaLinksList;
+  links?: GetAuthorizationResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetAuthorizationResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1184,15 +1225,15 @@ export interface GetAuthorizationResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetAuthorizationResponseLinksItemMethod;
+  method?: GetAuthorizationResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetAuthorizationResponseLinksItemSchema;
-  targetSchema?: GetAuthorizationResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetAuthorizationResponseLinksItemSchema | undefined;
+  targetSchema?: GetAuthorizationResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetAuthorizationResponseLinksList = Array<GetAuthorizationResponseLinksItem>;
@@ -1203,24 +1244,24 @@ export type GetAuthorizationResponseSupplementaryData =
 export type GetAuthorizationResponsePayee = AuthorizationsReauthorizeResponsePayee;
 export interface GetAuthorizationResponse {
   /** The status for the authorized payment. */
-  status?: GetAuthorizationResponseStatus;
-  status_details?: GetAuthorizationResponseStatusDetails;
+  status?: GetAuthorizationResponseStatus | undefined;
+  status_details?: GetAuthorizationResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeResponseAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: GetAuthorizationResponseSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?: GetAuthorizationResponseSellerProtection | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetAuthorizationResponseLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  links?: GetAuthorizationResponseLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 export interface GetCaptureRequest {
   /** The PayPal-generated ID for the captured payment for which to show details. */
@@ -1250,7 +1291,7 @@ export type GetCaptureResponseStatusDetailsReason =
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface GetCaptureResponseStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: GetCaptureResponseStatusDetailsReason;
+  reason?: GetCaptureResponseStatusDetailsReason | undefined;
 }
 export type GetCaptureResponseAmount = AuthorizationsReauthorizeResponseAmount;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -1267,9 +1308,9 @@ export type GetCaptureResponseSellerProtectionDisputeCategoriesList =
   Array<GetCaptureResponseSellerProtectionDisputeCategoriesItem>;
 export interface GetCaptureResponseSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: GetCaptureResponseSellerProtectionStatus;
+  status?: GetCaptureResponseSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: GetCaptureResponseSellerProtectionDisputeCategoriesList;
+  dispute_categories?: GetCaptureResponseSellerProtectionDisputeCategoriesList | undefined;
 }
 export type GetCaptureResponseSellerReceivableBreakdownGrossAmount =
   AuthorizationsReauthorizeRequestAmount;
@@ -1294,13 +1335,13 @@ export type GetCaptureResponseSellerReceivableBreakdownPlatformFeesList =
   Array<CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem>;
 export interface GetCaptureResponseSellerReceivableBreakdown {
   gross_amount: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
-  net_amount?: AuthorizationsReauthorizeRequestAmount;
-  receivable_amount?: AuthorizationsReauthorizeRequestAmount;
-  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate;
+  paypal_fee?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  receivable_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: GetCaptureResponseSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?: GetCaptureResponseSellerReceivableBreakdownPlatformFeesList | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type GetCaptureResponseLinksItemMethod =
@@ -1325,33 +1366,33 @@ export type GetCaptureResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetCaptureResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetCaptureResponseLinksItemSchemaAllOfList;
+  allOf?: GetCaptureResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetCaptureResponseLinksItemSchemaAnyOfList;
+  anyOf?: GetCaptureResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetCaptureResponseLinksItemSchemaOneOfList;
+  oneOf?: GetCaptureResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetCaptureResponseLinksItemSchemaLinksList;
+  links?: GetCaptureResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetCaptureResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1366,33 +1407,33 @@ export type GetCaptureResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetCaptureResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetCaptureResponseLinksItemTargetSchemaAllOfList;
+  allOf?: GetCaptureResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetCaptureResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: GetCaptureResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetCaptureResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: GetCaptureResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetCaptureResponseLinksItemTargetSchemaLinksList;
+  links?: GetCaptureResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetCaptureResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1400,15 +1441,15 @@ export interface GetCaptureResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetCaptureResponseLinksItemMethod;
+  method?: GetCaptureResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetCaptureResponseLinksItemSchema;
-  targetSchema?: GetCaptureResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetCaptureResponseLinksItemSchema | undefined;
+  targetSchema?: GetCaptureResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetCaptureResponseLinksList = Array<GetCaptureResponseLinksItem>;
@@ -1629,13 +1670,13 @@ export type GetCaptureResponseProcessorResponsePaymentAdviceCode =
   | "43";
 export interface GetCaptureResponseProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: GetCaptureResponseProcessorResponseAvsCode;
+  avs_code?: GetCaptureResponseProcessorResponseAvsCode | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: GetCaptureResponseProcessorResponseCvvCode;
+  cvv_code?: GetCaptureResponseProcessorResponseCvvCode | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: GetCaptureResponseProcessorResponseResponseCode;
+  response_code?: GetCaptureResponseProcessorResponseResponseCode | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: GetCaptureResponseProcessorResponsePaymentAdviceCode;
+  payment_advice_code?: GetCaptureResponseProcessorResponsePaymentAdviceCode | undefined;
 }
 export type GetCaptureResponseSupplementaryDataRelatedIds =
   AuthorizationsReauthorizeResponseSupplementaryDataRelatedIds;
@@ -1644,34 +1685,34 @@ export type GetCaptureResponseSupplementaryData =
 export type GetCaptureResponsePayee = AuthorizationsReauthorizeResponsePayee;
 export interface GetCaptureResponse {
   /** The status of the captured payment. */
-  status?: GetCaptureResponseStatus;
-  status_details?: GetCaptureResponseStatusDetails;
+  status?: GetCaptureResponseStatus | undefined;
+  status_details?: GetCaptureResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeResponseAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: GetCaptureResponseSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?: GetCaptureResponseSellerProtection | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: GetCaptureResponseSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?: GetCaptureResponseSellerReceivableBreakdown | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetCaptureResponseLinksList;
-  processor_response?: GetCaptureResponseProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
-  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  links?: GetCaptureResponseLinksList | undefined;
+  processor_response?: GetCaptureResponseProcessorResponse | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
 export interface GetRefundRequest {
   /** The PayPal-generated ID for the refund for which to show details. */
   refund_id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
 }
 /** The status of the refund. */
 export type GetRefundResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "COMPLETED";
@@ -1679,7 +1720,7 @@ export type GetRefundResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "COMP
 export type GetRefundResponseStatusDetailsReason = "ECHECK";
 export interface GetRefundResponseStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: GetRefundResponseStatusDetailsReason;
+  reason?: GetRefundResponseStatusDetailsReason | undefined;
 }
 export type GetRefundResponseAmount = AuthorizationsReauthorizeRequestAmount;
 export type GetRefundResponseSellerPayableBreakdownGrossAmount =
@@ -1708,9 +1749,9 @@ export type GetRefundResponseSellerPayableBreakdownNetAmountBreakdownItemConvert
 export type GetRefundResponseSellerPayableBreakdownNetAmountBreakdownItemExchangeRate =
   CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate;
 export interface GetRefundResponseSellerPayableBreakdownNetAmountBreakdownItem {
-  payable_amount?: AuthorizationsReauthorizeRequestAmount;
-  converted_amount?: AuthorizationsReauthorizeRequestAmount;
-  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate;
+  payable_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  converted_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  exchange_rate?: CaptureAuthorizationResponseSellerReceivableBreakdownExchangeRate | undefined;
 }
 /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
 export type GetRefundResponseSellerPayableBreakdownNetAmountBreakdownList =
@@ -1719,16 +1760,16 @@ export type GetRefundResponseSellerPayableBreakdownTotalRefundedAmount =
   AuthorizationsReauthorizeRequestAmount;
 /** The breakdown of the refund. */
 export interface GetRefundResponseSellerPayableBreakdown {
-  gross_amount?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
-  net_amount?: AuthorizationsReauthorizeRequestAmount;
-  net_amount_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
+  gross_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: GetRefundResponseSellerPayableBreakdownPlatformFeesList;
+  platform_fees?: GetRefundResponseSellerPayableBreakdownPlatformFeesList | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: GetRefundResponseSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizationsReauthorizeRequestAmount;
+  net_amount_breakdown?: GetRefundResponseSellerPayableBreakdownNetAmountBreakdownList | undefined;
+  total_refunded_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
 }
 export type GetRefundResponsePayer = AuthorizationsReauthorizeResponsePayee;
 /** The HTTP method required to make the related call. */
@@ -1754,33 +1795,33 @@ export type GetRefundResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetRefundResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetRefundResponseLinksItemSchemaAllOfList;
+  allOf?: GetRefundResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetRefundResponseLinksItemSchemaAnyOfList;
+  anyOf?: GetRefundResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetRefundResponseLinksItemSchemaOneOfList;
+  oneOf?: GetRefundResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetRefundResponseLinksItemSchemaLinksList;
+  links?: GetRefundResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetRefundResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1795,33 +1836,33 @@ export type GetRefundResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface GetRefundResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetRefundResponseLinksItemTargetSchemaAllOfList;
+  allOf?: GetRefundResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetRefundResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: GetRefundResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetRefundResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: GetRefundResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetRefundResponseLinksItemTargetSchemaLinksList;
+  links?: GetRefundResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetRefundResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1829,40 +1870,40 @@ export interface GetRefundResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetRefundResponseLinksItemMethod;
+  method?: GetRefundResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetRefundResponseLinksItemSchema;
-  targetSchema?: GetRefundResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetRefundResponseLinksItemSchema | undefined;
+  targetSchema?: GetRefundResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetRefundResponseLinksList = Array<GetRefundResponseLinksItem>;
 export interface GetRefundResponse {
   /** The status of the refund. */
-  status?: GetRefundResponseStatus;
-  status_details?: GetRefundResponseStatusDetails;
+  status?: GetRefundResponseStatus | undefined;
+  status_details?: GetRefundResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeRequestAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: GetRefundResponseSellerPayableBreakdown;
-  payer?: AuthorizationsReauthorizeResponsePayee;
+  seller_payable_breakdown?: GetRefundResponseSellerPayableBreakdown | undefined;
+  payer?: AuthorizationsReauthorizeResponsePayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetRefundResponseLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: GetRefundResponseLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 export type RefundCaptureRequestAmount = AuthorizationsReauthorizeRequestAmount;
 export type RefundCaptureRequestPaymentInstructionPlatformFeesItemAmount =
@@ -1876,25 +1917,25 @@ export type RefundCaptureRequestPaymentInstructionPlatformFeesList =
   Array<CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem>;
 export interface RefundCaptureRequestPaymentInstruction {
   /** Specifies the amount that the API caller will contribute to the refund being processed. The amount needs to be lower than platform_fees amount originally captured or the amount that is remaining if multiple refunds have been processed. This field is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability. */
-  platform_fees?: RefundCaptureRequestPaymentInstructionPlatformFeesList;
+  platform_fees?: RefundCaptureRequestPaymentInstructionPlatformFeesList | undefined;
 }
 export interface RefundCaptureRequest {
   /** The PayPal-generated ID for the captured payment to refund. */
   capture_id: string;
   /** A unique ID identifying the request header for idempotency purposes. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  amount?: AuthorizationsReauthorizeRequestAmount;
+  payPalAuthAssertion?: string | undefined;
+  amount?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode. */
-  note_to_payer?: string;
-  payment_instruction?: RefundCaptureRequestPaymentInstruction;
+  note_to_payer?: string | undefined;
+  payment_instruction?: RefundCaptureRequestPaymentInstruction | undefined;
 }
 /** The status of the refund. */
 export type RefundCaptureResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "COMPLETED";
@@ -1902,7 +1943,7 @@ export type RefundCaptureResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "
 export type RefundCaptureResponseStatusDetailsReason = "ECHECK";
 export interface RefundCaptureResponseStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: RefundCaptureResponseStatusDetailsReason;
+  reason?: RefundCaptureResponseStatusDetailsReason | undefined;
 }
 export type RefundCaptureResponseAmount = AuthorizationsReauthorizeRequestAmount;
 export type RefundCaptureResponseSellerPayableBreakdownGrossAmount =
@@ -1939,16 +1980,18 @@ export type RefundCaptureResponseSellerPayableBreakdownTotalRefundedAmount =
   AuthorizationsReauthorizeRequestAmount;
 /** The breakdown of the refund. */
 export interface RefundCaptureResponseSellerPayableBreakdown {
-  gross_amount?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee?: AuthorizationsReauthorizeRequestAmount;
-  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
-  net_amount?: AuthorizationsReauthorizeRequestAmount;
-  net_amount_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount;
+  gross_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee?: AuthorizationsReauthorizeRequestAmount | undefined;
+  paypal_fee_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
+  net_amount_in_receivable_currency?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: RefundCaptureResponseSellerPayableBreakdownPlatformFeesList;
+  platform_fees?: RefundCaptureResponseSellerPayableBreakdownPlatformFeesList | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: RefundCaptureResponseSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizationsReauthorizeRequestAmount;
+  net_amount_breakdown?:
+    | RefundCaptureResponseSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?: AuthorizationsReauthorizeRequestAmount | undefined;
 }
 export type RefundCaptureResponsePayer = AuthorizationsReauthorizeResponsePayee;
 /** The HTTP method required to make the related call. */
@@ -1974,33 +2017,33 @@ export type RefundCaptureResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface RefundCaptureResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: RefundCaptureResponseLinksItemSchemaAllOfList;
+  allOf?: RefundCaptureResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: RefundCaptureResponseLinksItemSchemaAnyOfList;
+  anyOf?: RefundCaptureResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: RefundCaptureResponseLinksItemSchemaOneOfList;
+  oneOf?: RefundCaptureResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: RefundCaptureResponseLinksItemSchemaLinksList;
+  links?: RefundCaptureResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type RefundCaptureResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -2015,33 +2058,33 @@ export type RefundCaptureResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface RefundCaptureResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: RefundCaptureResponseLinksItemTargetSchemaAllOfList;
+  allOf?: RefundCaptureResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: RefundCaptureResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: RefundCaptureResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: RefundCaptureResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: RefundCaptureResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: RefundCaptureResponseLinksItemTargetSchemaLinksList;
+  links?: RefundCaptureResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface RefundCaptureResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -2049,50 +2092,50 @@ export interface RefundCaptureResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: RefundCaptureResponseLinksItemMethod;
+  method?: RefundCaptureResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: RefundCaptureResponseLinksItemSchema;
-  targetSchema?: RefundCaptureResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: RefundCaptureResponseLinksItemSchema | undefined;
+  targetSchema?: RefundCaptureResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type RefundCaptureResponseLinksList = Array<RefundCaptureResponseLinksItem>;
 export interface RefundCaptureResponse {
   /** The status of the refund. */
-  status?: RefundCaptureResponseStatus;
-  status_details?: RefundCaptureResponseStatusDetails;
+  status?: RefundCaptureResponseStatus | undefined;
+  status_details?: RefundCaptureResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeRequestAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeRequestAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: RefundCaptureResponseSellerPayableBreakdown;
-  payer?: AuthorizationsReauthorizeResponsePayee;
+  seller_payable_breakdown?: RefundCaptureResponseSellerPayableBreakdown | undefined;
+  payer?: AuthorizationsReauthorizeResponsePayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: RefundCaptureResponseLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: RefundCaptureResponseLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 export interface VoidAuthorizationRequest {
   /** The PayPal-generated ID for the authorized payment to void. */
   authorization_id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   /** A unique ID identifying the request header for idempotency purposes. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
 }
 /** The status for the authorized payment. */
 export type VoidAuthorizationResponseStatus =
@@ -2108,7 +2151,7 @@ export type VoidAuthorizationResponseStatusDetailsReason =
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface VoidAuthorizationResponseStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: VoidAuthorizationResponseStatusDetailsReason;
+  reason?: VoidAuthorizationResponseStatusDetailsReason | undefined;
 }
 export type VoidAuthorizationResponseAmount = AuthorizationsReauthorizeResponseAmount;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -2125,9 +2168,9 @@ export type VoidAuthorizationResponseSellerProtectionDisputeCategoriesList =
   Array<VoidAuthorizationResponseSellerProtectionDisputeCategoriesItem>;
 export interface VoidAuthorizationResponseSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: VoidAuthorizationResponseSellerProtectionStatus;
+  status?: VoidAuthorizationResponseSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: VoidAuthorizationResponseSellerProtectionDisputeCategoriesList;
+  dispute_categories?: VoidAuthorizationResponseSellerProtectionDisputeCategoriesList | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type VoidAuthorizationResponseLinksItemMethod =
@@ -2152,33 +2195,33 @@ export type VoidAuthorizationResponseLinksItemSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface VoidAuthorizationResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VoidAuthorizationResponseLinksItemSchemaAllOfList;
+  allOf?: VoidAuthorizationResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VoidAuthorizationResponseLinksItemSchemaAnyOfList;
+  anyOf?: VoidAuthorizationResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VoidAuthorizationResponseLinksItemSchemaOneOfList;
+  oneOf?: VoidAuthorizationResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VoidAuthorizationResponseLinksItemSchemaLinksList;
+  links?: VoidAuthorizationResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type VoidAuthorizationResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -2193,33 +2236,33 @@ export type VoidAuthorizationResponseLinksItemTargetSchemaMedia =
   AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
 export interface VoidAuthorizationResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VoidAuthorizationResponseLinksItemTargetSchemaAllOfList;
+  allOf?: VoidAuthorizationResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VoidAuthorizationResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: VoidAuthorizationResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VoidAuthorizationResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: VoidAuthorizationResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VoidAuthorizationResponseLinksItemTargetSchemaLinksList;
+  links?: VoidAuthorizationResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface VoidAuthorizationResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -2227,15 +2270,15 @@ export interface VoidAuthorizationResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: VoidAuthorizationResponseLinksItemMethod;
+  method?: VoidAuthorizationResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: VoidAuthorizationResponseLinksItemSchema;
-  targetSchema?: VoidAuthorizationResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: VoidAuthorizationResponseLinksItemSchema | undefined;
+  targetSchema?: VoidAuthorizationResponseLinksItemTargetSchema | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type VoidAuthorizationResponseLinksList = Array<VoidAuthorizationResponseLinksItem>;
@@ -2246,24 +2289,271 @@ export type VoidAuthorizationResponseSupplementaryData =
 export type VoidAuthorizationResponsePayee = AuthorizationsReauthorizeResponsePayee;
 export interface VoidAuthorizationResponse {
   /** The status for the authorized payment. */
-  status?: VoidAuthorizationResponseStatus;
-  status_details?: VoidAuthorizationResponseStatusDetails;
+  status?: VoidAuthorizationResponseStatus | undefined;
+  status_details?: VoidAuthorizationResponseStatusDetails | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AuthorizationsReauthorizeResponseAmount;
+  id?: string | undefined;
+  amount?: AuthorizationsReauthorizeResponseAmount | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: VoidAuthorizationResponseSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?: VoidAuthorizationResponseSellerProtection | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: VoidAuthorizationResponseLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData;
-  payee?: AuthorizationsReauthorizeResponsePayee;
+  links?: VoidAuthorizationResponseLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
+  payee?: AuthorizationsReauthorizeResponsePayee | undefined;
+}
+/** The HTTP method required to make the related call. */
+export type ErrorDetailsItemLinksItemMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "HEAD"
+  | "CONNECT"
+  | "OPTIONS"
+  | "PATCH";
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorDetailsItemLinksItemSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorDetailsItemLinksItemSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorDetailsItemLinksItemSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorDetailsItemLinksItemSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorDetailsItemLinksItemSchemaMedia =
+  AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorDetailsItemLinksItemSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorDetailsItemLinksItemSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorDetailsItemLinksItemSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorDetailsItemLinksItemSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorDetailsItemLinksItemSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorDetailsItemLinksItemTargetSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorDetailsItemLinksItemTargetSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorDetailsItemLinksItemTargetSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorDetailsItemLinksItemTargetSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorDetailsItemLinksItemTargetSchemaMedia =
+  AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorDetailsItemLinksItemTargetSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorDetailsItemLinksItemTargetSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorDetailsItemLinksItemTargetSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorDetailsItemLinksItemTargetSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorDetailsItemLinksItemTargetSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+export interface ErrorDetailsItemLinksItem {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorDetailsItemLinksItemMethod | undefined;
+  /** The link title. */
+  title?: string | undefined;
+  /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
+  mediaType?: string | undefined;
+  /** The media type in which to submit the request data. */
+  encType?: string | undefined;
+  schema?: ErrorDetailsItemLinksItemSchema | undefined;
+  targetSchema?: ErrorDetailsItemLinksItemTargetSchema | undefined;
+}
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
+export type ErrorDetailsItemLinksList = Array<ErrorDetailsItemLinksItem>;
+export interface ErrorDetailsItem {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+  location?: string | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
+  links?: ErrorDetailsItemLinksList | undefined;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+/** An array of additional details about the error. */
+export type ErrorDetailsList = Array<ErrorDetailsItem>;
+/** The HTTP method required to make the related call. */
+export type ErrorLinksItemMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "HEAD"
+  | "CONNECT"
+  | "OPTIONS"
+  | "PATCH";
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorLinksItemSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorLinksItemSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorLinksItemSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorLinksItemSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorLinksItemSchemaMedia = AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorLinksItemSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorLinksItemSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorLinksItemSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorLinksItemSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorLinksItemSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorLinksItemTargetSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorLinksItemTargetSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorLinksItemTargetSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorLinksItemTargetSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorLinksItemTargetSchemaMedia = AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorLinksItemTargetSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorLinksItemTargetSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorLinksItemTargetSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorLinksItemTargetSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorLinksItemTargetSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+export interface ErrorLinksItem {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorLinksItemMethod | undefined;
+  /** The link title. */
+  title?: string | undefined;
+  /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
+  mediaType?: string | undefined;
+  /** The media type in which to submit the request data. */
+  encType?: string | undefined;
+  schema?: ErrorLinksItemSchema | undefined;
+  targetSchema?: ErrorLinksItemTargetSchema | undefined;
+}
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+export type ErrorLinksList = Array<ErrorLinksItem>;
+/** The error details. */
+export interface Error {
+  /** The human-readable, unique name of the error. */
+  name: string;
+  /** The message that describes the error. */
+  message: string;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id: string;
+  /** An array of additional details about the error. */
+  details?: ErrorDetailsList | undefined;
+  /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+  links?: ErrorLinksList | undefined;
 }
 export type AuthorizationsReauthorizeError =
   | BadRequest
@@ -2278,8 +2568,8 @@ export const authorizationsReauthorize: API.OperationMethod<
   AuthorizationsReauthorizeError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<AuthorizationsReauthorizeRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<AuthorizationsReauthorizeResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<AuthorizationsReauthorizeRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<AuthorizationsReauthorizeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2301,8 +2591,8 @@ export const captureAuthorization: API.OperationMethod<
   CaptureAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<CaptureAuthorizationRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<CaptureAuthorizationResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<CaptureAuthorizationRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<CaptureAuthorizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2318,8 +2608,8 @@ export const findEligibleMethods: API.OperationMethod<
   FindEligibleMethodsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(423, __c13, 7) as any as S.Schema<FindEligibleMethodsRequest>,
-  output: __S(432, __c13, 16) as any as S.Schema<FindEligibleMethodsResponse>,
+  input: __S(455, __c14, 7) as any as S.Schema<FindEligibleMethodsRequest>,
+  output: __S(464, __c14, 16) as any as S.Schema<FindEligibleMethodsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2335,8 +2625,8 @@ export const getAuthorization: API.OperationMethod<
   GetAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetAuthorizationRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<GetAuthorizationResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetAuthorizationRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetAuthorizationResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2352,8 +2642,8 @@ export const getCapture: API.OperationMethod<
   GetCaptureError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetCaptureRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<GetCaptureResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetCaptureRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<GetCaptureResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2369,8 +2659,8 @@ export const getRefund: API.OperationMethod<
   GetRefundError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetRefundRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<GetRefundResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetRefundRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<GetRefundResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2392,8 +2682,8 @@ export const refundCapture: API.OperationMethod<
   RefundCaptureError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c2, 1) as any as S.Schema<RefundCaptureRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<RefundCaptureResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<RefundCaptureRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<RefundCaptureResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2414,8 +2704,8 @@ export const voidAuthorization: API.OperationMethod<
   VoidAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<VoidAuthorizationRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<VoidAuthorizationResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<VoidAuthorizationRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<VoidAuthorizationResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2427,6 +2717,76 @@ export const voidAuthorization: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          binaryEncoding: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchemaMedia" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          additionalItems: S.optional(S.Unknown),
+          dependencies: S.optional(S.Unknown),
+          items: S.optional(S.Unknown),
+          definitions: S.optional(S.Unknown),
+          patternProperties: S.optional(S.Unknown),
+          properties: S.optional(S.Unknown),
+          allOf: S.optional(__S(0, __c0, 0)),
+          anyOf: S.optional(__S(0, __c0, 0)),
+          oneOf: S.optional(__S(0, __c0, 0)),
+          not: S.optional(S.Unknown),
+          links: S.optional(__S(0, __c0, 0)),
+          fragmentResolution: S.optional(S.String),
+          media: S.optional(__S(1, __c0, 1)),
+          pathStart: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchema" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+          title: S.optional(S.String),
+          mediaType: S.optional(S.String),
+          encType: S.optional(S.String),
+          schema: S.optional(__S(2, __c0, 2)),
+          targetSchema: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItem" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          links: S.optional(__S(4, __c0, 4)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetailsItem" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          details: S.optional(__S(6, __c0, 6)),
+          links: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           refund_id: S.String.pipe(T.Label()),
@@ -2435,57 +2795,57 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetRefundRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payable_amount: S.optional(__S(160, __c5, 0)),
-          converted_amount: S.optional(__S(160, __c5, 0)),
-          exchange_rate: S.optional(__S(386, __c12, 2)),
+          payable_amount: S.optional(__S(192, __c6, 0)),
+          converted_amount: S.optional(__S(192, __c6, 0)),
+          exchange_rate: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "GetRefundResponseSellerPayableBreakdownNetAmountBreakdownItem" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(64, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: S.optional(__S(160, __c5, 0)),
-          paypal_fee: S.optional(__S(160, __c5, 0)),
-          paypal_fee_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          net_amount: S.optional(__S(160, __c5, 0)),
-          net_amount_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          platform_fees: S.optional(__S(385, __c12, 1)),
-          net_amount_breakdown: S.optional(__S(33, __c1, 1)),
-          total_refunded_amount: S.optional(__S(160, __c5, 0)),
+          gross_amount: S.optional(__S(192, __c6, 0)),
+          paypal_fee: S.optional(__S(192, __c6, 0)),
+          paypal_fee_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          net_amount: S.optional(__S(192, __c6, 0)),
+          net_amount_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
+          net_amount_breakdown: S.optional(__S(65, __c2, 1)),
+          total_refunded_amount: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "GetRefundResponseSellerPayableBreakdown" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
+          status_details: S.optional(__S(256, __c8, 0)),
           id: S.optional(S.String),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
           acquirer_reference_number: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          seller_payable_breakdown: S.optional(__S(34, __c1, 2)),
-          payer: S.optional(__S(166, __c5, 6)),
-          links: S.optional(__S(165, __c5, 5)),
+          seller_payable_breakdown: S.optional(__S(66, __c2, 2)),
+          payer: S.optional(__S(193, __c6, 1)),
+          links: S.optional(__S(4, __c0, 4)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetRefundResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "RefundCaptureRequestPaymentInstruction" });
     case 1:
@@ -2495,18 +2855,18 @@ function __c2(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           custom_id: S.optional(S.String),
           invoice_id: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          payment_instruction: S.optional(__S(64, __c2, 0)),
+          payment_instruction: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/payments/captures/{capture_id}/refund", code: 200 }),
         ),
       ).annotate({ identifier: "RefundCaptureRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2525,7 +2885,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "VoidAuthorizationRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2534,7 +2894,7 @@ function __c4(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2545,7 +2905,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2555,49 +2915,6 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeRequestAmount" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          binaryEncoding: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchemaMedia" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          additionalItems: S.optional(S.Unknown),
-          dependencies: S.optional(S.Unknown),
-          items: S.optional(S.Unknown),
-          definitions: S.optional(S.Unknown),
-          patternProperties: S.optional(S.Unknown),
-          properties: S.optional(S.Unknown),
-          allOf: S.optional(__S(161, __c5, 1)),
-          anyOf: S.optional(__S(161, __c5, 1)),
-          oneOf: S.optional(__S(161, __c5, 1)),
-          not: S.optional(S.Unknown),
-          links: S.optional(__S(161, __c5, 1)),
-          fragmentResolution: S.optional(S.String),
-          media: S.optional(__S(162, __c5, 2)),
-          pathStart: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchema" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-          title: S.optional(S.String),
-          mediaType: S.optional(S.String),
-          encType: S.optional(S.String),
-          schema: S.optional(__S(163, __c5, 3)),
-          targetSchema: S.optional(__S(163, __c5, 3)),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItem" });
-    case 5:
-      return S.Array(__S(164, __c5, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           email_address: S.optional(S.Unknown),
@@ -2606,18 +2923,18 @@ function __c5(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeResponsePayee" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          item_total: S.optional(__S(160, __c5, 0)),
-          shipping: S.optional(__S(160, __c5, 0)),
-          handling: S.optional(__S(160, __c5, 0)),
-          tax_total: S.optional(__S(160, __c5, 0)),
-          insurance: S.optional(__S(160, __c5, 0)),
-          shipping_discount: S.optional(__S(160, __c5, 0)),
-          discount: S.optional(__S(160, __c5, 0)),
+          item_total: S.optional(__S(192, __c6, 0)),
+          shipping: S.optional(__S(192, __c6, 0)),
+          handling: S.optional(__S(192, __c6, 0)),
+          tax_total: S.optional(__S(192, __c6, 0)),
+          insurance: S.optional(__S(192, __c6, 0)),
+          shipping_discount: S.optional(__S(192, __c6, 0)),
+          discount: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "AmountBreakdown" });
     case 1:
@@ -2625,14 +2942,14 @@ function __c6(j: number): any {
         S.Struct({
           currency_code: S.String,
           value: S.String,
-          breakdown: S.optional(__S(192, __c6, 0)),
+          breakdown: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseAmount" });
     case 2:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2642,7 +2959,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseStatusDetails" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2657,7 +2974,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          dispute_categories: S.optional(__S(194, __c6, 2)),
+          dispute_categories: S.optional(__S(226, __c7, 2)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseSellerProtection" });
     case 2:
@@ -2671,32 +2988,9 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          related_ids: S.optional(__S(258, __c8, 2)),
+          related_ids: S.optional(__S(290, __c9, 2)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseSupplementaryData" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
-          id: S.optional(S.String),
-          amount: S.optional(__S(193, __c6, 1)),
-          invoice_id: S.optional(S.String),
-          custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(256, __c8, 0)),
-          seller_protection: S.optional(__S(257, __c8, 1)),
-          expiration_time: S.optional(S.Unknown),
-          links: S.optional(__S(165, __c5, 5)),
-          create_time: S.optional(S.Unknown),
-          update_time: S.optional(S.Unknown),
-          supplementary_data: S.optional(__S(259, __c8, 3)),
-          payee: S.optional(__S(166, __c5, 6)),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponse" });
   }
 }
 function __c10(j: number): any {
@@ -2704,7 +2998,30 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          status: S.optional(S.String),
+          status_details: S.optional(__S(256, __c8, 0)),
+          id: S.optional(S.String),
+          amount: S.optional(__S(225, __c7, 1)),
+          invoice_id: S.optional(S.String),
+          custom_id: S.optional(S.String),
+          network_transaction_reference: S.optional(__S(288, __c9, 0)),
+          seller_protection: S.optional(__S(289, __c9, 1)),
+          expiration_time: S.optional(S.Unknown),
+          links: S.optional(__S(4, __c0, 4)),
+          create_time: S.optional(S.Unknown),
+          update_time: S.optional(S.Unknown),
+          supplementary_data: S.optional(__S(291, __c9, 3)),
+          payee: S.optional(__S(193, __c6, 1)),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          platform_fees: S.optional(__S(417, __c13, 1)),
           disbursement_mode: S.optional(S.Unknown),
           payee_pricing_tier_id: S.optional(S.String),
           payee_receivable_fx_rate_id: S.optional(S.String),
@@ -2719,9 +3036,9 @@ function __c10(j: number): any {
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           invoice_id: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           final_capture: S.optional(S.Boolean),
-          payment_instruction: S.optional(__S(320, __c10, 0)),
+          payment_instruction: S.optional(__S(352, __c11, 0)),
           soft_descriptor: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2733,18 +3050,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CaptureAuthorizationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: __S(160, __c5, 0),
-          paypal_fee: S.optional(__S(160, __c5, 0)),
-          paypal_fee_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          net_amount: S.optional(__S(160, __c5, 0)),
-          receivable_amount: S.optional(__S(160, __c5, 0)),
-          exchange_rate: S.optional(__S(386, __c12, 2)),
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          gross_amount: __S(192, __c6, 0),
+          paypal_fee: S.optional(__S(192, __c6, 0)),
+          paypal_fee_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          net_amount: S.optional(__S(192, __c6, 0)),
+          receivable_amount: S.optional(__S(192, __c6, 0)),
+          exchange_rate: S.optional(__S(418, __c13, 2)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationResponseSellerReceivableBreakdown" });
     case 1:
@@ -2760,37 +3077,37 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
+          status_details: S.optional(__S(256, __c8, 0)),
           id: S.optional(S.String),
-          amount: S.optional(__S(193, __c6, 1)),
+          amount: S.optional(__S(225, __c7, 1)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(256, __c8, 0)),
-          seller_protection: S.optional(__S(257, __c8, 1)),
+          network_transaction_reference: S.optional(__S(288, __c9, 0)),
+          seller_protection: S.optional(__S(289, __c9, 1)),
           final_capture: S.optional(S.Boolean),
-          seller_receivable_breakdown: S.optional(__S(352, __c11, 0)),
+          seller_receivable_breakdown: S.optional(__S(384, __c12, 0)),
           disbursement_mode: S.optional(S.String),
-          links: S.optional(__S(165, __c5, 5)),
-          processor_response: S.optional(__S(353, __c11, 1)),
+          links: S.optional(__S(4, __c0, 4)),
+          processor_response: S.optional(__S(385, __c12, 1)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
-          supplementary_data: S.optional(__S(259, __c8, 3)),
-          payee: S.optional(__S(166, __c5, 6)),
+          supplementary_data: S.optional(__S(291, __c9, 3)),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(160, __c5, 0),
-          payee: S.optional(__S(166, __c5, 6)),
+          amount: __S(192, __c6, 0),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2803,7 +3120,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2825,26 +3142,26 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           country_code: S.optional(S.Unknown),
-          channel: S.optional(__S(416, __c13, 0)),
+          channel: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
           email: S.optional(S.String),
-          phone: S.optional(__S(417, __c13, 1)),
+          phone: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestCustomer" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(193, __c6, 1)),
-          payee: S.optional(__S(166, __c5, 6)),
+          amount: S.optional(__S(225, __c7, 1)),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "EligibilityPurchaseUnitRequest" });
     case 4:
-      return S.Array(__S(419, __c13, 3));
+      return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           constraint_type: S.String,
-          payment_sources: __S(194, __c6, 2),
+          payment_sources: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestPreferencesPaymentSourceConstraint" });
     case 6:
@@ -2853,7 +3170,7 @@ function __c13(j: number): any {
           payment_flow: S.optional(S.String),
           include_account_details: S.optional(S.Boolean),
           include_vault_tokens: S.optional(S.Boolean),
-          payment_source_constraint: S.optional(__S(421, __c13, 5)),
+          payment_source_constraint: S.optional(__S(453, __c14, 5)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestPreferences" });
     case 7:
@@ -2862,9 +3179,9 @@ function __c13(j: number): any {
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           userAgent: S.optional(S.String.pipe(T.Header("User-Agent"))),
           payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
-          customer: S.optional(__S(418, __c13, 2)),
-          purchase_units: S.optional(__S(420, __c13, 4)),
-          preferences: S.optional(__S(422, __c13, 6)),
+          customer: S.optional(__S(450, __c14, 2)),
+          purchase_units: S.optional(__S(452, __c14, 4)),
+          preferences: S.optional(__S(454, __c14, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/payments/find-eligible-methods", code: 200 })),
       ).annotate({ identifier: "FindEligibleMethodsRequest" });
     case 8:
@@ -2889,10 +3206,10 @@ function __c13(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          paypal: S.optional(__S(424, __c13, 8)),
-          venmo: S.optional(__S(424, __c13, 8)),
-          paypal_credit: S.optional(__S(425, __c13, 9)),
-          paypal_pay_later: S.optional(__S(425, __c13, 9)),
+          paypal: S.optional(__S(456, __c14, 8)),
+          venmo: S.optional(__S(456, __c14, 8)),
+          paypal_credit: S.optional(__S(457, __c14, 9)),
+          paypal_pay_later: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponseEligibleMethods" });
     case 11:
@@ -2911,30 +3228,30 @@ function __c13(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          paypal: S.optional(__S(427, __c13, 11)),
-          venmo: S.optional(__S(428, __c13, 12)),
+          paypal: S.optional(__S(459, __c14, 11)),
+          venmo: S.optional(__S(460, __c14, 12)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponsePaymentTokensItemPaymentSource" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          payment_source: S.optional(__S(429, __c13, 13)),
-          links: S.optional(__S(165, __c5, 5)),
+          payment_source: S.optional(__S(461, __c14, 13)),
+          links: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponsePaymentTokensItem" });
     case 15:
-      return S.Array(__S(430, __c13, 14));
+      return S.Array(__S(462, __c14, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          eligible_methods: S.optional(__S(426, __c13, 10)),
-          payment_tokens: S.optional(__S(431, __c13, 15)),
+          eligible_methods: S.optional(__S(458, __c14, 10)),
+          payment_tokens: S.optional(__S(463, __c14, 15)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2951,7 +3268,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetAuthorizationRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

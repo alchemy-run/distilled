@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type CreateInstanceRequestRegionId = "eu01";
 /** Object that represents the labels of an object. Regex for keys: `^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. The `stackit-` prefix is reserved and cannot be used for Keys. */
@@ -69,9 +97,9 @@ export interface CreateInstanceRequest {
   projectId: string;
   /** region id */
   regionId: CreateInstanceRequestRegionId | (string & {});
-  deletedExperimentRetention?: string;
-  description?: string;
-  labels?: Labels;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  labels?: Labels | undefined;
   name: string;
 }
 export type InstanceState =
@@ -83,20 +111,20 @@ export type InstanceState =
   | "impaired"
   | "reconciling";
 export interface Instance {
-  bucketName?: string;
-  deletedExperimentRetention?: string;
-  description?: string;
-  errorMessage?: string;
+  bucketName?: string | undefined;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  errorMessage?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
-  region?: string;
+  region?: string | undefined;
   state: InstanceState;
   url: string;
 }
 export interface CreateInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type CreateInstanceTokenRequestRegionId = "eu01";
 export interface CreateInstanceTokenRequest {
@@ -106,26 +134,26 @@ export interface CreateInstanceTokenRequest {
   regionId: CreateInstanceTokenRequestRegionId | (string & {});
   /** instance id */
   instanceId: string;
-  description?: string;
-  labels?: Labels;
+  description?: string | undefined;
+  labels?: Labels | undefined;
   name: string;
   /** time to live duration. Must be valid duration string. Maximum allowed duration is 6 months. If not set, defaults to 6 months. */
-  ttlDuration?: string;
+  ttlDuration?: string | undefined;
 }
 /** The lifecycle state of the token. */
 export type TokenState = "creating" | "active" | "deleting" | "inactive";
 export interface Token {
   content: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenState;
   validUntil: string;
 }
 export interface CreateInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: Token;
 }
 export type DeleteInstanceRequestRegionId = "eu01";
@@ -139,7 +167,7 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type DeleteInstanceTokenRequestRegionId = "eu01";
 export interface DeleteInstanceTokenRequest {
@@ -153,16 +181,16 @@ export interface DeleteInstanceTokenRequest {
   tokenId: string;
 }
 export interface TokenMetadata {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenState;
   validUntil: string;
 }
 export interface DeleteInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
 }
 export type GetInstanceRequestRegionId = "eu01";
@@ -176,7 +204,7 @@ export interface GetInstanceRequest {
 }
 export interface GetInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type GetInstanceTokenRequestRegionId = "eu01";
 export interface GetInstanceTokenRequest {
@@ -190,7 +218,7 @@ export interface GetInstanceTokenRequest {
   tokenId: string;
 }
 export interface GetInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
 }
 export type ListInstancesRequestRegionId = "eu01";
@@ -203,7 +231,7 @@ export interface ListInstancesRequest {
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export interface ListInstancesResponse {
   instances: ListInstancesResponseInstancesList;
-  message?: string;
+  message?: string | undefined;
 }
 export type ListInstanceTokensRequestRegionId = "eu01";
 export interface ListInstanceTokensRequest {
@@ -216,7 +244,7 @@ export interface ListInstanceTokensRequest {
 }
 export type ListInstanceTokensResponseTokensList = Array<TokenMetadata>;
 export interface ListInstanceTokensResponse {
-  message?: string;
+  message?: string | undefined;
   tokens: ListInstanceTokensResponseTokensList;
 }
 export type PartialUpdateInstanceRequestRegionId = "eu01";
@@ -229,14 +257,14 @@ export interface PartialUpdateInstanceRequest {
   regionId: PartialUpdateInstanceRequestRegionId | (string & {});
   /** instance id */
   instanceId: string;
-  deletedExperimentRetention?: string;
-  description?: string;
-  labels?: LabelPatch;
-  name?: string;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  labels?: LabelPatch | undefined;
+  name?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type PartialUpdateInstanceTokenRequestRegionId = "eu01";
 export interface PartialUpdateInstanceTokenRequest {
@@ -248,13 +276,21 @@ export interface PartialUpdateInstanceTokenRequest {
   instanceId: string;
   /** token id */
   tokenId: string;
-  description?: string;
-  labels?: LabelPatch;
-  name?: string;
+  description?: string | undefined;
+  labels?: LabelPatch | undefined;
+  name?: string | undefined;
 }
 export interface PartialUpdateInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
+}
+export interface ErrorResponse {
+  /** The HTTP status code. */
+  code: number;
+  /** User facing error message. */
+  message: string;
+  /** The canonical error code. */
+  status?: string | undefined;
 }
 export type CreateInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** create an instance in a project create an instance in a project */
@@ -264,8 +300,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -281,8 +317,8 @@ export const createInstanceToken: API.OperationMethod<
   CreateInstanceTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CreateInstanceTokenRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<CreateInstanceTokenResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<CreateInstanceTokenRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<CreateInstanceTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -298,8 +334,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -320,8 +356,8 @@ export const deleteInstanceToken: API.OperationMethod<
   DeleteInstanceTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<DeleteInstanceTokenRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<DeleteInstanceTokenResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<DeleteInstanceTokenRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<DeleteInstanceTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -337,8 +373,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetInstanceResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -354,8 +390,8 @@ export const getInstanceToken: API.OperationMethod<
   GetInstanceTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetInstanceTokenRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<GetInstanceTokenResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetInstanceTokenRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<GetInstanceTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -371,8 +407,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -388,8 +424,8 @@ export const listInstanceTokens: API.OperationMethod<
   ListInstanceTokensError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListInstanceTokensRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<ListInstanceTokensResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListInstanceTokensRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<ListInstanceTokensResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -410,8 +446,8 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -432,8 +468,8 @@ export const partialUpdateInstanceToken: API.OperationMethod<
   PartialUpdateInstanceTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<PartialUpdateInstanceTokenRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<PartialUpdateInstanceTokenResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<PartialUpdateInstanceTokenRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<PartialUpdateInstanceTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -443,6 +479,18 @@ export const partialUpdateInstanceToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          message: S.String,
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -459,17 +507,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(1, __c0, 1),
+          instances: __S(5, __c1, 1),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -487,17 +535,17 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListInstanceTokensRequest" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(52, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          tokens: __S(5, __c1, 1),
+          tokens: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "ListInstanceTokensResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -507,7 +555,7 @@ function __c2(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           deletedExperimentRetention: S.optional(S.String),
           description: S.optional(S.String),
-          labels: S.optional(__S(12, __c3, 0)),
+          labels: S.optional(__S(16, __c4, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -520,13 +568,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -536,7 +584,7 @@ function __c4(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           tokenId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          labels: S.optional(__S(12, __c3, 0)),
+          labels: S.optional(__S(16, __c4, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -549,7 +597,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceTokenRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -558,7 +606,7 @@ function __c5(j: number): any {
           regionId: S.String.pipe(T.Label()),
           deletedExperimentRetention: S.optional(S.String),
           description: S.optional(S.String),
-          labels: S.optional(__S(24, __c6, 0)),
+          labels: S.optional(__S(28, __c7, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -571,13 +619,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -587,7 +635,7 @@ function __c7(j: number): any {
           description: S.optional(S.String),
           errorMessage: S.optional(S.String),
           id: S.String,
-          labels: S.optional(__S(24, __c6, 0)),
+          labels: S.optional(__S(28, __c7, 0)),
           name: S.String,
           region: S.optional(S.String),
           state: S.String,
@@ -596,18 +644,18 @@ function __c7(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instance: __S(28, __c7, 0),
+          instance: __S(32, __c8, 0),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -616,7 +664,7 @@ function __c9(j: number): any {
           regionId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          labels: S.optional(__S(24, __c6, 0)),
+          labels: S.optional(__S(28, __c7, 0)),
           name: S.String,
           ttlDuration: S.optional(S.String),
         }).pipe(
@@ -634,7 +682,7 @@ function __c9(j: number): any {
           content: S.String,
           description: S.optional(S.String),
           id: S.String,
-          labels: S.optional(__S(24, __c6, 0)),
+          labels: S.optional(__S(28, __c7, 0)),
           name: S.String,
           region: S.String,
           state: S.String,
@@ -645,12 +693,12 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          token: __S(37, __c9, 1),
+          token: __S(41, __c10, 1),
         }),
       ).annotate({ identifier: "CreateInstanceTokenResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -669,7 +717,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -689,14 +737,14 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteInstanceTokenRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           id: S.String,
-          labels: S.optional(__S(24, __c6, 0)),
+          labels: S.optional(__S(28, __c7, 0)),
           name: S.String,
           region: S.String,
           state: S.String,
@@ -705,18 +753,18 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TokenMetadata" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          token: __S(48, __c12, 0),
+          token: __S(52, __c13, 0),
         }),
       ).annotate({ identifier: "DeleteInstanceTokenResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,7 +783,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetInstanceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

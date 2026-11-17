@@ -1,0 +1,15 @@
+{
+  "description": "createPlugin and createPluginVersion (POST /v1/organizations/plugins, POST /v1/organizations/plugins/{plugin_id}/versions): The multipart field is a list of files that Anthropic reads only as repeated parts named `files[]`, but the spec names the member `files`, so the SDK sent parts named `files` (and, before core's list fix, parts named after each file), which the API does not read. Give the member the wire name `files[]`; core sends each file as a `files[]` part with the File's own filename (the file's path in the bundle). Evidence: the spec's own description of the `files` field on both operations: \"On the wire each part is named `files[]`, and a part named plain `files` is not read; with cURL, `-F 'files[]=@SKILL.md;filename=skills/review-pr/SKILL.md'`\" (https://github.com/distilled-mirror/spec-mirror-anthropic/blob/1945a7d2b4bc41d218276db6d342a99c7cbac108/specs/openapi.json, lines 73104 and 75219 of the pinned mirror); the official TypeScript SDK's `addFormValue` appends every array element under `key + '[]'` (https://github.com/anthropics/anthropic-sdk-typescript/blob/590783078cd961a0df698d9fddc0275c65ff3afd/src/internal/uploads.ts#L203-L204).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_organizations#BetaCreatePluginV1OrganizationsPluginsPostRequest/members/files/traits/smithy.api#jsonName",
+      "value": "files[]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_organizations#BetaCreatePluginVersionV1OrganizationsPluginsPluginIdVersionsPostRequest/members/files/traits/smithy.api#jsonName",
+      "value": "files[]"
+    }
+  ]
+}

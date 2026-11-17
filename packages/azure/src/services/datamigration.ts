@@ -42,7 +42,7 @@ export interface CancelDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlDbResponse {}
 export interface CancelDatabaseMigrationsSqlMiRequest {
@@ -54,7 +54,7 @@ export interface CancelDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlMiResponse {}
 export interface CancelDatabaseMigrationsSqlVmRequest {
@@ -66,7 +66,7 @@ export interface CancelDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlVmResponse {}
 export interface CancelServiceTaskRequest {
@@ -86,17 +86,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Task type. */
 export type ProjectTaskPropertiesTaskType =
@@ -143,22 +143,22 @@ export type ODataErrorDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface ODataError {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ODataErrorDetailsList;
+  details?: ODataErrorDetailsList | undefined;
 }
 /** Inner errors that caused this error */
 export type ProjectTaskPropertiesErrorsItemDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface ProjectTaskPropertiesErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ProjectTaskPropertiesErrorsItemDetailsList;
+  details?: ProjectTaskPropertiesErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type ProjectTaskPropertiesErrorsList = Array<ProjectTaskPropertiesErrorsItem>;
@@ -184,11 +184,11 @@ export type ProjectTaskPropertiesCommandsItemErrorsItemDetailsList = Array<OData
 /** Error information in OData format. */
 export interface ProjectTaskPropertiesCommandsItemErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ProjectTaskPropertiesCommandsItemErrorsItemDetailsList;
+  details?: ProjectTaskPropertiesCommandsItemErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type ProjectTaskPropertiesCommandsItemErrorsList =
@@ -205,9 +205,9 @@ export interface ProjectTaskPropertiesCommandsItem {
   /** Command type. */
   commandType: ProjectTaskPropertiesCommandsItemCommandType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: ProjectTaskPropertiesCommandsItemErrorsList;
+  errors?: ProjectTaskPropertiesCommandsItemErrorsList | undefined;
   /** The state of the command. This is ignored if submitted. */
-  state?: ProjectTaskPropertiesCommandsItemState;
+  state?: ProjectTaskPropertiesCommandsItemState | undefined;
 }
 /** Array of command properties. */
 export type ProjectTaskPropertiesCommandsList = Array<ProjectTaskPropertiesCommandsItem>;
@@ -218,27 +218,27 @@ export interface ProjectTaskProperties {
   /** Task type. */
   taskType: ProjectTaskPropertiesTaskType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: ProjectTaskPropertiesErrorsList;
+  errors?: ProjectTaskPropertiesErrorsList | undefined;
   /** The state of the task. This is ignored if submitted. */
-  state?: ProjectTaskPropertiesState;
+  state?: ProjectTaskPropertiesState | undefined;
   /** Array of command properties. */
-  commands?: ProjectTaskPropertiesCommandsList;
+  commands?: ProjectTaskPropertiesCommandsList | undefined;
   /** Key value pairs of client data to attach meta data information to task */
-  clientData?: ProjectTaskPropertiesClientDataMap;
+  clientData?: ProjectTaskPropertiesClientDataMap | undefined;
 }
 export interface CancelServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface CancelTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -254,17 +254,17 @@ export interface CancelTaskRequest {
 }
 export interface CancelTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface CheckServiceChildrenNameAvailabilityRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -274,19 +274,19 @@ export interface CheckServiceChildrenNameAvailabilityRequest {
   /** Name of the service */
   serviceName: string;
   /** The proposed resource name */
-  name?: string;
+  name?: string | undefined;
   /** The resource type chain (e.g. virtualMachines/extensions) */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the name is not available, if nameAvailable is false */
 export type CheckServiceChildrenNameAvailabilityResponseReason = "AlreadyExists" | "Invalid";
 export interface CheckServiceChildrenNameAvailabilityResponse {
   /** If true, the name is valid and available. If false, 'reason' describes why not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available, if nameAvailable is false */
-  reason?: CheckServiceChildrenNameAvailabilityResponseReason;
+  reason?: CheckServiceChildrenNameAvailabilityResponseReason | undefined;
   /** The localized reason why the name is not available, if nameAvailable is false */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckServiceNameAvailabilityRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -294,19 +294,19 @@ export interface CheckServiceNameAvailabilityRequest {
   /** The Azure region of the operation */
   location: string;
   /** The proposed resource name */
-  name?: string;
+  name?: string | undefined;
   /** The resource type chain (e.g. virtualMachines/extensions) */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the name is not available, if nameAvailable is false */
 export type CheckServiceNameAvailabilityResponseReason = "AlreadyExists" | "Invalid";
 export interface CheckServiceNameAvailabilityResponse {
   /** If true, the name is valid and available. If false, 'reason' describes why not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available, if nameAvailable is false */
-  reason?: CheckServiceNameAvailabilityResponseReason;
+  reason?: CheckServiceNameAvailabilityResponseReason | undefined;
   /** The localized reason why the name is not available, if nameAvailable is false */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckServiceStatusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -320,46 +320,42 @@ export interface CheckServiceStatusRequest {
 export type CheckServiceStatusResponseSupportedTaskTypesList = Array<string>;
 export interface CheckServiceStatusResponse {
   /** The DMS instance agent version */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Agent Configuration */
-  agentConfiguration?: unknown;
+  agentConfiguration?: unknown | undefined;
   /** The machine-readable status, such as 'Initializing', 'Offline', 'Online', 'Deploying', 'Deleting', 'Stopped', 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop' or 'Failed' */
-  status?: string;
+  status?: string | undefined;
   /** The services virtual machine size, such as 'Standard_D2_v2' */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The list of supported task types */
-  supportedTaskTypes?: CheckServiceStatusResponseSupportedTaskTypesList;
+  supportedTaskTypes?: CheckServiceStatusResponseSupportedTaskTypesList | undefined;
 }
-export type DatabaseMigrationPropertiesCosmosDbMongoInputKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
+export type DatabaseMigrationPropertiesCosmosDbMongoInputKind = "MongoToCosmosDbMongo";
 /** Mongo Connection */
 export interface MongoConnectionInformation {
   /** Host of mongo connection. */
-  host?: string;
+  host?: string | undefined;
   /** Port of mongo connection. */
-  port?: number;
+  port?: number | undefined;
   /** User name to connect to Mongo. */
-  userName?: string;
+  userName?: string | undefined;
   /** Password to connect to Mongo. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Whether to UseSsl or UseTls to connect to Mongo. Default is true. */
-  useSsl?: boolean;
+  useSsl?: boolean | undefined;
   /** ConnectionString to connect to Mongo. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Mongo source and target database and collection details. */
 export interface MongoMigrationCollectionInput {
   /** Source database name. */
-  sourceDatabase?: string;
+  sourceDatabase?: string | undefined;
   /** Source collection name. */
-  sourceCollection?: string;
+  sourceCollection?: string | undefined;
   /** Target database name. */
-  targetDatabase?: string;
+  targetDatabase?: string | undefined;
   /** Target collection name. */
-  targetCollection?: string;
+  targetCollection?: string | undefined;
 }
 /** List of Mongo Collections to be migrated. */
 export type DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList =
@@ -368,19 +364,19 @@ export type DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList =
 export interface DatabaseMigrationPropertiesCosmosDbMongoInput {
   kind: DatabaseMigrationPropertiesCosmosDbMongoInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source Mongo connection details. */
-  sourceMongoConnection?: MongoConnectionInformation;
+  sourceMongoConnection?: MongoConnectionInformation | undefined;
   /** Target Cosmos DB Mongo connection details. */
-  targetMongoConnection?: MongoConnectionInformation;
+  targetMongoConnection?: MongoConnectionInformation | undefined;
   /** List of Mongo Collections to be migrated. */
-  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList;
+  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -391,15 +387,11 @@ export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   targetResourceName: string;
   /** Name of the migration. */
   migrationName: string;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput | undefined;
 }
-export type DatabaseMigrationPropertiesCosmosDbMongoKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
+export type DatabaseMigrationPropertiesCosmosDbMongoKind = "MongoToCosmosDbMongo";
 /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationPropertiesCosmosDbMongoProvisioningState =
+export type DatabaseMigrationBasePropertiesProvisioningState =
   | "Provisioning"
   | "Updating"
   | "Succeeded"
@@ -408,9 +400,9 @@ export type DatabaseMigrationPropertiesCosmosDbMongoProvisioningState =
 /** Error details */
 export interface ErrorInfo {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Migration Status */
 export type MongoMigrationProgressDetailsMigrationStatus =
@@ -422,28 +414,28 @@ export type MongoMigrationProgressDetailsMigrationStatus =
 /** Detailed status of collection migration. */
 export interface MongoMigrationProgressDetails {
   /** Migration Status */
-  migrationStatus?: MongoMigrationProgressDetailsMigrationStatus;
+  migrationStatus?: MongoMigrationProgressDetailsMigrationStatus | undefined;
   /** Migration Error */
-  migrationError?: string;
+  migrationError?: string | undefined;
   /** Source Document Count */
-  sourceDocumentCount?: number;
+  sourceDocumentCount?: number | undefined;
   /** Processed Document Count */
-  processedDocumentCount?: number;
+  processedDocumentCount?: number | undefined;
   /** Migration duration */
-  durationInSeconds?: number;
+  durationInSeconds?: number | undefined;
 }
 /** Mongo source and target database and collection details. */
 export interface MongoMigrationCollection {
   /** Source database name. */
-  sourceDatabase?: string;
+  sourceDatabase?: string | undefined;
   /** Source collection name. */
-  sourceCollection?: string;
+  sourceCollection?: string | undefined;
   /** Target database name. */
-  targetDatabase?: string;
+  targetDatabase?: string | undefined;
   /** Target collection name. */
-  targetCollection?: string;
+  targetCollection?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationProgressDetails?: MongoMigrationProgressDetails;
+  migrationProgressDetails?: MongoMigrationProgressDetails | undefined;
 }
 /** List of Mongo Collections to be migrated. */
 export type DatabaseMigrationPropertiesCosmosDbMongoCollectionListList =
@@ -452,40 +444,40 @@ export type DatabaseMigrationPropertiesCosmosDbMongoCollectionListList =
 export interface DatabaseMigrationPropertiesCosmosDbMongo {
   kind: DatabaseMigrationPropertiesCosmosDbMongoKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesCosmosDbMongoProvisioningState;
+  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source Mongo connection details. */
-  sourceMongoConnection?: MongoConnectionInformation;
+  sourceMongoConnection?: MongoConnectionInformation | undefined;
   /** Target Cosmos DB Mongo connection details. */
-  targetMongoConnection?: MongoConnectionInformation;
+  targetMongoConnection?: MongoConnectionInformation | undefined;
   /** List of Mongo Collections to be migrated. */
-  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoCollectionListList;
+  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoCollectionListList | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -496,38 +488,34 @@ export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   targetResourceName: string;
   /** Name of the migration. */
   migrationName: string;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
-export type DatabaseMigrationPropertiesSqlDbInputKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
+export type DatabaseMigrationPropertiesSqlDbInputKind = "SqlDb";
 /** Source SQL Connection */
 export interface SqlConnectionInformation {
   /** Data source. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Authentication type. */
-  authentication?: string;
+  authentication?: string | undefined;
   /** User name to connect to source SQL. */
-  userName?: string;
+  userName?: string | undefined;
   /** Password to connect to source SQL. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Whether to encrypt connection or not. */
-  encryptConnection?: boolean;
+  encryptConnection?: boolean | undefined;
   /** Whether to trust server certificate or not. */
-  trustServerCertificate?: boolean;
+  trustServerCertificate?: boolean | undefined;
 }
 /** List of tables to copy. */
 export type DatabaseMigrationPropertiesSqlDbInputTableListList = Array<string>;
@@ -535,23 +523,23 @@ export type DatabaseMigrationPropertiesSqlDbInputTableListList = Array<string>;
 export interface DatabaseMigrationPropertiesSqlDbInput {
   kind: DatabaseMigrationPropertiesSqlDbInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Target SQL DB connection details. */
-  targetSqlConnection?: SqlConnectionInformation;
+  targetSqlConnection?: SqlConnectionInformation | undefined;
   /** List of tables to copy. */
-  tableList?: DatabaseMigrationPropertiesSqlDbInputTableListList;
+  tableList?: DatabaseMigrationPropertiesSqlDbInputTableListList | undefined;
 }
 export interface DatabaseMigrationsSqlDbCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -561,62 +549,51 @@ export interface DatabaseMigrationsSqlDbCreateOrUpdateRequest {
   sqlDbInstanceName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlDbInput;
+  properties?: DatabaseMigrationPropertiesSqlDbInput | undefined;
 }
-export type DatabaseMigrationPropertiesSqlDbKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
-/** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationPropertiesSqlDbProvisioningState =
-  | "Provisioning"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
+export type DatabaseMigrationPropertiesSqlDbKind = "SqlDb";
 /** Sql Data Copy errors, if any. */
 export type SqlDbMigrationStatusDetailsSqlDataCopyErrorsList = Array<string>;
 /** Details on progress of ADF copy activity */
 export interface CopyProgressDetails {
   /** Table Name */
-  tableName?: string;
+  tableName?: string | undefined;
   /** Status of the Copy activity (InProgress, Succeeded, Failed, Canceled). */
-  status?: string;
+  status?: string | undefined;
   /** Type of parallel copy (Dynamic range, Physical partition, none). */
-  parallelCopyType?: string;
+  parallelCopyType?: string | undefined;
   /** The degree of parallelization. */
-  usedParallelCopies?: number;
+  usedParallelCopies?: number | undefined;
   /** Bytes read */
-  dataRead?: number;
+  dataRead?: number | undefined;
   /** Bytes written */
-  dataWritten?: number;
+  dataWritten?: number | undefined;
   /** Rows read */
-  rowsRead?: number;
+  rowsRead?: number | undefined;
   /** Rows Copied */
-  rowsCopied?: number;
+  rowsCopied?: number | undefined;
   /** Copy Start */
-  copyStart?: string;
+  copyStart?: string | undefined;
   /** Copy throughput in KBps */
-  copyThroughput?: number;
+  copyThroughput?: number | undefined;
   /** Copy Duration in seconds */
-  copyDuration?: number;
+  copyDuration?: number | undefined;
 }
 /** Details on progress of ADF copy activities. */
 export type SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList = Array<CopyProgressDetails>;
 /** Detailed status of current Sql Db migration. */
 export interface SqlDbMigrationStatusDetails {
   /** Current State of Migration. */
-  migrationState?: string;
+  migrationState?: string | undefined;
   /** Sql Data Copy errors, if any. */
-  sqlDataCopyErrors?: SqlDbMigrationStatusDetailsSqlDataCopyErrorsList;
+  sqlDataCopyErrors?: SqlDbMigrationStatusDetailsSqlDataCopyErrorsList | undefined;
   /** Details on progress of ADF copy activities. */
-  listOfCopyProgressDetails?: SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList;
+  listOfCopyProgressDetails?: SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList | undefined;
 }
 /** Offline configuration */
 export interface SqlDbOfflineConfiguration {
   /** Offline migration */
-  offline?: boolean;
+  offline?: boolean | undefined;
 }
 /** List of tables to copy. */
 export type DatabaseMigrationPropertiesSqlDbTableListList = Array<string>;
@@ -624,64 +601,60 @@ export type DatabaseMigrationPropertiesSqlDbTableListList = Array<string>;
 export interface DatabaseMigrationPropertiesSqlDb {
   kind: DatabaseMigrationPropertiesSqlDbKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlDbProvisioningState;
+  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: SqlDbMigrationStatusDetails;
+  migrationStatusDetails?: SqlDbMigrationStatusDetails | undefined;
   /** Target SQL DB connection details. */
-  targetSqlConnection?: SqlConnectionInformation;
+  targetSqlConnection?: SqlConnectionInformation | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: SqlDbOfflineConfiguration;
+  offlineConfiguration?: SqlDbOfflineConfiguration | undefined;
   /** List of tables to copy. */
-  tableList?: DatabaseMigrationPropertiesSqlDbTableListList;
+  tableList?: DatabaseMigrationPropertiesSqlDbTableListList | undefined;
 }
 export interface DatabaseMigrationsSqlDbCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlDb;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlDb | undefined;
 }
-export type DatabaseMigrationPropertiesSqlMiInputKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
+export type DatabaseMigrationPropertiesSqlMiInputKind = "SqlMi";
 /** File share */
 export interface SqlFileShare {
   /** Location as SMB share or local drive where backups are placed. */
-  path?: string;
+  path?: string | undefined;
   /** Username to access the file share location for backups. */
-  username?: string;
+  username?: string | undefined;
   /** Password for username to access file share location. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Authentication type used for accessing Azure Blob Storage. */
 export type AzureBlobInputAuthType = "AccountKey" | "ManagedIdentity";
@@ -701,70 +674,70 @@ export type AzureBlobInputIdentityUserAssignedIdentitiesMap = {
 export interface AzureBlobInputIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureBlobInputIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AzureBlobInputIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Azure Blob Details */
 export interface AzureBlobInput {
   /** Authentication type used for accessing Azure Blob Storage. */
-  authType?: AzureBlobInputAuthType | (string & {});
+  authType?: AzureBlobInputAuthType | (string & {}) | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureBlobInputIdentity;
+  identity?: AzureBlobInputIdentity | undefined;
   /** Resource Id of the storage account where backups are stored. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Blob container name where backups are stored. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
 }
 /** Source Location details of backups. */
 export interface SourceLocationInput {
   /** Source File share. */
-  fileShare?: SqlFileShare;
+  fileShare?: SqlFileShare | undefined;
   /** Source Azure Blob. */
-  azureBlob?: AzureBlobInput;
+  azureBlob?: AzureBlobInput | undefined;
 }
 /** Target Location details for optional copy of backups */
 export interface TargetLocation {
   /** Resource Id of the storage account copying backups. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
 }
 /** Backup Configuration */
 export interface BackupConfigurationInput {
   /** Source location of backups. */
-  sourceLocation?: SourceLocationInput;
+  sourceLocation?: SourceLocationInput | undefined;
   /** Target location for copying backups. */
-  targetLocation?: TargetLocation;
+  targetLocation?: TargetLocation | undefined;
 }
 /** Offline configuration */
 export interface OfflineConfiguration {
   /** Offline migration */
-  offline?: boolean;
+  offline?: boolean | undefined;
   /** Last backup name for offline migration. This is optional for migrations from file share. If it is not provided, then the service will determine the last backup file name based on latest backup files present in file share. */
-  lastBackupName?: string;
+  lastBackupName?: string | undefined;
 }
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMiInput {
   kind: DatabaseMigrationPropertiesSqlMiInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfigurationInput;
+  backupConfiguration?: BackupConfigurationInput | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlMiCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -774,38 +747,27 @@ export interface DatabaseMigrationsSqlMiCreateOrUpdateRequest {
   managedInstanceName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlMiInput;
+  properties?: DatabaseMigrationPropertiesSqlMiInput | undefined;
 }
-export type DatabaseMigrationPropertiesSqlMiKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
-/** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationPropertiesSqlMiProvisioningState =
-  | "Provisioning"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
+export type DatabaseMigrationPropertiesSqlMiKind = "SqlMi";
 /** Information of backup file */
 export interface SqlBackupFileInfo {
   /** File name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Status of the file. (Initial, Uploading, Uploaded, Restoring, Restored or Skipped) */
-  status?: string;
+  status?: string | undefined;
   /** File size in bytes */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Bytes read */
-  dataRead?: number;
+  dataRead?: number | undefined;
   /** Bytes written */
-  dataWritten?: number;
+  dataWritten?: number | undefined;
   /** Copy throughput in KBps */
-  copyThroughput?: number;
+  copyThroughput?: number | undefined;
   /** Copy Duration in seconds */
-  copyDuration?: number;
+  copyDuration?: number | undefined;
   /** Media family sequence number */
-  familySequenceNumber?: number;
+  familySequenceNumber?: number | undefined;
 }
 /** List of files in the backup set. */
 export type SqlBackupSetInfoListOfBackupFilesList = Array<SqlBackupFileInfo>;
@@ -814,27 +776,27 @@ export type SqlBackupSetInfoIgnoreReasonsList = Array<string>;
 /** Information of backup set */
 export interface SqlBackupSetInfo {
   /** Backup set id. */
-  backupSetId?: string;
+  backupSetId?: string | undefined;
   /** First LSN of the backup set. */
-  firstLSN?: string;
+  firstLSN?: string | undefined;
   /** Last LSN of the backup set. */
-  lastLSN?: string;
+  lastLSN?: string | undefined;
   /** Backup type. */
-  backupType?: string;
+  backupType?: string | undefined;
   /** List of files in the backup set. */
-  listOfBackupFiles?: SqlBackupSetInfoListOfBackupFilesList;
+  listOfBackupFiles?: SqlBackupSetInfoListOfBackupFilesList | undefined;
   /** Backup start date. */
-  backupStartDate?: string;
+  backupStartDate?: string | undefined;
   /** Backup end time. */
-  backupFinishDate?: string;
+  backupFinishDate?: string | undefined;
   /** Whether this backup set has been restored or not. */
-  isBackupRestored?: boolean;
+  isBackupRestored?: boolean | undefined;
   /** Has Backup Checksums */
-  hasBackupChecksums?: boolean;
+  hasBackupChecksums?: boolean | undefined;
   /** Media family count */
-  familyCount?: number;
+  familyCount?: number | undefined;
   /** The reasons why the backup set is ignored */
-  ignoreReasons?: SqlBackupSetInfoIgnoreReasonsList;
+  ignoreReasons?: SqlBackupSetInfoIgnoreReasonsList | undefined;
 }
 /** Backup sets that are currently active. */
 export type MigrationStatusDetailsActiveBackupSetsList = Array<SqlBackupSetInfo>;
@@ -845,40 +807,40 @@ export type MigrationStatusDetailsFileUploadBlockingErrorsList = Array<string>;
 /** Detailed status of current migration. */
 export interface MigrationStatusDetails {
   /** Current State of Migration. */
-  migrationState?: string;
+  migrationState?: string | undefined;
   /** Details of full backup set. */
-  fullBackupSetInfo?: SqlBackupSetInfo;
+  fullBackupSetInfo?: SqlBackupSetInfo | undefined;
   /** Last applied backup set information. */
-  lastRestoredBackupSetInfo?: SqlBackupSetInfo;
+  lastRestoredBackupSetInfo?: SqlBackupSetInfo | undefined;
   /** Backup sets that are currently active. */
-  activeBackupSets?: MigrationStatusDetailsActiveBackupSetsList;
+  activeBackupSets?: MigrationStatusDetailsActiveBackupSetsList | undefined;
   /** Files that are not valid backup files. */
-  invalidFiles?: MigrationStatusDetailsInvalidFilesList;
+  invalidFiles?: MigrationStatusDetailsInvalidFilesList | undefined;
   /** Name of blob container. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
   /** Whether full backup has been applied to the target database or not. */
-  isFullBackupRestored?: boolean;
+  isFullBackupRestored?: boolean | undefined;
   /** Restore blocking reason, if any */
-  restoreBlockingReason?: string;
+  restoreBlockingReason?: string | undefined;
   /** Complete restore error message, if any */
-  completeRestoreErrorMessage?: string;
+  completeRestoreErrorMessage?: string | undefined;
   /** File upload blocking errors, if any. */
-  fileUploadBlockingErrors?: MigrationStatusDetailsFileUploadBlockingErrorsList;
+  fileUploadBlockingErrors?: MigrationStatusDetailsFileUploadBlockingErrorsList | undefined;
   /** File name that is currently being restored. */
-  currentRestoringFilename?: string;
+  currentRestoringFilename?: string | undefined;
   /** Last restored file name. */
-  lastRestoredFilename?: string;
+  lastRestoredFilename?: string | undefined;
   /** Total pending log backups. */
-  pendingLogBackupsCount?: number;
+  pendingLogBackupsCount?: number | undefined;
 }
 /** Authentication type used for accessing Azure Blob Storage. */
 export type AzureBlobAuthType = "AccountKey" | "ManagedIdentity";
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AzureBlobIdentityUserAssignedIdentitiesMap = {
@@ -887,88 +849,88 @@ export type AzureBlobIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureBlobIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureBlobIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AzureBlobIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Azure Blob Details */
 export interface AzureBlob {
   /** Authentication type used for accessing Azure Blob Storage. */
-  authType?: AzureBlobAuthType;
+  authType?: AzureBlobAuthType | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureBlobIdentity;
+  identity?: AzureBlobIdentity | undefined;
   /** Resource Id of the storage account where backups are stored. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Blob container name where backups are stored. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
 }
 /** Source Location details of backups. */
 export interface SourceLocation {
   /** Source File share. */
-  fileShare?: SqlFileShare;
+  fileShare?: SqlFileShare | undefined;
   /** Source Azure Blob. */
-  azureBlob?: AzureBlob;
+  azureBlob?: AzureBlob | undefined;
   /** Backup storage Type. */
-  fileStorageType?: string;
+  fileStorageType?: string | undefined;
 }
 /** Backup Configuration */
 export interface BackupConfiguration {
   /** Source location of backups. */
-  sourceLocation?: SourceLocation;
+  sourceLocation?: SourceLocation | undefined;
   /** Target location for copying backups. */
-  targetLocation?: TargetLocation;
+  targetLocation?: TargetLocation | undefined;
 }
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMi {
   kind: DatabaseMigrationPropertiesSqlMiKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlMiProvisioningState;
+  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: MigrationStatusDetails;
+  migrationStatusDetails?: MigrationStatusDetails | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlMiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface DatabaseMigrationsSqlMiCutoverRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -979,35 +941,31 @@ export interface DatabaseMigrationsSqlMiCutoverRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface DatabaseMigrationsSqlMiCutoverResponse {}
-export type DatabaseMigrationPropertiesSqlVmInputKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
+export type DatabaseMigrationPropertiesSqlVmInputKind = "SqlVm";
 /** Database Migration Resource properties for SQL Virtual Machine. */
 export interface DatabaseMigrationPropertiesSqlVmInput {
   kind: DatabaseMigrationPropertiesSqlVmInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfigurationInput;
+  backupConfiguration?: BackupConfigurationInput | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlVmCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1017,66 +975,55 @@ export interface DatabaseMigrationsSqlVmCreateOrUpdateRequest {
   sqlVirtualMachineName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlVmInput;
+  properties?: DatabaseMigrationPropertiesSqlVmInput | undefined;
 }
-export type DatabaseMigrationPropertiesSqlVmKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
-/** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationPropertiesSqlVmProvisioningState =
-  | "Provisioning"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
+export type DatabaseMigrationPropertiesSqlVmKind = "SqlVm";
 /** Database Migration Resource properties for SQL Virtual Machine. */
 export interface DatabaseMigrationPropertiesSqlVm {
   kind: DatabaseMigrationPropertiesSqlVmKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlVmProvisioningState;
+  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: MigrationStatusDetails;
+  migrationStatusDetails?: MigrationStatusDetails | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlVmCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface DatabaseMigrationsSqlVmCutoverRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1087,7 +1034,7 @@ export interface DatabaseMigrationsSqlVmCutoverRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface DatabaseMigrationsSqlVmCutoverResponse {}
 export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
@@ -1100,10 +1047,10 @@ export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Name of the migration. */
   migrationName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1115,10 +1062,10 @@ export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Name of the migration. */
   migrationName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1129,7 +1076,7 @@ export interface DeleteDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlDbResponse {}
 export interface DeleteDatabaseMigrationsSqlMiRequest {
@@ -1141,18 +1088,18 @@ export interface DeleteDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlMiResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlVmRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1163,18 +1110,18 @@ export interface DeleteDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlVmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface DeleteFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1198,7 +1145,7 @@ export interface DeleteMigrationServiceRequest {
   migrationServiceName: string;
 }
 export interface DeleteMigrationServiceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1210,7 +1157,7 @@ export interface DeleteProjectRequest {
   /** Name of the project */
   projectName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteProjectResponse {}
 export interface DeleteServiceRequest {
@@ -1221,7 +1168,7 @@ export interface DeleteServiceRequest {
   /** Name of the service */
   serviceName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteServiceResponse {}
 export interface DeleteServiceTaskRequest {
@@ -1234,7 +1181,7 @@ export interface DeleteServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteServiceTaskResponse {}
 export interface DeleteSqlMigrationServiceRequest {
@@ -1254,16 +1201,16 @@ export interface DeleteSqlMigrationServiceNodeRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** The name of node to delete. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** The name of integration runtime. */
-  integrationRuntimeName?: string;
+  integrationRuntimeName?: string | undefined;
 }
 /** Details of node to be deleted. */
 export interface DeleteNode {
   /** The name of node to delete. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** The name of integration runtime. */
-  integrationRuntimeName?: string;
+  integrationRuntimeName?: string | undefined;
 }
 export interface DeleteTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1277,17 +1224,17 @@ export interface DeleteTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteTaskResponse {}
 /** Base class for file properties. */
 export interface ProjectFilePropertiesInput {
   /** Optional File extension. If submitted it should not have a leading period and must match the extension from filePath. */
-  extension?: string;
+  extension?: string | undefined;
   /** Relative path of this file resource. This property can be set when creating or updating the file resource. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** File content type. This property can be modified to reflect the file content type. */
-  mediaType?: string;
+  mediaType?: string | undefined;
 }
 export interface FilesCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1301,36 +1248,36 @@ export interface FilesCreateOrUpdateRequest {
   /** Name of the File */
   fileName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFilePropertiesInput;
+  properties?: ProjectFilePropertiesInput | undefined;
 }
 /** Base class for file properties. */
 export interface ProjectFileProperties {
   /** Optional File extension. If submitted it should not have a leading period and must match the extension from filePath. */
-  extension?: string;
+  extension?: string | undefined;
   /** Relative path of this file resource. This property can be set when creating or updating the file resource. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Modification DateTime. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** File content type. This property can be modified to reflect the file content type. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** File size. */
-  size?: number;
+  size?: number | undefined;
 }
 export interface FilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1344,14 +1291,14 @@ export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1364,21 +1311,21 @@ export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest {
 /** Database Migration Resource for Mongo to CosmosDb. */
 export interface DatabaseMigrationCosmosDbMongo {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export type DatabaseMigrationCosmosDbMongoListResultValueList =
   Array<DatabaseMigrationCosmosDbMongo>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationCosmosDbMongoListResult {
-  value?: DatabaseMigrationCosmosDbMongoListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationCosmosDbMongoListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1392,14 +1339,14 @@ export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1418,20 +1365,20 @@ export interface GetDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlDbResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlDb;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlDb | undefined;
 }
 export interface GetDatabaseMigrationsSqlMiRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1442,20 +1389,20 @@ export interface GetDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlMiResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface GetDatabaseMigrationsSqlVmRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1466,20 +1413,20 @@ export interface GetDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlVmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface GetFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1495,17 +1442,17 @@ export interface GetFileRequest {
 }
 export interface GetFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export interface GetMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1527,24 +1474,24 @@ export type MigrationServicePropertiesProvisioningState =
 /** The Migration Service properties. */
 export interface MigrationServiceProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: MigrationServicePropertiesProvisioningState;
+  provisioningState?: MigrationServicePropertiesProvisioningState | undefined;
   /** Current state of the Integration runtime. */
-  integrationRuntimeState?: string;
+  integrationRuntimeState?: string | undefined;
 }
 export interface GetMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMigrationServiceResponseTagsMap;
+  tags?: GetMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 export interface GetProjectRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1563,13 +1510,13 @@ export type ProjectSourcePlatform = "SQL" | "MySQL" | "PostgreSql" | "MongoDb" |
 /** Azure Active Directory Application */
 export interface ProjectPropertiesAzureAuthenticationInfo {
   /** Application ID of the Azure Active Directory Application */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Key used to authenticate to the Azure Active Directory Application */
-  appKey?: string;
+  appKey?: string | undefined;
   /** Tenant id of the customer */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Ignore checking azure permissions on the AAD app */
-  ignoreAzurePermissions?: boolean;
+  ignoreAzurePermissions?: boolean | undefined;
 }
 /** Target platform of the project */
 export type ProjectTargetPlatform =
@@ -1584,9 +1531,9 @@ export interface ProjectPropertiesSourceConnectionInfo {
   /** Type of connection info */
   type: string;
   /** User name */
-  userName?: string;
+  userName?: string | undefined;
   /** Password credential. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Defines the connection properties of a server */
 export type ProjectPropertiesTargetConnectionInfo = ProjectPropertiesSourceConnectionInfo;
@@ -1604,37 +1551,37 @@ export interface ProjectProperties {
   /** Source platform for the project */
   sourcePlatform: ProjectSourcePlatform;
   /** Azure Active Directory Application */
-  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo;
+  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo | undefined;
   /** Target platform for the project */
   targetPlatform: ProjectTargetPlatform;
   /** UTC Date and time when project was created */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Defines the connection properties of a server */
-  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** Defines the connection properties of a server */
-  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** List of DatabaseInfo */
-  databasesInfo?: ProjectPropertiesDatabasesInfoList;
+  databasesInfo?: ProjectPropertiesDatabasesInfoList | undefined;
   /** The project's provisioning state */
-  provisioningState?: ProjectPropertiesProvisioningState;
+  provisioningState?: ProjectPropertiesProvisioningState | undefined;
 }
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProjectResponseTagsMap;
+  tags?: GetProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1661,52 +1608,52 @@ export type DataMigrationServicePropertiesProvisioningState =
 /** Properties of the Azure Database Migration Service (classic) instance */
 export interface DataMigrationServiceProperties {
   /** The resource's provisioning state */
-  provisioningState?: DataMigrationServicePropertiesProvisioningState;
+  provisioningState?: DataMigrationServicePropertiesProvisioningState | undefined;
   /** The public key of the service, used to encrypt secrets sent to the service */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined */
-  virtualSubnetId?: string;
+  virtualSubnetId?: string | undefined;
   /** The ID of the Microsoft.Network/networkInterfaces resource which the service have */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
   /** The time delay before the service is auto-stopped when idle. */
-  autoStopDelay?: string;
+  autoStopDelay?: string | undefined;
   /** Whether service resources should be deleted when stopped. (Turned on by default) */
-  deleteResourcesOnStop?: boolean;
+  deleteResourcesOnStop?: boolean | undefined;
 }
 /** An Azure SKU instance */
 export interface ServiceSku {
   /** The unique name of the SKU, such as 'P3' */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the SKU, such as 'Basic', 'General Purpose', or 'Business Critical' */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU family, used when the service has multiple performance classes within a tier, such as 'A', 'D', etc. for virtual machines */
-  family?: string;
+  family?: string | undefined;
   /** The size of the SKU, used when the name alone does not denote a service size or when a SKU has multiple performance classes within a family, e.g. 'A1' for virtual machines */
-  size?: string;
+  size?: string | undefined;
   /** The capacity of the SKU, if it supports scaling */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 export interface GetServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1718,21 +1665,21 @@ export interface GetServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Expand the response */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface GetSqlMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1747,24 +1694,24 @@ export type GetSqlMigrationServiceResponseTagsMap = { [key: string]: string | un
 /** The SQL Migration Service properties. */
 export interface SqlMigrationServiceProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Current state of the Integration runtime. */
-  integrationRuntimeState?: string;
+  integrationRuntimeState?: string | undefined;
 }
 export interface GetSqlMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlMigrationServiceResponseTagsMap;
+  tags?: GetSqlMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface GetTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1778,21 +1725,21 @@ export interface GetTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Expand the response */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface ListFilesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1807,25 +1754,25 @@ export interface ListFilesRequest {
 /** A file resource */
 export interface ProjectFile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 /** List of files */
 export type ListFilesResponseValueList = Array<ProjectFile>;
 export interface ListFilesResponse {
   /** List of files */
-  value?: ListFilesResponseValueList;
+  value?: ListFilesResponseValueList | undefined;
   /** URL to load the next page of files */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1838,24 +1785,24 @@ export type MigrationServiceTagsMap = { [key: string]: string | undefined };
 /** A Migration Service. */
 export interface MigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MigrationServiceTagsMap;
+  tags?: MigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 export type MigrationServiceListResultValueList = Array<MigrationService>;
 /** A list of Migration Service. */
 export interface MigrationServiceListResult {
-  value?: MigrationServiceListResultValueList;
-  nextLink?: string;
+  value?: MigrationServiceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1869,80 +1816,52 @@ export interface ListMigrationServiceMigrationsRequest {
   /** Name of the Migration Service. */
   migrationServiceName: string;
 }
-export type DatabaseMigrationBasePropertiesKind =
-  | "SqlMi"
-  | "SqlVm"
-  | "SqlDb"
-  | "MongoToCosmosDbMongo";
-/** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationBasePropertiesProvisioningState =
-  | "Provisioning"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
 /** Database Migration Base Resource properties. */
-export interface DatabaseMigrationBaseProperties {
-  kind: DatabaseMigrationBasePropertiesKind;
-  /** Resource Id of the target resource. */
-  scope?: string;
-  /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState;
-  /** Migration status. */
-  migrationStatus?: string;
-  /** Database migration start time. */
-  startedOn?: string;
-  /** Database migration end time. */
-  endedOn?: string;
-  /** Resource Id of the Migration Service. */
-  migrationService?: string;
-  /** ID for current migration operation. */
-  migrationOperationId?: string;
-  /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
-}
+export type DatabaseMigrationBaseProperties =
+  | DatabaseMigrationPropertiesCosmosDbMongo
+  | DatabaseMigrationPropertiesSqlMi
+  | DatabaseMigrationPropertiesSqlVm
+  | DatabaseMigrationPropertiesSqlDb;
 /** Database Migration Resource. */
 export interface DatabaseMigrationBase {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationBaseProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationBaseProperties | undefined;
 }
 export type DatabaseMigrationBaseListResultValueList = Array<DatabaseMigrationBase>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationBaseListResult {
-  value?: DatabaseMigrationBaseListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationBaseListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 export interface OperationsDisplayDefinition {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
+  provider?: string | undefined;
+  resource?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 export type OperationsDefinitionOrigin = "user" | "system";
 export type OperationsDefinitionPropertiesMap = { [key: string]: unknown | undefined };
 export interface OperationsDefinition {
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  display?: OperationsDisplayDefinition;
-  origin?: OperationsDefinitionOrigin;
-  properties?: OperationsDefinitionPropertiesMap;
+  isDataAction?: boolean | undefined;
+  display?: OperationsDisplayDefinition | undefined;
+  origin?: OperationsDefinitionOrigin | undefined;
+  properties?: OperationsDefinitionPropertiesMap | undefined;
 }
 export type OperationListResultValueList = Array<OperationsDefinition>;
 /** Result of the request to list SQL operations. */
 export interface OperationListResult {
-  value?: OperationListResultValueList;
-  nextLink?: string;
+  value?: OperationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListProjectsRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1957,29 +1876,29 @@ export type ProjectTagsMap = { [key: string]: string | undefined };
 /** A project resource */
 export interface Project {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectTagsMap;
+  tags?: ProjectTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of projects */
 export type ListProjectsResponseValueList = Array<Project>;
 export interface ListProjectsResponse {
   /** List of projects */
-  value?: ListProjectsResponseValueList;
+  value?: ListProjectsResponseValueList | undefined;
   /** URL to load the next page of projects */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceSkusSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1990,13 +1909,13 @@ export type ResourceSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type applicable to the SKU. */
-  scaleType?: ResourceSkuCapacityScaleType;
+  scaleType?: ResourceSkuCapacityScaleType | undefined;
 }
 /** The set of locations that the SKU is available. */
 export type ResourceSkuLocationsList = Array<string>;
@@ -2005,20 +1924,20 @@ export type ResourceSkuApiVersionsList = Array<string>;
 /** Describes metadata for retrieving price info. */
 export interface ResourceSkuCosts {
   /** Used for querying price from commerce. */
-  meterID?: string;
+  meterID?: string | undefined;
   /** The multiplier is needed to extend the base metered cost. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** An invariant to show the extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** Metadata for retrieving price info. */
 export type ResourceSkuCostsList = Array<ResourceSkuCosts>;
 /** Describes The SKU capabilities object. */
 export interface ResourceSkuCapabilities {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A name value pair to describe the capability. */
 export type ResourceSkuCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -2031,40 +1950,40 @@ export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubs
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuRestrictions {
   /** The type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ResourceSkuRestrictionsValuesList;
+  values?: ResourceSkuRestrictionsValuesList | undefined;
   /** The reason code for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
 /** Describes an available DMS (classic) SKU. */
 export interface ResourceSku {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of SKU. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of DMS (classic) in a scale set. */
-  tier?: string;
+  tier?: string | undefined;
   /** The Size of the SKU. */
-  size?: string;
+  size?: string | undefined;
   /** The Family of this particular SKU. */
-  family?: string;
+  family?: string | undefined;
   /** The Kind of resources that are supported in this SKU. */
-  kind?: string;
+  kind?: string | undefined;
   /** Not used. */
-  capacity?: ResourceSkuCapacity;
+  capacity?: ResourceSkuCapacity | undefined;
   /** The set of locations that the SKU is available. */
-  locations?: ResourceSkuLocationsList;
+  locations?: ResourceSkuLocationsList | undefined;
   /** The api versions that support this SKU. */
-  apiVersions?: ResourceSkuApiVersionsList;
+  apiVersions?: ResourceSkuApiVersionsList | undefined;
   /** Metadata for retrieving price info. */
-  costs?: ResourceSkuCostsList;
+  costs?: ResourceSkuCostsList | undefined;
   /** A name value pair to describe the capability. */
-  capabilities?: ResourceSkuCapabilitiesList;
+  capabilities?: ResourceSkuCapabilitiesList | undefined;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuRestrictionsList;
+  restrictions?: ResourceSkuRestrictionsList | undefined;
 }
 /** The list of SKUs available for the subscription. */
 export type ListResourceSkusSkusResponseValueList = Array<ResourceSku>;
@@ -2072,7 +1991,7 @@ export interface ListResourceSkusSkusResponse {
   /** The list of SKUs available for the subscription. */
   value: ListResourceSkusSkusResponseValueList;
   /** The uri to fetch the next page of DMS (classic) SKUs. Call ListNext() with this to fetch the next page of DMS (classic) SKUs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2085,33 +2004,33 @@ export type DataMigrationServiceTagsMap = { [key: string]: string | undefined };
 /** An Azure Database Migration Service (classic) resource */
 export interface DataMigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DataMigrationServiceTagsMap;
+  tags?: DataMigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** List of services */
 export type ListServiceByResourceGroupResponseValueList = Array<DataMigrationService>;
 export interface ListServiceByResourceGroupResponse {
   /** List of services */
-  value?: ListServiceByResourceGroupResponseValueList;
+  value?: ListServiceByResourceGroupResponseValueList | undefined;
   /** URL to load the next page of services */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2121,9 +2040,9 @@ export interface ListServicesRequest {
 export type ListServicesResponseValueList = Array<DataMigrationService>;
 export interface ListServicesResponse {
   /** List of services */
-  value?: ListServicesResponseValueList;
+  value?: ListServicesResponseValueList | undefined;
   /** URL to load the next page of services */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2136,43 +2055,43 @@ export interface ListServiceSkusRequest {
 /** SKU name, tier, etc. */
 export interface AvailableServiceSkuSku {
   /** The name of the SKU */
-  name?: string;
+  name?: string | undefined;
   /** SKU family */
-  family?: string;
+  family?: string | undefined;
   /** SKU size */
-  size?: string;
+  size?: string | undefined;
   /** The tier of the SKU, such as "Basic", "General Purpose", or "Business Critical" */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The scalability approach */
 export type AvailableServiceSkuCapacityScaleType = "none" | "manual" | "automatic";
 /** A description of the scaling capacities of the SKU */
 export interface AvailableServiceSkuCapacity {
   /** The minimum capacity, usually 0 or 1. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity */
-  default?: number;
+  default?: number | undefined;
   /** The scalability approach */
-  scaleType?: AvailableServiceSkuCapacityScaleType;
+  scaleType?: AvailableServiceSkuCapacityScaleType | undefined;
 }
 /** Describes the available service SKU. */
 export interface AvailableServiceSku {
   /** The resource type, including the provider namespace */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** SKU name, tier, etc. */
-  sku?: AvailableServiceSkuSku;
+  sku?: AvailableServiceSkuSku | undefined;
   /** A description of the scaling capacities of the SKU */
-  capacity?: AvailableServiceSkuCapacity;
+  capacity?: AvailableServiceSkuCapacity | undefined;
 }
 /** List of service SKUs */
 export type ListServiceSkusResponseValueList = Array<AvailableServiceSku>;
 export interface ListServiceSkusResponse {
   /** List of service SKUs */
-  value?: ListServiceSkusResponseValueList;
+  value?: ListServiceSkusResponseValueList | undefined;
   /** URL to load the next page of service SKUs */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceTasksRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2182,30 +2101,30 @@ export interface ListServiceTasksRequest {
   /** Name of the service */
   serviceName: string;
   /** Filter tasks by task type */
-  taskType?: string;
+  taskType?: string | undefined;
 }
 /** A task resource */
 export interface ProjectTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 /** List of tasks */
 export type ListServiceTasksResponseValueList = Array<ProjectTask>;
 export interface ListServiceTasksResponse {
   /** List of tasks */
-  value?: ListServiceTasksResponseValueList;
+  value?: ListServiceTasksResponseValueList | undefined;
   /** URL to load the next page of tasks */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2218,9 +2137,9 @@ export interface ListSqlMigrationServiceAuthKeysRequest {
 /** An authentication key. */
 export interface AuthenticationKeys {
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface ListSqlMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2233,24 +2152,24 @@ export type SqlMigrationServiceTagsMap = { [key: string]: string | undefined };
 /** A SQL Migration Service. */
 export interface SqlMigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlMigrationServiceTagsMap;
+  tags?: SqlMigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export type SqlMigrationListResultValueList = Array<SqlMigrationService>;
 /** A list of SQL Migration Service. */
 export interface SqlMigrationListResult {
-  value?: SqlMigrationListResultValueList;
-  nextLink?: string;
+  value?: SqlMigrationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2264,61 +2183,28 @@ export interface ListSqlMigrationServiceMigrationsRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
 }
-export type DatabaseMigrationPropertiesKind = "SqlMi" | "SqlVm" | "SqlDb" | "MongoToCosmosDbMongo";
-/** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-export type DatabaseMigrationPropertiesProvisioningState =
-  | "Provisioning"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
 /** Database Migration Resource properties. */
-export interface DatabaseMigrationProperties {
-  kind: DatabaseMigrationPropertiesKind;
-  /** Resource Id of the target resource. */
-  scope?: string;
-  /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesProvisioningState;
-  /** Migration status. */
-  migrationStatus?: string;
-  /** Database migration start time. */
-  startedOn?: string;
-  /** Database migration end time. */
-  endedOn?: string;
-  /** Resource Id of the Migration Service. */
-  migrationService?: string;
-  /** ID for current migration operation. */
-  migrationOperationId?: string;
-  /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
-  /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
-  /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
-  /** Name of the source database. */
-  sourceDatabaseName?: string;
-  /** Name of the source sql server. */
-  sourceServerName?: string;
-  /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
-}
+export type DatabaseMigrationProperties =
+  | DatabaseMigrationPropertiesSqlMi
+  | DatabaseMigrationPropertiesSqlVm
+  | DatabaseMigrationPropertiesSqlDb;
 /** Database Migration Resource. */
 export interface DatabaseMigration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationProperties | undefined;
 }
 export type DatabaseMigrationListResultValueList = Array<DatabaseMigration>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationListResult {
-  value?: DatabaseMigrationListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceMonitoringDataRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2332,32 +2218,32 @@ export interface ListSqlMigrationServiceMonitoringDataRequest {
 export type NodeMonitoringDataAdditionalPropertiesMap = { [key: string]: unknown | undefined };
 export interface NodeMonitoringData {
   /** Unmatched properties from the message are deserialized in this collection. */
-  additionalProperties?: NodeMonitoringDataAdditionalPropertiesMap;
+  additionalProperties?: NodeMonitoringDataAdditionalPropertiesMap | undefined;
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Available memory (MB) on the integration runtime node. */
-  availableMemoryInMB?: number;
+  availableMemoryInMB?: number | undefined;
   /** CPU percentage on the integration runtime node. */
-  cpuUtilization?: number;
+  cpuUtilization?: number | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The number of jobs currently running on the integration runtime node. */
-  concurrentJobsRunning?: number;
+  concurrentJobsRunning?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   /** Sent bytes on the integration runtime node. */
-  sentBytes?: number;
+  sentBytes?: number | undefined;
   /** Received bytes on the integration runtime node. */
-  receivedBytes?: number;
+  receivedBytes?: number | undefined;
 }
 /** Integration Runtime node monitoring data. */
 export type IntegrationRuntimeMonitoringDataNodesList = Array<NodeMonitoringData>;
 /** Integration Runtime Monitoring Data. */
 export interface IntegrationRuntimeMonitoringData {
   /** The name of Integration Runtime. */
-  name?: string;
+  name?: string | undefined;
   /** Integration Runtime node monitoring data. */
-  nodes?: IntegrationRuntimeMonitoringDataNodesList;
+  nodes?: IntegrationRuntimeMonitoringDataNodesList | undefined;
 }
 export interface ListTasksRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2369,15 +2255,15 @@ export interface ListTasksRequest {
   /** Name of the project */
   projectName: string;
   /** Filter tasks by task type */
-  taskType?: string;
+  taskType?: string | undefined;
 }
 /** List of tasks */
 export type ListTasksResponseValueList = Array<ProjectTask>;
 export interface ListTasksResponse {
   /** List of tasks */
-  value?: ListTasksResponseValueList;
+  value?: ListTasksResponseValueList | undefined;
   /** URL to load the next page of tasks */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2388,30 +2274,30 @@ export interface ListUsagesRequest {
 /** The name of the quota */
 export interface QuotaName {
   /** The localized name of the quota */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** The unlocalized name (or ID) of the quota */
-  value?: string;
+  value?: string | undefined;
 }
 /** Describes a quota for or usage details about a resource */
 export interface Quota {
   /** The current value of the quota. If null or missing, the current value cannot be determined in the context of the request. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The resource ID of the quota object */
-  id?: string;
+  id?: string | undefined;
   /** The maximum value of the quota. If null or missing, the quota has no maximum, in which case it merely tracks usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name of the quota */
-  name?: QuotaName;
+  name?: QuotaName | undefined;
   /** The unit for the quota, such as Count, Bytes, BytesPerSecond, etc. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** List of quotas */
 export type ListUsagesResponseValueList = Array<Quota>;
 export interface ListUsagesResponse {
   /** List of quotas */
-  value?: ListUsagesResponseValueList;
+  value?: ListUsagesResponseValueList | undefined;
   /** URL to load the next page of quotas, or null or missing if this is the last page */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MigrationServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2425,27 +2311,27 @@ export interface MigrationServicesCreateOrUpdateRequest {
   /** Name of the Migration Service. */
   migrationServiceName: string;
   /** Resource tags. */
-  tags?: MigrationServicesCreateOrUpdateRequestTagsMap;
+  tags?: MigrationServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type MigrationServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface MigrationServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MigrationServicesCreateOrUpdateResponseTagsMap;
+  tags?: MigrationServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2463,15 +2349,15 @@ export interface ProjectPropertiesInput {
   /** Source platform for the project */
   sourcePlatform: ProjectSourcePlatform | (string & {});
   /** Azure Active Directory Application */
-  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo;
+  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo | undefined;
   /** Target platform for the project */
   targetPlatform: ProjectTargetPlatform | (string & {});
   /** Defines the connection properties of a server */
-  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** Defines the connection properties of a server */
-  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** List of DatabaseInfo */
-  databasesInfo?: ProjectPropertiesInputDatabasesInfoList;
+  databasesInfo?: ProjectPropertiesInputDatabasesInfoList | undefined;
 }
 export interface ProjectsCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2483,33 +2369,33 @@ export interface ProjectsCreateOrUpdateRequest {
   /** Name of the project */
   projectName: string;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateRequestTagsMap;
+  tags?: ProjectsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProjectsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateResponseTagsMap;
+  tags?: ProjectsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ReadFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2526,8 +2412,8 @@ export interface ReadFileRequest {
 export type ReadFileResponseHeadersMap = { [key: string]: string | undefined };
 export interface ReadFileResponse {
   /** A URI that can be used to access the file content. */
-  uri?: string;
-  headers?: ReadFileResponseHeadersMap;
+  uri?: string | undefined;
+  headers?: ReadFileResponseHeadersMap | undefined;
 }
 export interface ReadFileWriteRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2544,8 +2430,8 @@ export interface ReadFileWriteRequest {
 export type ReadFileWriteResponseHeadersMap = { [key: string]: string | undefined };
 export interface ReadFileWriteResponse {
   /** A URI that can be used to access the file content. */
-  uri?: string;
-  headers?: ReadFileWriteResponseHeadersMap;
+  uri?: string | undefined;
+  headers?: ReadFileWriteResponseHeadersMap | undefined;
 }
 export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2555,20 +2441,20 @@ export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** The name of authentication key to generate. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 /** An authentication key to regenerate. */
 export interface RegenAuthKeys {
   /** The name of authentication key to generate. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface RetryDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2579,7 +2465,7 @@ export interface RetryDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface RetryDatabaseMigrationsSqlDbResponse {}
 /** Resource tags. */
@@ -2587,15 +2473,15 @@ export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | und
 /** Properties of the Azure Database Migration Service (classic) instance */
 export interface DataMigrationServicePropertiesInput {
   /** The public key of the service, used to encrypt secrets sent to the service */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined */
-  virtualSubnetId?: string;
+  virtualSubnetId?: string | undefined;
   /** The ID of the Microsoft.Network/networkInterfaces resource which the service have */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
   /** The time delay before the service is auto-stopped when idle. */
-  autoStopDelay?: string;
+  autoStopDelay?: string | undefined;
   /** Whether service resources should be deleted when stopped. (Turned on by default) */
-  deleteResourcesOnStop?: boolean;
+  deleteResourcesOnStop?: boolean | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2605,41 +2491,41 @@ export interface ServicesCreateOrUpdateRequest {
   /** Name of the service */
   serviceName: string;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServicePropertiesInput;
+  properties?: DataMigrationServicePropertiesInput | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Task type. */
 export type ProjectTaskPropertiesInputTaskType =
@@ -2688,7 +2574,7 @@ export interface ProjectTaskPropertiesInput {
   /** Task type. */
   taskType: ProjectTaskPropertiesInputTaskType | (string & {});
   /** Key value pairs of client data to attach meta data information to task */
-  clientData?: ProjectTaskPropertiesInputClientDataMap;
+  clientData?: ProjectTaskPropertiesInputClientDataMap | undefined;
 }
 export interface ServiceTasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2700,23 +2586,23 @@ export interface ServiceTasksCreateOrUpdateRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface ServiceTasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 /** Resource tags. */
 export type SqlMigrationServicesCreateOrUpdateRequestTagsMap = {
@@ -2732,10 +2618,10 @@ export interface SqlMigrationServicesCreateOrUpdateRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** Resource tags. */
-  tags?: SqlMigrationServicesCreateOrUpdateRequestTagsMap;
+  tags?: SqlMigrationServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type SqlMigrationServicesCreateOrUpdateResponseTagsMap = {
@@ -2743,18 +2629,18 @@ export type SqlMigrationServicesCreateOrUpdateResponseTagsMap = {
 };
 export interface SqlMigrationServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlMigrationServicesCreateOrUpdateResponseTagsMap;
+  tags?: SqlMigrationServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface StartServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2807,11 +2693,11 @@ export type TasksCommandResponseErrorsItemDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface TasksCommandResponseErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: TasksCommandResponseErrorsItemDetailsList;
+  details?: TasksCommandResponseErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type TasksCommandResponseErrorsList = Array<TasksCommandResponseErrorsItem>;
@@ -2821,9 +2707,9 @@ export interface TasksCommandResponse {
   /** Command type. */
   commandType: TasksCommandResponseCommandType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: TasksCommandResponseErrorsList;
+  errors?: TasksCommandResponseErrorsList | undefined;
   /** The state of the command. This is ignored if submitted. */
-  state?: TasksCommandResponseState;
+  state?: TasksCommandResponseState | undefined;
 }
 export interface TasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2837,23 +2723,23 @@ export interface TasksCreateOrUpdateRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface TasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface UpdateFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2867,23 +2753,23 @@ export interface UpdateFileRequest {
   /** Name of the File */
   fileName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFilePropertiesInput;
+  properties?: ProjectFilePropertiesInput | undefined;
 }
 export interface UpdateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export type UpdateMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateMigrationServiceRequest {
@@ -2893,25 +2779,25 @@ export interface UpdateMigrationServiceRequest {
   resourceGroupName: string;
   /** Name of the Migration Service. */
   migrationServiceName: string;
-  tags?: UpdateMigrationServiceRequestTagsMap;
+  tags?: UpdateMigrationServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMigrationServiceResponseTagsMap;
+  tags?: UpdateMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
-  locationHeader?: string;
+  properties?: MigrationServiceProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -2925,33 +2811,33 @@ export interface UpdateProjectRequest {
   /** Name of the project */
   projectName: string;
   /** Resource tags. */
-  tags?: UpdateProjectRequestTagsMap;
+  tags?: UpdateProjectRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectResponseTagsMap;
+  tags?: UpdateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2963,41 +2849,41 @@ export interface UpdateServiceRequest {
   /** Name of the service */
   serviceName: string;
   /** Resource tags. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServicePropertiesInput;
+  properties?: DataMigrationServicePropertiesInput | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 export interface UpdateServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3009,23 +2895,23 @@ export interface UpdateServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface UpdateServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export type UpdateSqlMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlMigrationServiceRequest {
@@ -3035,24 +2921,24 @@ export interface UpdateSqlMigrationServiceRequest {
   resourceGroupName: string;
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
-  tags?: UpdateSqlMigrationServiceRequestTagsMap;
+  tags?: UpdateSqlMigrationServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlMigrationServiceResponseTagsMap;
+  tags?: UpdateSqlMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface UpdateTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3066,23 +2952,23 @@ export interface UpdateTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface UpdateTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export type CancelDatabaseMigrationsSqlDbError = AzureOpError;
 /** Stop on going migration for the database. */
@@ -3126,7 +3012,7 @@ export const CancelDatabaseMigrationsSqlVm: API.OperationMethod<
   CancelDatabaseMigrationsSqlVmError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmRequest>,
+  input: __S(320, __c20, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3143,8 +3029,8 @@ export const CancelServiceTask: API.OperationMethod<
   CancelServiceTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CancelServiceTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<CancelServiceTaskResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<CancelServiceTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<CancelServiceTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3160,8 +3046,8 @@ export const CancelTask: API.OperationMethod<
   CancelTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CancelTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<CancelTaskResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<CancelTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<CancelTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3177,8 +3063,8 @@ export const CheckServiceChildrenNameAvailability: API.OperationMethod<
   CheckServiceChildrenNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3194,8 +3080,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
   CheckServiceNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<CheckServiceNameAvailabilityRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<CheckServiceNameAvailabilityResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CheckServiceNameAvailabilityRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceNameAvailabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3211,8 +3097,8 @@ export const CheckServiceStatus: API.OperationMethod<
   CheckServiceStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<CheckServiceStatusRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<CheckServiceStatusResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<CheckServiceStatusRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<CheckServiceStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3229,14 +3115,14 @@ export const CreateDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c108,
+    1760,
+    __c110,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest>,
   output: __S(
-    1781,
-    __c111,
-    5,
+    1808,
+    __c113,
+    0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3254,14 +3140,14 @@ export const CreateDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1808,
-    __c113,
+    1856,
+    __c116,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest>,
   output: __S(
-    1781,
-    __c111,
-    5,
+    1808,
+    __c113,
+    0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3279,7 +3165,7 @@ export const DatabaseMigrationsSqlDbCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateRequest>,
-  output: __S(85, __c5, 5) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
+  output: __S(80, __c5, 0) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3295,8 +3181,8 @@ export const DatabaseMigrationsSqlMiCreateOrUpdate: API.OperationMethod<
   DatabaseMigrationsSqlMiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3312,7 +3198,7 @@ export const DatabaseMigrationsSqlMiCutover: API.OperationMethod<
   DatabaseMigrationsSqlMiCutoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3329,8 +3215,8 @@ export const DatabaseMigrationsSqlVmCreateOrUpdate: API.OperationMethod<
   DatabaseMigrationsSqlVmCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3346,7 +3232,7 @@ export const DatabaseMigrationsSqlVmCutover: API.OperationMethod<
   DatabaseMigrationsSqlVmCutoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverRequest>,
+  input: __S(208, __c13, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3364,13 +3250,13 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    224,
+    __c14,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest>,
   output: __S(
-    208,
-    __c13,
+    240,
+    __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
   errors: [UnknownAzureError],
@@ -3389,13 +3275,13 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c14,
+    256,
+    __c16,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest>,
   output: __S(
-    208,
-    __c13,
+    240,
+    __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
   errors: [UnknownAzureError],
@@ -3413,7 +3299,7 @@ export const DeleteDatabaseMigrationsSqlDb: API.OperationMethod<
   DeleteDatabaseMigrationsSqlDbError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3430,8 +3316,8 @@ export const DeleteDatabaseMigrationsSqlMi: API.OperationMethod<
   DeleteDatabaseMigrationsSqlMiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<DeleteDatabaseMigrationsSqlMiResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3447,8 +3333,8 @@ export const DeleteDatabaseMigrationsSqlVm: API.OperationMethod<
   DeleteDatabaseMigrationsSqlVmError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<DeleteDatabaseMigrationsSqlVmResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3464,7 +3350,7 @@ export const DeleteFile: API.OperationMethod<
   DeleteFileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteFileRequest>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteFileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3481,8 +3367,8 @@ export const DeleteMigrationService: API.OperationMethod<
   DeleteMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteMigrationServiceRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<DeleteMigrationServiceResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteMigrationServiceRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<DeleteMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3498,7 +3384,7 @@ export const DeleteProject: API.OperationMethod<
   DeleteProjectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteProjectRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3515,7 +3401,7 @@ export const DeleteService: API.OperationMethod<
   DeleteServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteServiceRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3532,7 +3418,7 @@ export const DeleteServiceTask: API.OperationMethod<
   DeleteServiceTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteServiceTaskRequest>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteServiceTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3549,7 +3435,7 @@ export const DeleteSqlMigrationService: API.OperationMethod<
   DeleteSqlMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeleteSqlMigrationServiceRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteSqlMigrationServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSqlMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3566,8 +3452,8 @@ export const DeleteSqlMigrationServiceNode: API.OperationMethod<
   DeleteSqlMigrationServiceNodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteSqlMigrationServiceNodeRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<DeleteNode>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteSqlMigrationServiceNodeRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<DeleteNode>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3583,7 +3469,7 @@ export const DeleteTask: API.OperationMethod<
   DeleteTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeleteTaskRequest>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3600,8 +3486,8 @@ export const FilesCreateOrUpdate: API.OperationMethod<
   FilesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<FilesCreateOrUpdateRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<FilesCreateOrUpdateResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<FilesCreateOrUpdateRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<FilesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3617,11 +3503,11 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod<
   GetDatabaseMigrationsMongoToCosmosDbRUMongoError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest>,
   output: __S(
-    1781,
-    __c111,
-    5,
+    1808,
+    __c113,
+    0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3639,11 +3525,11 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c36,
+    608,
+    __c38,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
+  output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3660,14 +3546,14 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c38,
+    640,
+    __c40,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest>,
   output: __S(
-    1781,
-    __c111,
-    5,
+    1808,
+    __c113,
+    0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3685,11 +3571,11 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    624,
-    __c39,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
+  output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3705,8 +3591,8 @@ export const GetDatabaseMigrationsSqlDb: API.OperationMethod<
   GetDatabaseMigrationsSqlDbError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbRequest>,
-  output: __S(85, __c5, 5) as any as S.Schema<GetDatabaseMigrationsSqlDbResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3722,8 +3608,8 @@ export const GetDatabaseMigrationsSqlMi: API.OperationMethod<
   GetDatabaseMigrationsSqlMiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<GetDatabaseMigrationsSqlMiResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3739,8 +3625,8 @@ export const GetDatabaseMigrationsSqlVm: API.OperationMethod<
   GetDatabaseMigrationsSqlVmError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmRequest>,
-  output: __S(143, __c8, 15) as any as S.Schema<GetDatabaseMigrationsSqlVmResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3756,8 +3642,8 @@ export const GetFile: API.OperationMethod<
   GetFileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetFileRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetFileResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetFileRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<GetFileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3773,8 +3659,8 @@ export const GetMigrationService: API.OperationMethod<
   GetMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetMigrationServiceRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<GetMigrationServiceResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetMigrationServiceRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<GetMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3790,8 +3676,8 @@ export const GetProject: API.OperationMethod<
   GetProjectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<GetProjectResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(805, __c50, 5) as any as S.Schema<GetProjectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3807,8 +3693,8 @@ export const GetService: API.OperationMethod<
   GetServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<GetServiceResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<GetServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3824,8 +3710,8 @@ export const GetServiceTask: API.OperationMethod<
   GetServiceTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetServiceTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<GetServiceTaskResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetServiceTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<GetServiceTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3841,8 +3727,8 @@ export const GetSqlMigrationService: API.OperationMethod<
   GetSqlMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetSqlMigrationServiceRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<GetSqlMigrationServiceResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetSqlMigrationServiceRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<GetSqlMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3858,8 +3744,8 @@ export const GetTask: API.OperationMethod<
   GetTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<GetTaskResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<GetTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3875,8 +3761,8 @@ export const ListFiles: API.OperationMethod<
   ListFilesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<ListFilesResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<ListFilesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3892,8 +3778,8 @@ export const ListMigrationServiceByResourceGroup: API.OperationMethod<
   ListMigrationServiceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListMigrationServiceByResourceGroupRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<MigrationServiceListResult>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListMigrationServiceByResourceGroupRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3909,8 +3795,8 @@ export const ListMigrationServiceBySubscription: API.OperationMethod<
   ListMigrationServiceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListMigrationServiceBySubscriptionRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<MigrationServiceListResult>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListMigrationServiceBySubscriptionRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3926,8 +3812,8 @@ export const ListMigrationServiceMigrations: API.OperationMethod<
   ListMigrationServiceMigrationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListMigrationServiceMigrationsRequest>,
-  output: __S(964, __c60, 4) as any as S.Schema<DatabaseMigrationBaseListResult>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListMigrationServiceMigrationsRequest>,
+  output: __S(996, __c62, 4) as any as S.Schema<DatabaseMigrationBaseListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3943,8 +3829,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(980, __c61, 4) as any as S.Schema<OperationListResult>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1012, __c63, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3960,8 +3846,8 @@ export const ListProjects: API.OperationMethod<
   ListProjectsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<ListProjectsResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<ListProjectsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3977,8 +3863,8 @@ export const ListResourceSkusSkus: API.OperationMethod<
   ListResourceSkusSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListResourceSkusSkusRequest>,
-  output: __S(1033, __c64, 9) as any as S.Schema<ListResourceSkusSkusResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListResourceSkusSkusRequest>,
+  output: __S(1065, __c66, 9) as any as S.Schema<ListResourceSkusSkusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3994,8 +3880,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   ListServiceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<ListServiceByResourceGroupResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<ListServiceByResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4011,8 +3897,8 @@ export const ListServices: API.OperationMethod<
   ListServicesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<ListServicesResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<ListServicesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4028,8 +3914,8 @@ export const ListServiceSkus: API.OperationMethod<
   ListServiceSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListServiceSkusRequest>,
-  output: __S(1140, __c71, 4) as any as S.Schema<ListServiceSkusResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListServiceSkusRequest>,
+  output: __S(1172, __c73, 4) as any as S.Schema<ListServiceSkusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4045,8 +3931,8 @@ export const ListServiceTasks: API.OperationMethod<
   ListServiceTasksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListServiceTasksRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ListServiceTasksResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListServiceTasksRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<ListServiceTasksResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4062,8 +3948,8 @@ export const ListSqlMigrationServiceAuthKeys: API.OperationMethod<
   ListSqlMigrationServiceAuthKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListSqlMigrationServiceAuthKeysRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<AuthenticationKeys>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ListSqlMigrationServiceAuthKeysRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<AuthenticationKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4079,8 +3965,8 @@ export const ListSqlMigrationServiceByResourceGroup: API.OperationMethod<
   ListSqlMigrationServiceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListSqlMigrationServiceByResourceGroupRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<SqlMigrationListResult>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ListSqlMigrationServiceByResourceGroupRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4096,8 +3982,8 @@ export const ListSqlMigrationServiceBySubscription: API.OperationMethod<
   ListSqlMigrationServiceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListSqlMigrationServiceBySubscriptionRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<SqlMigrationListResult>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListSqlMigrationServiceBySubscriptionRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4113,8 +3999,8 @@ export const ListSqlMigrationServiceMigrations: API.OperationMethod<
   ListSqlMigrationServiceMigrationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListSqlMigrationServiceMigrationsRequest>,
-  output: __S(1252, __c78, 4) as any as S.Schema<DatabaseMigrationListResult>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListSqlMigrationServiceMigrationsRequest>,
+  output: __S(1284, __c80, 4) as any as S.Schema<DatabaseMigrationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4130,8 +4016,8 @@ export const ListSqlMigrationServiceMonitoringData: API.OperationMethod<
   ListSqlMigrationServiceMonitoringDataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListSqlMigrationServiceMonitoringDataRequest>,
-  output: __S(1267, __c79, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListSqlMigrationServiceMonitoringDataRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4147,8 +4033,8 @@ export const ListTasks: API.OperationMethod<
   ListTasksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ListTasksResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<ListTasksResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4164,8 +4050,8 @@ export const ListUsages: API.OperationMethod<
   ListUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListUsagesRequest>,
-  output: __S(1316, __c82, 4) as any as S.Schema<ListUsagesResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListUsagesRequest>,
+  output: __S(1348, __c84, 4) as any as S.Schema<ListUsagesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4181,8 +4067,8 @@ export const MigrationServicesCreateOrUpdate: API.OperationMethod<
   MigrationServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<MigrationServicesCreateOrUpdateRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<MigrationServicesCreateOrUpdateResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<MigrationServicesCreateOrUpdateRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<MigrationServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4198,8 +4084,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
   ProjectsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
+  output: __S(805, __c50, 5) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4215,8 +4101,8 @@ export const ReadFile: API.OperationMethod<
   ReadFileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ReadFileRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<ReadFileResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ReadFileRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<ReadFileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4232,8 +4118,8 @@ export const ReadFileWrite: API.OperationMethod<
   ReadFileWriteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ReadFileWriteRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<ReadFileWriteResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ReadFileWriteRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<ReadFileWriteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4249,8 +4135,8 @@ export const RegenerateSqlMigrationServiceAuthKeys: API.OperationMethod<
   RegenerateSqlMigrationServiceAuthKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<RegenerateSqlMigrationServiceAuthKeysRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<RegenAuthKeys>,
+  input: __S(1456, __c91, 0) as any as S.Schema<RegenerateSqlMigrationServiceAuthKeysRequest>,
+  output: __S(1457, __c91, 1) as any as S.Schema<RegenAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4266,7 +4152,7 @@ export const RetryDatabaseMigrationsSqlDb: API.OperationMethod<
   RetryDatabaseMigrationsSqlDbError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbRequest>,
+  input: __S(1472, __c92, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4283,8 +4169,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   ServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ServicesCreateOrUpdateRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<ServicesCreateOrUpdateResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ServicesCreateOrUpdateRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<ServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4300,8 +4186,8 @@ export const ServiceTasksCreateOrUpdate: API.OperationMethod<
   ServiceTasksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ServiceTasksCreateOrUpdateRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ServiceTasksCreateOrUpdateResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<ServiceTasksCreateOrUpdateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ServiceTasksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4317,8 +4203,8 @@ export const SqlMigrationServicesCreateOrUpdate: API.OperationMethod<
   SqlMigrationServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<SqlMigrationServicesCreateOrUpdateRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<SqlMigrationServicesCreateOrUpdateResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<SqlMigrationServicesCreateOrUpdateRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<SqlMigrationServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4334,7 +4220,7 @@ export const StartService: API.OperationMethod<
   StartServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<StartServiceRequest>,
+  input: __S(1600, __c100, 0) as any as S.Schema<StartServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4351,7 +4237,7 @@ export const StopService: API.OperationMethod<
   StopServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<StopServiceRequest>,
+  input: __S(1616, __c101, 0) as any as S.Schema<StopServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4368,8 +4254,8 @@ export const TasksCommand: API.OperationMethod<
   TasksCommandError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<TasksCommandRequest>,
-  output: __S(533, __c33, 5) as any as S.Schema<TasksCommandResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<TasksCommandRequest>,
+  output: __S(565, __c35, 5) as any as S.Schema<TasksCommandResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4385,8 +4271,8 @@ export const TasksCreateOrUpdate: API.OperationMethod<
   TasksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<TasksCreateOrUpdateRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<TasksCreateOrUpdateResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<TasksCreateOrUpdateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<TasksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4402,8 +4288,8 @@ export const UpdateFile: API.OperationMethod<
   UpdateFileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<UpdateFileRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<UpdateFileResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<UpdateFileRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<UpdateFileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4419,8 +4305,8 @@ export const UpdateMigrationService: API.OperationMethod<
   UpdateMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<UpdateMigrationServiceRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<UpdateMigrationServiceResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<UpdateMigrationServiceRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<UpdateMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4436,8 +4322,8 @@ export const UpdateProject: API.OperationMethod<
   UpdateProjectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<UpdateProjectResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(805, __c50, 5) as any as S.Schema<UpdateProjectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4453,8 +4339,8 @@ export const UpdateService: API.OperationMethod<
   UpdateServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<UpdateServiceResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<UpdateServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4470,8 +4356,8 @@ export const UpdateServiceTask: API.OperationMethod<
   UpdateServiceTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UpdateServiceTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<UpdateServiceTaskResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateServiceTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<UpdateServiceTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4487,8 +4373,8 @@ export const UpdateSqlMigrationService: API.OperationMethod<
   UpdateSqlMigrationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<UpdateSqlMigrationServiceRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<UpdateSqlMigrationServiceResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateSqlMigrationServiceRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<UpdateSqlMigrationServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4504,8 +4390,8 @@ export const UpdateTask: API.OperationMethod<
   UpdateTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<UpdateTaskResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<UpdateTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4578,7 +4464,7 @@ function __c3(j: number): any {
           sourceDatabaseName: S.optional(S.String),
           targetDatabaseCollation: S.optional(S.String),
           targetSqlConnection: S.optional(__S(64, __c4, 0)),
-          tableList: S.optional(__S(1552, __c97, 0)),
+          tableList: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesSqlDbInput" });
     case 1:
@@ -4620,6 +4506,20 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(100, __c6, 4)),
+        }),
+      ).annotate({ identifier: "DatabaseMigrationsSqlDbCreateOrUpdateResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           tableName: S.optional(S.String),
           status: S.optional(S.String),
           parallelCopyType: S.optional(S.String),
@@ -4634,13 +4534,13 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CopyProgressDetails" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(96, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           migrationState: S.optional(S.String),
-          sqlDataCopyErrors: S.optional(__S(1552, __c97, 0)),
-          listOfCopyProgressDetails: S.optional(__S(81, __c5, 1)),
+          sqlDataCopyErrors: S.optional(__S(1584, __c99, 0)),
+          listOfCopyProgressDetails: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "SqlDbMigrationStatusDetails" });
     case 3:
@@ -4660,31 +4560,21 @@ function __c5(j: number): any {
           endedOn: S.optional(S.String),
           migrationService: S.optional(S.String),
           migrationOperationId: S.optional(S.String),
-          migrationFailureError: S.optional(__S(1760, __c110, 0)),
+          migrationFailureError: S.optional(__S(1792, __c112, 0)),
           provisioningError: S.optional(S.String),
           sourceSqlConnection: S.optional(__S(64, __c4, 0)),
           sourceDatabaseName: S.optional(S.String),
           sourceServerName: S.optional(S.String),
           targetDatabaseCollation: S.optional(S.String),
-          migrationStatusDetails: S.optional(__S(82, __c5, 2)),
+          migrationStatusDetails: S.optional(__S(98, __c6, 2)),
           targetSqlConnection: S.optional(__S(64, __c4, 0)),
-          offlineConfiguration: S.optional(__S(83, __c5, 3)),
-          tableList: S.optional(__S(1552, __c97, 0)),
+          offlineConfiguration: S.optional(__S(99, __c6, 3)),
+          tableList: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesSqlDb" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          properties: S.optional(__S(84, __c5, 4)),
-        }),
-      ).annotate({ identifier: "DatabaseMigrationsSqlDbCreateOrUpdateResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4693,7 +4583,7 @@ function __c6(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           managedInstanceName: S.String.pipe(T.Label()),
           targetDbName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(117, __c7, 5)),
+          properties: S.optional(__S(133, __c8, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4705,7 +4595,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DatabaseMigrationsSqlMiCreateOrUpdateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(16, __c1, 0)));
@@ -4713,14 +4603,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(112, __c7, 0)),
+          userAssignedIdentities: S.optional(__S(128, __c8, 0)),
         }),
       ).annotate({ identifier: "AzureBlobInputIdentity" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           authType: S.optional(S.String),
-          identity: S.optional(__S(113, __c7, 1)),
+          identity: S.optional(__S(129, __c8, 1)),
           storageAccountResourceId: S.optional(S.String),
           accountKey: S.optional(S.String),
           blobContainerName: S.optional(S.String),
@@ -4729,15 +4619,15 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fileShare: S.optional(__S(128, __c8, 0)),
-          azureBlob: S.optional(__S(114, __c7, 2)),
+          fileShare: S.optional(__S(160, __c10, 0)),
+          azureBlob: S.optional(__S(130, __c8, 2)),
         }),
       ).annotate({ identifier: "SourceLocationInput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sourceLocation: S.optional(__S(115, __c7, 3)),
-          targetLocation: S.optional(__S(129, __c8, 1)),
+          sourceLocation: S.optional(__S(131, __c8, 3)),
+          targetLocation: S.optional(__S(161, __c10, 1)),
         }),
       ).annotate({ identifier: "BackupConfigurationInput" });
     case 5:
@@ -4751,13 +4641,27 @@ function __c7(j: number): any {
           sourceSqlConnection: S.optional(__S(64, __c4, 0)),
           sourceDatabaseName: S.optional(S.String),
           targetDatabaseCollation: S.optional(S.String),
-          backupConfiguration: S.optional(__S(116, __c7, 4)),
-          offlineConfiguration: S.optional(__S(130, __c8, 2)),
+          backupConfiguration: S.optional(__S(132, __c8, 4)),
+          offlineConfiguration: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesSqlMiInput" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(174, __c10, 14)),
+        }),
+      ).annotate({ identifier: "DatabaseMigrationsSqlMiCreateOrUpdateResponse" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4795,7 +4699,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "SqlBackupFileInfo" });
     case 4:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(163, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4803,30 +4707,30 @@ function __c8(j: number): any {
           firstLSN: S.optional(S.String),
           lastLSN: S.optional(S.String),
           backupType: S.optional(S.String),
-          listOfBackupFiles: S.optional(__S(132, __c8, 4)),
+          listOfBackupFiles: S.optional(__S(164, __c10, 4)),
           backupStartDate: S.optional(S.String),
           backupFinishDate: S.optional(S.String),
           isBackupRestored: S.optional(S.Boolean),
           hasBackupChecksums: S.optional(S.Boolean),
           familyCount: S.optional(S.Number),
-          ignoreReasons: S.optional(__S(1552, __c97, 0)),
+          ignoreReasons: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "SqlBackupSetInfo" });
     case 6:
-      return S.Array(__S(133, __c8, 5));
+      return S.Array(__S(165, __c10, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           migrationState: S.optional(S.String),
-          fullBackupSetInfo: S.optional(__S(133, __c8, 5)),
-          lastRestoredBackupSetInfo: S.optional(__S(133, __c8, 5)),
-          activeBackupSets: S.optional(__S(134, __c8, 6)),
-          invalidFiles: S.optional(__S(1552, __c97, 0)),
+          fullBackupSetInfo: S.optional(__S(165, __c10, 5)),
+          lastRestoredBackupSetInfo: S.optional(__S(165, __c10, 5)),
+          activeBackupSets: S.optional(__S(166, __c10, 6)),
+          invalidFiles: S.optional(__S(1584, __c99, 0)),
           blobContainerName: S.optional(S.String),
           isFullBackupRestored: S.optional(S.Boolean),
           restoreBlockingReason: S.optional(S.String),
           completeRestoreErrorMessage: S.optional(S.String),
-          fileUploadBlockingErrors: S.optional(__S(1552, __c97, 0)),
+          fileUploadBlockingErrors: S.optional(__S(1584, __c99, 0)),
           currentRestoringFilename: S.optional(S.String),
           lastRestoredFilename: S.optional(S.String),
           pendingLogBackupsCount: S.optional(S.Number),
@@ -4840,21 +4744,21 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 9:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(136, __c8, 8)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(168, __c10, 8)));
     case 10:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(137, __c8, 9)),
+          userAssignedIdentities: S.optional(__S(169, __c10, 9)),
         }),
       ).annotate({ identifier: "AzureBlobIdentity" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           authType: S.optional(S.String),
-          identity: S.optional(__S(138, __c8, 10)),
+          identity: S.optional(__S(170, __c10, 10)),
           storageAccountResourceId: S.optional(S.String),
           accountKey: S.optional(S.String),
           blobContainerName: S.optional(S.String),
@@ -4863,16 +4767,16 @@ function __c8(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          fileShare: S.optional(__S(128, __c8, 0)),
-          azureBlob: S.optional(__S(139, __c8, 11)),
+          fileShare: S.optional(__S(160, __c10, 0)),
+          azureBlob: S.optional(__S(171, __c10, 11)),
           fileStorageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceLocation" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          sourceLocation: S.optional(__S(140, __c8, 12)),
-          targetLocation: S.optional(__S(129, __c8, 1)),
+          sourceLocation: S.optional(__S(172, __c10, 12)),
+          targetLocation: S.optional(__S(161, __c10, 1)),
         }),
       ).annotate({ identifier: "BackupConfiguration" });
     case 14:
@@ -4886,30 +4790,20 @@ function __c8(j: number): any {
           endedOn: S.optional(S.String),
           migrationService: S.optional(S.String),
           migrationOperationId: S.optional(S.String),
-          migrationFailureError: S.optional(__S(1760, __c110, 0)),
+          migrationFailureError: S.optional(__S(1792, __c112, 0)),
           provisioningError: S.optional(S.String),
           sourceSqlConnection: S.optional(__S(64, __c4, 0)),
           sourceDatabaseName: S.optional(S.String),
           sourceServerName: S.optional(S.String),
           targetDatabaseCollation: S.optional(S.String),
-          migrationStatusDetails: S.optional(__S(135, __c8, 7)),
-          backupConfiguration: S.optional(__S(141, __c8, 13)),
-          offlineConfiguration: S.optional(__S(130, __c8, 2)),
+          migrationStatusDetails: S.optional(__S(167, __c10, 7)),
+          backupConfiguration: S.optional(__S(173, __c10, 13)),
+          offlineConfiguration: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesSqlMi" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          properties: S.optional(__S(142, __c8, 14)),
-        }),
-      ).annotate({ identifier: "DatabaseMigrationsSqlMiCreateOrUpdateResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4930,7 +4824,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DatabaseMigrationsSqlMiCutoverRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4939,7 +4833,7 @@ function __c10(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           sqlVirtualMachineName: S.String.pipe(T.Label()),
           targetDbName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(117, __c7, 5)),
+          properties: S.optional(__S(133, __c8, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4951,7 +4845,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DatabaseMigrationsSqlVmCreateOrUpdateRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4972,7 +4866,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DatabaseMigrationsSqlVmCutoverRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4993,7 +4887,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5003,7 +4897,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5024,7 +4918,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5045,7 +4939,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsSqlDbRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5066,7 +4960,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsSqlMiRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5087,7 +4981,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseMigrationsSqlVmRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5108,7 +5002,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CancelDatabaseMigrationsSqlVmRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5129,7 +5023,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteFileRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5148,7 +5042,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteMigrationServiceRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5169,7 +5063,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5189,7 +5083,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5210,7 +5104,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteServiceTaskRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5229,7 +5123,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteSqlMigrationServiceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5257,7 +5151,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteNode" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5279,7 +5173,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteTaskRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5290,7 +5184,7 @@ function __c27(j: number): any {
           projectName: S.String.pipe(T.Label()),
           fileName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(464, __c29, 0)),
+          properties: S.optional(__S(496, __c31, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5302,7 +5196,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "FilesCreateOrUpdateRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5320,14 +5214,14 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(448, __c28, 0)),
+          properties: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "FilesCreateOrUpdateResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5339,7 +5233,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ProjectFilePropertiesInput" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5359,7 +5253,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5379,58 +5273,58 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CancelServiceTaskRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(529, __c33, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(561, __c35, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          details: S.optional(__S(528, __c33, 0)),
+          details: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "ODataError" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          details: S.optional(__S(530, __c33, 2)),
+          details: S.optional(__S(562, __c35, 2)),
         }),
       ).annotate({ identifier: "ProjectTaskPropertiesErrorsItem" });
     case 4:
-      return S.Array(__S(531, __c33, 3));
+      return S.Array(__S(563, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           commandType: S.String,
-          errors: S.optional(__S(532, __c33, 4)),
+          errors: S.optional(__S(564, __c35, 4)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectTaskPropertiesCommandsItem" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(533, __c33, 5));
+      return S.Array(__S(565, __c35, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
           taskType: S.String,
-          errors: S.optional(__S(532, __c33, 4)),
+          errors: S.optional(__S(564, __c35, 4)),
           state: S.optional(S.String),
-          commands: S.optional(__S(544, __c34, 0)),
-          clientData: S.optional(__S(512, __c32, 0)),
+          commands: S.optional(__S(576, __c36, 0)),
+          clientData: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ProjectTaskProperties" });
     case 2:
@@ -5439,14 +5333,14 @@ function __c34(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(545, __c34, 1)),
+          properties: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "CancelServiceTaskResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5461,7 +5355,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5480,20 +5374,20 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1781, __c111, 5));
+      return S.Array(__S(1808, __c113, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(592, __c37, 0)),
+          value: S.optional(__S(624, __c39, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationCosmosDbMongoListResult" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5513,7 +5407,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5532,7 +5426,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5554,7 +5448,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsSqlDbRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5576,7 +5470,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsSqlMiRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5598,7 +5492,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetDatabaseMigrationsSqlVmRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5619,7 +5513,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetFileRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5638,7 +5532,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetMigrationServiceRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5646,15 +5540,15 @@ function __c45(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          tags: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(736, __c46, 0)),
+          properties: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "GetMigrationServiceResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5665,7 +5559,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MigrationServiceProperties" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5685,7 +5579,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5711,17 +5605,17 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseInfo" });
     case 3:
-      return S.Array(__S(770, __c48, 2));
+      return S.Array(__S(802, __c50, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           sourcePlatform: S.String,
-          azureAuthenticationInfo: S.optional(__S(768, __c48, 0)),
+          azureAuthenticationInfo: S.optional(__S(800, __c50, 0)),
           targetPlatform: S.String,
           creationTime: S.optional(S.String),
-          sourceConnectionInfo: S.optional(__S(769, __c48, 1)),
-          targetConnectionInfo: S.optional(__S(769, __c48, 1)),
-          databasesInfo: S.optional(__S(771, __c48, 3)),
+          sourceConnectionInfo: S.optional(__S(801, __c50, 1)),
+          targetConnectionInfo: S.optional(__S(801, __c50, 1)),
+          databasesInfo: S.optional(__S(803, __c50, 3)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectProperties" });
@@ -5731,16 +5625,16 @@ function __c48(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          tags: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(772, __c48, 4)),
+          properties: S.optional(__S(804, __c50, 4)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5759,7 +5653,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetServiceRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5788,18 +5682,18 @@ function __c50(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          tags: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          properties: S.optional(__S(800, __c50, 0)),
-          sku: S.optional(__S(801, __c50, 1)),
+          properties: S.optional(__S(832, __c52, 0)),
+          sku: S.optional(__S(833, __c52, 1)),
         }),
       ).annotate({ identifier: "GetServiceResponse" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5820,7 +5714,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CancelTaskRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5841,7 +5735,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetServiceTaskRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5860,7 +5754,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetSqlMigrationServiceRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5875,15 +5769,15 @@ function __c54(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          tags: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "GetSqlMigrationServiceResponse" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5905,7 +5799,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetTaskRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5924,17 +5818,17 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListFilesRequest" });
     case 1:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(481, __c30, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(897, __c56, 1)),
+          value: S.optional(__S(929, __c58, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFilesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5952,20 +5846,20 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListMigrationServiceByResourceGroupRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(752, __c47, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(928, __c58, 0)),
+          value: S.optional(__S(960, __c60, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationServiceListResult" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5982,7 +5876,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListMigrationServiceBySubscriptionRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6000,42 +5894,34 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListMigrationServiceMigrationsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          scope: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          migrationStatus: S.optional(S.String),
-          startedOn: S.optional(S.String),
-          endedOn: S.optional(S.String),
-          migrationService: S.optional(S.String),
-          migrationOperationId: S.optional(S.String),
-          migrationFailureError: S.optional(__S(1760, __c110, 0)),
-          provisioningError: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseMigrationBaseProperties" });
+      return S.Union([
+        __S(1828, __c114, 4),
+        __S(174, __c10, 14),
+        __S(174, __c10, 14),
+        __S(100, __c6, 4),
+      ]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          properties: S.optional(__S(961, __c60, 1)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(993, __c62, 1)),
         }),
       ).annotate({ identifier: "DatabaseMigrationBase" });
     case 3:
-      return S.Array(__S(962, __c60, 2));
+      return S.Array(__S(994, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(963, __c60, 3)),
+          value: S.optional(__S(995, __c62, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationBaseListResult" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6062,29 +5948,29 @@ function __c61(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(977, __c61, 1)),
+          display: S.optional(__S(1009, __c63, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(992, __c62, 0)),
+          properties: S.optional(__S(1024, __c64, 0)),
         }),
       ).annotate({ identifier: "OperationsDefinition" });
     case 3:
-      return S.Array(__S(978, __c61, 2));
+      return S.Array(__S(1010, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(979, __c61, 3)),
+          value: S.optional(__S(1011, __c63, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6102,17 +5988,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(773, __c48, 5));
+      return S.Array(__S(805, __c50, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1009, __c63, 1)),
+          value: S.optional(__S(1041, __c65, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6136,7 +6022,7 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "ResourceSkuCosts" });
     case 2:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(1057, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6145,17 +6031,17 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "ResourceSkuCapabilities" });
     case 4:
-      return S.Array(__S(1027, __c64, 3));
+      return S.Array(__S(1059, __c66, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          values: S.optional(__S(1552, __c97, 0)),
+          values: S.optional(__S(1584, __c99, 0)),
           reasonCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceSkuRestrictions" });
     case 6:
-      return S.Array(__S(1029, __c64, 5));
+      return S.Array(__S(1061, __c66, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6165,26 +6051,26 @@ function __c64(j: number): any {
           size: S.optional(S.String),
           family: S.optional(S.String),
           kind: S.optional(S.String),
-          capacity: S.optional(__S(1040, __c65, 0)),
-          locations: S.optional(__S(1552, __c97, 0)),
-          apiVersions: S.optional(__S(1552, __c97, 0)),
-          costs: S.optional(__S(1026, __c64, 2)),
-          capabilities: S.optional(__S(1028, __c64, 4)),
-          restrictions: S.optional(__S(1030, __c64, 6)),
+          capacity: S.optional(__S(1072, __c67, 0)),
+          locations: S.optional(__S(1584, __c99, 0)),
+          apiVersions: S.optional(__S(1584, __c99, 0)),
+          costs: S.optional(__S(1058, __c66, 2)),
+          capabilities: S.optional(__S(1060, __c66, 4)),
+          restrictions: S.optional(__S(1062, __c66, 6)),
         }),
       ).annotate({ identifier: "ResourceSku" });
     case 8:
-      return S.Array(__S(1031, __c64, 7));
+      return S.Array(__S(1063, __c66, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1032, __c64, 8),
+          value: __S(1064, __c66, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceSkusSkusResponse" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6197,7 +6083,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ResourceSkuCapacity" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6218,7 +6104,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CheckServiceChildrenNameAvailabilityRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6230,7 +6116,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CheckServiceChildrenNameAvailabilityResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6248,20 +6134,20 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(802, __c50, 2));
+      return S.Array(__S(834, __c52, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1104, __c69, 0)),
+          value: S.optional(__S(1136, __c71, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceByResourceGroupResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6278,7 +6164,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListServicesRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6308,22 +6194,22 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          sku: S.optional(__S(1137, __c71, 1)),
-          capacity: S.optional(__S(1040, __c65, 0)),
+          sku: S.optional(__S(1169, __c73, 1)),
+          capacity: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "AvailableServiceSku" });
     case 3:
-      return S.Array(__S(1138, __c71, 2));
+      return S.Array(__S(1170, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1139, __c71, 3)),
+          value: S.optional(__S(1171, __c73, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceSkusResponse" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6343,20 +6229,20 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ListServiceTasksRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(546, __c34, 2));
+      return S.Array(__S(578, __c36, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1168, __c73, 0)),
+          value: S.optional(__S(1200, __c75, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceTasksResponse" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6382,7 +6268,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "AuthenticationKeys" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6400,20 +6286,20 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListSqlMigrationServiceByResourceGroupRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(865, __c54, 1));
+      return S.Array(__S(897, __c56, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1216, __c76, 0)),
+          value: S.optional(__S(1248, __c78, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlMigrationListResult" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6430,7 +6316,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListSqlMigrationServiceBySubscriptionRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6448,46 +6334,29 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "ListSqlMigrationServiceMigrationsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          scope: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          migrationStatus: S.optional(S.String),
-          startedOn: S.optional(S.String),
-          endedOn: S.optional(S.String),
-          migrationService: S.optional(S.String),
-          migrationOperationId: S.optional(S.String),
-          migrationFailureError: S.optional(__S(1760, __c110, 0)),
-          provisioningError: S.optional(S.String),
-          sourceSqlConnection: S.optional(__S(64, __c4, 0)),
-          sourceDatabaseName: S.optional(S.String),
-          sourceServerName: S.optional(S.String),
-          targetDatabaseCollation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseMigrationProperties" });
+      return S.Union([__S(174, __c10, 14), __S(174, __c10, 14), __S(100, __c6, 4)]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          properties: S.optional(__S(1249, __c78, 1)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(1281, __c80, 1)),
         }),
       ).annotate({ identifier: "DatabaseMigration" });
     case 3:
-      return S.Array(__S(1250, __c78, 2));
+      return S.Array(__S(1282, __c80, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1251, __c78, 3)),
+          value: S.optional(__S(1283, __c80, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseMigrationListResult" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6507,7 +6376,7 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          additionalProperties: S.optional(__S(992, __c62, 0)),
+          additionalProperties: S.optional(__S(1024, __c64, 0)),
           nodeName: S.optional(S.String),
           availableMemoryInMB: S.optional(S.Number),
           cpuUtilization: S.optional(S.Number),
@@ -6519,17 +6388,17 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "NodeMonitoringData" });
     case 2:
-      return S.Array(__S(1265, __c79, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          nodes: S.optional(__S(1266, __c79, 2)),
+          nodes: S.optional(__S(1298, __c81, 2)),
         }),
       ).annotate({ identifier: "IntegrationRuntimeMonitoringData" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6550,7 +6419,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ListTasksRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6570,7 +6439,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CheckServiceNameAvailabilityRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6599,22 +6468,22 @@ function __c82(j: number): any {
           currentValue: S.optional(S.Number),
           id: S.optional(S.String),
           limit: S.optional(S.Number),
-          name: S.optional(__S(1313, __c82, 1)),
+          name: S.optional(__S(1345, __c84, 1)),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "Quota" });
     case 3:
-      return S.Array(__S(1314, __c82, 2));
+      return S.Array(__S(1346, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1315, __c82, 3)),
+          value: S.optional(__S(1347, __c84, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsagesResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6622,7 +6491,7 @@ function __c83(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           migrationServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
           properties: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -6636,7 +6505,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "MigrationServicesCreateOrUpdateRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6645,9 +6514,9 @@ function __c84(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(1360, __c85, 0)),
+          properties: S.optional(__S(1392, __c87, 0)),
           etag: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -6660,22 +6529,22 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ProjectsCreateOrUpdateRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sourcePlatform: S.String,
-          azureAuthenticationInfo: S.optional(__S(768, __c48, 0)),
+          azureAuthenticationInfo: S.optional(__S(800, __c50, 0)),
           targetPlatform: S.String,
-          sourceConnectionInfo: S.optional(__S(769, __c48, 1)),
-          targetConnectionInfo: S.optional(__S(769, __c48, 1)),
-          databasesInfo: S.optional(__S(771, __c48, 3)),
+          sourceConnectionInfo: S.optional(__S(801, __c50, 1)),
+          targetConnectionInfo: S.optional(__S(801, __c50, 1)),
+          databasesInfo: S.optional(__S(803, __c50, 3)),
         }),
       ).annotate({ identifier: "ProjectPropertiesInput" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6696,18 +6565,18 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ReadFileRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          headers: S.optional(__S(512, __c32, 0)),
+          headers: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ReadFileResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6728,7 +6597,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ReadFileWriteRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6758,7 +6627,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "RegenAuthKeys" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6779,7 +6648,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "RetryDatabaseMigrationsSqlDbRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6787,12 +6656,12 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          properties: S.optional(__S(1472, __c92, 0)),
-          sku: S.optional(__S(801, __c50, 1)),
+          properties: S.optional(__S(1504, __c94, 0)),
+          sku: S.optional(__S(833, __c52, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6804,7 +6673,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ServicesCreateOrUpdateRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6818,7 +6687,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DataMigrationServicePropertiesInput" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6828,7 +6697,7 @@ function __c93(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6840,18 +6709,18 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ServiceTasksCreateOrUpdateRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           taskType: S.String,
-          clientData: S.optional(__S(512, __c32, 0)),
+          clientData: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ProjectTaskPropertiesInput" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6859,7 +6728,7 @@ function __c95(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sqlMigrationServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
           properties: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -6873,7 +6742,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "SqlMigrationServicesCreateOrUpdateRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6897,18 +6766,18 @@ function __c96(j: number): any {
           agentConfiguration: S.optional(S.Unknown),
           status: S.optional(S.String),
           vmSize: S.optional(S.String),
-          supportedTaskTypes: S.optional(__S(1552, __c97, 0)),
+          supportedTaskTypes: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "CheckServiceStatusResponse" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6927,7 +6796,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "StartServiceRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6946,7 +6815,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "StopServiceRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6968,7 +6837,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "TasksCommandRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6979,7 +6848,7 @@ function __c101(j: number): any {
           projectName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6991,7 +6860,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "TasksCreateOrUpdateRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7002,7 +6871,7 @@ function __c102(j: number): any {
           projectName: S.String.pipe(T.Label()),
           fileName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(464, __c29, 0)),
+          properties: S.optional(__S(496, __c31, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7014,7 +6883,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateFileRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7022,7 +6891,7 @@ function __c103(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           migrationServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7038,16 +6907,16 @@ function __c103(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          tags: S.optional(__S(512, __c32, 0)),
+          systemData: S.optional(__S(592, __c37, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(736, __c46, 0)),
+          properties: S.optional(__S(768, __c48, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateMigrationServiceResponse" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7056,9 +6925,9 @@ function __c104(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
-          properties: S.optional(__S(1360, __c85, 0)),
+          properties: S.optional(__S(1392, __c87, 0)),
           etag: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -7071,7 +6940,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7079,12 +6948,12 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
           location: S.String,
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          properties: S.optional(__S(1472, __c92, 0)),
-          sku: S.optional(__S(801, __c50, 1)),
+          properties: S.optional(__S(1504, __c94, 0)),
+          sku: S.optional(__S(833, __c52, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7096,7 +6965,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7106,7 +6975,7 @@ function __c106(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7118,7 +6987,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateServiceTaskRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7126,7 +6995,7 @@ function __c107(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           sqlMigrationServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(512, __c32, 0)),
+          tags: S.optional(__S(544, __c34, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7138,7 +7007,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateSqlMigrationServiceRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7147,7 +7016,7 @@ function __c108(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceName: S.String.pipe(T.Label()),
           migrationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1746, __c109, 2)),
+          properties: S.optional(__S(1778, __c111, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7159,7 +7028,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7171,7 +7040,7 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "MongoMigrationCollectionInput" });
     case 1:
-      return S.Array(__S(1744, __c109, 0));
+      return S.Array(__S(1776, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7180,14 +7049,14 @@ function __c109(j: number): any {
           migrationService: S.optional(S.String),
           migrationOperationId: S.optional(S.String),
           provisioningError: S.optional(S.String),
-          sourceMongoConnection: S.optional(__S(1776, __c111, 0)),
-          targetMongoConnection: S.optional(__S(1776, __c111, 0)),
-          collectionList: S.optional(__S(1745, __c109, 1)),
+          sourceMongoConnection: S.optional(__S(1824, __c114, 0)),
+          targetMongoConnection: S.optional(__S(1824, __c114, 0)),
+          collectionList: S.optional(__S(1777, __c111, 1)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesCosmosDbMongoInput" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7198,7 +7067,21 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ErrorInfo" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(1828, __c114, 4)),
+        }),
+      ).annotate({ identifier: "CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7228,11 +7111,11 @@ function __c111(j: number): any {
           sourceCollection: S.optional(S.String),
           targetDatabase: S.optional(S.String),
           targetCollection: S.optional(S.String),
-          migrationProgressDetails: S.optional(__S(1777, __c111, 1)),
+          migrationProgressDetails: S.optional(__S(1825, __c114, 1)),
         }),
       ).annotate({ identifier: "MongoMigrationCollection" });
     case 3:
-      return S.Array(__S(1778, __c111, 2));
+      return S.Array(__S(1826, __c114, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7244,26 +7127,16 @@ function __c111(j: number): any {
           endedOn: S.optional(S.String),
           migrationService: S.optional(S.String),
           migrationOperationId: S.optional(S.String),
-          migrationFailureError: S.optional(__S(1760, __c110, 0)),
+          migrationFailureError: S.optional(__S(1792, __c112, 0)),
           provisioningError: S.optional(S.String),
-          sourceMongoConnection: S.optional(__S(1776, __c111, 0)),
-          targetMongoConnection: S.optional(__S(1776, __c111, 0)),
-          collectionList: S.optional(__S(1779, __c111, 3)),
+          sourceMongoConnection: S.optional(__S(1824, __c114, 0)),
+          targetMongoConnection: S.optional(__S(1824, __c114, 0)),
+          collectionList: S.optional(__S(1827, __c114, 3)),
         }),
       ).annotate({ identifier: "DatabaseMigrationPropertiesCosmosDbMongo" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(560, __c35, 0)),
-          properties: S.optional(__S(1780, __c111, 4)),
-        }),
-      ).annotate({ identifier: "CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7274,7 +7147,7 @@ function __c112(j: number): any {
           projectName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7286,7 +7159,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateTaskRequest" });
   }
 }
-function __c113(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7295,7 +7168,7 @@ function __c113(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetResourceName: S.String.pipe(T.Label()),
           migrationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1746, __c109, 2)),
+          properties: S.optional(__S(1778, __c111, 2)),
         }).pipe(
           T.Http({
             method: "PUT",

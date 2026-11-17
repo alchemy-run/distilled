@@ -67,10 +67,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.integrations#IntegrationsEmailVerifyCreateRequest/members/kind/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.integrations#GitHubBranchesResponse/members/branches/traits/smithy.api#required"
     },
     {

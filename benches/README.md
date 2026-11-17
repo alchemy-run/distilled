@@ -1,12 +1,13 @@
 # benches
 
-Benchmark suites for the Distilled SDKs. Measurements, not pass/fail tests;
-none of them touch the network.
+Benchmark suites for the Distilled SDKs. Measurements, not pass/fail tests,
+except `bundlers/`'s check, which CI runs; none of them touch the network.
 
 | suite        | what it measures                                                  | run                    |
 | ------------ | ----------------------------------------------------------------- | ---------------------- |
 | `runtime/`   | CPU per call: schema codecs, request build, full mocked call      | `pnpm bench:runtime`   |
 | `bundle/`    | rolldown tree-shake + bundle time (owned by bench-bundle)         | `pnpm bench:bundle`    |
+| `bundlers/`  | the packed SDKs through esbuild, rolldown, Vite, webpack and wrangler: bundle time and size; also a CI check that their lazy imports still load | `pnpm bench:bundlers`  |
 | `typecheck/` | `tsc -b` wall time + peak RSS: emit vs full check, clean vs incr  | `pnpm bench:typecheck` |
 | `sdks/`      | per SDK: download, 1-auth + 1-operation bundle, import heap, first call, added latency; official SDKs for comparison | `node benches/sdks/run.ts` |
 | `schema-lab/` | schema representations side by side (Effect Schema, compiled, schema-lite) | see its README |

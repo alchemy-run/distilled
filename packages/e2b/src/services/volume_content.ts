@@ -32,7 +32,7 @@ export interface ListVolumeDirRequest {
   volumeID: string;
   path: string;
   /** Number of layers deep to recurse into the directory */
-  depth?: number;
+  depth?: number | undefined;
 }
 export type VolumeEntryStatType = "unknown" | "file" | "directory" | "symlink";
 export interface VolumeEntryStat {
@@ -46,7 +46,7 @@ export interface VolumeEntryStat {
   atime: string;
   mtime: string;
   ctime: string;
-  target?: string;
+  target?: string | undefined;
 }
 export type VolumeDirectoryListing = Array<VolumeEntryStat>;
 export type ListVolumeDirResponse = VolumeDirectoryListing;
@@ -54,13 +54,13 @@ export interface MakeVolumeDirRequest {
   volumeID: string;
   path: string;
   /** User ID of the created directory */
-  uid?: number;
+  uid?: number | undefined;
   /** Group ID of the created directory */
-  gid?: number;
+  gid?: number | undefined;
   /** Mode of the created directory */
-  mode?: number;
+  mode?: number | undefined;
   /** Create the parents of a directory if they don't exist */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface ReadVolumeFileRequest {
   volumeID: string;
@@ -79,21 +79,21 @@ export interface StatVolumePathRequest {
 export interface UpdateVolumePathRequest {
   volumeID: string;
   path: string;
-  uid?: number;
-  gid?: number;
-  mode?: number;
+  uid?: number | undefined;
+  gid?: number | undefined;
+  mode?: number | undefined;
 }
 export interface WriteVolumeFileRequest {
   volumeID: string;
   path: string;
   /** User ID of the uploaded file */
-  uid?: number;
+  uid?: number | undefined;
   /** Group ID of the uploaded file */
-  gid?: number;
+  gid?: number | undefined;
   /** Mode of the uploaded file */
-  mode?: number;
+  mode?: number | undefined;
   /** Force overwrite of an existing file */
-  force?: boolean;
+  force?: boolean | undefined;
   body: Uint8Array | string;
 }
 export type ListVolumeDirError = E2BOpError;

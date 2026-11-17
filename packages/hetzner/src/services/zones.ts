@@ -39,11 +39,11 @@ export interface CreateZoneRequestPrimaryNameserversItem {
   /** Public IPv4 or IPv6 address of the primary nameserver. Must be unique across all primary nameservers of this zone. */
   address: string;
   /** Port of the primary nameserver. */
-  port?: number;
+  port?: number | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) key to use for the zone transfer. Must be base64 encoded. */
-  tsig_key?: string;
+  tsig_key?: string | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
-  tsig_algorithm?: CreateZoneRequestPrimaryNameserversItemTsigAlgorithm | (string & {});
+  tsig_algorithm?: CreateZoneRequestPrimaryNameserversItemTsigAlgorithm | (string & {}) | undefined;
 }
 /** Primary nameservers of the [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in secondary mode. Ignored for [Zones](#tag/zones) in primary mode. */
 export type CreateZoneRequestPrimaryNameserversList =
@@ -71,7 +71,7 @@ export interface CreateZoneRequestRrsetsItemRecordsItem {
   /** Value of the record. For details about accepted values, see the [DNS record types documentation](https://docs.hetzner.com/networking/dns/record-types/overview/). */
   value: string;
   /** Comment of the record. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Records of the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. The order of records returned in responses is not guaranteed to be consistent. */
 export type CreateZoneRequestRrsetsItemRecordsList = Array<CreateZoneRequestRrsetsItemRecordsItem>;
@@ -83,11 +83,11 @@ export interface CreateZoneRequestRrsetsItem {
   /** Type of the [RRSet](#tag/zone-rrsets). */
   type: CreateZoneRequestRrsetsItemType | (string & {});
   /** Time To Live (TTL) of the [RRSet](#tag/zone-rrsets). Must be in between 60s and 2147483647s. If not set, the [Zone's](#tag/zones) Default TTL is used. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Records of the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. The order of records returned in responses is not guaranteed to be consistent. */
   records: CreateZoneRequestRrsetsItemRecordsList;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateZoneRequestRrsetsItemLabelsMap;
+  labels?: CreateZoneRequestRrsetsItemLabelsMap | undefined;
 }
 /** [RRSets](#tag/zone-rrsets) to be added to the [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in primary mode. Ignored for [Zones](#tag/zones) in secondary mode. */
 export type CreateZoneRequestRrsetsList = Array<CreateZoneRequestRrsetsItem>;
@@ -97,15 +97,15 @@ export interface CreateZoneRequest {
   /** Mode of the [Zone](#tag/zones). For more information, see [Zone Modes](#tag/zones/zone-modes). */
   mode: CreateZoneRequestMode | (string & {});
   /** Default Time To Live (TTL) of the [Zone](#tag/zones). Must be in between 60s and 2147483647s. This TTL is used for [RRSets](#tag/zone-rrsets) that do not explicitly define a TTL. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateZoneRequestLabelsMap;
+  labels?: CreateZoneRequestLabelsMap | undefined;
   /** Primary nameservers of the [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in secondary mode. Ignored for [Zones](#tag/zones) in primary mode. */
-  primary_nameservers?: CreateZoneRequestPrimaryNameserversList;
+  primary_nameservers?: CreateZoneRequestPrimaryNameserversList | undefined;
   /** [RRSets](#tag/zone-rrsets) to be added to the [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in primary mode. Ignored for [Zones](#tag/zones) in secondary mode. */
-  rrsets?: CreateZoneRequestRrsetsList;
+  rrsets?: CreateZoneRequestRrsetsList | undefined;
   /** Zone file to import. Only applicable for [Zones](#tag/zones) in primary mode. Ignored for [Zones](#tag/zones) in secondary mode. If provided, `rrsets` must be empty. See [Zone file import](#tag/zones/zone-file-import) for more details. */
-  zonefile?: string;
+  zonefile?: string | undefined;
 }
 /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
 export type ZonePrimaryPrimaryNameserversItemTsigAlgorithm =
@@ -117,11 +117,11 @@ export interface ZonePrimaryPrimaryNameserversItem {
   /** Public IPv4 or IPv6 address of the primary nameserver. Must be unique across all primary nameservers of this zone. */
   address: string;
   /** Port of the primary nameserver. */
-  port?: number;
+  port?: number | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) key to use for the zone transfer. Must be base64 encoded. */
-  tsig_key?: string;
+  tsig_key?: string | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
-  tsig_algorithm?: ZonePrimaryPrimaryNameserversItemTsigAlgorithm;
+  tsig_algorithm?: ZonePrimaryPrimaryNameserversItemTsigAlgorithm | undefined;
 }
 /** Primary nameservers of the [Zone](#tag/zones). Only set if [Zone](#tag/zones) is in [secondary mode](#tag/zones/zone-modes), otherwise empty. */
 export type ZonePrimaryPrimaryNameserversList = Array<ZonePrimaryPrimaryNameserversItem>;
@@ -154,7 +154,7 @@ export interface ZonePrimaryAuthoritativeNameservers {
   /** Point in time (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format) when the DNS zone delegation was last checked. */
   delegation_last_check: string | null;
   /** Status of the delegation. */
-  delegation_status?: ZonePrimaryAuthoritativeNameserversDelegationStatus;
+  delegation_status?: ZonePrimaryAuthoritativeNameserversDelegationStatus | undefined;
 }
 /** Registrar of the domain. */
 export type ZonePrimaryRegistrar = "hetzner" | "other" | "unknown";
@@ -168,7 +168,7 @@ export interface ZonePrimary {
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   /** Primary nameservers of the [Zone](#tag/zones). Only set if [Zone](#tag/zones) is in [secondary mode](#tag/zones/zone-modes), otherwise empty. */
-  primary_nameservers?: ZonePrimaryPrimaryNameserversList;
+  primary_nameservers?: ZonePrimaryPrimaryNameserversList | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: ZonePrimaryLabelsMap;
   /** Protection configuration for the Resource. */
@@ -195,11 +195,11 @@ export interface ZoneSecondaryPrimaryNameserversItem {
   /** Public IPv4 or IPv6 address of the primary nameserver. Must be unique across all primary nameservers of this zone. */
   address: string;
   /** Port of the primary nameserver. */
-  port?: number;
+  port?: number | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) key to use for the zone transfer. Must be base64 encoded. */
-  tsig_key?: string;
+  tsig_key?: string | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
-  tsig_algorithm?: ZoneSecondaryPrimaryNameserversItemTsigAlgorithm;
+  tsig_algorithm?: ZoneSecondaryPrimaryNameserversItemTsigAlgorithm | undefined;
 }
 /** Primary nameservers of the [Zone](#tag/zones). Only set if [Zone](#tag/zones) is in [secondary mode](#tag/zones/zone-modes), otherwise empty. */
 export type ZoneSecondaryPrimaryNameserversList = Array<ZoneSecondaryPrimaryNameserversItem>;
@@ -229,7 +229,7 @@ export interface ZoneSecondaryAuthoritativeNameservers {
   /** Point in time (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format) when the DNS zone delegation was last checked. */
   delegation_last_check: string | null;
   /** Status of the delegation. */
-  delegation_status?: ZoneSecondaryAuthoritativeNameserversDelegationStatus;
+  delegation_status?: ZoneSecondaryAuthoritativeNameserversDelegationStatus | undefined;
 }
 /** Registrar of the domain. */
 export type ZoneSecondaryRegistrar = "hetzner" | "other" | "unknown";
@@ -243,7 +243,7 @@ export interface ZoneSecondary {
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   /** Primary nameservers of the [Zone](#tag/zones). Only set if [Zone](#tag/zones) is in [secondary mode](#tag/zones/zone-modes), otherwise empty. */
-  primary_nameservers?: ZoneSecondaryPrimaryNameserversList;
+  primary_nameservers?: ZoneSecondaryPrimaryNameserversList | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: ZoneSecondaryLabelsMap;
   /** Protection configuration for the Resource. */
@@ -363,17 +363,17 @@ export type ListZonesRequestSortItem =
 export type ListZonesRequestSortList = Array<ListZonesRequestSortItem | (string & {})>;
 export interface ListZonesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by their mode. The response will only contain the resources matching exactly the specified mode. */
-  mode?: ListZonesRequestMode | (string & {});
+  mode?: ListZonesRequestMode | (string & {}) | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListZonesRequestSortList;
+  sort?: ListZonesRequestSortList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListZonesResponseZonesItem = ZonePrimary | ZoneSecondary;
 export type ListZonesResponseZonesList = Array<ListZonesResponseZonesItem>;
@@ -406,7 +406,7 @@ export interface UpdateZoneRequest {
   /** ID or Name of the Zone. */
   id_or_name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateZoneRequestLabelsMap;
+  labels?: UpdateZoneRequestLabelsMap | undefined;
 }
 export type UpdateZoneResponseZone = ZonePrimary | ZoneSecondary;
 export interface UpdateZoneResponse {

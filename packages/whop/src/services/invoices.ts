@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** The type of tax identifier */
 export type TaxIdentifierTypes =
@@ -179,25 +207,25 @@ export type TaxIdentifierTypes =
 /** Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id. */
 export interface CreateInvoiceRequestBodyCase0BillingAddress {
   /** The city of the address. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** The country of the address. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The line 1 of the address. */
-  line1?: string | null;
+  line1?: string | null | undefined;
   /** The line 2 of the address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** The name of the customer. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The phone number of the customer. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The postal code of the address. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** The state of the address. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The type of tax identifier. */
-  tax_id_type?: TaxIdentifierTypes | (string & {}) | null;
+  tax_id_type?: TaxIdentifierTypes | (string & {}) | null | undefined;
   /** The value of the tax identifier. */
-  tax_id_value?: string | null;
+  tax_id_value?: string | null | undefined;
 }
 /** The method of collection for an invoice. */
 export type InvoiceCollectionMethods = "send_invoice" | "charge_automatically";
@@ -206,7 +234,7 @@ export interface CreateInvoiceRequestBodyCase0LineItemsItem {
   /** The label or description for this line item. */
   label: string;
   /** The quantity of this line item. Defaults to 1. */
-  quantity?: number | null;
+  quantity?: number | null | undefined;
   /** The unit price for this line item. Provided as a number in the specified currency. Eg: 10.43 for $10.43. Negative values represent a credit or deduction, as long as the line items still total a chargeable amount. */
   unit_price: number;
 }
@@ -309,15 +337,15 @@ export interface CreateInvoiceRequestBodyCase0PlanCustomFieldsItem {
   /** The type of the custom field. */
   field_type: string;
   /** The ID of the custom field (if being updated) */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the custom field. */
   name: string;
   /** The order of the field. */
-  order?: number | null;
+  order?: number | null | undefined;
   /** The placeholder value of the field. */
-  placeholder?: string | null;
+  placeholder?: string | null | undefined;
   /** Whether or not the field is required. */
-  required?: boolean | null;
+  required?: boolean | null | undefined;
 }
 /** An array of custom field objects. */
 export type CreateInvoiceRequestBodyCase0PlanCustomFieldsList =
@@ -468,7 +496,7 @@ export interface CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration {
   /** An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods. */
   enabled: CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationEnabledList;
   /** Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments. */
-  include_platform_defaults?: boolean | null;
+  include_platform_defaults?: boolean | null | undefined;
 }
 /** The type of plan that can be attached to a product */
 export type PlanTypes = "renewal" | "one_time";
@@ -479,44 +507,47 @@ export type Visibility = "visible" | "hidden" | "archived" | "quick_link";
 /** The plan attributes defining the price, currency, and billing interval for this invoice. */
 export interface CreateInvoiceRequestBodyCase0Plan {
   /** Whether this plan accepts local currency payments via adaptive pricing. */
-  adaptive_pricing_enabled?: boolean | null;
+  adaptive_pricing_enabled?: boolean | null | undefined;
   /** The interval in days at which the plan charges (renewal plans). */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** The three-letter ISO currency code for the plan's pricing. Defaults to USD. */
-  currency?: LegacyCurrencies | (string & {}) | null;
+  currency?: LegacyCurrencies | (string & {}) | null | undefined;
   /** An array of custom field objects. */
-  custom_fields?: CreateInvoiceRequestBodyCase0PlanCustomFieldsList | null;
+  custom_fields?: CreateInvoiceRequestBodyCase0PlanCustomFieldsList | null | undefined;
   /** The description of the plan. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** A personal description or notes section for the business. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Whether this plan uses legacy payment method controls */
-  legacy_payment_method_controls?: boolean | null;
+  legacy_payment_method_controls?: boolean | null | undefined;
   /** The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply. */
-  payment_method_configuration?: CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Indicates if the plan is a one time payment or recurring. */
-  plan_type?: PlanTypes | (string & {}) | null;
+  plan_type?: PlanTypes | (string & {}) | null | undefined;
   /** This is the release method the business uses to sell this plan. */
-  release_method?: ReleaseMethod | (string & {}) | null;
+  release_method?: ReleaseMethod | (string & {}) | null | undefined;
   /** The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** The number of units available for purchase. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** The number of free trial days added before a renewal plan. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Shows or hides the plan from public/business view. */
-  visibility?: Visibility | (string & {}) | null;
+  visibility?: Visibility | (string & {}) | null | undefined;
 }
 /** The properties of the product to create for this invoice. Provide this to create a new product inline. */
 export interface CreateInvoiceRequestBodyCase0Product {
   /** The ID of the product tax code to apply to this product. */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** The title of the product. */
   title: string;
 }
@@ -525,37 +556,37 @@ export interface CreateInvoiceRequestBodyCase0 {
   /** The unique identifier of the company to create this invoice for. */
   account_id: string;
   /** The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email to the customer at the specified time. */
-  automatically_finalizes_at?: string | null;
+  automatically_finalizes_at?: string | null | undefined;
   /** Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id. */
-  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null;
+  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null | undefined;
   /** Whether to charge the customer a buyer fee on this invoice. */
-  charge_buyer_fee?: boolean | null;
+  charge_buyer_fee?: boolean | null | undefined;
   /** How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer. */
   collection_method: InvoiceCollectionMethods | (string & {});
   /** The name of the customer. Required when creating an invoice for a customer who is not yet a member of the company. */
-  customer_name?: string | null;
+  customer_name?: string | null | undefined;
   /** The date by which the invoice must be paid. Required unless save_as_draft is true. */
-  due_date?: string | null;
+  due_date?: string | null | undefined;
   /** The email address of the customer. Required when creating an invoice for a customer who is not yet a member of the company. */
-  email_address?: string | null;
+  email_address?: string | null | undefined;
   /** Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge. */
-  line_items?: CreateInvoiceRequestBodyCase0LineItemsList | null;
+  line_items?: CreateInvoiceRequestBodyCase0LineItemsList | null | undefined;
   /** The unique identifier of an existing mailing address to attach to this invoice. Cannot be used together with billing_address. */
-  mailing_address_id?: string | null;
+  mailing_address_id?: string | null | undefined;
   /** The unique identifier of an existing member to create this invoice for. If not provided, you must supply an email_address and customer_name. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The unique identifier of the payment method to charge. Required when collection_method is charge_automatically. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** The payment token ID to use for this invoice. If using charge_automatically, you must provide a payment_token. */
-  payment_token_id?: string | null;
+  payment_token_id?: string | null | undefined;
   /** The plan attributes defining the price, currency, and billing interval for this invoice. */
   plan: CreateInvoiceRequestBodyCase0Plan;
   /** The properties of the product to create for this invoice. Provide this to create a new product inline. */
   product: CreateInvoiceRequestBodyCase0Product;
   /** When true, creates the invoice as a draft without sending or charging. Relaxes customer and due date requirements. */
-  save_as_draft?: boolean | null;
+  save_as_draft?: boolean | null | undefined;
   /** The date that defines when the subscription billing cycle should start. When set on a renewal plan invoice, this anchors all future billing periods to this date. */
-  subscription_billing_anchor_at?: string | null;
+  subscription_billing_anchor_at?: string | null | undefined;
 }
 /** Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id. */
 export type CreateInvoiceRequestBodyCase1BillingAddress =
@@ -585,81 +616,84 @@ export interface CreateInvoiceRequestBodyCase1PlanPaymentMethodConfiguration {
   /** An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods. */
   enabled: CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationEnabledList;
   /** Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments. */
-  include_platform_defaults?: boolean | null;
+  include_platform_defaults?: boolean | null | undefined;
 }
 /** The plan attributes defining the price, currency, and billing interval for this invoice. */
 export interface CreateInvoiceRequestBodyCase1Plan {
   /** Whether this plan accepts local currency payments via adaptive pricing. */
-  adaptive_pricing_enabled?: boolean | null;
+  adaptive_pricing_enabled?: boolean | null | undefined;
   /** The interval in days at which the plan charges (renewal plans). */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** The three-letter ISO currency code for the plan's pricing. Defaults to USD. */
-  currency?: LegacyCurrencies | (string & {}) | null;
+  currency?: LegacyCurrencies | (string & {}) | null | undefined;
   /** An array of custom field objects. */
-  custom_fields?: CreateInvoiceRequestBodyCase1PlanCustomFieldsList | null;
+  custom_fields?: CreateInvoiceRequestBodyCase1PlanCustomFieldsList | null | undefined;
   /** The description of the plan. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** A personal description or notes section for the business. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Whether this plan uses legacy payment method controls */
-  legacy_payment_method_controls?: boolean | null;
+  legacy_payment_method_controls?: boolean | null | undefined;
   /** The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply. */
-  payment_method_configuration?: CreateInvoiceRequestBodyCase1PlanPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | CreateInvoiceRequestBodyCase1PlanPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Indicates if the plan is a one time payment or recurring. */
-  plan_type?: PlanTypes | (string & {}) | null;
+  plan_type?: PlanTypes | (string & {}) | null | undefined;
   /** This is the release method the business uses to sell this plan. */
-  release_method?: ReleaseMethod | (string & {}) | null;
+  release_method?: ReleaseMethod | (string & {}) | null | undefined;
   /** The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** The number of units available for purchase. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** The number of free trial days added before a renewal plan. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Shows or hides the plan from public/business view. */
-  visibility?: Visibility | (string & {}) | null;
+  visibility?: Visibility | (string & {}) | null | undefined;
 }
 /** Autogenerated input type of CreateInvoice */
 export interface CreateInvoiceRequestBodyCase1 {
   /** The unique identifier of the company to create this invoice for. */
   account_id: string;
   /** The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email to the customer at the specified time. */
-  automatically_finalizes_at?: string | null;
+  automatically_finalizes_at?: string | null | undefined;
   /** Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id. */
-  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null;
+  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null | undefined;
   /** Whether to charge the customer a buyer fee on this invoice. */
-  charge_buyer_fee?: boolean | null;
+  charge_buyer_fee?: boolean | null | undefined;
   /** How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer. */
   collection_method: InvoiceCollectionMethods | (string & {});
   /** The name of the customer. Required when creating an invoice for a customer who is not yet a member of the company. */
-  customer_name?: string | null;
+  customer_name?: string | null | undefined;
   /** The date by which the invoice must be paid. Required unless save_as_draft is true. */
-  due_date?: string | null;
+  due_date?: string | null | undefined;
   /** The email address of the customer. Required when creating an invoice for a customer who is not yet a member of the company. */
-  email_address?: string | null;
+  email_address?: string | null | undefined;
   /** Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge. */
-  line_items?: CreateInvoiceRequestBodyCase1LineItemsList | null;
+  line_items?: CreateInvoiceRequestBodyCase1LineItemsList | null | undefined;
   /** The unique identifier of an existing mailing address to attach to this invoice. Cannot be used together with billing_address. */
-  mailing_address_id?: string | null;
+  mailing_address_id?: string | null | undefined;
   /** The unique identifier of an existing member to create this invoice for. If not provided, you must supply an email_address and customer_name. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The unique identifier of the payment method to charge. Required when collection_method is charge_automatically. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** The payment token ID to use for this invoice. If using charge_automatically, you must provide a payment_token. */
-  payment_token_id?: string | null;
+  payment_token_id?: string | null | undefined;
   /** The plan attributes defining the price, currency, and billing interval for this invoice. */
   plan: CreateInvoiceRequestBodyCase1Plan;
   /** The unique identifier of an existing product to create this invoice for. */
   product_id: string;
   /** When true, creates the invoice as a draft without sending or charging. Relaxes customer and due date requirements. */
-  save_as_draft?: boolean | null;
+  save_as_draft?: boolean | null | undefined;
   /** The date that defines when the subscription billing cycle should start. When set on a renewal plan invoice, this anchors all future billing periods to this date. */
-  subscription_billing_anchor_at?: string | null;
+  subscription_billing_anchor_at?: string | null | undefined;
 }
 /** Parameters for CreateInvoice */
 export type CreateInvoiceRequestBody =
@@ -819,18 +853,18 @@ export type ListInvoiceRequestStatusesList = Array<InvoiceStatuses | (string & {
 /** Which columns can be used to sort. */
 export type InvoicesSortableColumns = "id" | "created_at" | "due_date";
 export interface ListInvoiceRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  direction?: Direction | (string & {});
-  product_ids?: ListInvoiceRequestProductIdsList;
-  collection_methods?: ListInvoiceRequestCollectionMethodsList;
-  statuses?: ListInvoiceRequestStatusesList;
-  order?: InvoicesSortableColumns | (string & {});
-  created_before?: string;
-  created_after?: string;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  direction?: Direction | (string & {}) | undefined;
+  product_ids?: ListInvoiceRequestProductIdsList | undefined;
+  collection_methods?: ListInvoiceRequestCollectionMethodsList | undefined;
+  statuses?: ListInvoiceRequestStatusesList | undefined;
+  order?: InvoicesSortableColumns | (string & {}) | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
+  account_id?: string | undefined;
 }
 /** The plan that this invoice charges for. */
 export interface InvoiceListItemCurrentPlan {
@@ -939,82 +973,96 @@ export interface UpdateInvoiceRequestPlanPaymentMethodConfiguration {
   /** An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods. */
   enabled: UpdateInvoiceRequestPlanPaymentMethodConfigurationEnabledList;
   /** Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments. */
-  include_platform_defaults?: boolean | null;
+  include_platform_defaults?: boolean | null | undefined;
 }
 /** Updated plan attributes. */
 export interface UpdateInvoiceRequestPlan {
   /** Whether this plan accepts local currency payments via adaptive pricing. */
-  adaptive_pricing_enabled?: boolean | null;
+  adaptive_pricing_enabled?: boolean | null | undefined;
   /** The interval in days at which the plan charges (renewal plans). */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** The three-letter ISO currency code for the plan's pricing. Defaults to USD. */
-  currency?: LegacyCurrencies | (string & {}) | null;
+  currency?: LegacyCurrencies | (string & {}) | null | undefined;
   /** An array of custom field objects. */
-  custom_fields?: UpdateInvoiceRequestPlanCustomFieldsList | null;
+  custom_fields?: UpdateInvoiceRequestPlanCustomFieldsList | null | undefined;
   /** The description of the plan. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** A personal description or notes section for the business. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Whether this plan uses legacy payment method controls */
-  legacy_payment_method_controls?: boolean | null;
+  legacy_payment_method_controls?: boolean | null | undefined;
   /** The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply. */
-  payment_method_configuration?: UpdateInvoiceRequestPlanPaymentMethodConfiguration | null;
+  payment_method_configuration?:
+    | UpdateInvoiceRequestPlanPaymentMethodConfiguration
+    | null
+    | undefined;
   /** Indicates if the plan is a one time payment or recurring. */
-  plan_type?: PlanTypes | (string & {}) | null;
+  plan_type?: PlanTypes | (string & {}) | null | undefined;
   /** This is the release method the business uses to sell this plan. */
-  release_method?: ReleaseMethod | (string & {}) | null;
+  release_method?: ReleaseMethod | (string & {}) | null | undefined;
   /** The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43 */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** The number of units available for purchase. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** The number of free trial days added before a renewal plan. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Shows or hides the plan from public/business view. */
-  visibility?: Visibility | (string & {}) | null;
+  visibility?: Visibility | (string & {}) | null | undefined;
 }
 export interface UpdateInvoiceRequest {
   /** The unique identifier of the invoice to update. */
   id: string;
   /** The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email at the specified time. */
-  automatically_finalizes_at?: string | null;
+  automatically_finalizes_at?: string | null | undefined;
   /** Inline billing address to create or update a mailing address for this invoice. */
-  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null;
+  billing_address?: CreateInvoiceRequestBodyCase0BillingAddress | null | undefined;
   /** Whether to charge the customer a buyer fee on this invoice. */
-  charge_buyer_fee?: boolean | null;
+  charge_buyer_fee?: boolean | null | undefined;
   /** How the invoice should be collected. */
-  collection_method?: InvoiceCollectionMethods | (string & {}) | null;
+  collection_method?: InvoiceCollectionMethods | (string & {}) | null | undefined;
   /** The name of the customer. */
-  customer_name?: string | null;
+  customer_name?: string | null | undefined;
   /** The date by which the invoice must be paid. */
-  due_date?: string | null;
+  due_date?: string | null | undefined;
   /** The email address of the customer. */
-  email_address?: string | null;
+  email_address?: string | null | undefined;
   /** Line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge. Pass an empty list to remove the breakdown. */
-  line_items?: UpdateInvoiceRequestLineItemsList | null;
+  line_items?: UpdateInvoiceRequestLineItemsList | null | undefined;
   /** The unique identifier of an existing mailing address to attach. */
-  mailing_address_id?: string | null;
+  mailing_address_id?: string | null | undefined;
   /** The unique identifier of a member to assign as the customer. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The unique identifier of the payment method to charge. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** Updated plan attributes. */
-  plan?: UpdateInvoiceRequestPlan | null;
+  plan?: UpdateInvoiceRequestPlan | null | undefined;
   /** The unique identifier of an existing product to attach to this invoice. Only allowed while the invoice is still a draft. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** The date that defines when the subscription billing cycle should start. */
-  subscription_billing_anchor_at?: string | null;
+  subscription_billing_anchor_at?: string | null | undefined;
 }
 export interface VoidInvoiceRequest {
   /** The unique identifier of the invoice to void. */
   id: string;
 }
 export type VoidInvoiceResponse = boolean;
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateInvoiceError =
   | BadRequest
   | Forbidden
@@ -1028,8 +1076,8 @@ export const createInvoice: API.OperationMethod<
   CreateInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateInvoiceRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<Invoice>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateInvoiceRequest>,
+  output: __S(45, __c5, 5) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1050,8 +1098,8 @@ export const deleteInvoice: API.OperationMethod<
   DeleteInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteInvoiceRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteInvoiceResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteInvoiceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1067,8 +1115,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<Invoice>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(45, __c5, 5) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1091,8 +1139,8 @@ export const listInvoice: API.PaginatedOperationMethod<
   InvoiceListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(73, __c9, 1) as any as S.Schema<ListInvoiceRequest>,
-    output: __S(79, __c9, 7) as any as S.Schema<ListInvoiceResponse>,
+    input: __S(81, __c10, 1) as any as S.Schema<ListInvoiceRequest>,
+    output: __S(87, __c10, 7) as any as S.Schema<ListInvoiceResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1123,8 +1171,8 @@ export const markPaidInvoice: API.OperationMethod<
   MarkPaidInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<MarkPaidInvoiceRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<MarkPaidInvoiceResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<MarkPaidInvoiceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<MarkPaidInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1145,8 +1193,8 @@ export const markUncollectibleInvoice: API.OperationMethod<
   MarkUncollectibleInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<MarkUncollectibleInvoiceRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<MarkUncollectibleInvoiceResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<MarkUncollectibleInvoiceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<MarkUncollectibleInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1167,8 +1215,8 @@ export const resendInvoice: API.OperationMethod<
   ResendInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ResendInvoiceRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<ResendInvoiceResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ResendInvoiceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<ResendInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1189,8 +1237,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15, __c1, 7) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<Invoice>,
+  input: __S(23, __c2, 7) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(45, __c5, 5) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1211,8 +1259,8 @@ export const voidInvoice: API.OperationMethod<
   VoidInvoiceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<VoidInvoiceRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<VoidInvoiceResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<VoidInvoiceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<VoidInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1226,12 +1274,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/invoices/{id}/resend", code: 200 })),
       ).annotate({ identifier: "ResendInvoiceRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1257,7 +1324,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateInvoiceRequestBodyCase0LineItemsItem" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1270,12 +1337,12 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateInvoiceRequestBodyCase0PlanCustomFieldsItem" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          disabled: __S(80, __c10, 0),
-          enabled: __S(80, __c10, 0),
+          disabled: __S(88, __c11, 0),
+          enabled: __S(88, __c11, 0),
           include_platform_defaults: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration" });
@@ -1285,13 +1352,13 @@ function __c1(j: number): any {
           adaptive_pricing_enabled: S.optional(S.NullOr(S.Boolean)),
           billing_period: S.optional(S.NullOr(S.Number)),
           currency: S.optional(S.NullOr(S.String)),
-          custom_fields: S.optional(S.NullOr(__S(12, __c1, 4))),
+          custom_fields: S.optional(S.NullOr(__S(20, __c2, 4))),
           description: S.optional(S.NullOr(S.String)),
           expiration_days: S.optional(S.NullOr(S.Number)),
           initial_price: S.optional(S.NullOr(S.Number)),
           internal_notes: S.optional(S.NullOr(S.String)),
           legacy_payment_method_controls: S.optional(S.NullOr(S.Boolean)),
-          payment_method_configuration: S.optional(S.NullOr(__S(13, __c1, 5))),
+          payment_method_configuration: S.optional(S.NullOr(__S(21, __c2, 5))),
           plan_type: S.optional(S.NullOr(S.String)),
           release_method: S.optional(S.NullOr(S.String)),
           renewal_price: S.optional(S.NullOr(S.Number)),
@@ -1306,24 +1373,24 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           automatically_finalizes_at: S.optional(S.NullOr(S.String)),
-          billing_address: S.optional(S.NullOr(__S(8, __c1, 0))),
+          billing_address: S.optional(S.NullOr(__S(16, __c2, 0))),
           charge_buyer_fee: S.optional(S.NullOr(S.Boolean)),
           collection_method: S.optional(S.NullOr(S.String)),
           customer_name: S.optional(S.NullOr(S.String)),
           due_date: S.optional(S.NullOr(S.String)),
           email_address: S.optional(S.NullOr(S.String)),
-          line_items: S.optional(S.NullOr(__S(10, __c1, 2))),
+          line_items: S.optional(S.NullOr(__S(18, __c2, 2))),
           mailing_address_id: S.optional(S.NullOr(S.String)),
           member_id: S.optional(S.NullOr(S.String)),
           payment_method_id: S.optional(S.NullOr(S.String)),
-          plan: S.optional(S.NullOr(__S(14, __c1, 6))),
+          plan: S.optional(S.NullOr(__S(22, __c2, 6))),
           product_id: S.optional(S.NullOr(S.String)),
           subscription_billing_anchor_at: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/invoices/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateInvoiceRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1333,7 +1400,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "VoidInvoiceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1343,7 +1410,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateInvoiceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1395,31 +1462,31 @@ function __c4(j: number): any {
           automatically_finalizes_at: S.NullOr(S.String),
           charge_buyer_fee: S.Boolean,
           collection_method: S.String,
-          company: __S(32, __c4, 0),
+          company: __S(40, __c5, 0),
           created_at: S.String,
-          current_plan: __S(33, __c4, 1),
+          current_plan: __S(41, __c5, 1),
           customer_name: S.NullOr(S.String),
           due_date: S.NullOr(S.String),
           email_address: S.NullOr(S.String),
           fetch_invoice_token: S.String,
           id: S.String,
-          line_items: __S(41, __c5, 1),
-          mailing_address: S.NullOr(__S(34, __c4, 2)),
-          member: S.NullOr(__S(32, __c4, 0)),
+          line_items: __S(49, __c6, 1),
+          mailing_address: S.NullOr(__S(42, __c5, 2)),
+          member: S.NullOr(__S(40, __c5, 0)),
           number: S.String,
           pay_online_url: S.NullOr(S.String),
-          payment: S.NullOr(__S(32, __c4, 0)),
+          payment: S.NullOr(__S(40, __c5, 0)),
           payment_processing: S.Boolean,
-          product: __S(35, __c4, 3),
+          product: __S(43, __c5, 3),
           status: S.String,
           subscription_billing_anchor_at: S.NullOr(S.String),
           updated_at: S.String,
-          user: S.NullOr(__S(36, __c4, 4)),
+          user: S.NullOr(__S(44, __c5, 4)),
         }),
       ).annotate({ identifier: "Invoice" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,10 +1499,10 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceLineItemsItem" });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(48, __c6, 0));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1445,7 +1512,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteInvoiceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
@@ -1453,7 +1520,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1463,7 +1530,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1475,9 +1542,9 @@ function __c9(j: number): any {
           first: S.optional(S.Number.pipe(T.Query())),
           last: S.optional(S.Number.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          product_ids: S.optional(__S(72, __c9, 0).pipe(T.Query())),
-          collection_methods: S.optional(__S(80, __c10, 0).pipe(T.Query())),
-          statuses: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          product_ids: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          collection_methods: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          statuses: S.optional(__S(88, __c11, 0).pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
@@ -1504,20 +1571,20 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
-          current_plan: __S(74, __c9, 2),
+          current_plan: __S(82, __c10, 2),
           due_date: S.NullOr(S.String),
           email_address: S.NullOr(S.String),
           fetch_invoice_token: S.String,
           id: S.String,
-          line_items: __S(41, __c5, 1),
+          line_items: __S(49, __c6, 1),
           number: S.String,
           payment_processing: S.Boolean,
           status: S.String,
-          user: S.NullOr(__S(75, __c9, 3)),
+          user: S.NullOr(__S(83, __c10, 3)),
         }),
       ).annotate({ identifier: "InvoiceListItem" });
     case 5:
-      return S.Array(__S(76, __c9, 4));
+      return S.Array(__S(84, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1530,19 +1597,19 @@ function __c9(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(77, __c9, 5),
-          page_info: __S(78, __c9, 6),
+          data: __S(85, __c10, 5),
+          page_info: __S(86, __c10, 6),
         }),
       ).annotate({ identifier: "ListInvoiceResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1552,7 +1619,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "MarkPaidInvoiceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

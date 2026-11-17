@@ -30,44 +30,72 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CreatePaymentMethodDomainRequest {
   /** Account to register the domain for (`biz_` tag). Required when authenticating as a user; an account API key supplies its own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Hostname to register (e.g. `checkout.shinetime.example`). */
   hostname: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Wallet provider the domain is registered with. */
 export type PaymentMethodDomainProvider = "apple";
@@ -107,29 +135,29 @@ export type ListPaymentMethodDomainsRequestOrder = "created_at";
 export type ListPaymentMethodDomainsRequestDirection = "asc" | "desc";
 export interface ListPaymentMethodDomainsRequest {
   /** Only domains registered for this account (`biz_` tag). Defaults to the caller's account plus its connected accounts. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only the domain with this exact hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Only domains with this verification status. */
-  status?: ListPaymentMethodDomainsRequestStatus | (string & {});
+  status?: ListPaymentMethodDomainsRequestStatus | (string & {}) | undefined;
   /** Only domains registered with this wallet provider. */
-  provider?: ListPaymentMethodDomainsRequestProvider | (string & {});
+  provider?: ListPaymentMethodDomainsRequestProvider | (string & {}) | undefined;
   /** Only domains created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only domains created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Sort field. */
-  order?: ListPaymentMethodDomainsRequestOrder | (string & {});
+  order?: ListPaymentMethodDomainsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPaymentMethodDomainsRequestDirection | (string & {});
+  direction?: ListPaymentMethodDomainsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPaymentMethodDomainsResponseDataList = Array<PaymentMethodDomain>;
 export interface ListPaymentMethodDomainsResponsePageInfo {
@@ -146,7 +174,18 @@ export interface VerifyPaymentMethodDomainRequest {
   /** The unique identifier of the payment method domain, prefixed `pmd_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type CreatePaymentMethodDomainError =
   | BadRequest
@@ -161,8 +200,8 @@ export const createPaymentMethodDomain: API.OperationMethod<
   CreatePaymentMethodDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreatePaymentMethodDomainRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<PaymentMethodDomain>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreatePaymentMethodDomainRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<PaymentMethodDomain>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -178,8 +217,8 @@ export const deletePaymentMethodDomain: API.OperationMethod<
   DeletePaymentMethodDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeletePaymentMethodDomainRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeletePaymentMethodDomainResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeletePaymentMethodDomainRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<DeletePaymentMethodDomainResponse>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -195,8 +234,8 @@ export const getPaymentMethodDomain: API.OperationMethod<
   GetPaymentMethodDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetPaymentMethodDomainRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<PaymentMethodDomain>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetPaymentMethodDomainRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<PaymentMethodDomain>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -214,8 +253,8 @@ export const listPaymentMethodDomains: API.PaginatedOperationMethod<
   PaymentMethodDomain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListPaymentMethodDomainsRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListPaymentMethodDomainsResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListPaymentMethodDomainsRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListPaymentMethodDomainsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -246,8 +285,8 @@ export const verifyPaymentMethodDomain: API.OperationMethod<
   VerifyPaymentMethodDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<VerifyPaymentMethodDomainRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<PaymentMethodDomain>,
+  input: __S(24, __c6, 0) as any as S.Schema<VerifyPaymentMethodDomainRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<PaymentMethodDomain>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -261,6 +300,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String),
           hostname: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -268,7 +325,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreatePaymentMethodDomainRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -284,7 +341,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PaymentMethodDomain" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -301,7 +358,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeletePaymentMethodDomainResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -311,7 +368,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetPaymentMethodDomainRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -331,7 +388,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/payment_method_domains", code: 200 })),
       ).annotate({ identifier: "ListPaymentMethodDomainsRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -344,13 +401,13 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListPaymentMethodDomainsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

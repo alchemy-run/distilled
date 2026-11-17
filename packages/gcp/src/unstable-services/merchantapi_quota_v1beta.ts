@@ -58,45 +58,45 @@ export class NotFound
   ) {}
 
 export interface ListAccountsQuotasRequest {
-  /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
-  pageToken?: string;
   /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
   parent: string;
 }
 /** The method details per method in the Merchant API. */
 export interface MethodDetails {
-  /** Output only. The API version that the method belongs to. */
-  version?: string;
-  /** Output only. The name of the method for example `products.list`. */
-  method?: string;
   /** Output only. The sub-API that the method belongs to. */
-  subapi?: string;
+  subapi?: string | undefined;
+  /** Output only. The name of the method for example `products.list`. */
+  method?: string | undefined;
   /** Output only. The path for the method such as `products/v1/productInputs.insert` */
-  path?: string;
+  path?: string | undefined;
+  /** Output only. The API version that the method belongs to. */
+  version?: string | undefined;
 }
 export type MethodDetailsList = Array<MethodDetails>;
 /** The group information for methods in the Merchant API. The quota is shared between all methods in the group. Even if none of the methods within the group have usage the information for the group is returned. */
 export interface QuotaGroup {
-  /** Output only. The maximum number of calls allowed per minute for the group. */
-  quotaMinuteLimit?: string;
-  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at 12:00 PM midday UTC. */
-  quotaUsage?: string;
   /** Output only. The maximum number of calls allowed per day for the group. */
-  quotaLimit?: string;
-  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
-  name?: string;
+  quotaLimit?: string | undefined;
   /** Output only. List of all methods group quota applies to. */
-  methodDetails?: MethodDetailsList;
+  methodDetails?: MethodDetailsList | undefined;
+  /** Output only. The maximum number of calls allowed per minute for the group. */
+  quotaMinuteLimit?: string | undefined;
+  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
+  name?: string | undefined;
+  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at 12:00 PM midday UTC. */
+  quotaUsage?: string | undefined;
 }
 export type QuotaGroupList = Array<QuotaGroup>;
 /** Response message for the ListMethodGroups method. */
 export interface ListQuotaGroupsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
-  quotaGroups?: QuotaGroupList;
+  quotaGroups?: QuotaGroupList | undefined;
 }
 export type ListAccountsQuotasError = NotFound | Forbidden | GcpOpError;
 /** Lists the daily call quota and usage per group for your Merchant Center account. */
@@ -123,8 +123,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -137,10 +137,10 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          method: S.optional(S.String),
           subapi: S.optional(S.String),
+          method: S.optional(S.String),
           path: S.optional(S.String),
+          version: S.optional(S.String),
         }),
       ).annotate({ identifier: "MethodDetails" });
     case 2:
@@ -148,11 +148,11 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quotaMinuteLimit: S.optional(S.String),
-          quotaUsage: S.optional(S.String),
           quotaLimit: S.optional(S.String),
-          name: S.optional(S.String),
           methodDetails: S.optional(__S(2, __c0, 2)),
+          quotaMinuteLimit: S.optional(S.String),
+          name: S.optional(S.String),
+          quotaUsage: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuotaGroup" });
     case 4:

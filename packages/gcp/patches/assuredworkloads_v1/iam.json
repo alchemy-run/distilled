@@ -11,14 +11,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.assuredworkloads_v1#AggregateProjectsLocationsDbFrameworkComplianceReports/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["assuredworkloads.dbFrameworkComplianceReports.aggregate"],
-        "roles": ["roles/assuredworkloads.reader"]
-      }
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#AnalyzeWorkloadMoveOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
         "actions": ["assuredworkloads.workload.update"],
@@ -51,14 +43,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.assuredworkloads_v1#FetchProjectsLocationsDbFrameworkComplianceReports/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["assuredworkloads.dbFrameworkComplianceReports.get"],
-        "roles": ["roles/assuredworkloads.reader"]
-      }
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#GetOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
         "actions": ["assuredworkloads.workload.get"],
@@ -86,30 +70,6 @@
       "path": "/shapes/com.gcp.assuredworkloads_v1#ListOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
       "value": {
         "actions": ["assuredworkloads.violations.list"],
-        "roles": ["roles/assuredworkloads.reader"]
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFindingSummaries/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["assuredworkloads.dbFindingSummaries.list"],
-        "roles": ["roles/assuredworkloads.reader"]
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummaries/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["assuredworkloads.dbControlComplianceSummaries.list"],
-        "roles": ["roles/assuredworkloads.reader"]
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFrameworkComplianceSummaries/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["assuredworkloads.dbFrameworkComplianceSummaries.list"],
         "roles": ["roles/assuredworkloads.reader"]
       }
     },

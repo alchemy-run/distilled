@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type CreateRuleRequestRegionId = "eu01" | "eu02";
 export interface CreateRuleRequest {
@@ -59,35 +80,35 @@ export interface CreateRuleRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateRuleRequestRegionId | (string & {});
   /** A description for the rule. */
-  description?: string;
+  description?: string | undefined;
   /** The direction of the traffic, typically "ingress" or "egress". */
-  direction?: string;
+  direction?: string | undefined;
   /** Specifies the bound of the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The ID of the product, similar to a project ID. */
   instanceId: string;
   /** Position in the list. */
-  offset?: number;
+  offset?: number | undefined;
   /** The Port range to which the rule applies. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The source service (e.g., Load Balancer, Redis). */
   product: string;
   /** The network protocol (e.g., "TCP", "UDP", "ICMP"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The ID of the Group. */
-  remoteSecurityGroupId?: string;
+  remoteSecurityGroupId?: string | undefined;
   /** The ID of the Group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The IP (CIDR) to which the rule applies. */
   sourceIP: string;
   /** Indicates whether the security group rule is stateful or stateless (used only for security groups, default value for them will be true). */
-  stateful?: boolean;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  stateful?: boolean | undefined;
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: string;
 }
 export interface CreateRuleResponse {
   /** Represents the uuid of the created rule */
-  refId?: string;
+  refId?: string | undefined;
 }
 export type DeleteRuleRequestRegionId = "eu01" | "eu02";
 export interface DeleteRuleRequest {
@@ -100,7 +121,7 @@ export interface DeleteRuleRequest {
 }
 export interface DeleteRuleResponse {
   /** Represents if the call was successfully made */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type GetRuleRequestRegionId = "eu01" | "eu02";
 export interface GetRuleRequest {
@@ -119,39 +140,40 @@ export type RuleResponseStatus =
   | "Updating"
   | "Deleting"
   | "Creating";
-/** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
-export type RuleResponseType = "ACL" | "PublicIP" | "SecurityRule" | "SecurityGroup";
+/** The type of the rule (e.g., "ACL", "SecurityRule"). */
+export type RuleResponseType = "ACL" | "SecurityRule" | "SecurityGroup";
 export interface RuleResponse {
-  description?: string;
+  description?: string | undefined;
   destination: string;
-  direction?: string;
-  errorMessage?: string;
-  etherType?: string;
+  direction?: string | undefined;
+  errorMessage?: string | undefined;
+  etherType?: string | undefined;
   instanceId: string;
-  instanceName?: string;
-  ipRange?: string;
-  offset?: number;
-  portRange?: string;
+  instanceName?: string | undefined;
+  ipRange?: string | undefined;
+  offset?: number | undefined;
+  portRange?: string | undefined;
   product: string;
-  protocol?: string;
-  refId?: string;
-  region?: string;
-  remoteSecurityGroupId?: string;
-  securityGroupId?: string;
+  protocol?: string | undefined;
+  refId?: string | undefined;
+  region?: string | undefined;
+  remoteSecurityGroupId?: string | undefined;
+  remoteSecurityGroupName?: string | undefined;
+  securityGroupId?: string | undefined;
   sourceIP: string;
-  stateful?: boolean;
+  stateful?: boolean | undefined;
   /** The current state of the resource. */
   status: RuleResponseStatus;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: RuleResponseType;
 }
 export interface ListFolderContainersRequest {
   /** The STACKIT portal folder UUID */
   folderId: string;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ContainerResponse {
   id: string;
@@ -168,9 +190,9 @@ export interface ListOrganizationContainersRequest {
   /** The STACKIT portal organization UUID */
   organizationId: string;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProviderOptionsRequestRegionId = "eu01" | "eu02";
 export interface ListProviderOptionsRequest {
@@ -202,36 +224,36 @@ export interface ListRulesRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListRulesRequestRegionId | (string & {});
   /** The UUID of the group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The product service (e.g., Load Balancer, Redis). */
-  product?: string;
+  product?: string | undefined;
   /** The ID of the source, similar to a project ID but for the product service instance. */
-  instanceId?: string;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
-  type?: string;
+  instanceId?: string | undefined;
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
+  type?: string | undefined;
   /** The IP for the rule. */
-  sourceIP?: string;
+  sourceIP?: string | undefined;
   /** The port range for the rule. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The protocol for the rule (e.g., "tcp", "udp"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The direction of the rule (e.g., "ingress", "egress"). */
-  direction?: ListRulesRequestDirection | (string & {});
+  direction?: ListRulesRequestDirection | (string & {}) | undefined;
   /** The ether type for the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The field to sort the response by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The order to sort the response by. */
-  sortOrder?: ListRulesRequestSortOrder | (string & {});
+  sortOrder?: ListRulesRequestSortOrder | (string & {}) | undefined;
   /** The maximum number of items to return in the response. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListRulesResponseErrorsList = Array<string>;
 export type ListRulesResponseRulesList = Array<RuleResponse>;
 export interface ListRulesResponse {
-  errors?: ListRulesResponseErrorsList;
+  errors?: ListRulesResponseErrorsList | undefined;
   rules: ListRulesResponseRulesList;
 }
 export type UpdateRuleRequestRegionId = "eu01" | "eu02";
@@ -243,21 +265,25 @@ export interface UpdateRuleRequest {
   /** The STACKIT security rule UUID. */
   ruleId: string;
   /** The direction of the traffic, typically "ingress" or "egress". */
-  direction?: string;
+  direction?: string | undefined;
   /** Specifies the bound of the rule. */
-  etherType?: string;
+  etherType?: string | undefined;
   /** The Port range to which the rule applies. */
-  portRange?: string;
+  portRange?: string | undefined;
   /** The network protocol (e.g., "TCP", "UDP", "ICMP"). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The ID of the Group. */
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   /** The IP (CIDR) to which the rule applies. */
   sourceIP: string;
 }
 export interface UpdateRuleResponse {
   /** Represents the uuid of the updated rule */
-  refId?: string;
+  refId?: string | undefined;
+}
+export interface ErrorResponse {
+  code?: number | undefined;
+  message?: string | undefined;
 }
 export type CreateRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create rule for a project Returns the created rule for a specific project */
@@ -267,8 +293,8 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateRuleRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CreateRuleResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -284,8 +310,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DeleteRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -301,8 +327,8 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetRuleRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<RuleResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetRuleRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<RuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -318,8 +344,8 @@ export const listFolderContainers: API.OperationMethod<
   ListFolderContainersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListFolderContainersRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<ListContainersResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListFolderContainersRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListContainersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -335,8 +361,8 @@ export const listOrganizationContainers: API.OperationMethod<
   ListOrganizationContainersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListOrganizationContainersRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<ListContainersResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListOrganizationContainersRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListContainersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -352,8 +378,8 @@ export const listProviderOptions: API.OperationMethod<
   ListProviderOptionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListProviderOptionsRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<ProviderOptionsResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListProviderOptionsRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<ProviderOptionsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -369,8 +395,8 @@ export const listRules: API.OperationMethod<
   ListRulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListRulesRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<ListRulesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListRulesRequest>,
+  output: __S(50, __c12, 2) as any as S.Schema<ListRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -386,8 +412,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<UpdateRuleResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UpdateRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -397,6 +423,17 @@ export const updateRule: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -421,7 +458,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateRuleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,7 +489,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateRuleRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -462,7 +499,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateRuleResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -487,7 +524,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteRuleResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -506,7 +543,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetRuleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -526,6 +563,7 @@ function __c5(j: number): any {
           refId: S.optional(S.String),
           region: S.optional(S.String),
           remoteSecurityGroupId: S.optional(S.String),
+          remoteSecurityGroupName: S.optional(S.String),
           securityGroupId: S.optional(S.String),
           sourceIP: S.String,
           stateful: S.optional(S.Boolean),
@@ -535,7 +573,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RuleResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -554,7 +592,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListFolderContainersRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -565,18 +603,18 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ContainerResponse" });
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cursor: S.String,
-          items: __S(29, __c7, 1),
+          items: __S(33, __c8, 1),
           limit: S.Number,
         }),
       ).annotate({ identifier: "ListContainersResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -595,7 +633,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListOrganizationContainersRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -613,29 +651,29 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(40, __c10, 0),
-          types: __S(40, __c10, 0),
+          actions: __S(44, __c11, 0),
+          types: __S(44, __c11, 0),
         }),
       ).annotate({ identifier: "ProviderOptionsProductMeta" });
     case 2:
-      return S.Record(S.String, __S(37, __c9, 1));
+      return S.Record(S.String, __S(41, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          productMeta: __S(38, __c9, 2),
-          products: __S(40, __c10, 0),
-          types: __S(40, __c10, 0),
+          productMeta: __S(42, __c10, 2),
+          products: __S(44, __c11, 0),
+          types: __S(44, __c11, 0),
         }),
       ).annotate({ identifier: "ProviderOptionsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -665,12 +703,12 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListRulesRequest" });
     case 1:
-      return S.Array(__S(20, __c5, 0));
+      return S.Array(__S(24, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(40, __c10, 0)),
-          rules: __S(45, __c11, 1),
+          errors: S.optional(__S(44, __c11, 0)),
+          rules: __S(49, __c12, 1),
         }),
       ).annotate({ identifier: "ListRulesResponse" });
   }

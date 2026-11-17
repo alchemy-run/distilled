@@ -1,0 +1,40 @@
+{
+  "description": "Type the 403 creating a key that would outlive the key signing the request: {\"code\": \"api_key_action_forbidden\", \"message\": \"This request is signed with an API key that expires 2027-11-07T16:21:12.757Z, and a key it creates cannot expire later. Pass --ttl 364d or less, or run `boat login` in a browser to create longer keys.\"}. Observed live 2026-11-07 with ttl \"never\" from a key minted by Boat's agent sign-in.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ApiKeyOutlivesSigner",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The new key would expire after the key signing the request. The message names the signer's expiry; pass a shorter `ttl`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/code": "api_key_action_forbidden"
+              },
+              "message": {
+                "includes": "cannot expire later"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateScopedApiKey/errors/-",
+      "value": {
+        "target": "com.boat.api#ApiKeyOutlivesSigner"
+      }
+    }
+  ]
+}

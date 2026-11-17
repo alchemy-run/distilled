@@ -1,0 +1,96 @@
+{
+  "description": "ivschat: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#CreateLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#CreateRoom/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#DeleteLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#DeleteRoom/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#GetLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#GetRoom/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#ListLoggingConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#ListRooms/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#UpdateLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ivschat#UpdateRoom/errors/-",
+      "value": {
+        "target": "com.amazonaws.ivschat#ThrottlingException"
+      }
+    }
+  ]
+}

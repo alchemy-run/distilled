@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/cloudflare",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -565,7 +565,6 @@
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
       "workerd": "./src/index.ts",
-      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./*": {
@@ -607,7 +606,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-07",
-    "specUpdatedAt": "2026-10-29"
+    "generatedAt": "2026-11-16",
+    "specUpdatedAt": "2026-11-07"
   }
 }

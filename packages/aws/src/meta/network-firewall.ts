@@ -45,17 +45,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
-  attachRuleGroupsToProxyConfiguration: {
-    iam: {
-      actions: ["network-firewall:AttachRuleGroupsToProxyConfiguration"],
-      resources: {
-        "network-firewall:AttachRuleGroupsToProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
   createContainerAssociation: {
     iam: {
       actions: ["network-firewall:CreateContainerAssociation", "network-firewall:TagResource"],
@@ -100,55 +89,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       conditional: { "network-firewall:TagResource": "Tags" },
     },
   },
-  createProxy: {
-    iam: {
-      actions: ["network-firewall:CreateProxy", "network-firewall:TagResource"],
-      resources: {
-        "network-firewall:CreateProxy": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-      conditional: { "network-firewall:TagResource": "Tags" },
-    },
-  },
-  createProxyConfiguration: {
-    iam: {
-      actions: [
-        "network-firewall:AttachRuleGroupsToProxyConfiguration",
-        "network-firewall:CreateProxyConfiguration",
-        "network-firewall:TagResource",
-      ],
-      resources: {
-        "network-firewall:AttachRuleGroupsToProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-      conditional: { "network-firewall:TagResource": "Tags" },
-    },
-  },
-  createProxyRuleGroup: {
-    iam: {
-      actions: ["network-firewall:CreateProxyRuleGroup", "network-firewall:TagResource"],
-      resources: {
-        "network-firewall:CreateProxyRuleGroup": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-      conditional: { "network-firewall:TagResource": "Tags" },
-    },
-  },
-  createProxyRules: {
-    iam: {
-      actions: ["network-firewall:CreateProxyRules"],
-      resources: {
-        "network-firewall:CreateProxyRules": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
+  createFirewallPolicyV2: { iam: { actions: ["network-firewall:CreateFirewallPolicyV2"] } },
   createRuleGroup: {
     iam: {
       actions: ["network-firewall:CreateRuleGroup", "network-firewall:TagResource"],
@@ -218,6 +159,16 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  deleteFirewallPolicyV2: {
+    iam: {
+      actions: ["network-firewall:DeleteFirewallPolicyV2"],
+      resources: {
+        "network-firewall:DeleteFirewallPolicyV2": [
+          "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy-v2/${Name}",
+        ],
+      },
+    },
+  },
   deleteNetworkFirewallTransitGatewayAttachment: {
     iam: {
       actions: ["network-firewall:DeleteNetworkFirewallTransitGatewayAttachment"],
@@ -234,36 +185,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       resources: {
         "network-firewall:DeleteProxy": [
           "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-        ],
-      },
-    },
-  },
-  deleteProxyConfiguration: {
-    iam: {
-      actions: ["network-firewall:DeleteProxyConfiguration"],
-      resources: {
-        "network-firewall:DeleteProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-    },
-  },
-  deleteProxyRuleGroup: {
-    iam: {
-      actions: ["network-firewall:DeleteProxyRuleGroup"],
-      resources: {
-        "network-firewall:DeleteProxyRuleGroup": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
-  deleteProxyRules: {
-    iam: {
-      actions: ["network-firewall:DeleteProxyRules"],
-      resources: {
-        "network-firewall:DeleteProxyRules": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
         ],
       },
     },
@@ -333,6 +254,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
     },
   },
   describeFirewallPolicy: { iam: { actions: ["network-firewall:DescribeFirewallPolicy"] } },
+  describeFirewallPolicyV2: { iam: { actions: ["network-firewall:DescribeFirewallPolicyV2"] } },
   describeFlowOperation: {
     iam: {
       actions: ["network-firewall:DescribeFlowOperation"],
@@ -363,36 +285,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
-  describeProxyConfiguration: {
-    iam: {
-      actions: ["network-firewall:DescribeProxyConfiguration"],
-      resources: {
-        "network-firewall:DescribeProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-    },
-  },
-  describeProxyRule: {
-    iam: {
-      actions: ["network-firewall:DescribeProxyRule"],
-      resources: {
-        "network-firewall:DescribeProxyRule": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
-  describeProxyRuleGroup: {
-    iam: {
-      actions: ["network-firewall:DescribeProxyRuleGroup"],
-      resources: {
-        "network-firewall:DescribeProxyRuleGroup": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
   describeResourcePolicy: { iam: { actions: ["network-firewall:DescribeResourcePolicy"] } },
   describeRuleGroup: { iam: { actions: ["network-firewall:DescribeRuleGroup"] } },
   describeRuleGroupMetadata: { iam: { actions: ["network-firewall:DescribeRuleGroupMetadata"] } },
@@ -413,17 +305,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       resources: {
         "network-firewall:DescribeVpcEndpointAssociation": [
           "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}",
-        ],
-      },
-    },
-  },
-  detachRuleGroupsFromProxyConfiguration: {
-    iam: {
-      actions: ["network-firewall:DetachRuleGroupsFromProxyConfiguration"],
-      resources: {
-        "network-firewall:DetachRuleGroupsFromProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
         ],
       },
     },
@@ -479,6 +360,16 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  listFirewallPoliciesV2: {
+    iam: {
+      actions: ["network-firewall:ListFirewallPoliciesV2"],
+      resources: {
+        "network-firewall:ListFirewallPoliciesV2": [
+          "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy-v2/${Name}",
+        ],
+      },
+    },
+  },
   listFirewalls: {
     iam: {
       actions: ["network-firewall:ListFirewalls"],
@@ -505,36 +396,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       resources: {
         "network-firewall:ListFlowOperations": [
           "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-        ],
-      },
-    },
-  },
-  listProxies: {
-    iam: {
-      actions: ["network-firewall:ListProxies"],
-      resources: {
-        "network-firewall:ListProxies": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-        ],
-      },
-    },
-  },
-  listProxyConfigurations: {
-    iam: {
-      actions: ["network-firewall:ListProxyConfigurations"],
-      resources: {
-        "network-firewall:ListProxyConfigurations": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-    },
-  },
-  listProxyRuleGroups: {
-    iam: {
-      actions: ["network-firewall:ListProxyRuleGroups"],
-      resources: {
-        "network-firewall:ListProxyRuleGroups": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
         ],
       },
     },
@@ -688,62 +549,13 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  updateFirewallPolicyV2: { iam: { actions: ["network-firewall:UpdateFirewallPolicyV2"] } },
   updateLoggingConfiguration: {
     iam: {
       actions: ["network-firewall:UpdateLoggingConfiguration"],
       resources: {
         "network-firewall:UpdateLoggingConfiguration": [
           "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-        ],
-      },
-    },
-  },
-  updateProxy: {
-    iam: {
-      actions: ["network-firewall:UpdateProxy"],
-      resources: {
-        "network-firewall:UpdateProxy": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-        ],
-      },
-    },
-  },
-  updateProxyConfiguration: {
-    iam: {
-      actions: ["network-firewall:UpdateProxyConfiguration"],
-      resources: {
-        "network-firewall:UpdateProxyConfiguration": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-    },
-  },
-  updateProxyRule: {
-    iam: {
-      actions: ["network-firewall:UpdateProxyRule"],
-      resources: {
-        "network-firewall:UpdateProxyRule": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-        ],
-      },
-    },
-  },
-  updateProxyRuleGroupPriorities: {
-    iam: {
-      actions: ["network-firewall:UpdateProxyRuleGroupPriorities"],
-      resources: {
-        "network-firewall:UpdateProxyRuleGroupPriorities": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        ],
-      },
-    },
-  },
-  updateProxyRulePriorities: {
-    iam: {
-      actions: ["network-firewall:UpdateProxyRulePriorities"],
-      resources: {
-        "network-firewall:UpdateProxyRulePriorities": [
-          "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
         ],
       },
     },

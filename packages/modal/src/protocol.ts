@@ -2,6 +2,8 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeGrpcProtocol } from "@distilled.cloud/core/protocol-grpc";
 import type { RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import { unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ModalProtocol -- binary gRPC at Modal's method paths.
  *
@@ -21,7 +23,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { type AuthTokenError, Credentials, type Config } from "./credentials.ts";
 import { descriptors } from "./descriptors.ts";
 import { UnknownModalError, type DefaultErrors, ModalParseError } from "./errors.ts";
 
@@ -56,8 +58,10 @@ export const LIBMODAL_JS_VERSION = "0.11.1";
 export type ModalOpError =
   | DefaultErrors
   | ConfigError
+  | AuthTokenError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Modal operation. */
 export type ModalOpContext = Credentials | HttpClient.HttpClient;
@@ -102,11 +106,6 @@ export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcPr
     "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
   }),
   errorEnvelope,
-  unknownError: ({ status: _status, code, message, body }) =>
-    new UnknownModalError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownModalError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ModalParseError({ body, cause }),
 });

@@ -146,13 +146,13 @@ export class GatewayTimeoutException
     "GatewayTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
@@ -182,13 +182,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -206,15 +206,15 @@ export type CleanSession = boolean;
 export type PreventWillMessage = boolean;
 export interface DeleteConnectionRequest {
   clientId: string;
-  cleanSession?: boolean;
-  preventWillMessage?: boolean;
+  cleanSession?: boolean | undefined;
+  preventWillMessage?: boolean | undefined;
 }
 export interface DeleteConnectionResponse {}
 export type ThingName = string;
 export type ShadowName = string;
 export interface DeleteThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
 }
 export interface DeleteThingShadowResponse {
   payload: T.StreamingOutputBody;
@@ -222,7 +222,7 @@ export interface DeleteThingShadowResponse {
 export type IncludeSocketInformation = boolean;
 export interface GetConnectionRequest {
   clientId: string;
-  includeSocketInformation?: boolean;
+  includeSocketInformation?: boolean | undefined;
 }
 export type Connected = boolean;
 export type SourceIp = string;
@@ -234,20 +234,20 @@ export type DisconnectReason = string;
 export type SessionExpiry = number;
 export type VpcEndpointId = string;
 export interface GetConnectionResponse {
-  connected?: boolean;
-  thingName?: string;
-  cleanSession?: boolean;
-  sourceIp?: string;
-  sourcePort?: number;
-  targetIp?: string;
-  targetPort?: number;
-  keepAliveDuration?: number;
-  connectedSince?: number;
-  disconnectedSince?: number;
-  disconnectReason?: string;
-  sessionExpiry?: number;
-  clientId?: string;
-  vpcEndpointId?: string;
+  connected?: boolean | undefined;
+  thingName?: string | undefined;
+  cleanSession?: boolean | undefined;
+  sourceIp?: string | undefined;
+  sourcePort?: number | undefined;
+  targetIp?: string | undefined;
+  targetPort?: number | undefined;
+  keepAliveDuration?: number | undefined;
+  connectedSince?: number | undefined;
+  disconnectedSince?: number | undefined;
+  disconnectReason?: string | undefined;
+  sessionExpiry?: number | undefined;
+  clientId?: string | undefined;
+  vpcEndpointId?: string | undefined;
 }
 export type Topic = string;
 export interface GetRetainedMessageRequest {
@@ -257,53 +257,53 @@ export type Payload = Uint8Array;
 export type Qos = number;
 export type UserPropertiesBlob = Uint8Array;
 export interface GetRetainedMessageResponse {
-  topic?: string;
-  payload?: Uint8Array;
-  qos?: number;
-  lastModifiedTime?: number;
-  userProperties?: Uint8Array;
+  topic?: string | undefined;
+  payload?: Uint8Array | undefined;
+  qos?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  userProperties?: Uint8Array | undefined;
 }
 export interface GetThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
 }
 export interface GetThingShadowResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export type NextToken = string;
 export type PageSize = number;
 export interface ListNamedShadowsForThingRequest {
   thingName: string;
-  nextToken?: string;
-  pageSize?: number;
+  nextToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type NamedShadowList = string[];
 export interface ListNamedShadowsForThingResponse {
-  results?: string[];
-  nextToken?: string;
-  timestamp?: number;
+  results?: string[] | undefined;
+  nextToken?: string | undefined;
+  timestamp?: number | undefined;
 }
 export type MaxResults = number;
 export interface ListRetainedMessagesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PayloadSize = number;
 export interface RetainedMessageSummary {
-  topic?: string;
-  payloadSize?: number;
-  qos?: number;
-  lastModifiedTime?: number;
+  topic?: string | undefined;
+  payloadSize?: number | undefined;
+  qos?: number | undefined;
+  lastModifiedTime?: number | undefined;
 }
 export type RetainedMessageList = RetainedMessageSummary[];
 export interface ListRetainedMessagesResponse {
-  retainedTopics?: RetainedMessageSummary[];
-  nextToken?: string;
+  retainedTopics?: RetainedMessageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionsRequest {
   clientId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TopicFilter = string;
 export interface SubscriptionSummary {
@@ -312,8 +312,8 @@ export interface SubscriptionSummary {
 }
 export type SubscriptionList = SubscriptionSummary[];
 export interface ListSubscriptionsResponse {
-  subscriptions?: SubscriptionSummary[];
-  nextToken?: string;
+  subscriptions?: SubscriptionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Retain = boolean;
 export type SynthesizedJsonUserProperties = string;
@@ -324,15 +324,15 @@ export type CorrelationData = string;
 export type MessageExpiry = number;
 export interface PublishRequest {
   topic: string;
-  qos?: number;
-  retain?: boolean;
-  payload?: T.StreamingInputBody;
-  userProperties?: string;
-  payloadFormatIndicator?: PayloadFormatIndicator;
-  contentType?: string;
-  responseTopic?: string;
-  correlationData?: string;
-  messageExpiry?: number;
+  qos?: number | undefined;
+  retain?: boolean | undefined;
+  payload?: T.StreamingInputBody | undefined;
+  userProperties?: string | undefined;
+  payloadFormatIndicator?: PayloadFormatIndicator | undefined;
+  contentType?: string | undefined;
+  responseTopic?: string | undefined;
+  correlationData?: string | undefined;
+  messageExpiry?: number | undefined;
 }
 export interface PublishResponse {}
 export type Confirmation = boolean;
@@ -340,28 +340,28 @@ export type TimeoutInSeconds = number;
 export interface SendDirectMessageRequest {
   clientId: string;
   topic: string;
-  contentType?: string;
-  responseTopic?: string;
-  confirmation?: boolean;
-  timeout?: number;
-  payload?: T.StreamingInputBody;
-  userProperties?: string;
-  payloadFormatIndicator?: PayloadFormatIndicator;
-  correlationData?: string;
+  contentType?: string | undefined;
+  responseTopic?: string | undefined;
+  confirmation?: boolean | undefined;
+  timeout?: number | undefined;
+  payload?: T.StreamingInputBody | undefined;
+  userProperties?: string | undefined;
+  payloadFormatIndicator?: PayloadFormatIndicator | undefined;
+  correlationData?: string | undefined;
 }
 export type ResponseMessage = string;
 export type TraceId = string;
 export interface SendDirectMessageResponse {
-  message?: string;
-  traceId?: string;
+  message?: string | undefined;
+  traceId?: string | undefined;
 }
 export interface UpdateThingShadowRequest {
   thingName: string;
-  shadowName?: string;
+  shadowName?: string | undefined;
   payload: T.StreamingInputBody;
 }
 export interface UpdateThingShadowResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteConnectionError =
@@ -1091,7 +1091,10 @@ function __c10(j: number): any {
           qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
           retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),
@@ -1117,7 +1120,10 @@ function __c11(j: number): any {
           confirmation: S.optional(S.Boolean).pipe(T.HttpQuery("confirmation")),
           timeout: S.optional(S.Number).pipe(T.HttpQuery("timeout")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),

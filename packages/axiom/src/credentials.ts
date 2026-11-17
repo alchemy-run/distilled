@@ -25,7 +25,7 @@ export interface Config {
    * Access Token (PAT); optional for API tokens scoped to a single org.
    * Sent on every request as the `X-Axiom-Org-ID` header when set.
    */
-  readonly orgId?: string;
+  readonly orgId?: string | undefined;
 }
 
 export class Credentials
@@ -36,8 +36,8 @@ export class Credentials
 /** Layer from a redacted API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
-  readonly apiBaseUrl?: string;
-  readonly orgId?: string;
+  readonly apiBaseUrl?: string | undefined;
+  readonly orgId?: string | undefined;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,

@@ -1,0 +1,34 @@
+{
+  "description": "Dedicated Inference: creates and reads always return the deployment with its id and status, and an access token's `value` is the bearer credential for the deployment's endpoint (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferencesCreateResponse/members/dedicated_inference/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferencesGetResponse/members/dedicated_inference/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInference/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInference/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferenceAccessToken/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

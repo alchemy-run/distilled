@@ -30,13 +30,13 @@ const TELEMETRY = {
 export interface CreateServiceAccountRequest {
   name: string;
   /** Optional description of what this service account is used for */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateServiceAccountResponse {
   _id: string;
   user: string;
   fullname: string;
-  description?: string;
+  description?: string | undefined;
   createdAt: string;
 }
 export type CreateServiceAccountTokenRequestPermissionsItem =
@@ -74,17 +74,17 @@ export interface CreateServiceAccountTokenRequest {
   name: string;
   serviceAccountId: string;
   /** Display name for the token */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Org-wide permissions for this token */
-  permissions?: CreateServiceAccountTokenRequestPermissionsList;
+  permissions?: CreateServiceAccountTokenRequestPermissionsList | undefined;
   /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
-  repoIds?: CreateServiceAccountTokenRequestRepoIdsList;
+  repoIds?: CreateServiceAccountTokenRequestRepoIdsList | undefined;
   /** Permissions granted on the selected `repoIds`. */
-  repoPermissions?: CreateServiceAccountTokenRequestRepoPermissionsList;
+  repoPermissions?: CreateServiceAccountTokenRequestRepoPermissionsList | undefined;
   /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
-  endpointPatterns?: CreateServiceAccountTokenRequestEndpointPatternsList;
+  endpointPatterns?: CreateServiceAccountTokenRequestEndpointPatternsList | undefined;
   /** Exempt this token from the org's Network Security enforcement (IP allowlist and content access policy). Enterprise Plus only, and requires the `org.networkSecurity.write` permission. */
-  skipNetworkSecurity?: boolean;
+  skipNetworkSecurity?: boolean | undefined;
 }
 export type CreateServiceAccountTokenResponseTokenInfoPermissionsList = Array<string>;
 export type CreateServiceAccountTokenResponseTokenInfoRepoIdsList = Array<string>;
@@ -94,7 +94,7 @@ export interface CreateServiceAccountTokenResponseTokenInfo {
   _id: string;
   displayName: string;
   createdAt: string;
-  permissions?: CreateServiceAccountTokenResponseTokenInfoPermissionsList;
+  permissions?: CreateServiceAccountTokenResponseTokenInfoPermissionsList | undefined;
   repoIds: CreateServiceAccountTokenResponseTokenInfoRepoIdsList;
   repoPermissions: CreateServiceAccountTokenResponseTokenInfoRepoPermissionsList;
   endpointPatterns: CreateServiceAccountTokenResponseTokenInfoEndpointPatternsList;
@@ -151,15 +151,16 @@ export interface GetServiceAccountResponseAccessTokensItem {
   _id: string;
   displayName: string;
   createdAt: string;
-  lastUsedAt?: string;
-  expiration?: string;
+  lastUsedAt?: string | undefined;
+  expiration?: string | undefined;
   role: GetServiceAccountResponseAccessTokensItemRole;
   permissions: GetServiceAccountResponseAccessTokensItemPermissionsList;
   repoIds: GetServiceAccountResponseAccessTokensItemRepoIdsList;
   repoPermissions: GetServiceAccountResponseAccessTokensItemRepoPermissionsList;
   endpointPatterns: GetServiceAccountResponseAccessTokensItemEndpointPatternsList;
-  last4?: string;
-  skipNetworkSecurity?: boolean;
+  last4?: string | undefined;
+  skipNetworkSecurity?: boolean | undefined;
+  s3AccessKey?: string | undefined;
 }
 export type GetServiceAccountResponseAccessTokensList =
   Array<GetServiceAccountResponseAccessTokensItem>;
@@ -169,9 +170,9 @@ export interface GetServiceAccountResponse {
   user: string;
   name: string;
   email: string;
-  description?: string;
+  description?: string | undefined;
   createdAt: string;
-  accessTokens?: GetServiceAccountResponseAccessTokensList;
+  accessTokens?: GetServiceAccountResponseAccessTokensList | undefined;
 }
 export interface ListServiceAccountsRequest {
   name: string;
@@ -181,7 +182,7 @@ export interface ListServiceAccountsResponseBodyItem {
   user: string;
   name: string;
   email: string;
-  description?: string;
+  description?: string | undefined;
   createdAt: string;
 }
 export type ListServiceAccountsResponseBodyList = Array<ListServiceAccountsResponseBodyItem>;
@@ -195,7 +196,7 @@ export interface RotateServiceAccountTokenResponseTokenInfo {
   _id: string;
   displayName: string;
   createdAt: string;
-  last4?: string;
+  last4?: string | undefined;
 }
 export interface RotateServiceAccountTokenResponse {
   /** The new access token */
@@ -238,17 +239,17 @@ export interface UpdateServiceAccountTokenRequest {
   serviceAccountId: string;
   tokenId: string;
   /** New display name for the token */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Org-wide permissions for this token */
-  permissions?: UpdateServiceAccountTokenRequestPermissionsList;
+  permissions?: UpdateServiceAccountTokenRequestPermissionsList | undefined;
   /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
-  repoIds?: UpdateServiceAccountTokenRequestRepoIdsList;
+  repoIds?: UpdateServiceAccountTokenRequestRepoIdsList | undefined;
   /** Permissions granted on the selected `repoIds`. */
-  repoPermissions?: UpdateServiceAccountTokenRequestRepoPermissionsList;
+  repoPermissions?: UpdateServiceAccountTokenRequestRepoPermissionsList | undefined;
   /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
-  endpointPatterns?: UpdateServiceAccountTokenRequestEndpointPatternsList;
+  endpointPatterns?: UpdateServiceAccountTokenRequestEndpointPatternsList | undefined;
   /** Exempt this token from the org's Network Security enforcement (IP allowlist and content access policy). Enterprise Plus only, and requires the `org.networkSecurity.write` permission. */
-  skipNetworkSecurity?: boolean;
+  skipNetworkSecurity?: boolean | undefined;
 }
 export type UpdateServiceAccountTokenResponsePermissionsList = Array<string>;
 export type UpdateServiceAccountTokenResponseRepoIdsList = Array<string>;
@@ -547,6 +548,7 @@ function __c6(j: number): any {
           endpointPatterns: __S(9, __c2, 1),
           last4: S.optional(S.String),
           skipNetworkSecurity: S.optional(S.Boolean),
+          s3AccessKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceAccountResponseAccessTokensItem" });
     case 2:

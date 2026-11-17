@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -48,6 +52,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -57,6 +63,8 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -66,6 +74,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -80,37 +90,37 @@ export interface CreateObservabilityQueryRequest {
   /** Owner or project scope for the query */
   scope: unknown;
   /** Aggregation function to apply. Some aggregations require a dimension: use <agg>/<dimension>, for example unique/visitor_id. */
-  aggregation?: string;
+  aggregation?: string | undefined;
   /** Dimensions to group results by. JSON dimensions support nested refs, for example event_data/checkout_step. Nested keys containing characters that OData cannot parse as an identifier, such as '-', spaces, quotes, or '/', must be wrapped in single quotes (escape embedded single quotes by doubling them), for example flags/'enable-comments-view' or event_data/'some property''s/value'. */
-  groupBy?: CreateObservabilityQueryRequestGroupByList;
+  groupBy?: CreateObservabilityQueryRequestGroupByList | undefined;
   /** Filter to apply to the query. JSON dimensions support nested refs, for example event_data/checkout_step eq 'payment'. Nested keys containing characters that OData cannot parse as an identifier, such as '-', spaces, quotes, or '/', must be wrapped in single quotes (escape embedded single quotes by doubling them), for example flags/'enable-comments-view' eq true or event_data/'some property''s/value' eq true. */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of results */
-  limit?: number;
+  limit?: number | undefined;
   /** Rollup column to order grouped results by. Use the generated rollup key for the requested metric and aggregation. Defaults to the query engine count rollup. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Direction to order grouped results by. Defaults to desc. */
-  orderDirection?: CreateObservabilityQueryRequestOrderDirection | (string & {});
+  orderDirection?: CreateObservabilityQueryRequestOrderDirection | (string & {}) | undefined;
   /** Time bucket size */
-  granularity?: unknown;
+  granularity?: unknown | undefined;
   /** Start timestamp */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End timestamp */
-  endTime?: string;
+  endTime?: string | undefined;
   /** IANA timezone (e.g. Europe/Paris) used only to align calendar buckets (1d/1mo) to that zone's day/month boundaries. startTime/endTime and all output timestamps are always UTC. No effect on sub-day granularities. */
-  bucketTimezone?: string;
+  bucketTimezone?: string | undefined;
 }
 export type CreateObservabilityQueryResponse = unknown;
 export interface GetObservabilityConfigurationProjectsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetObservabilityConfigurationProjectsResponseDisabledProjectsItem {
   disabledAt: number;
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type GetObservabilityConfigurationProjectsResponseDisabledProjectsList =
   Array<GetObservabilityConfigurationProjectsResponseDisabledProjectsItem>;
@@ -132,7 +142,7 @@ export interface GetObservabilitySchemaByMetricIdRequest {
 }
 export type GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList = Array<string>;
 export interface GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem {
-  description?: string;
+  description?: string | undefined;
   label: string;
   name: string;
 }
@@ -154,14 +164,14 @@ export interface UpdateObservabilityConfigurationProjectRequest {
   /** The ID or name of the project to update */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Whether Observability Plus should be disabled for the project */
   disabled: boolean;
 }
 export interface UpdateObservabilityConfigurationProjectResponse {
-  disabledAt?: number;
+  disabledAt?: number | undefined;
   id: string;
 }
 export type CreateObservabilityQueryError =

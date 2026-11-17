@@ -1,0 +1,16 @@
+{
+  "description": "Paginate listOrganizationTailnets by its top-level cursor, which the converter's pagination detection misses.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListOrganizationTailnets/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "cursor",
+        "items": "tailnets",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

@@ -29,19 +29,26 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: MessagingError | string;
+}
 
 export interface GetMessagingPreferencesOptOutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Message category key to list opt-outs for. If omitted, lists recipients opted out of all marketing messages. */
-  category_key?: string;
-  page?: number;
-  page_size?: number;
+  category_key?: string | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
   /** Case-insensitive substring match on the recipient identifier. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface MessagePreferences {
   /** Server-assigned UUID for this recipient's preference record. */
@@ -78,13 +85,13 @@ export interface MessagingPreferencesAddOptOutCreateRequest {
   /** The recipient identifier to opt out (e.g. email address). */
   identifier: string;
   /** Optional message category key. If omitted, the recipient is opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 export interface BulkOptOutEntry {
   /** The recipient identifier to opt out (e.g. email address). */
   identifier: string;
   /** Message category key for this recipient. Overrides the request-level category_key. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 /** Recipients to opt out, at most 1000 per request. */
 export type MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList = Array<BulkOptOutEntry>;
@@ -94,7 +101,7 @@ export interface MessagingPreferencesBulkAddOptOutsCreateRequest {
   /** Recipients to opt out, at most 1000 per request. */
   opt_outs: MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList;
   /** Message category key applied to entries without their own. If omitted, recipients are opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 /** The first few entry-level problems, so the caller can fix their list. */
 export type BulkAddOptOutsResultErrorsList = Array<string>;
@@ -112,14 +119,14 @@ export interface MessagingPreferencesExportOptOutsCsvRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Message category key to export. If omitted, exports recipients opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 export interface MessagingPreferencesExportOptOutsCsvRetrieveResponse {}
 export interface MessagingPreferencesGenerateLinkCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Recipient to generate the link for. Defaults to the requesting user's own email address. */
-  recipient?: string;
+  recipient?: string | undefined;
 }
 export interface PreferencesLink {
   /** Token-gated URL where the recipient can manage their preferences. */
@@ -131,7 +138,11 @@ export interface MessagingPreferencesRemoveOptOutCreateRequest {
   /** The recipient identifier to opt back in (e.g. email address). */
   identifier: string;
   /** Optional message category key. If omitted, the recipient is opted back in to all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
+}
+export interface MessagingError {
+  /** Human-readable description of what went wrong. */
+  error: string;
 }
 export type GetMessagingPreferencesOptOutError = NotFound | PosthogOpError;
 /** List recipients opted out of a message category Get opt-outs filtered by category or overall opt-outs if no category specified */
@@ -141,8 +152,8 @@ export const getMessagingPreferencesOptOut: API.OperationMethod<
   GetMessagingPreferencesOptOutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetMessagingPreferencesOptOutRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<PaginatedOptOuts>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetMessagingPreferencesOptOutRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<PaginatedOptOuts>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -158,8 +169,8 @@ export const getMessagingPreferencesWebhookUrl: API.OperationMethod<
   GetMessagingPreferencesWebhookUrlError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetMessagingPreferencesWebhookUrlRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<WebhookUrl>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetMessagingPreferencesWebhookUrlRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<WebhookUrl>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -175,8 +186,8 @@ export const messagingPreferencesAddOptOutCreate: API.OperationMethod<
   MessagingPreferencesAddOptOutCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<MessagingPreferencesAddOptOutCreateRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<MessagePreferences>,
+  input: __S(32, __c4, 0) as any as S.Schema<MessagingPreferencesAddOptOutCreateRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<MessagePreferences>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -192,8 +203,8 @@ export const messagingPreferencesBulkAddOptOutsCreate: API.OperationMethod<
   MessagingPreferencesBulkAddOptOutsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c4, 2) as any as S.Schema<MessagingPreferencesBulkAddOptOutsCreateRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<BulkAddOptOutsResult>,
+  input: __S(42, __c5, 2) as any as S.Schema<MessagingPreferencesBulkAddOptOutsCreateRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<BulkAddOptOutsResult>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -209,8 +220,8 @@ export const messagingPreferencesExportOptOutsCsvRetrieve: API.OperationMethod<
   MessagingPreferencesExportOptOutsCsvRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<MessagingPreferencesExportOptOutsCsvRetrieveRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<MessagingPreferencesExportOptOutsCsvRetrieveResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<MessagingPreferencesExportOptOutsCsvRetrieveRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<MessagingPreferencesExportOptOutsCsvRetrieveResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -226,8 +237,8 @@ export const messagingPreferencesGenerateLinkCreate: API.OperationMethod<
   MessagingPreferencesGenerateLinkCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<MessagingPreferencesGenerateLinkCreateRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<PreferencesLink>,
+  input: __S(56, __c7, 0) as any as S.Schema<MessagingPreferencesGenerateLinkCreateRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<PreferencesLink>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -243,8 +254,8 @@ export const messagingPreferencesRemoveOptOutCreate: API.OperationMethod<
   MessagingPreferencesRemoveOptOutCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<MessagingPreferencesRemoveOptOutCreateRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<MessagePreferences>,
+  input: __S(64, __c8, 0) as any as S.Schema<MessagingPreferencesRemoveOptOutCreateRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<MessagePreferences>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -254,6 +265,16 @@ export const messagingPreferencesRemoveOptOutCreate: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+        }),
+      ).annotate({ identifier: "MessagingError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -272,19 +293,19 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "GetMessagingPreferencesOptOutRequest" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(1, __c0, 1),
+          results: __S(9, __c1, 1),
         }),
       ).annotate({ identifier: "PaginatedOptOuts" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -297,7 +318,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "MessagePreferences" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -319,7 +340,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "WebhookUrl" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -337,7 +358,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "MessagingPreferencesAddOptOutCreateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -347,12 +368,12 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "BulkOptOutEntry" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          opt_outs: __S(33, __c4, 1),
+          opt_outs: __S(41, __c5, 1),
           category_key: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -370,12 +391,12 @@ function __c4(j: number): any {
           total: S.Number,
           opted_out: S.Number,
           skipped: S.Number,
-          errors: __S(35, __c4, 3),
+          errors: __S(43, __c5, 3),
         }),
       ).annotate({ identifier: "BulkAddOptOutsResult" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -396,7 +417,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -419,7 +440,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PreferencesLink" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

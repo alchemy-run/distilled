@@ -1,0 +1,47 @@
+{
+  "description": "AIOps: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#GetInvestigationGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#UpdateInvestigationGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#DeleteInvestigationGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#GetInvestigationGroupPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#PutInvestigationGroupPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.aiops#DeleteInvestigationGroupPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.aiops#UnauthorizedException"
+      }
+    }
+  ]
+}

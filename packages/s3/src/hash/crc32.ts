@@ -18,7 +18,7 @@ class NodeCrc32 implements Checksum {
     this.checksum = zlib.crc32(data, this.checksum);
   }
 
-  async digest(): Promise<Uint8Array> {
+  digest(): Uint8Array {
     return checksumBytes(this.checksum);
   }
 

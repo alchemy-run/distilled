@@ -29,6 +29,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Payment Required -- billing/quota limit (402). */
@@ -44,11 +45,11 @@ export class PaymentRequired
  */
 export class UnknownMongodbAtlasError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownMongodbAtlasError>()("UnknownMongodbAtlasError", {
+    ...UnknownErrorFields,
     errorCode: /*@__PURE__*/ Schema.optional(Schema.String),
     reason: /*@__PURE__*/ Schema.optional(Schema.String),
     detail: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** A 2xx body that does not match the output schema (strict response validation). */
 export class MongodbAtlasParseError

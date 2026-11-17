@@ -31,6 +31,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -40,6 +42,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,15 +53,24 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -78,11 +91,11 @@ export interface CreateApiKeysRequestAiGatewayQuota {
   /** The quota limit amount. */
   limitAmount: number;
   /** Whether to include BYOK (Bring Your Own Key) usage in the quota. */
-  includeByokInQuota?: boolean;
+  includeByokInQuota?: boolean | undefined;
   /** How often the quota refreshes. */
-  refreshPeriod?: CreateApiKeysRequestAiGatewayQuotaRefreshPeriod | (string & {});
+  refreshPeriod?: CreateApiKeysRequestAiGatewayQuotaRefreshPeriod | (string & {}) | undefined;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. */
-  alertThresholds?: CreateApiKeysRequestAiGatewayQuotaAlertThresholdsList;
+  alertThresholds?: CreateApiKeysRequestAiGatewayQuotaAlertThresholdsList | undefined;
 }
 /** Optional generic metadata for the API key. The accepted shape depends on the key's `purpose` and is validated on creation; for `ai-gateway` keys this accepts `environment`. */
 export type CreateApiKeysRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -90,15 +103,15 @@ export interface CreateApiKeysRequest {
   /** The API key's purpose, which restricts how it can be used. */
   purpose: string;
   /** An optional project to restrict the API key to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** An optional name for the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The API key's expiration, expressed as a UNIX timestamp in milliseconds. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** Optional AI Gateway quota configuration for the API key. */
-  aiGatewayQuota?: CreateApiKeysRequestAiGatewayQuota;
+  aiGatewayQuota?: CreateApiKeysRequestAiGatewayQuota | undefined;
   /** Optional generic metadata for the API key. The accepted shape depends on the key's `purpose` and is validated on creation; for `ai-gateway` keys this accepts `environment`. */
-  metadata?: CreateApiKeysRequestMetadataMap;
+  metadata?: CreateApiKeysRequestMetadataMap | undefined;
 }
 /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
 export type APIKeyQuotaAlertThresholdsList = Array<number>;
@@ -121,13 +134,13 @@ export interface APIKeyQuota {
   /** Whether the quota has been archived. */
   archived: boolean;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
-  alertThresholds?: APIKeyQuotaAlertThresholdsList;
+  alertThresholds?: APIKeyQuotaAlertThresholdsList | undefined;
   /** Timestamp (in milliseconds) of when the quota was created. */
   createdAt: number;
   /** Timestamp (in milliseconds) of when the quota was last updated. */
   updatedAt: number;
 }
-/** Information about the newly created API key. */
+/** Represents an API key. */
 export interface APIKey {
   /** The unique identifier of the API key. */
   id: string;
@@ -155,9 +168,9 @@ export interface APIKey {
   leakedUrl: string | null;
   /** The ID of the app that created the API key, if any */
   createdByAppId: string | null;
-  quota?: APIKeyQuota;
+  quota?: APIKeyQuota | undefined;
   /** Generic metadata attached to the API key. The accepted shape depends on the key's `purpose` and is validated when the key is created. For `ai-gateway` keys this carries `environment` and `spendAttribution`. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface CreateApiKeysResponse {
   /** The API key's actual value. This value is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
@@ -166,13 +179,13 @@ export interface CreateApiKeysResponse {
 }
 export interface CreateAuthTokenRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   name: string;
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The ID of the project to scope this token to */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type AuthTokenScopesItemCase0Origin =
   | "app"
@@ -203,15 +216,15 @@ export interface AuthTokenScopesItemCase0Sudo {
   expiresAt: number;
   /** Possible step-up auth origins */
   origin: AuthTokenScopesItemCase0SudoOrigin;
-  verifiedAt?: number;
+  verifiedAt?: number | undefined;
 }
 export type AuthTokenScopesItemCase0Type = "user";
 /** The access scopes granted to the token. */
 export interface AuthTokenScopesItemCase0 {
   createdAt: number;
-  expiresAt?: number;
-  origin?: AuthTokenScopesItemCase0Origin;
-  sudo?: AuthTokenScopesItemCase0Sudo;
+  expiresAt?: number | undefined;
+  origin?: AuthTokenScopesItemCase0Origin | undefined;
+  sudo?: AuthTokenScopesItemCase0Sudo | undefined;
   type: AuthTokenScopesItemCase0Type;
 }
 export type AuthTokenScopesItemCase1Origin =
@@ -236,8 +249,8 @@ export type AuthTokenScopesItemCase1Type = "team";
 /** The access scopes granted to the token. */
 export interface AuthTokenScopesItemCase1 {
   createdAt: number;
-  expiresAt?: number;
-  origin?: AuthTokenScopesItemCase1Origin;
+  expiresAt?: number | undefined;
+  origin?: AuthTokenScopesItemCase1Origin | undefined;
   teamId: string;
   type: AuthTokenScopesItemCase1Type;
 }
@@ -251,25 +264,25 @@ export interface AuthToken {
   /** Timestamp (in milliseconds) of when the token was created. */
   createdAt: number;
   /** Timestamp (in milliseconds) of when the token expires. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The unique identifier of the token. */
   id: string;
   /** Timestamp (in milliseconds) of when the token was marked as leaked. */
-  leakedAt?: number;
+  leakedAt?: number | undefined;
   /** URL where the token was discovered as leaked. */
-  leakedUrl?: string;
+  leakedUrl?: string | undefined;
   /** The human-readable name of the token. */
   name: string;
   /** The origin of how the token was created. */
-  origin?: string;
+  origin?: string | undefined;
   /** The token's prefix, for identification purposes. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Timestamp (in milliseconds) of when the token was revoked. */
-  revokedAt?: number;
+  revokedAt?: number | undefined;
   /** The access scopes granted to the token. */
-  scopes?: AuthTokenScopesList;
+  scopes?: AuthTokenScopesList | undefined;
   /** The last few characters of the token, for identification purposes. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** The type of the token. */
   type: string;
 }
@@ -278,9 +291,17 @@ export interface CreateAuthTokenResponse {
   bearerToken: string;
   token: AuthToken;
 }
+/** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+export type DeleteAuthTokenRequestReason = "logout";
+/** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+export type DeleteAuthTokenRequestLogoutSource = "v0" | "vercel";
 export interface DeleteAuthTokenRequest {
   /** The identifier of the token to invalidate. The special value "current" may be supplied, which invalidates the token that the HTTP request was authenticated with. */
   tokenId: string;
+  /** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
+  reason?: DeleteAuthTokenRequestReason | (string & {}) | undefined;
+  /** The product the caller is logging out of. Only applies when reason is logout and tokenId is current. */
+  logoutSource?: DeleteAuthTokenRequestLogoutSource | (string & {}) | undefined;
 }
 export interface DeleteAuthTokenResponse {
   /** The unique identifier of the token that was deleted. */
@@ -292,13 +313,13 @@ export interface ExchangeSsoTokenRequestBodyCase0 {
   /** The sensitive code received from Vercel */
   code: string;
   /** The state received from the initialization request */
-  state?: string;
+  state?: string | undefined;
   /** The integration client id */
   client_id: string;
   /** The integration client secret */
   client_secret: string | Redacted.Redacted<string>;
   /** The integration redirect URI */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The grant type, when using x-www-form-urlencoded content type */
   grant_type: ExchangeSsoTokenRequestBodyCase0GrantType;
 }
@@ -322,9 +343,9 @@ export interface ExchangeSsoTokenRequest {
 }
 export interface ExchangeSsoTokenResponseBodyCase0 {
   access_token: string | Redacted.Redacted<string> | null;
-  expires_in?: number;
+  expires_in?: number | undefined;
   id_token: string;
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   token_type: string | null;
 }
 export interface ExchangeSsoTokenResponseBodyCase1 {
@@ -374,6 +395,13 @@ export type ListAuthTokensResponseBody =
   | ListAuthTokensResponseBodyCase0
   | ListAuthTokensResponseBodyCase1;
 export type ListAuthTokensResponse = ListAuthTokensResponseBody;
+export interface Error401BodyError {
+  code: string;
+  message: string;
+}
+export interface Error401Body {
+  error: Error401BodyError;
+}
 export type CreateApiKeysError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 export const createApiKeys: API.OperationMethod<
   CreateApiKeysRequest,
@@ -381,8 +409,8 @@ export const createApiKeys: API.OperationMethod<
   CreateApiKeysError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CreateApiKeysRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<CreateApiKeysResponse>,
+  input: __S(11, __c1, 3) as any as S.Schema<CreateApiKeysRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<CreateApiKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -398,8 +426,8 @@ export const createAuthToken: API.OperationMethod<
   CreateAuthTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateAuthTokenRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<CreateAuthTokenResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateAuthTokenRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<CreateAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -415,8 +443,8 @@ export const deleteAuthToken: API.OperationMethod<
   DeleteAuthTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteAuthTokenRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DeleteAuthTokenResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteAuthTokenRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -432,8 +460,8 @@ export const exchangeSsoToken: API.OperationMethod<
   ExchangeSsoTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ExchangeSsoTokenRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<ExchangeSsoTokenResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ExchangeSsoTokenRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<ExchangeSsoTokenResponse>,
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -449,8 +477,8 @@ export const getAuthToken: API.OperationMethod<
   GetAuthTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetAuthTokenRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<GetAuthTokenResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetAuthTokenRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GetAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -466,8 +494,8 @@ export const listAuthTokens: API.OperationMethod<
   ListAuthTokensError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListAuthTokensRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ListAuthTokensResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListAuthTokensRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<ListAuthTokensResponse>,
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -479,6 +507,23 @@ export const listAuthTokens: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error401BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
@@ -486,7 +531,7 @@ function __c0(j: number): any {
           limitAmount: S.Number,
           includeByokInQuota: S.optional(S.Boolean),
           refreshPeriod: S.optional(S.String),
-          alertThresholds: S.optional(__S(0, __c0, 0)),
+          alertThresholds: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "CreateApiKeysRequestAiGatewayQuota" });
     case 2:
@@ -498,8 +543,8 @@ function __c0(j: number): any {
           projectId: S.optional(S.String),
           name: S.optional(S.String),
           expiresAt: S.optional(S.Number),
-          aiGatewayQuota: S.optional(__S(1, __c0, 1)),
-          metadata: S.optional(__S(2, __c0, 2)),
+          aiGatewayQuota: S.optional(__S(9, __c1, 1)),
+          metadata: S.optional(__S(10, __c1, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api-keys", code: 200 })),
       ).annotate({ identifier: "CreateApiKeysRequest" });
     case 4:
@@ -515,7 +560,7 @@ function __c0(j: number): any {
           refreshPeriod: S.String,
           active: S.Boolean,
           archived: S.Boolean,
-          alertThresholds: S.optional(__S(4, __c0, 4)),
+          alertThresholds: S.optional(__S(12, __c1, 4)),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
@@ -536,7 +581,7 @@ function __c0(j: number): any {
           leakedAt: S.NullOr(S.Number),
           leakedUrl: S.NullOr(S.String),
           createdByAppId: S.NullOr(S.String),
-          quota: S.optional(__S(5, __c0, 5)),
+          quota: S.optional(__S(13, __c1, 5)),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "APIKey" });
@@ -544,12 +589,12 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiKeyString: S.String,
-          apiKey: __S(6, __c0, 6),
+          apiKey: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "CreateApiKeysResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -565,12 +610,12 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bearerToken: S.String,
-          token: __S(17, __c2, 1),
+          token: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "CreateAuthTokenResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -587,19 +632,21 @@ function __c2(j: number): any {
           origin: S.optional(S.String),
           prefix: S.optional(S.String),
           revokedAt: S.optional(S.Number),
-          scopes: S.optional(__S(16, __c2, 0)),
+          scopes: S.optional(__S(24, __c3, 0)),
           suffix: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "AuthToken" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tokenId: S.String.pipe(T.Label()),
+          reason: S.optional(S.String.pipe(T.Query())),
+          logoutSource: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/v3/user/tokens/{tokenId}", code: 200 })),
       ).annotate({ identifier: "DeleteAuthTokenRequest" });
     case 1:
@@ -610,7 +657,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteAuthTokenResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -624,7 +671,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -635,12 +682,12 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: __S(17, __c2, 1),
+          token: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "GetAuthTokenResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

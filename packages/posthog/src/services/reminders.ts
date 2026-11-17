@@ -32,26 +32,26 @@ export interface CreateReminderRequest {
   /** ID of the organization this reminder belongs to. You must be a member of it. */
   organization: string;
   /** Optional ID of the project this reminder is scoped to. Required when targeting a specific resource. Must belong to the chosen organization. */
-  team?: number | null;
+  team?: number | null | undefined;
   /** Short text shown as the notification title when the reminder fires. */
   title: string;
   /** Optional longer body for the notification. */
-  message?: string;
+  message?: string | undefined;
   /** Optional PostHog resource this reminder is about. One of: dashboard, insight, experiment, feature_flag, survey, notebook, replay, error_tracking. Resources are project-scoped, so a team must be set when this is provided. */
-  resource_type?: string | null;
+  resource_type?: string | null | undefined;
   /** ID of the referenced resource; must exist in the chosen project. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** For a one-off reminder: when it should fire (ISO 8601, future). */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  recurrence_interval?: CreateReminderRequestRecurrenceInterval | null;
+  recurrence_interval?: CreateReminderRequestRecurrenceInterval | null | undefined;
   /** For a recurring reminder: a 5-field cron expression (e.g. '0 9 * * 1' = Mondays 9am). May fire at most 4 times per day. Mutually exclusive with recurrence_interval. */
-  cron_expression?: string | null;
+  cron_expression?: string | null | undefined;
   /** IANA timezone the schedule resolves in (e.g. 'America/New_York'). Defaults to the project timezone when a team is set, otherwise UTC. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Optional: recurring reminders stop (status=completed) after this time. */
-  end_date?: string | null;
-  deleted?: boolean;
+  end_date?: string | null | undefined;
+  deleted?: boolean | undefined;
 }
 /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
 export type ReminderRecurrenceInterval = RecurrenceIntervalEnum | BlankEnum;
@@ -71,44 +71,44 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface Reminder {
   id: string;
   /** ID of the organization this reminder belongs to. You must be a member of it. */
   organization: string;
   /** Optional ID of the project this reminder is scoped to. Required when targeting a specific resource. Must belong to the chosen organization. */
-  team?: number | null;
+  team?: number | null | undefined;
   /** Short text shown as the notification title when the reminder fires. */
   title: string;
   /** Optional longer body for the notification. */
-  message?: string;
+  message?: string | undefined;
   /** Optional PostHog resource this reminder is about. One of: dashboard, insight, experiment, feature_flag, survey, notebook, replay, error_tracking. Resources are project-scoped, so a team must be set when this is provided. */
-  resource_type?: string | null;
+  resource_type?: string | null | undefined;
   /** ID of the referenced resource; must exist in the chosen project. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** For a one-off reminder: when it should fire (ISO 8601, future). */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  recurrence_interval?: ReminderRecurrenceInterval | null;
+  recurrence_interval?: ReminderRecurrenceInterval | null | undefined;
   /** For a recurring reminder: a 5-field cron expression (e.g. '0 9 * * 1' = Mondays 9am). May fire at most 4 times per day. Mutually exclusive with recurrence_interval. */
-  cron_expression?: string | null;
+  cron_expression?: string | null | undefined;
   /** IANA timezone the schedule resolves in (e.g. 'America/New_York'). Defaults to the project timezone when a team is set, otherwise UTC. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Optional: recurring reminders stop (status=completed) after this time. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   next_fire_at: string | null;
   last_fired_at: string | null;
   status: ReminderStatusEnum;
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   created_by: UserBasic;
   created_at: string;
   updated_at: string | null;
@@ -119,15 +119,15 @@ export interface GetReminderRequest {
 }
 export interface ListRemindersRequest {
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedReminderListResultsList = Array<Reminder>;
 export interface PaginatedReminderList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReminderListResultsList;
 }
 export interface RemindersDestroyRequest {
@@ -143,26 +143,26 @@ export interface UpdateReminderRequest {
   /** ID of the organization this reminder belongs to. You must be a member of it. */
   organization: string;
   /** Optional ID of the project this reminder is scoped to. Required when targeting a specific resource. Must belong to the chosen organization. */
-  team?: number | null;
+  team?: number | null | undefined;
   /** Short text shown as the notification title when the reminder fires. */
   title: string;
   /** Optional longer body for the notification. */
-  message?: string;
+  message?: string | undefined;
   /** Optional PostHog resource this reminder is about. One of: dashboard, insight, experiment, feature_flag, survey, notebook, replay, error_tracking. Resources are project-scoped, so a team must be set when this is provided. */
-  resource_type?: string | null;
+  resource_type?: string | null | undefined;
   /** ID of the referenced resource; must exist in the chosen project. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** For a one-off reminder: when it should fire (ISO 8601, future). */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  recurrence_interval?: UpdateReminderRequestRecurrenceInterval | null;
+  recurrence_interval?: UpdateReminderRequestRecurrenceInterval | null | undefined;
   /** For a recurring reminder: a 5-field cron expression (e.g. '0 9 * * 1' = Mondays 9am). May fire at most 4 times per day. Mutually exclusive with recurrence_interval. */
-  cron_expression?: string | null;
+  cron_expression?: string | null | undefined;
   /** IANA timezone the schedule resolves in (e.g. 'America/New_York'). Defaults to the project timezone when a team is set, otherwise UTC. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Optional: recurring reminders stop (status=completed) after this time. */
-  end_date?: string | null;
-  deleted?: boolean;
+  end_date?: string | null | undefined;
+  deleted?: boolean | undefined;
 }
 /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
 export type UpdateRemindersPartialRequestRecurrenceInterval = RecurrenceIntervalEnum | BlankEnum;
@@ -170,28 +170,28 @@ export interface UpdateRemindersPartialRequest {
   /** A UUID string identifying this reminder. */
   id: string;
   /** ID of the organization this reminder belongs to. You must be a member of it. */
-  organization?: string;
+  organization?: string | undefined;
   /** Optional ID of the project this reminder is scoped to. Required when targeting a specific resource. Must belong to the chosen organization. */
-  team?: number | null;
+  team?: number | null | undefined;
   /** Short text shown as the notification title when the reminder fires. */
-  title?: string;
+  title?: string | undefined;
   /** Optional longer body for the notification. */
-  message?: string;
+  message?: string | undefined;
   /** Optional PostHog resource this reminder is about. One of: dashboard, insight, experiment, feature_flag, survey, notebook, replay, error_tracking. Resources are project-scoped, so a team must be set when this is provided. */
-  resource_type?: string | null;
+  resource_type?: string | null | undefined;
   /** ID of the referenced resource; must exist in the chosen project. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** For a one-off reminder: when it should fire (ISO 8601, future). */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** For a recurring reminder: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  recurrence_interval?: UpdateRemindersPartialRequestRecurrenceInterval | null;
+  recurrence_interval?: UpdateRemindersPartialRequestRecurrenceInterval | null | undefined;
   /** For a recurring reminder: a 5-field cron expression (e.g. '0 9 * * 1' = Mondays 9am). May fire at most 4 times per day. Mutually exclusive with recurrence_interval. */
-  cron_expression?: string | null;
+  cron_expression?: string | null | undefined;
   /** IANA timezone the schedule resolves in (e.g. 'America/New_York'). Defaults to the project timezone when a team is set, otherwise UTC. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Optional: recurring reminders stop (status=completed) after this time. */
-  end_date?: string | null;
-  deleted?: boolean;
+  end_date?: string | null | undefined;
+  deleted?: boolean | undefined;
 }
 export type CreateReminderError = PosthogOpError;
 export const createReminder: API.OperationMethod<

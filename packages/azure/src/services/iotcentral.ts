@@ -37,11 +37,11 @@ export type AppsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefin
 /** The properties of an IoT Central application. */
 export interface AppPropertiesInput {
   /** The display name of the application. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The subdomain of the application. */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch. */
-  template?: string;
+  template?: string | undefined;
 }
 /** The name of the SKU. */
 export type AppSkuInfoName = "ST0" | "ST1" | "ST2";
@@ -66,13 +66,13 @@ export interface AppsCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: AppsCreateOrUpdateRequestTagsMap;
+  tags?: AppsCreateOrUpdateRequestTagsMap | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppPropertiesInput;
+  properties?: AppPropertiesInput | undefined;
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateRequestIdentity;
+  identity?: AppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The resource tags. */
 export type AppsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -81,41 +81,41 @@ export type AppState = "created" | "suspended";
 /** The properties of an IoT Central application. */
 export interface AppProperties {
   /** The ID of the application. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The display name of the application. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The subdomain of the application. */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch. */
-  template?: string;
+  template?: string | undefined;
   /** The current state of the application. */
-  state?: AppState;
+  state?: AppState | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export interface AppsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: SystemAssignedServiceIdentityType;
 }
 export interface AppsCreateOrUpdateResponse {
   /** The ARM resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The ARM resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: AppsCreateOrUpdateResponseTagsMap;
+  tags?: AppsCreateOrUpdateResponseTagsMap | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppProperties;
+  properties?: AppProperties | undefined;
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateResponseIdentity;
+  identity?: AppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface CheckAppNameAvailabilityRequest {
   /** The subscription identifier. */
@@ -123,16 +123,16 @@ export interface CheckAppNameAvailabilityRequest {
   /** The name of the IoT Central application instance to check. */
   name: string;
   /** The type of the IoT Central resource to query. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The properties indicating whether a given IoT Central application name or subdomain is available. */
 export interface AppAvailabilityInfo {
   /** The value which indicates whether the provided name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed reason message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckAppSubdomainAvailabilityRequest {
   /** The subscription identifier. */
@@ -140,7 +140,7 @@ export interface CheckAppSubdomainAvailabilityRequest {
   /** The name of the IoT Central application instance to check. */
   name: string;
   /** The type of the IoT Central resource to query. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface DeleteAppRequest {
   /** The subscription identifier. */
@@ -165,21 +165,21 @@ export type GetAppResponseTagsMap = { [key: string]: string | undefined };
 export type GetAppResponseIdentity = AppsCreateOrUpdateResponseIdentity;
 export interface GetAppResponse {
   /** The ARM resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The ARM resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetAppResponseTagsMap;
+  tags?: GetAppResponseTagsMap | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppProperties;
+  properties?: AppProperties | undefined;
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateResponseIdentity;
+  identity?: AppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface ListAppByResourceGroupRequest {
   /** The subscription identifier. */
@@ -194,30 +194,30 @@ export type AppIdentity = AppsCreateOrUpdateResponseIdentity;
 /** The IoT Central application. */
 export interface App {
   /** The ARM resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The ARM resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: AppTagsMap;
+  tags?: AppTagsMap | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppProperties;
+  properties?: AppProperties | undefined;
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateResponseIdentity;
+  identity?: AppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** A list of IoT Central Applications. */
 export type AppListResultValueList = Array<App>;
 /** A list of IoT Central Applications with a next link. */
 export interface AppListResult {
   /** The link used to get the next page of IoT Central Applications. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of IoT Central Applications. */
-  value?: AppListResultValueList;
+  value?: AppListResultValueList | undefined;
 }
 export interface ListAppBySubscriptionRequest {
   /** The subscription identifier. */
@@ -230,71 +230,71 @@ export interface ListAppTemplatesRequest {
 /** IoT Central Application Template Locations. */
 export interface AppTemplateLocations {
   /** The ID of the location. */
-  id?: string;
+  id?: string | undefined;
   /** The display name of the location. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A list of locations that support the template. */
 export type AppTemplateLocationsList = Array<AppTemplateLocations>;
 /** IoT Central Application Template. */
 export interface AppTemplate {
   /** The ID of the template. */
-  manifestId?: string;
+  manifestId?: string | undefined;
   /** The version of the template. */
-  manifestVersion?: string;
+  manifestVersion?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The title of the template. */
-  title?: string;
+  title?: string | undefined;
   /** The order of the template in the templates list. */
-  order?: number;
+  order?: number | undefined;
   /** The description of the template. */
-  description?: string;
+  description?: string | undefined;
   /** The industry of the template. */
-  industry?: string;
+  industry?: string | undefined;
   /** A list of locations that support the template. */
-  locations?: AppTemplateLocationsList;
+  locations?: AppTemplateLocationsList | undefined;
 }
 /** A list of IoT Central Application Templates. */
 export type AppTemplatesResultValueList = Array<AppTemplate>;
 /** A list of IoT Central Application Templates with a next link. */
 export interface AppTemplatesResult {
   /** The link used to get the next page of IoT Central application templates. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of IoT Central Application Templates. */
-  value?: AppTemplatesResultValueList;
+  value?: AppTemplatesResultValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft IoT Central */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: IoT Central */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly description for the operation, */
-  description?: string;
+  description?: string | undefined;
 }
 /** IoT Central REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{read | write | action | delete} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Additional descriptions for the operation. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** A list of operations supported by the Microsoft.IoTCentral resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** A list of IoT Central operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The link used to get the next page of IoT Central description objects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A list of operations supported by the Microsoft.IoTCentral resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
 }
 /** Instance tags */
 export type UpdateAppRequestTagsMap = { [key: string]: string | undefined };
@@ -308,13 +308,13 @@ export interface UpdateAppRequest {
   /** The ARM resource name of the IoT Central application. */
   resourceName: string;
   /** Instance tags */
-  tags?: UpdateAppRequestTagsMap;
+  tags?: UpdateAppRequestTagsMap | undefined;
   /** A valid instance SKU. */
-  sku?: AppSkuInfo;
+  sku?: AppSkuInfo | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppPropertiesInput;
+  properties?: AppPropertiesInput | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateRequestIdentity;
+  identity?: AppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The resource tags. */
 export type UpdateAppResponseTagsMap = { [key: string]: string | undefined };
@@ -322,21 +322,21 @@ export type UpdateAppResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateAppResponseIdentity = AppsCreateOrUpdateResponseIdentity;
 export interface UpdateAppResponse {
   /** The ARM resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The ARM resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdateAppResponseTagsMap;
+  tags?: UpdateAppResponseTagsMap | undefined;
   /** The common properties of an IoT Central application. */
-  properties?: AppProperties;
+  properties?: AppProperties | undefined;
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** Managed service identity (either system assigned, or none) */
-  identity?: AppsCreateOrUpdateResponseIdentity;
+  identity?: AppsCreateOrUpdateResponseIdentity | undefined;
 }
 export type AppsCreateOrUpdateError = AzureOpError;
 /** Create or update the metadata of an IoT Central application. The usual pattern to modify a property is to retrieve the IoT Central application metadata and security metadata, and then combine them with the modified values in a new body to update the IoT Central application. */

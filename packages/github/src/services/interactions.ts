@@ -36,8 +36,8 @@ export interface GetPullRequestBypassListForRepoRequest {
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -56,8 +56,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type GetPullRequestBypassListForRepoResponseBodyList = Array<SimpleUser>;
 export type GetPullRequestBypassListForRepoResponse =
@@ -72,7 +72,7 @@ export interface GetPullRequestCreationCapForOrgResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export interface GetPullRequestCreationCapForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -86,7 +86,7 @@ export interface GetPullRequestCreationCapForRepoResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export interface GetRestrictionsForAuthenticatedUserRequest {}
 /** The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect. */
@@ -154,13 +154,13 @@ export interface SetPullRequestBypassListForRepoResponse {}
 export type InteractionExpiry = "one_day" | "three_days" | "one_week" | "one_month" | "six_months";
 export interface SetRestrictionsForAuthenticatedUserRequest {
   limit: InteractionGroup | (string & {});
-  expiry?: InteractionExpiry | (string & {});
+  expiry?: InteractionExpiry | (string & {}) | undefined;
 }
 export interface SetRestrictionsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   limit: InteractionGroup | (string & {});
-  expiry?: InteractionExpiry | (string & {});
+  expiry?: InteractionExpiry | (string & {}) | undefined;
 }
 export interface SetRestrictionsForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -168,7 +168,7 @@ export interface SetRestrictionsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   limit: InteractionGroup | (string & {});
-  expiry?: InteractionExpiry | (string & {});
+  expiry?: InteractionExpiry | (string & {}) | undefined;
 }
 export interface UpdatePullRequestCreationCapForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -176,9 +176,9 @@ export interface UpdatePullRequestCreationCapForOrgRequest {
   /** Whether the pull request creation cap is enabled */
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
-  max_open_pull_requests?: number;
+  max_open_pull_requests?: number | undefined;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export interface UpdatePullRequestCreationCapForOrgResponse {
   /** Whether the pull request creation cap is enabled */
@@ -186,7 +186,7 @@ export interface UpdatePullRequestCreationCapForOrgResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export interface UpdatePullRequestCreationCapForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -196,9 +196,9 @@ export interface UpdatePullRequestCreationCapForRepoRequest {
   /** Whether the pull request creation cap is enabled */
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
-  max_open_pull_requests?: number;
+  max_open_pull_requests?: number | undefined;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export interface UpdatePullRequestCreationCapForRepoResponse {
   /** Whether the pull request creation cap is enabled */
@@ -206,7 +206,7 @@ export interface UpdatePullRequestCreationCapForRepoResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean;
+  include_drafts?: boolean | undefined;
 }
 export type GetPullRequestBypassListForRepoError = GithubOpError;
 /** Get pull request creation cap bypass list for a repository Lists the users that are on the pull request creation cap bypass list for a repository. Users on this list can create pull requests regardless of any configured pull request creation cap. Only users with maintainer permissions can view the bypass list. */

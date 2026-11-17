@@ -1,0 +1,101 @@
+{
+  "description": "Secrets in the user calls: passwords, one-time codes, session and API tokens, and the 2FA secret with its QR code image, which encodes the secret. Technitium's documentation marks no member as secret; these members carry credentials by their documented meaning (pass, newPass, totp, token, secret and qrCodePngImage in APIDOCS.md, v15.5.0). Inputs accept a string or a Redacted value; outputs are always Redacted (technitium.api#redactedOutput).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#ChangePasswordRequest/members/pass/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#ChangePasswordRequest/members/newPass/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#ChangePasswordRequest/members/totp/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#CreateApiTokenRequest/members/pass/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#CreateApiTokenRequest/members/totp/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#CreateApiTokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#CreateSingleUseApiTokenResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#Enable2faRequest/members/totp/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#GetSessionInfoResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#Initialize2faResponse/members/qrCodePngImage/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#Initialize2faResponse/members/secret/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#LoginRequest/members/pass/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#LoginRequest/members/totp/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.user#LoginResponse/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {},
+        "technitium.api#redactedOutput": {}
+      }
+    }
+  ]
+}

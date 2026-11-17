@@ -1,0 +1,40 @@
+{
+  "description": "Self-hosted environment worker credentials the spec does not mark sensitive: `BetaSelfHostedWork.secret` (\"Credential payload used by the environment worker to execute this work item\") and the `authorization` header the worker routes accept, which carries a credential by definition. Mark them so they are `Redacted` on the way out and accepted as `Redacted` on the way in.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaSelfHostedWork/members/secret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaGetEnvironmentStatsV1EnvironmentsEnvironmentIdWorkStatsGetRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaPollWorkV1EnvironmentsEnvironmentIdWorkPollGetRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaAcknowledgeWorkV1EnvironmentsEnvironmentIdWorkWorkIdAckPostRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaRecordHeartbeatV1EnvironmentsEnvironmentIdWorkWorkIdHeartbeatPostRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaStopWorkV1EnvironmentsEnvironmentIdWorkWorkIdStopPostRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_environments#BetaListWorkV1EnvironmentsEnvironmentIdWorkGetRequest/members/authorization/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -45,11 +45,11 @@ export type NameUnavailabilityReason = "AccountNameInvalid" | "AlreadyExists";
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason that an artifact signing account name could not be used. The Reason element is only returned if nameAvailable is false. */
-  reason?: NameUnavailabilityReason;
+  reason?: NameUnavailabilityReason | undefined;
   /** An error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Type of the certificate */
 export type ProfileType =
@@ -63,15 +63,15 @@ export interface CertificateProfilePropertiesInput {
   /** Profile type of the certificate. */
   profileType: ProfileType | (string & {});
   /** Whether to include STREET in the certificate subject name. */
-  includeStreetAddress?: boolean;
+  includeStreetAddress?: boolean | undefined;
   /** Whether to include L in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeCity?: boolean;
+  includeCity?: boolean | undefined;
   /** Whether to include S in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeState?: boolean;
+  includeState?: boolean | undefined;
   /** Whether to include C in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeCountry?: boolean;
+  includeCountry?: boolean | undefined;
   /** Whether to include PC in the certificate subject name. */
-  includePostalCode?: boolean;
+  includePostalCode?: boolean | undefined;
   /** Identity validation id used for the certificate subject name. */
   identityValidationId: string;
 }
@@ -85,7 +85,7 @@ export interface CreateCertificateProfileRequest {
   /** Certificate profile name. */
   profileName: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProfilePropertiesInput;
+  properties?: CertificateProfilePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -94,17 +94,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the current operation. */
 export type ProvisioningState =
@@ -123,36 +123,36 @@ export type RevocationStatus = "Succeeded" | "InProgress" | "Failed";
 /** Revocation details of the certificate. */
 export interface Revocation {
   /** The timestamp when the revocation is requested. */
-  requestedAt?: string;
+  requestedAt?: string | undefined;
   /** The timestamp when the revocation is effective. */
-  effectiveAt?: string;
+  effectiveAt?: string | undefined;
   /** Reason for revocation. */
-  reason?: string;
+  reason?: string | undefined;
   /** Remarks for the revocation. */
-  remarks?: string;
+  remarks?: string | undefined;
   /** Status of the revocation. */
-  status?: RevocationStatus;
+  status?: RevocationStatus | undefined;
   /** Reason for the revocation failure. */
-  failureReason?: string;
+  failureReason?: string | undefined;
 }
 /** Properties of the certificate. */
 export interface Certificate {
   /** Serial number of the certificate. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Enhanced key usage of the certificate. */
-  enhancedKeyUsage?: string;
+  enhancedKeyUsage?: string | undefined;
   /** Subject name of the certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Thumbprint of the certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Certificate created date. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Certificate expiry date. */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** Status of the certificate. */
-  status?: CertificateStatus;
+  status?: CertificateStatus | undefined;
   /** Revocations history of a certificate. */
-  revocation?: Revocation;
+  revocation?: Revocation | undefined;
 }
 /** List of renewed certificates. */
 export type CertificateProfilePropertiesCertificatesList = Array<Certificate>;
@@ -161,37 +161,37 @@ export interface CertificateProfileProperties {
   /** Profile type of the certificate. */
   profileType: ProfileType;
   /** Whether to include STREET in the certificate subject name. */
-  includeStreetAddress?: boolean;
+  includeStreetAddress?: boolean | undefined;
   /** Whether to include L in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeCity?: boolean;
+  includeCity?: boolean | undefined;
   /** Whether to include S in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeState?: boolean;
+  includeState?: boolean | undefined;
   /** Whether to include C in the certificate subject name. Applicable only for private trust, private trust ci profile types */
-  includeCountry?: boolean;
+  includeCountry?: boolean | undefined;
   /** Whether to include PC in the certificate subject name. */
-  includePostalCode?: boolean;
+  includePostalCode?: boolean | undefined;
   /** Identity validation id used for the certificate subject name. */
   identityValidationId: string;
   /** Status of the current operation on certificate profile. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Status of the certificate profile. */
-  status?: CertificateProfileStatus;
+  status?: CertificateProfileStatus | undefined;
   /** List of renewed certificates. */
-  certificates?: CertificateProfilePropertiesCertificatesList;
+  certificates?: CertificateProfilePropertiesCertificatesList | undefined;
 }
 export interface CreateCertificateProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProfileProperties;
+  properties?: CertificateProfileProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateCodeSigningAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -205,7 +205,7 @@ export interface AccountSku {
 /** Properties of the artifact signing account. */
 export interface CodeSigningAccountPropertiesInput {
   /** SKU of the artifact signing account. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
 }
 export interface CreateCodeSigningAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -215,40 +215,40 @@ export interface CreateCodeSigningAccountRequest {
   /** Artifact Signing account name. */
   accountName: string;
   /** Resource tags. */
-  tags?: CreateCodeSigningAccountRequestTagsMap;
+  tags?: CreateCodeSigningAccountRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CodeSigningAccountPropertiesInput;
+  properties?: CodeSigningAccountPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 /** Properties of the artifact signing account. */
 export interface CodeSigningAccountProperties {
   /** The URI of the artifact signing account which is used during signing files. */
-  accountUri?: string;
+  accountUri?: string | undefined;
   /** SKU of the artifact signing account. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
   /** Status of the current operation on artifact signing account. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateCodeSigningAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateCodeSigningAccountResponseTagsMap;
+  tags?: CreateCodeSigningAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CodeSigningAccountProperties;
+  properties?: CodeSigningAccountProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCertificateProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -262,9 +262,9 @@ export interface DeleteCertificateProfileRequest {
 }
 export interface DeleteCertificateProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCodeSigningAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -276,9 +276,9 @@ export interface DeleteCodeSigningAccountRequest {
 }
 export interface DeleteCodeSigningAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetCertificateProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -292,15 +292,15 @@ export interface GetCertificateProfileRequest {
 }
 export interface GetCertificateProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProfileProperties;
+  properties?: CertificateProfileProperties | undefined;
 }
 export interface GetCodeSigningAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -314,19 +314,19 @@ export interface GetCodeSigningAccountRequest {
 export type GetCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCodeSigningAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCodeSigningAccountResponseTagsMap;
+  tags?: GetCodeSigningAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CodeSigningAccountProperties;
+  properties?: CodeSigningAccountProperties | undefined;
 }
 export interface ListCertificateProfileByCodeSigningAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -339,15 +339,15 @@ export interface ListCertificateProfileByCodeSigningAccountRequest {
 /** Certificate profile resource. */
 export interface CertificateProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateProfileProperties;
+  properties?: CertificateProfileProperties | undefined;
 }
 /** The CertificateProfile items on this page */
 export type CertificateProfileListResultValueList = Array<CertificateProfile>;
@@ -356,7 +356,7 @@ export interface CertificateProfileListResult {
   /** The CertificateProfile items on this page */
   value: CertificateProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCodeSigningAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -369,19 +369,19 @@ export type CodeSigningAccountTagsMap = { [key: string]: string | undefined };
 /** Artifact signing account resource. */
 export interface CodeSigningAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CodeSigningAccountTagsMap;
+  tags?: CodeSigningAccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CodeSigningAccountProperties;
+  properties?: CodeSigningAccountProperties | undefined;
 }
 /** The CodeSigningAccount items on this page */
 export type CodeSigningAccountListResultValueList = Array<CodeSigningAccount>;
@@ -390,7 +390,7 @@ export interface CodeSigningAccountListResult {
   /** The CodeSigningAccount items on this page */
   value: CodeSigningAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCodeSigningAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -400,13 +400,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -415,23 +415,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RevokeCertificateProfileCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -451,7 +451,7 @@ export interface RevokeCertificateProfileCertificateRequest {
   /** Reason for the revocation. */
   reason: string;
   /** Remarks for the revocation. */
-  remarks?: string;
+  remarks?: string | undefined;
 }
 export interface RevokeCertificateProfileCertificateResponse {}
 /** Resource tags. */
@@ -459,12 +459,12 @@ export type UpdateCodeSigningAccountRequestTagsMap = { [key: string]: string | u
 /** SKU of the artifact signing account. */
 export interface AccountSkuPatch {
   /** Name of the SKU. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 /** Properties of the artifact signing account. */
 export interface CodeSigningAccountPatchProperties {
   /** SKU of the artifact signing account. */
-  sku?: AccountSkuPatch;
+  sku?: AccountSkuPatch | undefined;
 }
 export interface UpdateCodeSigningAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -474,31 +474,31 @@ export interface UpdateCodeSigningAccountRequest {
   /** Artifact Signing account name. */
   accountName: string;
   /** Resource tags. */
-  tags?: UpdateCodeSigningAccountRequestTagsMap;
+  tags?: UpdateCodeSigningAccountRequestTagsMap | undefined;
   /** Properties of the artifact signing account. */
-  properties?: CodeSigningAccountPatchProperties;
+  properties?: CodeSigningAccountPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCodeSigningAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCodeSigningAccountResponseTagsMap;
+  tags?: UpdateCodeSigningAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CodeSigningAccountProperties;
+  properties?: CodeSigningAccountProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckCodeSigningAccountNameAvailabilityError = AzureOpError;
 /** Checks if the artifact signing account name is valid and is not already in use. */

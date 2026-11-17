@@ -34,6 +34,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -53,7 +55,7 @@ export interface GetConfigResponse {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean | null;
+  setUpTag?: boolean | null | undefined;
 }
 export interface PutConfigRequest {
   /** Identifier. */
@@ -67,7 +69,7 @@ export interface PutConfigRequest {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean;
+  setUpTag?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutConfigResponse {
@@ -80,7 +82,7 @@ export interface PutConfigResponse {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean | null;
+  setUpTag?: boolean | null | undefined;
 }
 export type GetConfigError = Forbidden | CloudflareOpError;
 /** Gets the Google Tag Gateway configuration for a zone. */

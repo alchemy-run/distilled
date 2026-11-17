@@ -30,6 +30,8 @@ export class FunctionCallNotFound
     /*@__PURE__*/ S.TaggedError<FunctionCallNotFound>()("FunctionCallNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -40,14 +42,17 @@ export class FunctionNotFound
     /*@__PURE__*/ S.TaggedError<FunctionNotFound>()("FunctionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface CancelFunctionCallRequest {
-  functionCallId?: string;
-  terminateContainers?: boolean;
-  functionId?: string;
+  functionCallId?: string | undefined;
+  terminateContainers?: boolean | undefined;
+  /** Only provided for sync input cancellation on the input plane. Async input cancellation does not provide this field this. */
+  functionId?: string | undefined;
 }
 export interface CancelFunctionCallResponse {}
 export type StringList = Array<string>;
@@ -71,37 +76,36 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {});
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  type?: GPUType | (string & {}) | undefined;
+  count?: number | undefined;
+  gpuType?: string | undefined;
 }
-/** milli CPU cores */
 export interface Resources {
-  memoryMb?: number;
   /** MiB */
-  milliCpu?: number;
+  memoryMb?: number | undefined;
   /** milli CPU cores */
-  gpuConfig?: GPUConfig;
-  memoryMbMax?: number;
+  milliCpu?: number | undefined;
+  gpuConfig?: GPUConfig | undefined;
   /** MiB */
-  ephemeralDiskMb?: number;
+  memoryMbMax?: number | undefined;
   /** MiB */
-  milliCpuMax?: number;
+  ephemeralDiskMb?: number | undefined;
   /** milli CPU cores */
-  rdma?: boolean;
+  milliCpuMax?: number | undefined;
   /** Whether to use RDMA interfaces */
-  skipNumThreadsEnvVars?: boolean;
+  rdma?: boolean | undefined;
+  /** Leave thread-count env vars (OMP_NUM_THREADS, ...) unset so libraries size themselves from the visible CPUs. Ignored on runc. */
+  skipNumThreadsEnvVars?: boolean | undefined;
 }
 export type RateLimitInterval =
   | "RATE_LIMIT_INTERVAL_UNSPECIFIED"
   | "RATE_LIMIT_INTERVAL_SECOND"
   | "RATE_LIMIT_INTERVAL_MINUTE";
 export interface RateLimit {
-  limit?: number;
-  interval?: RateLimitInterval | (string & {});
+  limit?: number | undefined;
+  interval?: RateLimitInterval | (string & {}) | undefined;
 }
-/** The default */
 export type WebhookType =
   | "WEBHOOK_TYPE_UNSPECIFIED"
   | "WEBHOOK_TYPE_ASGI_APP"
@@ -114,23 +118,23 @@ export type WebhookAsyncMode =
   | "WEBHOOK_ASYNC_MODE_TRIGGER"
   | "WEBHOOK_ASYNC_MODE_AUTO";
 export interface CustomDomainConfig {
-  name?: string;
+  name?: string | undefined;
 }
 export type CustomDomainConfigList = Array<CustomDomainConfig>;
 export interface WebhookConfig {
-  type?: WebhookType | (string & {});
-  method?: string;
-  requestedSuffix?: string;
+  type?: WebhookType | (string & {}) | undefined;
+  method?: string | undefined;
   /** User-supplied "label" component of URL */
-  asyncMode?: WebhookAsyncMode | (string & {});
-  customDomains?: CustomDomainConfigList;
-  webServerPort?: number;
-  webServerStartupTimeout?: number;
-  webEndpointDocs?: boolean;
-  requiresProxyAuth?: boolean;
-  ephemeralSuffix?: string;
+  requestedSuffix?: string | undefined;
+  asyncMode?: WebhookAsyncMode | (string & {}) | undefined;
+  customDomains?: CustomDomainConfigList | undefined;
+  webServerPort?: number | undefined;
+  webServerStartupTimeout?: number | undefined;
+  webEndpointDocs?: boolean | undefined;
+  requiresProxyAuth?: boolean | undefined;
+  /** Additional URL suffix added for ephemeral Apps */
+  ephemeralSuffix?: string | undefined;
 }
-/** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "CLOUD_PROVIDER_AWS"
@@ -138,46 +142,45 @@ export type CloudProvider =
   | "CLOUD_PROVIDER_AUTO"
   | "CLOUD_PROVIDER_OCI";
 export interface SharedVolumeMount {
-  mountPath?: string;
-  sharedVolumeId?: string;
-  cloudProvider?: CloudProvider | (string & {});
+  mountPath?: string | undefined;
+  sharedVolumeId?: string | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
 }
 export type SharedVolumeMountList = Array<SharedVolumeMount>;
 export interface FunctionRetryPolicy {
-  backoffCoefficient?: number;
-  initialDelayMs?: number;
-  maxDelayMs?: number;
+  backoffCoefficient?: number | undefined;
+  initialDelayMs?: number | undefined;
+  maxDelayMs?: number | undefined;
   /** NOTE: two-byte field number not used for special reason. copy-paste error. Ref: PR #2542 */
-  retries?: number;
+  retries?: number | undefined;
 }
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
-  /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  enabled?: boolean | undefined;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 export interface WebUrlInfo {
-  truncated?: boolean;
-  hasUniqueHash?: boolean;
-  labelStolen?: boolean;
+  truncated?: boolean | undefined;
+  hasUniqueHash?: boolean | undefined;
+  labelStolen?: boolean | undefined;
 }
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 export interface CustomDomainInfo {
-  url?: string;
+  url?: string | undefined;
 }
 export type CustomDomainInfoList = Array<CustomDomainInfo>;
 export type CheckpointStatus =
@@ -187,26 +190,26 @@ export type CheckpointStatus =
   | "CHECKPOINT_STATUS_READY"
   | "CHECKPOINT_STATUS_FAILED";
 export interface CheckpointInfo {
-  checksum?: string;
-  status?: CheckpointStatus | (string & {});
-  checkpointId?: string;
-  runtimeFingerprint?: string;
-  size?: string;
-  checksumIsFileIndex?: boolean;
-  originalTaskId?: string;
-  runscRuntimeVersion?: string;
-  gvisorPlatform?: string;
-  encrypted?: boolean;
+  checksum?: string | undefined;
+  status?: CheckpointStatus | (string & {}) | undefined;
+  checkpointId?: string | undefined;
+  runtimeFingerprint?: string | undefined;
+  size?: string | undefined;
+  checksumIsFileIndex?: boolean | undefined;
+  originalTaskId?: string | undefined;
+  runscRuntimeVersion?: string | undefined;
+  gvisorPlatform?: string | undefined;
+  encrypted?: boolean | undefined;
 }
 export interface ObjectDependency {
-  objectId?: string;
+  objectId?: string | undefined;
 }
 export type ObjectDependencyList = Array<ObjectDependency>;
 export interface S3Mount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type S3MountList = Array<S3Mount>;
 export type CloudBucketMountBucketType = "UNSPECIFIED" | "S3" | "R2" | "GCP";
@@ -215,27 +218,28 @@ export type CloudBucketMountMetadataTTLType =
   | "METADATA_TTL_TYPE_MINIMAL"
   | "METADATA_TTL_TYPE_INDEFINITE";
 export interface CloudBucketMount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
-  bucketType?: CloudBucketMountBucketType | (string & {});
-  requesterPays?: boolean;
-  bucketEndpointUrl?: string;
-  keyPrefix?: string;
-  oidcAuthRoleArn?: string;
-  forcePathStyle?: boolean;
-  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {});
-  metadataTtlSeconds?: string;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
+  bucketType?: CloudBucketMountBucketType | (string & {}) | undefined;
+  requesterPays?: boolean | undefined;
+  bucketEndpointUrl?: string | undefined;
+  keyPrefix?: string | undefined;
+  oidcAuthRoleArn?: string | undefined;
+  forcePathStyle?: boolean | undefined;
+  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {}) | undefined;
+  metadataTtlSeconds?: string | undefined;
 }
 export type CloudBucketMountList = Array<CloudBucketMount>;
 /** Scheduling constraints for Functions and Sandboxes. */
 export interface SchedulerPlacement {
-  regions?: StringList;
-  Zone?: string;
-  Lifecycle?: string;
-  InstanceTypes?: StringList;
-  nonpreemptible?: boolean;
+  regions?: StringList | undefined;
+  Zone?: string | undefined;
+  Lifecycle?: string | undefined;
+  InstanceTypes?: StringList | undefined;
+  /** Functions only */
+  nonpreemptible?: boolean | undefined;
 }
 export type ClassParameterInfoParameterSerializationFormat =
   | "PARAM_SERIALIZATION_FORMAT_UNSPECIFIED"
@@ -254,61 +258,63 @@ export type ParameterType =
   | "PARAM_TYPE_BOOL";
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
-  baseType?: ParameterType | (string & {});
-  subTypes?: GenericPayloadTypeList;
+  baseType?: ParameterType | (string & {}) | undefined;
+  /** sub-type for generic types like lists */
+  subTypes?: GenericPayloadTypeList | undefined;
 }
+/** TODO: rename into NamedPayloadType or similar */
 export interface ClassParameterSpec {
-  /** TODO: rename into NamedPayloadType or similar */
-  name?: string;
-  type?: ParameterType | (string & {});
+  name?: string | undefined;
   /** TODO: deprecate - use full_type instead */
-  hasDefault?: boolean;
+  type?: ParameterType | (string & {}) | undefined;
+  hasDefault?: boolean | undefined;
   /** Default *values* are only registered for class parameters */
-  stringDefault?: string;
-  intDefault?: string;
-  pickleDefault?: string;
-  bytesDefault?: string;
-  boolDefault?: boolean;
-  fullType?: GenericPayloadType;
+  stringDefault?: string | undefined;
+  intDefault?: string | undefined;
+  pickleDefault?: string | undefined;
+  bytesDefault?: string | undefined;
+  boolDefault?: boolean | undefined;
+  /** supersedes `type` */
+  fullType?: GenericPayloadType | undefined;
 }
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
-  /** new format using api.FunctionParameterSet */
-  format?: ClassParameterInfoParameterSerializationFormat | (string & {});
-  schema?: ClassParameterSpecList;
+  format?: ClassParameterInfoParameterSerializationFormat | (string & {}) | undefined;
+  /** only set for PARAM_SERIALIZATION_FORMAT_PROTO */
+  schema?: ClassParameterSpecList | undefined;
 }
 export interface TaskTemplate {
-  rank?: number;
-  resources?: Resources;
-  targetConcurrentInputs?: number;
-  maxConcurrentInputs?: number;
+  rank?: number | undefined;
+  resources?: Resources | undefined;
+  targetConcurrentInputs?: number | undefined;
+  maxConcurrentInputs?: number | undefined;
   /** TODO(irfansharif): Just move this into a column in the task table instead? Deprecate all above fields and get rid of this message altogether */
-  index?: number;
+  index?: number | undefined;
 }
 export type TaskTemplateList = Array<TaskTemplate>;
 export interface ScheduleCron {
-  cronString?: string;
-  timezone?: string;
+  cronString?: string | undefined;
+  timezone?: string | undefined;
 }
 export interface SchedulePeriod {
-  years?: number;
-  months?: number;
-  weeks?: number;
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  years?: number | undefined;
+  months?: number | undefined;
+  weeks?: number | undefined;
+  days?: number | undefined;
+  hours?: number | undefined;
+  minutes?: number | undefined;
+  seconds?: number | undefined;
 }
 export interface Schedule {
-  cron?: ScheduleCron;
-  period?: SchedulePeriod;
+  cron?: ScheduleCron | undefined;
+  period?: SchedulePeriod | undefined;
 }
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType?: FunctionSchemaFunctionSchemaType | (string & {});
   /** allows easy disambiguation between empty schema and no schema collection etc. */
-  arguments?: ClassParameterSpecList;
-  returnType?: GenericPayloadType;
+  schemaType?: FunctionSchemaFunctionSchemaType | (string & {}) | undefined;
+  arguments?: ClassParameterSpecList | undefined;
+  returnType?: GenericPayloadType | undefined;
 }
 /** Which data format a binary message is encoded with. */
 export type DataFormat =
@@ -319,233 +325,234 @@ export type DataFormat =
   | "DATA_FORMAT_CBOR";
 export type DataFormatList = Array<DataFormat | (string & {})>;
 export interface MethodDefinition {
-  functionName?: string;
-  functionType?: FunctionFunctionType | (string & {});
-  webhookConfig?: WebhookConfig;
-  webUrl?: string;
-  webUrlInfo?: WebUrlInfo;
-  customDomainInfo?: CustomDomainInfoList;
-  functionSchema?: FunctionSchema;
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
+  functionName?: string | undefined;
+  functionType?: FunctionFunctionType | (string & {}) | undefined;
+  webhookConfig?: WebhookConfig | undefined;
+  webUrl?: string | undefined;
+  webUrlInfo?: WebUrlInfo | undefined;
+  customDomainInfo?: CustomDomainInfoList | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  supportedInputFormats?: DataFormatList | undefined;
+  supportedOutputFormats?: DataFormatList | undefined;
 }
 export type MethodDefinitionMap = { [key: string]: MethodDefinition | undefined };
 export interface AutoscalerSettings {
   /** A collection of user-configurable settings for Function autoscaling These are used for static configuration and for dynamic autoscaler updates Minimum containers when scale-to-zero is not desired; pka "keep_warm" or "warm_pool_size" */
-  minContainers?: number;
+  minContainers?: number | undefined;
   /** Limit on the number of containers that can be running for each Function; pka "concurrency_limit" */
-  maxContainers?: number;
+  maxContainers?: number | undefined;
   /** Additional container to spin up when Function is active */
-  bufferContainers?: number;
+  bufferContainers?: number | undefined;
   /** Stabilization window (in seconds) before scaling up; requires sustained demand over this period */
-  scaleupWindow?: number;
+  scaleupWindow?: number | undefined;
   /** Maximum amount of time a container can be idle before being scaled down, in seconds; pka "container_idle_timeout" */
-  scaledownWindow?: number;
+  scaledownWindow?: number | undefined;
   /** Integer-valued target concurrent requests per replica for Flash autoscaling. Superseded by `target_concurrency_float`, which allows non-integer targets. */
-  targetConcurrency?: number;
-  /** Deprecated Maximum number of containers that can be scaled down per minute for Flash autoscaling. */
-  scaledownRateLimit?: number;
+  targetConcurrency?: number | undefined;
+  /** Maximum number of containers that can be scaled down per minute for Flash autoscaling. */
+  scaledownRateLimit?: number | undefined;
   /** Target concurrent requests per replica for Flash autoscaling; may be fractional. */
-  targetConcurrencyFloat?: number;
+  targetConcurrencyFloat?: number | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface LiftAndShiftConfig {}
-/** (?) */
 export interface HTTPConfig {
-  port?: number;
-  proxyRegions?: StringList;
-  startupTimeout?: number;
-  exitGracePeriod?: number;
-  h2Enabled?: boolean;
-  targetConcurrency?: number;
-  unauthenticated?: boolean;
-  liftAndShiftConfig?: LiftAndShiftConfig;
+  port?: number | undefined;
+  proxyRegions?: StringList | undefined;
+  startupTimeout?: number | undefined;
+  exitGracePeriod?: number | undefined;
+  h2Enabled?: boolean | undefined;
+  targetConcurrency?: number | undefined;
+  unauthenticated?: boolean | undefined;
+  liftAndShiftConfig?: LiftAndShiftConfig | undefined;
 }
 export interface Function {
-  moduleName?: string;
-  functionName?: string;
-  mountIds?: StringList;
-  imageId?: string;
-  functionSerialized?: string;
-  definitionType?: FunctionDefinitionType | (string & {});
-  functionType?: FunctionFunctionType | (string & {});
-  resources?: Resources;
-  secretIds?: StringList;
-  rateLimit?: RateLimit;
-  webhookConfig?: WebhookConfig;
-  sharedVolumeMounts?: SharedVolumeMountList;
-  proxyId?: string;
-  retryPolicy?: FunctionRetryPolicy;
-  concurrencyLimit?: number;
-  /** old fields */
-  timeoutSecs?: number;
-  ptyInfo?: PTYInfo;
-  classSerialized?: string;
-  taskIdleTimeoutSecs?: number;
+  moduleName?: string | undefined;
+  functionName?: string | undefined;
+  mountIds?: StringList | undefined;
+  imageId?: string | undefined;
+  functionSerialized?: string | undefined;
+  definitionType?: FunctionDefinitionType | (string & {}) | undefined;
+  functionType?: FunctionFunctionType | (string & {}) | undefined;
+  resources?: Resources | undefined;
+  secretIds?: StringList | undefined;
+  rateLimit?: RateLimit | undefined;
+  webhookConfig?: WebhookConfig | undefined;
+  sharedVolumeMounts?: SharedVolumeMountList | undefined;
+  proxyId?: string | undefined;
+  retryPolicy?: FunctionRetryPolicy | undefined;
+  /** To be replaced by autoscaler_settings.max_containers */
+  concurrencyLimit?: number | undefined;
+  timeoutSecs?: number | undefined;
+  ptyInfo?: PTYInfo | undefined;
+  classSerialized?: string | undefined;
   /** To be replaced by autoscaler_settings.scaledown_period */
-  cloudProvider?: CloudProvider | (string & {});
+  taskIdleTimeoutSecs?: number | undefined;
   /** Deprecated at some point */
-  warmPoolSize?: number;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
   /** To be replaced by autoscaler_settings.min_containers */
-  webUrl?: string;
-  webUrlInfo?: WebUrlInfo;
+  warmPoolSize?: number | undefined;
+  webUrl?: string | undefined;
+  webUrlInfo?: WebUrlInfo | undefined;
   /** If set, overrides the runtime used by the function, either "runc" or "gvisor". */
-  runtime?: string;
-  appName?: string;
+  runtime?: string | undefined;
   /** Formerly stub_name */
-  volumeMounts?: VolumeMountList;
-  maxConcurrentInputs?: number;
-  customDomainInfo?: CustomDomainInfoList;
-  workerId?: string;
+  appName?: string | undefined;
+  volumeMounts?: VolumeMountList | undefined;
+  maxConcurrentInputs?: number | undefined;
+  customDomainInfo?: CustomDomainInfoList | undefined;
   /** For internal debugging use only. */
-  runtimeDebug?: boolean;
-  /** For internal debugging use only. TODO: combine into enum? */
-  isBuilderFunction?: boolean;
-  isAutoSnapshot?: boolean;
-  isMethod?: boolean;
-  isCheckpointingFunction?: boolean;
+  workerId?: string | undefined;
+  /** For internal debugging use only. */
+  runtimeDebug?: boolean | undefined;
+  /** TODO: combine into enum? */
+  isBuilderFunction?: boolean | undefined;
+  isAutoSnapshot?: boolean | undefined;
+  isMethod?: boolean | undefined;
+  isCheckpointingFunction?: boolean | undefined;
   /** Checkpoint and restore */
-  checkpointingEnabled?: boolean;
-  checkpoint?: CheckpointInfo;
-  objectDependencies?: ObjectDependencyList;
-  blockNetwork?: boolean;
+  checkpointingEnabled?: boolean | undefined;
+  checkpoint?: CheckpointInfo | undefined;
+  objectDependencies?: ObjectDependencyList | undefined;
+  blockNetwork?: boolean | undefined;
   /** In the SDK, we've deprecated `max_inputs` (which only ever implemented `max_inputs=1`) in favor of a boolean `single_use_containers` parameter. */
-  maxInputs?: number;
-  s3Mounts?: S3MountList;
-  cloudBucketMounts?: CloudBucketMountList;
-  /** _experimental_scheduler */
-  schedulerPlacement?: SchedulerPlacement;
-  /** _experimental_scheduler_placement */
-  isClass?: boolean;
-  /** use_method_name, pre-0.67 class method placeholders */
-  classParameterInfo?: ClassParameterInfo;
-  /** _experimental_resources */
-  batchMaxSize?: number;
+  maxInputs?: number | undefined;
+  s3Mounts?: S3MountList | undefined;
+  cloudBucketMounts?: CloudBucketMountList | undefined;
+  /** If set, tasks will be scheduled using the new scheduler, which also knows to look at fine-grained placement constraints. */
+  schedulerPlacement?: SchedulerPlacement | undefined;
+  /** if "Function" is actually a class grouping multiple methods */
+  isClass?: boolean | undefined;
+  classParameterInfo?: ClassParameterInfo | undefined;
   /** Maximum number of inputs to fetch at once */
-  batchLingerMs?: string;
+  batchMaxSize?: number | undefined;
   /** Miliseconds to block before a response is needed */
-  i6pnEnabled?: boolean;
-  ExperimentalConcurrentCancellations?: boolean;
-  targetConcurrentInputs?: number;
+  batchLingerMs?: string | undefined;
+  i6pnEnabled?: boolean | undefined;
+  ExperimentalConcurrentCancellations?: boolean | undefined;
+  targetConcurrentInputs?: number | undefined;
   /** TODO(irfansharif): Remove, once https://github.com/modal-labs/modal/pull/15645 lands. */
-  ExperimentalTaskTemplatesEnabled?: boolean;
-  /** forces going through the new gpu-fallbacks integration path, even if no fallback options are specified */
-  ExperimentalTaskTemplates?: TaskTemplateList;
-  /** for fallback options, where the first/most-preferred "template" is derived from fields above When the function is a "grouped" one, this records the # of tasks we want to schedule in tandem. */
-  ExperimentalGroupSize?: number;
+  ExperimentalTaskTemplatesEnabled?: boolean | undefined;
+  /** for fallback options, where the first/most-preferred "template" is derived from fields above */
+  ExperimentalTaskTemplates?: TaskTemplateList | undefined;
+  /** When the function is a "grouped" one, this records the # of tasks we want to schedule in tandem. */
+  ExperimentalGroupSize?: number | undefined;
   /** When set on a "grouped" function, constrains placement across GPU-memory fabrics: the cluster is placed in co-fabric blocks of this size. */
-  ExperimentalFabricSize?: number;
+  ExperimentalFabricSize?: number | undefined;
   /** If set, the function will be run in an untrusted environment. */
-  untrusted?: boolean;
-  ExperimentalBufferContainers?: number;
+  untrusted?: boolean | undefined;
   /** To be replaced by autoscaler_settings.buffer_containers */
-  runtimePerfRecord?: boolean;
+  ExperimentalBufferContainers?: number | undefined;
   /** For internal debugging use only. */
-  schedule?: Schedule;
-  snapshotDebug?: boolean;
-  /** For internal debugging use only. Mapping of method names to method definitions, only non-empty for class service functions */
-  methodDefinitions?: MethodDefinitionMap;
-  methodDefinitionsSet?: boolean;
-  ExperimentalCustomScaling?: boolean;
-  cloudProviderStr?: string;
+  runtimePerfRecord?: boolean | undefined;
+  schedule?: Schedule | undefined;
+  /** For internal debugging use only. */
+  snapshotDebug?: boolean | undefined;
+  /** Mapping of method names to method definitions, only non-empty for class service functions */
+  methodDefinitions?: MethodDefinitionMap | undefined;
+  methodDefinitionsSet?: boolean | undefined;
+  ExperimentalCustomScaling?: boolean | undefined;
   /** Supersedes cloud_provider */
-  ExperimentalEnableGpuSnapshot?: boolean;
+  cloudProviderStr?: string | undefined;
   /** Experimental support for GPU snapshotting */
-  autoscalerSettings?: AutoscalerSettings;
+  ExperimentalEnableGpuSnapshot?: boolean | undefined;
   /** Bundle of parameters related to autoscaling */
-  functionSchema?: FunctionSchema;
-  /** Function schema, may be missing: client doesn't block deployment if it fails to get it For server-side experimental functionality. Prefer using this over individual _experimental_* fields. Note the value type as string. Internally we'll coerce all values to string with str(). On the server, it's necessary to convert back to the most natural type (e.g. int) when relevant. */
-  experimentalOptions?: StringMap;
+  autoscalerSettings?: AutoscalerSettings | undefined;
+  /** Function schema, may be missing: client doesn't block deployment if it fails to get it */
+  functionSchema?: FunctionSchema | undefined;
+  /** For server-side experimental functionality. Prefer using this over individual _experimental_* fields. Note the value type as string. Internally we'll coerce all values to string with str(). On the server, it's necessary to convert back to the most natural type (e.g. int) when relevant. */
+  experimentalOptions?: StringMap | undefined;
   /** Deprecated: still set by client but ignored by server. The scheduler derives this from the image's builder_version directly. */
-  mountClientDependencies?: boolean;
-  flashServiceUrls?: StringList;
-  flashServiceLabel?: string;
-  enableGpuSnapshot?: boolean;
+  mountClientDependencies?: boolean | undefined;
+  flashServiceUrls?: StringList | undefined;
+  flashServiceLabel?: string | undefined;
   /** GPU memory snapshotting (alpha) */
-  startupTimeoutSecs?: number;
-  supportedInputFormats?: DataFormatList;
+  enableGpuSnapshot?: boolean | undefined;
+  startupTimeoutSecs?: number | undefined;
   /** can be used as inputs */
-  supportedOutputFormats?: DataFormatList;
-  httpConfig?: HTTPConfig;
+  supportedInputFormats?: DataFormatList | undefined;
+  supportedOutputFormats?: DataFormatList | undefined;
+  httpConfig?: HTTPConfig | undefined;
   /** Attribute on the module with the implementation, which may differ from function_name when the user provided a custom name= for the Function inside the Application namespace */
-  implementationName?: string;
-  singleUseContainers?: boolean;
+  implementationName?: string | undefined;
   /** When True, containers will shut down after handling a single input */
-  isServer?: boolean;
+  singleUseContainers?: boolean | undefined;
   /** When True, the function is a server function */
-  routingRegion?: string;
-  /** Where inputs to a function should be routed through. True when the function is a Sessioned Server. Only valid together with is_server. */
-  isSessioned?: boolean;
+  isServer?: boolean | undefined;
+  /** Where inputs to a function should be routed through. */
+  routingRegion?: string | undefined;
+  /** True when the function is a Sessioned Server. Only valid together with is_server. */
+  isSessioned?: boolean | undefined;
 }
-/** use_method_name, pre-0.67 class method placeholders */
 export interface FunctionDataRankedFunction {
-  rank?: number;
-  function?: Function;
+  rank?: number | undefined;
+  function?: Function | undefined;
 }
 export type FunctionDataRankedFunctionList = Array<FunctionDataRankedFunction>;
 export interface FunctionData {
   /** Note: FunctionData pulls "up" a subset of fields from Function message that will get deprecated there and made authoritative here, at the top-level. All remaining fields will stay within the Function message itself and a single FunctionData will contain a list of such (ranked) Functions. The top-level fields capture data not specific to any particular underlying task (like warm-pool-size, applicable across all tasks), while fields specific to the task (like the resource request) will exist at the bottom level. */
-  moduleName?: string;
-  functionName?: string;
-  functionType?: FunctionFunctionType | (string & {});
+  moduleName?: string | undefined;
+  functionName?: string | undefined;
+  functionType?: FunctionFunctionType | (string & {}) | undefined;
   /** Scheduling related fields. */
-  warmPoolSize?: number;
-  concurrencyLimit?: number;
-  taskIdleTimeoutSecs?: number;
+  warmPoolSize?: number | undefined;
+  concurrencyLimit?: number | undefined;
+  taskIdleTimeoutSecs?: number | undefined;
   /** When the function is a "grouped" one, this records the # of tasks we want to schedule in tandem. */
-  ExperimentalGroupSize?: number;
-  ExperimentalFabricSize?: number;
-  ExperimentalBufferContainers?: number;
-  ExperimentalCustomScaling?: boolean;
-  ExperimentalEnableGpuSnapshot?: boolean;
-  workerId?: string;
+  ExperimentalGroupSize?: number | undefined;
+  ExperimentalFabricSize?: number | undefined;
+  ExperimentalBufferContainers?: number | undefined;
+  ExperimentalCustomScaling?: boolean | undefined;
+  ExperimentalEnableGpuSnapshot?: boolean | undefined;
   /** for internal debugging use only */
-  timeoutSecs?: number;
-  webUrl?: string;
-  webUrlInfo?: WebUrlInfo;
-  webhookConfig?: WebhookConfig;
-  customDomainInfo?: CustomDomainInfoList;
+  workerId?: string | undefined;
+  timeoutSecs?: number | undefined;
+  webUrl?: string | undefined;
+  webUrlInfo?: WebUrlInfo | undefined;
+  webhookConfig?: WebhookConfig | undefined;
+  customDomainInfo?: CustomDomainInfoList | undefined;
   /** Mapping of method names to method definitions, only non-empty for class service functions */
-  methodDefinitions?: MethodDefinitionMap;
-  methodDefinitionsSet?: boolean;
-  isClass?: boolean;
+  methodDefinitions?: MethodDefinitionMap | undefined;
+  methodDefinitionsSet?: boolean | undefined;
   /** if "Function" is actually a class grouping multiple methods - applies across all underlying tasks */
-  classParameterInfo?: ClassParameterInfo;
-  isMethod?: boolean;
-  rankedFunctions?: FunctionDataRankedFunctionList;
-  schedule?: Schedule;
-  untrusted?: boolean;
+  isClass?: boolean | undefined;
+  classParameterInfo?: ClassParameterInfo | undefined;
+  isMethod?: boolean | undefined;
+  rankedFunctions?: FunctionDataRankedFunctionList | undefined;
+  schedule?: Schedule | undefined;
   /** If set, the function will be run in an untrusted environment. */
-  snapshotDebug?: boolean;
+  untrusted?: boolean | undefined;
   /** For internal debugging use only. */
-  runtimePerfRecord?: boolean;
+  snapshotDebug?: boolean | undefined;
   /** For internal debugging use only. */
-  autoscalerSettings?: AutoscalerSettings;
+  runtimePerfRecord?: boolean | undefined;
   /** Bundle of parameters related to autoscaling */
-  functionSchema?: FunctionSchema;
-  experimentalOptions?: StringMap;
-  flashServiceUrls?: StringList;
-  flashServiceLabel?: string;
-  startupTimeoutSecs?: number;
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
-  httpConfig?: HTTPConfig;
+  autoscalerSettings?: AutoscalerSettings | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  experimentalOptions?: StringMap | undefined;
+  flashServiceUrls?: StringList | undefined;
+  flashServiceLabel?: string | undefined;
+  startupTimeoutSecs?: number | undefined;
+  supportedInputFormats?: DataFormatList | undefined;
+  supportedOutputFormats?: DataFormatList | undefined;
+  httpConfig?: HTTPConfig | undefined;
   /** Attribute on the module with the implementation, which may differ from function_name when the user provided a custom name= for the Function inside the Application namespace */
-  implementationName?: string;
-  isServer?: boolean;
+  implementationName?: string | undefined;
   /** When True, the function is a server function */
-  routingRegion?: string;
-  /** Where inputs to a function should be routed through. True when the function is a Sessioned Server. Only valid together with is_server. */
-  isSessioned?: boolean;
+  isServer?: boolean | undefined;
+  /** Where inputs to a function should be routed through. */
+  routingRegion?: string | undefined;
+  /** True when the function is a Sessioned Server. Only valid together with is_server. */
+  isSessioned?: boolean | undefined;
 }
 export interface CreateFunctionRequest {
-  function?: Function;
-  appId?: string;
-  schedule?: Schedule;
+  function?: Function | undefined;
+  appId?: string | undefined;
   /** Deprecated: now passed in the Function definition */
-  existingFunctionId?: string;
-  /** defer_updates */
-  functionData?: FunctionData;
+  schedule?: Schedule | undefined;
+  existingFunctionId?: string | undefined;
+  /** supersedes 'function' field above */
+  functionData?: FunctionData | undefined;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export interface FunctionHandleMetadata {
@@ -554,21 +561,20 @@ export interface FunctionHandleMetadata {
   functionType: FunctionFunctionType;
   webUrl: string;
   isMethod: boolean;
-  /** use_function_id, pre-0.67 class method placeholders */
-  useMethodName: string;
   /** used for methods */
+  useMethodName: string;
   definitionId: string;
-  classParameterInfo?: ClassParameterInfo;
+  classParameterInfo?: ClassParameterInfo | undefined;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
   methodHandleMetadata: FunctionHandleMetadataMap;
-  functionSchema?: FunctionSchema;
-  inputPlaneUrl?: string;
-  inputPlaneRegion?: string;
+  functionSchema?: FunctionSchema | undefined;
+  inputPlaneUrl?: string | undefined;
+  inputPlaneRegion?: string | undefined;
   /** Use optional to ensure unset values default to None instead of 0 */
-  maxObjectSizeBytes?: string;
-  maxAsyncObjectSizeBytes?: string;
-  ExperimentalFlashUrls: StringList;
+  maxObjectSizeBytes?: string | undefined;
+  maxAsyncObjectSizeBytes?: string | undefined;
   /** (Optional) urls for flash services */
+  ExperimentalFlashUrls: StringList;
   supportedInputFormats: DataFormatList;
   supportedOutputFormats: DataFormatList;
   appId: string;
@@ -587,31 +593,32 @@ export interface Warning {
 export type WarningList = Array<Warning>;
 export interface CreateFunctionResponse {
   functionId: string;
-  DeprecatedWebUrl: string;
   /** Used up until 0.62.212 */
-  function?: Function;
+  DeprecatedWebUrl: string;
   /** deprecated soon */
-  handleMetadata?: FunctionHandleMetadata;
+  function?: Function | undefined;
+  handleMetadata?: FunctionHandleMetadata | undefined;
   serverWarnings: WarningList;
-  functionData?: FunctionData;
+  functionData?: FunctionData | undefined;
 }
 export interface FetchFunctionCallRequestTail {
   /** Number of most recent inputs to return. Must be between 1 and 1000. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface FetchFunctionCallRequestRange {
-  since?: string;
   /** Inclusive, based on input enqueue time. */
-  until?: string;
-  /** Exclusive, based on input enqueue time. Maximum number of inputs to return. Must be between 1 and 20000. */
-  limit?: number;
+  since?: string | undefined;
+  /** Exclusive, based on input enqueue time. */
+  until?: string | undefined;
+  /** Maximum number of inputs to return. Must be between 1 and 20000. */
+  limit?: number | undefined;
 }
 export interface FetchFunctionCallRequest {
-  functionId?: string;
-  tail?: FetchFunctionCallRequestTail;
-  range?: FetchFunctionCallRequestRange;
+  functionId?: string | undefined;
+  tail?: FetchFunctionCallRequestTail | undefined;
+  range?: FetchFunctionCallRequestRange | undefined;
   /** Include the root Function and its eligible variants. */
-  allVariants?: boolean;
+  allVariants?: boolean | undefined;
 }
 export type FunctionCallInputStatus =
   | "FUNCTION_CALL_INPUT_STATUS_UNSPECIFIED"
@@ -628,14 +635,14 @@ export type FunctionCallInputStatus =
   | "FUNCTION_CALL_INPUT_STATUS_MEMORY_THRASHING_EVICTION"
   | "FUNCTION_CALL_INPUT_STATUS_KERNEL_OOM_KILL";
 export interface FunctionCallInputInfo {
-  enqueuedAt?: string;
-  startedAt?: string;
-  containerId?: string;
-  startupTimeSeconds?: number;
-  executionTimeSeconds?: number;
+  enqueuedAt?: string | undefined;
+  startedAt?: string | undefined;
+  containerId?: string | undefined;
+  startupTimeSeconds?: number | undefined;
+  executionTimeSeconds?: number | undefined;
   status: FunctionCallInputStatus;
   functionCallId: string;
-  serviceMethodName?: string;
+  serviceMethodName?: string | undefined;
 }
 export type FunctionCallInputInfoList = Array<FunctionCallInputInfo>;
 export interface FetchFunctionCallResponse {
@@ -644,53 +651,54 @@ export interface FetchFunctionCallResponse {
 }
 /** todo(ayush): update this to also use `autoscaler_settings` */
 export interface FunctionOptions {
-  secretIds?: StringList;
-  mountIds?: StringList;
+  secretIds?: StringList | undefined;
   /** Currently not supported */
-  resources?: Resources;
-  retryPolicy?: FunctionRetryPolicy;
-  concurrencyLimit?: number;
-  timeoutSecs?: number;
-  taskIdleTimeoutSecs?: number;
-  warmPoolSize?: number;
-  volumeMounts?: VolumeMountList;
-  targetConcurrentInputs?: number;
-  replaceVolumeMounts?: boolean;
-  replaceSecretIds?: boolean;
-  bufferContainers?: number;
-  maxConcurrentInputs?: number;
-  batchMaxSize?: number;
-  batchLingerMs?: string;
-  schedulerPlacement?: SchedulerPlacement;
-  cloudProviderStr?: string;
-  replaceCloudBucketMounts?: boolean;
-  cloudBucketMounts?: CloudBucketMountList;
-  pinnedAppVersion?: number;
-  routingRegion?: string;
+  mountIds?: StringList | undefined;
+  resources?: Resources | undefined;
+  retryPolicy?: FunctionRetryPolicy | undefined;
+  concurrencyLimit?: number | undefined;
+  timeoutSecs?: number | undefined;
+  taskIdleTimeoutSecs?: number | undefined;
+  warmPoolSize?: number | undefined;
+  volumeMounts?: VolumeMountList | undefined;
+  targetConcurrentInputs?: number | undefined;
+  replaceVolumeMounts?: boolean | undefined;
+  replaceSecretIds?: boolean | undefined;
+  bufferContainers?: number | undefined;
+  maxConcurrentInputs?: number | undefined;
+  batchMaxSize?: number | undefined;
+  batchLingerMs?: string | undefined;
+  schedulerPlacement?: SchedulerPlacement | undefined;
+  cloudProviderStr?: string | undefined;
+  replaceCloudBucketMounts?: boolean | undefined;
+  cloudBucketMounts?: CloudBucketMountList | undefined;
+  pinnedAppVersion?: number | undefined;
+  routingRegion?: string | undefined;
 }
 export interface FunctionBindParamsRequest {
-  functionId?: string;
-  serializedParams?: string;
-  functionOptions?: FunctionOptions;
-  environmentName?: string;
-  authSecret?: string | Redacted.Redacted<string>;
+  functionId?: string | undefined;
+  serializedParams?: string | undefined;
+  functionOptions?: FunctionOptions | undefined;
+  environmentName?: string | undefined;
+  /** Only used for the input plane. */
+  authSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface FunctionBindParamsResponse {
   boundFunctionId: string;
-  handleMetadata?: FunctionHandleMetadata;
+  handleMetadata?: FunctionHandleMetadata | undefined;
 }
 export interface FunctionCallCountRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Inclusive, based on input enqueue time. */
-  until?: string;
+  since?: string | undefined;
   /** Exclusive, based on input enqueue time. */
-  bucketSecs?: number;
+  until?: string | undefined;
+  bucketSecs?: number | undefined;
   /** Include the root Function and its eligible variants. */
-  allVariants?: boolean;
+  allVariants?: boolean | undefined;
 }
 export interface FunctionCallCountResponseInputBucket {
-  bucketStartAt?: string;
+  bucketStartAt?: string | undefined;
   /** Number of unique inputs, matching FunctionCallFetch. */
   count: string;
 }
@@ -700,7 +708,7 @@ export interface FunctionCallCountResponse {
   buckets: FunctionCallCountResponseInputBucketList;
 }
 export interface FunctionCallFromIdRequest {
-  functionCallId?: string;
+  functionCallId?: string | undefined;
 }
 export interface FunctionCallHandleMetadata {
   appId: string;
@@ -709,19 +717,20 @@ export interface FunctionCallHandleMetadata {
 export interface FunctionCallFromIdResponse {
   functionCallId: string;
   numInputs: number;
-  metadata?: FunctionCallHandleMetadata;
+  metadata?: FunctionCallHandleMetadata | undefined;
 }
 export interface FunctionCallGetDataInRequest {
-  functionCallId?: string;
-  attemptToken?: string;
-  lastIndex?: string;
+  functionCallId?: string | undefined;
+  attemptToken?: string | undefined;
+  lastIndex?: string | undefined;
 }
 /** Chunks of data that can be streamed in and out of tasks. */
 export interface DataChunk {
-  dataFormat?: DataFormat | (string & {});
-  data?: string;
-  dataBlobId?: string;
-  index?: string;
+  dataFormat?: DataFormat | (string & {}) | undefined;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
+  /** Index of this data chunk in the stream. */
+  index?: string | undefined;
 }
 export type DataChunkList = Array<DataChunk>;
 export interface FunctionCallGetDataInStream {
@@ -729,17 +738,17 @@ export interface FunctionCallGetDataInStream {
   items: DataChunkList;
 }
 export interface FunctionCallGetDataOutRequest {
-  functionCallId?: string;
-  attemptToken?: string;
-  lastIndex?: string;
+  functionCallId?: string | undefined;
+  attemptToken?: string | undefined;
+  lastIndex?: string | undefined;
 }
 export interface FunctionCallGetDataOutStream {
   /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
   items: DataChunkList;
 }
 export interface FunctionCallGetInfoRequest {
-  functionId?: string;
-  functionCallId?: string;
+  functionId?: string | undefined;
+  functionCallId?: string | undefined;
 }
 export interface InputInfo {
   inputId: string;
@@ -758,44 +767,42 @@ export interface InputCategoryInfo {
 export interface FunctionCallInfo {
   functionCallId: string;
   idx: number;
-  /** old fields */
-  createdAt: number;
   /** when the call was created */
+  createdAt: number;
+  /** if cron job, when run was scheduled */
   scheduledAt: number;
-  /** old fields */
-  pendingInputs?: InputCategoryInfo;
-  failedInputs?: InputCategoryInfo;
-  succeededInputs?: InputCategoryInfo;
-  timeoutInputs?: InputCategoryInfo;
-  cancelledInputs?: InputCategoryInfo;
+  pendingInputs?: InputCategoryInfo | undefined;
+  failedInputs?: InputCategoryInfo | undefined;
+  succeededInputs?: InputCategoryInfo | undefined;
+  timeoutInputs?: InputCategoryInfo | undefined;
+  cancelledInputs?: InputCategoryInfo | undefined;
   totalInputs: number;
 }
 export interface FunctionCallGetInfoResponse {
-  info?: FunctionCallInfo;
+  info?: FunctionCallInfo | undefined;
 }
 export interface FunctionCallPutDataOutRequest {
-  functionCallId?: string;
-  attemptToken?: string;
-  dataChunks?: DataChunkList;
+  functionCallId?: string | undefined;
+  attemptToken?: string | undefined;
+  dataChunks?: DataChunkList | undefined;
 }
 export interface FunctionCallPutDataOutResponse {}
 export interface FunctionFinishInputsRequest {
-  functionId?: string;
-  functionCallId?: string;
-  numInputs?: number;
+  functionId?: string | undefined;
+  functionCallId?: string | undefined;
+  numInputs?: number | undefined;
 }
 export interface FunctionFinishInputsResponse {}
 export interface FunctionGetByIdRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface FunctionGetByIdResponse {
-  function?: FunctionData;
-  handleMetadata?: FunctionHandleMetadata;
+  function?: FunctionData | undefined;
+  handleMetadata?: FunctionHandleMetadata | undefined;
 }
 export interface FunctionGetCallGraphRequest {
-  functionCallId?: string;
+  functionCallId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -829,7 +836,7 @@ export interface FunctionGetCallGraphResponse {
   truncated: boolean;
 }
 export interface FunctionGetCurrentStatsRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface FunctionGetCurrentStatsResponse {
   backlog: number;
@@ -838,35 +845,36 @@ export interface FunctionGetCurrentStatsResponse {
   inputHeadroom: number;
 }
 export interface FunctionGetDynamicConcurrencyRequest {
-  functionId?: string;
-  targetConcurrency?: number;
-  maxConcurrency?: number;
+  functionId?: string | undefined;
+  targetConcurrency?: number | undefined;
+  maxConcurrency?: number | undefined;
 }
 export interface FunctionGetDynamicConcurrencyResponse {
   concurrency: number;
 }
 export interface FunctionGetFlashAuthTokenRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface FunctionGetFlashAuthTokenResponse {
   token: string;
 }
 export interface FunctionGetMetricsRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Required; rounded down to a UTC bucket boundary. */
-  until?: string;
-  /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. Allowed widths are documented in MetricsGetInfoRequest.bucket_secs. At most 500 points per series in the rounded interval. */
-  bucketSecs?: number;
+  since?: string | undefined;
+  /** Required; rounded down; at most 31 days after since. */
+  until?: string | undefined;
+  /** If omitted, choose a supported width targeting approximately 100 buckets. Allowed widths are documented in MetricsGetInfoRequest.bucket_secs. At most 500 points per series in the rounded interval. */
+  bucketSecs?: number | undefined;
   /** Metric groups: containers, calls. Empty selects all applicable groups. Each group returns its standard series. */
-  groups?: StringList;
+  groups?: StringList | undefined;
   /** Restrict the root Function's metrics to one of its parametrized Functions. */
-  rollup?: boolean;
+  rollup?: boolean | undefined;
 }
 export interface FunctionMetricPoint {
   /** UTC-aligned bucket start within the response's effective [since, until). */
-  timestamp?: string;
-  value?: number;
+  timestamp?: string | undefined;
+  value?: number | undefined;
 }
 export type FunctionMetricPointList = Array<FunctionMetricPoint>;
 export interface FunctionMetricSeries {
@@ -874,21 +882,21 @@ export interface FunctionMetricSeries {
   name: string;
   /** Public semantic unit, such as seconds, calls, containers, or requests. */
   unit: string;
-  points: FunctionMetricPointList;
   /** Ascending timestamps; absent points are gaps. */
+  points: FunctionMetricPointList;
   description: string;
 }
 export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
 export interface FunctionGetMetricsResponse {
-  since?: string;
   /** Inclusive effective bound, rounded down. */
-  until?: string;
+  since?: string | undefined;
   /** Exclusive effective bound, rounded down. */
+  until?: string | undefined;
   bucketSecs: number;
   series: FunctionMetricSeriesList;
 }
 export interface FunctionGetSchedulingParamsRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 /** Used for capturing context about an action performed by a user */
 export interface UserActionInfo {
@@ -902,35 +910,36 @@ export type UserActionInfoMap = { [key: string]: UserActionInfo | undefined };
 /** Message representing the current (coalesced) state of the autoscaler configuration As well as the different sources that were used to create it. */
 export interface AutoscalerConfiguration {
   /** The settings that are currently in effect. */
-  settings?: AutoscalerSettings;
+  settings?: AutoscalerSettings | undefined;
   /** For tracking the source of the overridden value; keys correspond to fields in `settings`. */
   overrideEvents: UserActionInfoMap;
   /** The default settings that are used when no static settings are provided and no overrides are in effect. */
-  defaultSettings?: AutoscalerSettings;
+  defaultSettings?: AutoscalerSettings | undefined;
   /** The static settings that were used to initialize the configuration. */
-  staticSettings?: AutoscalerSettings;
+  staticSettings?: AutoscalerSettings | undefined;
   /** The merge of all overrides that were used to create the current configuration. */
-  overrideSettings?: AutoscalerSettings;
+  overrideSettings?: AutoscalerSettings | undefined;
 }
 export interface FunctionGetSchedulingParamsResponse {
-  autoscalerConfiguration?: AutoscalerConfiguration;
+  autoscalerConfiguration?: AutoscalerConfiguration | undefined;
 }
 export interface FunctionGetSerializedRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface FunctionGetSerializedResponse {
   functionSerialized: string;
   classSerialized: string;
 }
 export interface FunctionGetTimeRangeStatsRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Inclusive. */
-  until?: string;
-  /** Exclusive. Aggregate the root Function pool and its non-version-pinned variant pools. */
-  rollup?: boolean;
+  since?: string | undefined;
+  /** Exclusive. */
+  until?: string | undefined;
+  /** Aggregate the root Function pool and its non-version-pinned variant pools. */
+  rollup?: boolean | undefined;
   /** Filter stats for a specific container */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface StatsPercentile {
   /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
@@ -947,10 +956,11 @@ export type StatsPercentileDistributionMap = {
   [key: string]: StatsPercentileDistribution | undefined;
 };
 export interface FunctionGetTimeRangeStatsResponse {
-  since?: string;
   /** Inclusive. */
-  until?: string;
-  /** Exclusive. Counts of inputs that finish in the requested time range. */
+  since?: string | undefined;
+  /** Exclusive. */
+  until?: string | undefined;
+  /** Counts of inputs that finish in the requested time range. */
   inputSuccessCount: string;
   inputFailureCount: string;
   inputTimeoutCount: string;
@@ -970,24 +980,24 @@ export interface FunctionGetTimeRangeStatsResponse {
   containerTotalCount: string;
 }
 export interface FunctionVariantCursor {
-  createdBefore?: number;
-  functionId?: string;
+  createdBefore?: number | undefined;
+  functionId?: string | undefined;
 }
 export interface FunctionListVariantsRequest {
-  functionId?: string;
-  cursor?: FunctionVariantCursor;
-  limit?: number;
+  functionId?: string | undefined;
+  cursor?: FunctionVariantCursor | undefined;
+  limit?: number | undefined;
 }
 export interface FunctionVariantInfo {
   functionId: string;
   serializedParams: string;
-  functionOptions?: FunctionOptions;
+  functionOptions?: FunctionOptions | undefined;
 }
 export type FunctionVariantInfoList = Array<FunctionVariantInfo>;
 export interface FunctionListVariantsResponse {
   infos: FunctionVariantInfoList;
   /** Pass back as cursor to fetch the next page. Unset once the listing is complete. */
-  nextCursor?: FunctionVariantCursor;
+  nextCursor?: FunctionVariantCursor | undefined;
   /** Set by the server when it ordered the variants by how many tasks each is running, busiest first. */
   orderedByTaskCount: boolean;
 }
@@ -997,28 +1007,28 @@ export type FunctionCallType =
   | "FUNCTION_CALL_TYPE_MAP";
 export interface FunctionInput {
   /** serialized (args, kwargs). */
-  args?: string;
-  argsBlobId?: string;
-  finalInput?: boolean;
-  dataFormat?: DataFormat | (string & {});
+  args?: string | undefined;
+  argsBlobId?: string | undefined;
+  finalInput?: boolean | undefined;
   /** For args_oneof. */
-  methodName?: string;
+  dataFormat?: DataFormat | (string & {}) | undefined;
+  /** specifies which method to call when calling a class/object function */
+  methodName?: string | undefined;
 }
 export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
 export interface BlobUploadResult {
-  blobId?: string;
   /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
-  outcome?: BlobUploadResultOutcome | (string & {});
-  throughputBytesS?: string;
+  blobId?: string | undefined;
+  outcome?: BlobUploadResultOutcome | (string & {}) | undefined;
+  throughputBytesS?: string | undefined;
 }
 export type BlobUploadResultList = Array<BlobUploadResult>;
 export interface FunctionPutInputsItem {
-  idx?: number;
-  input?: FunctionInput;
-  r2Failed?: boolean;
-  /** r2_latency_ms */
-  r2ThroughputBytesS?: string;
-  blobUploadResults?: BlobUploadResultList;
+  idx?: number | undefined;
+  input?: FunctionInput | undefined;
+  r2Failed?: boolean | undefined;
+  r2ThroughputBytesS?: string | undefined;
+  blobUploadResults?: BlobUploadResultList | undefined;
 }
 export type FunctionPutInputsItemList = Array<FunctionPutInputsItem>;
 export type FunctionCallInvocationType =
@@ -1028,13 +1038,13 @@ export type FunctionCallInvocationType =
   | "FUNCTION_CALL_INVOCATION_TYPE_ASYNC"
   | "FUNCTION_CALL_INVOCATION_TYPE_SYNC";
 export interface FunctionMapRequest {
-  functionId?: string;
-  parentInputId?: string;
-  returnExceptions?: boolean;
-  functionCallType?: FunctionCallType | (string & {});
-  pipelinedInputs?: FunctionPutInputsItemList;
-  functionCallInvocationType?: FunctionCallInvocationType | (string & {});
-  fromSpawnMap?: boolean;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  returnExceptions?: boolean | undefined;
+  functionCallType?: FunctionCallType | (string & {}) | undefined;
+  pipelinedInputs?: FunctionPutInputsItemList | undefined;
+  functionCallInvocationType?: FunctionCallInvocationType | (string & {}) | undefined;
+  fromSpawnMap?: boolean | undefined;
 }
 export interface FunctionPutInputsResponseItem {
   idx: number;
@@ -1045,85 +1055,87 @@ export type FunctionPutInputsResponseItemList = Array<FunctionPutInputsResponseI
 export interface FunctionMapResponse {
   functionCallId: string;
   pipelinedInputs: FunctionPutInputsResponseItemList;
-  retryPolicy?: FunctionRetryPolicy;
+  retryPolicy?: FunctionRetryPolicy | undefined;
   functionCallJwt: string;
   syncClientRetriesEnabled: boolean;
   maxInputsOutstanding: number;
 }
 export interface FunctionPrecreateRequest {
-  appId?: string;
-  functionName?: string;
-  existingFunctionId?: string;
-  functionType?: FunctionFunctionType | (string & {});
-  webhookConfig?: WebhookConfig;
-  /** use_method_name, pre-0.67 class method placeholders Mapping of method names to method definitions, only non-empty for class service functions */
-  methodDefinitions?: MethodDefinitionMap;
-  functionSchema?: FunctionSchema;
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
+  appId?: string | undefined;
+  functionName?: string | undefined;
+  existingFunctionId?: string | undefined;
+  functionType?: FunctionFunctionType | (string & {}) | undefined;
+  webhookConfig?: WebhookConfig | undefined;
+  /** Mapping of method names to method definitions, only non-empty for class service functions */
+  methodDefinitions?: MethodDefinitionMap | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  supportedInputFormats?: DataFormatList | undefined;
+  supportedOutputFormats?: DataFormatList | undefined;
 }
 export interface FunctionPrecreateResponse {
   functionId: string;
-  handleMetadata?: FunctionHandleMetadata;
+  handleMetadata?: FunctionHandleMetadata | undefined;
 }
 export interface FunctionPutInputsRequest {
-  functionId?: string;
-  functionCallId?: string;
-  inputs?: FunctionPutInputsItemList;
+  functionId?: string | undefined;
+  functionCallId?: string | undefined;
+  inputs?: FunctionPutInputsItemList | undefined;
 }
 export interface FunctionPutInputsResponse {
   inputs: FunctionPutInputsResponseItemList;
 }
-/** sub-type for generic types like lists */
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status?: GenericResultGenericStatus | (string & {});
   /** Status of the task or function output. */
-  exception?: string;
+  status?: GenericResultGenericStatus | (string & {}) | undefined;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exception?: string | undefined;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  exitcode?: number | undefined;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  traceback?: string | undefined;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  serializedTb?: string | undefined;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  tbLineCache?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  data?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  dataBlobId?: string | undefined;
+  /** (?) */
+  propagationReason?: string | undefined;
 }
 export interface FunctionPutOutputsItem {
-  inputId?: string;
-  result?: GenericResult;
-  inputStartedAt?: number;
-  outputCreatedAt?: number;
-  dataFormat?: DataFormat | (string & {});
+  inputId?: string | undefined;
+  result?: GenericResult | undefined;
+  inputStartedAt?: number | undefined;
+  outputCreatedAt?: number | undefined;
   /** for result.data_oneof */
-  retryCount?: number;
-  functionCallId?: string;
+  dataFormat?: DataFormat | (string & {}) | undefined;
+  retryCount?: number | undefined;
   /** injected by the worker */
-  functionMapIdx?: number;
+  functionCallId?: string | undefined;
   /** injected by the worker */
-  fromInputPlane?: boolean;
+  functionMapIdx?: number | undefined;
+  /** injected by the worker */
+  fromInputPlane?: boolean | undefined;
 }
 export type FunctionPutOutputsItemList = Array<FunctionPutOutputsItem>;
 export interface FunctionPutOutputsRequest {
-  outputs?: FunctionPutOutputsItemList;
-  requestedAt?: number;
+  outputs?: FunctionPutOutputsItemList | undefined;
+  /** Used for waypoints. */
+  requestedAt?: number | undefined;
 }
 export interface FunctionPutOutputsResponse {}
-/** Used for waypoints. */
 export interface FunctionRetryInputsItem {
-  inputJwt?: string;
-  input?: FunctionInput;
-  retryCount?: number;
+  inputJwt?: string | undefined;
+  input?: FunctionInput | undefined;
+  retryCount?: number | undefined;
 }
 export type FunctionRetryInputsItemList = Array<FunctionRetryInputsItem>;
 export interface FunctionRetryInputsRequest {
-  functionCallJwt?: string;
-  inputs?: FunctionRetryInputsItemList;
+  functionCallJwt?: string | undefined;
+  inputs?: FunctionRetryInputsItemList | undefined;
 }
 export interface FunctionRetryInputsResponse {
   inputJwts: StringList;
@@ -1131,78 +1143,87 @@ export interface FunctionRetryInputsResponse {
 export interface FunctionStartPtyShellRequest {}
 export interface FunctionStartPtyShellResponse {}
 export interface FunctionUpdateSchedulingParamsRequest {
-  functionId?: string;
-  warmPoolSizeOverride?: number;
-  settings?: AutoscalerSettings;
+  functionId?: string | undefined;
+  warmPoolSizeOverride?: number | undefined;
+  settings?: AutoscalerSettings | undefined;
 }
 export interface FunctionUpdateSchedulingParamsResponse {
-  currentSettings?: AutoscalerSettings;
+  currentSettings?: AutoscalerSettings | undefined;
 }
 export interface GetFunctionRequest {
-  appName?: string;
-  objectTag?: string;
-  /** removed namespace */
-  environmentName?: string;
-  appVersion?: number;
+  appName?: string | undefined;
+  objectTag?: string | undefined;
+  environmentName?: string | undefined;
+  appVersion?: number | undefined;
 }
 export interface GetFunctionResponse {
   functionId: string;
-  handleMetadata?: FunctionHandleMetadata;
+  handleMetadata?: FunctionHandleMetadata | undefined;
   serverWarnings: WarningList;
-  function?: FunctionData;
+  function?: FunctionData | undefined;
+}
+export interface GetFunctionBlobRequest {
+  blobId?: string | undefined;
+  functionId?: string | undefined;
+}
+export interface GetFunctionBlobResponse {
+  downloadUrl: string;
 }
 export interface GetFunctionInputsRequest {
-  functionId?: string;
-  /** average_call_time */
-  inputConcurrency?: number;
+  functionId?: string | undefined;
   /** Container aims to fetch multiple inputs at the same time */
-  batchMaxSize?: number;
+  inputConcurrency?: number | undefined;
   /** Maximum number of inputs to fetch at once */
-  batchLingerMs?: string;
+  batchMaxSize?: number | undefined;
+  /** Miliseconds to block before a response is needed */
+  batchLingerMs?: string | undefined;
 }
 export interface GetFunctionInputsItem {
   inputId: string;
-  input?: FunctionInput;
+  input?: FunctionInput | undefined;
   killSwitch: boolean;
-  /** previously used */
   functionCallId: string;
   functionCallInvocationType: FunctionCallInvocationType;
   retryCount: number;
-  functionMapIdx?: number;
   /** intercepted and only used by the worker. */
+  functionMapIdx?: number | undefined;
   attemptToken: string;
   fromInputPlane: boolean;
 }
 export type GetFunctionInputsItemList = Array<GetFunctionInputsItem>;
 export interface GetFunctionInputsResponse {
   inputs: GetFunctionInputsItemList;
+  /** How long to sleep before requesting another input. */
   rateLimitSleepDuration: number;
 }
 export interface GetFunctionOutputsRequest {
-  functionCallId?: string;
-  maxValues?: number;
-  timeout?: number;
-  lastEntryId?: string;
-  clearOnSuccess?: boolean;
+  functionCallId?: string | undefined;
+  maxValues?: number | undefined;
+  timeout?: number | undefined;
+  lastEntryId?: string | undefined;
   /** expires *any* remaining outputs soon after this call, not just the returned ones */
-  requestedAt?: number;
-  /** Used for waypoints. The jwts the client expects the server to be processing. This is optional and used for sync inputs only. */
-  inputJwts?: StringList;
-  startIdx?: number;
+  clearOnSuccess?: boolean | undefined;
+  /** Used for waypoints. */
+  requestedAt?: number | undefined;
+  /** The jwts the client expects the server to be processing. This is optional and used for sync inputs only. */
+  inputJwts?: StringList | undefined;
   /** for async batch requests. this indicates which index to start from. */
-  endIdx?: number;
+  startIdx?: number | undefined;
+  /** for async batch requests. this indicates which index to end at. */
+  endIdx?: number | undefined;
 }
 export type IntegerList = Array<number>;
 export interface GetFunctionOutputsItem {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   idx: number;
   inputId: string;
-  dataFormat: DataFormat;
   /** for result.data_oneof */
+  dataFormat: DataFormat;
   taskId: string;
   inputStartedAt: number;
   outputCreatedAt: number;
   retryCount: number;
+  /** datadog function call trace tag */
   fcTraceTag: string;
 }
 export type GetFunctionOutputsItemList = Array<GetFunctionOutputsItem>;
@@ -1213,16 +1234,16 @@ export interface GetFunctionOutputsResponse {
   numUnfinishedInputs: number;
 }
 export interface InvokeFunctionAsyncRequest {
-  functionId?: string;
-  parentInputId?: string;
-  input?: FunctionInput;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  input?: FunctionInput | undefined;
 }
 export interface InvokeFunctionAsyncResponse {
   retryWithBlobUpload: boolean;
   functionCallId: string;
 }
 export interface ListFunctionCallRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export type FunctionCallInfoList = Array<FunctionCallInfo>;
 export interface ListFunctionCallResponse {
@@ -1267,8 +1288,8 @@ export const fetchFunctionCall: API.OperationMethod<
   FetchFunctionCallError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1282, __c40, 2) as any as S.Schema<FetchFunctionCallRequest>,
-  output: __S(1285, __c40, 5) as any as S.Schema<FetchFunctionCallResponse>,
+  input: __S(1314, __c41, 2) as any as S.Schema<FetchFunctionCallRequest>,
+  output: __S(1317, __c41, 5) as any as S.Schema<FetchFunctionCallResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1283,8 +1304,8 @@ export const functionBindParams: API.OperationMethod<
   FunctionBindParamsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<FunctionBindParamsRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<FunctionBindParamsResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<FunctionBindParamsRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<FunctionBindParamsResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1299,8 +1320,8 @@ export const functionCallCount: API.OperationMethod<
   FunctionCallCountError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<FunctionCallCountRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<FunctionCallCountResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<FunctionCallCountRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<FunctionCallCountResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1315,8 +1336,8 @@ export const functionCallFromId: API.OperationMethod<
   FunctionCallFromIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<FunctionCallFromIdRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<FunctionCallFromIdResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallFromIdRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<FunctionCallFromIdResponse>,
   errors: [FunctionCallNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1331,8 +1352,8 @@ export const functionCallGetDataIn: API.StreamingOperationMethod<
   FunctionCallGetDataInError,
   ModalOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInStream>,
+  input: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataInStream>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1368,8 @@ export const functionCallGetDataOut: API.StreamingOperationMethod<
   FunctionCallGetDataOutError,
   ModalOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
+  input: __S(1568, __c49, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1389,6 +1410,7 @@ export const functionCallPutDataOut: API.OperationMethod<
 }));
 
 export type FunctionFinishInputsError = ModalOpError;
+/** For map RPCs, to signal that all inputs have been sent */
 export const functionFinishInputs: API.OperationMethod<
   FunctionFinishInputsRequest,
   FunctionFinishInputsResponse,
@@ -1485,7 +1507,6 @@ export const functionGetFlashAuthToken: API.OperationMethod<
 }));
 
 export type FunctionGetMetricsError = ModalOpError;
-/** For containers to request next call */
 export const functionGetMetrics: API.OperationMethod<
   FunctionGetMetricsRequest,
   FunctionGetMetricsResponse,
@@ -1502,7 +1523,6 @@ export const functionGetMetrics: API.OperationMethod<
 }));
 
 export type FunctionGetSchedulingParamsError = FunctionNotFound | ModalOpError;
-/** Returns the next result(s) for an entire function call (FunctionMap) */
 export const functionGetSchedulingParams: API.OperationMethod<
   FunctionGetSchedulingParamsRequest,
   FunctionGetSchedulingParamsResponse,
@@ -1615,6 +1635,7 @@ export const functionPutInputs: API.OperationMethod<
 }));
 
 export type FunctionPutOutputsError = ModalOpError;
+/** For containers to return result */
 export const functionPutOutputs: API.OperationMethod<
   FunctionPutOutputsRequest,
   FunctionPutOutputsResponse,
@@ -1631,7 +1652,6 @@ export const functionPutOutputs: API.OperationMethod<
 }));
 
 export type FunctionRetryInputsError = ModalOpError;
-/** For containers to return result */
 export const functionRetryInputs: API.OperationMethod<
   FunctionRetryInputsRequest,
   FunctionRetryInputsResponse,
@@ -1680,7 +1700,6 @@ export const functionUpdateSchedulingParams: API.OperationMethod<
 }));
 
 export type GetFunctionError = FunctionNotFound | ModalOpError;
-/** For map RPCs, to signal that all inputs have been sent */
 export const getFunction: API.OperationMethod<
   GetFunctionRequest,
   GetFunctionResponse,
@@ -1696,15 +1715,32 @@ export const getFunction: API.OperationMethod<
   span: "GetFunction",
 }));
 
+export type GetFunctionBlobError = ModalOpError;
+export const getFunctionBlob: API.OperationMethod<
+  GetFunctionBlobRequest,
+  GetFunctionBlobResponse,
+  GetFunctionBlobError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1152, __c36, 0) as any as S.Schema<GetFunctionBlobRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<GetFunctionBlobResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionBlob",
+}));
+
 export type GetFunctionInputsError = ModalOpError;
+/** For containers to request next call */
 export const getFunctionInputs: API.OperationMethod<
   GetFunctionInputsRequest,
   GetFunctionInputsResponse,
   GetFunctionInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetFunctionInputsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<GetFunctionInputsResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetFunctionInputsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<GetFunctionInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1713,14 +1749,15 @@ export const getFunctionInputs: API.OperationMethod<
 }));
 
 export type GetFunctionOutputsError = FunctionCallNotFound | ModalOpError;
+/** Returns the next result(s) for an entire function call (FunctionMap) */
 export const getFunctionOutputs: API.OperationMethod<
   GetFunctionOutputsRequest,
   GetFunctionOutputsResponse,
   GetFunctionOutputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetFunctionOutputsRequest>,
-  output: __S(1188, __c37, 4) as any as S.Schema<GetFunctionOutputsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetFunctionOutputsRequest>,
+  output: __S(1220, __c38, 4) as any as S.Schema<GetFunctionOutputsResponse>,
   errors: [FunctionCallNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1736,8 +1773,8 @@ export const invokeFunctionAsync: API.OperationMethod<
   InvokeFunctionAsyncError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1752,8 +1789,8 @@ export const listFunctionCall: API.OperationMethod<
   ListFunctionCallError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListFunctionCallRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<ListFunctionCallResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListFunctionCallRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<ListFunctionCallResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1832,7 +1869,7 @@ function __c2(j: number): any {
         S.Struct({
           functionCallId: S.optional(S.String),
           attemptToken: S.optional(S.String),
-          dataChunks: S.optional(__S(1505, __c47, 1)),
+          dataChunks: S.optional(__S(1537, __c48, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2221,7 +2258,7 @@ function __c15(j: number): any {
         S.Struct({
           functionId: S.String,
           serializedParams: S.String,
-          functionOptions: S.optional(__S(1344, __c42, 0)),
+          functionOptions: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "FunctionVariantInfo" });
     case 3:
@@ -3047,6 +3084,25 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          blobId: S.optional(S.String),
+          functionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionBlobGet", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetFunctionBlobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          downloadUrl: S.String,
+        }),
+      ).annotate({ identifier: "GetFunctionBlobResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           functionId: S.optional(S.String),
           inputConcurrency: S.optional(S.Number),
           batchMaxSize: S.optional(S.Number),
@@ -3070,17 +3126,17 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionInputsItem" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputs: __S(1154, __c36, 2),
+          inputs: __S(1186, __c37, 2),
           rateLimitSleepDuration: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionInputsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3119,19 +3175,19 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionOutputsItem" });
     case 3:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1218, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idxs: __S(1185, __c37, 1),
-          outputs: __S(1187, __c37, 3),
+          idxs: __S(1217, __c38, 1),
+          outputs: __S(1219, __c38, 3),
           lastEntryId: S.String,
           numUnfinishedInputs: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionOutputsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3156,7 +3212,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "InvokeFunctionAsyncResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3171,12 +3227,12 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functionCalls: __S(1249, __c39, 1),
+          functionCalls: __S(1281, __c40, 1),
         }),
       ).annotate({ identifier: "ListFunctionCallResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3196,8 +3252,8 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
-          tail: S.optional(__S(1280, __c40, 0)),
-          range: S.optional(__S(1281, __c40, 1)),
+          tail: S.optional(__S(1312, __c41, 0)),
+          range: S.optional(__S(1313, __c41, 1)),
           allVariants: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallFetch", code: 200 }),
@@ -3217,23 +3273,23 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "FunctionCallInputInfo" });
     case 4:
-      return S.Array(__S(1283, __c40, 3));
+      return S.Array(__S(1315, __c41, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          functionCallInputs: __S(1284, __c40, 4),
+          functionCallInputs: __S(1316, __c41, 4),
         }),
       ).annotate({ identifier: "FetchFunctionCallResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
           serializedParams: S.optional(S.String),
-          functionOptions: S.optional(__S(1344, __c42, 0)),
+          functionOptions: S.optional(__S(1376, __c43, 0)),
           environmentName: S.optional(S.String),
           authSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -3253,7 +3309,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "FunctionBindParamsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3284,7 +3340,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "FunctionOptions" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3306,16 +3362,16 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "FunctionCallCountResponseInputBucket" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(1378, __c43, 2),
+          buckets: __S(1410, __c44, 2),
         }),
       ).annotate({ identifier: "FunctionCallCountResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,12 +3397,12 @@ function __c44(j: number): any {
         S.Struct({
           functionCallId: S.String,
           numInputs: S.Number,
-          metadata: S.optional(__S(1409, __c44, 1)),
+          metadata: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "FunctionCallFromIdResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3364,17 +3420,17 @@ function __c45(j: number): any {
       ).annotate({ identifier: "FunctionCallGetDataInRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1505, __c47, 1),
+          items: __S(1537, __c48, 1),
         }),
       ).annotate({ identifier: "FunctionCallGetDataInStream" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3386,10 +3442,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "DataChunk" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

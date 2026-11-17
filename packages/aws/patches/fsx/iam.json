@@ -1,0 +1,25 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#CreateSnapshot/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Granting fsx:CreateSnapshot on its snapshot and volume ARN formats is denied live (Alchemy's FSx Bindings suite: AccessDeniedException instead of SnapshotVolumeNotFound); the call is authorized only on *.",
+        "resources": {
+          "fsx:CreateSnapshot": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#RestoreVolumeFromSnapshot/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:fsx:${Region}:${Account}:snapshot/*/*, arn:${Partition}:fsx:${Region}:${Account}:volume/*/*), the call was denied live in the FSx Bindings suite; the grant stays on *.",
+        "resources": {
+          "fsx:RestoreVolumeFromSnapshot": "*"
+        }
+      }
+    }
+  ]
+}

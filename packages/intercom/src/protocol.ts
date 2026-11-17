@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * IntercomProtocol -- hand-written.
  *
@@ -38,7 +43,8 @@ export type IntercomOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | IntercomParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Intercom operation. */
 export type IntercomOpContext = Credentials | HttpClient.HttpClient;
@@ -81,11 +87,6 @@ export const IntercomProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
     "Intercom-Version": creds.apiVersion,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownIntercomError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownIntercomError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new IntercomParseError({ body, cause }),
 });

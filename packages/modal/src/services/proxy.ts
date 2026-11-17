@@ -29,6 +29,8 @@ export class ProxyAlreadyExists
     /*@__PURE__*/ S.TaggedError<ProxyAlreadyExists>()("ProxyAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,16 +41,17 @@ export class ProxyNotFound
     /*@__PURE__*/ S.TaggedError<ProxyNotFound>()("ProxyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface CreateProxyRequest {
-  name?: string;
-  environmentName?: string;
-  region?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
+  region?: string | undefined;
 }
-/** TODO(erikbern): needs_prefix */
 export type ProxyIpStatus =
   | "PROXY_IP_STATUS_UNSPECIFIED"
   | "PROXY_IP_STATUS_CREATING"
@@ -71,18 +74,18 @@ export interface Proxy {
   region: string;
 }
 export interface CreateProxyResponse {
-  proxy?: Proxy;
+  proxy?: Proxy | undefined;
 }
 export interface DeleteProxyRequest {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface DeleteProxyResponse {}
 export interface GetProxyRequest {
-  name?: string;
-  environmentName?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
 }
 export interface GetProxyResponse {
-  proxy?: Proxy;
+  proxy?: Proxy | undefined;
 }
 export interface ListProxyRequest {}
 export type ProxyList2 = Array<Proxy>;
@@ -90,10 +93,10 @@ export interface ListProxyResponse {
   proxies: ProxyList2;
 }
 export interface ProxyAddIpRequest {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface ProxyAddIpResponse {
-  proxyIp?: ProxyIp;
+  proxyIp?: ProxyIp | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -103,16 +106,16 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface ProxyGetOrCreateRequest {
-  deploymentName?: string;
-  /** namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  deploymentName?: string | undefined;
+  environmentName?: string | undefined;
+  /** must be UNSPECIFIED */
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface ProxyGetOrCreateResponse {
   proxyId: string;
 }
 export interface ProxyRemoveIpRequest {
-  proxyIp?: string;
+  proxyIp?: string | undefined;
 }
 export interface ProxyRemoveIpResponse {}
 export type CreateProxyError = ProxyAlreadyExists | ModalOpError;

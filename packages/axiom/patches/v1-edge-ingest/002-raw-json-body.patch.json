@@ -1,0 +1,10 @@
+{
+  "description": "ingestToDataset's body is a preserialized JSON, NDJSON or CSV payload (the spec's binary string), but it went out JSON-encoded again, so Axiom received a quoted string and answered \"stream does not start with a json array\". bodyMediaType sends the string verbatim as application/json, the way vectorize/insertIndex-ndjson-body does for NDJSON.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#IngestToDataset/traits/smithy.api#http/bodyMediaType",
+      "value": "application/json"
+    }
+  ]
+}

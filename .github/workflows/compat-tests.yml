@@ -1,0 +1,130 @@
+name: Compatibility tests
+
+# What the published packages promise beyond CI's one setup (Node 24 and the
+# lockfile's `effect`): the whole `effect` peer range, the Node versions
+# effect supports, Bun (the `bun` export condition) and workerd (the
+# `worker` / `workerd` conditions).
+#
+# Called by ci.yml on every PR and push (required checks, without the latest
+# effect), by compat.yml (nightly, with it; keeps one issue while it fails)
+# and by release.yml (with it; a failure stops the release). No AI and no
+# network beyond the npm registry and the Node and Bun downloads: each job
+# passes or fails on its own checks.
+
+on:
+  workflow_call:
+    inputs:
+      effect-latest:
+        description: >-
+          Also test the newest effect in the peer range. Off in PR CI: a new
+          effect release would fail every open PR, whatever it changes.
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  effect:
+    name: Effect (${{ matrix.effect }} in the peer range)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    strategy:
+      fail-fast: false
+      matrix:
+        effect: ${{ fromJSON(inputs.effect-latest && '["lowest","latest"]' || '["lowest"]') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: false
+
+      # Adds `overrides` for effect and @effect/platform-node to
+      # pnpm-workspace.yaml; the lockfile follows.
+      - name: Pin effect to the ${{ matrix.effect }} version of the peer range
+        run: node scripts/compat/effect-version.ts ${{ matrix.effect }} --write
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Show the effect version core resolves
+        run: |
+          node -p "'effect ' + require(require.resolve('effect/package.json', { paths: ['packages/core'] })).version"
+
+      - name: Run tests
+        run: pnpm vitest run
+
+  # effect's `engines` is `node >=22.19.0`: its floor, the newest 22.x and
+  # the newest LTS. CI already runs Node 24 (.node-version).
+  node:
+    name: Node ${{ matrix.node }}
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22.19.0", "22", "26"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js ${{ matrix.node }} and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          runtime: node@${{ matrix.node }}
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - name: Run tests
+        run: |
+          node --version
+          pnpm vitest run
+
+  bun:
+    name: Bun (core tests)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Pinned, so the run tests distilled, not a new Bun. Move it with
+      # scripts/compat/bun-failures.txt.
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.4
+
+      # Fails on a failure missing from scripts/compat/bun-failures.txt and on
+      # a listed test that passes.
+      - name: Run core's tests on Bun
+        run: node scripts/compat/bun-tests.ts
+
+  workerd:
+    name: workerd (the published SDKs in a Worker)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Builds and packs the SDKs as the Bundlers job does, bundles the shared
+      # calls with wrangler's settings, and runs the bundle with `workerd
+      # test`: it must print what the unbundled program prints in Node.
+      - name: Run the workerd bundle in workerd
+        run: pnpm --filter @distilled.cloud/bench-bundlers run test:workerd

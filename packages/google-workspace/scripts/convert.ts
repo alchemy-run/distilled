@@ -24,7 +24,8 @@
  *     default `lowerFirst` export naming reproduces the v0 function names.
  *   • inputs `ns#<Op>Request`: path params → `smithy.api#httpLabel`
  *     (+required), query params → `smithy.api#httpQuery`, request body →
- *     optional `body` member with `smithy.api#httpPayload`.
+ *     optional `body` member with `smithy.api#httpPayload` (generate.ts
+ *     flattens a structure body into top-level input fields).
  *   • outputs reference the response schema directly (none → synthesized
  *     empty `<Op>Response`).
  *   • pagination → `smithy.api#paginated { inputToken: "pageToken",

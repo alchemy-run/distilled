@@ -29,6 +29,8 @@ export class DictAlreadyExists
     /*@__PURE__*/ S.TaggedError<DictAlreadyExists>()("DictAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class DictNotFound
     /*@__PURE__*/ S.TaggedError<DictNotFound>()("DictNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -49,34 +53,36 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
 
 export interface ClearDictRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface ClearDictResponse {}
 export interface DeleteDictRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DeleteDictResponse {}
 export interface DictContainsRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface DictContainsResponse {
   found: boolean;
 }
 export interface DictContentsRequest {
-  dictId?: string;
+  dictId?: string | undefined;
   /** Setting these to True will populate the corresponding field in the response, otherwise it will be null This lets us support the keys/values/items SDK API through one RPC without unnecessary data transfer */
-  keys?: boolean;
-  values?: boolean;
+  keys?: boolean | undefined;
+  values?: boolean | undefined;
 }
 export interface DictEntry {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type DictEntryList = Array<DictEntry>;
 export interface DictContentsStream {
@@ -84,21 +90,21 @@ export interface DictContentsStream {
   items: DictEntryList;
 }
 export interface DictGetByIdRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface DictMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface DictGetByIdResponse {
   dictId: string;
-  metadata?: DictMetadata;
+  metadata?: DictMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -108,56 +114,56 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface DictGetOrCreateRequest {
-  deploymentName?: string;
-  /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  data?: DictEntryList;
+  deploymentName?: string | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  /** Unused after 1.4.0 */
+  data?: DictEntryList | undefined;
 }
 export interface DictGetOrCreateResponse {
   dictId: string;
-  metadata?: DictMetadata;
+  metadata?: DictMetadata | undefined;
 }
 export interface DictHeartbeatRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DictHeartbeatResponse {}
 export interface DictLenRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DictLenResponse {
   len: number;
 }
 export interface DictPopRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface DictPopResponse {
   found: boolean;
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetDictRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface GetDictResponse {
   found: boolean;
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListDictRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface ListDictResponseDictInfo {
   name: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   dictId: string;
-  metadata?: DictMetadata;
+  metadata?: DictMetadata | undefined;
 }
 export type ListDictResponseDictInfoList = Array<ListDictResponseDictInfo>;
 export interface ListDictResponse {
@@ -165,9 +171,9 @@ export interface ListDictResponse {
   environmentName: string;
 }
 export interface UpdateDictRequest {
-  dictId?: string;
-  updates?: DictEntryList;
-  ifNotExists?: boolean;
+  dictId?: string | undefined;
+  updates?: DictEntryList | undefined;
+  ifNotExists?: boolean | undefined;
 }
 export interface UpdateDictResponse {
   created: boolean;

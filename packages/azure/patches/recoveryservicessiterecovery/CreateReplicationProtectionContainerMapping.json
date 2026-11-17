@@ -1,26 +1,6 @@
 {
-  "description": "ASR ProtectionContainerMapping provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "description": "ASR RemoveProtectionContainerMapping `providerSpecificInput` is polymorphic on instanceType, but the spec declares no subtype of `ReplicationProviderContainerUnmappingInput`, so the converted model keeps only `instanceType` and S.Struct strips every other field on encode. Retype it as an untyped document.",
   "patches": [
-    {
-      "op": "replace",
-      "path": "/shapes/com.azure.recoveryservicessiterecovery#CreateProtectionContainerMappingInputProperties/members/providerSpecificInput",
-      "value": {
-        "target": "smithy.api#Document",
-        "traits": {
-          "smithy.api#documentation": "Provider specific input for pairing. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
-        }
-      }
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.azure.recoveryservicessiterecovery#UpdateProtectionContainerMappingInputProperties/members/providerSpecificInput",
-      "value": {
-        "target": "smithy.api#Document",
-        "traits": {
-          "smithy.api#documentation": "Provider specific input for updating protection container mapping. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
-        }
-      }
-    },
     {
       "op": "replace",
       "path": "/shapes/com.azure.recoveryservicessiterecovery#RemoveProtectionContainerMappingInputProperties/members/providerSpecificInput",
@@ -28,16 +8,6 @@
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#documentation": "Provider specific input for unpairing. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
-        }
-      }
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.azure.recoveryservicessiterecovery#ProtectionContainerMappingProperties/members/providerSpecificDetails",
-      "value": {
-        "target": "smithy.api#Document",
-        "traits": {
-          "smithy.api#documentation": "Provider specific provider details. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
         }
       }
     }

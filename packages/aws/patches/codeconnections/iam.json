@@ -1,0 +1,23 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.codeconnections#CodeConnections_20231201/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "codestar-connections is the legacy prefix of codeconnections; AWS authorizes either, and the CodeConnections Bindings suite passes with codeconnections: alone.",
+        "remove": ["codestar-connections:*"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.codeconnections#ListConnections/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:codeconnections:${Region}:${Account}:connection/*), the call was denied live in the CodeConnections Bindings suite; the grant stays on *.",
+        "resources": {
+          "codeconnections:ListConnections": "*"
+        }
+      }
+    }
+  ]
+}

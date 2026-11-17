@@ -159,22 +159,22 @@ export interface GetExportResponse {
   domainName: string;
   requestedAt: Date;
   s3Bucket: string;
-  s3KeyPrefix?: string;
-  s3SseAlgorithm?: S3SseAlgorithm;
-  s3SseKmsKeyId?: string;
-  s3BucketOwner?: string;
-  failureCode?: string;
-  failureMessage?: string;
-  exportManifest?: string;
-  itemsCount?: number;
-  exportDataCutoffTime?: Date;
+  s3KeyPrefix?: string | undefined;
+  s3SseAlgorithm?: S3SseAlgorithm | undefined;
+  s3SseKmsKeyId?: string | undefined;
+  s3BucketOwner?: string | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
+  exportManifest?: string | undefined;
+  itemsCount?: number | undefined;
+  exportDataCutoffTime?: Date | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListExportsRequest {
-  domainName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  domainName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExportSummary {
   exportArn: string;
@@ -185,16 +185,16 @@ export interface ExportSummary {
 export type ExportSummaries = ExportSummary[];
 export interface ListExportsResponse {
   exportSummaries: ExportSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface StartDomainExportRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   domainName: string;
   s3Bucket: string;
-  s3KeyPrefix?: string;
-  s3SseAlgorithm?: S3SseAlgorithm;
-  s3SseKmsKeyId?: string;
-  s3BucketOwner?: string;
+  s3KeyPrefix?: string | undefined;
+  s3SseAlgorithm?: S3SseAlgorithm | undefined;
+  s3SseKmsKeyId?: string | undefined;
+  s3BucketOwner?: string | undefined;
 }
 export interface StartDomainExportResponse {
   clientToken: string;

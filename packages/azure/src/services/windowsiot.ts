@@ -43,11 +43,11 @@ export type DeviceServiceNameAvailabilityInfoReason = "Invalid" | "AlreadyExists
 /** The properties indicating whether a given Windows IoT Device Service name is available. */
 export interface DeviceServiceNameAvailabilityInfo {
   /** The value which indicates whether the provided name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability. */
-  reason?: DeviceServiceNameAvailabilityInfoReason;
+  reason?: DeviceServiceNameAvailabilityInfoReason | undefined;
   /** The detailed reason message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteServiceRequest {
   /** The subscription identifier. */
@@ -62,31 +62,31 @@ export type DeleteServiceResponseTagsMap = { [key: string]: string | undefined }
 /** The properties of a Windows IoT Device Service. */
 export interface DeviceServiceProperties {
   /** Windows IoT Device Service notes. */
-  notes?: string;
+  notes?: string | undefined;
   /** Windows IoT Device Service start date, */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Windows IoT Device Service device allocation, */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Windows IoT Device Service ODM AAD domain */
-  billingDomainName?: string;
+  billingDomainName?: string | undefined;
   /** Windows IoT Device Service OEM AAD domain */
-  adminDomainName?: string;
+  adminDomainName?: string | undefined;
 }
 export interface DeleteServiceResponse {
   /** Fully qualified resource Id for the resource */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DeleteServiceResponseTagsMap;
+  tags?: DeleteServiceResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServiceProperties;
+  properties?: DeviceServiceProperties | undefined;
 }
 export interface GetServiceRequest {
   /** The subscription identifier. */
@@ -100,51 +100,51 @@ export interface GetServiceRequest {
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceResponse {
   /** Fully qualified resource Id for the resource */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServiceProperties;
+  properties?: DeviceServiceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Azure Data Catalog Service. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by Azure Data Catalog Service. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Indicates the executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** List of Windows IoT Device Service operations supported by the Microsoft.WindowsIoT resource provider. */
 export type OperationListResultValueList = Array<OperationEntity>;
 /** Result of the request to list Windows IoT Device Service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Windows IoT Device Service operations supported by the Microsoft.WindowsIoT resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** The subscription identifier. */
@@ -157,28 +157,28 @@ export type DeviceServiceTagsMap = { [key: string]: string | undefined };
 /** The description of the Windows IoT Device Service. */
 export interface DeviceService {
   /** Fully qualified resource Id for the resource */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DeviceServiceTagsMap;
+  tags?: DeviceServiceTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServiceProperties;
+  properties?: DeviceServiceProperties | undefined;
 }
 /** The array of DeviceService objects. */
 export type DeviceServiceDescriptionListResultValueList = Array<DeviceService>;
 /** The JSON-serialized array of DeviceService objects with a next link. */
 export interface DeviceServiceDescriptionListResult {
   /** The array of DeviceService objects. */
-  value?: DeviceServiceDescriptionListResultValueList;
+  value?: DeviceServiceDescriptionListResultValueList | undefined;
   /** The next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** The subscription identifier. */
@@ -189,13 +189,13 @@ export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | und
 /** The properties of a Windows IoT Device Service. */
 export interface DeviceServicePropertiesInput {
   /** Windows IoT Device Service notes. */
-  notes?: string;
+  notes?: string | undefined;
   /** Windows IoT Device Service device allocation, */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Windows IoT Device Service ODM AAD domain */
-  billingDomainName?: string;
+  billingDomainName?: string | undefined;
   /** Windows IoT Device Service OEM AAD domain */
-  adminDomainName?: string;
+  adminDomainName?: string | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -205,31 +205,31 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the Windows IoT Device Service. */
   deviceName: string;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServicePropertiesInput;
+  properties?: DeviceServicePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServiceProperties;
+  properties?: DeviceServiceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -241,31 +241,31 @@ export interface UpdateServiceRequest {
   /** The name of the Windows IoT Device Service. */
   deviceName: string;
   /** Resource tags. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServicePropertiesInput;
+  properties?: DeviceServicePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource Id for the resource */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The Azure Region where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of a Windows IoT Device Service. */
-  properties?: DeviceServiceProperties;
+  properties?: DeviceServiceProperties | undefined;
 }
 export type CheckServiceDeviceServiceNameAvailabilityError = AzureOpError;
 /** Check if a Windows IoT Device Service name is available. */

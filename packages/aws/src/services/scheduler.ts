@@ -110,7 +110,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -128,7 +128,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -148,13 +148,13 @@ export type TargetArn = string;
 export type RoleArn = string;
 export type ResourceArn = string;
 export interface DeadLetterConfig {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type MaximumEventAgeInSeconds = number;
 export type MaximumRetryAttempts = number;
 export interface RetryPolicy {
-  MaximumEventAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
+  MaximumEventAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
 }
 export type TargetInput = string;
 export type TaskDefinitionArn = string;
@@ -167,11 +167,11 @@ export type SecurityGroups = string[];
 export type AssignPublicIp = string;
 export interface AwsVpcConfiguration {
   Subnets: string[];
-  SecurityGroups?: string[];
-  AssignPublicIp?: string;
+  SecurityGroups?: string[] | undefined;
+  AssignPublicIp?: string | undefined;
 }
 export interface NetworkConfiguration {
-  awsvpcConfiguration?: AwsVpcConfiguration;
+  awsvpcConfiguration?: AwsVpcConfiguration | undefined;
 }
 export type PlatformVersion = string;
 export type Group = string;
@@ -180,8 +180,8 @@ export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export interface CapacityProviderStrategyItem {
   capacityProvider: string;
-  weight?: number;
-  base?: number;
+  weight?: number | undefined;
+  base?: number | undefined;
 }
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export type EnableECSManagedTags = boolean;
@@ -189,15 +189,15 @@ export type EnableExecuteCommand = boolean;
 export type PlacementConstraintType = string;
 export type PlacementConstraintExpression = string;
 export interface PlacementConstraint {
-  type?: string;
-  expression?: string;
+  type?: string | undefined;
+  expression?: string | undefined;
 }
 export type PlacementConstraints = PlacementConstraint[];
 export type PlacementStrategyType = string;
 export type PlacementStrategyField = string;
 export interface PlacementStrategy {
-  type?: string;
-  field?: string;
+  type?: string | undefined;
+  field?: string | undefined;
 }
 export type PlacementStrategies = PlacementStrategy[];
 export type PropagateTags = string;
@@ -208,25 +208,35 @@ export type TagMap = { [key: string]: string | undefined };
 export type Tags = { [key: string]: string | undefined }[];
 export interface EcsParameters {
   TaskDefinitionArn: string;
-  TaskCount?: number;
-  LaunchType?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  PlatformVersion?: string;
-  Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  EnableECSManagedTags?: boolean;
-  EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraint[];
-  PlacementStrategy?: PlacementStrategy[];
-  PropagateTags?: string;
-  ReferenceId?: string;
-  Tags?: { [key: string]: string | undefined }[];
+  TaskCount?: number | undefined;
+  LaunchType?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  PlatformVersion?: string | undefined;
+  Group?: string | undefined;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  EnableECSManagedTags?: boolean | undefined;
+  EnableExecuteCommand?: boolean | undefined;
+  PlacementConstraints?: PlacementConstraint[] | undefined;
+  PlacementStrategy?: PlacementStrategy[] | undefined;
+  PropagateTags?: string | undefined;
+  ReferenceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined }[] | undefined;
 }
 export type DetailType = string;
 export type Source = string;
 export interface EventBridgeParameters {
   DetailType: string;
   Source: string;
+}
+export interface EventBridgePutEventsV2Parameters {
+  DetailType: string;
+  Source: string;
+}
+export type EventBridgeMetadataKey = string;
+export type EventBridgeMetadataValue = string;
+export type EventBridgeMetadataMap = { [key: string]: string | undefined };
+export interface EventBridgePutRawEventsParameters {
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type TargetPartitionKey = string;
 export interface KinesisParameters {
@@ -240,46 +250,48 @@ export interface SageMakerPipelineParameter {
 }
 export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export interface SageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameter[];
+  PipelineParameterList?: SageMakerPipelineParameter[] | undefined;
 }
 export type MessageGroupId = string;
 export interface SqsParameters {
-  MessageGroupId?: string;
+  MessageGroupId?: string | undefined;
 }
 export interface Target {
   Arn: string;
   RoleArn: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  RetryPolicy?: RetryPolicy;
-  Input?: string;
-  EcsParameters?: EcsParameters;
-  EventBridgeParameters?: EventBridgeParameters;
-  KinesisParameters?: KinesisParameters;
-  SageMakerPipelineParameters?: SageMakerPipelineParameters;
-  SqsParameters?: SqsParameters;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  RetryPolicy?: RetryPolicy | undefined;
+  Input?: string | undefined;
+  EcsParameters?: EcsParameters | undefined;
+  EventBridgeParameters?: EventBridgeParameters | undefined;
+  EventBridgePutEventsV2Parameters?: EventBridgePutEventsV2Parameters | undefined;
+  EventBridgePutRawEventsParameters?: EventBridgePutRawEventsParameters | undefined;
+  KinesisParameters?: KinesisParameters | undefined;
+  SageMakerPipelineParameters?: SageMakerPipelineParameters | undefined;
+  SqsParameters?: SqsParameters | undefined;
 }
 export type FlexibleTimeWindowMode = string;
 export type MaximumWindowInMinutes = number;
 export interface FlexibleTimeWindow {
   Mode: string;
-  MaximumWindowInMinutes?: number;
+  MaximumWindowInMinutes?: number | undefined;
 }
 export type ClientToken = string;
 export type ActionAfterCompletion = string;
 export interface CreateScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
   ScheduleExpression: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  KmsKeyArn?: string;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  KmsKeyArn?: string | undefined;
   Target: Target;
   FlexibleTimeWindow: FlexibleTimeWindow;
-  ClientToken?: string;
-  ActionAfterCompletion?: string;
+  ClientToken?: string | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export type ScheduleArn = string;
 export interface CreateScheduleOutput {
@@ -292,8 +304,8 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateScheduleGroupInput {
   Name: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type ScheduleGroupArn = string;
 export interface CreateScheduleGroupOutput {
@@ -301,92 +313,92 @@ export interface CreateScheduleGroupOutput {
 }
 export interface DeleteScheduleInput {
   Name: string;
-  GroupName?: string;
-  ClientToken?: string;
+  GroupName?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DeleteScheduleOutput {}
 export interface DeleteScheduleGroupInput {
   Name: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteScheduleGroupOutput {}
 export interface GetScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
 }
 export type CreationDate = Date;
 export type LastModificationDate = Date;
 export interface GetScheduleOutput {
-  Arn?: string;
-  GroupName?: string;
-  Name?: string;
-  ScheduleExpression?: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
-  KmsKeyArn?: string;
-  Target?: Target;
-  FlexibleTimeWindow?: FlexibleTimeWindow;
-  ActionAfterCompletion?: string;
+  Arn?: string | undefined;
+  GroupName?: string | undefined;
+  Name?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
+  KmsKeyArn?: string | undefined;
+  Target?: Target | undefined;
+  FlexibleTimeWindow?: FlexibleTimeWindow | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export interface GetScheduleGroupInput {
   Name: string;
 }
 export type ScheduleGroupState = string;
 export interface GetScheduleGroupOutput {
-  Arn?: string;
-  Name?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
 }
 export type ScheduleGroupNamePrefix = string;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListScheduleGroupsInput {
-  NamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ScheduleGroupSummary {
-  Arn?: string;
-  Name?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
 }
 export type ScheduleGroupList = ScheduleGroupSummary[];
 export interface ListScheduleGroupsOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ScheduleGroups: ScheduleGroupSummary[];
 }
 export type NamePrefix = string;
 export interface ListSchedulesInput {
-  GroupName?: string;
-  NamePrefix?: string;
-  State?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  GroupName?: string | undefined;
+  NamePrefix?: string | undefined;
+  State?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TargetSummary {
   Arn: string;
 }
 export interface ScheduleSummary {
-  Arn?: string;
-  Name?: string;
-  GroupName?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastModificationDate?: Date;
-  Target?: TargetSummary;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  GroupName?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModificationDate?: Date | undefined;
+  Target?: TargetSummary | undefined;
 }
 export type ScheduleList = ScheduleSummary[];
 export interface ListSchedulesOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Schedules: ScheduleSummary[];
 }
 export type TagResourceArn = string;
@@ -394,7 +406,7 @@ export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -409,18 +421,18 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateScheduleInput {
   Name: string;
-  GroupName?: string;
+  GroupName?: string | undefined;
   ScheduleExpression: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  Description?: string;
-  ScheduleExpressionTimezone?: string;
-  State?: string;
-  KmsKeyArn?: string;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Description?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  State?: string | undefined;
+  KmsKeyArn?: string | undefined;
   Target: Target;
   FlexibleTimeWindow: FlexibleTimeWindow;
-  ClientToken?: string;
-  ActionAfterCompletion?: string;
+  ClientToken?: string | undefined;
+  ActionAfterCompletion?: string | undefined;
 }
 export interface UpdateScheduleOutput {
   ScheduleArn: string;
@@ -497,6 +509,7 @@ export type DeleteScheduleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -515,6 +528,7 @@ export const deleteSchedule: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -533,10 +547,7 @@ export type DeleteScheduleGroupError =
   | ValidationException
   | CommonErrors;
 /**
- * Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group.
- * When you delete a group, it remains in a `DELETING` state until all of its associated schedules are deleted.
- * Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets
- * until the schedule group and its associated schedules are deleted.
+ * Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a `DELETING` state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted.
  *
  * This operation is eventually consistent.
  */
@@ -565,6 +576,7 @@ export const deleteScheduleGroup: API.OperationMethod<
 export type GetScheduleError =
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -582,6 +594,7 @@ export const getSchedule: API.OperationMethod<
   errors: [
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -788,17 +801,15 @@ export type UpdateScheduleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | ExecutionRoleNotAssumable
   | CommonErrors;
 /**
- * Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses all values, including empty values, specified in the request and
- * overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to
- * its system-default value after the update.
+ * Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update.
  *
- * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters
- * for your `UpdateSchedule` call.
+ * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters for your `UpdateSchedule` call.
  */
 export const updateSchedule: API.OperationMethod<
   UpdateScheduleInput & RegionInput,
@@ -812,6 +823,7 @@ export const updateSchedule: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
     ExecutionRoleNotAssumable,
@@ -870,8 +882,8 @@ function __c1(j: number): any {
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModificationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           KmsKeyArn: S.optional(S.String),
-          Target: S.optional(__S(403, __c12, 19)),
-          FlexibleTimeWindow: S.optional(__S(404, __c12, 20)),
+          Target: S.optional(__S(404, __c12, 20)),
+          FlexibleTimeWindow: S.optional(__S(405, __c12, 21)),
           ActionAfterCompletion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetScheduleOutput" });
@@ -1037,8 +1049,8 @@ function __c9(j: number): any {
           ScheduleExpressionTimezone: S.optional(S.String),
           State: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          Target: __S(403, __c12, 19),
-          FlexibleTimeWindow: __S(404, __c12, 20),
+          Target: __S(404, __c12, 20),
+          FlexibleTimeWindow: __S(405, __c12, 21),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ActionAfterCompletion: S.optional(S.String),
         }).pipe(
@@ -1061,8 +1073,8 @@ function __c10(j: number): any {
           ScheduleExpressionTimezone: S.optional(S.String),
           State: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          Target: __S(403, __c12, 19),
-          FlexibleTimeWindow: __S(404, __c12, 20),
+          Target: __S(404, __c12, 20),
+          FlexibleTimeWindow: __S(405, __c12, 21),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ActionAfterCompletion: S.optional(S.String),
         }).pipe(
@@ -1152,24 +1164,28 @@ function __c12(j: number): any {
         identifier: "EventBridgeParameters",
       });
     case 14:
+      return S.suspend(() => S.Struct({ Metadata: S.optional(__S(394, __c12, 10)) })).annotate({
+        identifier: "EventBridgePutRawEventsParameters",
+      });
+    case 15:
       return S.suspend(() => S.Struct({ PartitionKey: S.String })).annotate({
         identifier: "KinesisParameters",
       });
-    case 15:
+    case 16:
       return S.suspend(() => S.Struct({ Name: S.String, Value: S.String })).annotate({
         identifier: "SageMakerPipelineParameter",
       });
-    case 16:
-      return S.Array(__S(399, __c12, 15));
     case 17:
-      return S.suspend(() =>
-        S.Struct({ PipelineParameterList: S.optional(__S(400, __c12, 16)) }),
-      ).annotate({ identifier: "SageMakerPipelineParameters" });
+      return S.Array(__S(400, __c12, 16));
     case 18:
+      return S.suspend(() =>
+        S.Struct({ PipelineParameterList: S.optional(__S(401, __c12, 17)) }),
+      ).annotate({ identifier: "SageMakerPipelineParameters" });
+    case 19:
       return S.suspend(() => S.Struct({ MessageGroupId: S.optional(S.String) })).annotate({
         identifier: "SqsParameters",
       });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Arn: S.String,
@@ -1179,12 +1195,14 @@ function __c12(j: number): any {
           Input: S.optional(S.String),
           EcsParameters: S.optional(__S(396, __c12, 12)),
           EventBridgeParameters: S.optional(__S(397, __c12, 13)),
-          KinesisParameters: S.optional(__S(398, __c12, 14)),
-          SageMakerPipelineParameters: S.optional(__S(401, __c12, 17)),
-          SqsParameters: S.optional(__S(402, __c12, 18)),
+          EventBridgePutEventsV2Parameters: S.optional(__S(397, __c12, 13)),
+          EventBridgePutRawEventsParameters: S.optional(__S(398, __c12, 14)),
+          KinesisParameters: S.optional(__S(399, __c12, 15)),
+          SageMakerPipelineParameters: S.optional(__S(402, __c12, 18)),
+          SqsParameters: S.optional(__S(403, __c12, 19)),
         }),
       ).annotate({ identifier: "Target" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({ Mode: S.String, MaximumWindowInMinutes: S.optional(S.Number) }),
       ).annotate({ identifier: "FlexibleTimeWindow" });

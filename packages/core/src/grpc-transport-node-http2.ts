@@ -11,18 +11,24 @@
  * Requests share one session per origin; an idle session doesn't keep the
  * process alive. {@link unixSocket} sends them over a Unix domain socket
  * instead (a gRPC server on a local socket, such as Modal's
- * `unix:/run/modal.sock` inside its containers). The response body streams as it arrives and the trailers
- * settle when it ends. `node:http2` is found on first use (no static
+ * `unix:/run/modal.sock` inside its containers). The response body is an
+ * Effect `Stream` fed by the HTTP/2 stream as data arrives; the trailers
+ * settle when it ends, and fail when the stream fails or closes first. `node:http2` is found on first use (no static
  * import), so the module loads in any runtime and only a call needs Node.
  */
+import * as Cause from "effect/Cause";
+import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import type * as Layer from "effect/Layer";
+import * as Queue from "effect/Queue";
+import * as Stream from "effect/Stream";
 import {
   isResponseStatus,
+  hasNoBody,
   layer as transportLayer,
   respond,
   type Trailers,
@@ -111,8 +117,15 @@ const bodyOf = (request: HttpClientRequest.HttpClientRequest): Uint8Array | unde
  */
 const make = (socketPath: string | undefined): HttpClient.HttpClient =>
   HttpClient.make((request, url, signal) =>
-    Effect.callback<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>(
-      (resume) => {
+    Effect.gen(function* () {
+      // Fed by the HTTP/2 stream's events from the moment it opens, and read
+      // as the response's body in the caller's fiber.
+      const chunks = yield* Queue.unbounded<Uint8Array, unknown>();
+      const trailers = yield* Deferred.make<Trailers, unknown>();
+      return yield* Effect.callback<
+        HttpClientResponse.HttpClientResponse,
+        HttpClientError.HttpClientError
+      >((resume) => {
         const http2 = http2Module();
         if (http2 === undefined) {
           resume(
@@ -148,45 +161,36 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
           ":path": `${url.pathname}${url.search}`,
           ...headers,
         });
+        // The response is dropped unread, its scope closed, or the call interrupted.
         const onAbort = () => stream.close(http2.constants.NGHTTP2_CANCEL);
         if (signal.aborted) onAbort();
         else signal.addEventListener("abort", onAbort, { once: true });
 
-        let trailers: Trailers = {};
-        let resolveTrailers!: (t: Trailers) => void;
-        const trailersDone = new Promise<Trailers>((resolve) => (resolveTrailers = resolve));
-        stream.on("trailers", (incoming) => (trailers = plain(incoming)));
+        let received: Trailers = {};
+        let ended = false;
+        const failWith = (cause: unknown) => {
+          Queue.failCauseUnsafe(chunks, Cause.fail(cause));
+          Deferred.doneUnsafe(trailers, Effect.fail(cause));
+        };
+        stream.on("trailers", (incoming) => (received = plain(incoming)));
+        stream.on("data", (chunk: Uint8Array) => {
+          Queue.offerUnsafe(chunks, new Uint8Array(chunk));
+        });
+        stream.on("end", () => {
+          ended = true;
+          Queue.endUnsafe(chunks);
+          Deferred.doneUnsafe(trailers, Effect.succeed(received));
+        });
+        stream.on("close", () => {
+          settle();
+          signal.removeEventListener("abort", onAbort);
+          // After `end` this changes nothing; before it, the response is cut short.
+          if (!ended) failWith(new Error("the HTTP/2 stream closed before the response ended"));
+        });
 
         let started = false;
         stream.on("response", (incoming) => {
           started = true;
-          let open = true;
-          const body = new ReadableStream<Uint8Array>({
-            start(controller) {
-              stream.on("data", (chunk: Uint8Array) => {
-                if (open) controller.enqueue(new Uint8Array(chunk));
-              });
-              stream.on("end", () => {
-                if (open) controller.close();
-                open = false;
-                resolveTrailers(trailers);
-              });
-              stream.on("error", (error) => {
-                if (open) controller.error(error);
-                open = false;
-                resolveTrailers(trailers);
-              });
-              stream.on("close", () => {
-                settle();
-                signal.removeEventListener("abort", onAbort);
-                resolveTrailers(trailers);
-              });
-            },
-            cancel() {
-              open = false;
-              stream.close(http2.constants.NGHTTP2_CANCEL);
-            },
-          });
           const status = Number(incoming[":status"] ?? 0);
           if (!isResponseStatus(status)) {
             stream.close(http2.constants.NGHTTP2_CANCEL);
@@ -195,22 +199,39 @@ const make = (socketPath: string | undefined): HttpClient.HttpClient =>
             );
             return;
           }
+          const body = Stream.fromQueue(chunks).pipe(
+            // A reader that stops early lets the stream go.
+            Stream.ensuring(
+              Effect.sync(() => {
+                if (!ended) stream.close(http2.constants.NGHTTP2_CANCEL);
+              }),
+            ),
+          );
+          if (hasNoBody(status)) stream.close(http2.constants.NGHTTP2_CANCEL);
           resume(
-            Effect.succeed(
-              respond(request, { status, headers: plain(incoming), body, trailers: trailersDone }),
+            respond(request, {
+              status,
+              headers: plain(incoming),
+              body,
+              trailers: Deferred.await(trailers),
+            }).pipe(
+              Effect.mapError((cause) => transportError(request, cause)),
+              Effect.tapError(() =>
+                Effect.sync(() => stream.close(http2.constants.NGHTTP2_CANCEL)),
+              ),
             ),
           );
         });
         stream.on("error", (error) => {
-          if (started) return;
+          if (started) return failWith(error);
           settle();
           signal.removeEventListener("abort", onAbort);
           resume(Effect.fail(transportError(request, error)));
         });
         const body = bodyOf(request);
         stream.end(body === undefined ? undefined : body);
-      },
-    ),
+      });
+    }),
   );
 
 /** An `HttpClient` that sends each request as an HTTP/2 stream. */

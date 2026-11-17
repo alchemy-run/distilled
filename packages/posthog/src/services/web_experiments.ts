@@ -29,6 +29,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -38,6 +40,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -47,6 +51,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -54,19 +60,19 @@ export class NotFound
 export interface CreateWebExperimentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
-  created_at?: string;
+  name?: string | undefined;
+  created_at?: string | undefined;
   /** Variants for the web experiment. Example: { "control": { "transforms": [ { "text": "Here comes Superman!", "html": "", "selector": "#page > #body > .header h1" } ], "conditions": "None", "rollout_percentage": 50 }, } */
-  variants?: unknown;
+  variants?: unknown | undefined;
 }
 /** Serializer for the exposed /api/web_experiments endpoint, to be used in posthog-js and for headless APIs. */
 export interface WebExperimentsAPI {
-  id?: number;
-  name?: string;
-  created_at?: string;
-  feature_flag_key?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  created_at?: string | undefined;
+  feature_flag_key?: string | undefined;
   /** Variants for the web experiment. Example: { "control": { "transforms": [ { "text": "Here comes Superman!", "html": "", "selector": "#page > #body > .header h1" } ], "conditions": "None", "rollout_percentage": 50 }, } */
-  variants?: unknown;
+  variants?: unknown | undefined;
 }
 export interface GetWebExperimentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -78,36 +84,36 @@ export interface ListWebExperimentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWebExperimentsAPIListResultsList = Array<WebExperimentsAPI>;
 export interface PaginatedWebExperimentsAPIList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedWebExperimentsAPIListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedWebExperimentsAPIListResultsList | undefined;
 }
 export interface UpdateWebExperimentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this web experiment. */
   id: number;
-  name?: string;
-  created_at?: string;
+  name?: string | undefined;
+  created_at?: string | undefined;
   /** Variants for the web experiment. Example: { "control": { "transforms": [ { "text": "Here comes Superman!", "html": "", "selector": "#page > #body > .header h1" } ], "conditions": "None", "rollout_percentage": 50 }, } */
-  variants?: unknown;
+  variants?: unknown | undefined;
 }
 export interface UpdateWebExperimentsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this web experiment. */
   id: number;
-  name?: string;
-  created_at?: string;
+  name?: string | undefined;
+  created_at?: string | undefined;
   /** Variants for the web experiment. Example: { "control": { "transforms": [ { "text": "Here comes Superman!", "html": "", "selector": "#page > #body > .header h1" } ], "conditions": "None", "rollout_percentage": 50 }, } */
-  variants?: unknown;
+  variants?: unknown | undefined;
 }
 export interface WebExperimentsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

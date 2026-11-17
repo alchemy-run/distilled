@@ -1,0 +1,10 @@
+{
+  "description": "ClickHouse's spec marks no response member required, so ByocConfig.id is optional, and a caller must handle a createByocInfrastructure answer without the new infrastructure's ID. ClickHouse's Terraform provider (ClickHouse/terraform-provider-clickhouse at 66ecf4fa, internal/api) decodes the create response's `id` and at once waits on and reads the infrastructure by it. No live create was made: the test organization is not a BYOC organization. Marking ByocConfig.id required lets callers read the ID without checking for undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.organization#ByocConfig/members/id/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

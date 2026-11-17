@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetCourseStudentRequest {
   /** The unique identifier of the course student record to retrieve. */
@@ -108,12 +136,12 @@ export interface CourseStudent {
   user: CourseStudentUser;
 }
 export interface ListCourseStudentRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   course_id: string;
-  keyword?: string;
+  keyword?: string | undefined;
 }
 /** The user profile of the enrolled student. */
 export type CourseStudentListItemUser = CourseStudentUser;
@@ -153,6 +181,17 @@ export interface ListCourseStudentResponse {
   /** Information to aid in pagination. */
   page_info: PageInfo;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type GetCourseStudentError =
   | BadRequest
   | Forbidden
@@ -166,8 +205,8 @@ export const getCourseStudent: API.OperationMethod<
   GetCourseStudentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetCourseStudentRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<CourseStudent>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetCourseStudentRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<CourseStudent>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -190,8 +229,8 @@ export const listCourseStudent: API.PaginatedOperationMethod<
   CourseStudentListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListCourseStudentRequest>,
-    output: __S(20, __c2, 4) as any as S.Schema<ListCourseStudentResponse>,
+    input: __S(24, __c3, 0) as any as S.Schema<ListCourseStudentRequest>,
+    output: __S(28, __c3, 4) as any as S.Schema<ListCourseStudentResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -215,6 +254,25 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/course_students/{id}", code: 200 })),
       ).annotate({ identifier: "GetCourseStudentRequest" });
@@ -227,7 +285,7 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          experience: __S(1, __c0, 1),
+          experience: __S(9, __c1, 1),
           id: S.String,
           title: S.NullOr(S.String),
         }),
@@ -237,17 +295,17 @@ function __c0(j: number): any {
         S.Struct({
           completed_lessons_count: S.Number,
           completion_rate: S.Number,
-          course: __S(2, __c0, 2),
+          course: __S(10, __c1, 2),
           first_interaction_at: S.String,
           id: S.String,
           last_interaction_at: S.String,
           total_lessons_count: S.Number,
-          user: __S(8, __c1, 0),
+          user: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "CourseStudent" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -259,7 +317,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CourseStudentUser" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -281,11 +339,11 @@ function __c2(j: number): any {
           id: S.String,
           last_interaction_at: S.String,
           total_lessons_count: S.Number,
-          user: __S(8, __c1, 0),
+          user: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "CourseStudentListItem" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -298,8 +356,8 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(18, __c2, 2),
-          page_info: __S(19, __c2, 3),
+          data: __S(26, __c3, 2),
+          page_info: __S(27, __c3, 3),
         }),
       ).annotate({ identifier: "ListCourseStudentResponse" });
   }

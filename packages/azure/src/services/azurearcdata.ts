@@ -45,7 +45,7 @@ export interface AddSqlServerAvailabilityGroupDatabasesRequest {
   /** Name of SQL Availability Group */
   availabilityGroupName: string;
   /** List of database names. */
-  values?: AddSqlServerAvailabilityGroupDatabasesRequestValuesList;
+  values?: AddSqlServerAvailabilityGroupDatabasesRequestValuesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -54,17 +54,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AddSqlServerAvailabilityGroupDatabasesResponseTagsMap = {
@@ -77,9 +77,9 @@ export type AvailabilityGroupInfoReplicationPartnerType =
   | "Unknown";
 export interface SqlAvailabilityGroupIpV4AddressesAndMasksPropertiesItem {
   /** IPV4 address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** IPV4 netmask */
-  mask?: string;
+  mask?: string | undefined;
 }
 /** Address and netmask information for an IPv4 AG listener. */
 export type SqlAvailabilityGroupIpV4AddressesAndMasksProperties =
@@ -89,49 +89,49 @@ export type SqlAvailabilityGroupStaticIPListenerPropertiesIpV6AddressesList = Ar
 /** The properties of a static IP Arc Sql availability group listener */
 export interface SqlAvailabilityGroupStaticIPListenerProperties {
   /** the DNS name for the listener. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** IP V4 Addresses and masks for the listener. */
-  ipV4AddressesAndMasks?: SqlAvailabilityGroupIpV4AddressesAndMasksProperties;
+  ipV4AddressesAndMasks?: SqlAvailabilityGroupIpV4AddressesAndMasksProperties | undefined;
   /** IP V6 Addresses for the listener */
-  ipV6Addresses?: SqlAvailabilityGroupStaticIPListenerPropertiesIpV6AddressesList;
+  ipV6Addresses?: SqlAvailabilityGroupStaticIPListenerPropertiesIpV6AddressesList | undefined;
   /** Network port for the listener. Default is 1433. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The specifications of the availability group state */
 export interface AvailabilityGroupInfo {
   /** User-defined failure condition level under which an automatic failover must be triggered. */
-  failureConditionLevel?: number;
+  failureConditionLevel?: number | undefined;
   /** Wait time (in milliseconds) for the sp_server_diagnostics system stored procedure to return server-health information, before the server instance is assumed to be slow or not responding. */
-  healthCheckTimeout?: number;
+  healthCheckTimeout?: number | undefined;
   /** Preferred location for performing backups on the availability databases in this availability group. */
-  automatedBackupPreferenceDescription?: string;
+  automatedBackupPreferenceDescription?: string | undefined;
   /** SQL Server availability group current version. */
-  version?: number;
+  version?: number | undefined;
   /** Specifies whether this is a basic availability group. */
-  basicFeatures?: boolean;
+  basicFeatures?: boolean | undefined;
   /** Specifies whether DTC support has been enabled for this availability group. */
-  dtcSupport?: boolean;
+  dtcSupport?: boolean | undefined;
   /** Specifies whether the availability group supports failover for database health conditions. */
-  dbFailover?: boolean;
+  dbFailover?: boolean | undefined;
   /** Specifies whether this is a distributed availability group. */
-  isDistributed?: boolean;
+  isDistributed?: boolean | undefined;
   /** SQL Server availability group cluster type description */
-  clusterTypeDescription?: string;
+  clusterTypeDescription?: string | undefined;
   /** The number of secondary replicas that must be in a synchronized state for a commit to complete. */
-  requiredSynchronizedSecondariesToCommit?: number;
+  requiredSynchronizedSecondariesToCommit?: number | undefined;
   /** SQL Server availability group contained system databases. */
-  isContained?: boolean;
+  isContained?: boolean | undefined;
   /** Name of the server instance that is hosting the current primary replica. */
-  primaryReplica?: string;
+  primaryReplica?: string | undefined;
   /** Indicates the recovery health of the primary replica. */
-  primaryRecoveryHealthDescription?: string;
+  primaryRecoveryHealthDescription?: string | undefined;
   /** Indicates the recovery health of a secondary replica. */
-  secondaryRecoveryHealthDescription?: string;
+  secondaryRecoveryHealthDescription?: string | undefined;
   /** Reflects a roll-up of the synchronization health of all availability replicas in the availability group. */
-  synchronizationHealthDescription?: string;
-  replicationPartnerType?: AvailabilityGroupInfoReplicationPartnerType;
+  synchronizationHealthDescription?: string | undefined;
+  replicationPartnerType?: AvailabilityGroupInfoReplicationPartnerType | undefined;
   /** The listener for the sql server availability group */
-  listener?: SqlAvailabilityGroupStaticIPListenerProperties;
+  listener?: SqlAvailabilityGroupStaticIPListenerProperties | undefined;
 }
 /** The endpoint connection authentication type(s). */
 export type AvailabilityGroupConfigureEndpointAuthenticationMode =
@@ -160,77 +160,77 @@ export type AvailabilityGroupConfigureSeedingMode = "AUTOMATIC" | "MANUAL";
 /** The specifications of the availability group replica configuration */
 export interface AvailabilityGroupConfigure {
   /** Name of the mirroring endpoint URL */
-  endpointName?: string;
+  endpointName?: string | undefined;
   /** Mirroring endpoint URL of availability group replica */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
   /** The endpoint connection authentication type(s). */
-  endpointAuthenticationMode?: AvailabilityGroupConfigureEndpointAuthenticationMode;
+  endpointAuthenticationMode?: AvailabilityGroupConfigureEndpointAuthenticationMode | undefined;
   /** Name of certificate to use for authentication. Required if any CERTIFICATE authentication modes are specified. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** The login which will connect to the mirroring endpoint. */
-  endpointConnectLogin?: string;
+  endpointConnectLogin?: string | undefined;
   /** Property that determines whether a given availability replica can run in synchronous-commit mode */
-  availabilityMode?: AvailabilityGroupConfigureAvailabilityMode;
+  availabilityMode?: AvailabilityGroupConfigureAvailabilityMode | undefined;
   /** The Availability Synchronization mode of the availability group replica. */
-  availabilityModeDescription?: string;
+  availabilityModeDescription?: string | undefined;
   /** Property to set the failover mode of the availability group replica */
-  failoverMode?: AvailabilityGroupConfigureFailoverMode;
+  failoverMode?: AvailabilityGroupConfigureFailoverMode | undefined;
   /** The failover mode of the availability group replica. */
-  failoverModeDescription?: string;
+  failoverModeDescription?: string | undefined;
   /** The time-out period of availability group session replica, in seconds. */
-  sessionTimeout?: number;
+  sessionTimeout?: number | undefined;
   /** Whether the primary replica should allow all connections or only READ_WRITE connections (disallowing ReadOnly connections) */
-  primaryAllowConnections?: AvailabilityGroupConfigurePrimaryAllowConnections;
+  primaryAllowConnections?: AvailabilityGroupConfigurePrimaryAllowConnections | undefined;
   /** Whether the availability allows all connections or only read-write connections. */
-  primaryRoleAllowConnectionsDescription?: string;
+  primaryRoleAllowConnectionsDescription?: string | undefined;
   /** Whether the secondary replica should allow all connections, no connections, or only ReadOnly connections. */
-  secondaryAllowConnections?: AvailabilityGroupConfigureSecondaryAllowConnections;
+  secondaryAllowConnections?: AvailabilityGroupConfigureSecondaryAllowConnections | undefined;
   /** Whether an availability replica that is performing the secondary role (that is, a secondary replica) can accept connections from clients. */
-  secondaryRoleAllowConnectionsDescription?: string;
+  secondaryRoleAllowConnectionsDescription?: string | undefined;
   /** Date that the replica was created. */
-  replicaCreateDate?: string;
+  replicaCreateDate?: string | undefined;
   /** Date that the replica was modified. */
-  replicaModifyDate?: string;
+  replicaModifyDate?: string | undefined;
   /** Represents the user-specified priority for performing backups on this replica relative to the other replicas in the same availability group. */
-  backupPriority?: number;
+  backupPriority?: number | undefined;
   /** Connectivity endpoint (URL) of the read only availability replica. */
-  readOnlyRoutingUrl?: string;
+  readOnlyRoutingUrl?: string | undefined;
   /** Connectivity endpoint (URL) of the read write availability replica. */
-  readWriteRoutingUrl?: string;
+  readWriteRoutingUrl?: string | undefined;
   /** Specifies how the secondary replica will be initially seeded. AUTOMATIC enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica. MANUAL specifies manual seeding (default). This method requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica. */
-  seedingMode?: AvailabilityGroupConfigureSeedingMode;
+  seedingMode?: AvailabilityGroupConfigureSeedingMode | undefined;
   /** Describes seeding mode. */
-  seedingModeDescription?: string;
+  seedingModeDescription?: string | undefined;
 }
 /** The specifications of the availability group state */
 export interface AvailabilityGroupState {
   /** Current Always On availability groups role of the availability group replica. */
-  availabilityGroupReplicaRole?: string;
+  availabilityGroupReplicaRole?: string | undefined;
   /** Current operational state of the availability group replica */
-  operationalStateDescription?: string;
+  operationalStateDescription?: string | undefined;
   /** Recovery health of the availability group replica. */
-  recoveryHealthDescription?: string;
+  recoveryHealthDescription?: string | undefined;
   /** Reflects a rollup of the database synchronization state (synchronization_state) of all joined availability databases (also known as replicas) and the availability mode of the replica (synchronous-commit or asynchronous-commit mode). The rollup will reflect the least healthy accumulated state the databases on the replica. */
-  synchronizationHealthDescription?: string;
+  synchronizationHealthDescription?: string | undefined;
   /** Whether a secondary replica is currently connected to the primary replica. */
-  connectedStateDescription?: string;
+  connectedStateDescription?: string | undefined;
   /** Text description of the last connection error of the availability group replica. */
-  lastConnectErrorDescription?: string;
+  lastConnectErrorDescription?: string | undefined;
   /** Date and time timestamp indicating when the last connect error occurred. */
-  lastConnectErrorTimestamp?: string;
+  lastConnectErrorTimestamp?: string | undefined;
 }
 /** The properties of Arc Sql availability group replica resource */
 export interface SqlAvailabilityGroupReplicaResourceProperties {
   /** ID GUID of the availability group. */
-  replicaId?: string;
+  replicaId?: string | undefined;
   /** The replica name. */
-  replicaName?: string;
+  replicaName?: string | undefined;
   /** Resource id of this replica. This is required for a distributed availability group, in which case it describes the location of the availability group that hosts one replica in the DAG. In a non-distributed availability group this field is optional but can be used to store the Azure resource id for AG. */
-  replicaResourceId?: string;
+  replicaResourceId?: string | undefined;
   /** null */
-  configure?: AvailabilityGroupConfigure;
+  configure?: AvailabilityGroupConfigure | undefined;
   /** null */
-  state?: AvailabilityGroupState;
+  state?: AvailabilityGroupState | undefined;
 }
 /** Array of Availability Group Replicas. */
 export type SqlServerAvailabilityGroupResourcePropertiesReplicasValueList =
@@ -238,32 +238,32 @@ export type SqlServerAvailabilityGroupResourcePropertiesReplicasValueList =
 /** A list of Availability Group Replicas. */
 export interface SqlServerAvailabilityGroupResourcePropertiesReplicas {
   /** Array of Availability Group Replicas. */
-  value?: SqlServerAvailabilityGroupResourcePropertiesReplicasValueList;
+  value?: SqlServerAvailabilityGroupResourcePropertiesReplicasValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The properties of Arc Sql availability group database replica resource */
 export interface SqlAvailabilityGroupDatabaseReplicaResourceProperties {
   /** the database name. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** the database replica name. */
-  replicaName?: string;
+  replicaName?: string | undefined;
   /** Whether the availability database is local. */
-  isLocal?: boolean;
+  isLocal?: boolean | undefined;
   /** Returns 1 if the replica is primary, or 0 if it is a secondary replica. */
-  isPrimaryReplica?: boolean;
+  isPrimaryReplica?: boolean | undefined;
   /** Description of the data-movement state. */
-  synchronizationStateDescription?: string;
+  synchronizationStateDescription?: string | undefined;
   /** Whether this replica is transaction committer. */
-  isCommitParticipant?: boolean;
+  isCommitParticipant?: boolean | undefined;
   /** Description of the health of database. */
-  synchronizationHealthDescription?: string;
+  synchronizationHealthDescription?: string | undefined;
   /** Description of the database state of the availability replica. */
-  databaseStateDescription?: string;
+  databaseStateDescription?: string | undefined;
   /** Whether this data movement is suspended. */
-  isSuspended?: boolean;
+  isSuspended?: boolean | undefined;
   /** Description of the database suspended state reason. */
-  suspendReasonDescription?: string;
+  suspendReasonDescription?: string | undefined;
 }
 /** Array of Availability Group Database Replicas. */
 export type SqlServerAvailabilityGroupResourcePropertiesDatabasesValueList =
@@ -271,42 +271,42 @@ export type SqlServerAvailabilityGroupResourcePropertiesDatabasesValueList =
 /** A list of Availability Group Database Replicas. */
 export interface SqlServerAvailabilityGroupResourcePropertiesDatabases {
   /** Array of Availability Group Database Replicas. */
-  value?: SqlServerAvailabilityGroupResourcePropertiesDatabasesValueList;
+  value?: SqlServerAvailabilityGroupResourcePropertiesDatabasesValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The properties of Arc Sql Server availability group resource */
 export interface SqlServerAvailabilityGroupResourceProperties {
   /** ID GUID of the availability group. */
-  availabilityGroupId?: string;
+  availabilityGroupId?: string | undefined;
   /** the SQL server name. */
-  serverName?: string;
+  serverName?: string | undefined;
   /** the SQL Server Instance name. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The unique ID of the hybrid machine that this resource belongs to. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Timestamp for when the data was collected from the client machine. */
-  collectionTimestamp?: string;
+  collectionTimestamp?: string | undefined;
   /** Availability Group Info */
-  info?: AvailabilityGroupInfo;
+  info?: AvailabilityGroupInfo | undefined;
   /** A list of Availability Group Replicas. */
-  replicas?: SqlServerAvailabilityGroupResourcePropertiesReplicas;
+  replicas?: SqlServerAvailabilityGroupResourcePropertiesReplicas | undefined;
   /** A list of Availability Group Database Replicas. */
-  databases?: SqlServerAvailabilityGroupResourcePropertiesDatabases;
+  databases?: SqlServerAvailabilityGroupResourcePropertiesDatabases | undefined;
   /** The provisioning state of the Arc-enabled SQL Server availability group resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface AddSqlServerAvailabilityGroupDatabasesResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AddSqlServerAvailabilityGroupDatabasesResponseTagsMap;
+  tags?: AddSqlServerAvailabilityGroupDatabasesResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -315,9 +315,9 @@ export interface AddSqlServerAvailabilityGroupDatabasesResponse {
 /** Username and password for basic login authentication. */
 export interface ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation {
   /** Login username. */
-  username?: string;
+  username?: string | undefined;
   /** Login password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The service account provisioning mode for this Active Directory connector. */
 export type ActiveDirectoryConnectorDomainDetailsServiceAccountProvisioning =
@@ -333,37 +333,38 @@ export type ActiveDirectorySecondaryDomainControllers = Array<ActiveDirectoryDom
 /** Details about the Active Directory domain controllers associated with this AD connector instance */
 export interface ActiveDirectoryDomainControllers {
   /** Information about the Primary Domain Controller (PDC) in the AD domain. */
-  primaryDomainController?: ActiveDirectoryDomainController;
+  primaryDomainController?: ActiveDirectoryDomainController | undefined;
   /** null */
-  secondaryDomainControllers?: ActiveDirectorySecondaryDomainControllers;
+  secondaryDomainControllers?: ActiveDirectorySecondaryDomainControllers | undefined;
 }
 /** Active Directory domain details */
 export interface ActiveDirectoryConnectorDomainDetails {
   /** Name (uppercase) of the Active Directory domain that this AD connector will be associated with. */
   realm: string;
   /** NETBIOS name of the Active Directory domain. */
-  netbiosDomainName?: string;
+  netbiosDomainName?: string | undefined;
   /** The service account provisioning mode for this Active Directory connector. */
   serviceAccountProvisioning?:
     | ActiveDirectoryConnectorDomainDetailsServiceAccountProvisioning
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The distinguished name of the Active Directory Organizational Unit. */
-  ouDistinguishedName?: string;
+  ouDistinguishedName?: string | undefined;
   /** null */
-  domainControllers?: ActiveDirectoryDomainControllers;
+  domainControllers?: ActiveDirectoryDomainControllers | undefined;
 }
 /** List of Active Directory DNS server IP addresses. */
 export type ActiveDirectoryConnectorDNSDetailsNameserverIPAddressesList = Array<string>;
 /** DNS server details */
 export interface ActiveDirectoryConnectorDNSDetails {
   /** DNS domain name for which DNS lookups should be forwarded to the Active Directory DNS servers. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** List of Active Directory DNS server IP addresses. */
   nameserverIPAddresses: ActiveDirectoryConnectorDNSDetailsNameserverIPAddressesList;
   /** Replica count for DNS proxy service. Default value is 1. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Flag indicating whether to prefer Kubernetes DNS server response over AD DNS server response for IP address lookups. */
-  preferK8sDnsForPtrLookups?: boolean;
+  preferK8sDnsForPtrLookups?: boolean | undefined;
 }
 /** The specifications of the AD Kubernetes resource. */
 export interface ActiveDirectoryConnectorSpec {
@@ -375,21 +376,23 @@ export interface ActiveDirectoryConnectorSpec {
 /** The status of the Kubernetes custom resource. */
 export interface ActiveDirectoryConnectorStatus {
   /** The time that the custom resource was last updated. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** The version of the replicaSet associated with the AD connector custom resource. */
-  observedGeneration?: number;
+  observedGeneration?: number | undefined;
   /** The state of the AD connector custom resource. */
-  state?: string;
+  state?: string | undefined;
   [key: string]: unknown;
 }
 /** The properties of an Active Directory connector resource */
 export interface ActiveDirectoryConnectorPropertiesInput {
   /** Username and password for basic login authentication. */
-  domainServiceAccountLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  domainServiceAccountLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** null */
   spec: ActiveDirectoryConnectorSpec;
   /** null */
-  status?: ActiveDirectoryConnectorStatus;
+  status?: ActiveDirectoryConnectorStatus | undefined;
 }
 export interface CreateActiveDirectoryConnectorRequest {
   /** The ID of the Azure subscription */
@@ -409,23 +412,25 @@ export type ActiveDirectoryConnectorPropertiesDomainServiceAccountLoginInformati
 /** The properties of an Active Directory connector resource */
 export interface ActiveDirectoryConnectorProperties {
   /** Username and password for basic login authentication. */
-  domainServiceAccountLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  domainServiceAccountLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** The provisioning state of the Active Directory connector resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** null */
   spec: ActiveDirectoryConnectorSpec;
   /** null */
-  status?: ActiveDirectoryConnectorStatus;
+  status?: ActiveDirectoryConnectorStatus | undefined;
 }
 export interface CreateActiveDirectoryConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: ActiveDirectoryConnectorProperties;
 }
@@ -440,17 +445,17 @@ export type FailoverGroupSpecRole =
 /** The specifications of the failover group resource. */
 export interface FailoverGroupSpec {
   /** The shared name of the failover group for this SQL managed instance. Both SQL managed instance and its partner have to use the same shared name. */
-  sharedName?: string;
+  sharedName?: string | undefined;
   /** The name of the SQL managed instance with this failover group role. */
-  sourceMI?: string;
+  sourceMI?: string | undefined;
   /** The name of the partner SQL managed instance. */
-  partnerMI?: string;
+  partnerMI?: string | undefined;
   /** The mirroring endpoint URL of the partner SQL managed instance. */
-  partnerMirroringURL?: string;
+  partnerMirroringURL?: string | undefined;
   /** The mirroring endpoint public certificate for the partner SQL managed instance. Only PEM format is supported. */
-  partnerMirroringCert?: string;
+  partnerMirroringCert?: string | undefined;
   /** The partner sync mode of the SQL managed instance. */
-  partnerSyncMode?: FailoverGroupSpecPartnerSyncMode | (string & {});
+  partnerSyncMode?: FailoverGroupSpecPartnerSyncMode | (string & {}) | undefined;
   /** The role of the SQL managed instance in this failover group. */
   role: FailoverGroupSpecRole | (string & {});
   [key: string]: unknown;
@@ -462,7 +467,7 @@ export interface FailoverGroupPropertiesInput {
   /** The specifications of the failover group resource. */
   spec: FailoverGroupSpec;
   /** The status of the failover group custom resource. */
-  status?: unknown;
+  status?: unknown | undefined;
   [key: string]: unknown;
 }
 export interface CreateFailoverGroupRequest {
@@ -486,24 +491,24 @@ export type FailoverGroupPropertiesProvisioningState =
 /** The properties of a failover group resource. */
 export interface FailoverGroupProperties {
   /** The provisioning state of the failover group resource. */
-  provisioningState?: FailoverGroupPropertiesProvisioningState;
+  provisioningState?: FailoverGroupPropertiesProvisioningState | undefined;
   /** The resource ID of the partner SQL managed instance. */
   partnerManagedInstanceId: string;
   /** The specifications of the failover group resource. */
   spec: FailoverGroupSpec;
   /** The status of the failover group custom resource. */
-  status?: unknown;
+  status?: unknown | undefined;
   [key: string]: unknown;
 }
 export interface CreateFailoverGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: FailoverGroupProperties;
 }
@@ -514,9 +519,9 @@ export type ExtendedLocationType = "CustomLocation";
 /** The complex type of the extended location. */
 export interface CreatePostgresInstanceRequestExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationType | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
 }
 /** Username and password for basic login authentication. */
 export type PostgresInstancePropertiesInputBasicLoginInformation =
@@ -524,15 +529,17 @@ export type PostgresInstancePropertiesInputBasicLoginInformation =
 /** Postgres Instance properties. */
 export interface PostgresInstancePropertiesInput {
   /** The data controller id */
-  dataControllerId?: string;
+  dataControllerId?: string | undefined;
   /** The instance admin */
-  admin?: string;
+  admin?: string | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: unknown;
+  k8sRaw?: unknown | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier. */
 export type PostgresInstanceSkuTier = "Hyperscale";
@@ -541,15 +548,15 @@ export interface PostgresInstanceSku {
   /** The name of the SKU. It is typically a letter+number code */
   name: string;
   /** Whether dev/test is enabled. When the dev field is set to true, the resource is used for dev/test purpose. */
-  dev?: boolean;
+  dev?: boolean | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier. */
-  tier?: PostgresInstanceSkuTier | (string & {});
+  tier?: PostgresInstanceSkuTier | (string & {}) | undefined;
 }
 export interface CreatePostgresInstanceRequest {
   /** The ID of the Azure subscription */
@@ -559,24 +566,24 @@ export interface CreatePostgresInstanceRequest {
   /** Name of Postgres Instance */
   postgresInstanceName: string;
   /** Resource tags. */
-  tags?: CreatePostgresInstanceRequestTagsMap;
+  tags?: CreatePostgresInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation | undefined;
   /** null */
   properties: PostgresInstancePropertiesInput;
   /** Resource sku. */
-  sku?: PostgresInstanceSku;
+  sku?: PostgresInstanceSku | undefined;
 }
 /** Resource tags. */
 export type CreatePostgresInstanceResponseTagsMap = { [key: string]: string | undefined };
 /** The complex type of the extended location. */
 export interface CreatePostgresInstanceResponseExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationType;
+  type?: ExtendedLocationType | undefined;
 }
 /** Username and password for basic login authentication. */
 export type PostgresInstancePropertiesBasicLoginInformation =
@@ -584,37 +591,39 @@ export type PostgresInstancePropertiesBasicLoginInformation =
 /** Postgres Instance properties. */
 export interface PostgresInstanceProperties {
   /** The data controller id */
-  dataControllerId?: string;
+  dataControllerId?: string | undefined;
   /** The instance admin */
-  admin?: string;
+  admin?: string | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: unknown;
+  k8sRaw?: unknown | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
   /** The provisioning state of the Azure Arc-enabled PostgreSQL instance. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreatePostgresInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreatePostgresInstanceResponseTagsMap;
+  tags?: CreatePostgresInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** null */
   properties: PostgresInstanceProperties;
   /** Resource sku. */
-  sku?: PostgresInstanceSku;
+  sku?: PostgresInstanceSku | undefined;
 }
 /** Resource tags. */
 export type CreateSqlManagedInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -625,82 +634,82 @@ export type K8sResourceRequirementsLimitsMap = { [key: string]: string | undefin
 /** The kubernetes resource limits and requests used to restrict or reserve resource usage. */
 export interface K8sResourceRequirements {
   /** Requests for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu' request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default 'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and maximum 'memory' is '128Gi'. */
-  requests?: K8sResourceRequirementsRequestsMap;
+  requests?: K8sResourceRequirementsRequestsMap | undefined;
   /** Limits for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu' request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default 'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and maximum 'memory' is '128Gi'. */
-  limits?: K8sResourceRequirementsLimitsMap;
+  limits?: K8sResourceRequirementsLimitsMap | undefined;
   [key: string]: unknown;
 }
 /** The kubernetes scheduling options. It describes restrictions used to help Kubernetes select appropriate nodes to host the database service */
 export interface K8sSchedulingOptions {
-  resources?: K8sResourceRequirements;
+  resources?: K8sResourceRequirements | undefined;
   [key: string]: unknown;
 }
 /** The kubernetes scheduling information. */
 export interface K8sScheduling {
-  default?: K8sSchedulingOptions;
+  default?: K8sSchedulingOptions | undefined;
   [key: string]: unknown;
 }
 export interface K8sActiveDirectoryConnector {
   /** Name of the connector */
-  name?: string;
+  name?: string | undefined;
   /** Name space of the connector */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** An array of encryption types */
 export type K8sActiveDirectoryEncryptionTypesList = Array<string>;
 /** The kubernetes active directory information. */
 export interface K8sActiveDirectory {
-  connector?: K8sActiveDirectoryConnector;
+  connector?: K8sActiveDirectoryConnector | undefined;
   /** Account name for AAD */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Keytab secret used to authenticate with Active Directory. */
-  keytabSecret?: string;
+  keytabSecret?: string | undefined;
   /** An array of encryption types */
-  encryptionTypes?: K8sActiveDirectoryEncryptionTypesList;
+  encryptionTypes?: K8sActiveDirectoryEncryptionTypesList | undefined;
 }
 /** Transparent data encryption information. */
 export interface K8stransparentDataEncryption {
   /** Transparent data encryption mode. Can be Service Managed, Customer managed or disabled */
-  mode?: string;
+  mode?: string | undefined;
   /** Protector secret for customer managed Transparent data encryption mode */
-  protectorSecret?: string;
+  protectorSecret?: string | undefined;
 }
 /** The kubernetes security information. */
 export interface K8sSecurity {
   /** Admin login secret key */
-  adminLoginSecret?: string;
+  adminLoginSecret?: string | undefined;
   /** Service certificate secret used */
-  serviceCertificateSecret?: string;
-  activeDirectory?: K8sActiveDirectory;
-  transparentDataEncryption?: K8stransparentDataEncryption;
+  serviceCertificateSecret?: string | undefined;
+  activeDirectory?: K8sActiveDirectory | undefined;
+  transparentDataEncryption?: K8stransparentDataEncryption | undefined;
   [key: string]: unknown;
 }
 /** The kubernetes network settings information. */
 export interface K8sNetworkSettings {
   /** If 1, then SQL Server forces all connections to be encrypted. By default, this option is 0 */
-  forceencryption?: number;
+  forceencryption?: number | undefined;
   /** Specifies which ciphers are allowed by SQL Server for TLS */
-  tlsciphers?: string;
+  tlsciphers?: string | undefined;
   /** A comma-separated list of which TLS protocols are allowed by SQL Server */
-  tlsprotocols?: string;
+  tlsprotocols?: string | undefined;
 }
 /** The kubernetes settings information. */
 export interface K8sSettings {
-  network?: K8sNetworkSettings;
+  network?: K8sNetworkSettings | undefined;
   [key: string]: unknown;
 }
 /** The kubernetes spec information. */
 export interface SqlManagedInstanceK8sSpec {
-  scheduling?: K8sScheduling;
+  scheduling?: K8sScheduling | undefined;
   /** This option specifies the number of SQL Managed Instance replicas that will be deployed in your Kubernetes cluster for high availability purposes. If sku.tier is BusinessCritical, allowed values are '2' or '3' with default of '3'. If sku.tier is GeneralPurpose, replicas must be '1'. */
-  replicas?: number;
-  security?: K8sSecurity;
-  settings?: K8sSettings;
+  replicas?: number | undefined;
+  security?: K8sSecurity | undefined;
+  settings?: K8sSettings | undefined;
   [key: string]: unknown;
 }
 /** The raw kubernetes information. */
 export interface SqlManagedInstanceK8sRaw {
-  spec?: SqlManagedInstanceK8sSpec;
+  spec?: SqlManagedInstanceK8sSpec | undefined;
   [key: string]: unknown;
 }
 /** Username and password for basic login authentication. */
@@ -709,12 +718,12 @@ export type SqlManagedInstancePropertiesInputBasicLoginInformation =
 /** Keytab used for authenticate with Active Directory. */
 export interface KeytabInformation {
   /** A base64-encoded keytab. */
-  keytab?: string;
+  keytab?: string | undefined;
 }
 /** Active Directory information that related to the resource. */
 export interface ActiveDirectoryInformation {
   /** Keytab information that is used for the Sql Managed Instance when Active Directory authentication is used. */
-  keytabInformation?: KeytabInformation;
+  keytabInformation?: KeytabInformation | undefined;
 }
 /** The license type to apply for this managed instance. */
 export type SqlManagedInstancePropertiesInputLicenseType =
@@ -724,27 +733,29 @@ export type SqlManagedInstancePropertiesInputLicenseType =
 /** Properties of sqlManagedInstance. */
 export interface SqlManagedInstancePropertiesInput {
   /** null */
-  dataControllerId?: string;
+  dataControllerId?: string | undefined;
   /** The instance admin user */
-  admin?: string;
+  admin?: string | undefined;
   /** The instance start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The instance end time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: SqlManagedInstanceK8sRaw;
+  k8sRaw?: SqlManagedInstanceK8sRaw | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
   /** Active Directory information related to this SQL Managed Instance. */
-  activeDirectoryInformation?: ActiveDirectoryInformation;
+  activeDirectoryInformation?: ActiveDirectoryInformation | undefined;
   /** The license type to apply for this managed instance. */
-  licenseType?: SqlManagedInstancePropertiesInputLicenseType | (string & {});
+  licenseType?: SqlManagedInstancePropertiesInputLicenseType | (string & {}) | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the connected cluster the custom location belongs to. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the extension the custom location belongs to. */
-  extensionId?: string;
+  extensionId?: string | undefined;
 }
 /** The complex type of the extended location. */
 export type CreateSqlManagedInstanceRequestExtendedLocation =
@@ -758,15 +769,15 @@ export interface SqlManagedInstanceSku {
   /** The name of the SKU. */
   name: SqlManagedInstanceSkuName | (string & {});
   /** The pricing tier for the instance. */
-  tier?: SqlManagedInstanceSkuTier | (string & {});
+  tier?: SqlManagedInstanceSkuTier | (string & {}) | undefined;
   /** Whether dev/test is enabled. When the dev field is set to true, the resource is used for dev/test purpose. */
-  dev?: boolean;
+  dev?: boolean | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** The SKU family */
-  family?: string;
+  family?: string | undefined;
   /** The SKU capacity */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateSqlManagedInstanceRequest {
   /** The ID of the Azure subscription */
@@ -776,15 +787,15 @@ export interface CreateSqlManagedInstanceRequest {
   /** Name of SQL Managed Instance */
   sqlManagedInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSqlManagedInstanceRequestTagsMap;
+  tags?: CreateSqlManagedInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
   properties: SqlManagedInstancePropertiesInput;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation | undefined;
   /** Resource sku. */
-  sku?: SqlManagedInstanceSku;
+  sku?: SqlManagedInstanceSku | undefined;
 }
 /** Resource tags. */
 export type CreateSqlManagedInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -799,75 +810,77 @@ export type SqlManagedInstancePropertiesLicenseType =
 /** Properties of sqlManagedInstance. */
 export interface SqlManagedInstanceProperties {
   /** null */
-  dataControllerId?: string;
+  dataControllerId?: string | undefined;
   /** The instance admin user */
-  admin?: string;
+  admin?: string | undefined;
   /** The instance start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The instance end time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: SqlManagedInstanceK8sRaw;
+  k8sRaw?: SqlManagedInstanceK8sRaw | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
   /** The provisioning state of the Arc-enabled SQL Managed Instance resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Active Directory information related to this SQL Managed Instance. */
-  activeDirectoryInformation?: ActiveDirectoryInformation;
+  activeDirectoryInformation?: ActiveDirectoryInformation | undefined;
   /** The license type to apply for this managed instance. */
-  licenseType?: SqlManagedInstancePropertiesLicenseType;
+  licenseType?: SqlManagedInstancePropertiesLicenseType | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the connected cluster the custom location belongs to. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the extension the custom location belongs to. */
-  extensionId?: string;
+  extensionId?: string | undefined;
 }
 /** The complex type of the extended location. */
 export type CreateSqlManagedInstanceResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface CreateSqlManagedInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlManagedInstanceResponseTagsMap;
+  tags?: CreateSqlManagedInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
   properties: SqlManagedInstanceProperties;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** Resource sku. */
-  sku?: SqlManagedInstanceSku;
+  sku?: SqlManagedInstanceSku | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerAvailabilityGroupRequestTagsMap = { [key: string]: string | undefined };
 /** The specifications of the availability group state */
 export interface AvailabilityGroupInfoInput {
   /** User-defined failure condition level under which an automatic failover must be triggered. */
-  failureConditionLevel?: number;
+  failureConditionLevel?: number | undefined;
   /** Wait time (in milliseconds) for the sp_server_diagnostics system stored procedure to return server-health information, before the server instance is assumed to be slow or not responding. */
-  healthCheckTimeout?: number;
+  healthCheckTimeout?: number | undefined;
   /** Specifies whether this is a basic availability group. */
-  basicFeatures?: boolean;
+  basicFeatures?: boolean | undefined;
   /** Specifies whether DTC support has been enabled for this availability group. */
-  dtcSupport?: boolean;
+  dtcSupport?: boolean | undefined;
   /** Specifies whether the availability group supports failover for database health conditions. */
-  dbFailover?: boolean;
+  dbFailover?: boolean | undefined;
   /** Specifies whether this is a distributed availability group. */
-  isDistributed?: boolean;
+  isDistributed?: boolean | undefined;
   /** The number of secondary replicas that must be in a synchronized state for a commit to complete. */
-  requiredSynchronizedSecondariesToCommit?: number;
+  requiredSynchronizedSecondariesToCommit?: number | undefined;
   /** SQL Server availability group contained system databases. */
-  isContained?: boolean;
+  isContained?: boolean | undefined;
   /** The listener for the sql server availability group */
-  listener?: SqlAvailabilityGroupStaticIPListenerProperties;
+  listener?: SqlAvailabilityGroupStaticIPListenerProperties | undefined;
 }
 /** The endpoint connection authentication type(s). */
 export type AvailabilityGroupConfigureInputEndpointAuthenticationMode =
@@ -900,50 +913,55 @@ export type AvailabilityGroupConfigureInputSeedingMode = "AUTOMATIC" | "MANUAL";
 /** The specifications of the availability group replica configuration */
 export interface AvailabilityGroupConfigureInput {
   /** Name of the mirroring endpoint URL */
-  endpointName?: string;
+  endpointName?: string | undefined;
   /** Mirroring endpoint URL of availability group replica */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
   /** The endpoint connection authentication type(s). */
   endpointAuthenticationMode?:
     | AvailabilityGroupConfigureInputEndpointAuthenticationMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of certificate to use for authentication. Required if any CERTIFICATE authentication modes are specified. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** The login which will connect to the mirroring endpoint. */
-  endpointConnectLogin?: string;
+  endpointConnectLogin?: string | undefined;
   /** Property that determines whether a given availability replica can run in synchronous-commit mode */
-  availabilityMode?: AvailabilityGroupConfigureInputAvailabilityMode | (string & {});
+  availabilityMode?: AvailabilityGroupConfigureInputAvailabilityMode | (string & {}) | undefined;
   /** Property to set the failover mode of the availability group replica */
-  failoverMode?: AvailabilityGroupConfigureInputFailoverMode | (string & {});
+  failoverMode?: AvailabilityGroupConfigureInputFailoverMode | (string & {}) | undefined;
   /** The time-out period of availability group session replica, in seconds. */
-  sessionTimeout?: number;
+  sessionTimeout?: number | undefined;
   /** Whether the primary replica should allow all connections or only READ_WRITE connections (disallowing ReadOnly connections) */
-  primaryAllowConnections?: AvailabilityGroupConfigureInputPrimaryAllowConnections | (string & {});
+  primaryAllowConnections?:
+    | AvailabilityGroupConfigureInputPrimaryAllowConnections
+    | (string & {})
+    | undefined;
   /** Whether the secondary replica should allow all connections, no connections, or only ReadOnly connections. */
   secondaryAllowConnections?:
     | AvailabilityGroupConfigureInputSecondaryAllowConnections
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Represents the user-specified priority for performing backups on this replica relative to the other replicas in the same availability group. */
-  backupPriority?: number;
+  backupPriority?: number | undefined;
   /** Connectivity endpoint (URL) of the read only availability replica. */
-  readOnlyRoutingUrl?: string;
+  readOnlyRoutingUrl?: string | undefined;
   /** Connectivity endpoint (URL) of the read write availability replica. */
-  readWriteRoutingUrl?: string;
+  readWriteRoutingUrl?: string | undefined;
   /** Specifies how the secondary replica will be initially seeded. AUTOMATIC enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica. MANUAL specifies manual seeding (default). This method requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica. */
-  seedingMode?: AvailabilityGroupConfigureInputSeedingMode | (string & {});
+  seedingMode?: AvailabilityGroupConfigureInputSeedingMode | (string & {}) | undefined;
 }
 /** The specifications of the availability group state */
 export interface AvailabilityGroupStateInput {}
 /** The properties of Arc Sql availability group replica resource */
 export interface SqlAvailabilityGroupReplicaResourcePropertiesInput {
   /** The replica name. */
-  replicaName?: string;
+  replicaName?: string | undefined;
   /** Resource id of this replica. This is required for a distributed availability group, in which case it describes the location of the availability group that hosts one replica in the DAG. In a non-distributed availability group this field is optional but can be used to store the Azure resource id for AG. */
-  replicaResourceId?: string;
+  replicaResourceId?: string | undefined;
   /** null */
-  configure?: AvailabilityGroupConfigureInput;
+  configure?: AvailabilityGroupConfigureInput | undefined;
   /** null */
-  state?: AvailabilityGroupStateInput;
+  state?: AvailabilityGroupStateInput | undefined;
 }
 /** Array of Availability Group Replicas. */
 export type SqlServerAvailabilityGroupResourcePropertiesInputReplicasValueList =
@@ -951,12 +969,12 @@ export type SqlServerAvailabilityGroupResourcePropertiesInputReplicasValueList =
 /** A list of Availability Group Replicas. */
 export interface SqlServerAvailabilityGroupResourcePropertiesInputReplicas {
   /** Array of Availability Group Replicas. */
-  value?: SqlServerAvailabilityGroupResourcePropertiesInputReplicasValueList;
+  value?: SqlServerAvailabilityGroupResourcePropertiesInputReplicasValueList | undefined;
 }
 /** The properties of Arc Sql availability group database replica resource */
 export interface SqlAvailabilityGroupDatabaseReplicaResourcePropertiesInput {
   /** the database name. */
-  databaseName?: string;
+  databaseName?: string | undefined;
 }
 /** Array of Availability Group Database Replicas. */
 export type SqlServerAvailabilityGroupResourcePropertiesInputDatabasesValueList =
@@ -964,16 +982,16 @@ export type SqlServerAvailabilityGroupResourcePropertiesInputDatabasesValueList 
 /** A list of Availability Group Database Replicas. */
 export interface SqlServerAvailabilityGroupResourcePropertiesInputDatabases {
   /** Array of Availability Group Database Replicas. */
-  value?: SqlServerAvailabilityGroupResourcePropertiesInputDatabasesValueList;
+  value?: SqlServerAvailabilityGroupResourcePropertiesInputDatabasesValueList | undefined;
 }
 /** The properties of Arc Sql Server availability group resource */
 export interface SqlServerAvailabilityGroupResourcePropertiesInput {
   /** Availability Group Info */
-  info?: AvailabilityGroupInfoInput;
+  info?: AvailabilityGroupInfoInput | undefined;
   /** A list of Availability Group Replicas. */
-  replicas?: SqlServerAvailabilityGroupResourcePropertiesInputReplicas;
+  replicas?: SqlServerAvailabilityGroupResourcePropertiesInputReplicas | undefined;
   /** A list of Availability Group Database Replicas. */
-  databases?: SqlServerAvailabilityGroupResourcePropertiesInputDatabases;
+  databases?: SqlServerAvailabilityGroupResourcePropertiesInputDatabases | undefined;
 }
 export interface CreateSqlServerAvailabilityGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -985,7 +1003,7 @@ export interface CreateSqlServerAvailabilityGroupRequest {
   /** Name of SQL Availability Group */
   availabilityGroupName: string;
   /** Resource tags. */
-  tags?: CreateSqlServerAvailabilityGroupRequestTagsMap;
+  tags?: CreateSqlServerAvailabilityGroupRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -995,15 +1013,15 @@ export interface CreateSqlServerAvailabilityGroupRequest {
 export type CreateSqlServerAvailabilityGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateSqlServerAvailabilityGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerAvailabilityGroupResponseTagsMap;
+  tags?: CreateSqlServerAvailabilityGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -1048,43 +1066,55 @@ export type AvailabilityGroupCreateUpdateReplicaConfigurationPrimaryRoleReadOnly
 /** The specifications of the availability group replica configuration */
 export interface AvailabilityGroupCreateUpdateReplicaConfiguration {
   /** the server instance hosting the replica. */
-  serverInstance?: string;
+  serverInstance?: string | undefined;
   /** Name of the database mirroring endpoint URL for the availability group replica */
-  endpointName?: string;
+  endpointName?: string | undefined;
   /** Database mirroring endpoint URL of availability group replica */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
   /** The endpoint connection authentication type(s). */
   endpointAuthenticationMode?:
     | AvailabilityGroupCreateUpdateReplicaConfigurationEndpointAuthenticationMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of certificate to use for authentication. Required if any CERTIFICATE authentication modes are specified. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** The login which will connect to the mirroring endpoint */
-  endpointConnectLogin?: string;
+  endpointConnectLogin?: string | undefined;
   /** Property that determines whether a given availability replica can run in synchronous-commit mode */
   availabilityMode?:
     | AvailabilityGroupCreateUpdateReplicaConfigurationAvailabilityMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Property to set the failover mode of the availability group replica */
-  failoverMode?: AvailabilityGroupCreateUpdateReplicaConfigurationFailoverMode | (string & {});
+  failoverMode?:
+    | AvailabilityGroupCreateUpdateReplicaConfigurationFailoverMode
+    | (string & {})
+    | undefined;
   /** Specifies how the secondary replica will be initially seeded. AUTOMATIC enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica. MANUAL specifies manual seeding (default). This method requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica. */
-  seedingMode?: AvailabilityGroupCreateUpdateReplicaConfigurationSeedingMode | (string & {});
+  seedingMode?:
+    | AvailabilityGroupCreateUpdateReplicaConfigurationSeedingMode
+    | (string & {})
+    | undefined;
   /** Represents the user-specified priority for performing backups on this replica relative to the other replicas in the same availability group. */
-  backupPriority?: number;
+  backupPriority?: number | undefined;
   /** Whether the secondary replica should allow all connections, no connections, or only ReadOnly connections. */
   secondaryRoleAllowConnections?:
     | AvailabilityGroupCreateUpdateReplicaConfigurationSecondaryRoleAllowConnections
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Connectivity endpoint (URL) of the read only availability replica. */
-  secondaryRoleReadOnlyRoutingUrl?: string;
+  secondaryRoleReadOnlyRoutingUrl?: string | undefined;
   /** Whether the primary replica should allow all connections or only READ_WRITE connections (disallowing ReadOnly connections) */
   primaryRoleAllowConnections?:
     | AvailabilityGroupCreateUpdateReplicaConfigurationPrimaryRoleAllowConnections
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** List of read only routing URLs. */
-  primaryRoleReadOnlyRoutingList?: AvailabilityGroupCreateUpdateReplicaConfigurationPrimaryRoleReadOnlyRoutingListList;
+  primaryRoleReadOnlyRoutingList?:
+    | AvailabilityGroupCreateUpdateReplicaConfigurationPrimaryRoleReadOnlyRoutingListList
+    | undefined;
   /** The time-out period of availability group session replica, in seconds. */
-  sessionTimeout?: number;
+  sessionTimeout?: number | undefined;
 }
 /** List of availability group replicas. */
 export type CreateSqlServerAvailabilityGroupAvailabilityGroupRequestReplicasList =
@@ -1118,31 +1148,42 @@ export interface CreateSqlServerAvailabilityGroupAvailabilityGroupRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** List of availability group replicas. */
-  replicas?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestReplicasList;
+  replicas?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestReplicasList | undefined;
   /** List of databases to include in the availability group. */
-  databases?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDatabasesList;
+  databases?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDatabasesList | undefined;
   /** Preferred replica for running automated backups. */
   automatedBackupPreference?:
     | CreateSqlServerAvailabilityGroupAvailabilityGroupRequestAutomatedBackupPreference
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** User-defined failure condition level under which an automatic failover must be triggered. */
   failureConditionLevel?:
     | CreateSqlServerAvailabilityGroupAvailabilityGroupRequestFailureConditionLevel
-    | (number & {});
+    | (number & {})
+    | undefined;
   /** Wait time (in milliseconds) for the sp_server_diagnostics system stored procedure to return server-health information, before the server instance is assumed to be slow or not responding. */
-  healthCheckTimeout?: number;
+  healthCheckTimeout?: number | undefined;
   /** Specifies whether the availability group supports failover for database health conditions. */
-  dbFailover?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDbFailover | (string & {});
+  dbFailover?:
+    | CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDbFailover
+    | (string & {})
+    | undefined;
   /** Specifies whether DTC support has been enabled for this availability group. */
-  dtcSupport?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDtcSupport | (string & {});
+  dtcSupport?:
+    | CreateSqlServerAvailabilityGroupAvailabilityGroupRequestDtcSupport
+    | (string & {})
+    | undefined;
   /** The number of secondary replicas that must be in a synchronized state for a commit to complete. */
-  requiredSynchronizedSecondariesToCommit?: number;
+  requiredSynchronizedSecondariesToCommit?: number | undefined;
   /** Set to WSFC when availability group is on a failover cluster instance on a Windows Server failover cluster. Set to NONE when availability group not using WSFC for cluster coordination. */
-  clusterType?: CreateSqlServerAvailabilityGroupAvailabilityGroupRequestClusterType | (string & {});
+  clusterType?:
+    | CreateSqlServerAvailabilityGroupAvailabilityGroupRequestClusterType
+    | (string & {})
+    | undefined;
   /** The listener for the sql server availability group */
-  listener?: SqlAvailabilityGroupStaticIPListenerProperties;
+  listener?: SqlAvailabilityGroupStaticIPListenerProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerAvailabilityGroupAvailabilityGroupResponseTagsMap = {
@@ -1150,21 +1191,21 @@ export type CreateSqlServerAvailabilityGroupAvailabilityGroupResponseTagsMap = {
 };
 export interface CreateSqlServerAvailabilityGroupAvailabilityGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerAvailabilityGroupAvailabilityGroupResponseTagsMap;
+  tags?: CreateSqlServerAvailabilityGroupAvailabilityGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The availability mode of the availability group. */
 export type DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfigurationAvailabilityMode =
@@ -1183,28 +1224,33 @@ export type DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfigurati
 /** The availability group certificate configuration. */
 export interface DistributedAvailabilityGroupCreateUpdateAvailabilityGroupCertificateConfiguration {
   /** Name of the certificate. */
-  certificateName?: string;
+  certificateName?: string | undefined;
 }
 /** The availability group configuration specification for a distributed availability group. */
 export interface DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration {
   /** The azure resource identifier for the availability group. */
-  availabilityGroup?: string;
+  availabilityGroup?: string | undefined;
   /** The listener URL of the availability group. */
-  listenerUrl?: string;
+  listenerUrl?: string | undefined;
   /** The availability mode of the availability group. */
   availabilityMode?:
     | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfigurationAvailabilityMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The failover mode of the availability group. */
   failoverMode?:
     | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfigurationFailoverMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The seeding mode of the availability group. */
   seedingMode?:
     | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfigurationSeedingMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The certificate configuration for the availability group. */
-  certificateConfiguration?: DistributedAvailabilityGroupCreateUpdateAvailabilityGroupCertificateConfiguration;
+  certificateConfiguration?:
+    | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupCertificateConfiguration
+    | undefined;
 }
 export interface CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1214,11 +1260,15 @@ export interface CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupReq
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** The initial primary availability group for the distributed availability group. */
-  primaryAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration;
+  primaryAvailabilityGroup?:
+    | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration
+    | undefined;
   /** The initial secondary availability group for the distributed availability group. */
-  secondaryAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration;
+  secondaryAvailabilityGroup?:
+    | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration
+    | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponseTagsMap = {
@@ -1226,21 +1276,21 @@ export type CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponse
 };
 export interface CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponseTagsMap;
+  tags?: CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** List of availability group replicas. */
 export type AvailabilityGroupCreateUpdateConfigurationReplicasList =
@@ -1264,45 +1314,51 @@ export type AvailabilityGroupCreateUpdateConfigurationClusterType = "WSFC" | "NO
 /** Options used in creating an availability group */
 export interface AvailabilityGroupCreateUpdateConfiguration {
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** List of availability group replicas. */
-  replicas?: AvailabilityGroupCreateUpdateConfigurationReplicasList;
+  replicas?: AvailabilityGroupCreateUpdateConfigurationReplicasList | undefined;
   /** List of databases to include in the availability group. */
-  databases?: AvailabilityGroupCreateUpdateConfigurationDatabasesList;
+  databases?: AvailabilityGroupCreateUpdateConfigurationDatabasesList | undefined;
   /** Preferred replica for running automated backups. */
   automatedBackupPreference?:
     | AvailabilityGroupCreateUpdateConfigurationAutomatedBackupPreference
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** User-defined failure condition level under which an automatic failover must be triggered. */
   failureConditionLevel?:
     | AvailabilityGroupCreateUpdateConfigurationFailureConditionLevel
-    | (number & {});
+    | (number & {})
+    | undefined;
   /** Wait time (in milliseconds) for the sp_server_diagnostics system stored procedure to return server-health information, before the server instance is assumed to be slow or not responding. */
-  healthCheckTimeout?: number;
+  healthCheckTimeout?: number | undefined;
   /** Specifies whether the availability group supports failover for database health conditions. */
-  dbFailover?: AvailabilityGroupCreateUpdateConfigurationDbFailover | (string & {});
+  dbFailover?: AvailabilityGroupCreateUpdateConfigurationDbFailover | (string & {}) | undefined;
   /** Specifies whether DTC support has been enabled for this availability group. */
-  dtcSupport?: AvailabilityGroupCreateUpdateConfigurationDtcSupport | (string & {});
+  dtcSupport?: AvailabilityGroupCreateUpdateConfigurationDtcSupport | (string & {}) | undefined;
   /** The number of secondary replicas that must be in a synchronized state for a commit to complete. */
-  requiredSynchronizedSecondariesToCommit?: number;
+  requiredSynchronizedSecondariesToCommit?: number | undefined;
   /** Set to WSFC when availability group is on a failover cluster instance on a Windows Server failover cluster. Set to NONE when availability group not using WSFC for cluster coordination. */
-  clusterType?: AvailabilityGroupCreateUpdateConfigurationClusterType | (string & {});
+  clusterType?: AvailabilityGroupCreateUpdateConfigurationClusterType | (string & {}) | undefined;
   /** The listener for the sql server availability group */
-  listener?: SqlAvailabilityGroupStaticIPListenerProperties;
+  listener?: SqlAvailabilityGroupStaticIPListenerProperties | undefined;
 }
 /** Options used in creating a distributed availability group. */
 export interface DistributedAvailabilityGroupCreateUpdateConfiguration {
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** The initial primary availability group for the distributed availability group. */
-  primaryAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration;
+  primaryAvailabilityGroup?:
+    | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration
+    | undefined;
   /** The initial secondary availability group for the distributed availability group. */
-  secondaryAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration;
+  secondaryAvailabilityGroup?:
+    | DistributedAvailabilityGroupCreateUpdateAvailabilityGroupConfiguration
+    | undefined;
 }
 /** The MI Link specific configuration. */
 export interface MiLinkCreateUpdateConfiguration {
   /** The name of the availability group to be created on the Managed Instance. */
-  instanceAvailabilityGroupName?: string;
+  instanceAvailabilityGroupName?: string | undefined;
 }
 export interface CreateSqlServerAvailabilityGroupManagedInstanceLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1312,11 +1368,11 @@ export interface CreateSqlServerAvailabilityGroupManagedInstanceLinkRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** The configuration for the SQL Server availability group resource. */
-  availabilityGroup?: AvailabilityGroupCreateUpdateConfiguration;
+  availabilityGroup?: AvailabilityGroupCreateUpdateConfiguration | undefined;
   /** The distributed availability group configuration for the MI link. */
-  distributedAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateConfiguration;
+  distributedAvailabilityGroup?: DistributedAvailabilityGroupCreateUpdateConfiguration | undefined;
   /** The MI Link specific distributed availability group configuration. */
-  miLinkConfiguration?: MiLinkCreateUpdateConfiguration;
+  miLinkConfiguration?: MiLinkCreateUpdateConfiguration | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerAvailabilityGroupManagedInstanceLinkResponseTagsMap = {
@@ -1324,25 +1380,25 @@ export type CreateSqlServerAvailabilityGroupManagedInstanceLinkResponseTagsMap =
 };
 export interface CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerAvailabilityGroupManagedInstanceLinkResponseTagsMap;
+  tags?: CreateSqlServerAvailabilityGroupManagedInstanceLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** URL for determining when an operation has completed. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The URL to retrieve the status of the asynchronous operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerDatabaseRequestTagsMap = { [key: string]: string | undefined };
@@ -1364,37 +1420,37 @@ export type SqlServerDatabaseResourcePropertiesInputRecoveryMode =
   | "Simple";
 /** List of features that are enabled for the database */
 export interface SqlServerDatabaseResourcePropertiesInputDatabaseOptions {
-  isAutoCloseOn?: boolean;
-  isAutoShrinkOn?: boolean;
-  isAutoCreateStatsOn?: boolean;
-  isAutoUpdateStatsOn?: boolean;
-  isRemoteDataArchiveEnabled?: boolean;
-  isMemoryOptimizationEnabled?: boolean;
-  isEncrypted?: boolean;
-  isTrustworthyOn?: boolean;
+  isAutoCloseOn?: boolean | undefined;
+  isAutoShrinkOn?: boolean | undefined;
+  isAutoCreateStatsOn?: boolean | undefined;
+  isAutoUpdateStatsOn?: boolean | undefined;
+  isRemoteDataArchiveEnabled?: boolean | undefined;
+  isMemoryOptimizationEnabled?: boolean | undefined;
+  isEncrypted?: boolean | undefined;
+  isTrustworthyOn?: boolean | undefined;
   /** Whether the database uses the In-Memory OLTP feature for storing in-memory objects. */
-  isHekatonFilesOn?: boolean;
+  isHekatonFilesOn?: boolean | undefined;
   /** How many Hekaton files the DB has on disk, if it uses in-memory OLTP objects. */
-  numberOfHekatonFiles?: number;
+  numberOfHekatonFiles?: number | undefined;
 }
 export interface SqlServerDatabaseResourcePropertiesInputBackupInformation {
   /** Date time of last full backup. */
-  lastFullBackup?: string;
+  lastFullBackup?: string | undefined;
   /** Date time of last log backup. */
-  lastLogBackup?: string;
+  lastLogBackup?: string | undefined;
 }
 /** The differential backup interval in hours. */
 export type BackupPolicyDifferentialBackupHours = 12 | 24;
 /** The backup profile for the SQL server. */
 export interface BackupPolicy {
   /** The retention period for all the databases in this managed instance. */
-  retentionPeriodDays?: number;
+  retentionPeriodDays?: number | undefined;
   /** The value indicating days between full backups. */
-  fullBackupDays?: number;
+  fullBackupDays?: number | undefined;
   /** The differential backup interval in hours. */
-  differentialBackupHours?: BackupPolicyDifferentialBackupHours | (number & {});
+  differentialBackupHours?: BackupPolicyDifferentialBackupHours | (number & {}) | undefined;
   /** The value indicating minutes between transaction log backups. */
-  transactionLogBackupMinutes?: number;
+  transactionLogBackupMinutes?: number | undefined;
 }
 /** Database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. sourceDatabaseId and restorePointInTime must be specified. */
 export type SqlServerDatabaseResourcePropertiesInputCreateMode = "Default" | "PointInTimeRestore";
@@ -1403,42 +1459,42 @@ export type DataBaseMigrationAssessmentInput = AvailabilityGroupStateInput;
 /** Migration related configuration. */
 export interface DataBaseMigrationInput {
   /** Migration assessments related configuration. */
-  assessment?: AvailabilityGroupStateInput;
+  assessment?: AvailabilityGroupStateInput | undefined;
 }
 /** The properties of Arc Sql Server database resource */
 export interface SqlServerDatabaseResourcePropertiesInput {
   /** Collation of the database. */
-  collationName?: string;
+  collationName?: string | undefined;
   /** Creation date of the database. */
-  databaseCreationDate?: string;
+  databaseCreationDate?: string | undefined;
   /** Compatibility level of the database */
-  compatibilityLevel?: number;
+  compatibilityLevel?: number | undefined;
   /** Size of the database. */
-  sizeMB?: number;
+  sizeMB?: number | undefined;
   /** Total size in MB for the log (ldf) files for this database. */
-  logFileSizeMB?: number;
+  logFileSizeMB?: number | undefined;
   /** Total size in MB for the data (mdf and ndf) files for this database. */
-  dataFileSizeMB?: number;
+  dataFileSizeMB?: number | undefined;
   /** Space left of the database. */
-  spaceAvailableMB?: number;
+  spaceAvailableMB?: number | undefined;
   /** State of the database. */
-  state?: SqlServerDatabaseResourcePropertiesInputState | (string & {});
+  state?: SqlServerDatabaseResourcePropertiesInputState | (string & {}) | undefined;
   /** Whether the database is read only or not. */
-  isReadOnly?: boolean;
+  isReadOnly?: boolean | undefined;
   /** Status of the database. */
-  recoveryMode?: SqlServerDatabaseResourcePropertiesInputRecoveryMode | (string & {});
+  recoveryMode?: SqlServerDatabaseResourcePropertiesInputRecoveryMode | (string & {}) | undefined;
   /** List of features that are enabled for the database */
-  databaseOptions?: SqlServerDatabaseResourcePropertiesInputDatabaseOptions;
-  backupInformation?: SqlServerDatabaseResourcePropertiesInputBackupInformation;
+  databaseOptions?: SqlServerDatabaseResourcePropertiesInputDatabaseOptions | undefined;
+  backupInformation?: SqlServerDatabaseResourcePropertiesInputBackupInformation | undefined;
   /** The backup profile for the SQL server. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** Database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. sourceDatabaseId and restorePointInTime must be specified. */
-  createMode?: SqlServerDatabaseResourcePropertiesInputCreateMode | (string & {});
+  createMode?: SqlServerDatabaseResourcePropertiesInputCreateMode | (string & {}) | undefined;
   /** The name of the source database associated with create operation of this database. */
-  sourceDatabaseId?: string;
+  sourceDatabaseId?: string | undefined;
   /** Conditional. If createMode is PointInTimeRestore, this value is required. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. */
-  restorePointInTime?: string;
-  migration?: DataBaseMigrationInput;
+  restorePointInTime?: string | undefined;
+  migration?: DataBaseMigrationInput | undefined;
 }
 export interface CreateSqlServerDatabaseRequest {
   /** The ID of the Azure subscription */
@@ -1450,7 +1506,7 @@ export interface CreateSqlServerDatabaseRequest {
   /** Name of the database */
   databaseName: string;
   /** Resource tags. */
-  tags?: CreateSqlServerDatabaseRequestTagsMap;
+  tags?: CreateSqlServerDatabaseRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server database */
@@ -1479,10 +1535,10 @@ export type SqlServerDatabaseResourcePropertiesBackupInformation =
 /** Database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. sourceDatabaseId and restorePointInTime must be specified. */
 export type SqlServerDatabaseResourcePropertiesCreateMode = "Default" | "PointInTimeRestore";
 export interface DatabaseAssessmentsItem {
-  appliesToMigrationTargetPlatform?: string;
-  featureId?: string;
-  issueCategory?: string;
-  moreInformation?: string;
+  appliesToMigrationTargetPlatform?: string | undefined;
+  featureId?: string | undefined;
+  issueCategory?: string | undefined;
+  moreInformation?: string | undefined;
 }
 /** Issues and warnings impacting the migration of Database to particular Azure Migration Target. */
 export type DatabaseAssessments = Array<DatabaseAssessmentsItem>;
@@ -1495,158 +1551,158 @@ export type SkuRecommendationSummaryRecommendationStatus =
 /** summary information about the incompatible feature id, number of objects impacted and category of issue (warning/error) */
 export interface SkuRecommendationSummaryImpactedObjectsSummaryItem {
   /** Represents the feature id from https://learn.microsoft.com/en-us/data-migration/sql-server/database/assessment-rules?view=azuresql. OR https://learn.microsoft.com/en-us/data-migration/sql-server/managed-instance/assessment-rules?view=azuresql */
-  featureId?: string;
+  featureId?: string | undefined;
   /** Represents the number of issues/warnings. */
-  numberImpacted?: number;
+  numberImpacted?: number | undefined;
   /** Issue or Warning */
-  issueCategory?: string;
+  issueCategory?: string | undefined;
 }
 export type SkuRecommendationSummaryImpactedObjectsSummaryList =
   Array<SkuRecommendationSummaryImpactedObjectsSummaryItem>;
 /** The monthly cost of the particular SKU. */
 export interface SkuRecommendationSummaryMonthlyCost {
   /** Represents the Cost of Compute. */
-  computeCost?: number;
+  computeCost?: number | undefined;
   /** Represents the Cost of Storage. */
-  storageCost?: number;
+  storageCost?: number | undefined;
   /** Represents the Cost of IOPS. */
-  iopsCost?: number;
+  iopsCost?: number | undefined;
   /** Represents the Cost of SQL license. */
-  sqlLicenseCost?: number;
+  sqlLicenseCost?: number | undefined;
   /** Represents the Cost of Windows license. */
-  windowsLicenseCost?: number;
+  windowsLicenseCost?: number | undefined;
   /** Represents the Total Cost. */
-  totalCost?: number;
+  totalCost?: number | undefined;
 }
 /** The Monthly cost of the particular SKU. */
 export interface CostTypeValues {
   /** Represents the Cost of Compute. */
-  computeCost?: number;
+  computeCost?: number | undefined;
   /** Represents the Cost of Storage. */
-  storageCost?: number;
+  storageCost?: number | undefined;
   /** Represents the Cost of IOPS. */
-  iopsCost?: number;
+  iopsCost?: number | undefined;
 }
 /** The monthly cost values for this saving option combination for the particular SKU. */
 export interface SkuRecommendationResultsMonthlyCostOptionItem {
   /** The unique combination of saving options for a price e.g. With1YearASPAndProd. */
-  keyName?: string;
-  keyValue?: CostTypeValues;
+  keyName?: string | undefined;
+  keyValue?: CostTypeValues | undefined;
 }
 /** The monthly cost for all different savings options applicable for the particular SKU. */
 export type SkuRecommendationSummaryMonthlyCostOptionsList =
   Array<SkuRecommendationResultsMonthlyCostOptionItem>;
 export interface SkuRecommendationSummaryTargetSkuCategory {
   /** The compute tier of the target SKU. */
-  computeTier?: string;
+  computeTier?: string | undefined;
   /** The hardware type of the target SKU. */
-  hardwareType?: string;
+  hardwareType?: string | undefined;
   /** The SQL purchasing model of the target SKU. */
-  sqlPurchasingModel?: string;
+  sqlPurchasingModel?: string | undefined;
   /** The SQL service tier of the target SKU. */
-  sqlServiceTier?: string;
+  sqlServiceTier?: string | undefined;
   /** Indicates if zone redundancy is available for the target SKU. */
-  zoneRedundancyAvailable?: boolean;
+  zoneRedundancyAvailable?: boolean | undefined;
 }
 export interface SkuRecommendationSummaryTargetSku {
-  category?: SkuRecommendationSummaryTargetSkuCategory;
+  category?: SkuRecommendationSummaryTargetSkuCategory | undefined;
   /** Compute Size in vCores. */
-  computeSize?: number;
+  computeSize?: number | undefined;
   /** max storage for this particular SKU, in MB. */
-  storageMaxSizeInMb?: number;
+  storageMaxSizeInMb?: number | undefined;
   /** The predicted data size in MB in Azure SQL, will impact the billing cost. */
-  predictedDataSizeInMb?: number;
+  predictedDataSizeInMb?: number | undefined;
   /** The predicted log size in MB in Azure SQL, will impact the billing cost. */
-  predictedLogSizeInMb?: number;
+  predictedLogSizeInMb?: number | undefined;
   /** The max storage IOPS in Azure SQL, will impact the billing cost. */
-  maxStorageIops?: number;
+  maxStorageIops?: number | undefined;
   /** The max throughput in Azure SQL, will impact the billing cost. */
-  maxThroughputMBps?: number;
+  maxThroughputMBps?: number | undefined;
 }
 /** The SKU recommendation summary. */
 export interface SkuRecommendationSummary {
-  numOfBlockerIssues?: number;
+  numOfBlockerIssues?: number | undefined;
   /** The target recommendation Status for this database. */
-  recommendationStatus?: SkuRecommendationSummaryRecommendationStatus;
-  impactedObjectsSummary?: SkuRecommendationSummaryImpactedObjectsSummaryList;
+  recommendationStatus?: SkuRecommendationSummaryRecommendationStatus | undefined;
+  impactedObjectsSummary?: SkuRecommendationSummaryImpactedObjectsSummaryList | undefined;
   /** The monthly cost of the particular SKU. */
-  monthlyCost?: SkuRecommendationSummaryMonthlyCost;
+  monthlyCost?: SkuRecommendationSummaryMonthlyCost | undefined;
   /** The monthly cost for all different savings options applicable for the particular SKU. */
-  monthlyCostOptions?: SkuRecommendationSummaryMonthlyCostOptionsList;
-  targetSku?: SkuRecommendationSummaryTargetSku;
+  monthlyCostOptions?: SkuRecommendationSummaryMonthlyCostOptionsList | undefined;
+  targetSku?: SkuRecommendationSummaryTargetSku | undefined;
 }
 /** The target readiness for migration for this database. */
 export interface TargetReadiness {
-  azureSqlDatabase?: SkuRecommendationSummary;
-  azureSqlManagedInstance?: SkuRecommendationSummary;
-  azureSqlVirtualMachine?: SkuRecommendationSummary;
+  azureSqlDatabase?: SkuRecommendationSummary | undefined;
+  azureSqlManagedInstance?: SkuRecommendationSummary | undefined;
+  azureSqlVirtualMachine?: SkuRecommendationSummary | undefined;
 }
 /** The migration assessment related configuration. */
 export interface DataBaseMigrationAssessment {
   /** The time when Migration Assessment Report upload was last performed. */
-  assessmentUploadTime?: string;
-  databaseAssessments?: DatabaseAssessments;
-  targetReadiness?: TargetReadiness;
+  assessmentUploadTime?: string | undefined;
+  databaseAssessments?: DatabaseAssessments | undefined;
+  targetReadiness?: TargetReadiness | undefined;
 }
 /** Migration related configuration. */
 export interface DataBaseMigration {
   /** Migration assessments related configuration. */
-  assessment?: DataBaseMigrationAssessment;
+  assessment?: DataBaseMigrationAssessment | undefined;
 }
 /** The properties of Arc Sql Server database resource */
 export interface SqlServerDatabaseResourceProperties {
   /** Collation of the database. */
-  collationName?: string;
+  collationName?: string | undefined;
   /** Creation date of the database. */
-  databaseCreationDate?: string;
+  databaseCreationDate?: string | undefined;
   /** Compatibility level of the database */
-  compatibilityLevel?: number;
+  compatibilityLevel?: number | undefined;
   /** Size of the database. */
-  sizeMB?: number;
+  sizeMB?: number | undefined;
   /** Total size in MB for the log (ldf) files for this database. */
-  logFileSizeMB?: number;
+  logFileSizeMB?: number | undefined;
   /** Total size in MB for the data (mdf and ndf) files for this database. */
-  dataFileSizeMB?: number;
+  dataFileSizeMB?: number | undefined;
   /** Space left of the database. */
-  spaceAvailableMB?: number;
+  spaceAvailableMB?: number | undefined;
   /** State of the database. */
-  state?: SqlServerDatabaseResourcePropertiesState;
+  state?: SqlServerDatabaseResourcePropertiesState | undefined;
   /** Whether the database is read only or not. */
-  isReadOnly?: boolean;
+  isReadOnly?: boolean | undefined;
   /** Status of the database. */
-  recoveryMode?: SqlServerDatabaseResourcePropertiesRecoveryMode;
+  recoveryMode?: SqlServerDatabaseResourcePropertiesRecoveryMode | undefined;
   /** List of features that are enabled for the database */
-  databaseOptions?: SqlServerDatabaseResourcePropertiesInputDatabaseOptions;
-  backupInformation?: SqlServerDatabaseResourcePropertiesInputBackupInformation;
+  databaseOptions?: SqlServerDatabaseResourcePropertiesInputDatabaseOptions | undefined;
+  backupInformation?: SqlServerDatabaseResourcePropertiesInputBackupInformation | undefined;
   /** The backup profile for the SQL server. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** This records the earliest start date and time that restore is available for this database (ISO8601 format). */
-  earliestRestoreDate?: string;
+  earliestRestoreDate?: string | undefined;
   /** Database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. sourceDatabaseId and restorePointInTime must be specified. */
-  createMode?: SqlServerDatabaseResourcePropertiesCreateMode;
+  createMode?: SqlServerDatabaseResourcePropertiesCreateMode | undefined;
   /** The name of the source database associated with create operation of this database. */
-  sourceDatabaseId?: string;
+  sourceDatabaseId?: string | undefined;
   /** The unique ID of the hybrid machine that this resource belongs to. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Conditional. If createMode is PointInTimeRestore, this value is required. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. */
-  restorePointInTime?: string;
+  restorePointInTime?: string | undefined;
   /** The provisioning state of the Arc-enabled SQL Server database resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The time when last successful database upload was performed. */
-  lastDatabaseUploadTime?: string;
-  migration?: DataBaseMigration;
+  lastDatabaseUploadTime?: string | undefined;
+  migration?: DataBaseMigration | undefined;
 }
 export interface CreateSqlServerDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerDatabaseResponseTagsMap;
+  tags?: CreateSqlServerDatabaseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server database */
@@ -1689,7 +1745,7 @@ export interface CreateSqlServerEsuLicenseRequest {
   /** Name of SQL Server ESU License */
   sqlServerEsuLicenseName: string;
   /** Resource tags. */
-  tags?: CreateSqlServerEsuLicenseRequestTagsMap;
+  tags?: CreateSqlServerEsuLicenseRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server ESU license properties */
@@ -1712,7 +1768,7 @@ export interface SqlServerEsuLicenseProperties {
   /** The SQL Server version the license covers. */
   version: SqlServerEsuLicensePropertiesVersion;
   /** The unique ID of this license. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
-  uniqueId?: string;
+  uniqueId?: string | undefined;
   /** The number of total cores of the license covers. */
   physicalCores: number;
   /** The activation state of the license. */
@@ -1720,23 +1776,23 @@ export interface SqlServerEsuLicenseProperties {
   /** The Azure scope to which the license will apply. */
   scopeType: SqlServerEsuLicensePropertiesScopeType;
   /** The timestamp of the activation of the SqlServerEsuLicense in ISO 8601 date-time format. */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   /** The timestamp of the termination of the SqlServerEsuLicense in ISO 8601 date-time format. */
-  terminatedAt?: string;
+  terminatedAt?: string | undefined;
   /** The tenantId the SQL Server ESU license resource subscription resides in. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface CreateSqlServerEsuLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerEsuLicenseResponseTagsMap;
+  tags?: CreateSqlServerEsuLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server ESU license properties */
@@ -1805,83 +1861,83 @@ export type DBMEndpointInputConnectionAuth =
 /** Database mirroring endpoint related properties. */
 export interface DBMEndpointInput {
   /** The encryption algorithm(s) used by the endpoint. */
-  encryptionAlgorithm?: DBMEndpointInputEncryptionAlgorithm | (string & {});
+  encryptionAlgorithm?: DBMEndpointInputEncryptionAlgorithm | (string & {}) | undefined;
   /** The endpoint connection authentication type(s). */
-  connectionAuth?: DBMEndpointInputConnectionAuth | (string & {});
+  connectionAuth?: DBMEndpointInputConnectionAuth | (string & {}) | undefined;
 }
 /** Failover Cluster Instance properties. */
 export type FailoverClusterInput = AvailabilityGroupStateInput;
 /** The monitoring configuration. */
 export interface Monitoring {
   /** Indicates if monitoring is enabled for this SQL Server instance. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Cost option value for the different cost factors selected. */
 export interface CostOptionSelectedValues {
   /** selected cost saving option e.g. With1YearASPAndDevTest. */
-  computeAndStorageCostOption?: string;
+  computeAndStorageCostOption?: string | undefined;
   /** With Azure Hybrid Benefit(AHB) or not for SQL. */
-  sqlLicenseCostOption?: string;
+  sqlLicenseCostOption?: string | undefined;
   /** With Azure Hybrid Benefit(AHB) or not for Windows. */
-  windowsLicenseCostOption?: string;
+  windowsLicenseCostOption?: string | undefined;
 }
 /** Settings impacting the migration assessment computation - configurable with some default values if not set. */
 export interface MigrationAssessmentSettings {
   /** The target location for Azure SQL SKU for migration. - default West US */
-  targetLocation?: string;
+  targetLocation?: string | undefined;
   /** Indicate the percentile value for the performance sample. (Default is 95th percentile) */
-  percentile?: number;
+  percentile?: number | undefined;
   /** How far back to check the performance data - default is 30 (days). */
-  lookbackPeriodInDays?: number;
+  lookbackPeriodInDays?: number | undefined;
   /** Minimize cost or Migrate to PaaS. - to evaluate based on the recommended strategy */
-  strategy?: string;
+  strategy?: string | undefined;
   /** currency to calculate prices - default USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** flat discount percentage to apply for the price - default 0 */
-  discountPercentage?: number;
+  discountPercentage?: number | undefined;
   /** Selected cost option value. */
-  costOptions?: CostOptionSelectedValues;
+  costOptions?: CostOptionSelectedValues | undefined;
 }
 /** Represents a summary of migration readiness issues/warnings per feature type for Azure SQL DB and SQL MI targets */
 export type MigrationAssessmentInputImpactedObjectsSummary = AvailabilityGroupStateInput;
 /** The migration assessment related configuration. */
 export interface MigrationAssessmentInput {
   /** Indicates if migration assessment is enabled for this SQL Server instance. */
-  enabled?: boolean;
-  settings?: MigrationAssessmentSettings;
+  enabled?: boolean | undefined;
+  settings?: MigrationAssessmentSettings | undefined;
   /** Represents a summary of migration readiness issues/warnings per feature type for Azure SQL DB and SQL MI targets */
-  impactedObjectsSummary?: AvailabilityGroupStateInput;
+  impactedObjectsSummary?: AvailabilityGroupStateInput | undefined;
 }
 /** Migration related configuration. */
 export interface MigrationInput {
   /** Migration assessments related configuration. */
-  assessment?: MigrationAssessmentInput;
+  assessment?: MigrationAssessmentInput | undefined;
 }
 /** The cron trigger configuration. */
 export interface CronTrigger {
   /** Indicates the start time for the trigger. The default value is the time at which the trigger was created. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time zone in which the trigger is scheduled. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** A cron string representing a CronTab expression. A crontab expression is a very compact way to express a recurring schedule with the following format: '{minutes} {hours} {days} {months} {days-of-week}'. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** The scheduling configuration. */
 export interface Schedule {
   /** Indicates whether scheduling is enabled. */
-  enabled?: boolean;
-  cronTrigger?: CronTrigger;
+  enabled?: boolean | undefined;
+  cronTrigger?: CronTrigger | undefined;
 }
 /** The configuration related to SQL best practices assessment. */
 export interface BestPracticesAssessment {
   /** Indicates if SQL best practices assessment is enabled for the SQL Server instance. */
-  enabled?: boolean;
-  schedule?: Schedule;
+  enabled?: boolean | undefined;
+  schedule?: Schedule | undefined;
 }
 /** Client connection related configuration. */
 export interface ClientConnection {
   /** Indicates if client connection is enabled for this SQL Server instance. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host. */
 export type ServiceType = "Engine" | "SSRS" | "SSAS" | "SSIS" | "PBIRS";
@@ -1894,9 +1950,9 @@ export type AuthenticationSqlServerEntraIdentityItemIdentityType =
 /** Entra Authentication configuration. */
 export interface AuthenticationSqlServerEntraIdentityItem {
   /** The method used for Entra authentication */
-  identityType?: AuthenticationSqlServerEntraIdentityItemIdentityType | (string & {});
+  identityType?: AuthenticationSqlServerEntraIdentityItemIdentityType | (string & {}) | undefined;
   /** The client Id of the Managed Identity to query Microsoft Graph API. An empty string must be used for the system assigned Managed Identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Entra Authentication configuration for the SQL Server Instance. */
 export type AuthenticationSqlServerEntraIdentityList =
@@ -1904,42 +1960,42 @@ export type AuthenticationSqlServerEntraIdentityList =
 /** Authentication related configuration for the SQL Server Instance. */
 export interface Authentication {
   /** Mode of authentication in SqlServer. */
-  mode?: AuthenticationMode | (string & {});
+  mode?: AuthenticationMode | (string & {}) | undefined;
   /** Entra Authentication configuration for the SQL Server Instance. */
-  sqlServerEntraIdentity?: AuthenticationSqlServerEntraIdentityList;
+  sqlServerEntraIdentity?: AuthenticationSqlServerEntraIdentityList | undefined;
 }
 /** Properties of SqlServerInstance. */
 export interface SqlServerInstancePropertiesInput {
   /** SQL Server version. */
-  version?: SqlServerInstancePropertiesInputVersion | (string & {});
+  version?: SqlServerInstancePropertiesInputVersion | (string & {}) | undefined;
   /** SQL Server edition. */
-  edition?: SqlServerInstancePropertiesInputEdition | (string & {});
+  edition?: SqlServerInstancePropertiesInputEdition | (string & {}) | undefined;
   /** The number of total cores of the Operating System Environment (OSE) hosting the SQL Server instance. */
-  cores?: string;
+  cores?: string | undefined;
   /** SQL Server instance name. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** Type of host for Azure Arc SQL Server */
-  hostType?: SqlServerInstancePropertiesInputHostType | (string & {});
+  hostType?: SqlServerInstancePropertiesInputHostType | (string & {}) | undefined;
   /** Database mirroring endpoint related properties. */
-  databaseMirroringEndpoint?: DBMEndpointInput;
+  databaseMirroringEndpoint?: DBMEndpointInput | undefined;
   /** Failover Cluster Instance properties. */
-  failoverCluster?: AvailabilityGroupStateInput;
+  failoverCluster?: AvailabilityGroupStateInput | undefined;
   /** The backup profile for the SQL server. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** Upgrade Action for this resource is locked until it expires. The Expiration time indicated by this value. It is not locked when it is empty. */
-  upgradeLockedUntil?: string;
+  upgradeLockedUntil?: string | undefined;
   /** The monitoring configuration. */
-  monitoring?: Monitoring;
+  monitoring?: Monitoring | undefined;
   /** Migration related configuration. */
-  migration?: MigrationInput;
+  migration?: MigrationInput | undefined;
   /** The configuration related to SQL best practices assessment. */
-  bestPracticesAssessment?: BestPracticesAssessment;
+  bestPracticesAssessment?: BestPracticesAssessment | undefined;
   /** Client connection related configuration. */
-  clientConnection?: ClientConnection;
+  clientConnection?: ClientConnection | undefined;
   /** Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host. */
-  serviceType?: ServiceType | (string & {});
+  serviceType?: ServiceType | (string & {}) | undefined;
   /** Authentication related configuration for the SQL Server Instance. */
-  authentication?: Authentication;
+  authentication?: Authentication | undefined;
 }
 export interface CreateSqlServerInstanceRequest {
   /** The ID of the Azure subscription */
@@ -1949,11 +2005,11 @@ export interface CreateSqlServerInstanceRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSqlServerInstanceRequestTagsMap;
+  tags?: CreateSqlServerInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstancePropertiesInput;
+  properties?: SqlServerInstancePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -2049,25 +2105,25 @@ export type DBMEndpointConnectionAuth =
 /** Database mirroring endpoint related properties. */
 export interface DBMEndpoint {
   /** Name of the database mirroring endpoint. */
-  endpointName?: string;
+  endpointName?: string | undefined;
   /** Mirroring Role */
-  role?: DBMEndpointRole;
+  role?: DBMEndpointRole | undefined;
   /** Is Encryption enabled */
-  isEncryptionEnabled?: boolean;
+  isEncryptionEnabled?: boolean | undefined;
   /** The encryption algorithm(s) used by the endpoint. */
-  encryptionAlgorithm?: DBMEndpointEncryptionAlgorithm;
+  encryptionAlgorithm?: DBMEndpointEncryptionAlgorithm | undefined;
   /** The endpoint connection authentication type(s). */
-  connectionAuth?: DBMEndpointConnectionAuth;
+  connectionAuth?: DBMEndpointConnectionAuth | undefined;
   /** The port number that the endpoint is listening on. */
-  port?: number;
+  port?: number | undefined;
   /** Is the port number dynamically assigned. */
-  isDynamicPort?: boolean;
+  isDynamicPort?: boolean | undefined;
   /** Listener IP address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Name of the certificate. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** The certificate expiry date */
-  certificateExpiryDate?: string;
+  certificateExpiryDate?: string | undefined;
 }
 /** The ARM IDs of the Arc SQL Server resources, belonging to the current server's Failover cluster. */
 export type FailoverClusterSqlInstanceIdsList = Array<string>;
@@ -2076,38 +2132,38 @@ export type FailoverClusterHostNamesList = Array<string>;
 /** IP address and subnet mask. */
 export interface HostIPAddressInformation {
   /** IP address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Subnet mask */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 /** The IP addresses and subnet masks associated with the SQL Failover Cluster Instance on this host. */
 export type FailoverClusterHostIPAddressesList = Array<HostIPAddressInformation>;
 /** Failover Cluster Instance properties. */
 export interface FailoverCluster {
   /** The GUID of the SQL Server's underlying Failover Cluster. */
-  id?: string;
+  id?: string | undefined;
   /** The network name to connect to the SQL FCI. */
-  networkName?: string;
+  networkName?: string | undefined;
   /** The ARM IDs of the Arc SQL Server resources, belonging to the current server's Failover cluster. */
-  sqlInstanceIds?: FailoverClusterSqlInstanceIdsList;
+  sqlInstanceIds?: FailoverClusterSqlInstanceIdsList | undefined;
   /** The host names which are part of the SQL FCI resource group. */
-  hostNames?: FailoverClusterHostNamesList;
+  hostNames?: FailoverClusterHostNamesList | undefined;
   /** The IP addresses and subnet masks associated with the SQL Failover Cluster Instance on this host. */
-  hostIPAddresses?: FailoverClusterHostIPAddressesList;
+  hostIPAddresses?: FailoverClusterHostIPAddressesList | undefined;
 }
 export interface ServerAssessmentsItemImpactedObjectsItem {
-  impactDetail?: string;
-  name?: string;
-  objectType?: string;
+  impactDetail?: string | undefined;
+  name?: string | undefined;
+  objectType?: string | undefined;
 }
 export type ServerAssessmentsItemImpactedObjectsList =
   Array<ServerAssessmentsItemImpactedObjectsItem>;
 export interface ServerAssessmentsItem {
-  appliesToMigrationTargetPlatform?: string;
-  featureId?: string;
-  impactedObjects?: ServerAssessmentsItemImpactedObjectsList;
-  issueCategory?: string;
-  moreInformation?: string;
+  appliesToMigrationTargetPlatform?: string | undefined;
+  featureId?: string | undefined;
+  impactedObjects?: ServerAssessmentsItemImpactedObjectsList | undefined;
+  issueCategory?: string | undefined;
+  moreInformation?: string | undefined;
 }
 /** Issues and warnings impacting the migration of SQL Server instance to particular Azure Migration Target. */
 export type ServerAssessments = Array<ServerAssessmentsItem>;
@@ -2126,30 +2182,30 @@ export type SkuRecommendationResultsAzureSqlDatabaseMonthlyCostOptionsList =
 export type SkuRecommendationResultsAzureSqlDatabaseTargetSkuCategory =
   SkuRecommendationSummaryTargetSkuCategory;
 export interface SkuRecommendationResultsAzureSqlDatabaseTargetSku {
-  category?: SkuRecommendationSummaryTargetSkuCategory;
+  category?: SkuRecommendationSummaryTargetSkuCategory | undefined;
   /** Compute Size in vCores. */
-  computeSize?: number;
+  computeSize?: number | undefined;
   /** maximum storage for this particular SKU, in MB. */
-  storageMaxSizeInMb?: number;
+  storageMaxSizeInMb?: number | undefined;
   /** The predicted data size in MB in Azure SQL, will impact the billing cost. */
-  predictedDataSizeInMb?: number;
+  predictedDataSizeInMb?: number | undefined;
   /** The predicted log size in MB in Azure SQL, will impact the billing cost. */
-  predictedLogSizeInMb?: number;
+  predictedLogSizeInMb?: number | undefined;
   /** The maximum storage IOPS in Azure SQL, will impact the billing cost. */
-  maxStorageIops?: number;
+  maxStorageIops?: number | undefined;
   /** The maximum throughput in Azure SQL, will impact the billing cost. */
-  maxThroughputMBps?: number;
+  maxThroughputMBps?: number | undefined;
 }
 /** SKU Recommendation results for Azure SQL Database. */
 export interface SkuRecommendationResultsAzureSqlDatabase {
   /** The target recommendation Status for this database. */
-  recommendationStatus?: SkuRecommendationResultsAzureSqlDatabaseRecommendationStatus;
-  numberOfServerBlockerIssues?: number;
+  recommendationStatus?: SkuRecommendationResultsAzureSqlDatabaseRecommendationStatus | undefined;
+  numberOfServerBlockerIssues?: number | undefined;
   /** The monthly cost of the particular SKU. */
-  monthlyCost?: SkuRecommendationSummaryMonthlyCost;
+  monthlyCost?: SkuRecommendationSummaryMonthlyCost | undefined;
   /** The monthly cost for all different savings options applicable for the particular SKU. */
-  monthlyCostOptions?: SkuRecommendationResultsAzureSqlDatabaseMonthlyCostOptionsList;
-  targetSku?: SkuRecommendationResultsAzureSqlDatabaseTargetSku;
+  monthlyCostOptions?: SkuRecommendationResultsAzureSqlDatabaseMonthlyCostOptionsList | undefined;
+  targetSku?: SkuRecommendationResultsAzureSqlDatabaseTargetSku | undefined;
 }
 /** The target recommendation Status for this database. */
 export type SkuRecommendationResultsAzureSqlManagedInstanceRecommendationStatus =
@@ -2170,13 +2226,17 @@ export type SkuRecommendationResultsAzureSqlManagedInstanceTargetSku =
 /** SKU Recommendation results for Azure SQL Managed Instance. */
 export interface SkuRecommendationResultsAzureSqlManagedInstance {
   /** The target recommendation Status for this database. */
-  recommendationStatus?: SkuRecommendationResultsAzureSqlManagedInstanceRecommendationStatus;
-  numberOfServerBlockerIssues?: number;
+  recommendationStatus?:
+    | SkuRecommendationResultsAzureSqlManagedInstanceRecommendationStatus
+    | undefined;
+  numberOfServerBlockerIssues?: number | undefined;
   /** The monthly cost of the particular SKU. */
-  monthlyCost?: SkuRecommendationSummaryMonthlyCost;
+  monthlyCost?: SkuRecommendationSummaryMonthlyCost | undefined;
   /** The monthly cost for all different savings options applicable for the particular SKU. */
-  monthlyCostOptions?: SkuRecommendationResultsAzureSqlManagedInstanceMonthlyCostOptionsList;
-  targetSku?: SkuRecommendationResultsAzureSqlDatabaseTargetSku;
+  monthlyCostOptions?:
+    | SkuRecommendationResultsAzureSqlManagedInstanceMonthlyCostOptionsList
+    | undefined;
+  targetSku?: SkuRecommendationResultsAzureSqlDatabaseTargetSku | undefined;
 }
 /** The target recommendation Status for this database. */
 export type SkuRecommendationResultsAzureSqlVirtualMachineRecommendationStatus =
@@ -2195,41 +2255,43 @@ export type SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategoryAvail
   Array<string>;
 export interface SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategory {
   /** Available VM SKUs for the Azure SQL Virtual Machine. */
-  availableVmSkus?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategoryAvailableVmSkusList;
+  availableVmSkus?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategoryAvailableVmSkusList
+    | undefined;
   /** The virtual machine family of the target SKU. */
-  virtualMachineFamily?: string;
+  virtualMachineFamily?: string | undefined;
 }
 /** size parameters for VM size. */
 export interface SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuVirtualMachineSize {
   /** Virtual Machine Family, for example : standardMSFamily */
-  virtualMachineFamily?: string;
+  virtualMachineFamily?: string | undefined;
   /** VM Size, for example : M64ls */
-  sizeName?: string;
+  sizeName?: string | undefined;
   /** Compute Size in vCores. */
-  computeSize?: number;
+  computeSize?: number | undefined;
   /** Virtual Machine SKU name,: Eg : Standard_F16s. */
-  azureSkuName?: string;
+  azureSkuName?: string | undefined;
   /** Available vCores. This can be less than the vCores in the Constrained vCPU VM Sizes. */
-  vCPUsAvailable?: number;
+  vCPUsAvailable?: number | undefined;
   /** maximum network interfaces. */
-  maxNetworkInterfaces?: number;
+  maxNetworkInterfaces?: number | undefined;
 }
 /** disk size values */
 export interface DiskSizes {
   /** Type of managed disk. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Redundancy option. */
-  redundancy?: string;
+  redundancy?: string | undefined;
   /** Size of the managed disk - e.g. P30, P40. */
-  size?: string;
+  size?: string | undefined;
   /** Caching configuration - e.g. read only caching */
-  caching?: string;
+  caching?: string | undefined;
   /** maximum disk size in GiB. */
-  maxSizeInGib?: number;
+  maxSizeInGib?: number | undefined;
   /** maximum throughput in MB/s. */
-  maxThroughputInMbps?: number;
+  maxThroughputInMbps?: number | undefined;
   /** maximum number of input/output operations per second (IOPS). */
-  maxIops?: number;
+  maxIops?: number | undefined;
 }
 /** Data disk sizes. */
 export type SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuDataDiskSizesList =
@@ -2241,38 +2303,50 @@ export type SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuLogDiskSizesL
 export type SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuTempDbDiskSizesList =
   Array<DiskSizes>;
 export interface SkuRecommendationResultsAzureSqlVirtualMachineTargetSku {
-  category?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategory;
+  category?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuCategory | undefined;
   /** Compute Size in vCores. */
-  computeSize?: number;
+  computeSize?: number | undefined;
   /** The predicted data size in MB in Azure SQL, will impact the billing cost. */
-  predictedDataSizeInMb?: number;
+  predictedDataSizeInMb?: number | undefined;
   /** The predicted log size in MB in Azure SQL, will impact the billing cost. */
-  predictedLogSizeInMb?: number;
+  predictedLogSizeInMb?: number | undefined;
   /** size parameters for VM size. */
-  virtualMachineSize?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuVirtualMachineSize;
+  virtualMachineSize?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuVirtualMachineSize
+    | undefined;
   /** Data disk sizes. */
-  dataDiskSizes?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuDataDiskSizesList;
+  dataDiskSizes?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuDataDiskSizesList
+    | undefined;
   /** Log disk sizes. */
-  logDiskSizes?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuLogDiskSizesList;
+  logDiskSizes?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuLogDiskSizesList
+    | undefined;
   /** temp db disk sizes. */
-  tempDbDiskSizes?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuTempDbDiskSizesList;
+  tempDbDiskSizes?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineTargetSkuTempDbDiskSizesList
+    | undefined;
 }
 /** SKU Recommendation results for Azure SQL Virtual Machine. */
 export interface SkuRecommendationResultsAzureSqlVirtualMachine {
   /** The target recommendation Status for this database. */
-  recommendationStatus?: SkuRecommendationResultsAzureSqlVirtualMachineRecommendationStatus;
-  numberOfServerBlockerIssues?: number;
+  recommendationStatus?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineRecommendationStatus
+    | undefined;
+  numberOfServerBlockerIssues?: number | undefined;
   /** The monthly cost of the particular SKU. */
-  monthlyCost?: SkuRecommendationSummaryMonthlyCost;
+  monthlyCost?: SkuRecommendationSummaryMonthlyCost | undefined;
   /** The monthly cost for all different savings options applicable for the particular SKU. */
-  monthlyCostOptions?: SkuRecommendationResultsAzureSqlVirtualMachineMonthlyCostOptionsList;
-  targetSku?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSku;
+  monthlyCostOptions?:
+    | SkuRecommendationResultsAzureSqlVirtualMachineMonthlyCostOptionsList
+    | undefined;
+  targetSku?: SkuRecommendationResultsAzureSqlVirtualMachineTargetSku | undefined;
 }
 /** SKU Recommendation results for Azure migration targets for SQL Server. */
 export interface SkuRecommendationResults {
-  azureSqlDatabase?: SkuRecommendationResultsAzureSqlDatabase;
-  azureSqlManagedInstance?: SkuRecommendationResultsAzureSqlManagedInstance;
-  azureSqlVirtualMachine?: SkuRecommendationResultsAzureSqlVirtualMachine;
+  azureSqlDatabase?: SkuRecommendationResultsAzureSqlDatabase | undefined;
+  azureSqlManagedInstance?: SkuRecommendationResultsAzureSqlManagedInstance | undefined;
+  azureSqlVirtualMachine?: SkuRecommendationResultsAzureSqlVirtualMachine | undefined;
 }
 /** summary information about the incompatible feature id, number of objects impacted and category of issue (warning/error) */
 export type ImpactedObjectsInfo = SkuRecommendationSummaryImpactedObjectsSummaryItem;
@@ -2282,124 +2356,126 @@ export type MigrationAssessmentImpactedObjectsSummaryAzureSqlManagedInstanceList
   Array<SkuRecommendationSummaryImpactedObjectsSummaryItem>;
 /** Represents a summary of migration readiness issues/warnings per feature type for Azure SQL DB and SQL MI targets */
 export interface MigrationAssessmentImpactedObjectsSummary {
-  azureSqlDatabase?: MigrationAssessmentImpactedObjectsSummaryAzureSqlDatabaseList;
-  azureSqlManagedInstance?: MigrationAssessmentImpactedObjectsSummaryAzureSqlManagedInstanceList;
+  azureSqlDatabase?: MigrationAssessmentImpactedObjectsSummaryAzureSqlDatabaseList | undefined;
+  azureSqlManagedInstance?:
+    | MigrationAssessmentImpactedObjectsSummaryAzureSqlManagedInstanceList
+    | undefined;
 }
 /** The migration assessment related configuration. */
 export interface MigrationAssessment {
   /** Indicates if migration assessment is enabled for this SQL Server instance. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The time when Migration Assessment Report upload was last performed. */
-  assessmentUploadTime?: string;
+  assessmentUploadTime?: string | undefined;
   /** version of this migration assessment report - to be passed by the migration assessment engine. */
-  version?: string;
-  settings?: MigrationAssessmentSettings;
-  serverAssessments?: ServerAssessments;
-  skuRecommendationResults?: SkuRecommendationResults;
+  version?: string | undefined;
+  settings?: MigrationAssessmentSettings | undefined;
+  serverAssessments?: ServerAssessments | undefined;
+  skuRecommendationResults?: SkuRecommendationResults | undefined;
   /** Represents a summary of migration readiness issues/warnings per feature type for Azure SQL DB and SQL MI targets */
-  impactedObjectsSummary?: MigrationAssessmentImpactedObjectsSummary;
+  impactedObjectsSummary?: MigrationAssessmentImpactedObjectsSummary | undefined;
 }
 /** Migration related configuration. */
 export interface Migration {
   /** Migration assessments related configuration. */
-  assessment?: MigrationAssessment;
+  assessment?: MigrationAssessment | undefined;
 }
 /** Properties of SqlServerInstance. */
 export interface SqlServerInstanceProperties {
   /** SQL Server version. */
-  version?: SqlServerInstancePropertiesVersion;
+  version?: SqlServerInstancePropertiesVersion | undefined;
   /** SQL Server edition. */
-  edition?: SqlServerInstancePropertiesEdition;
+  edition?: SqlServerInstancePropertiesEdition | undefined;
   /** ARM Resource id of the container resource (Azure Arc for Servers). */
-  containerResourceId?: string;
+  containerResourceId?: string | undefined;
   /** The unique ID of the hybrid machine that this resource belongs to. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The time when the resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The number of logical processors used by the SQL Server instance. */
-  vCore?: string;
+  vCore?: string | undefined;
   /** The number of total cores of the Operating System Environment (OSE) hosting the SQL Server instance. */
-  cores?: string;
+  cores?: string | undefined;
   /** The cloud connectivity status. */
-  status?: SqlServerInstancePropertiesStatus;
+  status?: SqlServerInstancePropertiesStatus | undefined;
   /** SQL Server update level. */
-  patchLevel?: string;
+  patchLevel?: string | undefined;
   /** SQL Server collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** Indicates whether database master key exists in SQL Server. */
-  dbMasterKeyExists?: boolean;
+  dbMasterKeyExists?: boolean | undefined;
   /** Indicates whether always On availability groups is enabled in SQL Server. */
-  isHadrEnabled?: boolean;
+  isHadrEnabled?: boolean | undefined;
   /** An array of integers, where each value represents the enabled trace flags in SQL Server. */
-  traceFlags?: SqlServerInstancePropertiesTraceFlagsList;
+  traceFlags?: SqlServerInstancePropertiesTraceFlagsList | undefined;
   /** SQL Server current version. */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
   /** SQL Server instance name. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** Dynamic TCP ports used by SQL Server. */
-  tcpDynamicPorts?: string;
+  tcpDynamicPorts?: string | undefined;
   /** Static TCP ports used by SQL Server. */
-  tcpStaticPorts?: string;
+  tcpStaticPorts?: string | undefined;
   /** SQL Server product ID. */
-  productId?: string;
+  productId?: string | undefined;
   /** SQL Server license type. */
-  licenseType?: SqlServerInstancePropertiesLicenseType;
+  licenseType?: SqlServerInstancePropertiesLicenseType | undefined;
   /** Timestamp of last Azure Defender status update. */
-  azureDefenderStatusLastUpdated?: string;
+  azureDefenderStatusLastUpdated?: string | undefined;
   /** Status of Azure Defender. */
-  azureDefenderStatus?: SqlServerInstancePropertiesAzureDefenderStatus;
+  azureDefenderStatus?: SqlServerInstancePropertiesAzureDefenderStatus | undefined;
   /** The provisioning state of the Arc-enabled SQL Server resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The time when last successful inventory upload was performed. */
-  lastInventoryUploadTime?: string;
+  lastInventoryUploadTime?: string | undefined;
   /** The time when last successful usage upload was performed. */
-  lastUsageUploadTime?: string;
+  lastUsageUploadTime?: string | undefined;
   /** Type of host for Azure Arc SQL Server */
-  hostType?: SqlServerInstancePropertiesHostType;
+  hostType?: SqlServerInstancePropertiesHostType | undefined;
   /** The role of the SQL Server, based on availability. */
-  alwaysOnRole?: SqlServerInstancePropertiesAlwaysOnRole;
+  alwaysOnRole?: SqlServerInstancePropertiesAlwaysOnRole | undefined;
   /** Database mirroring endpoint related properties. */
-  databaseMirroringEndpoint?: DBMEndpoint;
+  databaseMirroringEndpoint?: DBMEndpoint | undefined;
   /** Failover Cluster Instance properties. */
-  failoverCluster?: FailoverCluster;
+  failoverCluster?: FailoverCluster | undefined;
   /** The backup profile for the SQL server. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** Upgrade Action for this resource is locked until it expires. The Expiration time indicated by this value. It is not locked when it is empty. */
-  upgradeLockedUntil?: string;
+  upgradeLockedUntil?: string | undefined;
   /** The monitoring configuration. */
-  monitoring?: Monitoring;
+  monitoring?: Monitoring | undefined;
   /** Migration related configuration. */
-  migration?: Migration;
+  migration?: Migration | undefined;
   /** The configuration related to SQL best practices assessment. */
-  bestPracticesAssessment?: BestPracticesAssessment;
+  bestPracticesAssessment?: BestPracticesAssessment | undefined;
   /** Client connection related configuration. */
-  clientConnection?: ClientConnection;
+  clientConnection?: ClientConnection | undefined;
   /** Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host. */
-  serviceType?: ServiceType;
+  serviceType?: ServiceType | undefined;
   /** maximum server memory (MB) value configured for this instance. */
-  maxServerMemoryMB?: number;
+  maxServerMemoryMB?: number | undefined;
   /** Indicates whether Microsoft PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains. */
-  isMicrosoftPkiCertTrustConfigured?: boolean;
+  isMicrosoftPkiCertTrustConfigured?: boolean | undefined;
   /** Indicates whether DigiCert PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains. */
-  isDigiCertPkiCertTrustConfigured?: boolean;
+  isDigiCertPkiCertTrustConfigured?: boolean | undefined;
   /** Authentication related configuration for the SQL Server Instance. */
-  authentication?: Authentication;
+  authentication?: Authentication | undefined;
 }
 export interface CreateSqlServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerInstanceResponseTagsMap;
+  tags?: CreateSqlServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSqlServerLicenseRequestTagsMap = { [key: string]: string | undefined };
@@ -2432,7 +2508,7 @@ export interface CreateSqlServerLicenseRequest {
   /** Name of SQL Server License */
   sqlServerLicenseName: string;
   /** Resource tags. */
-  tags?: CreateSqlServerLicenseRequestTagsMap;
+  tags?: CreateSqlServerLicenseRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server license properties */
@@ -2461,23 +2537,23 @@ export interface SqlServerLicenseProperties {
   /** The Azure scope to which the license will apply. */
   scopeType: SqlServerLicensePropertiesScopeType;
   /** The timestamp of the most recent activation of the SqlServerLicense. */
-  lastActivatedAt?: string;
+  lastActivatedAt?: string | undefined;
   /** The timestamp of the most recent deactivation of the SqlServerLicense. */
-  lastDeactivatedAt?: string;
+  lastDeactivatedAt?: string | undefined;
   /** The tenantId the SQL Server license resource subscription resides in. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface CreateSqlServerLicenseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSqlServerLicenseResponseTagsMap;
+  tags?: CreateSqlServerLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server license properties */
@@ -2544,7 +2620,7 @@ export interface DeleteSqlServerAvailabilityGroupRequest {
 }
 export interface DeleteSqlServerAvailabilityGroupResponse {
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlServerAvailabilityGroupMiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2558,11 +2634,11 @@ export interface DeleteSqlServerAvailabilityGroupMiLinkRequest {
 }
 export interface DeleteSqlServerAvailabilityGroupMiLinkResponse {
   /** The Retry-After header indicates how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
+  location?: string | undefined;
   /** URL for checking the ongoing status of the operation. To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value. More details can be found in https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteSqlServerDatabaseRequest {
   /** The ID of the Azure subscription */
@@ -2576,7 +2652,7 @@ export interface DeleteSqlServerDatabaseRequest {
 }
 export interface DeleteSqlServerDatabaseResponse {
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSqlServerEsuLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2617,13 +2693,13 @@ export interface GetActiveDirectoryConnectorRequest {
 }
 export interface GetActiveDirectoryConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: ActiveDirectoryConnectorProperties;
 }
@@ -2655,16 +2731,16 @@ export interface OnPremiseProperty {
   /** Certificate that contains the Kubernetes cluster public key used to verify signing */
   publicSigningKey: string;
   /** Unique thumbprint returned to customer to verify the certificate being uploaded */
-  signingCertificateThumbprint?: string;
+  signingCertificateThumbprint?: string | undefined;
 }
 /** Properties on upload watermark. Mostly timestamp for each upload data type */
 export interface UploadWatermark {
   /** Last uploaded date for metrics from kubernetes cluster. Defaults to current date time */
-  metrics?: string;
+  metrics?: string | undefined;
   /** Last uploaded date for logs from kubernetes cluster. Defaults to current date time */
-  logs?: string;
+  logs?: string | undefined;
   /** Last uploaded date for usages from kubernetes cluster. Defaults to current date time */
-  usages?: string;
+  usages?: string | undefined;
 }
 /** Username and password for basic login authentication. */
 export type DataControllerPropertiesBasicLoginInformation =
@@ -2678,62 +2754,68 @@ export type DataControllerPropertiesLogsDashboardCredential =
 /** Log analytics workspace id and primary key */
 export interface LogAnalyticsWorkspaceConfig {
   /** Azure Log Analytics workspace ID */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** Primary key of the workspace */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
 }
 /** Service principal for uploading billing, metrics and logs. */
 export interface UploadServicePrincipal {
   /** Client ID of the service principal for uploading data. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Tenant ID of the service principal. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Authority for the service principal. Example: https://login.microsoftonline.com/ */
-  authority?: string;
+  authority?: string | undefined;
   /** Secret of the service principal */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The data controller properties. */
 export interface DataControllerProperties {
   /** The infrastructure the data controller is running on. */
-  infrastructure?: DataControllerPropertiesInfrastructure;
-  onPremiseProperty?: OnPremiseProperty;
+  infrastructure?: DataControllerPropertiesInfrastructure | undefined;
+  onPremiseProperty?: OnPremiseProperty | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: unknown;
-  uploadWatermark?: UploadWatermark;
+  k8sRaw?: unknown | undefined;
+  uploadWatermark?: UploadWatermark | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Username and password for basic login authentication. */
-  metricsDashboardCredential?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  metricsDashboardCredential?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Username and password for basic login authentication. */
-  logsDashboardCredential?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
-  logAnalyticsWorkspaceConfig?: LogAnalyticsWorkspaceConfig;
+  logsDashboardCredential?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
+  logAnalyticsWorkspaceConfig?: LogAnalyticsWorkspaceConfig | undefined;
   /** Deprecated. Service principal is deprecated in favor of Arc Kubernetes service extension managed identity. */
-  uploadServicePrincipal?: UploadServicePrincipal;
+  uploadServicePrincipal?: UploadServicePrincipal | undefined;
   /** The provisioning state of the Arc Data Controller resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the connected cluster the custom location belongs to. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the extension the custom location belongs to. */
-  extensionId?: string;
+  extensionId?: string | undefined;
 }
 export interface GetDataControllerDataControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDataControllerDataControllerResponseTagsMap;
+  tags?: GetDataControllerDataControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** The data controller's properties */
   properties: DataControllerProperties;
 }
@@ -2749,13 +2831,13 @@ export interface GetFailoverGroupRequest {
 }
 export interface GetFailoverGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: FailoverGroupProperties;
 }
@@ -2774,23 +2856,23 @@ export type GetPostgresInstanceResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface GetPostgresInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPostgresInstanceResponseTagsMap;
+  tags?: GetPostgresInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** null */
   properties: PostgresInstanceProperties;
   /** Resource sku. */
-  sku?: PostgresInstanceSku;
+  sku?: PostgresInstanceSku | undefined;
 }
 export interface GetSqlManagedInstanceRequest {
   /** The ID of the Azure subscription */
@@ -2807,23 +2889,23 @@ export type GetSqlManagedInstanceResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface GetSqlManagedInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlManagedInstanceResponseTagsMap;
+  tags?: GetSqlManagedInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
   properties: SqlManagedInstanceProperties;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** Resource sku. */
-  sku?: SqlManagedInstanceSku;
+  sku?: SqlManagedInstanceSku | undefined;
 }
 export interface GetSqlServerAvailabilityGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2839,15 +2921,15 @@ export interface GetSqlServerAvailabilityGroupRequest {
 export type GetSqlServerAvailabilityGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlServerAvailabilityGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlServerAvailabilityGroupResponseTagsMap;
+  tags?: GetSqlServerAvailabilityGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -2867,15 +2949,15 @@ export interface GetSqlServerDatabaseRequest {
 export type GetSqlServerDatabaseResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlServerDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlServerDatabaseResponseTagsMap;
+  tags?: GetSqlServerDatabaseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server database */
@@ -2893,15 +2975,15 @@ export interface GetSqlServerEsuLicenseRequest {
 export type GetSqlServerEsuLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlServerEsuLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlServerEsuLicenseResponseTagsMap;
+  tags?: GetSqlServerEsuLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server ESU license properties */
@@ -2919,19 +3001,19 @@ export interface GetSqlServerInstanceRequest {
 export type GetSqlServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlServerInstanceResponseTagsMap;
+  tags?: GetSqlServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
 }
 /** Filter retrieval based on availability group type. */
 export type AvailabilityGroupTypeFilter = "CONTAINED" | "DISTRIBUTED" | "DEFAULT";
@@ -2947,23 +3029,23 @@ export interface GetSqlServerInstanceAllAvailabilityGroupsRequest {
   resourceGroupName: string;
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
-  availabilityGroupTypeFilter?: AvailabilityGroupTypeFilter | (string & {});
-  replicationPartnerTypeFilter?: ReplicationPartnerType | (string & {});
+  availabilityGroupTypeFilter?: AvailabilityGroupTypeFilter | (string & {}) | undefined;
+  replicationPartnerTypeFilter?: ReplicationPartnerType | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type SqlServerAvailabilityGroupResourceTagsMap = { [key: string]: string | undefined };
 /** Arc Sql Server Availability Group */
 export interface SqlServerAvailabilityGroupResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerAvailabilityGroupResourceTagsMap;
+  tags?: SqlServerAvailabilityGroupResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -2975,9 +3057,9 @@ export type ArcSqlServerAvailabilityGroupListResultValueList =
 /** A list of Arc Sql Server Availability Groups. */
 export interface ArcSqlServerAvailabilityGroupListResult {
   /** Array of Arc Sql Server Availability Groups. */
-  value?: ArcSqlServerAvailabilityGroupListResultValueList;
+  value?: ArcSqlServerAvailabilityGroupListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The report type that needs to be fetched. If not specified, the default is AssessmentSummary. */
 export type GetSqlServerInstanceBestPracticesAssessmentRequestReportType =
@@ -2991,11 +3073,14 @@ export interface GetSqlServerInstanceBestPracticesAssessmentRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** The report type that needs to be fetched. If not specified, the default is AssessmentSummary. */
-  reportType?: GetSqlServerInstanceBestPracticesAssessmentRequestReportType | (string & {});
+  reportType?:
+    | GetSqlServerInstanceBestPracticesAssessmentRequestReportType
+    | (string & {})
+    | undefined;
   /** The GUID of the report to return best practices assessment results for. If not specified, summaries for all reports will be returned. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** The opaque token to use to skip to a specific page of the report. If not specified, the first page will be returned. */
-  skipToken?: string;
+  skipToken?: string | undefined;
 }
 /** The type of the result column. */
 export type SqlServerInstanceBpaColumnType =
@@ -3010,9 +3095,9 @@ export type SqlServerInstanceBpaColumnType =
 /** The SQL best practices assessment result column. */
 export interface SqlServerInstanceBpaColumn {
   /** The name of the result column. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the result column. */
-  type?: SqlServerInstanceBpaColumnType;
+  type?: SqlServerInstanceBpaColumnType | undefined;
 }
 /** The SQL best practices assessment response columns. */
 export type GetSqlServerInstanceBestPracticesAssessmentResponseColumnsList =
@@ -3028,11 +3113,11 @@ export interface GetSqlServerInstanceBestPracticesAssessmentResponse {
   /** An array of results of the SQL best practices assessment response. */
   rows: GetSqlServerInstanceBestPracticesAssessmentResponseRowsList;
   /** The link to the next page of the best practices assessment response for the SQL Server instance. Null, if no more pages are available. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The URL to retrieve the operation status. */
-  location?: string;
+  location?: string | undefined;
   /** The URL to retrieve the operation status. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface GetSqlServerInstanceJobsStatusRequest {
   /** The ID of the Azure subscription */
@@ -3042,9 +3127,9 @@ export interface GetSqlServerInstanceJobsStatusRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** The name of the feature to retrieve the job status for. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The type of the job to retrieve the status for. */
-  jobType?: string;
+  jobType?: string | undefined;
 }
 /** The status of the job. */
 export type SqlServerInstanceJobStatusJobStatus =
@@ -3073,17 +3158,17 @@ export type BackgroundJobLastExecutionStatus =
 /** The background job details. */
 export interface BackgroundJob {
   /** The state of the background job. */
-  state?: BackgroundJobState;
+  state?: BackgroundJobState | undefined;
   /** The execution state of the background job. */
-  executionState?: BackgroundJobExecutionState;
+  executionState?: BackgroundJobExecutionState | undefined;
   /** The start time of the background job. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the background job. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The last execution status of the background job. */
-  lastExecutionStatus?: BackgroundJobLastExecutionStatus;
+  lastExecutionStatus?: BackgroundJobLastExecutionStatus | undefined;
   /** The last execution time of the background job. */
-  lastExecutionTime?: string;
+  lastExecutionTime?: string | undefined;
 }
 /** The state of the sequencer action. */
 export type SequencerActionState =
@@ -3102,35 +3187,35 @@ export type SequencerActionResult =
 /** The sequencer action details. */
 export interface SequencerAction {
   /** The unique identifier of the sequencer action. */
-  actionId?: string;
+  actionId?: string | undefined;
   /** The state of the sequencer action. */
-  state?: SequencerActionState;
+  state?: SequencerActionState | undefined;
   /** The result of the sequencer action. */
-  result?: SequencerActionResult;
+  result?: SequencerActionResult | undefined;
 }
 /** The list of sequencer actions. */
 export type SqlServerInstanceJobStatusSequencerActionsList = Array<SequencerAction>;
 /** The status of the job running on the SQL Server instance. */
 export interface SqlServerInstanceJobStatus {
   /** The unique identifier of the job. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the SQL Server instance. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The status of the job. */
-  jobStatus?: SqlServerInstanceJobStatusJobStatus;
+  jobStatus?: SqlServerInstanceJobStatusJobStatus | undefined;
   /** The exception message if the job failed. */
-  jobException?: string;
+  jobException?: string | undefined;
   /** The background job details. */
-  backgroundJob?: BackgroundJob;
+  backgroundJob?: BackgroundJob | undefined;
   /** The list of sequencer actions. */
-  sequencerActions?: SqlServerInstanceJobStatusSequencerActionsList;
+  sequencerActions?: SqlServerInstanceJobStatusSequencerActionsList | undefined;
 }
 /** The list of jobs status running on the SQL Server instance. */
 export type GetSqlServerInstanceJobsStatusResponseJobsStatusList =
   Array<SqlServerInstanceJobStatus>;
 export interface GetSqlServerInstanceJobsStatusResponse {
   /** The list of jobs status running on the SQL Server instance. */
-  jobsStatus?: GetSqlServerInstanceJobsStatusResponseJobsStatusList;
+  jobsStatus?: GetSqlServerInstanceJobsStatusResponseJobsStatusList | undefined;
 }
 /** The aggregation type to use for the numerical columns in the dataset. */
 export type GetSqlServerInstanceTelemetryRequestAggregationType =
@@ -3151,15 +3236,15 @@ export interface GetSqlServerInstanceTelemetryRequest {
   /** The name of the telemetry dataset to retrieve. */
   datasetName: string;
   /** The start time for the time range to fetch telemetry for. If not specified, the current time minus 1 hour is used. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for the time range to fetch telemetry for. If not specified, the current time is used. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time granularity to fetch telemetry for. This is an ISO8601 duration. Examples: PT15M, PT1H, P1D */
-  interval?: string;
+  interval?: string | undefined;
   /** The aggregation type to use for the numerical columns in the dataset. */
-  aggregationType?: GetSqlServerInstanceTelemetryRequestAggregationType | (string & {});
+  aggregationType?: GetSqlServerInstanceTelemetryRequestAggregationType | (string & {}) | undefined;
   /** The list of database names to return telemetry for. If not specified, telemetry for all databases will be aggregated and returned. */
-  databaseNames?: GetSqlServerInstanceTelemetryRequestDatabaseNamesList;
+  databaseNames?: GetSqlServerInstanceTelemetryRequestDatabaseNamesList | undefined;
 }
 /** The type of the telemetry column. */
 export type SqlServerInstanceTelemetryColumnType =
@@ -3174,9 +3259,9 @@ export type SqlServerInstanceTelemetryColumnType =
 /** The telemetry column for the SQL Server instance. */
 export interface SqlServerInstanceTelemetryColumn {
   /** The name of the telemetry column. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the telemetry column. */
-  type?: SqlServerInstanceTelemetryColumnType;
+  type?: SqlServerInstanceTelemetryColumnType | undefined;
 }
 /** The columns of the result telemetry table for the SQL Server instance. */
 export type GetSqlServerInstanceTelemetryResponseColumnsList =
@@ -3191,9 +3276,9 @@ export interface GetSqlServerInstanceTelemetryResponse {
   /** A list of rows from the result telemetry table for the SQL Server instance. */
   rows: GetSqlServerInstanceTelemetryResponseRowsList;
   /** The link to the next section of rows of the telemetry response for the SQL Server instance. Null if no more sections are available. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The URL to retrieve the operation status. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSqlServerLicenseRequest {
   /** The ID of the Azure subscription */
@@ -3207,15 +3292,15 @@ export interface GetSqlServerLicenseRequest {
 export type GetSqlServerLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlServerLicenseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlServerLicenseResponseTagsMap;
+  tags?: GetSqlServerLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server license properties */
@@ -3232,13 +3317,13 @@ export interface ListActiveDirectoryConnectorsRequest {
 /** Active directory connector resource */
 export interface ActiveDirectoryConnectorResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: ActiveDirectoryConnectorProperties;
 }
@@ -3247,9 +3332,9 @@ export type ListActiveDirectoryConnectorsResponseValueList =
   Array<ActiveDirectoryConnectorResource>;
 export interface ListActiveDirectoryConnectorsResponse {
   /** Array of results. */
-  value?: ListActiveDirectoryConnectorsResponseValueList;
+  value?: ListActiveDirectoryConnectorsResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataControllerInGroupRequest {
   /** The ID of the Azure subscription */
@@ -3264,19 +3349,19 @@ export type DataControllerResourceExtendedLocation = CreatePostgresInstanceRespo
 /** Data controller resource */
 export interface DataControllerResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DataControllerResourceTagsMap;
+  tags?: DataControllerResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** The data controller's properties */
   properties: DataControllerProperties;
 }
@@ -3284,9 +3369,9 @@ export interface DataControllerResource {
 export type ListDataControllerInGroupResponseValueList = Array<DataControllerResource>;
 export interface ListDataControllerInGroupResponse {
   /** Array of results. */
-  value?: ListDataControllerInGroupResponseValueList;
+  value?: ListDataControllerInGroupResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataControllerInSubscriptionRequest {
   /** The ID of the Azure subscription */
@@ -3296,9 +3381,9 @@ export interface ListDataControllerInSubscriptionRequest {
 export type ListDataControllerInSubscriptionResponseValueList = Array<DataControllerResource>;
 export interface ListDataControllerInSubscriptionResponse {
   /** Array of results. */
-  value?: ListDataControllerInSubscriptionResponseValueList;
+  value?: ListDataControllerInSubscriptionResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFailoverGroupsRequest {
   /** The ID of the Azure subscription */
@@ -3311,13 +3396,13 @@ export interface ListFailoverGroupsRequest {
 /** A failover group resource. */
 export interface FailoverGroupResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** null */
   properties: FailoverGroupProperties;
 }
@@ -3325,9 +3410,9 @@ export interface FailoverGroupResource {
 export type ListFailoverGroupsResponseValueList = Array<FailoverGroupResource>;
 export interface ListFailoverGroupsResponse {
   /** Array of failover group results. */
-  value?: ListFailoverGroupsResponseValueList;
+  value?: ListFailoverGroupsResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
@@ -3352,19 +3437,19 @@ export interface Operation {
   /** The localized display information for this particular operation / action. */
   display: OperationDisplay;
   /** The intended executor of the operation. */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Indicates whether the operation is a data action */
   isDataAction: boolean;
   /** Additional descriptions for the operation. */
-  properties?: OperationPropertiesMap;
+  properties?: OperationPropertiesMap | undefined;
 }
 /** Array of results. */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** Array of results. */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPostgresInstanceByResourceGroupRequest {
   /** The ID of the Azure subscription */
@@ -3379,31 +3464,31 @@ export type PostgresInstanceExtendedLocation = CreatePostgresInstanceResponseExt
 /** A Postgres Instance. */
 export interface PostgresInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PostgresInstanceTagsMap;
+  tags?: PostgresInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** null */
   properties: PostgresInstanceProperties;
   /** Resource sku. */
-  sku?: PostgresInstanceSku;
+  sku?: PostgresInstanceSku | undefined;
 }
 /** Array of results. */
 export type ListPostgresInstanceByResourceGroupResponseValueList = Array<PostgresInstance>;
 export interface ListPostgresInstanceByResourceGroupResponse {
   /** Array of results. */
-  value?: ListPostgresInstanceByResourceGroupResponseValueList;
+  value?: ListPostgresInstanceByResourceGroupResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPostgresInstancesRequest {
   /** The ID of the Azure subscription */
@@ -3413,9 +3498,9 @@ export interface ListPostgresInstancesRequest {
 export type ListPostgresInstancesResponseValueList = Array<PostgresInstance>;
 export interface ListPostgresInstancesResponse {
   /** Array of results. */
-  value?: ListPostgresInstancesResponseValueList;
+  value?: ListPostgresInstancesResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlManagedInstanceByResourceGroupRequest {
   /** The ID of the Azure subscription */
@@ -3430,31 +3515,31 @@ export type SqlManagedInstanceExtendedLocation = CreatePostgresInstanceResponseE
 /** A SqlManagedInstance. */
 export interface SqlManagedInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlManagedInstanceTagsMap;
+  tags?: SqlManagedInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
   properties: SqlManagedInstanceProperties;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** Resource sku. */
-  sku?: SqlManagedInstanceSku;
+  sku?: SqlManagedInstanceSku | undefined;
 }
 /** Array of results. */
 export type ListSqlManagedInstanceByResourceGroupResponseValueList = Array<SqlManagedInstance>;
 export interface ListSqlManagedInstanceByResourceGroupResponse {
   /** Array of results. */
-  value?: ListSqlManagedInstanceByResourceGroupResponseValueList;
+  value?: ListSqlManagedInstanceByResourceGroupResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlManagedInstancesRequest {
   /** The ID of the Azure subscription */
@@ -3464,9 +3549,9 @@ export interface ListSqlManagedInstancesRequest {
 export type ListSqlManagedInstancesResponseValueList = Array<SqlManagedInstance>;
 export interface ListSqlManagedInstancesResponse {
   /** Array of results. */
-  value?: ListSqlManagedInstancesResponseValueList;
+  value?: ListSqlManagedInstancesResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerAvailabilityGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3489,15 +3574,15 @@ export type SqlServerDatabaseResourceTagsMap = { [key: string]: string | undefin
 /** Arc Sql Server database */
 export interface SqlServerDatabaseResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerDatabaseResourceTagsMap;
+  tags?: SqlServerDatabaseResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server database */
@@ -3508,9 +3593,9 @@ export type ArcSqlServerDatabaseListResultValueList = Array<SqlServerDatabaseRes
 /** A list of Arc Sql Server database. */
 export interface ArcSqlServerDatabaseListResult {
   /** Array of Arc Sql Server database. */
-  value?: ArcSqlServerDatabaseListResultValueList;
+  value?: ArcSqlServerDatabaseListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerEsuLicenseByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3523,15 +3608,15 @@ export type SqlServerEsuLicenseTagsMap = { [key: string]: string | undefined };
 /** Describe SQL Server ESU license resource. */
 export interface SqlServerEsuLicense {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerEsuLicenseTagsMap;
+  tags?: SqlServerEsuLicenseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server ESU license properties */
@@ -3542,9 +3627,9 @@ export type SqlServerEsuLicenseListResultValueList = Array<SqlServerEsuLicense>;
 /** A list of SQL Server ESU licenses. */
 export interface SqlServerEsuLicenseListResult {
   /** Array of results. */
-  value?: SqlServerEsuLicenseListResultValueList;
+  value?: SqlServerEsuLicenseListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerEsuLicensesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3561,27 +3646,27 @@ export type SqlServerInstanceTagsMap = { [key: string]: string | undefined };
 /** A SqlServerInstance. */
 export interface SqlServerInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerInstanceTagsMap;
+  tags?: SqlServerInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
 }
 /** Array of results. */
 export type ListSqlServerInstanceByResourceGroupResponseValueList = Array<SqlServerInstance>;
 export interface ListSqlServerInstanceByResourceGroupResponse {
   /** Array of results. */
-  value?: ListSqlServerInstanceByResourceGroupResponseValueList;
+  value?: ListSqlServerInstanceByResourceGroupResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerInstancesRequest {
   /** The ID of the Azure subscription */
@@ -3591,9 +3676,9 @@ export interface ListSqlServerInstancesRequest {
 export type ListSqlServerInstancesResponseValueList = Array<SqlServerInstance>;
 export interface ListSqlServerInstancesResponse {
   /** Array of results. */
-  value?: ListSqlServerInstancesResponseValueList;
+  value?: ListSqlServerInstancesResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerLicenseByResourceGroupRequest {
   /** The ID of the Azure subscription */
@@ -3606,15 +3691,15 @@ export type SqlServerLicenseTagsMap = { [key: string]: string | undefined };
 /** Describe SQL Server license resource. */
 export interface SqlServerLicense {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerLicenseTagsMap;
+  tags?: SqlServerLicenseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server license properties */
@@ -3624,9 +3709,9 @@ export interface SqlServerLicense {
 export type ListSqlServerLicenseByResourceGroupResponseValueList = Array<SqlServerLicense>;
 export interface ListSqlServerLicenseByResourceGroupResponse {
   /** Array of results. */
-  value?: ListSqlServerLicenseByResourceGroupResponseValueList;
+  value?: ListSqlServerLicenseByResourceGroupResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlServerLicensesRequest {
   /** The ID of the Azure subscription */
@@ -3636,9 +3721,9 @@ export interface ListSqlServerLicensesRequest {
 export type ListSqlServerLicensesResponseValueList = Array<SqlServerLicense>;
 export interface ListSqlServerLicensesResponse {
   /** Array of results. */
-  value?: ListSqlServerLicensesResponseValueList;
+  value?: ListSqlServerLicensesResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type PatchDataControllerDataControllerRequestTagsMap = { [key: string]: string | undefined };
@@ -3662,26 +3747,32 @@ export type DataControllerPropertiesInputLogsDashboardCredential =
 /** The data controller properties. */
 export interface DataControllerPropertiesInput {
   /** The infrastructure the data controller is running on. */
-  infrastructure?: DataControllerPropertiesInputInfrastructure | (string & {});
-  onPremiseProperty?: OnPremiseProperty;
+  infrastructure?: DataControllerPropertiesInputInfrastructure | (string & {}) | undefined;
+  onPremiseProperty?: OnPremiseProperty | undefined;
   /** The raw kubernetes information */
-  k8sRaw?: unknown;
-  uploadWatermark?: UploadWatermark;
+  k8sRaw?: unknown | undefined;
+  uploadWatermark?: UploadWatermark | undefined;
   /** Last uploaded date from Kubernetes cluster. Defaults to current date time */
-  lastUploadedDate?: string;
+  lastUploadedDate?: string | undefined;
   /** Username and password for basic login authentication. */
-  basicLoginInformation?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  basicLoginInformation?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Username and password for basic login authentication. */
-  metricsDashboardCredential?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
+  metricsDashboardCredential?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
   /** Username and password for basic login authentication. */
-  logsDashboardCredential?: ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation;
-  logAnalyticsWorkspaceConfig?: LogAnalyticsWorkspaceConfig;
+  logsDashboardCredential?:
+    | ActiveDirectoryConnectorPropertiesInputDomainServiceAccountLoginInformation
+    | undefined;
+  logAnalyticsWorkspaceConfig?: LogAnalyticsWorkspaceConfig | undefined;
   /** Deprecated. Service principal is deprecated in favor of Arc Kubernetes service extension managed identity. */
-  uploadServicePrincipal?: UploadServicePrincipal;
+  uploadServicePrincipal?: UploadServicePrincipal | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the connected cluster the custom location belongs to. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** If a CustomLocation is provided, this contains the ARM id of the extension the custom location belongs to. */
-  extensionId?: string;
+  extensionId?: string | undefined;
 }
 export interface PatchDataControllerDataControllerRequest {
   /** The ID of the Azure subscription */
@@ -3691,9 +3782,9 @@ export interface PatchDataControllerDataControllerRequest {
   /** The name of the data controller */
   dataControllerName: string;
   /** Resource tags */
-  tags?: PatchDataControllerDataControllerRequestTagsMap;
+  tags?: PatchDataControllerDataControllerRequestTagsMap | undefined;
   /** The data controller's properties */
-  properties?: DataControllerPropertiesInput;
+  properties?: DataControllerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PatchDataControllerDataControllerResponseTagsMap = {
@@ -3704,19 +3795,19 @@ export type PatchDataControllerDataControllerResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface PatchDataControllerDataControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PatchDataControllerDataControllerResponseTagsMap;
+  tags?: PatchDataControllerDataControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** The data controller's properties */
   properties: DataControllerProperties;
 }
@@ -3732,19 +3823,19 @@ export interface PostSqlServerInstanceUpgradeRequest {
 export type PostSqlServerInstanceUpgradeResponseTagsMap = { [key: string]: string | undefined };
 export interface PostSqlServerInstanceUpgradeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PostSqlServerInstanceUpgradeResponseTagsMap;
+  tags?: PostSqlServerInstanceUpgradeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type PutDataControllerDataControllerRequestTagsMap = { [key: string]: string | undefined };
@@ -3759,11 +3850,11 @@ export interface PutDataControllerDataControllerRequest {
   /** The name of the data controller */
   dataControllerName: string;
   /** Resource tags. */
-  tags?: PutDataControllerDataControllerRequestTagsMap;
+  tags?: PutDataControllerDataControllerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceRequestExtendedLocation | undefined;
   /** The data controller's properties */
   properties: DataControllerPropertiesInput;
 }
@@ -3774,19 +3865,19 @@ export type PutDataControllerDataControllerResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface PutDataControllerDataControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PutDataControllerDataControllerResponseTagsMap;
+  tags?: PutDataControllerDataControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** The data controller's properties */
   properties: DataControllerProperties;
 }
@@ -3802,7 +3893,7 @@ export interface RemoveSqlServerAvailabilityGroupDatabasesRequest {
   /** Name of SQL Availability Group */
   availabilityGroupName: string;
   /** List of database names. */
-  values?: RemoveSqlServerAvailabilityGroupDatabasesRequestValuesList;
+  values?: RemoveSqlServerAvailabilityGroupDatabasesRequestValuesList | undefined;
 }
 /** Resource tags. */
 export type RemoveSqlServerAvailabilityGroupDatabasesResponseTagsMap = {
@@ -3810,15 +3901,15 @@ export type RemoveSqlServerAvailabilityGroupDatabasesResponseTagsMap = {
 };
 export interface RemoveSqlServerAvailabilityGroupDatabasesResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RemoveSqlServerAvailabilityGroupDatabasesResponseTagsMap;
+  tags?: RemoveSqlServerAvailabilityGroupDatabasesResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -3843,17 +3934,19 @@ export type RunSqlServerInstanceBestPracticesAssessmentResponseSequencerActionsL
   Array<SequencerAction>;
 export interface RunSqlServerInstanceBestPracticesAssessmentResponse {
   /** The unique identifier of the job. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the SQL Server instance. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The status of the job. */
-  jobStatus?: RunSqlServerInstanceBestPracticesAssessmentResponseJobStatus;
+  jobStatus?: RunSqlServerInstanceBestPracticesAssessmentResponseJobStatus | undefined;
   /** The exception message if the job failed. */
-  jobException?: string;
+  jobException?: string | undefined;
   /** The background job details. */
-  backgroundJob?: BackgroundJob;
+  backgroundJob?: BackgroundJob | undefined;
   /** The list of sequencer actions. */
-  sequencerActions?: RunSqlServerInstanceBestPracticesAssessmentResponseSequencerActionsList;
+  sequencerActions?:
+    | RunSqlServerInstanceBestPracticesAssessmentResponseSequencerActionsList
+    | undefined;
 }
 /** The role of managed instance in a distributed availability group, can be Primary or Secondary. */
 export type RunSqlServerInstanceManagedInstanceLinkAssessmentRequestAzureManagedInstanceRole =
@@ -3889,7 +3982,8 @@ export interface RunSqlServerInstanceManagedInstanceLinkAssessmentRequest {
   /** The role of managed instance in a distributed availability group, can be Primary or Secondary. */
   azureManagedInstanceRole?:
     | RunSqlServerInstanceManagedInstanceLinkAssessmentRequestAzureManagedInstanceRole
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** An array of strings, where each value represents the name of a database to be replicated to the Azure SQL Managed Instance. */
   databaseNames: RunSqlServerInstanceManagedInstanceLinkAssessmentRequestDatabaseNamesList;
   /** The name of the availability group to be used for the database replication. */
@@ -3897,9 +3991,11 @@ export interface RunSqlServerInstanceManagedInstanceLinkAssessmentRequest {
   /** The name of the DAG to be used for the database replication. Also referred to as Link Name. */
   distributedAvailabilityGroupName: string;
   /** An array of strings, where each value represents the category of the assessment to be run. If this field is not provided, all assessment categories will be run. */
-  assessmentCategories?: RunSqlServerInstanceManagedInstanceLinkAssessmentRequestAssessmentCategoriesList;
+  assessmentCategories?:
+    | RunSqlServerInstanceManagedInstanceLinkAssessmentRequestAssessmentCategoriesList
+    | undefined;
   /** The IP address of the SQL Server instance. */
-  sqlServerIpAddress?: string;
+  sqlServerIpAddress?: string | undefined;
 }
 /** The status of the requirement. */
 export type SqlServerInstanceManagedInstanceLinkAssessmentStatus =
@@ -3911,29 +4007,31 @@ export type SqlServerInstanceManagedInstanceLinkAssessmentFailingDbsList = Array
 /** The status of an individual requirement for MI Link. */
 export interface SqlServerInstanceManagedInstanceLinkAssessment {
   /** The name of the requirement. */
-  name?: string;
-  category?: MiLinkAssessmentCategory;
+  name?: string | undefined;
+  category?: MiLinkAssessmentCategory | undefined;
   /** The status of the requirement. */
-  status?: SqlServerInstanceManagedInstanceLinkAssessmentStatus;
+  status?: SqlServerInstanceManagedInstanceLinkAssessmentStatus | undefined;
   /** The information text about requirement. */
-  information?: string;
+  information?: string | undefined;
   /** Additional details about the check, including any recommended actions. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** List of names of databases that are failing the given assessment. */
-  failingDbs?: SqlServerInstanceManagedInstanceLinkAssessmentFailingDbsList;
+  failingDbs?: SqlServerInstanceManagedInstanceLinkAssessmentFailingDbsList | undefined;
 }
 /** The list of the results for MI Link assessment. */
 export type RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessmentsList =
   Array<SqlServerInstanceManagedInstanceLinkAssessment>;
 export interface RunSqlServerInstanceManagedInstanceLinkAssessmentResponse {
   /** The list of the results for MI Link assessment. */
-  assessments?: RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessmentsList;
+  assessments?:
+    | RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessmentsList
+    | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The URL to retrieve the operation status. */
-  location?: string;
+  location?: string | undefined;
   /** The URL to retrieve the operation status. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RunSqlServerInstanceMigrationAssessmentRequest {
   /** The ID of the Azure subscription */
@@ -3954,17 +4052,19 @@ export type RunSqlServerInstanceMigrationAssessmentResponseSequencerActionsList 
   Array<SequencerAction>;
 export interface RunSqlServerInstanceMigrationAssessmentResponse {
   /** The unique identifier of the job. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the SQL Server instance. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The status of the job. */
-  jobStatus?: RunSqlServerInstanceMigrationAssessmentResponseJobStatus;
+  jobStatus?: RunSqlServerInstanceMigrationAssessmentResponseJobStatus | undefined;
   /** The exception message if the job failed. */
-  jobException?: string;
+  jobException?: string | undefined;
   /** The background job details. */
-  backgroundJob?: BackgroundJob;
+  backgroundJob?: BackgroundJob | undefined;
   /** The list of sequencer actions. */
-  sequencerActions?: RunSqlServerInstanceMigrationAssessmentResponseSequencerActionsList;
+  sequencerActions?:
+    | RunSqlServerInstanceMigrationAssessmentResponseSequencerActionsList
+    | undefined;
 }
 export interface SqlServerAvailabilityGroupsDetailViewRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3982,15 +4082,15 @@ export type SqlServerAvailabilityGroupsDetailViewResponseTagsMap = {
 };
 export interface SqlServerAvailabilityGroupsDetailViewResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerAvailabilityGroupsDetailViewResponseTagsMap;
+  tags?: SqlServerAvailabilityGroupsDetailViewResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -4012,15 +4112,15 @@ export type SqlServerAvailabilityGroupsFailoverResponseTagsMap = {
 };
 export interface SqlServerAvailabilityGroupsFailoverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerAvailabilityGroupsFailoverResponseTagsMap;
+  tags?: SqlServerAvailabilityGroupsFailoverResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -4036,9 +4136,9 @@ export interface SqlServerAvailabilityGroupsFailoverMiLinkRequest {
   /** Name of SQL Availability Group */
   availabilityGroupName: string;
   /** Azure resource id for the sql managed instance. */
-  managedInstanceId?: string;
+  managedInstanceId?: string | undefined;
   /** Whether to perform a Force Failover as opposed to just a regular Failover. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 /** Resource tags. */
 export type SqlServerAvailabilityGroupsFailoverMiLinkResponseTagsMap = {
@@ -4046,25 +4146,25 @@ export type SqlServerAvailabilityGroupsFailoverMiLinkResponseTagsMap = {
 };
 export interface SqlServerAvailabilityGroupsFailoverMiLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerAvailabilityGroupsFailoverMiLinkResponseTagsMap;
+  tags?: SqlServerAvailabilityGroupsFailoverMiLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
   /** The Retry-After header indicates how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** URL for checking the ongoing status of the operation. To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value. More details can be found in https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface SqlServerAvailabilityGroupsForceFailoverAllowDataLossRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4082,15 +4182,15 @@ export type SqlServerAvailabilityGroupsForceFailoverAllowDataLossResponseTagsMap
 };
 export interface SqlServerAvailabilityGroupsForceFailoverAllowDataLossResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerAvailabilityGroupsForceFailoverAllowDataLossResponseTagsMap;
+  tags?: SqlServerAvailabilityGroupsForceFailoverAllowDataLossResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
@@ -4108,19 +4208,19 @@ export interface SqlServerInstancesPreUpgradeRequest {
 export type SqlServerInstancesPreUpgradeResponseTagsMap = { [key: string]: string | undefined };
 export interface SqlServerInstancesPreUpgradeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlServerInstancesPreUpgradeResponseTagsMap;
+  tags?: SqlServerInstancesPreUpgradeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePostgresInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -4132,8 +4232,8 @@ export interface UpdatePostgresInstanceRequest {
   /** Name of Postgres Instance */
   postgresInstanceName: string;
   /** Resource tags. */
-  tags?: UpdatePostgresInstanceRequestTagsMap;
-  properties?: PostgresInstancePropertiesInput;
+  tags?: UpdatePostgresInstanceRequestTagsMap | undefined;
+  properties?: PostgresInstancePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdatePostgresInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -4142,23 +4242,23 @@ export type UpdatePostgresInstanceResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface UpdatePostgresInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePostgresInstanceResponseTagsMap;
+  tags?: UpdatePostgresInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** null */
   properties: PostgresInstanceProperties;
   /** Resource sku. */
-  sku?: PostgresInstanceSku;
+  sku?: PostgresInstanceSku | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlManagedInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -4170,7 +4270,7 @@ export interface UpdateSqlManagedInstanceRequest {
   /** Name of SQL Managed Instance */
   sqlManagedInstanceName: string;
   /** Resource tags. */
-  tags?: UpdateSqlManagedInstanceRequestTagsMap;
+  tags?: UpdateSqlManagedInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlManagedInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -4179,23 +4279,23 @@ export type UpdateSqlManagedInstanceResponseExtendedLocation =
   CreatePostgresInstanceResponseExtendedLocation;
 export interface UpdateSqlManagedInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlManagedInstanceResponseTagsMap;
+  tags?: UpdateSqlManagedInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
   properties: SqlManagedInstanceProperties;
   /** The complex type of the extended location. */
-  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation;
+  extendedLocation?: CreatePostgresInstanceResponseExtendedLocation | undefined;
   /** Resource sku. */
-  sku?: SqlManagedInstanceSku;
+  sku?: SqlManagedInstanceSku | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerAvailabilityGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -4209,29 +4309,29 @@ export interface UpdateSqlServerAvailabilityGroupRequest {
   /** Name of SQL Availability Group */
   availabilityGroupName: string;
   /** Resource tags. */
-  tags?: UpdateSqlServerAvailabilityGroupRequestTagsMap;
+  tags?: UpdateSqlServerAvailabilityGroupRequestTagsMap | undefined;
   /** The Server Availability Group's properties */
-  properties?: SqlServerAvailabilityGroupResourcePropertiesInput;
+  properties?: SqlServerAvailabilityGroupResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerAvailabilityGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlServerAvailabilityGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlServerAvailabilityGroupResponseTagsMap;
+  tags?: UpdateSqlServerAvailabilityGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerDatabaseRequestTagsMap = { [key: string]: string | undefined };
@@ -4245,29 +4345,29 @@ export interface UpdateSqlServerDatabaseRequest {
   /** Name of the database */
   databaseName: string;
   /** Resource tags. */
-  tags?: UpdateSqlServerDatabaseRequestTagsMap;
+  tags?: UpdateSqlServerDatabaseRequestTagsMap | undefined;
   /** The data controller's properties */
-  properties?: SqlServerDatabaseResourcePropertiesInput;
+  properties?: SqlServerDatabaseResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerDatabaseResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlServerDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlServerDatabaseResponseTagsMap;
+  tags?: UpdateSqlServerDatabaseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Arc Sql Server database */
   properties: SqlServerDatabaseResourceProperties;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerEsuLicenseRequestTagsMap = { [key: string]: string | undefined };
@@ -4288,15 +4388,18 @@ export type SqlServerEsuLicenseUpdatePropertiesInputScopeType =
 /** Properties of update SqlServerEsuLicense. */
 export interface SqlServerEsuLicenseUpdatePropertiesInput {
   /** SQL Server ESU license type. */
-  billingPlan?: SqlServerEsuLicenseUpdatePropertiesInputBillingPlan | (string & {});
+  billingPlan?: SqlServerEsuLicenseUpdatePropertiesInputBillingPlan | (string & {}) | undefined;
   /** The SQL Server version the license covers. */
-  version?: SqlServerEsuLicenseUpdatePropertiesInputVersion | (string & {});
+  version?: SqlServerEsuLicenseUpdatePropertiesInputVersion | (string & {}) | undefined;
   /** The number of total cores of the license covers. */
-  physicalCores?: number;
+  physicalCores?: number | undefined;
   /** The activation state of the license. */
-  activationState?: SqlServerEsuLicenseUpdatePropertiesInputActivationState | (string & {});
+  activationState?:
+    | SqlServerEsuLicenseUpdatePropertiesInputActivationState
+    | (string & {})
+    | undefined;
   /** The Azure scope to which the license will apply. */
-  scopeType?: SqlServerEsuLicenseUpdatePropertiesInputScopeType | (string & {});
+  scopeType?: SqlServerEsuLicenseUpdatePropertiesInputScopeType | (string & {}) | undefined;
 }
 export interface UpdateSqlServerEsuLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4306,23 +4409,23 @@ export interface UpdateSqlServerEsuLicenseRequest {
   /** Name of SQL Server ESU License */
   sqlServerEsuLicenseName: string;
   /** Resource tags. */
-  tags?: UpdateSqlServerEsuLicenseRequestTagsMap;
+  tags?: UpdateSqlServerEsuLicenseRequestTagsMap | undefined;
   /** null */
-  properties?: SqlServerEsuLicenseUpdatePropertiesInput;
+  properties?: SqlServerEsuLicenseUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerEsuLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlServerEsuLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlServerEsuLicenseResponseTagsMap;
+  tags?: UpdateSqlServerEsuLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server ESU license properties */
@@ -4368,41 +4471,41 @@ export type SqlServerInstanceUpdatePropertiesInputHostType =
 /** Properties of update SqlServerInstance. */
 export interface SqlServerInstanceUpdatePropertiesInput {
   /** SQL Server version. */
-  version?: SqlServerInstanceUpdatePropertiesInputVersion | (string & {});
+  version?: SqlServerInstanceUpdatePropertiesInputVersion | (string & {}) | undefined;
   /** SQL Server edition. */
-  edition?: SqlServerInstanceUpdatePropertiesInputEdition | (string & {});
+  edition?: SqlServerInstanceUpdatePropertiesInputEdition | (string & {}) | undefined;
   /** The number of total cores of the Operating System Environment (OSE) hosting the SQL Server instance. */
-  cores?: string;
+  cores?: string | undefined;
   /** SQL Server instance name. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** Type of host for Azure Arc SQL Server */
-  hostType?: SqlServerInstanceUpdatePropertiesInputHostType | (string & {});
+  hostType?: SqlServerInstanceUpdatePropertiesInputHostType | (string & {}) | undefined;
   /** Failover Cluster Instance properties. */
-  failoverCluster?: AvailabilityGroupStateInput;
+  failoverCluster?: AvailabilityGroupStateInput | undefined;
   /** The backup profile for the SQL server. */
-  backupPolicy?: BackupPolicy;
+  backupPolicy?: BackupPolicy | undefined;
   /** Upgrade Action for this resource is locked until it expires. The Expiration time indicated by this value. It is not locked when it is empty. */
-  upgradeLockedUntil?: string;
+  upgradeLockedUntil?: string | undefined;
   /** The monitoring configuration. */
-  monitoring?: Monitoring;
+  monitoring?: Monitoring | undefined;
   /** Migration related configuration. */
-  migration?: MigrationInput;
+  migration?: MigrationInput | undefined;
   /** The configuration related to SQL best practices assessment. */
-  bestPracticesAssessment?: BestPracticesAssessment;
+  bestPracticesAssessment?: BestPracticesAssessment | undefined;
   /** Client connection related configuration. */
-  clientConnection?: ClientConnection;
+  clientConnection?: ClientConnection | undefined;
   /** Indicates if the resource represents a SQL Server engine or a SQL Server component service installed on the host. */
-  serviceType?: ServiceType | (string & {});
+  serviceType?: ServiceType | (string & {}) | undefined;
   /** Authentication related configuration for the SQL Server Instance. */
-  authentication?: Authentication;
+  authentication?: Authentication | undefined;
   /** Database mirroring endpoint related properties. */
-  databaseMirroringEndpoint?: DBMEndpointInput;
+  databaseMirroringEndpoint?: DBMEndpointInput | undefined;
   /** Indicates whether Microsoft PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains. */
-  isMicrosoftPkiCertTrustConfigured?: boolean;
+  isMicrosoftPkiCertTrustConfigured?: boolean | undefined;
   /** Indicates whether DigiCert PKI root-authority certificate (trusted by Azure) exists in SQL Server and trusted for Azure database.windows.net domains. */
-  isDigiCertPkiCertTrustConfigured?: boolean;
+  isDigiCertPkiCertTrustConfigured?: boolean | undefined;
   /** maximum server memory (MB) value configured for this instance. */
-  maxServerMemoryMB?: number;
+  maxServerMemoryMB?: number | undefined;
 }
 export interface UpdateSqlServerInstanceRequest {
   /** The ID of the Azure subscription */
@@ -4412,29 +4515,29 @@ export interface UpdateSqlServerInstanceRequest {
   /** Name of SQL Server Instance */
   sqlServerInstanceName: string;
   /** Resource tags. */
-  tags?: UpdateSqlServerInstanceRequestTagsMap;
+  tags?: UpdateSqlServerInstanceRequestTagsMap | undefined;
   /** null */
-  properties?: SqlServerInstanceUpdatePropertiesInput;
+  properties?: SqlServerInstanceUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlServerInstanceResponseTagsMap;
+  tags?: UpdateSqlServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** null */
-  properties?: SqlServerInstanceProperties;
+  properties?: SqlServerInstanceProperties | undefined;
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerLicenseRequestTagsMap = { [key: string]: string | undefined };
@@ -4452,15 +4555,21 @@ export type SqlServerLicenseUpdatePropertiesInputScopeType =
 /** Properties of update SqlServerLicense. */
 export interface SqlServerLicenseUpdatePropertiesInput {
   /** SQL Server license type. */
-  billingPlan?: SqlServerLicenseUpdatePropertiesInputBillingPlan | (string & {});
+  billingPlan?: SqlServerLicenseUpdatePropertiesInputBillingPlan | (string & {}) | undefined;
   /** The number of total cores of the license covers. */
-  physicalCores?: number;
+  physicalCores?: number | undefined;
   /** This property represents the choice between SQL Server Core and ESU licenses. */
-  licenseCategory?: SqlServerLicenseUpdatePropertiesInputLicenseCategory | (string & {});
+  licenseCategory?:
+    | SqlServerLicenseUpdatePropertiesInputLicenseCategory
+    | (string & {})
+    | undefined;
   /** The activation state of the license. */
-  activationState?: SqlServerLicenseUpdatePropertiesInputActivationState | (string & {});
+  activationState?:
+    | SqlServerLicenseUpdatePropertiesInputActivationState
+    | (string & {})
+    | undefined;
   /** The Azure scope to which the license will apply. */
-  scopeType?: SqlServerLicenseUpdatePropertiesInputScopeType | (string & {});
+  scopeType?: SqlServerLicenseUpdatePropertiesInputScopeType | (string & {}) | undefined;
 }
 export interface UpdateSqlServerLicenseRequest {
   /** The ID of the Azure subscription */
@@ -4470,23 +4579,23 @@ export interface UpdateSqlServerLicenseRequest {
   /** Name of SQL Server License */
   sqlServerLicenseName: string;
   /** Resource tags. */
-  tags?: UpdateSqlServerLicenseRequestTagsMap;
+  tags?: UpdateSqlServerLicenseRequestTagsMap | undefined;
   /** null */
-  properties?: SqlServerLicenseUpdatePropertiesInput;
+  properties?: SqlServerLicenseUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlServerLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlServerLicenseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlServerLicenseResponseTagsMap;
+  tags?: UpdateSqlServerLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL Server license properties */

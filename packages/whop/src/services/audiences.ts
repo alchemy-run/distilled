@@ -30,18 +30,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface AddAudiencePeopleRequest {
   /** Audience ID, prefixed `adaud_`. */
@@ -49,7 +63,7 @@ export interface AddAudiencePeopleRequest {
   /** The new customer CSV -- a file id (`file_...`) returned by `POST /files`. Its headers must match the audience's saved column mapping. */
   file_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Whether the audience targets a defined group of people or people similar to an existing audience. */
 export type AudienceAudienceType = "custom" | "lookalike";
@@ -230,17 +244,17 @@ export type CreateAudienceRequestAudienceType = "custom" | "lookalike";
 /** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
 export interface CreateAudienceRequestColumnMapping {
   /** CSV header for ISO 3166-1 alpha-2 country codes, such as `US`. */
-  country?: string;
+  country?: string | undefined;
   /** CSV header for email addresses. */
-  email?: string;
+  email?: string | undefined;
   /** CSV header for first names. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** CSV header for last names. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** CSV header for each customer's lifetime value -- a non-negative number, currency symbols allowed. When mapped, Meta creates the audience as value-based, so lookalikes built from it favor people similar to the highest-value customers. */
-  ltv?: string;
+  ltv?: string | undefined;
   /** CSV header for phone numbers. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
 export type CreateAudienceRequestEngagementExcludeList = Array<AudienceEngagementRule>;
@@ -251,7 +265,7 @@ export type CreateAudienceRequestEngagementPlatform = "meta";
 /** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
 export interface CreateAudienceRequestEngagement {
   /** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
-  exclude?: CreateAudienceRequestEngagementExcludeList;
+  exclude?: CreateAudienceRequestEngagementExcludeList | undefined;
   /** Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources. */
   include: CreateAudienceRequestEngagementIncludeList;
   /** Ad platform that maintains membership. */
@@ -263,29 +277,29 @@ export interface CreateAudienceRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Audience type. Defaults to `custom`. */
-  audience_type?: CreateAudienceRequestAudienceType | (string & {});
+  audience_type?: CreateAudienceRequestAudienceType | (string & {}) | undefined;
   /** Filter audiences only, and set only at creation. `true` (the default) rebuilds membership from the filters twice a day. `false` keeps whoever matched at creation and never rebuilds. */
-  auto_refresh?: boolean;
+  auto_refresh?: boolean | undefined;
   /** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
-  column_mapping?: CreateAudienceRequestColumnMapping;
+  column_mapping?: CreateAudienceRequestColumnMapping | undefined;
   /** Lookalikes only. Number of lookalike audiences to create (1-6). */
-  count?: number;
+  count?: number | undefined;
   /** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
-  engagement?: CreateAudienceRequestEngagement;
+  engagement?: CreateAudienceRequestEngagement | undefined;
   /** CSV audiences only. The uploaded customer CSV -- a file id (`file_...`) returned by `POST /files`. */
-  file_id?: string;
+  file_id?: string | undefined;
   /** Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them -- for example `{"os": "iOS", "country": "US"}`. Activity dates `event_from` and `event_to` are inclusive and remain fixed on refresh. Use `event_within_days`, `first_seen_within_days` or `last_seen_within_days` for a rolling window. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Audience display name. Required for custom audiences; lookalike names are generated from the source audience. */
-  name?: string;
+  name?: string | undefined;
   /** Lookalikes only. Total similarity reach as a whole percent (1-20), sliced evenly across `count` -- must be divisible by `count`. For example, 3 audiences at 6% creates 0-2%, 2-4%, and 4-6% bands. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Lookalikes only. The ready custom audience (`adaud_`) to build from; uploaded and People audiences need at least 100 matched people. Meta validates engagement audience eligibility when creating the lookalike. */
-  source_audience_id?: string;
+  source_audience_id?: string | undefined;
   /** Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source. */
-  source_type?: CreateAudienceRequestSourceType | (string & {});
+  source_type?: CreateAudienceRequestSourceType | (string & {}) | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateAudienceResponseBodyCase1DataList = Array<Audience>;
 export interface CreateAudienceResponseBodyCase1 {
@@ -306,15 +320,15 @@ export interface ListAudiencesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Audience ID, prefixed `adaud_`, used to filter the response to one audience. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Filter by custom or lookalike audiences. */
-  audience_type?: ListAudiencesRequestAudienceType | (string & {});
+  audience_type?: ListAudiencesRequestAudienceType | (string & {}) | undefined;
   /** Filter by uploaded customer lists, Whop People filters, or social engagement. */
-  source_type?: ListAudiencesRequestSourceType | (string & {});
+  source_type?: ListAudiencesRequestSourceType | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListAudiencesResponseDataList = Array<Audience>;
 export interface ListAudiencesResponsePageInfo {
@@ -331,9 +345,20 @@ export interface UpdateAudienceRequest {
   /** Audience ID, prefixed `adaud_`. */
   id: string;
   /** Replaces the People filters that define membership. The whole definition is replaced rather than merged, so send every filter you want to keep -- a filter you leave out stops applying. Keys and values are the ones `GET /people` accepts, such as an `os` of `iOS` or a `country` of `US`, and at least one filter is required. Date filters must be rolling windows -- `first_seen_within_days` or `last_seen_within_days` -- so the audience re-anchors every time it rebuilds; fixed dates such as `first_seen_after` are rejected, as is `audience_id`. An array value holds at most 500 items, and each value at most 10 KB. Only an audience with a `source_type` of `people_filter` and `auto_refresh` of `true` accepts filters: an uploaded list has no filters to replace, and with auto refresh off the audience keeps the people it matched when it was built, so create a new audience instead. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** New audience display name. A blank value is ignored rather than clearing the name. */
-  name?: string;
+  name?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type AddAudiencePeopleError = Conflict | WhopOpError;
 /** Add People Adds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged. */
@@ -343,8 +368,8 @@ export const addAudiencePeople: API.OperationMethod<
   AddAudiencePeopleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddAudiencePeopleRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<Audience>,
+  input: __S(8, __c1, 0) as any as S.Schema<AddAudiencePeopleRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<Audience>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -360,8 +385,8 @@ export const createAudience: API.OperationMethod<
   CreateAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c3, 2) as any as S.Schema<CreateAudienceRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<CreateAudienceResponse>,
+  input: __S(34, __c4, 2) as any as S.Schema<CreateAudienceRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<CreateAudienceResponse>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -377,8 +402,8 @@ export const deleteAudience: API.OperationMethod<
   DeleteAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteAudienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteAudienceResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteAudienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteAudienceResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -396,8 +421,8 @@ export const listAudiences: API.PaginatedOperationMethod<
   Audience
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(41, __c5, 1) as any as S.Schema<ListAudiencesRequest>,
-    output: __S(43, __c5, 3) as any as S.Schema<ListAudiencesResponse>,
+    input: __S(49, __c6, 1) as any as S.Schema<ListAudiencesRequest>,
+    output: __S(51, __c6, 3) as any as S.Schema<ListAudiencesResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -423,8 +448,8 @@ export const updateAudience: API.OperationMethod<
   UpdateAudienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateAudienceRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<Audience>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateAudienceRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<Audience>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -438,6 +463,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           file_id: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -445,21 +488,21 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddAudiencePeopleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(8, __c1, 0),
-          include: __S(8, __c1, 0),
+          exclude: __S(16, __c2, 0),
+          include: __S(16, __c2, 0),
           platform: S.String,
         }),
       ).annotate({ identifier: "AudienceEngagement" });
@@ -473,24 +516,24 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "AudienceMatchRate" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(26, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           audience_type: S.String,
           auto_refresh: S.Boolean,
           created_at: S.String,
-          engagement: S.NullOr(__S(17, __c2, 1)),
+          engagement: S.NullOr(__S(25, __c3, 1)),
           error_message: S.NullOr(S.String),
           filters: S.NullOr(S.Unknown),
           id: S.String,
           last_refreshed_at: S.NullOr(S.String),
           lookalike_ratio: S.NullOr(S.Number),
           lookalike_starting_ratio: S.NullOr(S.Number),
-          match_rates: __S(19, __c2, 3),
+          match_rates: __S(27, __c3, 3),
           matched_rows: S.Number,
           name: S.String,
-          platform_audience_ids: __S(16, __c2, 0),
+          platform_audience_ids: __S(24, __c3, 0),
           processed_rows: S.Number,
           progress_percent: S.Number,
           source_audience_id: S.NullOr(S.String),
@@ -502,7 +545,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Audience" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -518,8 +561,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(8, __c1, 0)),
-          include: __S(8, __c1, 0),
+          exclude: S.optional(__S(16, __c2, 0)),
+          include: __S(16, __c2, 0),
           platform: S.String,
         }),
       ).annotate({ identifier: "CreateAudienceRequestEngagement" });
@@ -529,9 +572,9 @@ function __c3(j: number): any {
           account_id: S.String,
           audience_type: S.optional(S.String),
           auto_refresh: S.optional(S.Boolean),
-          column_mapping: S.optional(__S(24, __c3, 0)),
+          column_mapping: S.optional(__S(32, __c4, 0)),
           count: S.optional(S.Number),
-          engagement: S.optional(__S(25, __c3, 1)),
+          engagement: S.optional(__S(33, __c4, 1)),
           file_id: S.optional(S.String),
           filters: S.optional(S.Unknown),
           name: S.optional(S.String),
@@ -547,7 +590,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -563,10 +606,10 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteAudienceResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(28, __c3, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -590,13 +633,13 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(40, __c5, 0),
-          page_info: __S(42, __c5, 2),
+          data: __S(48, __c6, 0),
+          page_info: __S(50, __c6, 2),
         }),
       ).annotate({ identifier: "ListAudiencesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

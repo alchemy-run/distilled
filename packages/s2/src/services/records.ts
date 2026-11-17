@@ -31,10 +31,10 @@ export type AppendRecordHeadersList = Array<Header>;
 /** Record to be appended to a stream. */
 export interface AppendRecord {
   /** Body of the record. */
-  body?: string;
+  body?: string | undefined;
   /** Series of name-value pairs for this record. */
-  headers?: AppendRecordHeadersList;
-  timestamp?: number | null;
+  headers?: AppendRecordHeadersList | undefined;
+  timestamp?: number | null | undefined;
 }
 /** Batch of records to append atomically, which must contain at least one record, and no more than 1000. The total size of a batch of records may not exceed 1 MiB of metered bytes. */
 export type AppendRequestRecordsList = Array<AppendRecord>;
@@ -42,13 +42,13 @@ export interface AppendRequest {
   /** Stream name. */
   stream: string;
   /** Defines the interpretation of record data (header name, header value, and body) with the JSON content type. Use `raw` (default) for efficient transmission and storage of Unicode data -- storage will be in UTF-8. Use `base64` for safe transmission with efficient storage of binary data. */
-  s2Format?: Format | (string & {});
+  s2Format?: Format | (string & {}) | undefined;
   /** Encryption key material for append and read operations. Provide base64-encoded key when stream encryption is enabled. */
-  s2EncryptionKey?: string;
+  s2EncryptionKey?: string | undefined;
   /** JSON-encoded `StreamConfig` to apply if the stream is created on append or read. Unset fields inherit the basin's default stream configuration. Ignored if the stream already exists. Compact JSON is preferred. */
-  s2StreamConfig?: string;
-  fencing_token?: string | null;
-  match_seq_num?: number | null;
+  s2StreamConfig?: string | undefined;
+  fencing_token?: string | null | undefined;
+  match_seq_num?: number | null | undefined;
   /** Batch of records to append atomically, which must contain at least one record, and no more than 1000. The total size of a batch of records may not exceed 1 MiB of metered bytes. */
   records: AppendRequestRecordsList;
 }
@@ -80,36 +80,36 @@ export interface ReadRequest {
   /** Stream name. */
   stream: string;
   /** Start from a sequence number. */
-  seq_num?: number;
+  seq_num?: number | undefined;
   /** Start from a timestamp. */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** Start from number of records before the next sequence number. */
-  tail_offset?: number;
+  tail_offset?: number | undefined;
   /** Start reading from the tail if the requested position is beyond it. Otherwise, a `416 Range Not Satisfiable` response is returned. */
-  clamp?: boolean;
+  clamp?: boolean | undefined;
   /** Record count limit. Non-streaming reads are capped by the default limit of 1000 records. */
-  count?: number;
+  count?: number | undefined;
   /** Metered bytes limit. Non-streaming reads are capped by the default limit of 1 MiB. */
-  bytes?: number;
+  bytes?: number | undefined;
   /** Exclusive timestamp to read until. */
-  until?: number;
+  until?: number | undefined;
   /** Duration in seconds to wait for new records. The default duration is 0 if there is a bound on `count`, `bytes`, or `until`, and otherwise infinite. Non-streaming reads are always bounded on `count` and `bytes`, so you can achieve long poll semantics by specifying a non-zero duration up to 60 seconds. In the context of an SSE or S2S streaming read, the duration will bound how much time can elapse between records throughout the lifetime of the session. */
-  wait?: number;
+  wait?: number | undefined;
   /** Defines the interpretation of record data (header name, header value, and body) with the JSON content type. Use `raw` (default) for efficient transmission and storage of Unicode data -- storage will be in UTF-8. Use `base64` for safe transmission with efficient storage of binary data. */
-  s2Format?: Format | (string & {});
+  s2Format?: Format | (string & {}) | undefined;
   /** Encryption key material for append and read operations. Provide base64-encoded key when stream encryption is enabled. */
-  s2EncryptionKey?: string;
+  s2EncryptionKey?: string | undefined;
   /** JSON-encoded `StreamConfig` to apply if the stream is created on append or read. Unset fields inherit the basin's default stream configuration. Ignored if the stream already exists. Compact JSON is preferred. */
-  s2StreamConfig?: string;
+  s2StreamConfig?: string | undefined;
 }
 /** Series of name-value pairs for this record. */
 export type SequencedRecordHeadersList = Array<Header>;
 /** Record that is durably sequenced on a stream. */
 export interface SequencedRecord {
   /** Body of the record. */
-  body?: string;
+  body?: string | undefined;
   /** Series of name-value pairs for this record. */
-  headers?: SequencedRecordHeadersList;
+  headers?: SequencedRecordHeadersList | undefined;
   /** Sequence number assigned by the service. */
   seq_num: number;
   /** Timestamp for this record. */
@@ -120,7 +120,7 @@ export type ReadBatchRecordsList = Array<SequencedRecord>;
 export interface ReadBatch {
   /** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`). */
   records: ReadBatchRecordsList;
-  tail?: StreamPosition | null;
+  tail?: StreamPosition | null | undefined;
 }
 export type AppendError = S2OpError;
 /** Append records. */

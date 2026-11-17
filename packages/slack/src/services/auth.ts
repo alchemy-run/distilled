@@ -27,47 +27,47 @@ const TELEMETRY = {
 
 export interface ListTeamsRequest {
   /** The maximum number of workspaces to return. Must be a positive integer no larger than 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether to return icon paths for each workspace. An icon path represents a URI pointing to the image signifying the workspace. */
-  include_icon?: boolean;
+  include_icon?: boolean | undefined;
 }
 /** Paths to icons */
 export interface ListTeamsResponseTeamsItemIcon {
-  image_34?: string;
-  image_44?: string;
-  image_68?: string;
-  image_88?: string;
-  image_102?: string;
-  image_132?: string;
-  image_230?: string;
-  image_default?: boolean;
+  image_34?: string | undefined;
+  image_44?: string | undefined;
+  image_68?: string | undefined;
+  image_88?: string | undefined;
+  image_102?: string | undefined;
+  image_132?: string | undefined;
+  image_230?: string | undefined;
+  image_default?: boolean | undefined;
 }
 export interface ListTeamsResponseTeamsItem {
   /** ID of the workspace */
-  id?: string;
+  id?: string | undefined;
   /** Name of the workspace */
   name: string;
   /** Paths to icons */
-  icon?: ListTeamsResponseTeamsItemIcon;
+  icon?: ListTeamsResponseTeamsItemIcon | undefined;
 }
 export type ListTeamsResponseTeamsList = Array<ListTeamsResponseTeamsItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListTeamsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListTeamsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   teams: ListTeamsResponseTeamsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListTeamsResponseResponseMetadata;
+  response_metadata?: ListTeamsResponseResponseMetadata | undefined;
 }
 export interface RevokeAuthRequest {
   /** Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked. */
-  test?: boolean;
+  test?: boolean | undefined;
 }
 export interface RevokeAuthResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -78,17 +78,17 @@ export interface TestAuthRequest {}
 export interface TestAuthResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  user_id?: string;
-  url?: string;
-  team_id?: string;
-  user?: string | null;
-  team?: string;
-  app_id?: string;
-  app_name?: string;
-  enterprise_id?: string;
-  bot_id?: string;
-  is_enterprise_install?: boolean;
-  expires_in?: number | null;
+  user_id?: string | undefined;
+  url?: string | undefined;
+  team_id?: string | undefined;
+  user?: string | null | undefined;
+  team?: string | undefined;
+  app_id?: string | undefined;
+  app_name?: string | undefined;
+  enterprise_id?: string | undefined;
+  bot_id?: string | undefined;
+  is_enterprise_install?: boolean | undefined;
+  expires_in?: number | null | undefined;
 }
 export type ListTeamsError = SlackOpError;
 /** Obtain a full list of workspaces your org-wide app has been approved for. Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` -- Invalid cursor. - `invalid_limit` -- The value passed for `limit` was not valid. - `invalid_auth` -- The token doesn't have access to this endpoint. - `internal_error` -- There was an internal error. See https://docs.slack.dev/reference/methods/auth.teams.list */

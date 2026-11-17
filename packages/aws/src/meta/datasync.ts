@@ -24,7 +24,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       actions: ["datasync:CreateLocationAzureBlob", "iam:PassRole", "datasync:TagResource"],
       resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
       conditional: {
-        "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
+        "iam:PassRole": "FederatedIdentity.AwsIamRole",
         "datasync:TagResource": "Tags",
       },
     },
@@ -96,7 +96,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       actions: ["datasync:CreateLocationObjectStorage", "iam:PassRole", "datasync:TagResource"],
       resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
       conditional: {
-        "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
+        "iam:PassRole": "FederatedIdentity.AwsIamRole",
         "datasync:TagResource": "Tags",
       },
     },
@@ -331,7 +331,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
     iam: {
       actions: ["iam:PassRole", "datasync:UpdateLocationAzureBlob"],
       resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-      conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
+      conditional: { "iam:PassRole": "FederatedIdentity.AwsIamRole" },
     },
   },
   updateLocationEfs: {
@@ -402,7 +402,7 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
     iam: {
       actions: ["iam:PassRole", "datasync:UpdateLocationObjectStorage"],
       resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-      conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
+      conditional: { "iam:PassRole": "FederatedIdentity.AwsIamRole" },
     },
   },
   updateLocationS3: {

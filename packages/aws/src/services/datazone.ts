@@ -142,6 +142,12 @@ export class ThrottlingException
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class UnauthorizedException
+  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
+    "UnauthorizedException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
+  ).pipe(C.withAuthError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -153,24 +159,24 @@ export type AssetIdentifier = string;
 export type Revision = string;
 export type AcceptRuleBehavior = "ALL" | "NONE" | (string & {});
 export interface AcceptRule {
-  rule?: AcceptRuleBehavior;
-  threshold?: number;
+  rule?: AcceptRuleBehavior | undefined;
+  threshold?: number | undefined;
 }
 export type EditedValue = string | redacted.Redacted<string>;
 export interface AcceptChoice {
-  predictionTarget?: string;
-  predictionChoice?: number;
-  editedValue?: string | redacted.Redacted<string>;
+  predictionTarget?: string | undefined;
+  predictionChoice?: number | undefined;
+  editedValue?: string | redacted.Redacted<string> | undefined;
 }
 export type AcceptChoices = AcceptChoice[];
 export type ClientToken = string;
 export interface AcceptPredictionsInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
-  acceptRule?: AcceptRule;
-  acceptChoices?: AcceptChoice[];
-  clientToken?: string;
+  revision?: string | undefined;
+  acceptRule?: AcceptRule | undefined;
+  acceptChoices?: AcceptChoice[] | undefined;
+  clientToken?: string | undefined;
 }
 export type AssetId = string;
 export interface AcceptPredictionsOutput {
@@ -198,9 +204,9 @@ export type AssetPermissions = AssetPermission[];
 export interface AcceptSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  assetScopes?: AcceptedAssetScope[];
-  assetPermissions?: AssetPermission[];
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  assetScopes?: AcceptedAssetScope[] | undefined;
+  assetPermissions?: AssetPermission[] | undefined;
 }
 export type CreatedBy = string;
 export type UpdatedBy = string;
@@ -211,46 +217,46 @@ export type RequestReason = string | redacted.Redacted<string>;
 export type ProjectId = string;
 export type ProjectName = string | redacted.Redacted<string>;
 export interface SubscribedProject {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export type UserProfileId = string;
 export interface IamUserProfileDetails {
-  arn?: string;
-  principalId?: string;
-  sessionName?: string;
-  groupProfileId?: string;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  sessionName?: string | undefined;
+  groupProfileId?: string | undefined;
 }
 export type UserProfileName = string | redacted.Redacted<string>;
 export type FirstName = string | redacted.Redacted<string>;
 export type LastName = string | redacted.Redacted<string>;
 export interface SsoUserProfileDetails {
-  username?: string | redacted.Redacted<string>;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string> | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
 }
 export type UserProfileDetails =
-  | { iam: IamUserProfileDetails; sso?: never }
-  | { iam?: never; sso: SsoUserProfileDetails };
+  | { iam: IamUserProfileDetails; sso?: undefined }
+  | { iam?: undefined; sso: SsoUserProfileDetails };
 export interface SubscribedUser {
-  id?: string;
-  details?: UserProfileDetails;
+  id?: string | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type GroupProfileId = string;
 export type GroupProfileName = string | redacted.Redacted<string>;
 export interface SubscribedGroup {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export type IamPrincipalArn = string;
 export interface SubscribedIamPrincipal {
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export type SubscribedPrincipal =
-  | { project: SubscribedProject; user?: never; group?: never; iam?: never }
-  | { project?: never; user: SubscribedUser; group?: never; iam?: never }
-  | { project?: never; user?: never; group: SubscribedGroup; iam?: never }
-  | { project?: never; user?: never; group?: never; iam: SubscribedIamPrincipal };
+  | { project: SubscribedProject; user?: undefined; group?: undefined; iam?: undefined }
+  | { project?: undefined; user: SubscribedUser; group?: undefined; iam?: undefined }
+  | { project?: undefined; user?: undefined; group: SubscribedGroup; iam?: undefined }
+  | { project?: undefined; user?: undefined; group?: undefined; iam: SubscribedIamPrincipal };
 export type SubscribedPrincipals = SubscribedPrincipal[];
 export type ListingId = string;
 export type ListingName = string;
@@ -260,51 +266,51 @@ export type Forms = string;
 export type GlossaryTermName = string | redacted.Redacted<string>;
 export type ShortDescription = string | redacted.Redacted<string>;
 export interface DetailedGlossaryTerm {
-  name?: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
 }
 export type DetailedGlossaryTerms = DetailedGlossaryTerm[];
 export interface AssetScope {
   assetId: string;
   filterIds: string[];
   status: string;
-  scopeName?: string;
-  errorMessage?: string;
+  scopeName?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface SubscribedAssetListing {
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
-  forms?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  assetScope?: AssetScope;
-  permissions?: Permissions;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
+  forms?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  assetScope?: AssetScope | undefined;
+  permissions?: Permissions | undefined;
 }
 export interface AssetInDataProductListingItem {
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
 }
 export type AssetInDataProductListingItems = AssetInDataProductListingItem[];
 export interface SubscribedProductListing {
-  entityId?: string;
-  entityRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  name?: string;
-  description?: string;
-  assetListings?: AssetInDataProductListingItem[];
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  assetListings?: AssetInDataProductListingItem[] | undefined;
 }
 export type SubscribedListingItem =
-  | { assetListing: SubscribedAssetListing; productListing?: never }
-  | { assetListing?: never; productListing: SubscribedProductListing };
+  | { assetListing: SubscribedAssetListing; productListing?: undefined }
+  | { assetListing?: undefined; productListing: SubscribedProductListing };
 export interface SubscribedListing {
   id: string;
-  revision?: string;
+  revision?: string | undefined;
   name: string;
   description: string | redacted.Redacted<string>;
   item: SubscribedListingItem;
   ownerProjectId: string;
-  ownerProjectName?: string;
+  ownerProjectName?: string | undefined;
 }
 export type SubscribedListings = SubscribedListing[];
 export type SubscriptionId = string;
@@ -312,15 +318,15 @@ export type FormName = string;
 export type FormTypeName = string | redacted.Redacted<string>;
 export interface FormOutput {
   formName: string;
-  typeName?: string | redacted.Redacted<string>;
-  typeRevision?: string;
-  content?: string;
+  typeName?: string | redacted.Redacted<string> | undefined;
+  typeRevision?: string | undefined;
+  content?: string | undefined;
 }
 export type MetadataForms = FormOutput[];
 export interface AcceptSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -328,10 +334,10 @@ export interface AcceptSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export type DataZoneEntityType = "DOMAIN_UNIT" | (string & {});
 export type UserIdentifier = string;
@@ -343,14 +349,14 @@ export interface OwnerGroupProperties {
   groupIdentifier: string;
 }
 export type OwnerProperties =
-  | { user: OwnerUserProperties; group?: never }
-  | { user?: never; group: OwnerGroupProperties };
+  | { user: OwnerUserProperties; group?: undefined }
+  | { user?: undefined; group: OwnerGroupProperties };
 export interface AddEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
   entityIdentifier: string;
   owner: OwnerProperties;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AddEntityOwnerOutput {}
 export type TargetEntityType =
@@ -377,8 +383,8 @@ export type ManagedPolicyType =
   | (string & {});
 export interface AllUsersGrantFilter {}
 export type UserPolicyGrantPrincipal =
-  | { userIdentifier: string; allUsersGrantFilter?: never }
-  | { userIdentifier?: never; allUsersGrantFilter: AllUsersGrantFilter };
+  | { userIdentifier: string; allUsersGrantFilter?: undefined }
+  | { userIdentifier?: undefined; allUsersGrantFilter: AllUsersGrantFilter };
 export type GroupPolicyGrantPrincipal = { groupIdentifier: string };
 export type ProjectDesignation =
   | "OWNER"
@@ -390,287 +396,307 @@ export type DesignationId = string;
 export type DomainUnitId = string;
 export interface DomainUnitFilterForProject {
   domainUnit: string;
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export type ProjectGrantFilter = { domainUnitFilter: DomainUnitFilterForProject };
 export interface ProjectPolicyGrantPrincipal {
   projectDesignation: ProjectDesignation;
-  userCreatedDesignationId?: string;
-  projectIdentifier?: string;
-  projectGrantFilter?: ProjectGrantFilter;
+  userCreatedDesignationId?: string | undefined;
+  projectIdentifier?: string | undefined;
+  projectGrantFilter?: ProjectGrantFilter | undefined;
 }
 export type DomainUnitDesignation = "OWNER" | (string & {});
 export interface AllDomainUnitsGrantFilter {}
 export type DomainUnitGrantFilter = { allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter };
 export interface DomainUnitPolicyGrantPrincipal {
   domainUnitDesignation: DomainUnitDesignation;
-  domainUnitIdentifier?: string;
-  domainUnitGrantFilter?: DomainUnitGrantFilter;
+  domainUnitIdentifier?: string | undefined;
+  domainUnitGrantFilter?: DomainUnitGrantFilter | undefined;
 }
 export type PolicyGrantPrincipal =
-  | { user: UserPolicyGrantPrincipal; group?: never; project?: never; domainUnit?: never }
-  | { user?: never; group: GroupPolicyGrantPrincipal; project?: never; domainUnit?: never }
-  | { user?: never; group?: never; project: ProjectPolicyGrantPrincipal; domainUnit?: never }
-  | { user?: never; group?: never; project?: never; domainUnit: DomainUnitPolicyGrantPrincipal };
+  | {
+      user: UserPolicyGrantPrincipal;
+      group?: undefined;
+      project?: undefined;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group: GroupPolicyGrantPrincipal;
+      project?: undefined;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group?: undefined;
+      project: ProjectPolicyGrantPrincipal;
+      domainUnit?: undefined;
+    }
+  | {
+      user?: undefined;
+      group?: undefined;
+      project?: undefined;
+      domainUnit: DomainUnitPolicyGrantPrincipal;
+    };
 export interface CreateDomainUnitPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface OverrideDomainUnitOwnersPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface AddToProjectMemberPoolPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface OverrideProjectOwnersPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateGlossaryPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateFormTypePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateAssetTypePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateProjectPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateEnvironmentProfilePolicyGrantDetail {
-  domainUnitId?: string;
+  domainUnitId?: string | undefined;
 }
 export interface Unit {}
 export type ProjectProfileList = string[];
 export interface CreateProjectFromProjectProfilePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
-  projectProfiles?: string[];
+  includeChildDomainUnits?: boolean | undefined;
+  projectProfiles?: string[] | undefined;
 }
 export interface UseAssetTypePolicyGrantDetail {
-  domainUnitId?: string;
+  domainUnitId?: string | undefined;
 }
 export type PolicyGrantDetail =
   | {
       createDomainUnit: CreateDomainUnitPolicyGrantDetail;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
+      createDomainUnit?: undefined;
       overrideDomainUnitOwners: OverrideDomainUnitOwnersPolicyGrantDetail;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
       addToProjectMemberPool: AddToProjectMemberPoolPolicyGrantDetail;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
       overrideProjectOwners: OverrideProjectOwnersPolicyGrantDetail;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
       createGlossary: CreateGlossaryPolicyGrantDetail;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
       createFormType: CreateFormTypePolicyGrantDetail;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
       createAssetType: CreateAssetTypePolicyGrantDetail;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
       createProject: CreateProjectPolicyGrantDetail;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
       createEnvironmentProfile: CreateEnvironmentProfilePolicyGrantDetail;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
       delegateCreateEnvironmentProfile: Unit;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
       createEnvironment: Unit;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
       createEnvironmentFromBlueprint: Unit;
-      createProjectFromProjectProfile?: never;
-      useAssetType?: never;
+      createProjectFromProjectProfile?: undefined;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
       createProjectFromProjectProfile: CreateProjectFromProjectProfilePolicyGrantDetail;
-      useAssetType?: never;
+      useAssetType?: undefined;
     }
   | {
-      createDomainUnit?: never;
-      overrideDomainUnitOwners?: never;
-      addToProjectMemberPool?: never;
-      overrideProjectOwners?: never;
-      createGlossary?: never;
-      createFormType?: never;
-      createAssetType?: never;
-      createProject?: never;
-      createEnvironmentProfile?: never;
-      delegateCreateEnvironmentProfile?: never;
-      createEnvironment?: never;
-      createEnvironmentFromBlueprint?: never;
-      createProjectFromProjectProfile?: never;
+      createDomainUnit?: undefined;
+      overrideDomainUnitOwners?: undefined;
+      addToProjectMemberPool?: undefined;
+      overrideProjectOwners?: undefined;
+      createGlossary?: undefined;
+      createFormType?: undefined;
+      createAssetType?: undefined;
+      createProject?: undefined;
+      createEnvironmentProfile?: undefined;
+      delegateCreateEnvironmentProfile?: undefined;
+      createEnvironment?: undefined;
+      createEnvironmentFromBlueprint?: undefined;
+      createProjectFromProjectProfile?: undefined;
       useAssetType: UseAssetTypePolicyGrantDetail;
     };
 export interface AddPolicyGrantInput {
@@ -680,11 +706,11 @@ export interface AddPolicyGrantInput {
   policyType: ManagedPolicyType;
   principal: PolicyGrantPrincipal;
   detail: PolicyGrantDetail;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type GrantIdentifier = string;
 export interface AddPolicyGrantOutput {
-  grantId?: string;
+  grantId?: string | undefined;
 }
 export type EnvironmentId = string;
 export interface AssociateEnvironmentRoleInput {
@@ -712,13 +738,13 @@ export interface BatchGetAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
   entityIdentifier: string;
-  entityRevision?: string;
+  entityRevision?: string | undefined;
   attributeIdentifiers: string[];
 }
 export type FormOutputList = FormOutput[];
 export interface BatchGetAttributeOutput {
   attributeIdentifier: string;
-  forms?: FormOutput[];
+  forms?: FormOutput[] | undefined;
 }
 export type BatchGetAttributeItems = BatchGetAttributeOutput[];
 export interface AttributeError {
@@ -728,16 +754,16 @@ export interface AttributeError {
 }
 export type AttributesErrors = AttributeError[];
 export interface BatchGetAttributesMetadataOutput {
-  attributes?: BatchGetAttributeOutput[];
+  attributes?: BatchGetAttributeOutput[] | undefined;
   errors: AttributeError[];
 }
 export type FormTypeIdentifier = string;
 export type RevisionInput = string;
 export interface FormInput {
   formName: string;
-  typeIdentifier?: string;
-  typeRevision?: string;
-  content?: string;
+  typeIdentifier?: string | undefined;
+  typeRevision?: string | undefined;
+  content?: string | undefined;
 }
 export type FormInputList = FormInput[];
 export interface AttributeInput {
@@ -749,7 +775,7 @@ export interface BatchPutAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
   entityIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   attributes: AttributeInput[];
 }
 export interface BatchPutAttributeOutput {
@@ -757,8 +783,8 @@ export interface BatchPutAttributeOutput {
 }
 export type BatchPutAttributeItems = BatchPutAttributeOutput[];
 export interface BatchPutAttributesMetadataOutput {
-  errors?: AttributeError[];
-  attributes?: BatchPutAttributeOutput[];
+  errors?: AttributeError[] | undefined;
+  attributes?: BatchPutAttributeOutput[] | undefined;
 }
 export type MetadataGenerationRunIdentifier = string;
 export interface CancelMetadataGenerationRunInput {
@@ -774,15 +800,15 @@ export type SubscriptionStatus = "APPROVED" | "REVOKED" | "CANCELLED" | (string 
 export interface CancelSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type AccountPoolName = string | redacted.Redacted<string>;
 export type ResolutionStrategy = "MANUAL" | (string & {});
@@ -793,61 +819,61 @@ export type AwsAccountName = string | redacted.Redacted<string>;
 export interface AccountInfo {
   awsAccountId: string;
   supportedRegions: string[];
-  awsAccountName?: string | redacted.Redacted<string>;
+  awsAccountName?: string | redacted.Redacted<string> | undefined;
 }
 export type AccountInfoList = AccountInfo[];
 export type LambdaFunctionArn = string;
 export type LambdaExecutionRoleArn = string;
 export interface CustomAccountPoolHandler {
   lambdaFunctionArn: string;
-  lambdaExecutionRoleArn?: string;
+  lambdaExecutionRoleArn?: string | undefined;
 }
 export type AccountSource =
-  | { accounts: AccountInfo[]; customAccountPoolHandler?: never }
-  | { accounts?: never; customAccountPoolHandler: CustomAccountPoolHandler };
+  | { accounts: AccountInfo[]; customAccountPoolHandler?: undefined }
+  | { accounts?: undefined; customAccountPoolHandler: CustomAccountPoolHandler };
 export interface CreateAccountPoolInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   resolutionStrategy: ResolutionStrategy;
   accountSource: AccountSource;
 }
 export type AccountPoolId = string;
 export interface CreateAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export type AssetName = string | redacted.Redacted<string>;
 export type ExternalIdentifier = string;
 export type AssetTypeIdentifier = string;
 export type GlossaryTerms = string[];
 export interface BusinessNameGenerationConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PredictionConfiguration {
-  businessNameGeneration?: BusinessNameGenerationConfiguration;
+  businessNameGeneration?: BusinessNameGenerationConfiguration | undefined;
 }
 export interface CreateAssetInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   typeIdentifier: string;
-  typeRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
+  typeRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
   owningProjectIdentifier: string;
-  predictionConfiguration?: PredictionConfiguration;
-  clientToken?: string;
+  predictionConfiguration?: PredictionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export type ListingStatus = "CREATING" | "ACTIVE" | "INACTIVE" | (string & {});
 export interface AssetListingDetails {
@@ -859,10 +885,10 @@ export type DataPointIdentifier = string;
 export interface TimeSeriesDataPointSummaryFormOutput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  contentSummary?: string;
-  id?: string;
+  contentSummary?: string | undefined;
+  id?: string | undefined;
 }
 export type TimeSeriesDataPointSummaryFormOutputList = TimeSeriesDataPointSummaryFormOutput[];
 export interface CreateAssetOutput {
@@ -870,27 +896,27 @@ export interface CreateAssetOutput {
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  predictionConfiguration?: PredictionConfiguration;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
 }
 export type FilterName = string | redacted.Redacted<string>;
 export type ColumnNameList = string[];
 export interface ColumnFilterConfiguration {
-  includedColumnNames?: string[];
+  includedColumnNames?: string[] | undefined;
 }
 export interface EqualToExpression {
   columnName: string;
@@ -942,191 +968,191 @@ export interface NotLikeExpression {
 export type RowFilterExpression =
   | {
       equalTo: EqualToExpression;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
+      equalTo?: undefined;
       notEqualTo: NotEqualToExpression;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
       greaterThan: GreaterThanExpression;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
       lessThan: LessThanExpression;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
       greaterThanOrEqualTo: GreaterThanOrEqualToExpression;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
       lessThanOrEqualTo: LessThanOrEqualToExpression;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
       isNull: IsNullExpression;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
       isNotNull: IsNotNullExpression;
-      in?: never;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
       in: InExpression;
-      notIn?: never;
-      like?: never;
-      notLike?: never;
+      notIn?: undefined;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
       notIn: NotInExpression;
-      like?: never;
-      notLike?: never;
+      like?: undefined;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
       like: LikeExpression;
-      notLike?: never;
+      notLike?: undefined;
     }
   | {
-      equalTo?: never;
-      notEqualTo?: never;
-      greaterThan?: never;
-      lessThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThanOrEqualTo?: never;
-      isNull?: never;
-      isNotNull?: never;
-      in?: never;
-      notIn?: never;
-      like?: never;
+      equalTo?: undefined;
+      notEqualTo?: undefined;
+      greaterThan?: undefined;
+      lessThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThanOrEqualTo?: undefined;
+      isNull?: undefined;
+      isNotNull?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      like?: undefined;
       notLike: NotLikeExpression;
     };
 export type RowFilterList = RowFilter[];
 export type RowFilter =
-  | { expression: RowFilterExpression; and?: never; or?: never }
-  | { expression?: never; and: RowFilter[]; or?: never }
-  | { expression?: never; and?: never; or: RowFilter[] };
+  | { expression: RowFilterExpression; and?: undefined; or?: undefined }
+  | { expression?: undefined; and: RowFilter[]; or?: undefined }
+  | { expression?: undefined; and?: undefined; or: RowFilter[] };
 export interface RowFilterConfiguration {
   rowFilter: RowFilter;
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
 }
 export type AssetFilterConfiguration =
-  | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: never }
-  | { columnConfiguration?: never; rowConfiguration: RowFilterConfiguration };
+  | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: undefined }
+  | { columnConfiguration?: undefined; rowConfiguration: RowFilterConfiguration };
 export interface CreateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   configuration: AssetFilterConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type FilterStatus = "VALID" | "INVALID" | (string & {});
 export interface CreateAssetFilterOutput {
@@ -1134,106 +1160,106 @@ export interface CreateAssetFilterOutput {
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface CreateAssetRevisionInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
   identifier: string;
-  typeRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
-  predictionConfiguration?: PredictionConfiguration;
-  clientToken?: string;
+  typeRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateAssetRevisionOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  predictionConfiguration?: PredictionConfiguration;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
 }
 export interface FormEntryInput {
   typeIdentifier: string;
   typeRevision: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type FormsInputMap = { [key: string]: FormEntryInput | undefined };
 export interface CreateAssetTypeInput {
   domainIdentifier: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsInput: { [key: string]: FormEntryInput | undefined };
   owningProjectIdentifier: string;
 }
 export interface FormEntryOutput {
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type FormsOutputMap = { [key: string]: FormEntryOutput | undefined };
 export interface CreateAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type ConnectionId = string;
 export interface AwsLocation {
-  accessRole?: string;
-  awsAccountId?: string;
-  awsRegion?: string;
-  iamConnectionId?: string;
+  accessRole?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsRegion?: string | undefined;
+  iamConnectionId?: string | undefined;
 }
 export type PropertyMap = { [key: string]: string | undefined };
 export interface Configuration {
-  classification?: string;
-  properties?: { [key: string]: string | undefined };
+  classification?: string | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export type Configurations = Configuration[];
 export type ConnectionName = string;
 export interface AthenaPropertiesInput {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
 }
 export type ConnectionProperties = { [key: string]: string | undefined };
 export type SubnetId = string;
 export type SubnetIdList = string[];
 export type SecurityGroupIdList = string[];
 export interface PhysicalConnectionRequirements {
-  subnetId?: string;
-  subnetIdList?: string[];
-  securityGroupIdList?: string[];
-  availabilityZone?: string;
+  subnetId?: string | undefined;
+  subnetIdList?: string[] | undefined;
+  securityGroupIdList?: string[] | undefined;
+  availabilityZone?: string | undefined;
 }
 export type GlueConnectionType =
   | "SNOWFLAKE"
@@ -1252,6 +1278,8 @@ export type GlueConnectionType =
   | "ICEBERGRESTCATALOG"
   | "SNOWFLAKEICEBERGRESTCATALOG"
   | "DATABRICKSICEBERGRESTCATALOG"
+  | "WORKDAYICEBERGRESTCATALOG"
+  | "WORKDAYLDQ"
   | (string & {});
 export type ComputeEnvironments = "SPARK" | "ATHENA" | "PYTHON" | (string & {});
 export type ComputeEnvironmentsList = ComputeEnvironments[];
@@ -1262,69 +1290,69 @@ export type OAuth2GrantType =
   | "JWT_BEARER"
   | (string & {});
 export interface OAuth2ClientApplication {
-  userManagedClientApplicationClientId?: string;
-  aWSManagedClientApplicationReference?: string;
+  userManagedClientApplicationClientId?: string | undefined;
+  aWSManagedClientApplicationReference?: string | undefined;
 }
 export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export interface AuthorizationCodeProperties {
-  authorizationCode?: string;
-  redirectUri?: string;
+  authorizationCode?: string | undefined;
+  redirectUri?: string | undefined;
 }
 export interface GlueOAuth2Credentials {
-  userManagedClientApplicationClientSecret?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  jwtToken?: string;
+  userManagedClientApplicationClientSecret?: string | undefined;
+  accessToken?: string | undefined;
+  refreshToken?: string | undefined;
+  jwtToken?: string | undefined;
 }
 export interface OAuth2Properties {
-  oAuth2GrantType?: OAuth2GrantType;
-  oAuth2ClientApplication?: OAuth2ClientApplication;
-  tokenUrl?: string;
-  tokenUrlParametersMap?: { [key: string]: string | undefined };
-  authorizationCodeProperties?: AuthorizationCodeProperties;
-  oAuth2Credentials?: GlueOAuth2Credentials;
+  oAuth2GrantType?: OAuth2GrantType | undefined;
+  oAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  tokenUrl?: string | undefined;
+  tokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
+  authorizationCodeProperties?: AuthorizationCodeProperties | undefined;
+  oAuth2Credentials?: GlueOAuth2Credentials | undefined;
 }
 export interface BasicAuthenticationCredentials {
-  userName?: string;
-  password?: string;
+  userName?: string | undefined;
+  password?: string | undefined;
 }
 export type CredentialMap = { [key: string]: string | undefined };
 export interface AuthenticationConfigurationInput {
-  authenticationType?: AuthenticationType;
-  oAuth2Properties?: OAuth2Properties;
-  secretArn?: string;
-  kmsKeyArn?: string;
-  basicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  customAuthenticationCredentials?: { [key: string]: string | undefined };
+  authenticationType?: AuthenticationType | undefined;
+  oAuth2Properties?: OAuth2Properties | undefined;
+  secretArn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  basicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
+  customAuthenticationCredentials?: { [key: string]: string | undefined } | undefined;
 }
 export interface GlueConnectionInput {
-  connectionProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  name?: string;
-  description?: string;
-  connectionType?: GlueConnectionType;
-  matchCriteria?: string;
-  validateCredentials?: boolean;
-  validateForComputeEnvironments?: ComputeEnvironments[];
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationInput;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  connectionType?: GlueConnectionType | undefined;
+  matchCriteria?: string | undefined;
+  validateCredentials?: boolean | undefined;
+  validateForComputeEnvironments?: ComputeEnvironments[] | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export interface GluePropertiesInput {
-  glueConnectionInput?: GlueConnectionInput;
+  glueConnectionInput?: GlueConnectionInput | undefined;
 }
 export interface HyperPodPropertiesInput {
   clusterName: string;
 }
 export type RoleArn = string;
 export interface IamPropertiesInput {
-  glueLineageSyncEnabled?: boolean;
-  roleArn?: string;
+  glueLineageSyncEnabled?: boolean | undefined;
+  roleArn?: string | undefined;
 }
 export type RedshiftStorageProperties =
-  | { clusterName: string; workgroupName?: never }
-  | { clusterName?: never; workgroupName: string };
+  | { clusterName: string; workgroupName?: undefined }
+  | { clusterName?: undefined; workgroupName: string };
 export type Password = string | redacted.Redacted<string>;
 export type Username = string;
 export interface UsernamePassword {
@@ -1332,72 +1360,72 @@ export interface UsernamePassword {
   username: string;
 }
 export type RedshiftCredentials =
-  | { secretArn: string; usernamePassword?: never }
-  | { secretArn?: never; usernamePassword: UsernamePassword };
+  | { secretArn: string; usernamePassword?: undefined }
+  | { secretArn?: undefined; usernamePassword: UsernamePassword };
 export interface LineageSyncSchedule {
-  schedule?: string;
+  schedule?: string | undefined;
 }
 export interface RedshiftLineageSyncConfigurationInput {
-  enabled?: boolean;
-  schedule?: LineageSyncSchedule;
+  enabled?: boolean | undefined;
+  schedule?: LineageSyncSchedule | undefined;
 }
 export interface RedshiftPropertiesInput {
-  storage?: RedshiftStorageProperties;
-  databaseName?: string;
-  host?: string;
-  port?: number;
-  credentials?: RedshiftCredentials;
-  lineageSync?: RedshiftLineageSyncConfigurationInput;
+  storage?: RedshiftStorageProperties | undefined;
+  databaseName?: string | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationInput | undefined;
 }
 export interface SparkEmrPropertiesInput {
-  computeArn?: string;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  managedEndpointArn?: string;
+  computeArn?: string | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  managedEndpointArn?: string | undefined;
 }
 export interface SparkGlueArgs {
-  connection?: string;
+  connection?: string | undefined;
 }
 export type GlueConnectionName = string;
 export type GlueConnectionNames = string[];
 export interface SparkGluePropertiesInput {
-  additionalArgs?: SparkGlueArgs;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueVersion?: string;
-  idleTimeout?: number;
-  javaVirtualEnv?: string;
-  numberOfWorkers?: number;
-  pythonVirtualEnv?: string;
-  workerType?: string;
+  additionalArgs?: SparkGlueArgs | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueVersion?: string | undefined;
+  idleTimeout?: number | undefined;
+  javaVirtualEnv?: string | undefined;
+  numberOfWorkers?: number | undefined;
+  pythonVirtualEnv?: string | undefined;
+  workerType?: string | undefined;
 }
 export type S3Uri = string;
 export type S3AccessGrantLocationId = string;
 export interface S3PropertiesInput {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
 }
 export interface ConnectivityProperties {
-  connectionProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  name?: string;
-  description?: string;
-  validateCredentials?: boolean;
-  validateForComputeEnvironments?: ComputeEnvironments[];
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationInput;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  validateCredentials?: boolean | undefined;
+  validateForComputeEnvironments?: ComputeEnvironments[] | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export type SnowflakeRole = string;
 export interface IdentityMapping {
   usernameAttribute: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type Timezone =
   | "UTC"
@@ -1467,30 +1495,30 @@ export type Timezone =
   | (string & {});
 export type LineageSyncScheduleCronString = string;
 export interface LineageSyncInput {
-  timezone?: Timezone;
+  timezone?: Timezone | undefined;
   enabled: boolean;
-  schedule?: string;
+  schedule?: string | undefined;
 }
 export interface SnowflakePropertiesInput {
-  connectivityProperties?: ConnectivityProperties;
+  connectivityProperties?: ConnectivityProperties | undefined;
   snowflakeRole: string;
   identityMapping: IdentityMapping;
-  lineageSync?: LineageSyncInput;
+  lineageSync?: LineageSyncInput | undefined;
 }
 export interface AmazonQPropertiesInput {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesInput {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface WorkflowsMwaaPropertiesInput {
-  mwaaEnvironmentName?: string;
+  mwaaEnvironmentName?: string | undefined;
 }
 export interface WorkflowsServerlessPropertiesInput {}
 export interface LakehousePropertiesInput {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export type VpcId = string;
 export type VpcConnectionSubnetIdList = string[];
@@ -1498,7 +1526,7 @@ export type SecurityGroupId = string;
 export interface VpcPropertiesInput {
   vpcId: string;
   subnetIds: string[];
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
 }
 export interface GitPropertiesInput {
   codeConnectionArn: string;
@@ -1508,304 +1536,304 @@ export interface GitPropertiesInput {
 export type ConnectionPropertiesInput =
   | {
       athenaProperties: AthenaPropertiesInput;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesInput;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       hyperPodProperties: HyperPodPropertiesInput;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
       iamProperties: IamPropertiesInput;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesInput;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesInput;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       sparkGlueProperties: SparkGluePropertiesInput;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
       s3Properties: S3PropertiesInput;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesInput;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesInput;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesInput;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesInput;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesInput;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
       lakehouseProperties: LakehousePropertiesInput;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesInput;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesInput;
     };
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
 export interface CreateConnectionInput {
-  awsLocation?: AwsLocation;
-  clientToken?: string;
-  configurations?: Configuration[];
-  description?: string | redacted.Redacted<string>;
+  awsLocation?: AwsLocation | undefined;
+  clientToken?: string | undefined;
+  configurations?: Configuration[] | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   domainIdentifier: string;
-  environmentIdentifier?: string;
+  environmentIdentifier?: string | undefined;
   name: string;
-  props?: ConnectionPropertiesInput;
-  enableTrustedIdentityPropagation?: boolean;
-  scope?: ConnectionScope;
+  props?: ConnectionPropertiesInput | undefined;
+  enableTrustedIdentityPropagation?: boolean | undefined;
+  scope?: ConnectionScope | undefined;
 }
 export type ConnectionType =
   | "ATHENA"
@@ -1835,6 +1863,8 @@ export type ConnectionType =
   | "ICEBERGRESTCATALOG"
   | "SNOWFLAKEICEBERGRESTCATALOG"
   | "DATABRICKSICEBERGRESTCATALOG"
+  | "WORKDAYICEBERGRESTCATALOG"
+  | "WORKDAYLDQ"
   | (string & {});
 export type MatchCriteria = string[];
 export type ConnectionStatus =
@@ -1848,29 +1878,29 @@ export type ConnectionStatus =
   | "DELETED"
   | (string & {});
 export interface AuthenticationConfiguration {
-  authenticationType?: AuthenticationType;
-  secretArn?: string;
-  oAuth2Properties?: OAuth2Properties;
+  authenticationType?: AuthenticationType | undefined;
+  secretArn?: string | undefined;
+  oAuth2Properties?: OAuth2Properties | undefined;
 }
 export interface GlueConnection {
-  name?: string;
-  description?: string;
-  connectionType?: ConnectionType;
-  matchCriteria?: string[];
-  connectionProperties?: { [key: string]: string | undefined };
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  lastUpdatedBy?: string;
-  status?: ConnectionStatus;
-  statusReason?: string;
-  lastConnectionValidationTime?: Date;
-  authenticationConfiguration?: AuthenticationConfiguration;
-  connectionSchemaVersion?: number;
-  compatibleComputeEnvironments?: ComputeEnvironments[];
+  name?: string | undefined;
+  description?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  matchCriteria?: string[] | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  lastUpdatedBy?: string | undefined;
+  status?: ConnectionStatus | undefined;
+  statusReason?: string | undefined;
+  lastConnectionValidationTime?: Date | undefined;
+  authenticationConfiguration?: AuthenticationConfiguration | undefined;
+  connectionSchemaVersion?: number | undefined;
+  compatibleComputeEnvironments?: ComputeEnvironments[] | undefined;
 }
 export type Protocol =
   | "ATHENA"
@@ -1882,433 +1912,433 @@ export type Protocol =
   | "PRISM"
   | (string & {});
 export interface PhysicalEndpoint {
-  awsLocation?: AwsLocation;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueConnection?: GlueConnection;
-  enableTrustedIdentityPropagation?: boolean;
-  host?: string;
-  port?: number;
-  protocol?: Protocol;
-  stage?: string;
+  awsLocation?: AwsLocation | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueConnection?: GlueConnection | undefined;
+  enableTrustedIdentityPropagation?: boolean | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  protocol?: Protocol | undefined;
+  stage?: string | undefined;
 }
 export type PhysicalEndpoints = PhysicalEndpoint[];
 export interface AthenaPropertiesOutput {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
 }
 export interface GluePropertiesOutput {
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export type HyperPodOrchestrator = "EKS" | "SLURM" | (string & {});
 export interface HyperPodPropertiesOutput {
   clusterName: string;
-  clusterArn?: string;
-  orchestrator?: HyperPodOrchestrator;
+  clusterArn?: string | undefined;
+  orchestrator?: HyperPodOrchestrator | undefined;
 }
 export interface IamPropertiesOutput {
-  environmentId?: string;
-  glueLineageSyncEnabled?: boolean;
+  environmentId?: string | undefined;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface RedshiftLineageSyncConfigurationOutput {
-  lineageJobId?: string;
-  enabled?: boolean;
-  schedule?: LineageSyncSchedule;
+  lineageJobId?: string | undefined;
+  enabled?: boolean | undefined;
+  schedule?: LineageSyncSchedule | undefined;
 }
 export interface RedshiftPropertiesOutput {
-  storage?: RedshiftStorageProperties;
-  credentials?: RedshiftCredentials;
-  isProvisionedSecret?: boolean;
-  jdbcIamUrl?: string;
-  jdbcUrl?: string;
-  redshiftTempDir?: string;
-  lineageSync?: RedshiftLineageSyncConfigurationOutput;
-  status?: ConnectionStatus;
-  databaseName?: string;
+  storage?: RedshiftStorageProperties | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  isProvisionedSecret?: boolean | undefined;
+  jdbcIamUrl?: string | undefined;
+  jdbcUrl?: string | undefined;
+  redshiftTempDir?: string | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationOutput | undefined;
+  status?: ConnectionStatus | undefined;
+  databaseName?: string | undefined;
 }
 export type GovernanceType = "AWS_MANAGED" | "USER_MANAGED" | (string & {});
 export interface ManagedEndpointCredentials {
-  id?: string;
-  token?: string;
+  id?: string | undefined;
+  token?: string | undefined;
 }
 export interface SparkEmrPropertiesOutput {
-  computeArn?: string;
-  credentials?: UsernamePassword;
-  credentialsExpiration?: Date;
-  governanceType?: GovernanceType;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  livyEndpoint?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  certificateData?: string;
-  managedEndpointArn?: string;
-  managedEndpointCredentials?: ManagedEndpointCredentials;
+  computeArn?: string | undefined;
+  credentials?: UsernamePassword | undefined;
+  credentialsExpiration?: Date | undefined;
+  governanceType?: GovernanceType | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  livyEndpoint?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  certificateData?: string | undefined;
+  managedEndpointArn?: string | undefined;
+  managedEndpointCredentials?: ManagedEndpointCredentials | undefined;
 }
 export interface SparkGluePropertiesOutput {
-  additionalArgs?: SparkGlueArgs;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueVersion?: string;
-  idleTimeout?: number;
-  javaVirtualEnv?: string;
-  numberOfWorkers?: number;
-  pythonVirtualEnv?: string;
-  workerType?: string;
+  additionalArgs?: SparkGlueArgs | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueVersion?: string | undefined;
+  idleTimeout?: number | undefined;
+  javaVirtualEnv?: string | undefined;
+  numberOfWorkers?: number | undefined;
+  pythonVirtualEnv?: string | undefined;
+  workerType?: string | undefined;
 }
 export interface S3PropertiesOutput {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export interface LineageSyncOutput {
-  lineageJobId?: string;
-  timezone?: Timezone;
-  enabled?: boolean;
-  schedule?: string;
+  lineageJobId?: string | undefined;
+  timezone?: Timezone | undefined;
+  enabled?: boolean | undefined;
+  schedule?: string | undefined;
 }
 export interface SnowflakePropertiesOutput {
   snowflakeRole: string;
   identityMapping: IdentityMapping;
   lineageSync: LineageSyncOutput;
   status: ConnectionStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface AmazonQPropertiesOutput {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesOutput {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface WorkflowsMwaaPropertiesOutput {
-  mwaaEnvironmentName?: string;
+  mwaaEnvironmentName?: string | undefined;
 }
 export interface WorkflowsServerlessPropertiesOutput {}
 export interface LakehousePropertiesOutput {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface VpcPropertiesOutput {
   vpcId: string;
   subnetIds: string[];
   status: ConnectionStatus;
-  securityGroupId?: string;
-  glueConnectionNames?: string[];
+  securityGroupId?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
 }
 export interface GitPropertiesOutput {
   codeConnectionArn: string;
   repositoryId: string;
   defaultBranch: string;
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export type ConnectionPropertiesOutput =
   | {
       athenaProperties: AthenaPropertiesOutput;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesOutput;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       hyperPodProperties: HyperPodPropertiesOutput;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
       iamProperties: IamPropertiesOutput;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesOutput;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesOutput;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       sparkGlueProperties: SparkGluePropertiesOutput;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
       s3Properties: S3PropertiesOutput;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesOutput;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesOutput;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesOutput;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
       lakehouseProperties: LakehousePropertiesOutput;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesOutput;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      hyperPodProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      sparkGlueProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      workflowsMwaaProperties?: never;
-      workflowsServerlessProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      hyperPodProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      sparkGlueProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      workflowsMwaaProperties?: undefined;
+      workflowsServerlessProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesOutput;
     };
 export interface CreateConnectionOutput {
   connectionId: string;
-  configurations?: Configuration[];
-  description?: string | redacted.Redacted<string>;
+  configurations?: Configuration[] | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export type DataProductName = string | redacted.Redacted<string>;
 export type DataProductDescription = string | redacted.Redacted<string>;
@@ -2317,19 +2347,19 @@ export type ItemGlossaryTerms = string[];
 export interface DataProductItem {
   itemType: DataProductItemType;
   identifier: string;
-  revision?: string;
-  glossaryTerms?: string[];
+  revision?: string | undefined;
+  glossaryTerms?: string[] | undefined;
 }
 export type DataProductItems = DataProductItem[];
 export interface CreateDataProductInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
-  items?: DataProductItem[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  items?: DataProductItem[] | undefined;
+  clientToken?: string | undefined;
 }
 export type DataProductId = string;
 export type DataProductStatus = "CREATED" | "CREATING" | "CREATE_FAILED" | (string & {});
@@ -2340,24 +2370,24 @@ export interface CreateDataProductOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export interface CreateDataProductRevisionInput {
   domainIdentifier: string;
   identifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsInput?: FormInput[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateDataProductRevisionOutput {
   domainId: string;
@@ -2366,14 +2396,14 @@ export interface CreateDataProductRevisionOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export type Name = string | redacted.Redacted<string>;
 export type DataSourceType = string;
@@ -2385,15 +2415,15 @@ export interface FilterExpression {
 export type FilterExpressions = FilterExpression[];
 export interface RelationalFilterConfiguration {
   databaseName: string;
-  schemaName?: string;
-  filterExpressions?: FilterExpression[];
+  schemaName?: string | undefined;
+  filterExpressions?: FilterExpression[] | undefined;
 }
 export type RelationalFilterConfigurations = RelationalFilterConfiguration[];
 export interface GlueRunConfigurationInput {
-  dataAccessRole?: string;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  autoImportDataQualityResult?: boolean;
-  catalogName?: string;
+  autoImportDataQualityResult?: boolean | undefined;
+  catalogName?: string | undefined;
 }
 export interface RedshiftCredentialConfiguration {
   secretManagerArn: string;
@@ -2405,13 +2435,13 @@ export interface RedshiftServerlessStorage {
   workgroupName: string;
 }
 export type RedshiftStorage =
-  | { redshiftClusterSource: RedshiftClusterStorage; redshiftServerlessSource?: never }
-  | { redshiftClusterSource?: never; redshiftServerlessSource: RedshiftServerlessStorage };
+  | { redshiftClusterSource: RedshiftClusterStorage; redshiftServerlessSource?: undefined }
+  | { redshiftClusterSource?: undefined; redshiftServerlessSource: RedshiftServerlessStorage };
 export interface RedshiftRunConfigurationInput {
-  dataAccessRole?: string;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
-  redshiftStorage?: RedshiftStorage;
+  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration | undefined;
+  redshiftStorage?: RedshiftStorage | undefined;
 }
 export type SageMakerAssetType = string;
 export type SageMakerResourceArn = string;
@@ -2423,43 +2453,43 @@ export interface SageMakerRunConfigurationInput {
 export type DataSourceConfigurationInput =
   | {
       glueRunConfiguration: GlueRunConfigurationInput;
-      redshiftRunConfiguration?: never;
-      sageMakerRunConfiguration?: never;
+      redshiftRunConfiguration?: undefined;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
       redshiftRunConfiguration: RedshiftRunConfigurationInput;
-      sageMakerRunConfiguration?: never;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
-      redshiftRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
+      redshiftRunConfiguration?: undefined;
       sageMakerRunConfiguration: SageMakerRunConfigurationInput;
     };
 export interface RecommendationConfiguration {
-  enableBusinessNameGeneration?: boolean;
+  enableBusinessNameGeneration?: boolean | undefined;
 }
 export type EnableSetting = "ENABLED" | "DISABLED" | (string & {});
 export type CronString = string;
 export interface ScheduleConfiguration {
-  timezone?: Timezone;
-  schedule?: string;
+  timezone?: Timezone | undefined;
+  schedule?: string | undefined;
 }
 export interface CreateDataSourceInput {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainIdentifier: string;
   projectIdentifier: string;
-  environmentIdentifier?: string;
-  connectionIdentifier?: string;
+  environmentIdentifier?: string | undefined;
+  connectionIdentifier?: string | undefined;
   type: string;
-  configuration?: DataSourceConfigurationInput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  schedule?: ScheduleConfiguration;
-  publishOnImport?: boolean;
-  assetFormsInput?: FormInput[];
-  clientToken?: string;
+  configuration?: DataSourceConfigurationInput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsInput?: FormInput[] | undefined;
+  clientToken?: string | undefined;
 }
 export type DataSourceId = string;
 export type DataSourceStatus =
@@ -2473,40 +2503,40 @@ export type DataSourceStatus =
   | "FAILED_DELETION"
   | (string & {});
 export interface GlueRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
-  dataAccessRole?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  autoImportDataQualityResult?: boolean;
-  catalogName?: string;
+  autoImportDataQualityResult?: boolean | undefined;
+  catalogName?: string | undefined;
 }
 export interface RedshiftRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
-  dataAccessRole?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
+  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration | undefined;
   redshiftStorage: RedshiftStorage;
 }
 export interface SageMakerRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
   trackingAssets: { [key: string]: string[] | undefined };
 }
 export type DataSourceConfigurationOutput =
   | {
       glueRunConfiguration: GlueRunConfigurationOutput;
-      redshiftRunConfiguration?: never;
-      sageMakerRunConfiguration?: never;
+      redshiftRunConfiguration?: undefined;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
       redshiftRunConfiguration: RedshiftRunConfigurationOutput;
-      sageMakerRunConfiguration?: never;
+      sageMakerRunConfiguration?: undefined;
     }
   | {
-      glueRunConfiguration?: never;
-      redshiftRunConfiguration?: never;
+      glueRunConfiguration?: undefined;
+      redshiftRunConfiguration?: undefined;
       sageMakerRunConfiguration: SageMakerRunConfigurationOutput;
     };
 export type DataSourceRunStatus =
@@ -2527,59 +2557,59 @@ export type DataSourceErrorType =
   | (string & {});
 export interface DataSourceErrorMessage {
   errorType: DataSourceErrorType;
-  errorDetail?: string;
+  errorDetail?: string | undefined;
 }
 export interface CreateDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DesignationName = string;
 export type CedarDesignationPolicy = string;
 export interface CreateDesignationInput {
   domainIdentifier: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   policy: string;
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
 }
 export type DesignationType = "MANAGED" | "USER_CREATED" | (string & {});
 export interface CreateDesignationOutput {
   domainId: string;
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   designationType: DesignationType;
   policy: string;
   deletionProtection: boolean;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type AuthType = "IAM_IDC" | "DISABLED" | (string & {});
 export type UserAssignment = "AUTOMATIC" | "MANUAL" | (string & {});
 export interface SingleSignOn {
-  type?: AuthType;
-  userAssignment?: UserAssignment;
-  idcInstanceArn?: string;
+  type?: AuthType | undefined;
+  userAssignment?: UserAssignment | undefined;
+  idcInstanceArn?: string | undefined;
 }
 export type KmsKeyArn = string;
 export type TagKey = string;
@@ -2588,14 +2618,14 @@ export type Tags = { [key: string]: string | undefined };
 export type DomainVersion = "V1" | "V2" | (string & {});
 export interface CreateDomainInput {
   name: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  kmsKeyIdentifier?: string;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type DomainStatus =
   | "CREATING"
@@ -2607,18 +2637,18 @@ export type DomainStatus =
   | (string & {});
 export interface CreateDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  name?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  arn?: string;
-  kmsKeyIdentifier?: string;
-  status?: DomainStatus;
-  portalUrl?: string;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
+  rootDomainUnitId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  status?: DomainStatus | undefined;
+  portalUrl?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
 }
 export type DomainUnitName = string | redacted.Redacted<string>;
 export type DomainUnitDescription = string | redacted.Redacted<string>;
@@ -2626,57 +2656,57 @@ export interface CreateDomainUnitInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   parentDomainUnitIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface DomainUnitUserProperties {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DomainUnitGroupProperties {
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type DomainUnitOwnerProperties =
-  | { user: DomainUnitUserProperties; group?: never }
-  | { user?: never; group: DomainUnitGroupProperties };
+  | { user: DomainUnitUserProperties; group?: undefined }
+  | { user?: undefined; group: DomainUnitGroupProperties };
 export type DomainUnitOwners = DomainUnitOwnerProperties[];
 export type DomainUnitIds = string[];
 export interface CreateDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  description?: string | redacted.Redacted<string>;
+  parentDomainUnitId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   owners: DomainUnitOwnerProperties[];
   ancestorDomainUnitIds: string[];
-  createdAt?: Date;
-  createdBy?: string;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type EnvironmentProfileId = string;
 export interface EnvironmentParameter {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EnvironmentParametersList = EnvironmentParameter[];
 export type EnvironmentConfigurationName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentInput {
   projectIdentifier: string;
   domainIdentifier: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
-  environmentProfileIdentifier?: string;
-  userParameters?: EnvironmentParameter[];
-  glossaryTerms?: string[];
-  environmentAccountIdentifier?: string;
-  environmentAccountRegion?: string;
-  environmentBlueprintIdentifier?: string;
-  deploymentOrder?: number;
-  environmentConfigurationId?: string;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  environmentProfileIdentifier?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  environmentAccountIdentifier?: string | undefined;
+  environmentAccountRegion?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  deploymentOrder?: number | undefined;
+  environmentConfigurationId?: string | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export type EnvironmentName = string | redacted.Redacted<string>;
 export interface Resource {
-  provider?: string;
-  name?: string;
+  provider?: string | undefined;
+  name?: string | undefined;
   value: string;
   type: string;
 }
@@ -2698,24 +2728,24 @@ export type EnvironmentStatus =
   | (string & {});
 export type ConfigurableActionTypeAuthorization = "IAM" | "HTTPS" | (string & {});
 export interface ConfigurableActionParameter {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type ConfigurableActionParameterList = ConfigurableActionParameter[];
 export interface ConfigurableEnvironmentAction {
   type: string;
-  auth?: ConfigurableActionTypeAuthorization;
+  auth?: ConfigurableActionTypeAuthorization | undefined;
   parameters: ConfigurableActionParameter[];
 }
 export type EnvironmentActionList = ConfigurableEnvironmentAction[];
 export interface CustomParameter {
   keyName: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   fieldType: string;
-  defaultValue?: string;
-  isEditable?: boolean;
-  isOptional?: boolean;
-  isUpdateSupported?: boolean;
+  defaultValue?: string | undefined;
+  isEditable?: boolean | undefined;
+  isOptional?: boolean | undefined;
+  isUpdateSupported?: boolean | undefined;
 }
 export type CustomParameterList = CustomParameter[];
 export type DeploymentType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
@@ -2726,58 +2756,58 @@ export type DeploymentStatus =
   | "PENDING_DEPLOYMENT"
   | (string & {});
 export interface EnvironmentError {
-  code?: string;
+  code?: string | undefined;
   message: string;
 }
 export type DeploymentMessage = string;
 export type DeploymentMessagesList = string[];
 export interface Deployment {
-  deploymentId?: string;
-  deploymentType?: DeploymentType;
-  deploymentStatus?: DeploymentStatus;
-  failureReason?: EnvironmentError;
-  messages?: string[];
-  isDeploymentComplete?: boolean;
+  deploymentId?: string | undefined;
+  deploymentType?: DeploymentType | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
+  failureReason?: EnvironmentError | undefined;
+  messages?: string[] | undefined;
+  isDeploymentComplete?: boolean | undefined;
 }
 export interface CloudFormationProperties {
   templateUrl: string;
 }
 export type ProvisioningProperties =
-  | { cloudFormation: CloudFormationProperties; manual?: never }
-  | { cloudFormation?: never; manual: Record<string, never> };
+  | { cloudFormation: CloudFormationProperties; manual?: undefined }
+  | { cloudFormation?: undefined; manual: Record<string, never> };
 export interface DeploymentProperties {
-  startTimeoutMinutes?: number;
-  endTimeoutMinutes?: number;
+  startTimeoutMinutes?: number | undefined;
+  endTimeoutMinutes?: number | undefined;
 }
 export type EnvironmentBlueprintId = string;
 export type EnvironmentConfigurationId = string | redacted.Redacted<string>;
 export interface CreateEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface AwsConsoleLinkParameters {
-  uri?: string;
+  uri?: string | undefined;
 }
 export type ActionParameters = { awsConsoleLink: AwsConsoleLinkParameters };
 export interface CreateEnvironmentActionInput {
@@ -2785,7 +2815,7 @@ export interface CreateEnvironmentActionInput {
   environmentIdentifier: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type EnvironmentActionId = string;
 export interface CreateEnvironmentActionOutput {
@@ -2794,55 +2824,55 @@ export interface CreateEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type EnvironmentBlueprintName = string;
 export type BlueprintCategory = "TOOLING" | (string & {});
 export interface CreateEnvironmentBlueprintInput {
   domainIdentifier: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provisioningProperties: ProvisioningProperties;
-  userParameters?: CustomParameter[];
-  blueprintCategory?: BlueprintCategory;
+  userParameters?: CustomParameter[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export interface CreateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type EnvironmentProfileName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentProfileInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintIdentifier: string;
   projectIdentifier: string;
-  userParameters?: EnvironmentParameter[];
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  userParameters?: EnvironmentParameter[] | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
 }
 export interface CreateEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export type Smithy = string;
 export type Model = { smithy: string };
@@ -2852,17 +2882,17 @@ export interface CreateFormTypeInput {
   name: string | redacted.Redacted<string>;
   model: Model;
   owningProjectIdentifier: string;
-  status?: FormTypeStatus;
-  description?: string | redacted.Redacted<string>;
+  status?: FormTypeStatus | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateFormTypeOutput {
   domainId: string;
   name: string | redacted.Redacted<string>;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
 }
 export type GlossaryName = string | redacted.Redacted<string>;
 export type GlossaryDescription = string | redacted.Redacted<string>;
@@ -2873,10 +2903,10 @@ export interface CreateGlossaryInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  clientToken?: string | undefined;
 }
 export type GlossaryId = string;
 export interface CreateGlossaryOutput {
@@ -2884,25 +2914,25 @@ export interface CreateGlossaryOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export type GlossaryTermStatus = "ENABLED" | "DISABLED" | (string & {});
 export type LongDescription = string | redacted.Redacted<string>;
 export interface TermRelations {
-  isA?: string[];
-  classifies?: string[];
+  isA?: string[] | undefined;
+  classifies?: string[] | undefined;
 }
 export interface CreateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier: string;
   name: string | redacted.Redacted<string>;
-  status?: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  clientToken?: string;
+  status?: GlossaryTermStatus | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateGlossaryTermOutput {
   id: string;
@@ -2910,25 +2940,25 @@ export interface CreateGlossaryTermOutput {
   glossaryId: string;
   name: string | redacted.Redacted<string>;
   status: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface CreateGroupProfileInput {
   domainIdentifier: string;
-  groupIdentifier?: string;
-  rolePrincipalArn?: string;
-  clientToken?: string;
+  groupIdentifier?: string | undefined;
+  rolePrincipalArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type GroupProfileStatus = "ASSIGNED" | "NOT_ASSIGNED" | (string & {});
 export interface CreateGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export type EntityType = "ASSET" | "DATA_PRODUCT" | (string & {});
 export type ChangeAction = "PUBLISH" | "UNPUBLISH" | (string & {});
@@ -2936,9 +2966,9 @@ export interface CreateListingChangeSetInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: EntityType;
-  entityRevision?: string;
+  entityRevision?: string | undefined;
   action: ChangeAction;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateListingChangeSetOutput {
   listingId: string;
@@ -2957,11 +2987,11 @@ export interface CreateNotebookInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type NotebookId = string;
 export interface CellInformation {}
@@ -2976,11 +3006,11 @@ export type ComputeId = string;
 export type PackageManager = "UV" | (string & {});
 export interface PackageConfig {
   packageManager: PackageManager;
-  packageSpecification?: string;
+  packageSpecification?: string | undefined;
 }
 export interface EnvironmentConfig {
-  imageVersion?: string;
-  packageConfig?: PackageConfig;
+  imageVersion?: string | undefined;
+  packageConfig?: PackageConfig | undefined;
 }
 export interface NotebookError {
   message: string;
@@ -2996,9 +3026,9 @@ export interface GitMetadata {
   repository: string | redacted.Redacted<string>;
   branch: string | redacted.Redacted<string>;
   commitHash: string;
-  fileName?: string;
-  committedAt?: Date;
-  commitMessage?: string | redacted.Redacted<string>;
+  fileName?: string | undefined;
+  committedAt?: Date | undefined;
+  commitMessage?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateNotebookOutput {
   id: string;
@@ -3007,38 +3037,38 @@ export interface CreateNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export type ProjectProfileId = string;
 export interface EnvironmentResolvedAccount {
   awsAccountId: string;
   regionName: string;
-  sourceAccountPoolId?: string;
+  sourceAccountPoolId?: string | undefined;
 }
 export interface EnvironmentConfigurationUserParameter {
-  environmentId?: string;
-  environmentResolvedAccount?: EnvironmentResolvedAccount;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
-  environmentParameters?: EnvironmentParameter[];
+  environmentId?: string | undefined;
+  environmentResolvedAccount?: EnvironmentResolvedAccount | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
+  environmentParameters?: EnvironmentParameter[] | undefined;
 }
 export type EnvironmentConfigurationUserParametersList = EnvironmentConfigurationUserParameter[];
 export type Member =
-  | { userIdentifier: string; groupIdentifier?: never }
-  | { userIdentifier?: never; groupIdentifier: string };
+  | { userIdentifier: string; groupIdentifier?: undefined }
+  | { userIdentifier?: undefined; groupIdentifier: string };
 export type UserDesignation =
   | "PROJECT_OWNER"
   | "PROJECT_CONTRIBUTOR"
@@ -3050,21 +3080,21 @@ export type UserDesignation =
 export interface ProjectMembershipAssignment {
   member: Member;
   designation: UserDesignation;
-  userCreatedDesignationId?: string;
+  userCreatedDesignationId?: string | undefined;
 }
 export type ProjectMembershipAssignments = ProjectMembershipAssignment[];
 export interface CreateProjectInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string | undefined };
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  projectCategory?: string;
-  projectExecutionRole?: string;
-  membershipAssignments?: ProjectMembershipAssignment[];
+  description?: string | redacted.Redacted<string> | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  projectCategory?: string | undefined;
+  projectExecutionRole?: string | undefined;
+  membershipAssignments?: ProjectMembershipAssignment[] | undefined;
 }
 export type ProjectStatus =
   | "ACTIVE"
@@ -3075,8 +3105,8 @@ export type ProjectStatus =
   | "MOVING"
   | (string & {});
 export interface ProjectDeletionError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type FailureReasons = ProjectDeletionError[];
 export type ResourceTagSource = "PROJECT" | "PROJECT_PROFILE" | (string & {});
@@ -3096,33 +3126,33 @@ export type OverallDeploymentStatus =
 export type EnvironmentFailureReasonsList = EnvironmentError[];
 export type EnvironmentFailureReasons = { [key: string]: EnvironmentError[] | undefined };
 export interface EnvironmentDeploymentDetails {
-  overallDeploymentStatus?: OverallDeploymentStatus;
-  environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined };
+  overallDeploymentStatus?: OverallDeploymentStatus | undefined;
+  environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined } | undefined;
 }
 export interface CreateProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface CreateProjectMembershipInput {
   domainIdentifier: string;
   projectIdentifier: string;
   member: Member;
   designation: UserDesignation;
-  userCreatedDesignationId?: string;
+  userCreatedDesignationId?: string | undefined;
 }
 export interface CreateProjectMembershipOutput {}
 export type ProjectProfileName = string | redacted.Redacted<string>;
@@ -3137,69 +3167,69 @@ export type DeploymentMode = "ON_CREATE" | "ON_DEMAND" | (string & {});
 export type ParameterStorePath = string;
 export type EnvironmentConfigurationParameterName = string;
 export interface EnvironmentConfigurationParameter {
-  name?: string;
-  value?: string;
-  isEditable?: boolean;
+  name?: string | undefined;
+  value?: string | undefined;
+  isEditable?: boolean | undefined;
 }
 export type EnvironmentConfigurationParametersList = EnvironmentConfigurationParameter[];
 export interface EnvironmentConfigurationParametersDetails {
-  ssmPath?: string;
-  parameterOverrides?: EnvironmentConfigurationParameter[];
-  resolvedParameters?: EnvironmentConfigurationParameter[];
+  ssmPath?: string | undefined;
+  parameterOverrides?: EnvironmentConfigurationParameter[] | undefined;
+  resolvedParameters?: EnvironmentConfigurationParameter[] | undefined;
 }
 export type AwsAccount =
-  | { awsAccountId: string; awsAccountIdPath?: never }
-  | { awsAccountId?: never; awsAccountIdPath: string };
+  | { awsAccountId: string; awsAccountIdPath?: undefined }
+  | { awsAccountId?: undefined; awsAccountIdPath: string };
 export type AccountPoolList = string[];
 export type RegionName = string;
 export type Region =
-  | { regionName: string; regionNamePath?: never }
-  | { regionName?: never; regionNamePath: string };
-const Region = /*@__PURE__*/ __L.at(__c240, 0);
+  | { regionName: string; regionNamePath?: undefined }
+  | { regionName?: undefined; regionNamePath: string };
+const Region = /*@__PURE__*/ __L.at(__c265, 0);
 export type DeploymentOrder = number;
 export interface EnvironmentConfiguration {
   name: string | redacted.Redacted<string>;
-  id?: string | redacted.Redacted<string>;
+  id?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  description?: string | redacted.Redacted<string>;
-  deploymentMode?: DeploymentMode;
-  configurationParameters?: EnvironmentConfigurationParametersDetails;
-  awsAccount?: AwsAccount;
-  accountPools?: string[];
-  awsRegion?: Region;
-  deploymentOrder?: number;
+  description?: string | redacted.Redacted<string> | undefined;
+  deploymentMode?: DeploymentMode | undefined;
+  configurationParameters?: EnvironmentConfigurationParametersDetails | undefined;
+  awsAccount?: AwsAccount | undefined;
+  accountPools?: string[] | undefined;
+  awsRegion?: Region | undefined;
+  deploymentOrder?: number | undefined;
 }
 export type EnvironmentConfigurationsList = EnvironmentConfiguration[];
 export interface CreateProjectProfileInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
-  domainUnitIdentifier?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
+  domainUnitIdentifier?: string | undefined;
 }
 export interface CreateProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export type RuleName = string | redacted.Redacted<string>;
 export interface DomainUnitTarget {
   domainUnitId: string;
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export type RuleTarget = { domainUnitTarget: DomainUnitTarget };
 export type RuleAction =
@@ -3210,17 +3240,17 @@ export type RuleScopeSelectionMode = "ALL" | "SPECIFIC" | (string & {});
 export type RuleAssetTypeList = string[];
 export interface AssetTypesForRule {
   selectionMode: RuleScopeSelectionMode;
-  specificAssetTypes?: string[];
+  specificAssetTypes?: string[] | undefined;
 }
 export type RuleProjectIdentifierList = string[];
 export interface ProjectsForRule {
   selectionMode: RuleScopeSelectionMode;
-  specificProjects?: string[];
+  specificProjects?: string[] | undefined;
 }
 export interface RuleScope {
-  assetType?: AssetTypesForRule;
-  dataProduct?: boolean;
-  project?: ProjectsForRule;
+  assetType?: AssetTypesForRule | undefined;
+  dataProduct?: boolean | undefined;
+  project?: ProjectsForRule | undefined;
 }
 export interface MetadataFormReference {
   typeIdentifier: string;
@@ -3228,19 +3258,19 @@ export interface MetadataFormReference {
 }
 export type RequiredMetadataFormList = MetadataFormReference[];
 export interface MetadataFormEnforcementDetail {
-  requiredMetadataForms?: MetadataFormReference[];
+  requiredMetadataForms?: MetadataFormReference[] | undefined;
 }
 export type GlossaryTermIdentifiers = string[];
 export interface GlossaryTermEnforcementDetail {
-  requiredGlossaryTermIds?: string[];
+  requiredGlossaryTermIds?: string[] | undefined;
 }
 export type RuleDetail =
   | {
       metadataFormEnforcementDetail: MetadataFormEnforcementDetail;
-      glossaryTermEnforcementDetail?: never;
+      glossaryTermEnforcementDetail?: undefined;
     }
   | {
-      metadataFormEnforcementDetail?: never;
+      metadataFormEnforcementDetail?: undefined;
       glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail;
     };
 export interface CreateRuleInput {
@@ -3250,8 +3280,8 @@ export interface CreateRuleInput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export type RuleId = string;
 export type RuleType = "METADATA_FORM_ENFORCEMENT" | "GLOSSARY_TERM_ENFORCEMENT" | (string & {});
@@ -3264,8 +3294,8 @@ export interface CreateRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  targetType?: RuleTargetType;
-  description?: string | redacted.Redacted<string>;
+  targetType?: RuleTargetType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   createdBy: string;
 }
@@ -3283,10 +3313,10 @@ export type AssetTargetNames = AssetTargetNameMap[];
 export interface CreateSubscriptionGrantInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  subscriptionTargetIdentifier?: string;
+  subscriptionTargetIdentifier?: string | undefined;
   grantedEntity: GrantedEntityInput;
-  assetTargetNames?: AssetTargetNameMap[];
-  clientToken?: string;
+  assetTargetNames?: AssetTargetNameMap[] | undefined;
+  clientToken?: string | undefined;
 }
 export type SubscriptionGrantId = string;
 export interface ListingRevision {
@@ -3314,51 +3344,51 @@ export type SubscriptionGrantStatus =
   | "REVOKE_FAILED"
   | (string & {});
 export interface FailureCause {
-  message?: string;
+  message?: string | undefined;
 }
 export interface SubscribedAsset {
   assetId: string;
   assetRevision: string;
   status: SubscriptionGrantStatus;
-  targetName?: string;
-  failureCause?: FailureCause;
-  grantedTimestamp?: Date;
-  failureTimestamp?: Date;
-  assetScope?: AssetScope;
-  permissions?: Permissions;
+  targetName?: string | undefined;
+  failureCause?: FailureCause | undefined;
+  grantedTimestamp?: Date | undefined;
+  failureTimestamp?: Date | undefined;
+  assetScope?: AssetScope | undefined;
+  permissions?: Permissions | undefined;
 }
 export type SubscribedAssets = SubscribedAsset[];
 export interface CreateSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface SubscribedProjectInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedUserInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedGroupInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedIamPrincipalInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type SubscribedPrincipalInput =
-  | { project: SubscribedProjectInput; user?: never; group?: never; iam?: never }
-  | { project?: never; user: SubscribedUserInput; group?: never; iam?: never }
-  | { project?: never; user?: never; group: SubscribedGroupInput; iam?: never }
-  | { project?: never; user?: never; group?: never; iam: SubscribedIamPrincipalInput };
+  | { project: SubscribedProjectInput; user?: undefined; group?: undefined; iam?: undefined }
+  | { project?: undefined; user: SubscribedUserInput; group?: undefined; iam?: undefined }
+  | { project?: undefined; user?: undefined; group: SubscribedGroupInput; iam?: undefined }
+  | { project?: undefined; user?: undefined; group?: undefined; iam: SubscribedIamPrincipalInput };
 export type SubscribedPrincipalInputs = SubscribedPrincipalInput[];
 export interface SubscribedListingInput {
   identifier: string;
@@ -3370,15 +3400,15 @@ export interface CreateSubscriptionRequestInput {
   subscribedPrincipals: SubscribedPrincipalInput[];
   subscribedListings: SubscribedListingInput[];
   requestReason: string | redacted.Redacted<string>;
-  clientToken?: string;
-  metadataForms?: FormInput[];
-  assetPermissions?: AssetPermission[];
-  assetScopes?: AcceptedAssetScope[];
+  clientToken?: string | undefined;
+  metadataForms?: FormInput[] | undefined;
+  assetPermissions?: AssetPermission[] | undefined;
+  assetScopes?: AcceptedAssetScope[] | undefined;
 }
 export interface CreateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -3386,10 +3416,10 @@ export interface CreateSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export type SubscriptionTargetName = string | redacted.Redacted<string>;
 export interface SubscriptionTargetForm {
@@ -3411,9 +3441,9 @@ export interface CreateSubscriptionTargetInput {
   authorizedPrincipals: string[];
   manageAccessRole: string;
   applicableAssetTypes: string[];
-  provider?: string;
-  clientToken?: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  provider?: string | undefined;
+  clientToken?: string | undefined;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface CreateSubscriptionTargetOutput {
   id: string;
@@ -3424,22 +3454,22 @@ export interface CreateSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type UserType = "IAM_USER" | "IAM_ROLE" | "SSO_USER" | "IAM_ROLE_SESSION" | (string & {});
 export interface CreateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  userType?: UserType;
-  sessionName?: string;
-  clientToken?: string;
+  userType?: UserType | undefined;
+  sessionName?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type UserProfileType = "IAM" | "SSO" | (string & {});
 export type UserProfileStatus =
@@ -3449,11 +3479,11 @@ export type UserProfileStatus =
   | "DEACTIVATED"
   | (string & {});
 export interface CreateUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export interface DeleteAccountPoolInput {
   domainIdentifier: string;
@@ -3481,7 +3511,7 @@ export interface DeleteConnectionInput {
   identifier: string;
 }
 export interface DeleteConnectionOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteDataExportConfigurationInput {
   domainIdentifier: string;
@@ -3495,8 +3525,8 @@ export interface DeleteDataProductOutput {}
 export interface DeleteDataSourceInput {
   domainIdentifier: string;
   identifier: string;
-  clientToken?: string;
-  retainPermissionsOnRevokeFailure?: boolean;
+  clientToken?: string | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export type SelfGrantStatus =
   | "GRANT_PENDING"
@@ -3509,9 +3539,9 @@ export type SelfGrantStatus =
   | (string & {});
 export interface SelfGrantStatusDetail {
   databaseName: string;
-  schemaName?: string;
+  schemaName?: string | undefined;
   status: SelfGrantStatus;
-  failureCause?: string;
+  failureCause?: string | undefined;
 }
 export type SelfGrantStatusDetails = SelfGrantStatusDetail[];
 export interface GlueSelfGrantStatusOutput {
@@ -3521,31 +3551,31 @@ export interface RedshiftSelfGrantStatusOutput {
   selfGrantStatusDetails: SelfGrantStatusDetail[];
 }
 export type SelfGrantStatusOutput =
-  | { glueSelfGrantStatus: GlueSelfGrantStatusOutput; redshiftSelfGrantStatus?: never }
-  | { glueSelfGrantStatus?: never; redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
+  | { glueSelfGrantStatus: GlueSelfGrantStatusOutput; redshiftSelfGrantStatus?: undefined }
+  | { glueSelfGrantStatus?: undefined; redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
 export interface DeleteDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
-  retainPermissionsOnRevokeFailure?: boolean;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface DeleteDesignationInput {
   domainIdentifier: string;
@@ -3554,9 +3584,9 @@ export interface DeleteDesignationInput {
 export interface DeleteDesignationOutput {}
 export interface DeleteDomainInput {
   identifier: string;
-  clientToken?: string;
-  skipDeletionCheck?: boolean;
-  cascadeDelete?: boolean;
+  clientToken?: string | undefined;
+  skipDeletionCheck?: boolean | undefined;
+  cascadeDelete?: boolean | undefined;
 }
 export interface DeleteDomainOutput {
   status: DomainStatus;
@@ -3619,9 +3649,9 @@ export type LineageEventProcessingStatus =
   | "FAILED"
   | (string & {});
 export interface DeleteLineageEventOutput {
-  id?: string;
-  domainId?: string;
-  processingStatus?: LineageEventProcessingStatus;
+  id?: string | undefined;
+  domainId?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
 }
 export interface DeleteListingInput {
   domainIdentifier: string;
@@ -3636,7 +3666,7 @@ export interface DeleteNotebookOutput {}
 export interface DeleteProjectInput {
   domainIdentifier: string;
   identifier: string;
-  skipDeletionCheck?: boolean;
+  skipDeletionCheck?: boolean | undefined;
 }
 export interface DeleteProjectOutput {}
 export interface DeleteProjectMembershipInput {
@@ -3662,16 +3692,16 @@ export interface DeleteSubscriptionGrantInput {
 export interface DeleteSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface DeleteSubscriptionRequestInput {
   domainIdentifier: string;
@@ -3690,7 +3720,7 @@ export interface DeleteTimeSeriesDataPointsInput {
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   formName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteTimeSeriesDataPointsOutput {}
 export interface DisassociateEnvironmentRoleInput {
@@ -3711,43 +3741,43 @@ export interface GetAccountPoolInput {
   identifier: string;
 }
 export interface GetAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface GetAssetInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetAssetOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
 }
 export interface GetAssetFilterInput {
   domainIdentifier: string;
@@ -3759,80 +3789,80 @@ export interface GetAssetFilterOutput {
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface GetAssetTypeInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetConnectionInput {
   domainIdentifier: string;
   identifier: string;
-  withSecret?: boolean;
+  withSecret?: boolean | undefined;
 }
 export interface ConnectionCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: Date;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
 }
 export interface GetConnectionOutput {
-  connectionCredentials?: ConnectionCredentials;
-  configurations?: Configuration[];
+  connectionCredentials?: ConnectionCredentials | undefined;
+  configurations?: Configuration[] | undefined;
   connectionId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
-  environmentUserRole?: string;
+  environmentId?: string | undefined;
+  environmentUserRole?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export interface GetDataExportConfigurationInput {
   domainIdentifier: string;
 }
 export type ConfigurationStatus = "COMPLETED" | "FAILED" | (string & {});
 export interface EncryptionConfiguration {
-  kmsKeyArn?: string;
-  sseAlgorithm?: string;
+  kmsKeyArn?: string | undefined;
+  sseAlgorithm?: string | undefined;
 }
 export interface GetDataExportConfigurationOutput {
-  isExportEnabled?: boolean;
-  status?: ConfigurationStatus;
-  encryptionConfiguration?: EncryptionConfiguration;
-  s3TableBucketArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  isExportEnabled?: boolean | undefined;
+  status?: ConfigurationStatus | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  s3TableBucketArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetDataProductInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetDataProductOutput {
   domainId: string;
@@ -3841,14 +3871,14 @@ export interface GetDataProductOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export interface GetDataSourceInput {
   domainIdentifier: string;
@@ -3856,28 +3886,28 @@ export interface GetDataSourceInput {
 }
 export interface GetDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  lastRunAssetCount?: number;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  lastRunAssetCount?: number | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
 }
 export type DataSourceRunId = string;
 export interface GetDataSourceRunInput {
@@ -3886,11 +3916,11 @@ export interface GetDataSourceRunInput {
 }
 export type DataSourceRunType = "PRIORITIZED" | "SCHEDULED" | (string & {});
 export interface RunStatisticsForAssets {
-  added?: number;
-  updated?: number;
-  unchanged?: number;
-  skipped?: number;
-  failed?: number;
+  added?: number | undefined;
+  updated?: number | undefined;
+  unchanged?: number | undefined;
+  skipped?: number | undefined;
+  failed?: number | undefined;
 }
 export type LineageImportStatus =
   | "IN_PROGRESS"
@@ -3899,7 +3929,7 @@ export type LineageImportStatus =
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
 export interface DataSourceRunLineageSummary {
-  importStatus?: LineageImportStatus;
+  importStatus?: LineageImportStatus | undefined;
 }
 export interface GetDataSourceRunOutput {
   domainId: string;
@@ -3908,14 +3938,14 @@ export interface GetDataSourceRunOutput {
   projectId: string;
   status: DataSourceRunStatus;
   type: DataSourceRunType;
-  dataSourceConfigurationSnapshot?: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  lineageSummary?: DataSourceRunLineageSummary;
-  errorMessage?: DataSourceErrorMessage;
+  dataSourceConfigurationSnapshot?: string | undefined;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  lineageSummary?: DataSourceRunLineageSummary | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
 }
 export interface GetDesignationInput {
   domainIdentifier: string;
@@ -3925,43 +3955,43 @@ export interface GetDesignationOutput {
   domainId: string;
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   designationType: DesignationType;
   policy: string;
   deletionProtection: boolean;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetDomainInput {
   identifier: string;
 }
 export interface FailureReason {
-  id?: string;
-  message?: string;
+  id?: string | undefined;
+  message?: string | undefined;
 }
 export type FailureReasonsList = FailureReason[];
 export interface DeleteProgress {
-  successfullyDeletedProjectCount?: number;
+  successfullyDeletedProjectCount?: number | undefined;
 }
 export interface GetDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  name?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
+  rootDomainUnitId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
   domainExecutionRole: string;
-  arn?: string;
-  kmsKeyIdentifier?: string;
+  arn?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   status: DomainStatus;
-  portalUrl?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
-  failureReasons?: FailureReason[];
-  deleteProgress?: DeleteProgress;
+  portalUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
+  failureReasons?: FailureReason[] | undefined;
+  deleteProgress?: DeleteProgress | undefined;
 }
 export interface GetDomainUnitInput {
   domainIdentifier: string;
@@ -3971,13 +4001,13 @@ export interface GetDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  description?: string | redacted.Redacted<string>;
+  parentDomainUnitId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   owners: DomainUnitOwnerProperties[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export interface GetEnvironmentInput {
   domainIdentifier: string;
@@ -3985,28 +4015,28 @@ export interface GetEnvironmentInput {
 }
 export interface GetEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetEnvironmentActionInput {
   domainIdentifier: string;
@@ -4019,7 +4049,7 @@ export interface GetEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetEnvironmentBlueprintInput {
   domainIdentifier: string;
@@ -4028,15 +4058,15 @@ export interface GetEnvironmentBlueprintInput {
 export interface GetEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
@@ -4052,7 +4082,7 @@ export type ResourceConfigurationParameterMap = { [key: string]: string | undefi
 export interface ResourceConfiguration {
   identifier: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   region: string;
   parameters: { [key: string]: string | undefined };
 }
@@ -4060,34 +4090,36 @@ export type ResourceConfigurations = ResourceConfiguration[];
 export type S3Location = string;
 export type S3LocationList = string[];
 export interface LakeFormationConfiguration {
-  locationRegistrationRole?: string;
-  locationRegistrationExcludeS3Locations?: string[];
+  locationRegistrationRole?: string | undefined;
+  locationRegistrationExcludeS3Locations?: string[] | undefined;
 }
 export type ProvisioningConfiguration = { lakeFormationConfiguration: LakeFormationConfiguration };
 export type ProvisioningConfigurationList = ProvisioningConfiguration[];
 export interface GetEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export interface GetEnvironmentCredentialsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
 }
 export interface GetEnvironmentCredentialsOutput {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: Date;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
 }
 export interface GetEnvironmentProfileInput {
   domainIdentifier: string;
@@ -4096,21 +4128,21 @@ export interface GetEnvironmentProfileInput {
 export interface GetEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export interface GetFormTypeInput {
   domainIdentifier: string;
   formTypeIdentifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface Import {
   name: string | redacted.Redacted<string>;
@@ -4122,14 +4154,14 @@ export interface GetFormTypeOutput {
   name: string | redacted.Redacted<string>;
   revision: string;
   model: Model;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  status?: FormTypeStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  description?: string | redacted.Redacted<string>;
-  imports?: Import[];
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  status?: FormTypeStatus | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  imports?: Import[] | undefined;
 }
 export interface GetGlossaryInput {
   domainIdentifier: string;
@@ -4140,13 +4172,13 @@ export interface GetGlossaryOutput {
   id: string;
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   status: GlossaryStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface GetGlossaryTermInput {
   domainIdentifier: string;
@@ -4157,33 +4189,33 @@ export interface GetGlossaryTermOutput {
   glossaryId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
   status: GlossaryTermStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface GetGroupProfileInput {
   domainIdentifier: string;
   groupIdentifier: string;
 }
 export interface GetGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export interface GetIamPortalLoginUrlInput {
   domainIdentifier: string;
 }
 export interface GetIamPortalLoginUrlOutput {
-  authCodeUrl?: string;
+  authCodeUrl?: string | undefined;
   userProfileId: string;
 }
 export type RunIdentifier = string;
@@ -4195,14 +4227,14 @@ export type JobType = "LINEAGE" | (string & {});
 export type JobRunMode = "SCHEDULED" | "ON_DEMAND" | (string & {});
 export type FailedQueryProcessingErrorMessages = string[];
 export interface LineageSqlQueryRunDetails {
-  queryStartTime?: Date;
-  queryEndTime?: Date;
-  totalQueriesProcessed?: number;
-  numQueriesFailed?: number;
-  errorMessages?: string[];
+  queryStartTime?: Date | undefined;
+  queryEndTime?: Date | undefined;
+  totalQueriesProcessed?: number | undefined;
+  numQueriesFailed?: number | undefined;
+  errorMessages?: string[] | undefined;
 }
 export interface LineageRunDetails {
-  sqlQueryRunDetails?: LineageSqlQueryRunDetails;
+  sqlQueryRunDetails?: LineageSqlQueryRunDetails | undefined;
 }
 export type JobRunDetails = { lineageRunDetails: LineageRunDetails };
 export type JobRunStatus =
@@ -4219,107 +4251,107 @@ export interface JobRunError {
   message: string;
 }
 export interface GetJobRunOutput {
-  domainId?: string;
-  id?: string;
-  jobId?: string;
-  jobType?: JobType;
-  runMode?: JobRunMode;
-  details?: JobRunDetails;
-  status?: JobRunStatus;
-  error?: JobRunError;
-  createdBy?: string;
-  createdAt?: Date;
-  startTime?: Date;
-  endTime?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  jobId?: string | undefined;
+  jobType?: JobType | undefined;
+  runMode?: JobRunMode | undefined;
+  details?: JobRunDetails | undefined;
+  status?: JobRunStatus | undefined;
+  error?: JobRunError | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetLineageEventInput {
   domainIdentifier: string;
   identifier: string;
 }
 export interface GetLineageEventOutput {
-  domainId?: string;
-  id?: string;
-  event?: T.StreamingOutputBody;
-  createdBy?: string;
-  processingStatus?: LineageEventProcessingStatus;
-  eventTime?: Date;
-  createdAt?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  event?: T.StreamingOutputBody | undefined;
+  createdBy?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  eventTime?: Date | undefined;
+  createdAt?: Date | undefined;
 }
 export type LineageNodeIdentifier = string;
 export interface GetLineageNodeInput {
   domainIdentifier: string;
   identifier: string;
-  eventTimestamp?: Date;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeId = string;
 export interface LineageNodeReference {
-  id?: string;
-  eventTimestamp?: Date;
+  id?: string | undefined;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeReferenceList = LineageNodeReference[];
 export interface GetLineageNodeOutput {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
-  formsOutput?: FormOutput[];
-  upstreamNodes?: LineageNodeReference[];
-  downstreamNodes?: LineageNodeReference[];
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  upstreamNodes?: LineageNodeReference[] | undefined;
+  downstreamNodes?: LineageNodeReference[] | undefined;
 }
 export interface GetListingInput {
   domainIdentifier: string;
   identifier: string;
-  listingRevision?: string;
+  listingRevision?: string | undefined;
 }
 export interface AssetListing {
-  assetId?: string;
-  assetRevision?: string;
-  assetType?: string;
-  createdAt?: Date;
-  forms?: string;
-  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[];
-  glossaryTerms?: DetailedGlossaryTerm[];
-  governedGlossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
+  assetId?: string | undefined;
+  assetRevision?: string | undefined;
+  assetType?: string | undefined;
+  createdAt?: Date | undefined;
+  forms?: string | undefined;
+  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  governedGlossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
 }
 export interface ListingSummary {
-  listingId?: string;
-  listingRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
 }
 export type ListingSummaries = ListingSummary[];
 export interface DataProductListing {
-  dataProductId?: string;
-  dataProductRevision?: string;
-  createdAt?: Date;
-  forms?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  items?: ListingSummary[];
+  dataProductId?: string | undefined;
+  dataProductRevision?: string | undefined;
+  createdAt?: Date | undefined;
+  forms?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  items?: ListingSummary[] | undefined;
 }
 export type ListingItem =
-  | { assetListing: AssetListing; dataProductListing?: never }
-  | { assetListing?: never; dataProductListing: DataProductListing };
+  | { assetListing: AssetListing; dataProductListing?: undefined }
+  | { assetListing?: undefined; dataProductListing: DataProductListing };
 export interface GetListingOutput {
   domainId: string;
   id: string;
   listingRevision: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  createdBy?: string;
-  updatedBy?: string;
-  item?: ListingItem;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  status?: ListingStatus;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedBy?: string | undefined;
+  item?: ListingItem | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: ListingStatus | undefined;
 }
 export type MetadataGenerationRunType =
   | "BUSINESS_DESCRIPTIONS"
@@ -4329,13 +4361,13 @@ export type MetadataGenerationRunType =
 export interface GetMetadataGenerationRunInput {
   domainIdentifier: string;
   identifier: string;
-  type?: MetadataGenerationRunType;
+  type?: MetadataGenerationRunType | undefined;
 }
 export type MetadataGenerationTargetType = "ASSET" | (string & {});
 export interface MetadataGenerationRunTarget {
   type: MetadataGenerationTargetType;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export type MetadataGenerationRunStatus =
   | "SUBMITTED"
@@ -4349,20 +4381,20 @@ export type MetadataGenerationRunTypes = MetadataGenerationRunType[];
 export interface MetadataGenerationRunTypeStat {
   type: MetadataGenerationRunType;
   status: MetadataGenerationRunStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type MetadataGenerationRunTypeStats = MetadataGenerationRunTypeStat[];
 export interface GetMetadataGenerationRunOutput {
   domainId: string;
   id: string;
-  target?: MetadataGenerationRunTarget;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
+  target?: MetadataGenerationRunTarget | undefined;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
   owningProjectId: string;
-  typeStats?: MetadataGenerationRunTypeStat[];
+  typeStats?: MetadataGenerationRunTypeStat[] | undefined;
 }
 export interface GetNotebookInput {
   domainIdentifier: string;
@@ -4375,21 +4407,21 @@ export interface GetNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export type ExportId = string;
 export interface GetNotebookExportInput {
@@ -4400,7 +4432,7 @@ export type FileFormat = "PDF" | "IPYNB" | (string & {});
 export type NotebookExportStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type NotebookS3Uri = string | redacted.Redacted<string>;
 export interface S3Destination {
-  uri?: string | redacted.Redacted<string>;
+  uri?: string | redacted.Redacted<string> | undefined;
 }
 export type OutputLocation = { s3: S3Destination };
 export interface NotebookExportError {
@@ -4414,11 +4446,11 @@ export interface GetNotebookExportOutput {
   notebookId: string;
   fileFormat: FileFormat;
   status: NotebookExportStatus;
-  outputLocation?: OutputLocation;
-  error?: NotebookExportError;
-  completedAt?: Date;
-  createdAt?: Date;
-  createdBy?: string;
+  outputLocation?: OutputLocation | undefined;
+  error?: NotebookExportError | undefined;
+  completedAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type NotebookRunId = string;
 export interface GetNotebookRunInput {
@@ -4437,25 +4469,25 @@ export type NotebookRunStatus =
   | (string & {});
 export type InstanceType = string;
 export interface ComputeConfig {
-  instanceType?: string;
-  environmentVersion?: string;
+  instanceType?: string | undefined;
+  environmentVersion?: string | undefined;
 }
 export type NetworkAccessType = "PUBLIC_INTERNET_ONLY" | "VPC_ONLY" | (string & {});
 export type SubnetIds = string[];
 export type SecurityGroupIds = string[];
 export interface NetworkConfig {
   networkAccessType: NetworkAccessType;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface TimeoutConfig {
-  runTimeoutInMinutes?: number;
+  runTimeoutInMinutes?: number | undefined;
 }
 export type S3Path = string;
 export interface StorageConfig {
-  projectS3Path?: string;
-  kmsKeyArn?: string;
+  projectS3Path?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type NotifyOnState =
   | "SUCCEEDED"
@@ -4472,8 +4504,8 @@ export interface NotificationConfig {
 }
 export type TriggerSourceType = "MANUAL" | "SCHEDULED" | "WORKFLOW" | (string & {});
 export interface TriggerSource {
-  type?: TriggerSourceType;
-  name?: string;
+  type?: TriggerSourceType | undefined;
+  name?: string | undefined;
 }
 export interface NotebookRunError {
   message: string;
@@ -4483,25 +4515,25 @@ export interface GetNotebookRunOutput {
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  cellOrder?: CellInformation[];
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  environmentConfiguration?: EnvironmentConfig;
-  storageConfiguration?: StorageConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  error?: NotebookRunError;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  cellOrder?: CellInformation[] | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  storageConfiguration?: StorageConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  error?: NotebookRunError | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export interface GetProjectInput {
   domainIdentifier: string;
@@ -4511,19 +4543,19 @@ export interface GetProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface GetProjectProfileInput {
   domainIdentifier: string;
@@ -4533,21 +4565,21 @@ export interface GetProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface GetRuleInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetRuleOutput {
   identifier: string;
@@ -4558,8 +4590,8 @@ export interface GetRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  targetType?: RuleTargetType;
-  description?: string | redacted.Redacted<string>;
+  targetType?: RuleTargetType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -4572,15 +4604,15 @@ export interface GetSubscriptionInput {
 export interface GetSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export interface GetSubscriptionGrantInput {
   domainIdentifier: string;
@@ -4589,16 +4621,16 @@ export interface GetSubscriptionGrantInput {
 export interface GetSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface GetSubscriptionRequestDetailsInput {
   domainIdentifier: string;
@@ -4607,7 +4639,7 @@ export interface GetSubscriptionRequestDetailsInput {
 export interface GetSubscriptionRequestDetailsOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -4615,10 +4647,10 @@ export interface GetSubscriptionRequestDetailsOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface GetSubscriptionTargetInput {
   domainIdentifier: string;
@@ -4634,14 +4666,14 @@ export interface GetSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type TimeSeriesDataPointIdentifier = string;
 export interface GetTimeSeriesDataPointInput {
@@ -4654,30 +4686,30 @@ export interface GetTimeSeriesDataPointInput {
 export interface TimeSeriesDataPointFormOutput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  content?: string;
-  id?: string;
+  content?: string | undefined;
+  id?: string | undefined;
 }
 export interface GetTimeSeriesDataPointOutput {
-  domainId?: string;
-  entityId?: string;
-  entityType?: TimeSeriesEntityType;
-  formName?: string;
-  form?: TimeSeriesDataPointFormOutput;
+  domainId?: string | undefined;
+  entityId?: string | undefined;
+  entityType?: TimeSeriesEntityType | undefined;
+  formName?: string | undefined;
+  form?: TimeSeriesDataPointFormOutput | undefined;
 }
 export interface GetUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  type?: UserProfileType;
-  sessionName?: string;
+  type?: UserProfileType | undefined;
+  sessionName?: string | undefined;
 }
 export interface GetUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type SortFieldAccountPool = "NAME" | (string & {});
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
@@ -4685,126 +4717,126 @@ export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListAccountPoolsInput {
   domainIdentifier: string;
-  name?: string | redacted.Redacted<string>;
-  sortBy?: SortFieldAccountPool;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | redacted.Redacted<string> | undefined;
+  sortBy?: SortFieldAccountPool | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccountPoolSummary {
-  domainId?: string;
-  id?: string;
-  name?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
-  domainUnitId?: string;
-  createdBy?: string;
-  updatedBy?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
+  domainUnitId?: string | undefined;
+  createdBy?: string | undefined;
+  updatedBy?: string | undefined;
 }
 export type AccountPoolSummaries = AccountPoolSummary[];
 export interface ListAccountPoolsOutput {
-  items?: AccountPoolSummary[];
-  nextToken?: string;
+  items?: AccountPoolSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAccountsInAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAccountsInAccountPoolOutput {
-  items?: AccountInfo[];
-  nextToken?: string;
+  items?: AccountInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssetFiltersInput {
   domainIdentifier: string;
   assetIdentifier: string;
-  status?: FilterStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: FilterStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetFilterSummary {
   id: string;
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
-  createdAt?: Date;
-  errorMessage?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
 }
 export type AssetFilters = AssetFilterSummary[];
 export interface ListAssetFiltersOutput {
   items: AssetFilterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssetRevisionsInput {
   domainIdentifier: string;
   identifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetRevision {
-  domainId?: string;
-  id?: string;
-  revision?: string;
-  createdBy?: string;
-  createdAt?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type AssetRevisions = AssetRevision[];
 export interface ListAssetRevisionsOutput {
-  items?: AssetRevision[];
-  nextToken?: string;
+  items?: AssetRevision[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SortFieldConnection = "NAME" | (string & {});
 export interface ListConnectionsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortFieldConnection;
-  sortOrder?: SortOrder;
-  name?: string;
-  environmentIdentifier?: string;
-  projectIdentifier?: string;
-  type?: ConnectionType;
-  scope?: ConnectionScope;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortFieldConnection | undefined;
+  sortOrder?: SortOrder | undefined;
+  name?: string | undefined;
+  environmentIdentifier?: string | undefined;
+  projectIdentifier?: string | undefined;
+  type?: ConnectionType | undefined;
+  scope?: ConnectionScope | undefined;
 }
 export interface ConnectionSummary {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   connectionId: string;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export type ConnectionSummaries = ConnectionSummary[];
 export interface ListConnectionsOutput {
   items: ConnectionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataProductRevisionsInput {
   domainIdentifier: string;
   identifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataProductRevision {
-  domainId?: string;
-  id?: string;
-  revision?: string;
-  createdAt?: Date;
-  createdBy?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type DataProductRevisions = DataProductRevision[];
 export interface ListDataProductRevisionsOutput {
   items: DataProductRevision[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataAssetActivityStatus =
   | "FAILED"
@@ -4819,15 +4851,15 @@ export type DataAssetActivityStatus =
 export interface ListDataSourceRunActivitiesInput {
   domainIdentifier: string;
   identifier: string;
-  status?: DataAssetActivityStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: DataAssetActivityStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type LineageEventErrorMessage = string;
 export interface LineageInfo {
-  eventId?: string;
-  eventStatus?: LineageEventProcessingStatus;
-  errorMessage?: string;
+  eventId?: string | undefined;
+  eventStatus?: LineageEventProcessingStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export interface DataSourceRunActivity {
   database: string | redacted.Redacted<string>;
@@ -4835,24 +4867,24 @@ export interface DataSourceRunActivity {
   technicalName: string | redacted.Redacted<string>;
   dataAssetStatus: DataAssetActivityStatus;
   projectId: string;
-  dataAssetId?: string;
-  technicalDescription?: string | redacted.Redacted<string>;
-  errorMessage?: DataSourceErrorMessage;
-  lineageSummary?: LineageInfo;
+  dataAssetId?: string | undefined;
+  technicalDescription?: string | redacted.Redacted<string> | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  lineageSummary?: LineageInfo | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type DataSourceRunActivities = DataSourceRunActivity[];
 export interface ListDataSourceRunActivitiesOutput {
   items: DataSourceRunActivity[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourceRunsInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
-  status?: DataSourceRunStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: DataSourceRunStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSourceRunSummary {
   id: string;
@@ -4860,105 +4892,105 @@ export interface DataSourceRunSummary {
   type: DataSourceRunType;
   status: DataSourceRunStatus;
   projectId: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  errorMessage?: DataSourceErrorMessage;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
-  lineageSummary?: DataSourceRunLineageSummary;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  lineageSummary?: DataSourceRunLineageSummary | undefined;
 }
 export type DataSourceRunSummaries = DataSourceRunSummary[];
 export interface ListDataSourceRunsOutput {
   items: DataSourceRunSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourcesInput {
   domainIdentifier: string;
   projectIdentifier: string;
-  environmentIdentifier?: string;
-  connectionIdentifier?: string;
-  type?: string;
-  status?: DataSourceStatus;
-  name?: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
+  environmentIdentifier?: string | undefined;
+  connectionIdentifier?: string | undefined;
+  type?: string | undefined;
+  status?: DataSourceStatus | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSourceSummary {
   domainId: string;
-  environmentId?: string;
-  connectionId?: string;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
   dataSourceId: string;
   name: string | redacted.Redacted<string>;
   type: string;
   status: DataSourceStatus;
-  enableSetting?: EnableSetting;
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  lastRunAssetCount?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  enableSetting?: EnableSetting | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  lastRunAssetCount?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type DataSourceSummaries = DataSourceSummary[];
 export interface ListDataSourcesOutput {
   items: DataSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListDesignationsMaxResults = number;
 export interface ListDesignationsInput {
   domainIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DesignationSummary {
   domainId: string;
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
-  designationType?: DesignationType;
+  description?: string | redacted.Redacted<string> | undefined;
+  designationType?: DesignationType | undefined;
   deletionProtection: boolean;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DesignationSummaries = DesignationSummary[];
 export interface ListDesignationsOutput {
-  items?: DesignationSummary[];
-  nextToken?: string;
+  items?: DesignationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsForListDomains = number;
 export interface ListDomainsInput {
-  status?: DomainStatus;
-  maxResults?: number;
-  nextToken?: string;
+  status?: DomainStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DomainName = string | redacted.Redacted<string>;
 export type DomainDescription = string | redacted.Redacted<string>;
 export interface DomainSummary {
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   managedAccountId: string;
   status: DomainStatus;
-  portalUrl?: string;
+  portalUrl?: string | undefined;
   createdAt: Date;
-  lastUpdatedAt?: Date;
-  domainVersion?: DomainVersion;
+  lastUpdatedAt?: Date | undefined;
+  domainVersion?: DomainVersion | undefined;
 }
 export type DomainSummaries = DomainSummary[];
 export interface ListDomainsOutput {
   items: DomainSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainUnitsForParentInput {
   domainIdentifier: string;
   parentDomainUnitIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainUnitSummary {
   name: string;
@@ -4967,34 +4999,34 @@ export interface DomainUnitSummary {
 export type DomainUnitSummaries = DomainUnitSummary[];
 export interface ListDomainUnitsForParentOutput {
   items: DomainUnitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEntityOwnersInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
   entityIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface OwnerUserPropertiesOutput {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface OwnerGroupPropertiesOutput {
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type OwnerPropertiesOutput =
-  | { user: OwnerUserPropertiesOutput; group?: never }
-  | { user?: never; group: OwnerGroupPropertiesOutput };
+  | { user: OwnerUserPropertiesOutput; group?: undefined }
+  | { user?: undefined; group: OwnerGroupPropertiesOutput };
 export type EntityOwners = OwnerPropertiesOutput[];
 export interface ListEntityOwnersOutput {
   owners: OwnerPropertiesOutput[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentActionsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentActionSummary {
   domainId: string;
@@ -5002,156 +5034,158 @@ export interface EnvironmentActionSummary {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type ListEnvironmentActionSummaries = EnvironmentActionSummary[];
 export interface ListEnvironmentActionsOutput {
-  items?: EnvironmentActionSummary[];
-  nextToken?: string;
+  items?: EnvironmentActionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentBlueprintConfigurationsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnvironmentBlueprintConfigurationItem {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export type EnvironmentBlueprintConfigurations = EnvironmentBlueprintConfigurationItem[];
 export interface ListEnvironmentBlueprintConfigurationsOutput {
-  items?: EnvironmentBlueprintConfigurationItem[];
-  nextToken?: string;
+  items?: EnvironmentBlueprintConfigurationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentBlueprintsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  name?: string;
-  managed?: boolean;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  name?: string | undefined;
+  managed?: boolean | undefined;
 }
 export interface EnvironmentBlueprintSummary {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  createdAt?: Date;
-  updatedAt?: Date;
-  blueprintCategory?: BlueprintCategory;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export type EnvironmentBlueprintSummaries = EnvironmentBlueprintSummary[];
 export interface ListEnvironmentBlueprintsOutput {
   items: EnvironmentBlueprintSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentProfilesInput {
   domainIdentifier: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
-  environmentBlueprintIdentifier?: string;
-  projectIdentifier?: string;
-  name?: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  projectIdentifier?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentProfileSummary {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type EnvironmentProfileSummaries = EnvironmentProfileSummary[];
 export interface ListEnvironmentProfilesOutput {
   items: EnvironmentProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsInput {
   domainIdentifier: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  awsAccountRegion?: string | undefined;
   projectIdentifier: string;
-  environmentProfileIdentifier?: string;
-  environmentBlueprintIdentifier?: string;
-  provider?: string;
-  name?: string;
-  maxResults?: number;
-  nextToken?: string;
+  environmentProfileIdentifier?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  provider?: string | undefined;
+  name?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnvironmentSummary {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  status?: EnvironmentStatus;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  status?: EnvironmentStatus | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export type EnvironmentSummaries = EnvironmentSummary[];
 export interface ListEnvironmentsOutput {
   items: EnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobRunsInput {
   domainIdentifier: string;
   jobIdentifier: string;
-  status?: JobRunStatus;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  status?: JobRunStatus | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface JobRunSummary {
-  domainId?: string;
-  jobId?: string;
-  jobType?: JobType;
-  runId?: string;
-  runMode?: JobRunMode;
-  status?: JobRunStatus;
-  error?: JobRunError;
-  createdBy?: string;
-  createdAt?: Date;
-  startTime?: Date;
-  endTime?: Date;
+  domainId?: string | undefined;
+  jobId?: string | undefined;
+  jobType?: JobType | undefined;
+  runId?: string | undefined;
+  runMode?: JobRunMode | undefined;
+  status?: JobRunStatus | undefined;
+  error?: JobRunError | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type JobRunSummaries = JobRunSummary[];
 export interface ListJobRunsOutput {
-  items?: JobRunSummary[];
-  nextToken?: string;
+  items?: JobRunSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLineageEventsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  timestampAfter?: Date;
-  timestampBefore?: Date;
-  processingStatus?: LineageEventProcessingStatus;
-  sortOrder?: SortOrder;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  timestampAfter?: Date | undefined;
+  timestampBefore?: Date | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export type OpenLineageRunState =
   | "START"
@@ -5162,126 +5196,126 @@ export type OpenLineageRunState =
   | "OTHER"
   | (string & {});
 export interface NameIdentifier {
-  name?: string;
-  namespace?: string;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export type NameIdentifiers = NameIdentifier[];
 export interface OpenLineageRunEventSummary {
-  eventType?: OpenLineageRunState;
-  runId?: string;
-  job?: NameIdentifier;
-  inputs?: NameIdentifier[];
-  outputs?: NameIdentifier[];
+  eventType?: OpenLineageRunState | undefined;
+  runId?: string | undefined;
+  job?: NameIdentifier | undefined;
+  inputs?: NameIdentifier[] | undefined;
+  outputs?: NameIdentifier[] | undefined;
 }
 export type EventSummary = { openLineageRunEventSummary: OpenLineageRunEventSummary };
 export interface LineageEventSummary {
-  id?: string;
-  domainId?: string;
-  processingStatus?: LineageEventProcessingStatus;
-  eventTime?: Date;
-  eventSummary?: EventSummary;
-  createdBy?: string;
-  createdAt?: Date;
+  id?: string | undefined;
+  domainId?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  eventTime?: Date | undefined;
+  eventSummary?: EventSummary | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type LineageEventSummaries = LineageEventSummary[];
 export interface ListLineageEventsOutput {
-  items?: LineageEventSummary[];
-  nextToken?: string;
+  items?: LineageEventSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EdgeDirection = "UPSTREAM" | "DOWNSTREAM" | (string & {});
 export interface ListLineageNodeHistoryInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   identifier: string;
-  direction?: EdgeDirection;
-  eventTimestampGTE?: Date;
-  eventTimestampLTE?: Date;
-  sortOrder?: SortOrder;
+  direction?: EdgeDirection | undefined;
+  eventTimestampGTE?: Date | undefined;
+  eventTimestampLTE?: Date | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface LineageNodeSummary {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeSummaries = LineageNodeSummary[];
 export interface ListLineageNodeHistoryOutput {
-  nodes?: LineageNodeSummary[];
-  nextToken?: string;
+  nodes?: LineageNodeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMetadataGenerationRunsInput {
   domainIdentifier: string;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  nextToken?: string;
-  maxResults?: number;
-  targetIdentifier?: string;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  targetIdentifier?: string | undefined;
 }
 export interface MetadataGenerationRunItem {
   domainId: string;
   id: string;
-  target?: MetadataGenerationRunTarget;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
+  target?: MetadataGenerationRunTarget | undefined;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
   owningProjectId: string;
 }
 export type MetadataGenerationRuns = MetadataGenerationRunItem[];
 export interface ListMetadataGenerationRunsOutput {
-  items?: MetadataGenerationRunItem[];
-  nextToken?: string;
+  items?: MetadataGenerationRunItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNotebookRunsInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
-  notebookIdentifier?: string;
-  status?: NotebookRunStatus;
-  scheduleIdentifier?: string;
-  maxResults?: number;
-  sortOrder?: SortOrder;
-  nextToken?: string;
+  notebookIdentifier?: string | undefined;
+  status?: NotebookRunStatus | undefined;
+  scheduleIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotebookRunSummary {
   id: string;
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  triggerSource?: TriggerSource;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  triggerSource?: TriggerSource | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export type NotebookRunSummaryList = NotebookRunSummary[];
 export interface ListNotebookRunsOutput {
-  items?: NotebookRunSummary[];
-  nextToken?: string;
+  items?: NotebookRunSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SortKey = "CREATED_AT" | "UPDATED_AT" | (string & {});
 export interface ListNotebooksInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
-  maxResults?: number;
-  sortOrder?: SortOrder;
-  sortBy?: SortKey;
-  status?: NotebookStatus;
-  type?: NotebookType;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrder | undefined;
+  sortBy?: SortKey | undefined;
+  status?: NotebookStatus | undefined;
+  type?: NotebookType | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotebookSummary {
   id: string;
@@ -5289,17 +5323,17 @@ export interface NotebookSummary {
   owningProjectId: string;
   domainId: string;
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type NotebookSummaryList = NotebookSummary[];
 export interface ListNotebooksOutput {
-  items?: NotebookSummary[];
-  nextToken?: string;
+  items?: NotebookSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NotificationType = "TASK" | "EVENT" | (string & {});
 export type NotificationSubjects = string[];
@@ -5307,19 +5341,19 @@ export type TaskStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface ListNotificationsInput {
   domainIdentifier: string;
   type: NotificationType;
-  afterTimestamp?: Date;
-  beforeTimestamp?: Date;
-  subjects?: string[];
-  taskStatus?: TaskStatus;
-  maxResults?: number;
-  nextToken?: string;
+  afterTimestamp?: Date | undefined;
+  beforeTimestamp?: Date | undefined;
+  subjects?: string[] | undefined;
+  taskStatus?: TaskStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TaskId = string;
 export type NotificationResourceType = "PROJECT" | (string & {});
 export interface NotificationResource {
   type: NotificationResourceType;
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type NotificationRole =
   | "PROJECT_OWNER"
@@ -5344,45 +5378,45 @@ export interface NotificationOutput {
   topic: Topic;
   title: string | redacted.Redacted<string>;
   message: string | redacted.Redacted<string>;
-  status?: TaskStatus;
+  status?: TaskStatus | undefined;
   actionLink: string | redacted.Redacted<string>;
   creationTimestamp: Date;
   lastUpdatedTimestamp: Date;
-  metadata?: { [key: string]: string | undefined };
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type NotificationsList = NotificationOutput[];
 export interface ListNotificationsOutput {
-  notifications?: NotificationOutput[];
-  nextToken?: string;
+  notifications?: NotificationOutput[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPolicyGrantsInput {
   domainIdentifier: string;
   entityType: TargetEntityType;
   entityIdentifier: string;
   policyType: ManagedPolicyType;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PolicyGrantMember {
-  principal?: PolicyGrantPrincipal;
-  detail?: PolicyGrantDetail;
-  createdAt?: Date;
-  createdBy?: string;
-  grantId?: string;
+  principal?: PolicyGrantPrincipal | undefined;
+  detail?: PolicyGrantDetail | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  grantId?: string | undefined;
 }
 export type PolicyGrantList = PolicyGrantMember[];
 export interface ListPolicyGrantsOutput {
   grantList: PolicyGrantMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SortFieldProject = "NAME" | (string & {});
 export interface ListProjectMembershipsInput {
   domainIdentifier: string;
   projectIdentifier: string;
-  sortBy?: SortFieldProject;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  sortBy?: SortFieldProject | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UserDetails {
   userId: string;
@@ -5391,68 +5425,68 @@ export interface GroupDetails {
   groupId: string;
 }
 export type MemberDetails =
-  | { user: UserDetails; group?: never }
-  | { user?: never; group: GroupDetails };
+  | { user: UserDetails; group?: undefined }
+  | { user?: undefined; group: GroupDetails };
 export interface ProjectMember {
   memberDetails: MemberDetails;
   designation: UserDesignation;
-  userCreatedDesignationId?: string;
+  userCreatedDesignationId?: string | undefined;
 }
 export type ProjectMembers = ProjectMember[];
 export interface ListProjectMembershipsOutput {
   members: ProjectMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListProjectProfilesInput {
   domainIdentifier: string;
-  name?: string | redacted.Redacted<string>;
-  sortBy?: SortFieldProject;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | redacted.Redacted<string> | undefined;
+  sortBy?: SortFieldProject | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProjectProfileSummary {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export type ProjectProfileSummaries = ProjectProfileSummary[];
 export interface ListProjectProfilesOutput {
-  items?: ProjectProfileSummary[];
-  nextToken?: string;
+  items?: ProjectProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProjectsInput {
   domainIdentifier: string;
-  userIdentifier?: string;
-  groupIdentifier?: string;
-  name?: string | redacted.Redacted<string>;
-  projectCategory?: string;
-  nextToken?: string;
-  maxResults?: number;
+  userIdentifier?: string | undefined;
+  groupIdentifier?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  projectCategory?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProjectSummary {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  domainUnitId?: string;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
+  projectCategory?: string | undefined;
 }
 export type ProjectSummaries = ProjectSummary[];
 export interface ListProjectsOutput {
-  items?: ProjectSummary[];
-  nextToken?: string;
+  items?: ProjectSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ProjectIds = string[];
 export type AssetTypeIdentifiers = string[];
@@ -5460,82 +5494,82 @@ export interface ListRulesInput {
   domainIdentifier: string;
   targetType: RuleTargetType;
   targetIdentifier: string;
-  ruleType?: RuleType;
-  action?: RuleAction;
-  projectIds?: string[];
-  assetTypes?: string[];
-  dataProduct?: boolean;
-  includeCascaded?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  ruleType?: RuleType | undefined;
+  action?: RuleAction | undefined;
+  projectIds?: string[] | undefined;
+  assetTypes?: string[] | undefined;
+  dataProduct?: boolean | undefined;
+  includeCascaded?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RuleSummary {
-  identifier?: string;
-  revision?: string;
-  ruleType?: RuleType;
-  name?: string | redacted.Redacted<string>;
-  targetType?: RuleTargetType;
-  target?: RuleTarget;
-  action?: RuleAction;
-  scope?: RuleScope;
-  updatedAt?: Date;
-  lastUpdatedBy?: string;
+  identifier?: string | undefined;
+  revision?: string | undefined;
+  ruleType?: RuleType | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  targetType?: RuleTargetType | undefined;
+  target?: RuleTarget | undefined;
+  action?: RuleAction | undefined;
+  scope?: RuleScope | undefined;
+  updatedAt?: Date | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export type RuleSummaries = RuleSummary[];
 export interface ListRulesOutput {
   items: RuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionGrantsInput {
   domainIdentifier: string;
-  environmentId?: string;
-  subscriptionTargetId?: string;
-  subscribedListingId?: string;
-  subscriptionId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  environmentId?: string | undefined;
+  subscriptionTargetId?: string | undefined;
+  subscribedListingId?: string | undefined;
+  subscriptionId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionGrantSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export type SubscriptionGrants = SubscriptionGrantSummary[];
 export interface ListSubscriptionGrantsOutput {
   items: SubscriptionGrantSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionRequestsInput {
   domainIdentifier: string;
-  status?: SubscriptionRequestStatus;
-  subscribedListingId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  approverProjectId?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  status?: SubscriptionRequestStatus | undefined;
+  subscribedListingId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  approverProjectId?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MetadataFormSummary {
-  formName?: string;
+  formName?: string | undefined;
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
 }
@@ -5543,7 +5577,7 @@ export type MetadataFormsSummary = MetadataFormSummary[];
 export interface SubscriptionRequestSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -5551,56 +5585,56 @@ export interface SubscriptionRequestSummary {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataFormsSummary?: MetadataFormSummary[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataFormsSummary?: MetadataFormSummary[] | undefined;
 }
 export type SubscriptionRequests = SubscriptionRequestSummary[];
 export interface ListSubscriptionRequestsOutput {
   items: SubscriptionRequestSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionsInput {
   domainIdentifier: string;
-  subscriptionRequestIdentifier?: string;
-  status?: SubscriptionStatus;
-  subscribedListingId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  approverProjectId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  subscriptionRequestIdentifier?: string | undefined;
+  status?: SubscriptionStatus | undefined;
+  subscribedListingId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  approverProjectId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type Subscriptions = SubscriptionSummary[];
 export interface ListSubscriptionsOutput {
   items: SubscriptionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionTargetsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionTargetSummary {
   id: string;
@@ -5611,55 +5645,55 @@ export interface SubscriptionTargetSummary {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type SubscriptionTargets = SubscriptionTargetSummary[];
 export interface ListSubscriptionTargetsOutput {
   items: SubscriptionTargetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTimeSeriesDataPointsInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   formName: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  nextToken?: string;
-  maxResults?: number;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTimeSeriesDataPointsOutput {
-  items?: TimeSeriesDataPointSummaryFormOutput[];
-  nextToken?: string;
+  items?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PostLineageEventInput {
   domainIdentifier: string;
   event: T.StreamingInputBody;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PostLineageEventOutput {
-  id?: string;
-  domainId?: string;
+  id?: string | undefined;
+  domainId?: string | undefined;
 }
 export interface TimeSeriesDataPointFormInput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  content?: string;
+  content?: string | undefined;
 }
 export type TimeSeriesDataPointFormInputList = TimeSeriesDataPointFormInput[];
 export interface PostTimeSeriesDataPointsInput {
@@ -5667,25 +5701,25 @@ export interface PostTimeSeriesDataPointsInput {
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   forms: TimeSeriesDataPointFormInput[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type TimeSeriesDataPointFormOutputList = TimeSeriesDataPointFormOutput[];
 export interface PostTimeSeriesDataPointsOutput {
-  domainId?: string;
-  entityId?: string;
-  entityType?: TimeSeriesEntityType;
-  forms?: TimeSeriesDataPointFormOutput[];
+  domainId?: string | undefined;
+  entityId?: string | undefined;
+  entityType?: TimeSeriesEntityType | undefined;
+  forms?: TimeSeriesDataPointFormOutput[] | undefined;
 }
 export interface PutDataExportConfigurationInput {
   domainIdentifier: string;
   enableExport: boolean;
-  encryptionConfiguration?: EncryptionConfiguration;
-  clientToken?: string;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutDataExportConfigurationOutput {}
 export interface PutResourceConfiguration {
   name: string;
-  description?: string;
+  description?: string | undefined;
   region: string;
   parameters: { [key: string]: string | undefined };
 }
@@ -5694,113 +5728,117 @@ export type GlobalParameterMap = { [key: string]: string | undefined };
 export interface PutEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
   environmentBlueprintIdentifier: string;
-  provisioningRoleArn?: string;
-  manageAccessRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
+  provisioningRoleArn?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
   enabledRegions: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  resourceConfigurations?: PutResourceConfiguration[];
-  allowUserProvidedConfigurations?: boolean;
-  globalParameters?: { [key: string]: string | undefined };
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  resourceConfigurations?: PutResourceConfiguration[] | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  globalParameters?: { [key: string]: string | undefined } | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export interface PutEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export type RelationType = "LINEAGE" | (string & {});
 export type RelationDirection = "IN" | "OUT" | (string & {});
 export interface RelationPattern {
   relationType: RelationType;
   relationDirection: RelationDirection;
-  maxPathLength?: number;
+  maxPathLength?: number | undefined;
 }
 export type GraphEntityType = "LINEAGE_NODE" | (string & {});
 export type Attribute = string;
 export type FilterOperator = "EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH" | (string & {});
 export interface Filter {
   attribute: string;
-  value?: string;
-  intValue?: number;
-  operator?: FilterOperator;
+  value?: string | undefined;
+  intValue?: number | undefined;
+  operator?: FilterOperator | undefined;
 }
 export type FilterList = FilterClause[];
 export type FilterClause =
-  | { filter: Filter; and?: never; or?: never }
-  | { filter?: never; and: FilterClause[]; or?: never }
-  | { filter?: never; and?: never; or: FilterClause[] };
+  | { filter: Filter; and?: undefined; or?: undefined }
+  | { filter?: undefined; and: FilterClause[]; or?: undefined }
+  | { filter?: undefined; and?: undefined; or: FilterClause[] };
 export interface EntityPattern {
   entityType: GraphEntityType;
   identifier: string;
-  filters?: FilterClause;
+  filters?: FilterClause | undefined;
 }
 export type MatchClause =
-  | { relationPattern: RelationPattern; entityPattern?: never }
-  | { relationPattern?: never; entityPattern: EntityPattern };
+  | { relationPattern: RelationPattern; entityPattern?: undefined }
+  | { relationPattern?: undefined; entityPattern: EntityPattern };
 export type MatchClauses = MatchClause[];
 export type FormNameList = string[];
 export interface AdditionalAttributes {
-  formNames?: string[];
+  formNames?: string[] | undefined;
 }
 export interface QueryGraphInput {
   domainIdentifier: string;
   match: MatchClause[];
-  maxResults?: number;
-  nextToken?: string;
-  additionalAttributes?: AdditionalAttributes;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  additionalAttributes?: AdditionalAttributes | undefined;
 }
 export type LineageNodeIds = string[];
 export interface LineageNodeItem {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
-  formsOutput?: FormOutput[];
-  upstreamLineageNodeIds?: string[];
-  downstreamLineageNodeIds?: string[];
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  upstreamLineageNodeIds?: string[] | undefined;
+  downstreamLineageNodeIds?: string[] | undefined;
 }
 export type ResultItem = { lineageNode: LineageNodeItem };
 export type ResultItemList = ResultItem[];
 export interface QueryGraphOutput {
-  items?: ResultItem[];
-  nextToken?: string;
+  items?: ResultItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RejectRuleBehavior = "ALL" | "NONE" | (string & {});
 export interface RejectRule {
-  rule?: RejectRuleBehavior;
-  threshold?: number;
+  rule?: RejectRuleBehavior | undefined;
+  threshold?: number | undefined;
 }
 export type PredictionChoices = number[];
 export interface RejectChoice {
-  predictionTarget?: string;
-  predictionChoices?: number[];
+  predictionTarget?: string | undefined;
+  predictionChoices?: number[] | undefined;
 }
 export type RejectChoices = RejectChoice[];
 export interface RejectPredictionsInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
-  rejectRule?: RejectRule;
-  rejectChoices?: RejectChoice[];
-  clientToken?: string;
+  revision?: string | undefined;
+  rejectRule?: RejectRule | undefined;
+  rejectChoices?: RejectChoice[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface RejectPredictionsOutput {
   domainId: string;
@@ -5810,12 +5848,12 @@ export interface RejectPredictionsOutput {
 export interface RejectSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string | redacted.Redacted<string>;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface RejectSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -5823,17 +5861,17 @@ export interface RejectSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface RemoveEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
   entityIdentifier: string;
   owner: OwnerProperties;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RemoveEntityOwnerOutput {}
 export interface RemovePolicyGrantInput {
@@ -5842,27 +5880,27 @@ export interface RemovePolicyGrantInput {
   entityIdentifier: string;
   policyType: ManagedPolicyType;
   principal: PolicyGrantPrincipal;
-  grantIdentifier?: string;
-  clientToken?: string;
+  grantIdentifier?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface RemovePolicyGrantOutput {}
 export interface RevokeSubscriptionInput {
   domainIdentifier: string;
   identifier: string;
-  retainPermissions?: boolean;
+  retainPermissions?: boolean | undefined;
 }
 export interface RevokeSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type InventorySearchScope =
   | "ASSET"
@@ -5877,7 +5915,7 @@ export interface SearchInItem {
 export type SearchInList = SearchInItem[];
 export interface SearchSort {
   attribute: string;
-  order?: SortOrder;
+  order?: SortOrder | undefined;
 }
 export type SearchOutputAdditionalAttribute =
   | "FORMS"
@@ -5887,70 +5925,70 @@ export type SearchOutputAdditionalAttribute =
 export type SearchOutputAdditionalAttributes = SearchOutputAdditionalAttribute[];
 export interface SearchInput {
   domainIdentifier: string;
-  owningProjectIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  owningProjectIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   searchScope: InventorySearchScope;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  filters?: FilterClause;
-  sort?: SearchSort;
-  additionalAttributes?: SearchOutputAdditionalAttribute[];
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  filters?: FilterClause | undefined;
+  sort?: SearchSort | undefined;
+  additionalAttributes?: SearchOutputAdditionalAttribute[] | undefined;
 }
 export interface MatchOffset {
-  startOffset?: number;
-  endOffset?: number;
+  startOffset?: number | undefined;
+  endOffset?: number | undefined;
 }
 export type MatchOffsets = MatchOffset[];
 export interface TextMatchItem {
-  attribute?: string;
-  text?: string;
-  matchOffsets?: MatchOffset[];
+  attribute?: string | undefined;
+  text?: string | undefined;
+  matchOffsets?: MatchOffset[] | undefined;
 }
 export type TextMatches = TextMatchItem[];
 export type MatchRationaleItem = { textMatches: TextMatchItem[] };
 export type MatchRationale = MatchRationaleItem[];
 export interface GlossaryItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface GlossaryItem {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   status: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  additionalAttributes?: GlossaryItemAdditionalAttributes;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  additionalAttributes?: GlossaryItemAdditionalAttributes | undefined;
 }
 export interface GlossaryTermItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface GlossaryTermItem {
   domainId: string;
   glossaryId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
   status: GlossaryTermStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  additionalAttributes?: GlossaryTermItemAdditionalAttributes;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  additionalAttributes?: GlossaryTermItemAdditionalAttributes | undefined;
 }
 export interface AssetItemAdditionalAttributes {
-  formsOutput?: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  matchRationale?: MatchRationaleItem[];
+  formsOutput?: FormOutput[] | undefined;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface AssetItem {
   domainId: string;
@@ -5958,63 +5996,63 @@ export interface AssetItem {
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
+  externalIdentifier?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
   owningProjectId: string;
-  additionalAttributes?: AssetItemAdditionalAttributes;
-  governedGlossaryTerms?: string[];
+  additionalAttributes?: AssetItemAdditionalAttributes | undefined;
+  governedGlossaryTerms?: string[] | undefined;
 }
 export interface DataProductItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface DataProductResultItem {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  additionalAttributes?: DataProductItemAdditionalAttributes;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  additionalAttributes?: DataProductItemAdditionalAttributes | undefined;
 }
 export type SearchInventoryResultItem =
   | {
       glossaryItem: GlossaryItem;
-      glossaryTermItem?: never;
-      assetItem?: never;
-      dataProductItem?: never;
+      glossaryTermItem?: undefined;
+      assetItem?: undefined;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
+      glossaryItem?: undefined;
       glossaryTermItem: GlossaryTermItem;
-      assetItem?: never;
-      dataProductItem?: never;
+      assetItem?: undefined;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
-      glossaryTermItem?: never;
+      glossaryItem?: undefined;
+      glossaryTermItem?: undefined;
       assetItem: AssetItem;
-      dataProductItem?: never;
+      dataProductItem?: undefined;
     }
   | {
-      glossaryItem?: never;
-      glossaryTermItem?: never;
-      assetItem?: never;
+      glossaryItem?: undefined;
+      glossaryTermItem?: undefined;
+      assetItem?: undefined;
       dataProductItem: DataProductResultItem;
     };
 export type SearchInventoryResultItems = SearchInventoryResultItem[];
 export interface SearchOutput {
-  items?: SearchInventoryResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
+  items?: SearchInventoryResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
 }
 export type GroupSearchType =
   | "SSO_GROUP"
@@ -6025,170 +6063,174 @@ export type GroupSearchText = string | redacted.Redacted<string>;
 export interface SearchGroupProfilesInput {
   domainIdentifier: string;
   groupType: GroupSearchType;
-  searchText?: string | redacted.Redacted<string>;
-  maxResults?: number;
-  nextToken?: string;
+  searchText?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GroupProfileSummary {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export type GroupProfileSummaries = GroupProfileSummary[];
 export interface SearchGroupProfilesOutput {
-  items?: GroupProfileSummary[];
-  nextToken?: string;
+  items?: GroupProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AggregationDisplayValue = string;
 export interface AggregationListItem {
   attribute: string;
-  displayValue?: string;
+  displayValue?: string | undefined;
 }
 export type AggregationList = AggregationListItem[];
 export interface SearchListingsInput {
   domainIdentifier: string;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  maxResults?: number;
-  nextToken?: string;
-  filters?: FilterClause;
-  aggregations?: AggregationListItem[];
-  sort?: SearchSort;
-  additionalAttributes?: SearchOutputAdditionalAttribute[];
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: FilterClause | undefined;
+  aggregations?: AggregationListItem[] | undefined;
+  sort?: SearchSort | undefined;
+  additionalAttributes?: SearchOutputAdditionalAttribute[] | undefined;
 }
 export interface AssetListingItemAdditionalAttributes {
-  forms?: string;
-  matchRationale?: MatchRationaleItem[];
-  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[];
+  forms?: string | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
+  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
 }
 export interface AssetListingItem {
-  listingId?: string;
-  listingRevision?: string;
-  name?: string | redacted.Redacted<string>;
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  listingCreatedBy?: string;
-  listingUpdatedBy?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  governedGlossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  additionalAttributes?: AssetListingItemAdditionalAttributes;
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  listingCreatedBy?: string | undefined;
+  listingUpdatedBy?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  governedGlossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  additionalAttributes?: AssetListingItemAdditionalAttributes | undefined;
 }
 export interface DataProductListingItemAdditionalAttributes {
-  forms?: string;
-  matchRationale?: MatchRationaleItem[];
+  forms?: string | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface ListingSummaryItem {
-  listingId?: string;
-  listingRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
 }
 export type ListingSummaryItems = ListingSummaryItem[];
 export interface DataProductListingItem {
-  listingId?: string;
-  listingRevision?: string;
-  name?: string | redacted.Redacted<string>;
-  entityId?: string;
-  entityRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  listingCreatedBy?: string;
-  listingUpdatedBy?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  additionalAttributes?: DataProductListingItemAdditionalAttributes;
-  items?: ListingSummaryItem[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  listingCreatedBy?: string | undefined;
+  listingUpdatedBy?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  additionalAttributes?: DataProductListingItemAdditionalAttributes | undefined;
+  items?: ListingSummaryItem[] | undefined;
 }
 export type SearchResultItem =
-  | { assetListing: AssetListingItem; dataProductListing?: never }
-  | { assetListing?: never; dataProductListing: DataProductListingItem };
+  | { assetListing: AssetListingItem; dataProductListing?: undefined }
+  | { assetListing?: undefined; dataProductListing: DataProductListingItem };
 export type SearchResultItems = SearchResultItem[];
 export type AggregationAttributeValue = string;
 export type AggregationAttributeDisplayValue = string;
 export interface AggregationOutputItem {
-  value?: string;
-  count?: number;
-  displayValue?: string;
+  value?: string | undefined;
+  count?: number | undefined;
+  displayValue?: string | undefined;
 }
 export type AggregationOutputItems = AggregationOutputItem[];
 export interface AggregationOutput {
-  attribute?: string;
-  displayValue?: string;
-  items?: AggregationOutputItem[];
+  attribute?: string | undefined;
+  displayValue?: string | undefined;
+  items?: AggregationOutputItem[] | undefined;
 }
 export type AggregationOutputList = AggregationOutput[];
 export interface SearchListingsOutput {
-  items?: SearchResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
-  aggregates?: AggregationOutput[];
+  items?: SearchResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
+  aggregates?: AggregationOutput[] | undefined;
 }
 export type TypesSearchScope = "ASSET_TYPE" | "FORM_TYPE" | "LINEAGE_NODE_TYPE" | (string & {});
 export interface SearchTypesInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   searchScope: TypesSearchScope;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  filters?: FilterClause;
-  sort?: SearchSort;
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  filters?: FilterClause | undefined;
+  sort?: SearchSort | undefined;
   managed: boolean;
 }
 export interface AssetTypeItem {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface FormTypeData {
   domainId: string;
   name: string | redacted.Redacted<string>;
   revision: string;
-  model?: Model;
-  status?: FormTypeStatus;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  description?: string | redacted.Redacted<string>;
-  imports?: Import[];
+  model?: Model | undefined;
+  status?: FormTypeStatus | undefined;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  imports?: Import[] | undefined;
 }
 export interface LineageNodeTypeItem {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   revision: string;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
 }
 export type SearchTypesResultItem =
-  | { assetTypeItem: AssetTypeItem; formTypeItem?: never; lineageNodeTypeItem?: never }
-  | { assetTypeItem?: never; formTypeItem: FormTypeData; lineageNodeTypeItem?: never }
-  | { assetTypeItem?: never; formTypeItem?: never; lineageNodeTypeItem: LineageNodeTypeItem };
+  | { assetTypeItem: AssetTypeItem; formTypeItem?: undefined; lineageNodeTypeItem?: undefined }
+  | { assetTypeItem?: undefined; formTypeItem: FormTypeData; lineageNodeTypeItem?: undefined }
+  | {
+      assetTypeItem?: undefined;
+      formTypeItem?: undefined;
+      lineageNodeTypeItem: LineageNodeTypeItem;
+    };
 export type SearchTypesResultItems = SearchTypesResultItem[];
 export interface SearchTypesOutput {
-  items?: SearchTypesResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
+  items?: SearchTypesResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
 }
 export type UserSearchType =
   | "SSO_USER"
@@ -6200,26 +6242,26 @@ export type UserSearchText = string | redacted.Redacted<string>;
 export interface SearchUserProfilesInput {
   domainIdentifier: string;
   userType: UserSearchType;
-  searchText?: string | redacted.Redacted<string>;
-  maxResults?: number;
-  nextToken?: string;
+  searchText?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface UserProfileSummary {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type UserProfileSummaries = UserProfileSummary[];
 export interface SearchUserProfilesOutput {
-  items?: UserProfileSummary[];
-  nextToken?: string;
+  items?: UserProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartDataSourceRunInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartDataSourceRunOutput {
   domainId: string;
@@ -6228,38 +6270,38 @@ export interface StartDataSourceRunOutput {
   projectId: string;
   status: DataSourceRunStatus;
   type: DataSourceRunType;
-  dataSourceConfigurationSnapshot?: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  errorMessage?: DataSourceErrorMessage;
+  dataSourceConfigurationSnapshot?: string | undefined;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
 }
 export interface StartMetadataGenerationRunInput {
   domainIdentifier: string;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
   target: MetadataGenerationRunTarget;
-  clientToken?: string;
+  clientToken?: string | undefined;
   owningProjectIdentifier: string;
 }
 export interface StartMetadataGenerationRunOutput {
   domainId: string;
   id: string;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
-  owningProjectId?: string;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  owningProjectId?: string | undefined;
 }
 export interface StartNotebookExportInput {
   domainIdentifier: string;
   notebookIdentifier: string;
   owningProjectIdentifier: string;
   fileFormat: FileFormat;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookExportOutput {
   id: string;
@@ -6268,8 +6310,8 @@ export interface StartNotebookExportOutput {
   notebookId: string;
   fileFormat: FileFormat;
   status: NotebookExportStatus;
-  createdAt?: Date;
-  createdBy?: string;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type S3SourceLocation = string | redacted.Redacted<string>;
 export type S3BucketName = string | redacted.Redacted<string>;
@@ -6283,94 +6325,94 @@ export interface S3FilesLocation {
   fileList: S3File[];
 }
 export type SourceLocation =
-  | { s3: string | redacted.Redacted<string>; s3Files?: never }
-  | { s3?: never; s3Files: S3FilesLocation };
+  | { s3: string | redacted.Redacted<string>; s3Files?: undefined }
+  | { s3?: undefined; s3Files: S3FilesLocation };
 export interface StartNotebookImportInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   sourceLocation: SourceLocation;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookImportOutput {
-  notebookId?: string;
-  status?: NotebookStatus;
-  domainId?: string;
-  owningProjectId?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  sourceLocation?: SourceLocation;
-  createdAt?: Date;
-  createdBy?: string;
+  notebookId?: string | undefined;
+  status?: NotebookStatus | undefined;
+  domainId?: string | undefined;
+  owningProjectId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  sourceLocation?: SourceLocation | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export interface StartNotebookRunInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   notebookIdentifier: string;
-  scheduleIdentifier?: string;
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  clientToken?: string;
+  scheduleIdentifier?: string | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookRunOutput {
   id: string;
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  cellOrder?: CellInformation[];
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  environmentConfiguration?: EnvironmentConfig;
-  storageConfiguration?: StorageConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  error?: NotebookRunError;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  cellOrder?: CellInformation[] | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  storageConfiguration?: StorageConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  error?: NotebookRunError | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export interface StartNotebookSyncInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   sourceLocation: SourceLocation;
-  gitMetadata?: GitMetadata;
-  notebookId?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  gitMetadata?: GitMetadata | undefined;
+  notebookId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookSyncOutput {
-  notebookId?: string;
-  status?: NotebookStatus;
-  domainId?: string;
-  owningProjectId?: string;
-  sourceLocation?: SourceLocation;
-  gitMetadata?: GitMetadata;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
+  notebookId?: string | undefined;
+  status?: NotebookStatus | undefined;
+  domainId?: string | undefined;
+  owningProjectId?: string | undefined;
+  sourceLocation?: SourceLocation | undefined;
+  gitMetadata?: GitMetadata | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export interface StopNotebookRunInput {
   domainIdentifier: string;
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StopNotebookRunOutput {
   id: string;
@@ -6392,444 +6434,451 @@ export interface UntagResourceResponse {}
 export interface UpdateAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
-  accountSource?: AccountSource;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
+  accountSource?: AccountSource | undefined;
 }
 export interface UpdateAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface UpdateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  configuration?: AssetFilterConfiguration;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  configuration?: AssetFilterConfiguration | undefined;
 }
 export interface UpdateAssetFilterOutput {
   id: string;
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface AthenaPropertiesPatch {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
+}
+export interface OAuth2PropertiesPatch {
+  oAuth2GrantType?: OAuth2GrantType | undefined;
+  oAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  tokenUrl?: string | undefined;
+  tokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface AuthenticationConfigurationPatch {
-  secretArn?: string;
-  basicAuthenticationCredentials?: BasicAuthenticationCredentials;
+  secretArn?: string | undefined;
+  basicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
+  oAuth2Properties?: OAuth2PropertiesPatch | undefined;
 }
 export interface GlueConnectionPatch {
-  description?: string;
-  connectionProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationPatch;
+  description?: string | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationPatch | undefined;
 }
 export interface GluePropertiesPatch {
-  glueConnectionInput?: GlueConnectionPatch;
+  glueConnectionInput?: GlueConnectionPatch | undefined;
 }
 export interface IamPropertiesPatch {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface RedshiftPropertiesPatch {
-  storage?: RedshiftStorageProperties;
-  databaseName?: string;
-  host?: string;
-  port?: number;
-  credentials?: RedshiftCredentials;
-  lineageSync?: RedshiftLineageSyncConfigurationInput;
+  storage?: RedshiftStorageProperties | undefined;
+  databaseName?: string | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationInput | undefined;
 }
 export interface SparkEmrPropertiesPatch {
-  computeArn?: string;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  managedEndpointArn?: string;
+  computeArn?: string | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  managedEndpointArn?: string | undefined;
 }
 export interface S3PropertiesPatch {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
 }
 export interface ConnectivityPropertiesPatch {
-  description?: string;
-  connectionProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationPatch;
+  description?: string | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationPatch | undefined;
 }
 export interface SnowflakePropertiesPatch {
-  connectivityPropertiesPatch?: ConnectivityPropertiesPatch;
-  snowflakeRole?: string;
-  lineageSync?: LineageSyncInput;
+  connectivityPropertiesPatch?: ConnectivityPropertiesPatch | undefined;
+  snowflakeRole?: string | undefined;
+  lineageSync?: LineageSyncInput | undefined;
 }
 export interface AmazonQPropertiesPatch {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesPatch {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface LakehousePropertiesPatch {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface VpcPropertiesPatch {
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupId?: string;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupId?: string | undefined;
 }
 export interface GitPropertiesPatch {
-  codeConnectionArn?: string;
-  defaultBranch?: string;
+  codeConnectionArn?: string | undefined;
+  defaultBranch?: string | undefined;
 }
 export type ConnectionPropertiesPatch =
   | {
       athenaProperties: AthenaPropertiesPatch;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
+      athenaProperties?: undefined;
       glueProperties: GluePropertiesPatch;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
       iamProperties: IamPropertiesPatch;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
       redshiftProperties: RedshiftPropertiesPatch;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
       sparkEmrProperties: SparkEmrPropertiesPatch;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
       s3Properties: S3PropertiesPatch;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
       snowflakeProperties: SnowflakePropertiesPatch;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
       amazonQProperties: AmazonQPropertiesPatch;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
       mlflowProperties: MlflowPropertiesPatch;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
-      gitProperties?: never;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
       lakehouseProperties: LakehousePropertiesPatch;
-      vpcProperties?: never;
-      gitProperties?: never;
+      vpcProperties?: undefined;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
       vpcProperties: VpcPropertiesPatch;
-      gitProperties?: never;
+      gitProperties?: undefined;
     }
   | {
-      athenaProperties?: never;
-      glueProperties?: never;
-      iamProperties?: never;
-      redshiftProperties?: never;
-      sparkEmrProperties?: never;
-      s3Properties?: never;
-      snowflakeProperties?: never;
-      amazonQProperties?: never;
-      mlflowProperties?: never;
-      lakehouseProperties?: never;
-      vpcProperties?: never;
+      athenaProperties?: undefined;
+      glueProperties?: undefined;
+      iamProperties?: undefined;
+      redshiftProperties?: undefined;
+      sparkEmrProperties?: undefined;
+      s3Properties?: undefined;
+      snowflakeProperties?: undefined;
+      amazonQProperties?: undefined;
+      mlflowProperties?: undefined;
+      lakehouseProperties?: undefined;
+      vpcProperties?: undefined;
       gitProperties: GitPropertiesPatch;
     };
 export interface UpdateConnectionInput {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  awsLocation?: AwsLocation;
-  props?: ConnectionPropertiesPatch;
+  description?: string | redacted.Redacted<string> | undefined;
+  awsLocation?: AwsLocation | undefined;
+  props?: ConnectionPropertiesPatch | undefined;
 }
 export interface UpdateConnectionOutput {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   connectionId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export interface UpdateDataSourceInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsInput?: FormInput[];
-  schedule?: ScheduleConfiguration;
-  configuration?: DataSourceConfigurationInput;
-  recommendation?: RecommendationConfiguration;
-  retainPermissionsOnRevokeFailure?: boolean;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsInput?: FormInput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  configuration?: DataSourceConfigurationInput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface UpdateDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
-  retainPermissionsOnRevokeFailure?: boolean;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface UpdateDesignationInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  policy?: string;
-  deletionProtection?: boolean;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  policy?: string | undefined;
+  deletionProtection?: boolean | undefined;
 }
 export interface UpdateDesignationOutput {
   domainId: string;
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   designationType: DesignationType;
   policy: string;
   deletionProtection: boolean;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface UpdateDomainInput {
   identifier: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  serviceRole?: string;
-  name?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  serviceRole?: string | undefined;
+  name?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  serviceRole?: string;
-  name?: string;
-  lastUpdatedAt?: Date;
+  rootDomainUnitId?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  serviceRole?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface UpdateDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
   owners: DomainUnitOwnerProperties[];
-  description?: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  parentDomainUnitId?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export interface UpdateEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
-  glossaryTerms?: string[];
-  blueprintVersion?: string;
-  userParameters?: EnvironmentParameter[];
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  name?: string | undefined;
+  description?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintVersion?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
-  parameters?: ActionParameters;
-  name?: string;
-  description?: string;
+  parameters?: ActionParameters | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentActionOutput {
   domainId: string;
@@ -6837,78 +6886,78 @@ export interface UpdateEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentBlueprintInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string;
-  provisioningProperties?: ProvisioningProperties;
-  userParameters?: CustomParameter[];
-  blueprintCategory?: BlueprintCategory;
+  description?: string | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export interface UpdateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string;
-  userParameters?: EnvironmentParameter[];
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
 }
 export interface UpdateEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export interface UpdateGlossaryInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  clientToken?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateGlossaryOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface UpdateGlossaryTermInput {
   domainIdentifier: string;
-  glossaryIdentifier?: string;
+  glossaryIdentifier?: string | undefined;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  status?: GlossaryTermStatus;
+  name?: string | redacted.Redacted<string> | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  status?: GlossaryTermStatus | undefined;
 }
 export interface UpdateGlossaryTermOutput {
   id: string;
@@ -6916,10 +6965,10 @@ export interface UpdateGlossaryTermOutput {
   glossaryId: string;
   name: string | redacted.Redacted<string>;
   status: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface UpdateGroupProfileInput {
   domainIdentifier: string;
@@ -6927,25 +6976,25 @@ export interface UpdateGroupProfileInput {
   status: GroupProfileStatus;
 }
 export interface UpdateGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export interface UpdateNotebookInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  status?: NotebookStatus;
-  name?: string | redacted.Redacted<string>;
-  cellOrder?: CellInformation[];
-  type?: NotebookType;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: NotebookStatus | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  cellOrder?: CellInformation[] | undefined;
+  type?: NotebookType | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateNotebookOutput {
   id: string;
@@ -6954,94 +7003,94 @@ export interface UpdateNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export interface UpdateProjectInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string | undefined };
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  projectProfileVersion?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  projectProfileVersion?: string | undefined;
 }
 export interface UpdateProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface UpdateProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
-  domainUnitIdentifier?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
+  domainUnitIdentifier?: string | undefined;
 }
 export interface UpdateProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface UpdateRootDomainUnitOwnerInput {
   domainIdentifier: string;
   currentOwner: string;
   newOwner: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateRootDomainUnitOwnerOutput {}
 export interface UpdateRuleInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  scope?: RuleScope;
-  detail?: RuleDetail;
-  includeChildDomainUnits?: boolean;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  scope?: RuleScope | undefined;
+  detail?: RuleDetail | undefined;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface UpdateRuleOutput {
   identifier: string;
@@ -7052,7 +7101,7 @@ export interface UpdateRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -7063,22 +7112,22 @@ export interface UpdateSubscriptionGrantStatusInput {
   identifier: string;
   assetIdentifier: string;
   status: SubscriptionGrantStatus;
-  failureCause?: FailureCause;
-  targetName?: string;
+  failureCause?: FailureCause | undefined;
+  targetName?: string | undefined;
 }
 export interface UpdateSubscriptionGrantStatusOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface UpdateSubscriptionRequestInput {
   domainIdentifier: string;
@@ -7088,7 +7137,7 @@ export interface UpdateSubscriptionRequestInput {
 export interface UpdateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -7096,22 +7145,22 @@ export interface UpdateSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface UpdateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  authorizedPrincipals?: string[];
-  applicableAssetTypes?: string[];
-  subscriptionTargetConfig?: SubscriptionTargetForm[];
-  manageAccessRole?: string;
-  provider?: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  name?: string | redacted.Redacted<string> | undefined;
+  authorizedPrincipals?: string[] | undefined;
+  applicableAssetTypes?: string[] | undefined;
+  subscriptionTargetConfig?: SubscriptionTargetForm[] | undefined;
+  manageAccessRole?: string | undefined;
+  provider?: string | undefined;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface UpdateSubscriptionTargetOutput {
   id: string;
@@ -7122,28 +7171,28 @@ export interface UpdateSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface UpdateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  type?: UserProfileType;
+  type?: UserProfileType | undefined;
   status: UserProfileStatus;
-  sessionName?: string;
+  sessionName?: string | undefined;
 }
 export interface UpdateUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type ErrorMessage = string;
 export type AcceptPredictionsError =
@@ -7153,6 +7202,7 @@ export type AcceptPredictionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
@@ -7163,8 +7213,8 @@ export const acceptPredictions: API.OperationMethod<
   AcceptPredictionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7618, __c238, 2) as any as S.Schema<AcceptPredictionsInput>,
-  output: __S(7619, __c238, 3) as any as S.Schema<AcceptPredictionsOutput>,
+  input: __S(8450, __c264, 2) as any as S.Schema<AcceptPredictionsInput>,
+  output: __S(8451, __c264, 3) as any as S.Schema<AcceptPredictionsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7172,6 +7222,7 @@ export const acceptPredictions: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7188,6 +7239,7 @@ export type AcceptSubscriptionRequestError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Accepts a subscription request to a specific asset.
@@ -7198,8 +7250,8 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   AcceptSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<AcceptSubscriptionRequestInput>,
-  output: __S(8512, __c266, 0) as any as S.Schema<AcceptSubscriptionRequestOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<AcceptSubscriptionRequestInput>,
+  output: __S(320, __c10, 0) as any as S.Schema<AcceptSubscriptionRequestOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7208,6 +7260,7 @@ export const acceptSubscriptionRequest: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7224,6 +7277,7 @@ export type AddEntityOwnerError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Adds the owner of an entity (a domain unit).
@@ -7234,8 +7288,8 @@ export const addEntityOwner: API.OperationMethod<
   AddEntityOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddEntityOwnerInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<AddEntityOwnerOutput>,
+  input: __S(736, __c23, 0) as any as S.Schema<AddEntityOwnerInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<AddEntityOwnerOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7244,6 +7298,7 @@ export const addEntityOwner: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7259,6 +7314,7 @@ export type AddPolicyGrantError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
@@ -7269,8 +7325,8 @@ export const addPolicyGrant: API.OperationMethod<
   AddPolicyGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<AddPolicyGrantInput>,
-  output: __S(481, __c15, 1) as any as S.Schema<AddPolicyGrantOutput>,
+  input: __S(1248, __c39, 0) as any as S.Schema<AddPolicyGrantInput>,
+  output: __S(1249, __c39, 1) as any as S.Schema<AddPolicyGrantOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7278,6 +7334,7 @@ export const addPolicyGrant: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7293,6 +7350,7 @@ export type AssociateEnvironmentRoleError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Associates the environment role in Amazon DataZone.
@@ -7303,8 +7361,8 @@ export const associateEnvironmentRole: API.OperationMethod<
   AssociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<AssociateEnvironmentRoleInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<AssociateEnvironmentRoleOutput>,
+  input: __S(1664, __c52, 0) as any as S.Schema<AssociateEnvironmentRoleInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<AssociateEnvironmentRoleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7312,6 +7370,7 @@ export const associateEnvironmentRole: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7327,6 +7386,7 @@ export type AssociateGovernedTermsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Associates governed terms with an asset.
@@ -7337,8 +7397,8 @@ export const associateGovernedTerms: API.OperationMethod<
   AssociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<AssociateGovernedTermsInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<AssociateGovernedTermsOutput>,
+  input: __S(2016, __c63, 0) as any as S.Schema<AssociateGovernedTermsInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<AssociateGovernedTermsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7346,6 +7406,7 @@ export const associateGovernedTerms: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7360,6 +7421,7 @@ export type BatchGetAttributesMetadataError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the attribute metadata.
@@ -7370,14 +7432,15 @@ export const batchGetAttributesMetadata: API.OperationMethod<
   BatchGetAttributesMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<BatchGetAttributesMetadataInput>,
-  output: __S(1699, __c53, 3) as any as S.Schema<BatchGetAttributesMetadataOutput>,
+  input: __S(2368, __c74, 0) as any as S.Schema<BatchGetAttributesMetadataInput>,
+  output: __S(2371, __c74, 3) as any as S.Schema<BatchGetAttributesMetadataOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7393,6 +7456,7 @@ export type BatchPutAttributesMetadataError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Writes the attribute metadata.
@@ -7403,8 +7467,8 @@ export const batchPutAttributesMetadata: API.OperationMethod<
   BatchPutAttributesMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2082, __c65, 2) as any as S.Schema<BatchPutAttributesMetadataInput>,
-  output: __S(2085, __c65, 5) as any as S.Schema<BatchPutAttributesMetadataOutput>,
+  input: __S(2754, __c86, 2) as any as S.Schema<BatchPutAttributesMetadataInput>,
+  output: __S(2757, __c86, 5) as any as S.Schema<BatchPutAttributesMetadataOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7412,6 +7476,7 @@ export const batchPutAttributesMetadata: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7427,6 +7492,7 @@ export type CancelMetadataGenerationRunError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Cancels the metadata generation run.
@@ -7445,8 +7511,8 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
   CancelMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CancelMetadataGenerationRunInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<CancelMetadataGenerationRunOutput>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CancelMetadataGenerationRunInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<CancelMetadataGenerationRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7454,6 +7520,7 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7469,6 +7536,7 @@ export type CancelSubscriptionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Cancels the subscription to the specified asset.
@@ -7479,8 +7547,8 @@ export const cancelSubscription: API.OperationMethod<
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CancelSubscriptionInput>,
-  output: __S(2944, __c92, 0) as any as S.Schema<CancelSubscriptionOutput>,
+  input: __S(3616, __c113, 0) as any as S.Schema<CancelSubscriptionInput>,
+  output: __S(3648, __c114, 0) as any as S.Schema<CancelSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7488,6 +7556,7 @@ export const cancelSubscription: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7504,6 +7573,7 @@ export type CreateAccountPoolError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an account pool.
@@ -7514,8 +7584,8 @@ export const createAccountPool: API.OperationMethod<
   CreateAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<CreateAccountPoolInput>,
-  output: __S(3394, __c106, 2) as any as S.Schema<CreateAccountPoolOutput>,
+  input: __S(4000, __c125, 0) as any as S.Schema<CreateAccountPoolInput>,
+  output: __S(4066, __c127, 2) as any as S.Schema<CreateAccountPoolOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7524,6 +7594,7 @@ export const createAccountPool: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7540,6 +7611,7 @@ export type CreateAssetError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an asset in Amazon DataZone catalog.
@@ -7570,8 +7642,8 @@ export const createAsset: API.OperationMethod<
   CreateAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CreateAssetInput>,
-  output: __S(3778, __c118, 2) as any as S.Schema<CreateAssetOutput>,
+  input: __S(4416, __c138, 0) as any as S.Schema<CreateAssetInput>,
+  output: __S(4450, __c139, 2) as any as S.Schema<CreateAssetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7580,6 +7652,7 @@ export const createAsset: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7596,6 +7669,7 @@ export type CreateAssetFilterError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a data asset filter.
@@ -7618,8 +7692,8 @@ export const createAssetFilter: API.OperationMethod<
   CreateAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<CreateAssetFilterInput>,
-  output: __S(4233, __c132, 9) as any as S.Schema<CreateAssetFilterOutput>,
+  input: __S(4672, __c146, 0) as any as S.Schema<CreateAssetFilterInput>,
+  output: __S(4713, __c147, 9) as any as S.Schema<CreateAssetFilterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7628,6 +7702,7 @@ export const createAssetFilter: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7643,6 +7718,7 @@ export type CreateAssetRevisionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a revision of the asset.
@@ -7667,8 +7743,8 @@ export const createAssetRevision: API.OperationMethod<
   CreateAssetRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<CreateAssetRevisionInput>,
-  output: __S(3778, __c118, 2) as any as S.Schema<CreateAssetRevisionOutput>,
+  input: __S(4736, __c148, 0) as any as S.Schema<CreateAssetRevisionInput>,
+  output: __S(4450, __c139, 2) as any as S.Schema<CreateAssetRevisionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7676,6 +7752,7 @@ export const createAssetRevision: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7691,6 +7768,7 @@ export type CreateAssetTypeError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a custom asset type.
@@ -7713,8 +7791,8 @@ export const createAssetType: API.OperationMethod<
   CreateAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4386, __c137, 2) as any as S.Schema<CreateAssetTypeInput>,
-  output: __S(4387, __c137, 3) as any as S.Schema<CreateAssetTypeOutput>,
+  input: __S(4770, __c149, 2) as any as S.Schema<CreateAssetTypeInput>,
+  output: __S(4771, __c149, 3) as any as S.Schema<CreateAssetTypeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7722,6 +7800,7 @@ export const createAssetType: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7738,6 +7817,7 @@ export type CreateConnectionError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
@@ -7748,8 +7828,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4457, __c139, 9) as any as S.Schema<CreateConnectionInput>,
-  output: __S(4458, __c139, 10) as any as S.Schema<CreateConnectionOutput>,
+  input: __S(4841, __c151, 9) as any as S.Schema<CreateConnectionInput>,
+  output: __S(4842, __c151, 10) as any as S.Schema<CreateConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7758,6 +7838,7 @@ export const createConnection: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7774,6 +7855,7 @@ export type CreateDataProductError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a data product.
@@ -7796,8 +7878,8 @@ export const createDataProduct: API.OperationMethod<
   CreateDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<CreateDataProductInput>,
-  output: __S(4674, __c146, 2) as any as S.Schema<CreateDataProductOutput>,
+  input: __S(5024, __c157, 0) as any as S.Schema<CreateDataProductInput>,
+  output: __S(5058, __c158, 2) as any as S.Schema<CreateDataProductOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7806,6 +7888,7 @@ export const createDataProduct: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7821,6 +7904,7 @@ export type CreateDataProductRevisionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a data product revision.
@@ -7841,8 +7925,8 @@ export const createDataProductRevision: API.OperationMethod<
   CreateDataProductRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<CreateDataProductRevisionInput>,
-  output: __S(4674, __c146, 2) as any as S.Schema<CreateDataProductRevisionOutput>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CreateDataProductRevisionInput>,
+  output: __S(5058, __c158, 2) as any as S.Schema<CreateDataProductRevisionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7850,6 +7934,7 @@ export const createDataProductRevision: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7866,6 +7951,7 @@ export type CreateDataSourceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an Amazon DataZone data source.
@@ -7876,8 +7962,8 @@ export const createDataSource: API.OperationMethod<
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<CreateDataSourceInput>,
-  output: __S(4737, __c148, 1) as any as S.Schema<CreateDataSourceOutput>,
+  input: __S(5120, __c160, 0) as any as S.Schema<CreateDataSourceInput>,
+  output: __S(5121, __c160, 1) as any as S.Schema<CreateDataSourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7886,6 +7972,7 @@ export const createDataSource: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7902,10 +7989,10 @@ export type CreateDesignationError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
- * Creates a new user-defined designation with a Cedar permit policy.
- * The designation defines a named role that can be assigned to project members.
+ * Creates a new user-defined designation with a Cedar permit policy. The designation defines a named role that can be assigned to project members through `CreateProjectMembership` or granted through `AddPolicyGrant`.
  */
 export const createDesignation: API.OperationMethod<
   CreateDesignationInput & RegionInput,
@@ -7913,8 +8000,8 @@ export const createDesignation: API.OperationMethod<
   CreateDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<CreateDesignationInput>,
-  output: __S(4960, __c155, 0) as any as S.Schema<CreateDesignationOutput>,
+  input: __S(5312, __c166, 0) as any as S.Schema<CreateDesignationInput>,
+  output: __S(5344, __c167, 0) as any as S.Schema<CreateDesignationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7923,6 +8010,7 @@ export const createDesignation: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7939,6 +8027,7 @@ export type CreateDomainError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an Amazon DataZone domain.
@@ -7949,8 +8038,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<CreateDomainInput>,
-  output: __S(4993, __c156, 1) as any as S.Schema<CreateDomainOutput>,
+  input: __S(5376, __c168, 0) as any as S.Schema<CreateDomainInput>,
+  output: __S(5377, __c168, 1) as any as S.Schema<CreateDomainOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7959,6 +8048,7 @@ export const createDomain: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7974,6 +8064,7 @@ export type CreateDomainUnitError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a domain unit in Amazon DataZone.
@@ -7984,8 +8075,8 @@ export const createDomainUnit: API.OperationMethod<
   CreateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CreateDomainUnitInput>,
-  output: __S(5057, __c158, 1) as any as S.Schema<CreateDomainUnitOutput>,
+  input: __S(5440, __c170, 0) as any as S.Schema<CreateDomainUnitInput>,
+  output: __S(5441, __c170, 1) as any as S.Schema<CreateDomainUnitOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7993,6 +8084,7 @@ export const createDomainUnit: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8008,6 +8100,7 @@ export type CreateEnvironmentError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Create an Amazon DataZone environment.
@@ -8018,8 +8111,8 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<CreateEnvironmentInput>,
-  output: __S(5319, __c166, 7) as any as S.Schema<CreateEnvironmentOutput>,
+  input: __S(5504, __c172, 0) as any as S.Schema<CreateEnvironmentInput>,
+  output: __S(5703, __c178, 7) as any as S.Schema<CreateEnvironmentOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8027,6 +8120,7 @@ export const createEnvironment: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8042,6 +8136,7 @@ export type CreateEnvironmentActionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
@@ -8052,8 +8147,8 @@ export const createEnvironmentAction: API.OperationMethod<
   CreateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<CreateEnvironmentActionInput>,
-  output: __S(5378, __c168, 2) as any as S.Schema<CreateEnvironmentActionOutput>,
+  input: __S(5728, __c179, 0) as any as S.Schema<CreateEnvironmentActionInput>,
+  output: __S(5762, __c180, 2) as any as S.Schema<CreateEnvironmentActionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8061,6 +8156,7 @@ export const createEnvironmentAction: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8077,6 +8173,7 @@ export type CreateEnvironmentBlueprintError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a Amazon DataZone blueprint.
@@ -8087,8 +8184,8 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   CreateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<CreateEnvironmentBlueprintInput>,
-  output: __S(5440, __c170, 0) as any as S.Schema<CreateEnvironmentBlueprintOutput>,
+  input: __S(5792, __c181, 0) as any as S.Schema<CreateEnvironmentBlueprintInput>,
+  output: __S(5824, __c182, 0) as any as S.Schema<CreateEnvironmentBlueprintOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8097,6 +8194,7 @@ export const createEnvironmentBlueprint: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8113,6 +8211,7 @@ export type CreateEnvironmentProfileError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an Amazon DataZone environment profile.
@@ -8123,8 +8222,8 @@ export const createEnvironmentProfile: API.OperationMethod<
   CreateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<CreateEnvironmentProfileInput>,
-  output: __S(5504, __c172, 0) as any as S.Schema<CreateEnvironmentProfileOutput>,
+  input: __S(5856, __c183, 0) as any as S.Schema<CreateEnvironmentProfileInput>,
+  output: __S(5888, __c184, 0) as any as S.Schema<CreateEnvironmentProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8133,6 +8232,7 @@ export const createEnvironmentProfile: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8148,6 +8248,7 @@ export type CreateFormTypeError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a metadata form type.
@@ -8170,8 +8271,8 @@ export const createFormType: API.OperationMethod<
   CreateFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<CreateFormTypeInput>,
-  output: __S(5537, __c173, 1) as any as S.Schema<CreateFormTypeOutput>,
+  input: __S(5920, __c185, 0) as any as S.Schema<CreateFormTypeInput>,
+  output: __S(5921, __c185, 1) as any as S.Schema<CreateFormTypeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8179,6 +8280,7 @@ export const createFormType: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8194,6 +8296,7 @@ export type CreateGlossaryError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an Amazon DataZone business glossary.
@@ -8216,8 +8319,8 @@ export const createGlossary: API.OperationMethod<
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<CreateGlossaryInput>,
-  output: __S(5632, __c176, 0) as any as S.Schema<CreateGlossaryOutput>,
+  input: __S(5984, __c187, 0) as any as S.Schema<CreateGlossaryInput>,
+  output: __S(6016, __c188, 0) as any as S.Schema<CreateGlossaryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8225,6 +8328,7 @@ export const createGlossary: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8241,6 +8345,7 @@ export type CreateGlossaryTermError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a business glossary term.
@@ -8263,8 +8368,8 @@ export const createGlossaryTerm: API.OperationMethod<
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<CreateGlossaryTermInput>,
-  output: __S(5728, __c179, 0) as any as S.Schema<CreateGlossaryTermOutput>,
+  input: __S(6048, __c189, 0) as any as S.Schema<CreateGlossaryTermInput>,
+  output: __S(6112, __c191, 0) as any as S.Schema<CreateGlossaryTermOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8273,6 +8378,7 @@ export const createGlossaryTerm: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8286,6 +8392,8 @@ export type CreateGroupProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a group profile in Amazon DataZone.
@@ -8296,13 +8404,15 @@ export const createGroupProfile: API.OperationMethod<
   CreateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<CreateGroupProfileInput>,
-  output: __S(5792, __c181, 0) as any as S.Schema<CreateGroupProfileOutput>,
+  input: __S(6144, __c192, 0) as any as S.Schema<CreateGroupProfileInput>,
+  output: __S(6176, __c193, 0) as any as S.Schema<CreateGroupProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8319,6 +8429,7 @@ export type CreateListingChangeSetError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
@@ -8329,8 +8440,8 @@ export const createListingChangeSet: API.OperationMethod<
   CreateListingChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<CreateListingChangeSetInput>,
-  output: __S(5825, __c182, 1) as any as S.Schema<CreateListingChangeSetOutput>,
+  input: __S(6208, __c194, 0) as any as S.Schema<CreateListingChangeSetInput>,
+  output: __S(6209, __c194, 1) as any as S.Schema<CreateListingChangeSetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8339,6 +8450,7 @@ export const createListingChangeSet: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8355,6 +8467,7 @@ export type CreateNotebookError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a notebook in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing.
@@ -8365,8 +8478,8 @@ export const createNotebook: API.OperationMethod<
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<CreateNotebookInput>,
-  output: __S(5984, __c187, 0) as any as S.Schema<CreateNotebookOutput>,
+  input: __S(6240, __c195, 0) as any as S.Schema<CreateNotebookInput>,
+  output: __S(6368, __c199, 0) as any as S.Schema<CreateNotebookOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8375,6 +8488,7 @@ export const createNotebook: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8391,6 +8505,7 @@ export type CreateProjectError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates an Amazon DataZone project.
@@ -8401,8 +8516,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6018, __c188, 2) as any as S.Schema<CreateProjectInput>,
-  output: __S(6088, __c190, 8) as any as S.Schema<CreateProjectOutput>,
+  input: __S(6402, __c200, 2) as any as S.Schema<CreateProjectInput>,
+  output: __S(6472, __c202, 8) as any as S.Schema<CreateProjectOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8411,6 +8526,7 @@ export const createProject: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8424,6 +8540,8 @@ export type CreateProjectMembershipError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a project membership in Amazon DataZone.
@@ -8434,13 +8552,15 @@ export const createProjectMembership: API.OperationMethod<
   CreateProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<CreateProjectMembershipInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<CreateProjectMembershipOutput>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CreateProjectMembershipInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<CreateProjectMembershipOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8457,6 +8577,7 @@ export type CreateProjectProfileError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a project profile.
@@ -8467,8 +8588,8 @@ export const createProjectProfile: API.OperationMethod<
   CreateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<CreateProjectProfileInput>,
-  output: __S(6216, __c194, 8) as any as S.Schema<CreateProjectProfileOutput>,
+  input: __S(6560, __c205, 0) as any as S.Schema<CreateProjectProfileInput>,
+  output: __S(6600, __c206, 8) as any as S.Schema<CreateProjectProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8477,6 +8598,7 @@ export const createProjectProfile: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8493,6 +8615,7 @@ export type CreateRuleError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -8503,8 +8626,8 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<CreateRuleInput>,
-  output: __S(6241, __c195, 1) as any as S.Schema<CreateRuleOutput>,
+  input: __S(6624, __c207, 0) as any as S.Schema<CreateRuleInput>,
+  output: __S(6625, __c207, 1) as any as S.Schema<CreateRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8513,6 +8636,7 @@ export const createRule: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8528,6 +8652,7 @@ export type CreateSubscriptionGrantError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a subsscription grant in Amazon DataZone.
@@ -8538,8 +8663,8 @@ export const createSubscriptionGrant: API.OperationMethod<
   CreateSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6340, __c198, 4) as any as S.Schema<CreateSubscriptionGrantInput>,
-  output: __S(6373, __c199, 5) as any as S.Schema<CreateSubscriptionGrantOutput>,
+  input: __S(6724, __c210, 4) as any as S.Schema<CreateSubscriptionGrantInput>,
+  output: __S(6757, __c211, 5) as any as S.Schema<CreateSubscriptionGrantOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8547,6 +8672,7 @@ export const createSubscriptionGrant: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8563,6 +8689,7 @@ export type CreateSubscriptionRequestError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a subscription request in Amazon DataZone.
@@ -8573,8 +8700,8 @@ export const createSubscriptionRequest: API.OperationMethod<
   CreateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6405, __c200, 5) as any as S.Schema<CreateSubscriptionRequestInput>,
-  output: __S(8512, __c266, 0) as any as S.Schema<CreateSubscriptionRequestOutput>,
+  input: __S(6789, __c212, 5) as any as S.Schema<CreateSubscriptionRequestInput>,
+  output: __S(320, __c10, 0) as any as S.Schema<CreateSubscriptionRequestOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8583,6 +8710,7 @@ export const createSubscriptionRequest: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8598,6 +8726,7 @@ export type CreateSubscriptionTargetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a subscription target in Amazon DataZone.
@@ -8608,8 +8737,8 @@ export const createSubscriptionTarget: API.OperationMethod<
   CreateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<CreateSubscriptionTargetInput>,
-  output: __S(6466, __c202, 2) as any as S.Schema<CreateSubscriptionTargetOutput>,
+  input: __S(6816, __c213, 0) as any as S.Schema<CreateSubscriptionTargetInput>,
+  output: __S(6850, __c214, 2) as any as S.Schema<CreateSubscriptionTargetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8617,6 +8746,7 @@ export const createSubscriptionTarget: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8630,6 +8760,8 @@ export type CreateUserProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates a user profile in Amazon DataZone.
@@ -8640,13 +8772,15 @@ export const createUserProfile: API.OperationMethod<
   CreateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateUserProfileInput>,
-  output: __S(6528, __c204, 0) as any as S.Schema<CreateUserProfileOutput>,
+  input: __S(6880, __c215, 0) as any as S.Schema<CreateUserProfileInput>,
+  output: __S(6912, __c216, 0) as any as S.Schema<CreateUserProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8661,6 +8795,7 @@ export type DeleteAccountPoolError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an account pool.
@@ -8671,14 +8806,15 @@ export const deleteAccountPool: API.OperationMethod<
   DeleteAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteAccountPoolInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteAccountPoolOutput>,
+  input: __S(6944, __c217, 0) as any as S.Schema<DeleteAccountPoolInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAccountPoolOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8694,6 +8830,7 @@ export type DeleteAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an asset in Amazon DataZone.
@@ -8714,8 +8851,8 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteAssetInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteAssetOutput>,
+  input: __S(6976, __c218, 0) as any as S.Schema<DeleteAssetInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8723,6 +8860,7 @@ export const deleteAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8738,6 +8876,7 @@ export type DeleteAssetFilterError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an asset filter.
@@ -8756,8 +8895,8 @@ export const deleteAssetFilter: API.OperationMethod<
   DeleteAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeleteAssetFilterInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteAssetFilterResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<DeleteAssetFilterInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetFilterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8765,6 +8904,7 @@ export const deleteAssetFilter: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8780,6 +8920,7 @@ export type DeleteAssetTypeError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an asset type in Amazon DataZone.
@@ -8800,8 +8941,8 @@ export const deleteAssetType: API.OperationMethod<
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeleteAssetTypeInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteAssetTypeOutput>,
+  input: __S(7040, __c220, 0) as any as S.Schema<DeleteAssetTypeInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetTypeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8809,6 +8950,7 @@ export const deleteAssetType: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8823,6 +8965,7 @@ export type DeleteConnectionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
@@ -8833,14 +8976,15 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeleteConnectionInput>,
-  output: __S(6689, __c209, 1) as any as S.Schema<DeleteConnectionOutput>,
+  input: __S(7072, __c221, 0) as any as S.Schema<DeleteConnectionInput>,
+  output: __S(7073, __c221, 1) as any as S.Schema<DeleteConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8856,6 +9000,7 @@ export type DeleteDataExportConfigurationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes data export configuration for a domain.
@@ -8870,8 +9015,8 @@ export const deleteDataExportConfiguration: API.OperationMethod<
   DeleteDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeleteDataExportConfigurationInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteDataExportConfigurationOutput>,
+  input: __S(7104, __c222, 0) as any as S.Schema<DeleteDataExportConfigurationInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteDataExportConfigurationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8879,6 +9024,7 @@ export const deleteDataExportConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8894,6 +9040,7 @@ export type DeleteDataProductError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a data product in Amazon DataZone.
@@ -8912,8 +9059,8 @@ export const deleteDataProduct: API.OperationMethod<
   DeleteDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<DeleteDataProductInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteDataProductOutput>,
+  input: __S(7136, __c223, 0) as any as S.Schema<DeleteDataProductInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteDataProductOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8921,6 +9068,7 @@ export const deleteDataProduct: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8937,6 +9085,7 @@ export type DeleteDataSourceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a data source in Amazon DataZone.
@@ -8947,8 +9096,8 @@ export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeleteDataSourceInput>,
-  output: __S(6785, __c212, 1) as any as S.Schema<DeleteDataSourceOutput>,
+  input: __S(7168, __c224, 0) as any as S.Schema<DeleteDataSourceInput>,
+  output: __S(7169, __c224, 1) as any as S.Schema<DeleteDataSourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8957,6 +9106,7 @@ export const deleteDataSource: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8972,10 +9122,10 @@ export type DeleteDesignationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
- * Deletes a designation. Managed designations cannot be deleted.
- * This operation is idempotent.
+ * Deletes a user-created designation. Managed designations cannot be deleted. The call fails if the designation has `deletionProtection` enabled or if any project member still holds it. This operation is idempotent.
  */
 export const deleteDesignation: API.OperationMethod<
   DeleteDesignationInput & RegionInput,
@@ -8983,8 +9133,8 @@ export const deleteDesignation: API.OperationMethod<
   DeleteDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<DeleteDesignationInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteDesignationOutput>,
+  input: __S(7232, __c226, 0) as any as S.Schema<DeleteDesignationInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteDesignationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8992,6 +9142,7 @@ export const deleteDesignation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9007,6 +9158,7 @@ export type DeleteDomainError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a Amazon DataZone domain.
@@ -9017,8 +9169,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<DeleteDomainInput>,
-  output: __S(6881, __c215, 1) as any as S.Schema<DeleteDomainOutput>,
+  input: __S(7264, __c227, 0) as any as S.Schema<DeleteDomainInput>,
+  output: __S(7265, __c227, 1) as any as S.Schema<DeleteDomainOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9026,6 +9178,7 @@ export const deleteDomain: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9041,6 +9194,7 @@ export type DeleteDomainUnitError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a domain unit.
@@ -9051,8 +9205,8 @@ export const deleteDomainUnit: API.OperationMethod<
   DeleteDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<DeleteDomainUnitInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteDomainUnitOutput>,
+  input: __S(7296, __c228, 0) as any as S.Schema<DeleteDomainUnitInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteDomainUnitOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9060,6 +9214,7 @@ export const deleteDomainUnit: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9074,6 +9229,7 @@ export type DeleteEnvironmentError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an environment in Amazon DataZone.
@@ -9084,14 +9240,15 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DeleteEnvironmentInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<DeleteEnvironmentInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9107,6 +9264,7 @@ export type DeleteEnvironmentActionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
@@ -9117,8 +9275,8 @@ export const deleteEnvironmentAction: API.OperationMethod<
   DeleteEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<DeleteEnvironmentActionInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteEnvironmentActionResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<DeleteEnvironmentActionInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentActionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9126,6 +9284,7 @@ export const deleteEnvironmentAction: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9141,6 +9300,7 @@ export type DeleteEnvironmentBlueprintError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a blueprint in Amazon DataZone.
@@ -9151,8 +9311,8 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
   DeleteEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<DeleteEnvironmentBlueprintInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteEnvironmentBlueprintResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<DeleteEnvironmentBlueprintInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentBlueprintResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9160,6 +9320,7 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9174,6 +9335,8 @@ export type DeleteEnvironmentBlueprintConfigurationError =
   | ValidationException
   | ResourceNotFoundException
   | EnvironmentBlueprintConfigurationInUse
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes the blueprint configuration in Amazon DataZone.
@@ -9184,14 +9347,16 @@ export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   DeleteEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationOutput>,
+  input: __S(7424, __c232, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ValidationException,
     ResourceNotFoundException,
     EnvironmentBlueprintConfigurationInUse,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9206,6 +9371,7 @@ export type DeleteEnvironmentProfileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes an environment profile in Amazon DataZone.
@@ -9216,14 +9382,15 @@ export const deleteEnvironmentProfile: API.OperationMethod<
   DeleteEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<DeleteEnvironmentProfileInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteEnvironmentProfileResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<DeleteEnvironmentProfileInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9239,6 +9406,7 @@ export type DeleteFormTypeError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes and metadata form type in Amazon DataZone.
@@ -9261,8 +9429,8 @@ export const deleteFormType: API.OperationMethod<
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<DeleteFormTypeInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteFormTypeOutput>,
+  input: __S(7488, __c234, 0) as any as S.Schema<DeleteFormTypeInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteFormTypeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9270,6 +9438,7 @@ export const deleteFormType: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9285,6 +9454,7 @@ export type DeleteGlossaryError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a business glossary in Amazon DataZone.
@@ -9307,8 +9477,8 @@ export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<DeleteGlossaryInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteGlossaryOutput>,
+  input: __S(7520, __c235, 0) as any as S.Schema<DeleteGlossaryInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteGlossaryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9316,6 +9486,7 @@ export const deleteGlossary: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9331,6 +9502,7 @@ export type DeleteGlossaryTermError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a business glossary term in Amazon DataZone.
@@ -9351,8 +9523,8 @@ export const deleteGlossaryTerm: API.OperationMethod<
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<DeleteGlossaryTermInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteGlossaryTermOutput>,
+  input: __S(7552, __c236, 0) as any as S.Schema<DeleteGlossaryTermInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteGlossaryTermOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9360,6 +9532,7 @@ export const deleteGlossaryTerm: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9374,6 +9547,7 @@ export type DeleteLineageEventError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes the specified lineage event.
@@ -9384,14 +9558,15 @@ export const deleteLineageEvent: API.OperationMethod<
   DeleteLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<DeleteLineageEventInput>,
-  output: __S(7201, __c225, 1) as any as S.Schema<DeleteLineageEventOutput>,
+  input: __S(7584, __c237, 0) as any as S.Schema<DeleteLineageEventInput>,
+  output: __S(7585, __c237, 1) as any as S.Schema<DeleteLineageEventOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9407,6 +9582,7 @@ export type DeleteListingError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a listing (a record of an asset at a given time).
@@ -9417,8 +9593,8 @@ export const deleteListing: API.OperationMethod<
   DeleteListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<DeleteListingInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteListingOutput>,
+  input: __S(7616, __c238, 0) as any as S.Schema<DeleteListingInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteListingOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9426,6 +9602,7 @@ export const deleteListing: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9440,6 +9617,7 @@ export type DeleteNotebookError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a notebook in Amazon SageMaker Unified Studio.
@@ -9450,14 +9628,15 @@ export const deleteNotebook: API.OperationMethod<
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<DeleteNotebookInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteNotebookOutput>,
+  input: __S(7648, __c239, 0) as any as S.Schema<DeleteNotebookInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteNotebookOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9472,6 +9651,7 @@ export type DeleteProjectError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a project in Amazon DataZone.
@@ -9482,14 +9662,15 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<DeleteProjectInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteProjectOutput>,
+  input: __S(7680, __c240, 0) as any as S.Schema<DeleteProjectInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9505,6 +9686,7 @@ export type DeleteProjectMembershipError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes project membership in Amazon DataZone.
@@ -9515,8 +9697,8 @@ export const deleteProjectMembership: API.OperationMethod<
   DeleteProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<DeleteProjectMembershipInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteProjectMembershipOutput>,
+  input: __S(7712, __c241, 0) as any as S.Schema<DeleteProjectMembershipInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectMembershipOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9524,6 +9706,7 @@ export const deleteProjectMembership: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9538,6 +9721,7 @@ export type DeleteProjectProfileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a project profile.
@@ -9548,14 +9732,15 @@ export const deleteProjectProfile: API.OperationMethod<
   DeleteProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<DeleteProjectProfileInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteProjectProfileOutput>,
+  input: __S(7744, __c242, 0) as any as S.Schema<DeleteProjectProfileInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9571,6 +9756,7 @@ export type DeleteRuleError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -9581,8 +9767,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<DeleteRuleInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteRuleOutput>,
+  input: __S(7776, __c243, 0) as any as S.Schema<DeleteRuleInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9590,6 +9776,7 @@ export const deleteRule: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9605,6 +9792,7 @@ export type DeleteSubscriptionGrantError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes and subscription grant in Amazon DataZone.
@@ -9615,8 +9803,8 @@ export const deleteSubscriptionGrant: API.OperationMethod<
   DeleteSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<DeleteSubscriptionGrantInput>,
-  output: __S(6373, __c199, 5) as any as S.Schema<DeleteSubscriptionGrantOutput>,
+  input: __S(7808, __c244, 0) as any as S.Schema<DeleteSubscriptionGrantInput>,
+  output: __S(6757, __c211, 5) as any as S.Schema<DeleteSubscriptionGrantOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9624,6 +9812,7 @@ export const deleteSubscriptionGrant: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9639,6 +9828,7 @@ export type DeleteSubscriptionRequestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a subscription request in Amazon DataZone.
@@ -9649,8 +9839,8 @@ export const deleteSubscriptionRequest: API.OperationMethod<
   DeleteSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<DeleteSubscriptionRequestInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteSubscriptionRequestResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<DeleteSubscriptionRequestInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteSubscriptionRequestResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9658,6 +9848,7 @@ export const deleteSubscriptionRequest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9673,6 +9864,7 @@ export type DeleteSubscriptionTargetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes a subscription target in Amazon DataZone.
@@ -9683,8 +9875,8 @@ export const deleteSubscriptionTarget: API.OperationMethod<
   DeleteSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<DeleteSubscriptionTargetInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteSubscriptionTargetResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<DeleteSubscriptionTargetInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteSubscriptionTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9692,6 +9884,7 @@ export const deleteSubscriptionTarget: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9706,6 +9899,7 @@ export type DeleteTimeSeriesDataPointsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Deletes the specified time series form for the specified asset.
@@ -9716,14 +9910,15 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
   DeleteTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<DeleteTimeSeriesDataPointsInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteTimeSeriesDataPointsOutput>,
+  input: __S(7904, __c247, 0) as any as S.Schema<DeleteTimeSeriesDataPointsInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteTimeSeriesDataPointsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9739,6 +9934,7 @@ export type DisassociateEnvironmentRoleError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Disassociates the environment role in Amazon DataZone.
@@ -9749,8 +9945,8 @@ export const disassociateEnvironmentRole: API.OperationMethod<
   DisassociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<DisassociateEnvironmentRoleInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DisassociateEnvironmentRoleOutput>,
+  input: __S(7936, __c248, 0) as any as S.Schema<DisassociateEnvironmentRoleInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DisassociateEnvironmentRoleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9758,6 +9954,7 @@ export const disassociateEnvironmentRole: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9773,6 +9970,7 @@ export type DisassociateGovernedTermsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Disassociates restricted terms from an asset.
@@ -9783,8 +9981,8 @@ export const disassociateGovernedTerms: API.OperationMethod<
   DisassociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<DisassociateGovernedTermsInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<DisassociateGovernedTermsOutput>,
+  input: __S(7968, __c249, 0) as any as S.Schema<DisassociateGovernedTermsInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<DisassociateGovernedTermsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9792,6 +9990,7 @@ export const disassociateGovernedTerms: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9806,6 +10005,7 @@ export type GetAccountPoolError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of the account pool.
@@ -9816,14 +10016,15 @@ export const getAccountPool: API.OperationMethod<
   GetAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetAccountPoolInput>,
-  output: __S(3394, __c106, 2) as any as S.Schema<GetAccountPoolOutput>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetAccountPoolInput>,
+  output: __S(4066, __c127, 2) as any as S.Schema<GetAccountPoolOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9838,6 +10039,7 @@ export type GetAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone asset.
@@ -9858,14 +10060,15 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetAssetInput>,
-  output: __S(7745, __c242, 1) as any as S.Schema<GetAssetOutput>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetAssetInput>,
+  output: __S(8033, __c251, 1) as any as S.Schema<GetAssetOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9880,6 +10083,7 @@ export type GetAssetFilterError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an asset filter.
@@ -9898,14 +10102,15 @@ export const getAssetFilter: API.OperationMethod<
   GetAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetAssetFilterInput>,
-  output: __S(4233, __c132, 9) as any as S.Schema<GetAssetFilterOutput>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetAssetFilterInput>,
+  output: __S(4713, __c147, 9) as any as S.Schema<GetAssetFilterOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9920,6 +10125,7 @@ export type GetAssetTypeError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone asset type.
@@ -9940,14 +10146,15 @@ export const getAssetType: API.OperationMethod<
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetAssetTypeInput>,
-  output: __S(7840, __c245, 0) as any as S.Schema<GetAssetTypeOutput>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetAssetTypeInput>,
+  output: __S(8128, __c254, 0) as any as S.Schema<GetAssetTypeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9962,6 +10169,7 @@ export type GetConnectionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
@@ -9972,14 +10180,15 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetConnectionInput>,
-  output: __S(7873, __c246, 1) as any as S.Schema<GetConnectionOutput>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetConnectionInput>,
+  output: __S(8161, __c255, 1) as any as S.Schema<GetConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9994,6 +10203,7 @@ export type GetDataExportConfigurationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets data export configuration details.
@@ -10004,14 +10214,15 @@ export const getDataExportConfiguration: API.OperationMethod<
   GetDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetDataExportConfigurationInput>,
-  output: __S(7937, __c248, 1) as any as S.Schema<GetDataExportConfigurationOutput>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetDataExportConfigurationInput>,
+  output: __S(8225, __c257, 1) as any as S.Schema<GetDataExportConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10026,6 +10237,7 @@ export type GetDataProductError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the data product.
@@ -10044,14 +10256,15 @@ export const getDataProduct: API.OperationMethod<
   GetDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetDataProductInput>,
-  output: __S(4674, __c146, 2) as any as S.Schema<GetDataProductOutput>,
+  input: __S(8288, __c259, 0) as any as S.Schema<GetDataProductInput>,
+  output: __S(5058, __c158, 2) as any as S.Schema<GetDataProductOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10068,6 +10281,7 @@ export type GetDataSourceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone data source.
@@ -10078,8 +10292,8 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetDataSourceInput>,
-  output: __S(8033, __c251, 1) as any as S.Schema<GetDataSourceOutput>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetDataSourceInput>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetDataSourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10088,6 +10302,7 @@ export const getDataSource: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10104,6 +10319,7 @@ export type GetDataSourceRunError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone data source run.
@@ -10114,8 +10330,8 @@ export const getDataSourceRun: API.OperationMethod<
   GetDataSourceRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetDataSourceRunInput>,
-  output: __S(8065, __c252, 1) as any as S.Schema<GetDataSourceRunOutput>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetDataSourceRunInput>,
+  output: __S(8353, __c261, 1) as any as S.Schema<GetDataSourceRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10124,6 +10340,7 @@ export const getDataSourceRun: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10138,9 +10355,10 @@ export type GetDesignationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
- * Gets the details of a designation, including its Cedar policy.
+ * Gets the details of a designation, including its Cedar permit policy. Returns the full designation record for both system-managed and user-created designations.
  */
 export const getDesignation: API.OperationMethod<
   GetDesignationInput & RegionInput,
@@ -10148,14 +10366,15 @@ export const getDesignation: API.OperationMethod<
   GetDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetDesignationInput>,
-  output: __S(4960, __c155, 0) as any as S.Schema<GetDesignationOutput>,
+  input: __S(8544, __c267, 0) as any as S.Schema<GetDesignationInput>,
+  output: __S(5344, __c167, 0) as any as S.Schema<GetDesignationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10171,6 +10390,7 @@ export type GetDomainError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone domain.
@@ -10181,8 +10401,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<GetDomainInput>,
-  output: __S(8548, __c267, 4) as any as S.Schema<GetDomainOutput>,
+  input: __S(8576, __c268, 0) as any as S.Schema<GetDomainInput>,
+  output: __S(8580, __c268, 4) as any as S.Schema<GetDomainOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10190,6 +10410,7 @@ export const getDomain: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10204,6 +10425,7 @@ export type GetDomainUnitError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of the specified domain unit.
@@ -10214,14 +10436,15 @@ export const getDomainUnit: API.OperationMethod<
   GetDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<GetDomainUnitInput>,
-  output: __S(8577, __c268, 1) as any as S.Schema<GetDomainUnitOutput>,
+  input: __S(8608, __c269, 0) as any as S.Schema<GetDomainUnitInput>,
+  output: __S(8609, __c269, 1) as any as S.Schema<GetDomainUnitOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10236,6 +10459,7 @@ export type GetEnvironmentError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone environment.
@@ -10246,14 +10470,15 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetEnvironmentInput>,
-  output: __S(5319, __c166, 7) as any as S.Schema<GetEnvironmentOutput>,
+  input: __S(8640, __c270, 0) as any as S.Schema<GetEnvironmentInput>,
+  output: __S(5703, __c178, 7) as any as S.Schema<GetEnvironmentOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10268,6 +10493,7 @@ export type GetEnvironmentActionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the specified environment action.
@@ -10278,14 +10504,15 @@ export const getEnvironmentAction: API.OperationMethod<
   GetEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GetEnvironmentActionInput>,
-  output: __S(5378, __c168, 2) as any as S.Schema<GetEnvironmentActionOutput>,
+  input: __S(8672, __c271, 0) as any as S.Schema<GetEnvironmentActionInput>,
+  output: __S(5762, __c180, 2) as any as S.Schema<GetEnvironmentActionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10300,6 +10527,7 @@ export type GetEnvironmentBlueprintError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an Amazon DataZone blueprint.
@@ -10310,14 +10538,15 @@ export const getEnvironmentBlueprint: API.OperationMethod<
   GetEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<GetEnvironmentBlueprintInput>,
-  output: __S(5440, __c170, 0) as any as S.Schema<GetEnvironmentBlueprintOutput>,
+  input: __S(8704, __c272, 0) as any as S.Schema<GetEnvironmentBlueprintInput>,
+  output: __S(5824, __c182, 0) as any as S.Schema<GetEnvironmentBlueprintOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10331,6 +10560,8 @@ export type GetEnvironmentBlueprintConfigurationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the blueprint configuration in Amazon DataZone.
@@ -10341,13 +10572,15 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   GetEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetEnvironmentBlueprintConfigurationInput>,
-  output: __S(8742, __c273, 6) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>,
+  input: __S(8736, __c273, 0) as any as S.Schema<GetEnvironmentBlueprintConfigurationInput>,
+  output: __S(8774, __c274, 6) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10362,6 +10595,7 @@ export type GetEnvironmentCredentialsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the credentials of an environment in Amazon DataZone.
@@ -10372,14 +10606,15 @@ export const getEnvironmentCredentials: API.OperationMethod<
   GetEnvironmentCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<GetEnvironmentCredentialsInput>,
-  output: __S(7904, __c247, 0) as any as S.Schema<GetEnvironmentCredentialsOutput>,
+  input: __S(8800, __c275, 0) as any as S.Schema<GetEnvironmentCredentialsInput>,
+  output: __S(8192, __c256, 0) as any as S.Schema<GetEnvironmentCredentialsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10394,6 +10629,7 @@ export type GetEnvironmentProfileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets an evinronment profile in Amazon DataZone.
@@ -10404,14 +10640,15 @@ export const getEnvironmentProfile: API.OperationMethod<
   GetEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetEnvironmentProfileInput>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GetEnvironmentProfileOutput>,
+  input: __S(8832, __c276, 0) as any as S.Schema<GetEnvironmentProfileInput>,
+  output: __S(5888, __c184, 0) as any as S.Schema<GetEnvironmentProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10426,6 +10663,7 @@ export type GetFormTypeError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a metadata form type in Amazon DataZone.
@@ -10452,14 +10690,15 @@ export const getFormType: API.OperationMethod<
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetFormTypeInput>,
-  output: __S(8833, __c276, 1) as any as S.Schema<GetFormTypeOutput>,
+  input: __S(8864, __c277, 0) as any as S.Schema<GetFormTypeInput>,
+  output: __S(8865, __c277, 1) as any as S.Schema<GetFormTypeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10474,6 +10713,7 @@ export type GetGlossaryError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a business glossary in Amazon DataZone.
@@ -10490,14 +10730,15 @@ export const getGlossary: API.OperationMethod<
   GetGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<GetGlossaryInput>,
-  output: __S(8897, __c278, 1) as any as S.Schema<GetGlossaryOutput>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetGlossaryInput>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetGlossaryOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10512,6 +10753,7 @@ export type GetGlossaryTermError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a business glossary term in Amazon DataZone.
@@ -10530,14 +10772,15 @@ export const getGlossaryTerm: API.OperationMethod<
   GetGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetGlossaryTermInput>,
-  output: __S(97, __c3, 1) as any as S.Schema<GetGlossaryTermOutput>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetGlossaryTermInput>,
+  output: __S(385, __c12, 1) as any as S.Schema<GetGlossaryTermOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10551,6 +10794,8 @@ export type GetGroupProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a group profile in Amazon DataZone.
@@ -10561,13 +10806,15 @@ export const getGroupProfile: API.OperationMethod<
   GetGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetGroupProfileInput>,
-  output: __S(5792, __c181, 0) as any as S.Schema<GetGroupProfileOutput>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetGroupProfileInput>,
+  output: __S(6176, __c193, 0) as any as S.Schema<GetGroupProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10583,6 +10830,7 @@ export type GetIamPortalLoginUrlError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the data portal URL for the specified Amazon DataZone domain.
@@ -10593,8 +10841,8 @@ export const getIamPortalLoginUrl: API.OperationMethod<
   GetIamPortalLoginUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetIamPortalLoginUrlInput>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetIamPortalLoginUrlOutput>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetIamPortalLoginUrlInput>,
+  output: __S(449, __c14, 1) as any as S.Schema<GetIamPortalLoginUrlOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10602,6 +10850,7 @@ export const getIamPortalLoginUrl: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10616,6 +10865,7 @@ export type GetJobRunError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * The details of the job run.
@@ -10626,14 +10876,15 @@ export const getJobRun: API.OperationMethod<
   GetJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetJobRunInput>,
-  output: __S(196, __c6, 4) as any as S.Schema<GetJobRunOutput>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetJobRunInput>,
+  output: __S(484, __c15, 4) as any as S.Schema<GetJobRunOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10648,6 +10899,7 @@ export type GetLineageEventError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Describes the lineage event.
@@ -10658,14 +10910,15 @@ export const getLineageEvent: API.OperationMethod<
   GetLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetLineageEventInput>,
-  output: __S(225, __c7, 1) as any as S.Schema<GetLineageEventOutput>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetLineageEventInput>,
+  output: __S(513, __c16, 1) as any as S.Schema<GetLineageEventOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10680,6 +10933,7 @@ export type GetLineageNodeError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the data lineage node.
@@ -10690,14 +10944,15 @@ export const getLineageNode: API.OperationMethod<
   GetLineageNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetLineageNodeInput>,
-  output: __S(259, __c8, 3) as any as S.Schema<GetLineageNodeOutput>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetLineageNodeInput>,
+  output: __S(547, __c17, 3) as any as S.Schema<GetLineageNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10712,6 +10967,7 @@ export type GetListingError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
@@ -10722,14 +10978,15 @@ export const getListing: API.OperationMethod<
   GetListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetListingInput>,
-  output: __S(292, __c9, 4) as any as S.Schema<GetListingOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetListingInput>,
+  output: __S(580, __c18, 4) as any as S.Schema<GetListingOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10744,6 +11001,7 @@ export type GetMetadataGenerationRunError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a metadata generation run in Amazon DataZone.
@@ -10762,14 +11020,15 @@ export const getMetadataGenerationRun: API.OperationMethod<
   GetMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetMetadataGenerationRunInput>,
-  output: __S(355, __c11, 3) as any as S.Schema<GetMetadataGenerationRunOutput>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetMetadataGenerationRunInput>,
+  output: __S(643, __c20, 3) as any as S.Schema<GetMetadataGenerationRunOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10784,6 +11043,7 @@ export type GetNotebookError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of a notebook in Amazon SageMaker Unified Studio.
@@ -10794,14 +11054,15 @@ export const getNotebook: API.OperationMethod<
   GetNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetNotebookInput>,
-  output: __S(5984, __c187, 0) as any as S.Schema<GetNotebookOutput>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetNotebookInput>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetNotebookOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10816,6 +11077,7 @@ export type GetNotebookExportError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of a notebook export in Amazon SageMaker Unified Studio.
@@ -10826,14 +11088,15 @@ export const getNotebookExport: API.OperationMethod<
   GetNotebookExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetNotebookExportInput>,
-  output: __S(451, __c14, 3) as any as S.Schema<GetNotebookExportOutput>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetNotebookExportInput>,
+  output: __S(835, __c26, 3) as any as S.Schema<GetNotebookExportOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10848,6 +11111,7 @@ export type GetNotebookRunError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of a notebook run in Amazon SageMaker Unified Studio.
@@ -10858,14 +11122,15 @@ export const getNotebookRun: API.OperationMethod<
   GetNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetNotebookRunInput>,
-  output: __S(645, __c20, 5) as any as S.Schema<GetNotebookRunOutput>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetNotebookRunInput>,
+  output: __S(933, __c29, 5) as any as S.Schema<GetNotebookRunOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10880,6 +11145,7 @@ export type GetProjectError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a project in Amazon DataZone.
@@ -10890,14 +11156,15 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetProjectInput>,
-  output: __S(6088, __c190, 8) as any as S.Schema<GetProjectOutput>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectInput>,
+  output: __S(6472, __c202, 8) as any as S.Schema<GetProjectOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10912,6 +11179,7 @@ export type GetProjectProfileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * The details of the project profile.
@@ -10922,14 +11190,15 @@ export const getProjectProfile: API.OperationMethod<
   GetProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetProjectProfileInput>,
-  output: __S(6216, __c194, 8) as any as S.Schema<GetProjectProfileOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetProjectProfileInput>,
+  output: __S(6600, __c206, 8) as any as S.Schema<GetProjectProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10944,6 +11213,7 @@ export type GetRuleError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -10954,14 +11224,15 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetRuleInput>,
-  output: __S(737, __c23, 1) as any as S.Schema<GetRuleOutput>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetRuleInput>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GetRuleOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10976,6 +11247,7 @@ export type GetSubscriptionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a subscription in Amazon DataZone.
@@ -10986,14 +11258,15 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetSubscriptionInput>,
-  output: __S(2944, __c92, 0) as any as S.Schema<GetSubscriptionOutput>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetSubscriptionInput>,
+  output: __S(3648, __c114, 0) as any as S.Schema<GetSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11008,6 +11281,7 @@ export type GetSubscriptionGrantError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the subscription grant in Amazon DataZone.
@@ -11018,14 +11292,15 @@ export const getSubscriptionGrant: API.OperationMethod<
   GetSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetSubscriptionGrantInput>,
-  output: __S(6373, __c199, 5) as any as S.Schema<GetSubscriptionGrantOutput>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetSubscriptionGrantInput>,
+  output: __S(6757, __c211, 5) as any as S.Schema<GetSubscriptionGrantOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11040,6 +11315,7 @@ export type GetSubscriptionRequestDetailsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the details of the specified subscription request.
@@ -11050,14 +11326,15 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
   GetSubscriptionRequestDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetSubscriptionRequestDetailsInput>,
-  output: __S(8512, __c266, 0) as any as S.Schema<GetSubscriptionRequestDetailsOutput>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetSubscriptionRequestDetailsInput>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetSubscriptionRequestDetailsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11072,6 +11349,7 @@ export type GetSubscriptionTargetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the subscription target in Amazon DataZone.
@@ -11082,14 +11360,15 @@ export const getSubscriptionTarget: API.OperationMethod<
   GetSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetSubscriptionTargetInput>,
-  output: __S(6466, __c202, 2) as any as S.Schema<GetSubscriptionTargetOutput>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetSubscriptionTargetInput>,
+  output: __S(6850, __c214, 2) as any as S.Schema<GetSubscriptionTargetOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11104,6 +11383,7 @@ export type GetTimeSeriesDataPointError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets the existing data point for the asset.
@@ -11114,14 +11394,15 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
   GetTimeSeriesDataPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetTimeSeriesDataPointInput>,
-  output: __S(897, __c28, 1) as any as S.Schema<GetTimeSeriesDataPointOutput>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetTimeSeriesDataPointInput>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetTimeSeriesDataPointOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11135,6 +11416,8 @@ export type GetUserProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Gets a user profile in Amazon DataZone.
@@ -11145,13 +11428,15 @@ export const getUserProfile: API.OperationMethod<
   GetUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetUserProfileInput>,
-  output: __S(6528, __c204, 0) as any as S.Schema<GetUserProfileOutput>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetUserProfileInput>,
+  output: __S(6912, __c216, 0) as any as S.Schema<GetUserProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11165,6 +11450,7 @@ export type ListAccountPoolsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists existing account pools.
@@ -11176,13 +11462,14 @@ export const listAccountPools: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountPoolSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListAccountPoolsInput>,
-  output: __S(1027, __c32, 3) as any as S.Schema<ListAccountPoolsOutput>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListAccountPoolsInput>,
+  output: __S(1379, __c43, 3) as any as S.Schema<ListAccountPoolsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11203,6 +11490,7 @@ export type ListAccountsInAccountPoolError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists the accounts in the specified account pool.
@@ -11214,14 +11502,15 @@ export const listAccountsInAccountPool: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListAccountsInAccountPoolInput>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ListAccountsInAccountPoolOutput>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListAccountsInAccountPoolInput>,
+  output: __S(1409, __c44, 1) as any as S.Schema<ListAccountsInAccountPoolOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11242,6 +11531,7 @@ export type ListAssetFiltersError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists asset filters.
@@ -11259,14 +11549,15 @@ export const listAssetFilters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetFilterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListAssetFiltersInput>,
-  output: __S(1091, __c34, 3) as any as S.Schema<ListAssetFiltersOutput>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListAssetFiltersInput>,
+  output: __S(1443, __c45, 3) as any as S.Schema<ListAssetFiltersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11287,6 +11578,7 @@ export type ListAssetRevisionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists the revisions for the asset.
@@ -11308,14 +11600,15 @@ export const listAssetRevisions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetRevision
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListAssetRevisionsInput>,
-  output: __S(1123, __c35, 3) as any as S.Schema<ListAssetRevisionsOutput>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListAssetRevisionsInput>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ListAssetRevisionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11335,6 +11628,7 @@ export type ListConnectionsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
@@ -11346,13 +11640,14 @@ export const listConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListConnectionsInput>,
-  output: __S(1155, __c36, 3) as any as S.Schema<ListConnectionsOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListConnectionsInput>,
+  output: __S(1507, __c47, 3) as any as S.Schema<ListConnectionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11373,6 +11668,7 @@ export type ListDataProductRevisionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists data product revisions.
@@ -11392,14 +11688,15 @@ export const listDataProductRevisions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataProductRevision
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListDataProductRevisionsInput>,
-  output: __S(1187, __c37, 3) as any as S.Schema<ListDataProductRevisionsOutput>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListDataProductRevisionsInput>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListDataProductRevisionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11422,6 +11719,7 @@ export type ListDataSourceRunActivitiesError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists data source run activities.
@@ -11433,8 +11731,8 @@ export const listDataSourceRunActivities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceRunActivity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListDataSourceRunActivitiesInput>,
-  output: __S(1220, __c38, 4) as any as S.Schema<ListDataSourceRunActivitiesOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListDataSourceRunActivitiesInput>,
+  output: __S(1572, __c49, 4) as any as S.Schema<ListDataSourceRunActivitiesOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11443,6 +11741,7 @@ export const listDataSourceRunActivities: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11465,6 +11764,7 @@ export type ListDataSourceRunsError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists data source runs in Amazon DataZone.
@@ -11476,8 +11776,8 @@ export const listDataSourceRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListDataSourceRunsInput>,
-  output: __S(1251, __c39, 3) as any as S.Schema<ListDataSourceRunsOutput>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListDataSourceRunsInput>,
+  output: __S(1603, __c50, 3) as any as S.Schema<ListDataSourceRunsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11486,6 +11786,7 @@ export const listDataSourceRuns: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11508,6 +11809,7 @@ export type ListDataSourcesError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists data sources in Amazon DataZone.
@@ -11519,8 +11821,8 @@ export const listDataSources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListDataSourcesInput>,
-  output: __S(1283, __c40, 3) as any as S.Schema<ListDataSourcesOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListDataSourcesInput>,
+  output: __S(1635, __c51, 3) as any as S.Schema<ListDataSourcesOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11529,6 +11831,7 @@ export const listDataSources: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11549,10 +11852,10 @@ export type ListDesignationsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
- * Lists the designations in a domain. Returns system-managed designations
- * first, followed by user-created designations sorted alphabetically by name.
+ * Lists the designations in a domain. The response returns system-managed designations first, followed by user-created designations in alphabetical order by name. Results are paginated. Use `nextToken` to retrieve additional pages of results.
  */
 export const listDesignations: API.PaginatedOperationMethod<
   ListDesignationsInput & RegionInput,
@@ -11561,14 +11864,15 @@ export const listDesignations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DesignationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListDesignationsInput>,
-  output: __S(1315, __c41, 3) as any as S.Schema<ListDesignationsOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListDesignationsInput>,
+  output: __S(1699, __c53, 3) as any as S.Schema<ListDesignationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11591,6 +11895,7 @@ export type ListDomainsError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists Amazon DataZone domains.
@@ -11602,8 +11907,8 @@ export const listDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListDomainsInput>,
-  output: __S(1379, __c43, 3) as any as S.Schema<ListDomainsOutput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListDomainsInput>,
+  output: __S(1731, __c54, 3) as any as S.Schema<ListDomainsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11612,6 +11917,7 @@ export const listDomains: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11631,6 +11937,7 @@ export type ListDomainUnitsForParentError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists child domain units for the specified parent domain unit.
@@ -11642,13 +11949,14 @@ export const listDomainUnitsForParent: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainUnitSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListDomainUnitsForParentInput>,
-  output: __S(1411, __c44, 3) as any as S.Schema<ListDomainUnitsForParentOutput>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListDomainUnitsForParentInput>,
+  output: __S(1763, __c55, 3) as any as S.Schema<ListDomainUnitsForParentOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11668,6 +11976,7 @@ export type ListEntityOwnersError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists the entity (domain units) owners.
@@ -11679,13 +11988,14 @@ export const listEntityOwners: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OwnerPropertiesOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListEntityOwnersInput>,
-  output: __S(1441, __c45, 1) as any as S.Schema<ListEntityOwnersOutput>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListEntityOwnersInput>,
+  output: __S(1793, __c56, 1) as any as S.Schema<ListEntityOwnersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11705,6 +12015,7 @@ export type ListEnvironmentActionsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists existing environment actions.
@@ -11716,13 +12027,14 @@ export const listEnvironmentActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListEnvironmentActionsInput>,
-  output: __S(1474, __c46, 2) as any as S.Schema<ListEnvironmentActionsOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListEnvironmentActionsInput>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListEnvironmentActionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11742,6 +12054,8 @@ export type ListEnvironmentBlueprintConfigurationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists blueprint configurations for a Amazon DataZone environment.
@@ -11753,13 +12067,15 @@ export const listEnvironmentBlueprintConfigurations: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   EnvironmentBlueprintConfigurationItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListEnvironmentBlueprintConfigurationsInput>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListEnvironmentBlueprintConfigurationsOutput>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListEnvironmentBlueprintConfigurationsInput>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListEnvironmentBlueprintConfigurationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11780,6 +12096,7 @@ export type ListEnvironmentBlueprintsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists blueprints in an Amazon DataZone environment.
@@ -11791,14 +12108,15 @@ export const listEnvironmentBlueprints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentBlueprintSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListEnvironmentBlueprintsInput>,
-  output: __S(1539, __c48, 3) as any as S.Schema<ListEnvironmentBlueprintsOutput>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListEnvironmentBlueprintsInput>,
+  output: __S(1891, __c59, 3) as any as S.Schema<ListEnvironmentBlueprintsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11818,6 +12136,7 @@ export type ListEnvironmentProfilesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists Amazon DataZone environment profiles.
@@ -11829,13 +12148,14 @@ export const listEnvironmentProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListEnvironmentProfilesInput>,
-  output: __S(1571, __c49, 3) as any as S.Schema<ListEnvironmentProfilesOutput>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListEnvironmentProfilesInput>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListEnvironmentProfilesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11856,6 +12176,7 @@ export type ListEnvironmentsError =
   | ThrottlingException
   | ValidationException
   | ResourceNotFoundException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists Amazon DataZone environments.
@@ -11867,14 +12188,15 @@ export const listEnvironments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListEnvironmentsInput>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListEnvironmentsOutput>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListEnvironmentsInput>,
+  output: __S(1955, __c61, 3) as any as S.Schema<ListEnvironmentsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
     ResourceNotFoundException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11895,6 +12217,7 @@ export type ListJobRunsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists job runs.
@@ -11906,14 +12229,15 @@ export const listJobRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JobRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListJobRunsInput>,
-  output: __S(1635, __c51, 3) as any as S.Schema<ListJobRunsOutput>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListJobRunsInput>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ListJobRunsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11933,6 +12257,7 @@ export type ListLineageEventsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists lineage events.
@@ -11944,13 +12269,14 @@ export const listLineageEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LineageEventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListLineageEventsInput>,
-  output: __S(1671, __c52, 7) as any as S.Schema<ListLineageEventsOutput>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListLineageEventsInput>,
+  output: __S(2055, __c64, 7) as any as S.Schema<ListLineageEventsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11971,6 +12297,7 @@ export type ListLineageNodeHistoryError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists the history of the specified data lineage node.
@@ -11982,14 +12309,15 @@ export const listLineageNodeHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LineageNodeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListLineageNodeHistoryInput>,
-  output: __S(1763, __c55, 3) as any as S.Schema<ListLineageNodeHistoryOutput>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListLineageNodeHistoryInput>,
+  output: __S(2083, __c65, 3) as any as S.Schema<ListLineageNodeHistoryOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12010,6 +12338,7 @@ export type ListMetadataGenerationRunsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists all metadata generation runs.
@@ -12029,14 +12358,15 @@ export const listMetadataGenerationRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetadataGenerationRunItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListMetadataGenerationRunsInput>,
-  output: __S(1795, __c56, 3) as any as S.Schema<ListMetadataGenerationRunsOutput>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListMetadataGenerationRunsInput>,
+  output: __S(2115, __c66, 3) as any as S.Schema<ListMetadataGenerationRunsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12056,6 +12386,7 @@ export type ListNotebookRunsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists notebook runs in Amazon SageMaker Unified Studio.
@@ -12067,13 +12398,14 @@ export const listNotebookRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotebookRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListNotebookRunsInput>,
-  output: __S(1827, __c57, 3) as any as S.Schema<ListNotebookRunsOutput>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListNotebookRunsInput>,
+  output: __S(2147, __c67, 3) as any as S.Schema<ListNotebookRunsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12093,6 +12425,7 @@ export type ListNotebooksError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists notebooks in Amazon SageMaker Unified Studio.
@@ -12104,13 +12437,14 @@ export const listNotebooks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotebookSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListNotebooksInput>,
-  output: __S(1859, __c58, 3) as any as S.Schema<ListNotebooksOutput>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListNotebooksInput>,
+  output: __S(2179, __c68, 3) as any as S.Schema<ListNotebooksOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12130,6 +12464,8 @@ export type ListNotificationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists all Amazon DataZone notifications.
@@ -12141,13 +12477,15 @@ export const listNotifications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotificationOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListNotificationsInput>,
-  output: __S(1893, __c59, 5) as any as S.Schema<ListNotificationsOutput>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListNotificationsInput>,
+  output: __S(2213, __c69, 5) as any as S.Schema<ListNotificationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12167,6 +12505,7 @@ export type ListPolicyGrantsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists policy grants.
@@ -12178,13 +12517,14 @@ export const listPolicyGrants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyGrantMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListPolicyGrantsInput>,
-  output: __S(1923, __c60, 3) as any as S.Schema<ListPolicyGrantsOutput>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListPolicyGrantsInput>,
+  output: __S(2243, __c70, 3) as any as S.Schema<ListPolicyGrantsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12205,6 +12545,7 @@ export type ListProjectMembershipsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists all members of the specified project.
@@ -12216,14 +12557,15 @@ export const listProjectMemberships: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectMembershipsInput>,
-  output: __S(1958, __c61, 6) as any as S.Schema<ListProjectMembershipsOutput>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListProjectMembershipsInput>,
+  output: __S(2278, __c71, 6) as any as S.Schema<ListProjectMembershipsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12243,6 +12585,7 @@ export type ListProjectProfilesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists project profiles.
@@ -12254,13 +12597,14 @@ export const listProjectProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectProfilesInput>,
-  output: __S(1987, __c62, 3) as any as S.Schema<ListProjectProfilesOutput>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListProjectProfilesInput>,
+  output: __S(2307, __c72, 3) as any as S.Schema<ListProjectProfilesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12281,6 +12625,7 @@ export type ListProjectsError =
   | ThrottlingException
   | ValidationException
   | ResourceNotFoundException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists Amazon DataZone projects.
@@ -12292,14 +12637,15 @@ export const listProjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsInput>,
-  output: __S(2019, __c63, 3) as any as S.Schema<ListProjectsOutput>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListProjectsInput>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ListProjectsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
     ResourceNotFoundException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12320,6 +12666,7 @@ export type ListRulesError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -12331,14 +12678,15 @@ export const listRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListRulesInput>,
-  output: __S(2051, __c64, 3) as any as S.Schema<ListRulesOutput>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListRulesInput>,
+  output: __S(2435, __c76, 3) as any as S.Schema<ListRulesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12359,6 +12707,7 @@ export type ListSubscriptionGrantsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists subscription grants.
@@ -12370,14 +12719,15 @@ export const listSubscriptionGrants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionGrantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListSubscriptionGrantsInput>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListSubscriptionGrantsOutput>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListSubscriptionGrantsInput>,
+  output: __S(2466, __c77, 2) as any as S.Schema<ListSubscriptionGrantsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12398,6 +12748,7 @@ export type ListSubscriptionRequestsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists Amazon DataZone subscription requests.
@@ -12409,14 +12760,15 @@ export const listSubscriptionRequests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionRequestSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListSubscriptionRequestsInput>,
-  output: __S(2181, __c68, 5) as any as S.Schema<ListSubscriptionRequestsOutput>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListSubscriptionRequestsInput>,
+  output: __S(2501, __c78, 5) as any as S.Schema<ListSubscriptionRequestsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12437,6 +12789,7 @@ export type ListSubscriptionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists subscriptions in Amazon DataZone.
@@ -12448,14 +12801,15 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListSubscriptionsInput>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ListSubscriptionsOutput>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListSubscriptionsInput>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ListSubscriptionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12476,6 +12830,7 @@ export type ListSubscriptionTargetsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists subscription targets in Amazon DataZone.
@@ -12487,14 +12842,15 @@ export const listSubscriptionTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionTargetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListSubscriptionTargetsInput>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListSubscriptionTargetsOutput>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListSubscriptionTargetsInput>,
+  output: __S(2562, __c80, 2) as any as S.Schema<ListSubscriptionTargetsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12513,6 +12869,9 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists tags for the specified resource in Amazon DataZone.
@@ -12523,9 +12882,16 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(2592, __c81, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -12539,6 +12905,7 @@ export type ListTimeSeriesDataPointsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Lists time series data points.
@@ -12550,14 +12917,15 @@ export const listTimeSeriesDataPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TimeSeriesDataPointSummaryFormOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListTimeSeriesDataPointsInput>,
-  output: __S(2305, __c72, 1) as any as S.Schema<ListTimeSeriesDataPointsOutput>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListTimeSeriesDataPointsInput>,
+  output: __S(2625, __c82, 1) as any as S.Schema<ListTimeSeriesDataPointsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12580,6 +12948,7 @@ export type PostLineageEventError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Posts a data lineage event.
@@ -12590,8 +12959,8 @@ export const postLineageEvent: API.OperationMethod<
   PostLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<PostLineageEventInput>,
-  output: __S(2337, __c73, 1) as any as S.Schema<PostLineageEventOutput>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PostLineageEventInput>,
+  output: __S(2657, __c83, 1) as any as S.Schema<PostLineageEventOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12600,6 +12969,7 @@ export const postLineageEvent: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12616,6 +12986,7 @@ export type PostTimeSeriesDataPointsError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Posts time series data points to Amazon DataZone for the specified asset.
@@ -12626,8 +12997,8 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   PostTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2370, __c74, 2) as any as S.Schema<PostTimeSeriesDataPointsInput>,
-  output: __S(2372, __c74, 4) as any as S.Schema<PostTimeSeriesDataPointsOutput>,
+  input: __S(2690, __c84, 2) as any as S.Schema<PostTimeSeriesDataPointsInput>,
+  output: __S(2692, __c84, 4) as any as S.Schema<PostTimeSeriesDataPointsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12636,6 +13007,7 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12652,6 +13024,7 @@ export type PutDataExportConfigurationError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Creates data export configuration details.
@@ -12672,8 +13045,8 @@ export const putDataExportConfiguration: API.OperationMethod<
   PutDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PutDataExportConfigurationInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<PutDataExportConfigurationOutput>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PutDataExportConfigurationInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<PutDataExportConfigurationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12682,6 +13055,7 @@ export const putDataExportConfiguration: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12696,6 +13070,8 @@ export type PutEnvironmentBlueprintConfigurationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Writes the configuration for the specified environment blueprint in Amazon DataZone.
@@ -12706,14 +13082,16 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   PutEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2434, __c76, 2) as any as S.Schema<PutEnvironmentBlueprintConfigurationInput>,
-  output: __S(8742, __c273, 6) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>,
+  input: __S(2818, __c88, 2) as any as S.Schema<PutEnvironmentBlueprintConfigurationInput>,
+  output: __S(8774, __c274, 6) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12727,6 +13105,7 @@ export type QueryGraphError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Queries entities in the graph store.
@@ -12738,13 +13117,14 @@ export const queryGraph: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2501, __c78, 5) as any as S.Schema<QueryGraphInput>,
-  output: __S(2505, __c78, 9) as any as S.Schema<QueryGraphOutput>,
+  input: __S(2853, __c89, 5) as any as S.Schema<QueryGraphInput>,
+  output: __S(2857, __c89, 9) as any as S.Schema<QueryGraphOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12766,6 +13146,7 @@ export type RejectPredictionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
@@ -12776,8 +13157,8 @@ export const rejectPredictions: API.OperationMethod<
   RejectPredictionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2563, __c80, 3) as any as S.Schema<RejectPredictionsInput>,
-  output: __S(2564, __c80, 4) as any as S.Schema<RejectPredictionsOutput>,
+  input: __S(2915, __c91, 3) as any as S.Schema<RejectPredictionsInput>,
+  output: __S(2916, __c91, 4) as any as S.Schema<RejectPredictionsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12785,6 +13166,7 @@ export const rejectPredictions: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12800,6 +13182,7 @@ export type RejectSubscriptionRequestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Rejects the specified subscription request.
@@ -12810,8 +13193,8 @@ export const rejectSubscriptionRequest: API.OperationMethod<
   RejectSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<RejectSubscriptionRequestInput>,
-  output: __S(8512, __c266, 0) as any as S.Schema<RejectSubscriptionRequestOutput>,
+  input: __S(2944, __c92, 0) as any as S.Schema<RejectSubscriptionRequestInput>,
+  output: __S(320, __c10, 0) as any as S.Schema<RejectSubscriptionRequestOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12819,6 +13202,7 @@ export const rejectSubscriptionRequest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12833,6 +13217,7 @@ export type RemoveEntityOwnerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Removes an owner from an entity.
@@ -12843,14 +13228,15 @@ export const removeEntityOwner: API.OperationMethod<
   RemoveEntityOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<RemoveEntityOwnerInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<RemoveEntityOwnerOutput>,
+  input: __S(2976, __c93, 0) as any as S.Schema<RemoveEntityOwnerInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<RemoveEntityOwnerOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12864,6 +13250,7 @@ export type RemovePolicyGrantError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Removes a policy grant.
@@ -12874,13 +13261,14 @@ export const removePolicyGrant: API.OperationMethod<
   RemovePolicyGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<RemovePolicyGrantInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<RemovePolicyGrantOutput>,
+  input: __S(3008, __c94, 0) as any as S.Schema<RemovePolicyGrantInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<RemovePolicyGrantOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12896,6 +13284,7 @@ export type RevokeSubscriptionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Revokes a specified subscription in Amazon DataZone.
@@ -12906,8 +13295,8 @@ export const revokeSubscription: API.OperationMethod<
   RevokeSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<RevokeSubscriptionInput>,
-  output: __S(2944, __c92, 0) as any as S.Schema<RevokeSubscriptionOutput>,
+  input: __S(3040, __c95, 0) as any as S.Schema<RevokeSubscriptionInput>,
+  output: __S(3648, __c114, 0) as any as S.Schema<RevokeSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12915,6 +13304,7 @@ export const revokeSubscription: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12928,6 +13318,7 @@ export type SearchError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Searches for assets in Amazon DataZone.
@@ -12961,13 +13352,14 @@ export const search: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchInventoryResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<SearchInput>,
-  output: __S(2729, __c85, 9) as any as S.Schema<SearchOutput>,
+  input: __S(3072, __c96, 0) as any as S.Schema<SearchInput>,
+  output: __S(3081, __c96, 9) as any as S.Schema<SearchOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12987,6 +13379,8 @@ export type SearchGroupProfilesError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Searches group profiles in Amazon DataZone.
@@ -12998,13 +13392,15 @@ export const searchGroupProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GroupProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SearchGroupProfilesInput>,
-  output: __S(2818, __c88, 2) as any as S.Schema<SearchGroupProfilesOutput>,
+  input: __S(3168, __c99, 0) as any as S.Schema<SearchGroupProfilesInput>,
+  output: __S(3170, __c99, 2) as any as S.Schema<SearchGroupProfilesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13024,6 +13420,7 @@ export type SearchListingsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Searches listings in Amazon DataZone.
@@ -13047,13 +13444,14 @@ export const searchListings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2850, __c89, 2) as any as S.Schema<SearchListingsInput>,
-  output: __S(2861, __c89, 13) as any as S.Schema<SearchListingsOutput>,
+  input: __S(3202, __c100, 2) as any as S.Schema<SearchListingsInput>,
+  output: __S(3213, __c100, 13) as any as S.Schema<SearchListingsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13073,6 +13471,7 @@ export type SearchTypesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Searches for types in Amazon DataZone.
@@ -13098,13 +13497,14 @@ export const searchTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchTypesResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<SearchTypesInput>,
-  output: __S(2885, __c90, 5) as any as S.Schema<SearchTypesOutput>,
+  input: __S(3264, __c102, 0) as any as S.Schema<SearchTypesInput>,
+  output: __S(3269, __c102, 5) as any as S.Schema<SearchTypesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13124,6 +13524,8 @@ export type SearchUserProfilesError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Searches user profiles in Amazon DataZone.
@@ -13135,13 +13537,15 @@ export const searchUserProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<SearchUserProfilesInput>,
-  output: __S(2978, __c93, 2) as any as S.Schema<SearchUserProfilesOutput>,
+  input: __S(3296, __c103, 0) as any as S.Schema<SearchUserProfilesInput>,
+  output: __S(3298, __c103, 2) as any as S.Schema<SearchUserProfilesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13164,6 +13568,7 @@ export type StartDataSourceRunError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Start the run of the specified data source in Amazon DataZone.
@@ -13174,8 +13579,8 @@ export const startDataSourceRun: API.OperationMethod<
   StartDataSourceRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<StartDataSourceRunInput>,
-  output: __S(3009, __c94, 1) as any as S.Schema<StartDataSourceRunOutput>,
+  input: __S(3328, __c104, 0) as any as S.Schema<StartDataSourceRunInput>,
+  output: __S(3329, __c104, 1) as any as S.Schema<StartDataSourceRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13184,6 +13589,7 @@ export const startDataSourceRun: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13200,6 +13606,7 @@ export type StartMetadataGenerationRunError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Starts the metadata generation run.
@@ -13222,8 +13629,8 @@ export const startMetadataGenerationRun: API.OperationMethod<
   StartMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<StartMetadataGenerationRunInput>,
-  output: __S(3041, __c95, 1) as any as S.Schema<StartMetadataGenerationRunOutput>,
+  input: __S(3360, __c105, 0) as any as S.Schema<StartMetadataGenerationRunInput>,
+  output: __S(3361, __c105, 1) as any as S.Schema<StartMetadataGenerationRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13232,6 +13639,7 @@ export const startMetadataGenerationRun: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13248,6 +13656,7 @@ export type StartNotebookExportError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service.
@@ -13258,8 +13667,8 @@ export const startNotebookExport: API.OperationMethod<
   StartNotebookExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<StartNotebookExportInput>,
-  output: __S(3073, __c96, 1) as any as S.Schema<StartNotebookExportOutput>,
+  input: __S(3392, __c106, 0) as any as S.Schema<StartNotebookExportInput>,
+  output: __S(3393, __c106, 1) as any as S.Schema<StartNotebookExportOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13268,6 +13677,7 @@ export const startNotebookExport: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13284,6 +13694,7 @@ export type StartNotebookImportError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project.
@@ -13294,8 +13705,8 @@ export const startNotebookImport: API.OperationMethod<
   StartNotebookImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<StartNotebookImportInput>,
-  output: __S(3105, __c97, 1) as any as S.Schema<StartNotebookImportOutput>,
+  input: __S(3424, __c107, 0) as any as S.Schema<StartNotebookImportInput>,
+  output: __S(3425, __c107, 1) as any as S.Schema<StartNotebookImportOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13304,6 +13715,7 @@ export const startNotebookImport: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13320,6 +13732,7 @@ export type StartNotebookRunError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run.
@@ -13330,8 +13743,8 @@ export const startNotebookRun: API.OperationMethod<
   StartNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<StartNotebookRunInput>,
-  output: __S(645, __c20, 5) as any as S.Schema<StartNotebookRunOutput>,
+  input: __S(3488, __c109, 0) as any as S.Schema<StartNotebookRunInput>,
+  output: __S(933, __c29, 5) as any as S.Schema<StartNotebookRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13340,6 +13753,7 @@ export const startNotebookRun: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13356,6 +13770,7 @@ export type StartNotebookSyncError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.
@@ -13366,8 +13781,8 @@ export const startNotebookSync: API.OperationMethod<
   StartNotebookSyncError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<StartNotebookSyncInput>,
-  output: __S(3201, __c100, 1) as any as S.Schema<StartNotebookSyncOutput>,
+  input: __S(3520, __c110, 0) as any as S.Schema<StartNotebookSyncInput>,
+  output: __S(3521, __c110, 1) as any as S.Schema<StartNotebookSyncOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13376,6 +13791,7 @@ export const startNotebookSync: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13391,6 +13807,7 @@ export type StopNotebookRunError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Stops a running notebook run in Amazon SageMaker Unified Studio.
@@ -13401,8 +13818,8 @@ export const stopNotebookRun: API.OperationMethod<
   StopNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<StopNotebookRunInput>,
-  output: __S(3233, __c101, 1) as any as S.Schema<StopNotebookRunOutput>,
+  input: __S(3552, __c111, 0) as any as S.Schema<StopNotebookRunInput>,
+  output: __S(3553, __c111, 1) as any as S.Schema<StopNotebookRunOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13410,6 +13827,7 @@ export const stopNotebookRun: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13422,6 +13840,9 @@ export type TagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Tags a resource in Amazon DataZone.
@@ -13432,9 +13853,16 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  input: __S(3584, __c112, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -13442,7 +13870,13 @@ export const tagResource: API.OperationMethod<
   span: "TagResource",
 }));
 
-export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
+export type UntagResourceError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors;
 /**
  * Untags a resource in Amazon DataZone.
  */
@@ -13452,9 +13886,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [InternalServerException, ResourceNotFoundException],
+  input: __S(3680, __c115, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -13470,6 +13910,7 @@ export type UpdateAccountPoolError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the account pool.
@@ -13480,8 +13921,8 @@ export const updateAccountPool: API.OperationMethod<
   UpdateAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateAccountPoolInput>,
-  output: __S(3394, __c106, 2) as any as S.Schema<UpdateAccountPoolOutput>,
+  input: __S(3712, __c116, 0) as any as S.Schema<UpdateAccountPoolInput>,
+  output: __S(4066, __c127, 2) as any as S.Schema<UpdateAccountPoolOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13490,6 +13931,7 @@ export const updateAccountPool: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13505,6 +13947,7 @@ export type UpdateAssetFilterError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates an asset filter.
@@ -13523,8 +13966,8 @@ export const updateAssetFilter: API.OperationMethod<
   UpdateAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateAssetFilterInput>,
-  output: __S(4233, __c132, 9) as any as S.Schema<UpdateAssetFilterOutput>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateAssetFilterInput>,
+  output: __S(4713, __c147, 9) as any as S.Schema<UpdateAssetFilterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13532,6 +13975,7 @@ export const updateAssetFilter: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13548,6 +13992,7 @@ export type UpdateConnectionError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
@@ -13558,8 +14003,8 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3495, __c109, 7) as any as S.Schema<UpdateConnectionInput>,
-  output: __S(3496, __c109, 8) as any as S.Schema<UpdateConnectionOutput>,
+  input: __S(3784, __c118, 8) as any as S.Schema<UpdateConnectionInput>,
+  output: __S(3785, __c118, 9) as any as S.Schema<UpdateConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13568,6 +14013,7 @@ export const updateConnection: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13584,6 +14030,7 @@ export type UpdateDataSourceError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified data source in Amazon DataZone.
@@ -13594,8 +14041,8 @@ export const updateDataSource: API.OperationMethod<
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateDataSourceInput>,
-  output: __S(3521, __c110, 1) as any as S.Schema<UpdateDataSourceOutput>,
+  input: __S(3808, __c119, 0) as any as S.Schema<UpdateDataSourceInput>,
+  output: __S(3809, __c119, 1) as any as S.Schema<UpdateDataSourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13604,6 +14051,7 @@ export const updateDataSource: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13619,9 +14067,10 @@ export type UpdateDesignationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
- * Updates an existing designation. Managed designations cannot be modified.
+ * Updates an existing user-created designation. Managed designations cannot be modified. Omit a field to leave its current value unchanged.
  */
 export const updateDesignation: API.OperationMethod<
   UpdateDesignationInput & RegionInput,
@@ -13629,8 +14078,8 @@ export const updateDesignation: API.OperationMethod<
   UpdateDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateDesignationInput>,
-  output: __S(4960, __c155, 0) as any as S.Schema<UpdateDesignationOutput>,
+  input: __S(3840, __c120, 0) as any as S.Schema<UpdateDesignationInput>,
+  output: __S(5344, __c167, 0) as any as S.Schema<UpdateDesignationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13638,6 +14087,7 @@ export const updateDesignation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13654,6 +14104,7 @@ export type UpdateDomainError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a Amazon DataZone domain.
@@ -13664,8 +14115,8 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateDomainInput>,
-  output: __S(3585, __c112, 1) as any as S.Schema<UpdateDomainOutput>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateDomainInput>,
+  output: __S(3873, __c121, 1) as any as S.Schema<UpdateDomainOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13674,6 +14125,7 @@ export const updateDomain: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13689,6 +14141,7 @@ export type UpdateDomainUnitError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the domain unit.
@@ -13699,8 +14152,8 @@ export const updateDomainUnit: API.OperationMethod<
   UpdateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdateDomainUnitInput>,
-  output: __S(3617, __c113, 1) as any as S.Schema<UpdateDomainUnitOutput>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateDomainUnitInput>,
+  output: __S(3905, __c122, 1) as any as S.Schema<UpdateDomainUnitOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13708,6 +14161,7 @@ export const updateDomainUnit: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13723,6 +14177,7 @@ export type UpdateEnvironmentError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified environment in Amazon DataZone.
@@ -13733,8 +14188,8 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdateEnvironmentInput>,
-  output: __S(5319, __c166, 7) as any as S.Schema<UpdateEnvironmentOutput>,
+  input: __S(3936, __c123, 0) as any as S.Schema<UpdateEnvironmentInput>,
+  output: __S(5703, __c178, 7) as any as S.Schema<UpdateEnvironmentOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13742,6 +14197,7 @@ export const updateEnvironment: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13757,6 +14213,7 @@ export type UpdateEnvironmentActionError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates an environment action.
@@ -13767,8 +14224,8 @@ export const updateEnvironmentAction: API.OperationMethod<
   UpdateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdateEnvironmentActionInput>,
-  output: __S(5378, __c168, 2) as any as S.Schema<UpdateEnvironmentActionOutput>,
+  input: __S(3968, __c124, 0) as any as S.Schema<UpdateEnvironmentActionInput>,
+  output: __S(5762, __c180, 2) as any as S.Schema<UpdateEnvironmentActionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13776,6 +14233,7 @@ export const updateEnvironmentAction: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13792,6 +14250,7 @@ export type UpdateEnvironmentBlueprintError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates an environment blueprint in Amazon DataZone.
@@ -13802,8 +14261,8 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   UpdateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateEnvironmentBlueprintInput>,
-  output: __S(5440, __c170, 0) as any as S.Schema<UpdateEnvironmentBlueprintOutput>,
+  input: __S(4096, __c128, 0) as any as S.Schema<UpdateEnvironmentBlueprintInput>,
+  output: __S(5824, __c182, 0) as any as S.Schema<UpdateEnvironmentBlueprintOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13812,6 +14271,7 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13828,6 +14288,7 @@ export type UpdateEnvironmentProfileError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified environment profile in Amazon DataZone.
@@ -13838,8 +14299,8 @@ export const updateEnvironmentProfile: API.OperationMethod<
   UpdateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<UpdateEnvironmentProfileInput>,
-  output: __S(5504, __c172, 0) as any as S.Schema<UpdateEnvironmentProfileOutput>,
+  input: __S(4128, __c129, 0) as any as S.Schema<UpdateEnvironmentProfileInput>,
+  output: __S(5888, __c184, 0) as any as S.Schema<UpdateEnvironmentProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13848,6 +14309,7 @@ export const updateEnvironmentProfile: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13863,6 +14325,7 @@ export type UpdateGlossaryError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the business glossary in Amazon DataZone.
@@ -13883,8 +14346,8 @@ export const updateGlossary: API.OperationMethod<
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<UpdateGlossaryInput>,
-  output: __S(5632, __c176, 0) as any as S.Schema<UpdateGlossaryOutput>,
+  input: __S(4160, __c130, 0) as any as S.Schema<UpdateGlossaryInput>,
+  output: __S(6016, __c188, 0) as any as S.Schema<UpdateGlossaryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13892,6 +14355,7 @@ export const updateGlossary: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13907,6 +14371,7 @@ export type UpdateGlossaryTermError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a business glossary term in Amazon DataZone.
@@ -13927,8 +14392,8 @@ export const updateGlossaryTerm: API.OperationMethod<
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<UpdateGlossaryTermInput>,
-  output: __S(5728, __c179, 0) as any as S.Schema<UpdateGlossaryTermOutput>,
+  input: __S(4192, __c131, 0) as any as S.Schema<UpdateGlossaryTermInput>,
+  output: __S(6112, __c191, 0) as any as S.Schema<UpdateGlossaryTermOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13936,6 +14401,7 @@ export const updateGlossaryTerm: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13949,6 +14415,8 @@ export type UpdateGroupProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified group profile in Amazon DataZone.
@@ -13959,13 +14427,15 @@ export const updateGroupProfile: API.OperationMethod<
   UpdateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<UpdateGroupProfileInput>,
-  output: __S(5792, __c181, 0) as any as S.Schema<UpdateGroupProfileOutput>,
+  input: __S(4224, __c132, 0) as any as S.Schema<UpdateGroupProfileInput>,
+  output: __S(6176, __c193, 0) as any as S.Schema<UpdateGroupProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13981,6 +14451,7 @@ export type UpdateNotebookError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a notebook in Amazon SageMaker Unified Studio.
@@ -13991,8 +14462,8 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<UpdateNotebookInput>,
-  output: __S(5984, __c187, 0) as any as S.Schema<UpdateNotebookOutput>,
+  input: __S(4256, __c133, 0) as any as S.Schema<UpdateNotebookInput>,
+  output: __S(6368, __c199, 0) as any as S.Schema<UpdateNotebookOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14000,6 +14471,7 @@ export const updateNotebook: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14016,6 +14488,7 @@ export type UpdateProjectError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified project in Amazon DataZone.
@@ -14026,8 +14499,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<UpdateProjectInput>,
-  output: __S(6088, __c190, 8) as any as S.Schema<UpdateProjectOutput>,
+  input: __S(4288, __c134, 0) as any as S.Schema<UpdateProjectInput>,
+  output: __S(6472, __c202, 8) as any as S.Schema<UpdateProjectOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14036,6 +14509,7 @@ export const updateProject: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14052,6 +14526,7 @@ export type UpdateProjectProfileError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a project profile.
@@ -14062,8 +14537,8 @@ export const updateProjectProfile: API.OperationMethod<
   UpdateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<UpdateProjectProfileInput>,
-  output: __S(6216, __c194, 8) as any as S.Schema<UpdateProjectProfileOutput>,
+  input: __S(4320, __c135, 0) as any as S.Schema<UpdateProjectProfileInput>,
+  output: __S(6600, __c206, 8) as any as S.Schema<UpdateProjectProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14072,6 +14547,7 @@ export const updateProjectProfile: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14087,6 +14563,7 @@ export type UpdateRootDomainUnitOwnerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the owner of the root domain unit.
@@ -14097,8 +14574,8 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
   UpdateRootDomainUnitOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<UpdateRootDomainUnitOwnerInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<UpdateRootDomainUnitOwnerOutput>,
+  input: __S(4352, __c136, 0) as any as S.Schema<UpdateRootDomainUnitOwnerInput>,
+  output: __S(768, __c24, 0) as any as S.Schema<UpdateRootDomainUnitOwnerOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14106,6 +14583,7 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14122,6 +14600,7 @@ export type UpdateRuleError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -14132,8 +14611,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<UpdateRuleInput>,
-  output: __S(4129, __c129, 1) as any as S.Schema<UpdateRuleOutput>,
+  input: __S(4384, __c137, 0) as any as S.Schema<UpdateRuleInput>,
+  output: __S(4385, __c137, 1) as any as S.Schema<UpdateRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14142,6 +14621,7 @@ export const updateRule: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14157,6 +14637,7 @@ export type UpdateSubscriptionGrantStatusError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the status of the specified subscription grant status in Amazon DataZone.
@@ -14167,8 +14648,8 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
   UpdateSubscriptionGrantStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<UpdateSubscriptionGrantStatusInput>,
-  output: __S(6373, __c199, 5) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>,
+  input: __S(4544, __c142, 0) as any as S.Schema<UpdateSubscriptionGrantStatusInput>,
+  output: __S(6757, __c211, 5) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14176,6 +14657,7 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14191,6 +14673,7 @@ export type UpdateSubscriptionRequestError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates a specified subscription request in Amazon DataZone.
@@ -14201,8 +14684,8 @@ export const updateSubscriptionRequest: API.OperationMethod<
   UpdateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<UpdateSubscriptionRequestInput>,
-  output: __S(8512, __c266, 0) as any as S.Schema<UpdateSubscriptionRequestOutput>,
+  input: __S(4576, __c143, 0) as any as S.Schema<UpdateSubscriptionRequestInput>,
+  output: __S(320, __c10, 0) as any as S.Schema<UpdateSubscriptionRequestOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14210,6 +14693,7 @@ export const updateSubscriptionRequest: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14225,6 +14709,7 @@ export type UpdateSubscriptionTargetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified subscription target in Amazon DataZone.
@@ -14235,8 +14720,8 @@ export const updateSubscriptionTarget: API.OperationMethod<
   UpdateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<UpdateSubscriptionTargetInput>,
-  output: __S(6466, __c202, 2) as any as S.Schema<UpdateSubscriptionTargetOutput>,
+  input: __S(4608, __c144, 0) as any as S.Schema<UpdateSubscriptionTargetInput>,
+  output: __S(6850, __c214, 2) as any as S.Schema<UpdateSubscriptionTargetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -14244,6 +14729,7 @@ export const updateSubscriptionTarget: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14257,6 +14743,8 @@ export type UpdateUserProfileError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ThrottlingException
+  | UnauthorizedException
   | CommonErrors;
 /**
  * Updates the specified user profile in Amazon DataZone.
@@ -14267,13 +14755,15 @@ export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<UpdateUserProfileInput>,
-  output: __S(6528, __c204, 0) as any as S.Schema<UpdateUserProfileOutput>,
+  input: __S(4640, __c145, 0) as any as S.Schema<UpdateUserProfileInput>,
+  output: __S(6912, __c216, 0) as any as S.Schema<UpdateUserProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ThrottlingException,
+    UnauthorizedException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14289,15 +14779,15 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          entityType: S.String.pipe(T.HttpLabel("entityType")),
-          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          owner: __S(66, __c2, 2),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+          decisionComment: S.optional(SensitiveString),
+          assetScopes: S.optional(__S(257, __c8, 1)),
+          assetPermissions: S.optional(__S(259, __c8, 3)),
         }).pipe(
           T.all(
             T.Http({
-              method: "POST",
-              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/addOwner",
+              method: "PUT",
+              uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept",
             }),
             svc,
             auth,
@@ -14306,33 +14796,251 @@ function __c0(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "AddEntityOwnerInput" });
+      ).annotate({ identifier: "AcceptSubscriptionRequestInput" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "AddEntityOwnerOutput" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ userIdentifier: S.String })).annotate({
-        identifier: "OwnerUserProperties",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          formName: S.String,
+          typeName: S.optional(SensitiveString),
+          typeRevision: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormOutput" });
     case 1:
-      return S.suspend(() => S.Struct({ groupIdentifier: S.String })).annotate({
-        identifier: "OwnerGroupProperties",
-      });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ user: __S(64, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(65, __c2, 1) }),
-      ]);
+      return S.Array(__S(64, __c2, 0));
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(96, __c3, 0) })]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          assetId: S.String,
+          filterIds: __S(32, __c1, 0),
+          status: S.String,
+          scopeName: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssetScope" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(SensitiveString),
+          shortDescription: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "DetailedGlossaryTerm" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "SubscribedProject" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ id: S.optional(S.String), details: S.optional(__S(226, __c7, 2)) }),
+      ).annotate({ identifier: "SubscribedUser" });
+    case 2:
+      return S.suspend(() => S.Struct({ principalArn: S.optional(S.String) })).annotate({
+        identifier: "SubscribedIamPrincipal",
+      });
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ project: __S(192, __c6, 0) }),
+        /*@__PURE__*/ S.Struct({ user: __S(193, __c6, 1) }),
+        /*@__PURE__*/ S.Struct({ group: __S(192, __c6, 0) }),
+        /*@__PURE__*/ S.Struct({ iam: __S(194, __c6, 2) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          entityId: S.optional(S.String),
+          entityRevision: S.optional(S.String),
+          entityType: S.optional(S.String),
+          forms: S.optional(S.String),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
+          assetScope: S.optional(__S(129, __c4, 1)),
+          permissions: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "SubscribedAssetListing" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          entityId: S.optional(S.String),
+          entityRevision: S.optional(S.String),
+          entityType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssetInDataProductListingItem" });
+    case 6:
+      return S.Array(__S(197, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          entityId: S.optional(S.String),
+          entityRevision: S.optional(S.String),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          assetListings: S.optional(__S(198, __c6, 6)),
+        }),
+      ).annotate({ identifier: "SubscribedProductListing" });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ assetListing: __S(196, __c6, 4) }),
+        /*@__PURE__*/ S.Struct({ productListing: __S(199, __c6, 7) }),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          revision: S.optional(S.String),
+          name: S.String,
+          description: SensitiveString,
+          item: __S(200, __c6, 8),
+          ownerProjectId: S.String,
+          ownerProjectName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SubscribedListing" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          principalId: S.optional(S.String),
+          sessionName: S.optional(S.String),
+          groupProfileId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IamUserProfileDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(SensitiveString),
+          firstName: S.optional(SensitiveString),
+          lastName: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "SsoUserProfileDetails" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ iam: __S(224, __c7, 0) }),
+        /*@__PURE__*/ S.Struct({ sso: __S(225, __c7, 1) }),
+      ]);
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ assetId: S.String, filterIds: __S(32, __c1, 0) })).annotate(
+        { identifier: "AcceptedAssetScope" },
+      );
+    case 1:
+      return S.Array(__S(256, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ assetId: S.String, permissions: __S(128, __c4, 0) }),
+      ).annotate({ identifier: "AssetPermission" });
+    case 3:
+      return S.Array(__S(258, __c8, 2));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(195, __c6, 3));
+    case 1:
+      return S.Array(__S(201, __c6, 9));
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdBy: S.String,
+          updatedBy: S.optional(S.String),
+          domainId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          requestReason: SensitiveString,
+          subscribedPrincipals: __S(288, __c9, 0),
+          subscribedListings: __S(289, __c9, 1),
+          reviewerId: S.optional(S.String),
+          decisionComment: S.optional(SensitiveString),
+          existingSubscriptionId: S.optional(S.String),
+          metadataForms: S.optional(__S(65, __c2, 1)),
+        }),
+      ).annotate({ identifier: "AcceptSubscriptionRequestOutput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetGlossaryInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String,
+          id: S.String,
+          owningProjectId: S.String,
+          name: SensitiveString,
+          description: S.optional(SensitiveString),
+          status: S.String,
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          createdBy: S.optional(S.String),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedBy: S.optional(S.String),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "GetGlossaryOutput" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14362,18 +15070,18 @@ function __c3(j: number): any {
           name: SensitiveString,
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(5696, __c178, 0)),
+          termRelations: S.optional(__S(6080, __c190, 0)),
           status: S.String,
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedBy: S.optional(S.String),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "GetGlossaryTermOutput" });
   }
 }
-function __c4(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14396,7 +15104,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetGroupProfileInput" });
   }
 }
-function __c5(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14417,7 +15125,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetIamPortalLoginUrlOutput" });
   }
 }
-function __c6(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14442,15 +15150,15 @@ function __c6(j: number): any {
           queryEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           totalQueriesProcessed: S.optional(S.Number),
           numQueriesFailed: S.optional(S.Number),
-          errorMessages: S.optional(__S(8224, __c257, 0)),
+          errorMessages: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "LineageSqlQueryRunDetails" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ sqlQueryRunDetails: S.optional(__S(193, __c6, 1)) }),
+        S.Struct({ sqlQueryRunDetails: S.optional(__S(481, __c15, 1)) }),
       ).annotate({ identifier: "LineageRunDetails" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ lineageRunDetails: __S(194, __c6, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ lineageRunDetails: __S(482, __c15, 2) })]);
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -14459,9 +15167,9 @@ function __c6(j: number): any {
           jobId: S.optional(S.String),
           jobType: S.optional(S.String),
           runMode: S.optional(S.String),
-          details: S.optional(__S(195, __c6, 3)),
+          details: S.optional(__S(483, __c15, 3)),
           status: S.optional(S.String),
-          error: S.optional(__S(5888, __c184, 0)),
+          error: S.optional(__S(6272, __c196, 0)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -14470,7 +15178,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetJobRunOutput" });
   }
 }
-function __c7(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14509,14 +15217,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetLineageEventOutput" });
   }
 }
-function __c8(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
-          eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestamp"),
           ),
         }).pipe(
@@ -14541,7 +15249,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "LineageNodeReference" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14557,14 +15265,14 @@ function __c8(j: number): any {
           typeRevision: S.optional(S.String),
           sourceIdentifier: S.optional(S.String),
           eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          formsOutput: S.optional(__S(8257, __c258, 1)),
-          upstreamNodes: S.optional(__S(258, __c8, 2)),
-          downstreamNodes: S.optional(__S(258, __c8, 2)),
+          formsOutput: S.optional(__S(65, __c2, 1)),
+          upstreamNodes: S.optional(__S(546, __c17, 2)),
+          downstreamNodes: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "GetLineageNodeOutput" });
   }
 }
-function __c9(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14591,9 +15299,9 @@ function __c9(j: number): any {
           assetType: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           forms: S.optional(S.String),
-          latestTimeSeriesDataPointForms: S.optional(__S(3841, __c120, 1)),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
-          governedGlossaryTerms: S.optional(__S(8353, __c261, 1)),
+          latestTimeSeriesDataPointForms: S.optional(__S(4513, __c141, 1)),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
+          governedGlossaryTerms: S.optional(__S(161, __c5, 1)),
           owningProjectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetListing" });
@@ -14604,15 +15312,15 @@ function __c9(j: number): any {
           dataProductRevision: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           forms: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
           owningProjectId: S.optional(S.String),
-          items: S.optional(__S(321, __c10, 1)),
+          items: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "DataProductListing" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ assetListing: __S(289, __c9, 1) }),
-        /*@__PURE__*/ S.Struct({ dataProductListing: __S(290, __c9, 2) }),
+        /*@__PURE__*/ S.Struct({ assetListing: __S(577, __c18, 1) }),
+        /*@__PURE__*/ S.Struct({ dataProductListing: __S(578, __c18, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
@@ -14624,7 +15332,7 @@ function __c9(j: number): any {
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedBy: S.optional(S.String),
-          item: S.optional(__S(291, __c9, 3)),
+          item: S.optional(__S(579, __c18, 3)),
           name: S.optional(S.String),
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
@@ -14632,21 +15340,21 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetListingOutput" });
   }
 }
-function __c10(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           listingId: S.optional(S.String),
           listingRevision: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ListingSummary" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(608, __c19, 0));
   }
 }
-function __c11(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14673,25 +15381,25 @@ function __c11(j: number): any {
         S.Struct({ type: S.String, status: S.String, errorMessage: S.optional(S.String) }),
       ).annotate({ identifier: "MetadataGenerationRunTypeStat" });
     case 2:
-      return S.Array(__S(353, __c11, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainId: S.String,
           id: S.String,
-          target: S.optional(__S(384, __c12, 0)),
+          target: S.optional(__S(672, __c21, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          types: S.optional(__S(8288, __c259, 0)),
+          types: S.optional(__S(96, __c3, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           owningProjectId: S.String,
-          typeStats: S.optional(__S(354, __c11, 2)),
+          typeStats: S.optional(__S(642, __c20, 2)),
         }),
       ).annotate({ identifier: "GetMetadataGenerationRunOutput" });
   }
 }
-function __c12(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14699,7 +15407,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "MetadataGenerationRunTarget" });
   }
 }
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14719,7 +15427,56 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetNotebookInput" });
   }
 }
-function __c14(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          entityType: S.String.pipe(T.HttpLabel("entityType")),
+          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+          owner: __S(802, __c25, 2),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/addOwner",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddEntityOwnerInput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AddEntityOwnerOutput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ userIdentifier: S.String })).annotate({
+        identifier: "OwnerUserProperties",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ groupIdentifier: S.String })).annotate({
+        identifier: "OwnerGroupProperties",
+      });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ user: __S(800, __c25, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(801, __c25, 1) }),
+      ]);
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14745,7 +15502,7 @@ function __c14(j: number): any {
         identifier: "S3Destination",
       });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(449, __c14, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(833, __c26, 1) })]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14755,8 +15512,8 @@ function __c14(j: number): any {
           notebookId: S.String,
           fileFormat: S.String,
           status: S.String,
-          outputLocation: S.optional(__S(450, __c14, 2)),
-          error: S.optional(__S(5888, __c184, 0)),
+          outputLocation: S.optional(__S(834, __c26, 2)),
+          error: S.optional(__S(6272, __c196, 0)),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -14764,118 +15521,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetNotebookExportOutput" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          entityType: S.String.pipe(T.HttpLabel("entityType")),
-          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          policyType: S.String,
-          principal: __S(551, __c17, 7),
-          detail: __S(515, __c16, 3),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "POST",
-              uri: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/addGrant",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AddPolicyGrantInput" });
-    case 1:
-      return S.suspend(() => S.Struct({ grantId: S.optional(S.String) })).annotate({
-        identifier: "AddPolicyGrantOutput",
-      });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) })).annotate(
-        { identifier: "CreateDomainUnitPolicyGrantDetail" },
-      );
-    case 1:
-      return S.suspend(() => S.Struct({ domainUnitId: S.optional(S.String) })).annotate({
-        identifier: "CreateEnvironmentProfilePolicyGrantDetail",
-      });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          includeChildDomainUnits: S.optional(S.Boolean),
-          projectProfiles: S.optional(__S(8224, __c257, 0)),
-        }),
-      ).annotate({ identifier: "CreateProjectFromProjectProfilePolicyGrantDetail" });
-    case 3:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ createDomainUnit: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ overrideDomainUnitOwners: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ addToProjectMemberPool: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ overrideProjectOwners: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ createGlossary: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ createFormType: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ createAssetType: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ createProject: __S(512, __c16, 0) }),
-        /*@__PURE__*/ S.Struct({ createEnvironmentProfile: __S(513, __c16, 1) }),
-        /*@__PURE__*/ S.Struct({ delegateCreateEnvironmentProfile: __S(32, __c1, 0) }),
-        /*@__PURE__*/ S.Struct({ createEnvironment: __S(32, __c1, 0) }),
-        /*@__PURE__*/ S.Struct({ createEnvironmentFromBlueprint: __S(32, __c1, 0) }),
-        /*@__PURE__*/ S.Struct({ createProjectFromProjectProfile: __S(514, __c16, 2) }),
-        /*@__PURE__*/ S.Struct({ useAssetType: __S(513, __c16, 1) }),
-      ]);
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ userIdentifier: S.String }),
-        /*@__PURE__*/ S.Struct({ allUsersGrantFilter: __S(32, __c1, 0) }),
-      ]);
-    case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ groupIdentifier: S.String })]);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ domainUnit: S.String, includeChildDomainUnits: S.optional(S.Boolean) }),
-      ).annotate({ identifier: "DomainUnitFilterForProject" });
-    case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitFilter: __S(546, __c17, 2) })]);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          projectDesignation: S.String,
-          userCreatedDesignationId: S.optional(S.String),
-          projectIdentifier: S.optional(S.String),
-          projectGrantFilter: S.optional(__S(547, __c17, 3)),
-        }),
-      ).annotate({ identifier: "ProjectPolicyGrantPrincipal" });
-    case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ allDomainUnitsGrantFilter: __S(32, __c1, 0) })]);
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          domainUnitDesignation: S.String,
-          domainUnitIdentifier: S.optional(S.String),
-          domainUnitGrantFilter: S.optional(__S(549, __c17, 5)),
-        }),
-      ).annotate({ identifier: "DomainUnitPolicyGrantPrincipal" });
-    case 7:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ user: __S(544, __c17, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(545, __c17, 1) }),
-        /*@__PURE__*/ S.Struct({ project: __S(548, __c17, 4) }),
-        /*@__PURE__*/ S.Struct({ domainUnit: __S(550, __c17, 6) }),
-      ]);
-  }
-}
-function __c18(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14898,7 +15544,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetNotebookRunInput" });
   }
 }
-function __c19(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14906,7 +15552,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TriggerSource" });
   }
 }
-function __c20(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14917,8 +15563,8 @@ function __c20(j: number): any {
         S.Struct({
           networkAccessType: S.String,
           vpcId: S.optional(S.String),
-          subnetIds: S.optional(__S(8224, __c257, 0)),
-          securityGroupIds: S.optional(__S(8224, __c257, 0)),
+          subnetIds: S.optional(__S(32, __c1, 0)),
+          securityGroupIds: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 2:
@@ -14930,7 +15576,7 @@ function __c20(j: number): any {
         S.Struct({ projectS3Path: S.optional(S.String), kmsKeyArn: S.optional(S.String) }),
       ).annotate({ identifier: "StorageConfig" });
     case 4:
-      return S.suspend(() => S.Struct({ notifyOn: __S(8288, __c259, 0) })).annotate({
+      return S.suspend(() => S.Struct({ notifyOn: __S(96, __c3, 0) })).annotate({
         identifier: "NotificationConfig",
       });
     case 5:
@@ -14942,17 +15588,17 @@ function __c20(j: number): any {
           notebookId: S.String,
           scheduleId: S.optional(S.String),
           status: S.String,
-          cellOrder: S.optional(__S(5921, __c185, 1)),
-          metadata: S.optional(__S(5920, __c185, 0)),
-          parameters: S.optional(__S(4544, __c142, 0)),
-          computeConfiguration: S.optional(__S(640, __c20, 0)),
-          networkConfiguration: S.optional(__S(641, __c20, 1)),
-          timeoutConfiguration: S.optional(__S(642, __c20, 2)),
-          environmentConfiguration: S.optional(__S(5923, __c185, 3)),
-          storageConfiguration: S.optional(__S(643, __c20, 3)),
-          notificationConfiguration: S.optional(__S(644, __c20, 4)),
-          triggerSource: S.optional(__S(608, __c19, 0)),
-          error: S.optional(__S(5888, __c184, 0)),
+          cellOrder: S.optional(__S(6305, __c197, 1)),
+          metadata: S.optional(__S(6304, __c197, 0)),
+          parameters: S.optional(__S(4928, __c154, 0)),
+          computeConfiguration: S.optional(__S(928, __c29, 0)),
+          networkConfiguration: S.optional(__S(929, __c29, 1)),
+          timeoutConfiguration: S.optional(__S(930, __c29, 2)),
+          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
+          storageConfiguration: S.optional(__S(931, __c29, 3)),
+          notificationConfiguration: S.optional(__S(932, __c29, 4)),
+          triggerSource: S.optional(__S(896, __c28, 0)),
+          error: S.optional(__S(6272, __c196, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -14963,7 +15609,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetNotebookRunOutput" });
   }
 }
-function __c21(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14983,7 +15629,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetProjectInput" });
   }
 }
-function __c22(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15006,7 +15652,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectProfileInput" });
   }
 }
-function __c23(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15032,10 +15678,10 @@ function __c23(j: number): any {
           revision: S.String,
           name: SensitiveString,
           ruleType: S.String,
-          target: __S(6273, __c196, 1),
+          target: __S(6657, __c208, 1),
           action: S.String,
-          scope: __S(6276, __c196, 4),
-          detail: __S(6308, __c197, 4),
+          scope: __S(6660, __c208, 4),
+          detail: __S(6692, __c209, 4),
           targetType: S.optional(S.String),
           description: S.optional(SensitiveString),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -15046,7 +15692,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetRuleOutput" });
   }
 }
-function __c24(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15069,7 +15715,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetSubscriptionInput" });
   }
 }
-function __c25(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15092,7 +15738,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetSubscriptionGrantInput" });
   }
 }
-function __c26(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15115,7 +15761,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequestDetailsInput" });
   }
 }
-function __c27(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15139,7 +15785,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetSubscriptionTargetInput" });
   }
 }
-function __c28(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15170,12 +15816,12 @@ function __c28(j: number): any {
           entityId: S.optional(S.String),
           entityType: S.optional(S.String),
           formName: S.optional(S.String),
-          form: S.optional(__S(928, __c29, 0)),
+          form: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "GetTimeSeriesDataPointOutput" });
   }
 }
-function __c29(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15190,7 +15836,118 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TimeSeriesDataPointFormOutput" });
   }
 }
-function __c30(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          entityType: S.String.pipe(T.HttpLabel("entityType")),
+          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+          policyType: S.String,
+          principal: __S(1319, __c41, 7),
+          detail: __S(1283, __c40, 3),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/addGrant",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddPolicyGrantInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ grantId: S.optional(S.String) })).annotate({
+        identifier: "AddPolicyGrantOutput",
+      });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) })).annotate(
+        { identifier: "CreateDomainUnitPolicyGrantDetail" },
+      );
+    case 1:
+      return S.suspend(() => S.Struct({ domainUnitId: S.optional(S.String) })).annotate({
+        identifier: "CreateEnvironmentProfilePolicyGrantDetail",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          includeChildDomainUnits: S.optional(S.Boolean),
+          projectProfiles: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "CreateProjectFromProjectProfilePolicyGrantDetail" });
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ createDomainUnit: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ overrideDomainUnitOwners: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ addToProjectMemberPool: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ overrideProjectOwners: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ createGlossary: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ createFormType: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ createAssetType: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ createProject: __S(1280, __c40, 0) }),
+        /*@__PURE__*/ S.Struct({ createEnvironmentProfile: __S(1281, __c40, 1) }),
+        /*@__PURE__*/ S.Struct({ delegateCreateEnvironmentProfile: __S(768, __c24, 0) }),
+        /*@__PURE__*/ S.Struct({ createEnvironment: __S(768, __c24, 0) }),
+        /*@__PURE__*/ S.Struct({ createEnvironmentFromBlueprint: __S(768, __c24, 0) }),
+        /*@__PURE__*/ S.Struct({ createProjectFromProjectProfile: __S(1282, __c40, 2) }),
+        /*@__PURE__*/ S.Struct({ useAssetType: __S(1281, __c40, 1) }),
+      ]);
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ userIdentifier: S.String }),
+        /*@__PURE__*/ S.Struct({ allUsersGrantFilter: __S(768, __c24, 0) }),
+      ]);
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ groupIdentifier: S.String })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ domainUnit: S.String, includeChildDomainUnits: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "DomainUnitFilterForProject" });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitFilter: __S(1314, __c41, 2) })]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          projectDesignation: S.String,
+          userCreatedDesignationId: S.optional(S.String),
+          projectIdentifier: S.optional(S.String),
+          projectGrantFilter: S.optional(__S(1315, __c41, 3)),
+        }),
+      ).annotate({ identifier: "ProjectPolicyGrantPrincipal" });
+    case 5:
+      return S.Union([/*@__PURE__*/ S.Struct({ allDomainUnitsGrantFilter: __S(768, __c24, 0) })]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          domainUnitDesignation: S.String,
+          domainUnitIdentifier: S.optional(S.String),
+          domainUnitGrantFilter: S.optional(__S(1317, __c41, 5)),
+        }),
+      ).annotate({ identifier: "DomainUnitPolicyGrantPrincipal" });
+    case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ user: __S(1312, __c41, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(1313, __c41, 1) }),
+        /*@__PURE__*/ S.Struct({ project: __S(1316, __c41, 4) }),
+        /*@__PURE__*/ S.Struct({ domainUnit: __S(1318, __c41, 6) }),
+      ]);
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15215,31 +15972,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetUserProfileInput" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-          environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateEnvironmentRoleInput" });
-  }
-}
-function __c32(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15274,14 +16007,14 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AccountPoolSummary" });
     case 2:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1026, __c32, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1378, __c43, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAccountPoolsOutput" });
   }
 }
-function __c33(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15306,11 +16039,11 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListAccountsInAccountPoolInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(3361, __c105, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(4033, __c126, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAccountsInAccountPoolOutput" });
   }
 }
-function __c34(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15343,21 +16076,21 @@ function __c34(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          effectiveColumnNames: S.optional(__S(8224, __c257, 0)),
+          effectiveColumnNames: S.optional(__S(32, __c1, 0)),
           effectiveRowFilter: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetFilterSummary" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1441, __c45, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1090, __c34, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1442, __c45, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetFiltersOutput" });
   }
 }
-function __c35(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15391,14 +16124,14 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "AssetRevision" });
     case 2:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1122, __c35, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1474, __c46, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetRevisionsOutput" });
   }
 }
-function __c36(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15427,28 +16160,28 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4578, __c143, 2)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           connectionId: S.String,
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4599, __c143, 23),
+          physicalEndpoints: __S(4983, __c155, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4612, __c144, 4)),
+          props: S.optional(__S(4996, __c156, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionSummary" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1154, __c36, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1506, __c47, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListConnectionsOutput" });
   }
 }
-function __c37(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15482,14 +16215,14 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "DataProductRevision" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1186, __c37, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1538, __c48, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataProductRevisionsOutput" });
   }
 }
-function __c38(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15531,21 +16264,21 @@ function __c38(j: number): any {
           projectId: S.String,
           dataAssetId: S.optional(S.String),
           technicalDescription: S.optional(SensitiveString),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
-          lineageSummary: S.optional(__S(1217, __c38, 1)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
+          lineageSummary: S.optional(__S(1569, __c49, 1)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "DataSourceRunActivity" });
     case 3:
-      return S.Array(__S(1218, __c38, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ items: __S(1219, __c38, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1571, __c49, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataSourceRunActivitiesOutput" });
   }
 }
-function __c39(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15577,24 +16310,24 @@ function __c39(j: number): any {
           type: S.String,
           status: S.String,
           projectId: S.String,
-          runStatisticsForAssets: S.optional(__S(8128, __c254, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           stoppedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lineageSummary: S.optional(__S(8096, __c253, 0)),
+          lineageSummary: S.optional(__S(8384, __c262, 0)),
         }),
       ).annotate({ identifier: "DataSourceRunSummary" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1250, __c39, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1602, __c50, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataSourceRunsOutput" });
   }
 }
-function __c40(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15630,10 +16363,10 @@ function __c40(j: number): any {
           type: S.String,
           status: S.String,
           enableSetting: S.optional(S.String),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(4864, __c152, 0)),
+          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
           lastRunAssetCount: S.optional(S.Number),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -15641,14 +16374,38 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceSummary" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1282, __c40, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1634, __c51, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataSourcesOutput" });
   }
 }
-function __c41(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+          environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateEnvironmentRoleInput" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15682,39 +16439,14 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "DesignationSummary" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1314, __c41, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1698, __c53, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDesignationsOutput" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          entityType: S.String.pipe(T.HttpLabel("entityType")),
-          governedGlossaryTerms: __S(8224, __c257, 0),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/associate-governed-terms",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateGovernedTermsInput" });
-  }
-}
-function __c43(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15740,14 +16472,14 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "DomainSummary" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1378, __c43, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1730, __c54, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDomainsOutput" });
   }
 }
-function __c44(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15772,14 +16504,14 @@ function __c44(j: number): any {
         identifier: "DomainUnitSummary",
       });
     case 2:
-      return S.Array(__S(1409, __c44, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1410, __c44, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1762, __c55, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDomainUnitsForParentOutput" });
   }
 }
-function __c45(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15805,11 +16537,11 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListEntityOwnersInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ owners: __S(5091, __c159, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ owners: __S(5475, __c171, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEntityOwnersOutput" });
   }
 }
-function __c46(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15833,14 +16565,14 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListEnvironmentActionsInput" });
     case 1:
-      return S.Array(__S(5378, __c168, 2));
+      return S.Array(__S(5762, __c180, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1473, __c46, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1825, __c57, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnvironmentActionsOutput" });
   }
 }
-function __c47(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15863,14 +16595,14 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListEnvironmentBlueprintConfigurationsInput" });
     case 1:
-      return S.Array(__S(8742, __c273, 6));
+      return S.Array(__S(8774, __c274, 6));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1505, __c47, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1857, __c58, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnvironmentBlueprintConfigurationsOutput" });
   }
 }
-function __c48(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15898,21 +16630,21 @@ function __c48(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           provider: S.String,
-          provisioningProperties: __S(5185, __c162, 1),
+          provisioningProperties: __S(5569, __c174, 1),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           blueprintCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentBlueprintSummary" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1538, __c48, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1890, __c59, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnvironmentBlueprintsOutput" });
   }
 }
-function __c49(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15955,14 +16687,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentProfileSummary" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1570, __c49, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1922, __c60, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnvironmentProfilesOutput" });
   }
 }
-function __c50(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16014,14 +16746,14 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentSummary" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1953, __c61, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1602, __c50, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1954, __c61, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnvironmentsOutput" });
   }
 }
-function __c51(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16055,7 +16787,7 @@ function __c51(j: number): any {
           runId: S.optional(S.String),
           runMode: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(5888, __c184, 0)),
+          error: S.optional(__S(6272, __c196, 0)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -16063,24 +16795,49 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "JobRunSummary" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1634, __c51, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(1986, __c62, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListJobRunsOutput" });
   }
 }
-function __c52(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+          entityType: S.String.pipe(T.HttpLabel("entityType")),
+          governedGlossaryTerms: __S(32, __c1, 0),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/associate-governed-terms",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateGovernedTermsInput" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          timestampAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          timestampAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampAfter"),
           ),
-          timestampBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          timestampBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampBefore"),
           ),
           processingStatus: S.optional(S.String).pipe(T.HttpQuery("processingStatus")),
@@ -16102,19 +16859,19 @@ function __c52(j: number): any {
         S.Struct({ name: S.optional(S.String), namespace: S.optional(S.String) }),
       ).annotate({ identifier: "NameIdentifier" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           eventType: S.optional(S.String),
           runId: S.optional(S.String),
-          job: S.optional(__S(1665, __c52, 1)),
-          inputs: S.optional(__S(1666, __c52, 2)),
-          outputs: S.optional(__S(1666, __c52, 2)),
+          job: S.optional(__S(2049, __c64, 1)),
+          inputs: S.optional(__S(2050, __c64, 2)),
+          outputs: S.optional(__S(2050, __c64, 2)),
         }),
       ).annotate({ identifier: "OpenLineageRunEventSummary" });
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ openLineageRunEventSummary: __S(1667, __c52, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ openLineageRunEventSummary: __S(2051, __c64, 3) })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16122,66 +16879,20 @@ function __c52(j: number): any {
           domainId: S.optional(S.String),
           processingStatus: S.optional(S.String),
           eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          eventSummary: S.optional(__S(1668, __c52, 4)),
+          eventSummary: S.optional(__S(2052, __c64, 4)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "LineageEventSummary" });
     case 6:
-      return S.Array(__S(1669, __c52, 5));
+      return S.Array(__S(2053, __c64, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1670, __c52, 6)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2054, __c64, 6)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLineageEventsOutput" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          entityType: S.String.pipe(T.HttpLabel("entityType")),
-          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          entityRevision: S.optional(S.String).pipe(T.HttpQuery("entityRevision")),
-          attributeIdentifiers: __S(8224, __c257, 0).pipe(T.HttpQuery("attributeIdentifier")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "GET",
-              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchGetAttributesMetadataInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ attributeIdentifier: S.String, forms: S.optional(__S(8257, __c258, 1)) }),
-      ).annotate({ identifier: "BatchGetAttributeOutput" });
-    case 2:
-      return S.Array(__S(1697, __c53, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ attributes: S.optional(__S(1698, __c53, 2)), errors: __S(1729, __c54, 1) }),
-      ).annotate({ identifier: "BatchGetAttributesMetadataOutput" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ attributeIdentifier: S.String, code: S.String, message: S.String }),
-      ).annotate({ identifier: "AttributeError" });
-    case 1:
-      return S.Array(__S(1728, __c54, 0));
-  }
-}
-function __c55(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16191,10 +16902,10 @@ function __c55(j: number): any {
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           direction: S.optional(S.String).pipe(T.HttpQuery("direction")),
-          eventTimestampGTE: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestampGTE: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampGTE"),
           ),
-          eventTimestampLTE: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestampLTE: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampLTE"),
           ),
           sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
@@ -16230,14 +16941,14 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "LineageNodeSummary" });
     case 2:
-      return S.Array(__S(1761, __c55, 1));
+      return S.Array(__S(2081, __c65, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nodes: S.optional(__S(1762, __c55, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ nodes: S.optional(__S(2082, __c65, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLineageNodeHistoryOutput" });
   }
 }
-function __c56(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16267,24 +16978,24 @@ function __c56(j: number): any {
         S.Struct({
           domainId: S.String,
           id: S.String,
-          target: S.optional(__S(384, __c12, 0)),
+          target: S.optional(__S(672, __c21, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          types: S.optional(__S(8288, __c259, 0)),
+          types: S.optional(__S(96, __c3, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           owningProjectId: S.String,
         }),
       ).annotate({ identifier: "MetadataGenerationRunItem" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1794, __c56, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2114, __c66, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMetadataGenerationRunsOutput" });
   }
 }
-function __c57(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16317,7 +17028,7 @@ function __c57(j: number): any {
           notebookId: S.String,
           scheduleId: S.optional(S.String),
           status: S.String,
-          triggerSource: S.optional(__S(608, __c19, 0)),
+          triggerSource: S.optional(__S(896, __c28, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -16327,14 +17038,14 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "NotebookRunSummary" });
     case 2:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(2145, __c67, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1826, __c57, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2146, __c67, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListNotebookRunsOutput" });
   }
 }
-function __c58(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16375,27 +17086,27 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "NotebookSummary" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1858, __c58, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2178, __c68, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListNotebooksOutput" });
   }
 }
-function __c59(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           type: S.String.pipe(T.HttpQuery("type")),
-          afterTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          afterTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("afterTimestamp"),
           ),
-          beforeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          beforeTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("beforeTimestamp"),
           ),
-          subjects: S.optional(__S(8224, __c257, 0)).pipe(T.HttpQuery("subjects")),
+          subjects: S.optional(__S(32, __c1, 0)).pipe(T.HttpQuery("subjects")),
           taskStatus: S.optional(S.String).pipe(T.HttpQuery("taskStatus")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -16416,7 +17127,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "NotificationResource" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ subject: S.String, resource: __S(1889, __c59, 1), role: S.String }),
+        S.Struct({ subject: S.String, resource: __S(2209, __c69, 1), role: S.String }),
       ).annotate({ identifier: "Topic" });
     case 3:
       return S.suspend(() =>
@@ -16424,28 +17135,28 @@ function __c59(j: number): any {
           identifier: S.String,
           domainIdentifier: S.String,
           type: S.String,
-          topic: __S(1890, __c59, 2),
+          topic: __S(2210, __c69, 2),
           title: SensitiveString,
           message: SensitiveString,
           status: S.optional(S.String),
           actionLink: SensitiveString,
           creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          metadata: S.optional(__S(4544, __c142, 0)),
+          metadata: S.optional(__S(4928, __c154, 0)),
         }),
       ).annotate({ identifier: "NotificationOutput" });
     case 4:
-      return S.Array(__S(1891, __c59, 3));
+      return S.Array(__S(2211, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          notifications: S.optional(__S(1892, __c59, 4)),
+          notifications: S.optional(__S(2212, __c69, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotificationsOutput" });
   }
 }
-function __c60(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16473,22 +17184,22 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          principal: S.optional(__S(551, __c17, 7)),
-          detail: S.optional(__S(515, __c16, 3)),
+          principal: S.optional(__S(1319, __c41, 7)),
+          detail: S.optional(__S(1283, __c40, 3)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           grantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyGrantMember" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(2241, __c70, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ grantList: __S(1922, __c60, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ grantList: __S(2242, __c70, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicyGrantsOutput" });
   }
 }
-function __c61(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16523,26 +17234,26 @@ function __c61(j: number): any {
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ user: __S(1953, __c61, 1) }),
-        /*@__PURE__*/ S.Struct({ group: __S(1954, __c61, 2) }),
+        /*@__PURE__*/ S.Struct({ user: __S(2273, __c71, 1) }),
+        /*@__PURE__*/ S.Struct({ group: __S(2274, __c71, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          memberDetails: __S(1955, __c61, 3),
+          memberDetails: __S(2275, __c71, 3),
           designation: S.String,
           userCreatedDesignationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectMember" });
     case 5:
-      return S.Array(__S(1956, __c61, 4));
+      return S.Array(__S(2276, __c71, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ members: __S(1957, __c61, 5), nextToken: S.optional(S.String) }),
+        S.Struct({ members: __S(2277, __c71, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListProjectMembershipsOutput" });
   }
 }
-function __c62(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16579,14 +17290,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ProjectProfileSummary" });
     case 2:
-      return S.Array(__S(1985, __c62, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1986, __c62, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2306, __c72, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListProjectProfilesOutput" });
   }
 }
-function __c63(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16617,7 +17328,7 @@ function __c63(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           projectStatus: S.optional(S.String),
-          failureReasons: S.optional(__S(6049, __c189, 1)),
+          failureReasons: S.optional(__S(6433, __c201, 1)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -16626,14 +17337,60 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ProjectSummary" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2337, __c73, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(2018, __c63, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2338, __c73, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListProjectsOutput" });
   }
 }
-function __c64(j: number): any {
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          entityType: S.String.pipe(T.HttpLabel("entityType")),
+          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+          entityRevision: S.optional(S.String).pipe(T.HttpQuery("entityRevision")),
+          attributeIdentifiers: __S(32, __c1, 0).pipe(T.HttpQuery("attributeIdentifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchGetAttributesMetadataInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ attributeIdentifier: S.String, forms: S.optional(__S(65, __c2, 1)) }),
+      ).annotate({ identifier: "BatchGetAttributeOutput" });
+    case 2:
+      return S.Array(__S(2369, __c74, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ attributes: S.optional(__S(2370, __c74, 2)), errors: __S(2401, __c75, 1) }),
+      ).annotate({ identifier: "BatchGetAttributesMetadataOutput" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ attributeIdentifier: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "AttributeError" });
+    case 1:
+      return S.Array(__S(2400, __c75, 0));
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16643,8 +17400,8 @@ function __c64(j: number): any {
           targetIdentifier: S.String.pipe(T.HttpLabel("targetIdentifier")),
           ruleType: S.optional(S.String).pipe(T.HttpQuery("ruleType")),
           action: S.optional(S.String).pipe(T.HttpQuery("ruleAction")),
-          projectIds: S.optional(__S(8224, __c257, 0)).pipe(T.HttpQuery("projectIds")),
-          assetTypes: S.optional(__S(8224, __c257, 0)).pipe(T.HttpQuery("assetTypes")),
+          projectIds: S.optional(__S(32, __c1, 0)).pipe(T.HttpQuery("projectIds")),
+          assetTypes: S.optional(__S(32, __c1, 0)).pipe(T.HttpQuery("assetTypes")),
           dataProduct: S.optional(S.Boolean).pipe(T.HttpQuery("dataProduct")),
           includeCascaded: S.optional(S.Boolean).pipe(T.HttpQuery("includeCascaded")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -16671,82 +17428,22 @@ function __c64(j: number): any {
           ruleType: S.optional(S.String),
           name: S.optional(SensitiveString),
           targetType: S.optional(S.String),
-          target: S.optional(__S(6273, __c196, 1)),
+          target: S.optional(__S(6657, __c208, 1)),
           action: S.optional(S.String),
-          scope: S.optional(__S(6276, __c196, 4)),
+          scope: S.optional(__S(6660, __c208, 4)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuleSummary" });
     case 2:
-      return S.Array(__S(2049, __c64, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2050, __c64, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2434, __c76, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRulesOutput" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ attributeIdentifier: S.String, forms: __S(2113, __c66, 1) }),
-      ).annotate({ identifier: "AttributeInput" });
-    case 1:
-      return S.Array(__S(2080, __c65, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          entityType: S.String.pipe(T.HttpLabel("entityType")),
-          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          attributes: __S(2081, __c65, 1),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchPutAttributesMetadataInput" });
-    case 3:
-      return S.suspend(() => S.Struct({ attributeIdentifier: S.String })).annotate({
-        identifier: "BatchPutAttributeOutput",
-      });
-    case 4:
-      return S.Array(__S(2083, __c65, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(1729, __c54, 1)),
-          attributes: S.optional(__S(2084, __c65, 4)),
-        }),
-      ).annotate({ identifier: "BatchPutAttributesMetadataOutput" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          formName: S.String,
-          typeIdentifier: S.optional(S.String),
-          typeRevision: S.optional(S.String),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormInput" });
-    case 1:
-      return S.Array(__S(2112, __c66, 0));
-  }
-}
-function __c67(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16776,14 +17473,14 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionGrantsInput" });
     case 1:
-      return S.Array(__S(6373, __c199, 5));
+      return S.Array(__S(6757, __c211, 5));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2145, __c67, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2465, __c77, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubscriptionGrantsOutput" });
   }
 }
-function __c68(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16820,7 +17517,7 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "MetadataFormSummary" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16832,23 +17529,23 @@ function __c68(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           requestReason: SensitiveString,
-          subscribedPrincipals: __S(8480, __c265, 0),
-          subscribedListings: __S(8481, __c265, 1),
+          subscribedPrincipals: __S(288, __c9, 0),
+          subscribedListings: __S(289, __c9, 1),
           reviewerId: S.optional(S.String),
           decisionComment: S.optional(SensitiveString),
           existingSubscriptionId: S.optional(S.String),
-          metadataFormsSummary: S.optional(__S(2178, __c68, 2)),
+          metadataFormsSummary: S.optional(__S(2498, __c78, 2)),
         }),
       ).annotate({ identifier: "SubscriptionRequestSummary" });
     case 4:
-      return S.Array(__S(2179, __c68, 3));
+      return S.Array(__S(2499, __c78, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ items: __S(2180, __c68, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2500, __c78, 4), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubscriptionRequestsOutput" });
   }
 }
-function __c69(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16880,14 +17577,14 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsInput" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(3648, __c114, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2209, __c69, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2529, __c79, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubscriptionsOutput" });
   }
 }
-function __c70(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16913,14 +17610,14 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionTargetsInput" });
     case 1:
-      return S.Array(__S(6466, __c202, 2));
+      return S.Array(__S(6850, __c214, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2241, __c70, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2561, __c80, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubscriptionTargetsOutput" });
   }
 }
-function __c71(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16936,12 +17633,12 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(4544, __c142, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(4928, __c154, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16950,10 +17647,10 @@ function __c72(j: number): any {
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
           entityType: S.String.pipe(T.HttpLabel("entityType")),
           formName: S.String.pipe(T.HttpQuery("formName")),
-          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedAt"),
           ),
-          endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endedAt"),
           ),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -16974,11 +17671,11 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ListTimeSeriesDataPointsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(3841, __c120, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(4513, __c141, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTimeSeriesDataPointsOutput" });
   }
 }
-function __c73(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17006,7 +17703,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PostLineageEventOutput" });
   }
 }
-function __c74(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17019,14 +17716,14 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "TimeSeriesDataPointFormInput" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
           entityType: S.String.pipe(T.HttpLabel("entityType")),
-          forms: __S(2369, __c74, 1),
+          forms: __S(2689, __c84, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17043,26 +17740,26 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "PostTimeSeriesDataPointsInput" });
     case 3:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
           domainId: S.optional(S.String),
           entityId: S.optional(S.String),
           entityType: S.optional(S.String),
-          forms: S.optional(__S(2371, __c74, 3)),
+          forms: S.optional(__S(2691, __c84, 3)),
         }),
       ).annotate({ identifier: "PostTimeSeriesDataPointsOutput" });
   }
 }
-function __c75(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           enableExport: S.Boolean,
-          encryptionConfiguration: S.optional(__S(7968, __c249, 0)),
+          encryptionConfiguration: S.optional(__S(8256, __c258, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17080,7 +17777,67 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PutDataExportConfigurationInput" });
   }
 }
-function __c76(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ attributeIdentifier: S.String, forms: __S(2785, __c87, 1) }),
+      ).annotate({ identifier: "AttributeInput" });
+    case 1:
+      return S.Array(__S(2752, __c86, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          entityType: S.String.pipe(T.HttpLabel("entityType")),
+          entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          attributes: __S(2753, __c86, 1),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchPutAttributesMetadataInput" });
+    case 3:
+      return S.suspend(() => S.Struct({ attributeIdentifier: S.String })).annotate({
+        identifier: "BatchPutAttributeOutput",
+      });
+    case 4:
+      return S.Array(__S(2755, __c86, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(2401, __c75, 1)),
+          attributes: S.optional(__S(2756, __c86, 4)),
+        }),
+      ).annotate({ identifier: "BatchPutAttributesMetadataOutput" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          formName: S.String,
+          typeIdentifier: S.optional(S.String),
+          typeRevision: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormInput" });
+    case 1:
+      return S.Array(__S(2784, __c87, 0));
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17088,11 +17845,11 @@ function __c76(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           region: S.String,
-          parameters: __S(4544, __c142, 0),
+          parameters: __S(4928, __c154, 0),
         }),
       ).annotate({ identifier: "PutResourceConfiguration" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17103,12 +17860,12 @@ function __c76(j: number): any {
           provisioningRoleArn: S.optional(S.String),
           manageAccessRoleArn: S.optional(S.String),
           environmentRolePermissionBoundary: S.optional(S.String),
-          enabledRegions: __S(8224, __c257, 0),
-          regionalParameters: S.optional(__S(8736, __c273, 0)),
-          resourceConfigurations: S.optional(__S(2433, __c76, 1)),
+          enabledRegions: __S(32, __c1, 0),
+          regionalParameters: S.optional(__S(8768, __c274, 0)),
+          resourceConfigurations: S.optional(__S(2817, __c88, 1)),
           allowUserProvidedConfigurations: S.optional(S.Boolean),
-          globalParameters: S.optional(__S(4544, __c142, 0)),
-          provisioningConfigurations: S.optional(__S(8741, __c273, 5)),
+          globalParameters: S.optional(__S(4928, __c154, 0)),
+          provisioningConfigurations: S.optional(__S(8773, __c274, 5)),
         }).pipe(
           T.all(
             T.Http({
@@ -17125,30 +17882,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PutEnvironmentBlueprintConfigurationInput" });
   }
 }
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "POST",
-              uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CancelMetadataGenerationRunInput" });
-  }
-}
-function __c78(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17163,28 +17897,28 @@ function __c78(j: number): any {
         S.Struct({
           entityType: S.String,
           identifier: S.String,
-          filters: S.optional(__S(2530, __c79, 2)),
+          filters: S.optional(__S(2882, __c90, 2)),
         }),
       ).annotate({ identifier: "EntityPattern" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ relationPattern: __S(2496, __c78, 0) }),
-        /*@__PURE__*/ S.Struct({ entityPattern: __S(2497, __c78, 1) }),
+        /*@__PURE__*/ S.Struct({ relationPattern: __S(2848, __c89, 0) }),
+        /*@__PURE__*/ S.Struct({ entityPattern: __S(2849, __c89, 1) }),
       ]);
     case 3:
-      return S.Array(__S(2498, __c78, 2));
+      return S.Array(__S(2850, __c89, 2));
     case 4:
-      return S.suspend(() => S.Struct({ formNames: S.optional(__S(8224, __c257, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ formNames: S.optional(__S(32, __c1, 0)) })).annotate({
         identifier: "AdditionalAttributes",
       });
     case 5:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          match: __S(2499, __c78, 3),
+          match: __S(2851, __c89, 3),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          additionalAttributes: S.optional(__S(2500, __c78, 4)),
+          additionalAttributes: S.optional(__S(2852, __c89, 4)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/graph/query" }),
@@ -17211,22 +17945,22 @@ function __c78(j: number): any {
           typeRevision: S.optional(S.String),
           sourceIdentifier: S.optional(S.String),
           eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          formsOutput: S.optional(__S(8257, __c258, 1)),
-          upstreamLineageNodeIds: S.optional(__S(8224, __c257, 0)),
-          downstreamLineageNodeIds: S.optional(__S(8224, __c257, 0)),
+          formsOutput: S.optional(__S(65, __c2, 1)),
+          upstreamLineageNodeIds: S.optional(__S(32, __c1, 0)),
+          downstreamLineageNodeIds: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "LineageNodeItem" });
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ lineageNode: __S(2502, __c78, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ lineageNode: __S(2854, __c89, 6) })]);
     case 8:
-      return S.Array(__S(2503, __c78, 7));
+      return S.Array(__S(2855, __c89, 7));
     case 9:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(2504, __c78, 8)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(2856, __c89, 8)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "QueryGraphOutput" });
   }
 }
-function __c79(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17239,25 +17973,25 @@ function __c79(j: number): any {
       ).annotate({ identifier: "Filter" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(2530, __c79, 2)).annotate({ identifier: "FilterClause" }),
+        /*@__PURE__*/ S.suspend(() => __S(2882, __c90, 2)).annotate({ identifier: "FilterClause" }),
       );
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ filter: __S(2528, __c79, 0) }),
+        /*@__PURE__*/ S.Struct({ filter: __S(2880, __c90, 0) }),
         /*@__PURE__*/ S.Struct({
-          and: /*@__PURE__*/ S.suspend(() => __S(2529, __c79, 1)).annotate({
+          and: /*@__PURE__*/ S.suspend(() => __S(2881, __c90, 1)).annotate({
             identifier: "FilterList",
           }),
         }),
         /*@__PURE__*/ S.Struct({
-          or: /*@__PURE__*/ S.suspend(() => __S(2529, __c79, 1)).annotate({
+          or: /*@__PURE__*/ S.suspend(() => __S(2881, __c90, 1)).annotate({
             identifier: "FilterList",
           }),
         }),
       ]);
   }
 }
-function __c80(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -17265,19 +17999,19 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           predictionTarget: S.optional(S.String),
-          predictionChoices: S.optional(__S(2560, __c80, 0)),
+          predictionChoices: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "RejectChoice" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-          rejectRule: S.optional(__S(7648, __c239, 0)),
-          rejectChoices: S.optional(__S(2562, __c80, 2)),
+          rejectRule: S.optional(__S(8512, __c266, 0)),
+          rejectChoices: S.optional(__S(2914, __c91, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17299,7 +18033,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "RejectPredictionsOutput" });
   }
 }
-function __c81(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17323,7 +18057,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "RejectSubscriptionRequestInput" });
   }
 }
-function __c82(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17331,7 +18065,7 @@ function __c82(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           entityType: S.String.pipe(T.HttpLabel("entityType")),
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-          owner: __S(66, __c2, 2),
+          owner: __S(802, __c25, 2),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17349,7 +18083,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "RemoveEntityOwnerInput" });
   }
 }
-function __c83(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17358,7 +18092,7 @@ function __c83(j: number): any {
           entityType: S.String.pipe(T.HttpLabel("entityType")),
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
           policyType: S.String,
-          principal: __S(551, __c17, 7),
+          principal: __S(1319, __c41, 7),
           grantIdentifier: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -17377,7 +18111,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RemovePolicyGrantInput" });
   }
 }
-function __c84(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17401,7 +18135,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RevokeSubscriptionInput" });
   }
 }
-function __c85(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17412,10 +18146,10 @@ function __c85(j: number): any {
           nextToken: S.optional(S.String),
           searchScope: S.String,
           searchText: S.optional(S.String),
-          searchIn: S.optional(__S(2785, __c87, 1)),
-          filters: S.optional(__S(2530, __c79, 2)),
-          sort: S.optional(__S(2786, __c87, 2)),
-          additionalAttributes: S.optional(__S(8288, __c259, 0)),
+          searchIn: S.optional(__S(3137, __c98, 1)),
+          filters: S.optional(__S(2882, __c90, 2)),
+          sort: S.optional(__S(3138, __c98, 2)),
+          additionalAttributes: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/search" }),
@@ -17429,7 +18163,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SearchInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ matchRationale: S.optional(__S(2757, __c86, 5)) }),
+        S.Struct({ matchRationale: S.optional(__S(3109, __c97, 5)) }),
       ).annotate({ identifier: "GlossaryItemAdditionalAttributes" });
     case 2:
       return S.suspend(() =>
@@ -17440,12 +18174,12 @@ function __c85(j: number): any {
           owningProjectId: S.String,
           description: S.optional(SensitiveString),
           status: S.String,
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedBy: S.optional(S.String),
-          additionalAttributes: S.optional(__S(2721, __c85, 1)),
+          additionalAttributes: S.optional(__S(3073, __c96, 1)),
         }),
       ).annotate({ identifier: "GlossaryItem" });
     case 3:
@@ -17456,24 +18190,24 @@ function __c85(j: number): any {
           id: S.String,
           name: SensitiveString,
           shortDescription: S.optional(SensitiveString),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(5696, __c178, 0)),
+          termRelations: S.optional(__S(6080, __c190, 0)),
           status: S.String,
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedBy: S.optional(S.String),
-          additionalAttributes: S.optional(__S(2721, __c85, 1)),
+          additionalAttributes: S.optional(__S(3073, __c96, 1)),
         }),
       ).annotate({ identifier: "GlossaryTermItem" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          formsOutput: S.optional(__S(8257, __c258, 1)),
-          readOnlyFormsOutput: S.optional(__S(8257, __c258, 1)),
-          latestTimeSeriesDataPointFormsOutput: S.optional(__S(3841, __c120, 1)),
-          matchRationale: S.optional(__S(2757, __c86, 5)),
+          formsOutput: S.optional(__S(65, __c2, 1)),
+          readOnlyFormsOutput: S.optional(__S(65, __c2, 1)),
+          latestTimeSeriesDataPointFormsOutput: S.optional(__S(4513, __c141, 1)),
+          matchRationale: S.optional(__S(3109, __c97, 5)),
         }),
       ).annotate({ identifier: "AssetItemAdditionalAttributes" });
     case 5:
@@ -17490,10 +18224,10 @@ function __c85(j: number): any {
           createdBy: S.optional(S.String),
           firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           firstRevisionCreatedBy: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           owningProjectId: S.String,
-          additionalAttributes: S.optional(__S(2724, __c85, 4)),
-          governedGlossaryTerms: S.optional(__S(8224, __c257, 0)),
+          additionalAttributes: S.optional(__S(3076, __c96, 4)),
+          governedGlossaryTerms: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AssetItem" });
     case 6:
@@ -17504,72 +18238,72 @@ function __c85(j: number): any {
           name: SensitiveString,
           owningProjectId: S.String,
           description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           firstRevisionCreatedBy: S.optional(S.String),
-          additionalAttributes: S.optional(__S(2721, __c85, 1)),
+          additionalAttributes: S.optional(__S(3073, __c96, 1)),
         }),
       ).annotate({ identifier: "DataProductResultItem" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glossaryItem: __S(2722, __c85, 2) }),
-        /*@__PURE__*/ S.Struct({ glossaryTermItem: __S(2723, __c85, 3) }),
-        /*@__PURE__*/ S.Struct({ assetItem: __S(2725, __c85, 5) }),
-        /*@__PURE__*/ S.Struct({ dataProductItem: __S(2726, __c85, 6) }),
+        /*@__PURE__*/ S.Struct({ glossaryItem: __S(3074, __c96, 2) }),
+        /*@__PURE__*/ S.Struct({ glossaryTermItem: __S(3075, __c96, 3) }),
+        /*@__PURE__*/ S.Struct({ assetItem: __S(3077, __c96, 5) }),
+        /*@__PURE__*/ S.Struct({ dataProductItem: __S(3078, __c96, 6) }),
       ]);
     case 8:
-      return S.Array(__S(2727, __c85, 7));
+      return S.Array(__S(3079, __c96, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2728, __c85, 8)),
+          items: S.optional(__S(3080, __c96, 8)),
           nextToken: S.optional(S.String),
           totalMatchCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchOutput" });
   }
 }
-function __c86(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ startOffset: S.optional(S.Number), endOffset: S.optional(S.Number) }),
       ).annotate({ identifier: "MatchOffset" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(3104, __c97, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           attribute: S.optional(S.String),
           text: S.optional(S.String),
-          matchOffsets: S.optional(__S(2753, __c86, 1)),
+          matchOffsets: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "TextMatchItem" });
     case 3:
-      return S.Array(__S(2754, __c86, 2));
+      return S.Array(__S(3106, __c97, 2));
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ textMatches: __S(2755, __c86, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ textMatches: __S(3107, __c97, 3) })]);
     case 5:
-      return S.Array(__S(2756, __c86, 4));
+      return S.Array(__S(3108, __c97, 4));
   }
 }
-function __c87(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ attribute: S.String })).annotate({
         identifier: "SearchInItem",
       });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(3136, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ attribute: S.String, order: S.optional(S.String) }),
       ).annotate({ identifier: "SearchSort" });
   }
 }
-function __c88(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17591,33 +18325,33 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "SearchGroupProfilesInput" });
     case 1:
-      return S.Array(__S(5792, __c181, 0));
+      return S.Array(__S(6176, __c193, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(2817, __c88, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(3169, __c99, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "SearchGroupProfilesOutput" });
   }
 }
-function __c89(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ attribute: S.String, displayValue: S.optional(S.String) }),
       ).annotate({ identifier: "AggregationListItem" });
     case 1:
-      return S.Array(__S(2848, __c89, 0));
+      return S.Array(__S(3200, __c100, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           searchText: S.optional(S.String),
-          searchIn: S.optional(__S(2785, __c87, 1)),
+          searchIn: S.optional(__S(3137, __c98, 1)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filters: S.optional(__S(2530, __c79, 2)),
-          aggregations: S.optional(__S(2849, __c89, 1)),
-          sort: S.optional(__S(2786, __c87, 2)),
-          additionalAttributes: S.optional(__S(8288, __c259, 0)),
+          filters: S.optional(__S(2882, __c90, 2)),
+          aggregations: S.optional(__S(3201, __c100, 1)),
+          sort: S.optional(__S(3138, __c98, 2)),
+          additionalAttributes: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/listings/search" }),
@@ -17633,8 +18367,8 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           forms: S.optional(S.String),
-          matchRationale: S.optional(__S(2757, __c86, 5)),
-          latestTimeSeriesDataPointForms: S.optional(__S(3841, __c120, 1)),
+          matchRationale: S.optional(__S(3109, __c97, 5)),
+          latestTimeSeriesDataPointForms: S.optional(__S(4513, __c141, 1)),
         }),
       ).annotate({ identifier: "AssetListingItemAdditionalAttributes" });
     case 4:
@@ -17650,15 +18384,15 @@ function __c89(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           listingCreatedBy: S.optional(S.String),
           listingUpdatedBy: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
-          governedGlossaryTerms: S.optional(__S(8353, __c261, 1)),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
+          governedGlossaryTerms: S.optional(__S(161, __c5, 1)),
           owningProjectId: S.optional(S.String),
-          additionalAttributes: S.optional(__S(2851, __c89, 3)),
+          additionalAttributes: S.optional(__S(3203, __c100, 3)),
         }),
       ).annotate({ identifier: "AssetListingItem" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ forms: S.optional(S.String), matchRationale: S.optional(__S(2757, __c86, 5)) }),
+        S.Struct({ forms: S.optional(S.String), matchRationale: S.optional(__S(3109, __c97, 5)) }),
       ).annotate({ identifier: "DataProductListingItemAdditionalAttributes" });
     case 6:
       return S.suspend(() =>
@@ -17672,19 +18406,19 @@ function __c89(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           listingCreatedBy: S.optional(S.String),
           listingUpdatedBy: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
+          glossaryTerms: S.optional(__S(161, __c5, 1)),
           owningProjectId: S.optional(S.String),
-          additionalAttributes: S.optional(__S(2853, __c89, 5)),
-          items: S.optional(__S(321, __c10, 1)),
+          additionalAttributes: S.optional(__S(3205, __c100, 5)),
+          items: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "DataProductListingItem" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ assetListing: __S(2852, __c89, 4) }),
-        /*@__PURE__*/ S.Struct({ dataProductListing: __S(2854, __c89, 6) }),
+        /*@__PURE__*/ S.Struct({ assetListing: __S(3204, __c100, 4) }),
+        /*@__PURE__*/ S.Struct({ dataProductListing: __S(3206, __c100, 6) }),
       ]);
     case 8:
-      return S.Array(__S(2855, __c89, 7));
+      return S.Array(__S(3207, __c100, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -17694,29 +18428,52 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "AggregationOutputItem" });
     case 10:
-      return S.Array(__S(2857, __c89, 9));
+      return S.Array(__S(3209, __c100, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           attribute: S.optional(S.String),
           displayValue: S.optional(S.String),
-          items: S.optional(__S(2858, __c89, 10)),
+          items: S.optional(__S(3210, __c100, 10)),
         }),
       ).annotate({ identifier: "AggregationOutput" });
     case 12:
-      return S.Array(__S(2859, __c89, 11));
+      return S.Array(__S(3211, __c100, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2856, __c89, 8)),
+          items: S.optional(__S(3208, __c100, 8)),
           nextToken: S.optional(S.String),
           totalMatchCount: S.optional(S.Number),
-          aggregates: S.optional(__S(2860, __c89, 12)),
+          aggregates: S.optional(__S(3212, __c100, 12)),
         }),
       ).annotate({ identifier: "SearchListingsOutput" });
   }
 }
-function __c90(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelMetadataGenerationRunInput" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17726,9 +18483,9 @@ function __c90(j: number): any {
           nextToken: S.optional(S.String),
           searchScope: S.String,
           searchText: S.optional(S.String),
-          searchIn: S.optional(__S(2785, __c87, 1)),
-          filters: S.optional(__S(2530, __c79, 2)),
-          sort: S.optional(__S(2786, __c87, 2)),
+          searchIn: S.optional(__S(3137, __c98, 1)),
+          filters: S.optional(__S(2882, __c90, 2)),
+          sort: S.optional(__S(3138, __c98, 2)),
           managed: S.Boolean,
         }).pipe(
           T.all(
@@ -17747,7 +18504,7 @@ function __c90(j: number): any {
           domainId: S.String,
           name: SensitiveString,
           revision: S.String,
-          model: S.optional(__S(5568, __c174, 0)),
+          model: S.optional(__S(5952, __c186, 0)),
           status: S.optional(S.String),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
@@ -17755,7 +18512,7 @@ function __c90(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          imports: S.optional(__S(8865, __c277, 1)),
+          imports: S.optional(__S(8897, __c278, 1)),
         }),
       ).annotate({ identifier: "FormTypeData" });
     case 2:
@@ -17769,71 +18526,28 @@ function __c90(j: number): any {
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedBy: S.optional(S.String),
           revision: S.String,
-          formsOutput: __S(4417, __c138, 1),
+          formsOutput: __S(4801, __c150, 1),
         }),
       ).annotate({ identifier: "LineageNodeTypeItem" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ assetTypeItem: __S(7840, __c245, 0) }),
-        /*@__PURE__*/ S.Struct({ formTypeItem: __S(2881, __c90, 1) }),
-        /*@__PURE__*/ S.Struct({ lineageNodeTypeItem: __S(2882, __c90, 2) }),
+        /*@__PURE__*/ S.Struct({ assetTypeItem: __S(8128, __c254, 0) }),
+        /*@__PURE__*/ S.Struct({ formTypeItem: __S(3265, __c102, 1) }),
+        /*@__PURE__*/ S.Struct({ lineageNodeTypeItem: __S(3266, __c102, 2) }),
       ]);
     case 4:
-      return S.Array(__S(2883, __c90, 3));
+      return S.Array(__S(3267, __c102, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2884, __c90, 4)),
+          items: S.optional(__S(3268, __c102, 4)),
           nextToken: S.optional(S.String),
           totalMatchCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchTypesOutput" });
   }
 }
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v2/domains/{domainIdentifier}/subscriptions/{identifier}/cancel",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CancelSubscriptionInput" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdBy: S.String,
-          updatedBy: S.optional(S.String),
-          domainId: S.String,
-          status: S.String,
-          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          subscribedPrincipal: __S(8387, __c262, 3),
-          subscribedListing: __S(8393, __c262, 9),
-          subscriptionRequestId: S.optional(S.String),
-          retainPermissions: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CancelSubscriptionOutput" });
-  }
-}
-function __c93(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17855,14 +18569,14 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "SearchUserProfilesInput" });
     case 1:
-      return S.Array(__S(6528, __c204, 0));
+      return S.Array(__S(6912, __c216, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(2977, __c93, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(3297, __c103, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "SearchUserProfilesOutput" });
   }
 }
-function __c94(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17894,8 +18608,8 @@ function __c94(j: number): any {
           status: S.String,
           type: S.String,
           dataSourceConfigurationSnapshot: S.optional(S.String),
-          runStatisticsForAssets: S.optional(__S(8128, __c254, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -17904,15 +18618,15 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StartDataSourceRunOutput" });
   }
 }
-function __c95(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           type: S.optional(S.String),
-          types: S.optional(__S(8288, __c259, 0)),
-          target: __S(384, __c12, 0),
+          types: S.optional(__S(96, __c3, 0)),
+          target: __S(672, __c21, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           owningProjectIdentifier: S.String,
         }).pipe(
@@ -17936,7 +18650,7 @@ function __c95(j: number): any {
           id: S.String,
           status: S.optional(S.String),
           type: S.optional(S.String),
-          types: S.optional(__S(8288, __c259, 0)),
+          types: S.optional(__S(96, __c3, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           owningProjectId: S.optional(S.String),
@@ -17944,7 +18658,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "StartMetadataGenerationRunOutput" });
   }
 }
-function __c96(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17980,14 +18694,14 @@ function __c96(j: number): any {
       ).annotate({ identifier: "StartNotebookExportOutput" });
   }
 }
-function __c97(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           owningProjectIdentifier: S.String,
-          sourceLocation: __S(3139, __c98, 3),
+          sourceLocation: __S(3459, __c108, 3),
           name: SensitiveString,
           description: S.optional(SensitiveString),
           type: S.optional(S.String),
@@ -18013,31 +18727,31 @@ function __c97(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           type: S.optional(S.String),
-          sourceLocation: S.optional(__S(3139, __c98, 3)),
+          sourceLocation: S.optional(__S(3459, __c108, 3)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartNotebookImportOutput" });
   }
 }
-function __c98(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: SensitiveString })).annotate({ identifier: "S3File" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3456, __c108, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ bucket: SensitiveString, fileList: __S(3137, __c98, 1) }),
+        S.Struct({ bucket: SensitiveString, fileList: __S(3457, __c108, 1) }),
       ).annotate({ identifier: "S3FilesLocation" });
     case 3:
       return S.Union([
         /*@__PURE__*/ S.Struct({ s3: SensitiveString }),
-        /*@__PURE__*/ S.Struct({ s3Files: __S(3138, __c98, 2) }),
+        /*@__PURE__*/ S.Struct({ s3Files: __S(3458, __c108, 2) }),
       ]);
   }
 }
-function __c99(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18046,13 +18760,13 @@ function __c99(j: number): any {
           owningProjectIdentifier: S.String,
           notebookIdentifier: S.String,
           scheduleIdentifier: S.optional(S.String),
-          computeConfiguration: S.optional(__S(640, __c20, 0)),
-          networkConfiguration: S.optional(__S(641, __c20, 1)),
-          timeoutConfiguration: S.optional(__S(642, __c20, 2)),
-          notificationConfiguration: S.optional(__S(644, __c20, 4)),
-          triggerSource: S.optional(__S(608, __c19, 0)),
-          metadata: S.optional(__S(5920, __c185, 0)),
-          parameters: S.optional(__S(4544, __c142, 0)),
+          computeConfiguration: S.optional(__S(928, __c29, 0)),
+          networkConfiguration: S.optional(__S(929, __c29, 1)),
+          timeoutConfiguration: S.optional(__S(930, __c29, 2)),
+          notificationConfiguration: S.optional(__S(932, __c29, 4)),
+          triggerSource: S.optional(__S(896, __c28, 0)),
+          metadata: S.optional(__S(6304, __c197, 0)),
+          parameters: S.optional(__S(4928, __c154, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -18067,15 +18781,15 @@ function __c99(j: number): any {
       ).annotate({ identifier: "StartNotebookRunInput" });
   }
 }
-function __c100(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           owningProjectIdentifier: S.String,
-          sourceLocation: __S(3139, __c98, 3),
-          gitMetadata: S.optional(__S(5952, __c186, 0)),
+          sourceLocation: __S(3459, __c108, 3),
+          gitMetadata: S.optional(__S(6336, __c198, 0)),
           notebookId: S.optional(S.String),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
@@ -18098,8 +18812,8 @@ function __c100(j: number): any {
           status: S.optional(S.String),
           domainId: S.optional(S.String),
           owningProjectId: S.optional(S.String),
-          sourceLocation: S.optional(__S(3139, __c98, 3)),
-          gitMetadata: S.optional(__S(5952, __c186, 0)),
+          sourceLocation: S.optional(__S(3459, __c108, 3)),
+          gitMetadata: S.optional(__S(6336, __c198, 0)),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -18108,7 +18822,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "StartNotebookSyncOutput" });
   }
 }
-function __c101(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18136,13 +18850,13 @@ function __c101(j: number): any {
       ).annotate({ identifier: "StopNotebookRunOutput" });
   }
 }
-function __c102(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(4544, __c142, 0),
+          tags: __S(4928, __c154, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -18156,13 +18870,56 @@ function __c102(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c103(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/v2/domains/{domainIdentifier}/subscriptions/{identifier}/cancel",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelSubscriptionInput" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdBy: S.String,
+          updatedBy: S.optional(S.String),
+          domainId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          subscribedPrincipal: __S(195, __c6, 3),
+          subscribedListing: __S(201, __c6, 9),
+          subscriptionRequestId: S.optional(S.String),
+          retainPermissions: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CancelSubscriptionOutput" });
+  }
+}
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(8224, __c257, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(32, __c1, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -18176,73 +18933,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          name: SensitiveString,
-          description: S.optional(SensitiveString),
-          resolutionStrategy: S.String,
-          accountSource: __S(3393, __c106, 1),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/account-pools" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateAccountPoolInput" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          awsAccountId: S.String,
-          supportedRegions: __S(8224, __c257, 0),
-          awsAccountName: S.optional(SensitiveString),
-        }),
-      ).annotate({ identifier: "AccountInfo" });
-    case 1:
-      return S.Array(__S(3360, __c105, 0));
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ lambdaFunctionArn: S.String, lambdaExecutionRoleArn: S.optional(S.String) }),
-      ).annotate({ identifier: "CustomAccountPoolHandler" });
-    case 1:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ accounts: __S(3361, __c105, 1) }),
-        /*@__PURE__*/ S.Struct({ customAccountPoolHandler: __S(3392, __c106, 0) }),
-      ]);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.optional(S.String),
-          name: S.optional(SensitiveString),
-          id: S.optional(S.String),
-          description: S.optional(SensitiveString),
-          resolutionStrategy: S.optional(S.String),
-          accountSource: __S(3393, __c106, 1),
-          createdBy: S.String,
-          createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          updatedBy: S.optional(S.String),
-          domainUnitId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAccountPoolOutput" });
-  }
-}
-function __c107(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18252,7 +18943,7 @@ function __c107(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           resolutionStrategy: S.optional(S.String),
-          accountSource: S.optional(__S(3393, __c106, 1)),
+          accountSource: S.optional(__S(4065, __c127, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -18269,7 +18960,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateAccountPoolInput" });
   }
 }
-function __c108(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18279,7 +18970,7 @@ function __c108(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(S.String),
           description: S.optional(SensitiveString),
-          configuration: S.optional(__S(4232, __c132, 8)),
+          configuration: S.optional(__S(4712, __c147, 8)),
         }).pipe(
           T.all(
             T.Http({
@@ -18296,71 +18987,81 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateAssetFilterInput" });
   }
 }
-function __c109(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretArn: S.optional(S.String),
-          basicAuthenticationCredentials: S.optional(__S(4480, __c140, 0)),
+          oAuth2GrantType: S.optional(S.String),
+          oAuth2ClientApplication: S.optional(__S(4965, __c155, 5)),
+          tokenUrl: S.optional(S.String),
+          tokenUrlParametersMap: S.optional(__S(4928, __c154, 0)),
         }),
-      ).annotate({ identifier: "AuthenticationConfigurationPatch" });
+      ).annotate({ identifier: "OAuth2PropertiesPatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          connectionProperties: S.optional(__S(4544, __c142, 0)),
-          authenticationConfiguration: S.optional(__S(3488, __c109, 0)),
+          secretArn: S.optional(S.String),
+          basicAuthenticationCredentials: S.optional(__S(4864, __c152, 0)),
+          oAuth2Properties: S.optional(__S(3776, __c118, 0)),
         }),
-      ).annotate({ identifier: "GlueConnectionPatch" });
+      ).annotate({ identifier: "AuthenticationConfigurationPatch" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ glueConnectionInput: S.optional(__S(3489, __c109, 1)) }),
-      ).annotate({ identifier: "GluePropertiesPatch" });
+        S.Struct({
+          description: S.optional(S.String),
+          connectionProperties: S.optional(__S(4928, __c154, 0)),
+          authenticationConfiguration: S.optional(__S(3777, __c118, 1)),
+        }),
+      ).annotate({ identifier: "GlueConnectionPatch" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          connectivityPropertiesPatch: S.optional(__S(3489, __c109, 1)),
-          snowflakeRole: S.optional(S.String),
-          lineageSync: S.optional(__S(4485, __c140, 5)),
-        }),
-      ).annotate({ identifier: "SnowflakePropertiesPatch" });
+        S.Struct({ glueConnectionInput: S.optional(__S(3778, __c118, 2)) }),
+      ).annotate({ identifier: "GluePropertiesPatch" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          connectivityPropertiesPatch: S.optional(__S(3778, __c118, 2)),
+          snowflakeRole: S.optional(S.String),
+          lineageSync: S.optional(__S(4869, __c152, 5)),
+        }),
+      ).annotate({ identifier: "SnowflakePropertiesPatch" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           vpcId: S.optional(S.String),
-          subnetIds: S.optional(__S(8224, __c257, 0)),
+          subnetIds: S.optional(__S(32, __c1, 0)),
           securityGroupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcPropertiesPatch" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({ codeConnectionArn: S.optional(S.String), defaultBranch: S.optional(S.String) }),
       ).annotate({ identifier: "GitPropertiesPatch" });
-    case 6:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4579, __c143, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(3490, __c109, 2) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4595, __c143, 19) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4482, __c140, 2) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4483, __c140, 3) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4484, __c140, 4) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(3491, __c109, 3) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4592, __c143, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4593, __c143, 17) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4595, __c143, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(3492, __c109, 4) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(3493, __c109, 5) }),
-      ]);
     case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(3779, __c118, 3) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(4979, __c155, 19) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4866, __c152, 2) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4867, __c152, 3) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(4868, __c152, 4) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(3780, __c118, 4) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(3781, __c118, 5) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(3782, __c118, 6) }),
+      ]);
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4578, __c143, 2)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(SensitiveString),
-          awsLocation: S.optional(__S(4576, __c143, 0)),
-          props: S.optional(__S(3494, __c109, 6)),
+          awsLocation: S.optional(__S(4960, __c155, 0)),
+          props: S.optional(__S(3783, __c118, 7)),
         }).pipe(
           T.all(
             T.Http({
@@ -18375,26 +19076,26 @@ function __c109(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateConnectionInput" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4578, __c143, 2)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           connectionId: S.String,
           description: S.optional(SensitiveString),
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4599, __c143, 23),
+          physicalEndpoints: __S(4983, __c155, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4612, __c144, 4)),
+          props: S.optional(__S(4996, __c156, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateConnectionOutput" });
   }
 }
-function __c110(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18405,10 +19106,10 @@ function __c110(j: number): any {
           description: S.optional(SensitiveString),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsInput: S.optional(__S(2113, __c66, 1)),
-          schedule: S.optional(__S(4800, __c150, 0)),
-          configuration: S.optional(__S(4771, __c149, 3)),
-          recommendation: S.optional(__S(4896, __c153, 0)),
+          assetFormsInput: S.optional(__S(2785, __c87, 1)),
+          schedule: S.optional(__S(5184, __c162, 0)),
+          configuration: S.optional(__S(5155, __c161, 3)),
+          recommendation: S.optional(__S(5280, __c165, 0)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -18436,25 +19137,25 @@ function __c110(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(4843, __c151, 11)),
-          recommendation: S.optional(__S(4896, __c153, 0)),
+          configuration: S.optional(__S(5227, __c163, 11)),
+          recommendation: S.optional(__S(5280, __c165, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsOutput: S.optional(__S(8257, __c258, 1)),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          assetFormsOutput: S.optional(__S(65, __c2, 1)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(4864, __c152, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(6819, __c213, 3)),
+          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateDataSourceOutput" });
   }
 }
-function __c111(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18481,14 +19182,14 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateDesignationInput" });
   }
 }
-function __c112(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5024, __c157, 0)),
+          singleSignOn: S.optional(__S(5408, __c169, 0)),
           domainExecutionRole: S.optional(S.String),
           serviceRole: S.optional(S.String),
           name: S.optional(S.String),
@@ -18510,7 +19211,7 @@ function __c112(j: number): any {
           id: S.String,
           rootDomainUnitId: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5024, __c157, 0)),
+          singleSignOn: S.optional(__S(5408, __c169, 0)),
           domainExecutionRole: S.optional(S.String),
           serviceRole: S.optional(S.String),
           name: S.optional(S.String),
@@ -18519,7 +19220,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateDomainOutput" });
   }
 }
-function __c113(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18548,7 +19249,7 @@ function __c113(j: number): any {
           id: S.String,
           domainId: S.String,
           name: SensitiveString,
-          owners: __S(5091, __c159, 3),
+          owners: __S(5475, __c171, 3),
           description: S.optional(SensitiveString),
           parentDomainUnitId: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -18559,7 +19260,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateDomainUnitOutput" });
   }
 }
-function __c114(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18568,9 +19269,9 @@ function __c114(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           blueprintVersion: S.optional(S.String),
-          userParameters: S.optional(__S(5249, __c164, 1)),
+          userParameters: S.optional(__S(5633, __c176, 1)),
           environmentConfigurationName: S.optional(SensitiveString),
         }).pipe(
           T.all(
@@ -18588,7 +19289,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentInput" });
   }
 }
-function __c115(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18596,7 +19297,7 @@ function __c115(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
-          parameters: S.optional(__S(5377, __c168, 1)),
+          parameters: S.optional(__S(5761, __c180, 1)),
           name: S.optional(S.String),
           description: S.optional(S.String),
         }).pipe(
@@ -18615,7 +19316,73 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentActionInput" });
   }
 }
-function __c116(j: number): any {
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          name: SensitiveString,
+          description: S.optional(SensitiveString),
+          resolutionStrategy: S.String,
+          accountSource: __S(4065, __c127, 1),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/account-pools" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateAccountPoolInput" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          awsAccountId: S.String,
+          supportedRegions: __S(32, __c1, 0),
+          awsAccountName: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "AccountInfo" });
+    case 1:
+      return S.Array(__S(4032, __c126, 0));
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ lambdaFunctionArn: S.String, lambdaExecutionRoleArn: S.optional(S.String) }),
+      ).annotate({ identifier: "CustomAccountPoolHandler" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ accounts: __S(4033, __c126, 1) }),
+        /*@__PURE__*/ S.Struct({ customAccountPoolHandler: __S(4064, __c127, 0) }),
+      ]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.optional(S.String),
+          name: S.optional(SensitiveString),
+          id: S.optional(S.String),
+          description: S.optional(SensitiveString),
+          resolutionStrategy: S.optional(S.String),
+          accountSource: __S(4065, __c127, 1),
+          createdBy: S.String,
+          createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          updatedBy: S.optional(S.String),
+          domainUnitId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAccountPoolOutput" });
+  }
+}
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18623,8 +19390,8 @@ function __c116(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(S.String),
-          provisioningProperties: S.optional(__S(5185, __c162, 1)),
-          userParameters: S.optional(__S(5153, __c161, 1)),
+          provisioningProperties: S.optional(__S(5569, __c174, 1)),
+          userParameters: S.optional(__S(5537, __c173, 1)),
           blueprintCategory: S.optional(S.String),
         }).pipe(
           T.all(
@@ -18642,98 +19409,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentBlueprintInput" });
   }
 }
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: SensitiveString,
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          externalIdentifier: S.optional(S.String),
-          typeIdentifier: S.String,
-          typeRevision: S.optional(S.String),
-          description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          formsInput: S.optional(__S(2113, __c66, 1)),
-          owningProjectIdentifier: S.String,
-          predictionConfiguration: S.optional(__S(3777, __c118, 1)),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/assets" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateAssetInput" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "BusinessNameGenerationConfiguration",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ businessNameGeneration: S.optional(__S(3776, __c118, 0)) }),
-      ).annotate({ identifier: "PredictionConfiguration" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: SensitiveString,
-          typeIdentifier: S.String,
-          typeRevision: S.String,
-          externalIdentifier: S.optional(S.String),
-          revision: S.String,
-          description: S.optional(SensitiveString),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          createdBy: S.optional(S.String),
-          firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          firstRevisionCreatedBy: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          governedGlossaryTerms: S.optional(__S(8224, __c257, 0)),
-          owningProjectId: S.String,
-          domainId: S.String,
-          listing: S.optional(__S(3808, __c119, 0)),
-          formsOutput: __S(8257, __c258, 1),
-          readOnlyFormsOutput: S.optional(__S(8257, __c258, 1)),
-          latestTimeSeriesDataPointFormsOutput: S.optional(__S(3841, __c120, 1)),
-          predictionConfiguration: S.optional(__S(3777, __c118, 1)),
-        }),
-      ).annotate({ identifier: "CreateAssetOutput" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ listingId: S.String, listingStatus: S.String })).annotate({
-        identifier: "AssetListingDetails",
-      });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          formName: S.String,
-          typeIdentifier: S.String,
-          typeRevision: S.optional(S.String),
-          timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          contentSummary: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeSeriesDataPointSummaryFormOutput" });
-    case 1:
-      return S.Array(__S(3840, __c120, 0));
-  }
-}
-function __c121(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18742,7 +19418,7 @@ function __c121(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
           description: S.optional(S.String),
-          userParameters: S.optional(__S(5249, __c164, 1)),
+          userParameters: S.optional(__S(5633, __c176, 1)),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
         }).pipe(
@@ -18761,7 +19437,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentProfileInput" });
   }
 }
-function __c122(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18788,7 +19464,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryInput" });
   }
 }
-function __c123(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18799,7 +19475,7 @@ function __c123(j: number): any {
           name: S.optional(SensitiveString),
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(5696, __c178, 0)),
+          termRelations: S.optional(__S(6080, __c190, 0)),
           status: S.optional(S.String),
         }).pipe(
           T.all(
@@ -18817,7 +19493,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryTermInput" });
   }
 }
-function __c124(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18841,7 +19517,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "UpdateGroupProfileInput" });
   }
 }
-function __c125(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18851,11 +19527,11 @@ function __c125(j: number): any {
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
           name: S.optional(SensitiveString),
-          cellOrder: S.optional(__S(5921, __c185, 1)),
+          cellOrder: S.optional(__S(6305, __c197, 1)),
           type: S.optional(S.String),
-          metadata: S.optional(__S(5920, __c185, 0)),
-          parameters: S.optional(__S(4544, __c142, 0)),
-          environmentConfiguration: S.optional(__S(5923, __c185, 3)),
+          metadata: S.optional(__S(6304, __c197, 0)),
+          parameters: S.optional(__S(4928, __c154, 0)),
+          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -18873,7 +19549,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "UpdateNotebookInput" });
   }
 }
-function __c126(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18882,11 +19558,11 @@ function __c126(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          resourceTags: S.optional(__S(4544, __c142, 0)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          resourceTags: S.optional(__S(4928, __c154, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
-          environmentDeploymentDetails: S.optional(__S(6087, __c190, 7)),
-          userParameters: S.optional(__S(6082, __c190, 2)),
+          environmentDeploymentDetails: S.optional(__S(6471, __c202, 7)),
+          userParameters: S.optional(__S(6466, __c202, 2)),
           projectProfileVersion: S.optional(S.String),
         }).pipe(
           T.all(
@@ -18904,7 +19580,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UpdateProjectInput" });
   }
 }
-function __c127(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18914,10 +19590,10 @@ function __c127(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6209, __c194, 1)),
+          projectResourceTags: S.optional(__S(6593, __c206, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6215, __c194, 7)),
+          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
           domainUnitIdentifier: S.optional(S.String),
         }).pipe(
           T.all(
@@ -18935,7 +19611,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "UpdateProjectProfileInput" });
   }
 }
-function __c128(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18960,7 +19636,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "UpdateRootDomainUnitOwnerInput" });
   }
 }
-function __c129(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18969,8 +19645,8 @@ function __c129(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          scope: S.optional(__S(6276, __c196, 4)),
-          detail: S.optional(__S(6308, __c197, 4)),
+          scope: S.optional(__S(6660, __c208, 4)),
+          detail: S.optional(__S(6692, __c209, 4)),
           includeChildDomainUnits: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -18990,10 +19666,10 @@ function __c129(j: number): any {
           revision: S.String,
           name: SensitiveString,
           ruleType: S.String,
-          target: __S(6273, __c196, 1),
+          target: __S(6657, __c208, 1),
           action: S.String,
-          scope: __S(6276, __c196, 4),
-          detail: __S(6308, __c197, 4),
+          scope: __S(6660, __c208, 4),
+          detail: __S(6692, __c209, 4),
           description: S.optional(SensitiveString),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -19003,7 +19679,98 @@ function __c129(j: number): any {
       ).annotate({ identifier: "UpdateRuleOutput" });
   }
 }
-function __c130(j: number): any {
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: SensitiveString,
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          externalIdentifier: S.optional(S.String),
+          typeIdentifier: S.String,
+          typeRevision: S.optional(S.String),
+          description: S.optional(SensitiveString),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          formsInput: S.optional(__S(2785, __c87, 1)),
+          owningProjectIdentifier: S.String,
+          predictionConfiguration: S.optional(__S(4449, __c139, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/assets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateAssetInput" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "BusinessNameGenerationConfiguration",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ businessNameGeneration: S.optional(__S(4448, __c139, 0)) }),
+      ).annotate({ identifier: "PredictionConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: SensitiveString,
+          typeIdentifier: S.String,
+          typeRevision: S.String,
+          externalIdentifier: S.optional(S.String),
+          revision: S.String,
+          description: S.optional(SensitiveString),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          createdBy: S.optional(S.String),
+          firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          firstRevisionCreatedBy: S.optional(S.String),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          governedGlossaryTerms: S.optional(__S(32, __c1, 0)),
+          owningProjectId: S.String,
+          domainId: S.String,
+          listing: S.optional(__S(4480, __c140, 0)),
+          formsOutput: __S(65, __c2, 1),
+          readOnlyFormsOutput: S.optional(__S(65, __c2, 1)),
+          latestTimeSeriesDataPointFormsOutput: S.optional(__S(4513, __c141, 1)),
+          predictionConfiguration: S.optional(__S(4449, __c139, 1)),
+        }),
+      ).annotate({ identifier: "CreateAssetOutput" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ listingId: S.String, listingStatus: S.String })).annotate({
+        identifier: "AssetListingDetails",
+      });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          formName: S.String,
+          typeIdentifier: S.String,
+          typeRevision: S.optional(S.String),
+          timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          contentSummary: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimeSeriesDataPointSummaryFormOutput" });
+    case 1:
+      return S.Array(__S(4512, __c141, 0));
+  }
+}
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19012,7 +19779,7 @@ function __c130(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
           status: S.String,
-          failureCause: S.optional(__S(6370, __c199, 2)),
+          failureCause: S.optional(__S(6754, __c211, 2)),
           targetName: S.optional(S.String),
         }).pipe(
           T.all(
@@ -19030,112 +19797,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionGrantStatusInput" });
   }
 }
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-          name: SensitiveString,
-          description: S.optional(SensitiveString),
-          configuration: __S(4232, __c132, 8),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "POST",
-              uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateAssetFilterInput" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ includedColumnNames: S.optional(__S(8224, __c257, 0)) }),
-      ).annotate({ identifier: "ColumnFilterConfiguration" });
-    case 1:
-      return S.suspend(() => S.Struct({ columnName: S.String, value: S.String })).annotate({
-        identifier: "EqualToExpression",
-      });
-    case 2:
-      return S.suspend(() => S.Struct({ columnName: S.String })).annotate({
-        identifier: "IsNullExpression",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ columnName: S.String, values: __S(8224, __c257, 0) }),
-      ).annotate({ identifier: "InExpression" });
-    case 4:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ equalTo: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ notEqualTo: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ greaterThan: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ lessThan: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ greaterThanOrEqualTo: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ lessThanOrEqualTo: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ isNull: __S(4226, __c132, 2) }),
-        /*@__PURE__*/ S.Struct({ isNotNull: __S(4226, __c132, 2) }),
-        /*@__PURE__*/ S.Struct({ in: __S(4227, __c132, 3) }),
-        /*@__PURE__*/ S.Struct({ notIn: __S(4227, __c132, 3) }),
-        /*@__PURE__*/ S.Struct({ like: __S(4225, __c132, 1) }),
-        /*@__PURE__*/ S.Struct({ notLike: __S(4225, __c132, 1) }),
-      ]);
-    case 5:
-      return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(4230, __c132, 6)).annotate({ identifier: "RowFilter" }),
-      );
-    case 6:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ expression: __S(4228, __c132, 4) }),
-        /*@__PURE__*/ S.Struct({
-          and: /*@__PURE__*/ S.suspend(() => __S(4229, __c132, 5)).annotate({
-            identifier: "RowFilterList",
-          }),
-        }),
-        /*@__PURE__*/ S.Struct({
-          or: /*@__PURE__*/ S.suspend(() => __S(4229, __c132, 5)).annotate({
-            identifier: "RowFilterList",
-          }),
-        }),
-      ]);
-    case 7:
-      return S.suspend(() =>
-        S.Struct({ rowFilter: __S(4230, __c132, 6), sensitive: S.optional(S.Boolean) }),
-      ).annotate({ identifier: "RowFilterConfiguration" });
-    case 8:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ columnConfiguration: __S(4224, __c132, 0) }),
-        /*@__PURE__*/ S.Struct({ rowConfiguration: __S(4231, __c132, 7) }),
-      ]);
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          domainId: S.String,
-          assetId: S.String,
-          name: SensitiveString,
-          description: S.optional(SensitiveString),
-          status: S.optional(S.String),
-          configuration: __S(4232, __c132, 8),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          errorMessage: S.optional(S.String),
-          effectiveColumnNames: S.optional(__S(8224, __c257, 0)),
-          effectiveRowFilter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAssetFilterOutput" });
-  }
-}
-function __c133(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19159,7 +19821,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionRequestInput" });
   }
 }
-function __c134(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19168,9 +19830,9 @@ function __c134(j: number): any {
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
-          authorizedPrincipals: S.optional(__S(8224, __c257, 0)),
-          applicableAssetTypes: S.optional(__S(8224, __c257, 0)),
-          subscriptionTargetConfig: S.optional(__S(6465, __c202, 1)),
+          authorizedPrincipals: S.optional(__S(32, __c1, 0)),
+          applicableAssetTypes: S.optional(__S(32, __c1, 0)),
+          subscriptionTargetConfig: S.optional(__S(6849, __c214, 1)),
           manageAccessRole: S.optional(S.String),
           provider: S.optional(S.String),
           subscriptionGrantCreationMode: S.optional(S.String),
@@ -19190,7 +19852,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionTargetInput" });
   }
 }
-function __c135(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19216,7 +19878,112 @@ function __c135(j: number): any {
       ).annotate({ identifier: "UpdateUserProfileInput" });
   }
 }
-function __c136(j: number): any {
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
+          name: SensitiveString,
+          description: S.optional(SensitiveString),
+          configuration: __S(4712, __c147, 8),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateAssetFilterInput" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ includedColumnNames: S.optional(__S(32, __c1, 0)) }),
+      ).annotate({ identifier: "ColumnFilterConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ columnName: S.String, value: S.String })).annotate({
+        identifier: "EqualToExpression",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ columnName: S.String })).annotate({
+        identifier: "IsNullExpression",
+      });
+    case 3:
+      return S.suspend(() => S.Struct({ columnName: S.String, values: __S(32, __c1, 0) })).annotate(
+        { identifier: "InExpression" },
+      );
+    case 4:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ equalTo: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ notEqualTo: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ greaterThan: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ lessThan: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ greaterThanOrEqualTo: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ lessThanOrEqualTo: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ isNull: __S(4706, __c147, 2) }),
+        /*@__PURE__*/ S.Struct({ isNotNull: __S(4706, __c147, 2) }),
+        /*@__PURE__*/ S.Struct({ in: __S(4707, __c147, 3) }),
+        /*@__PURE__*/ S.Struct({ notIn: __S(4707, __c147, 3) }),
+        /*@__PURE__*/ S.Struct({ like: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ notLike: __S(4705, __c147, 1) }),
+      ]);
+    case 5:
+      return S.Array(
+        /*@__PURE__*/ S.suspend(() => __S(4710, __c147, 6)).annotate({ identifier: "RowFilter" }),
+      );
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ expression: __S(4708, __c147, 4) }),
+        /*@__PURE__*/ S.Struct({
+          and: /*@__PURE__*/ S.suspend(() => __S(4709, __c147, 5)).annotate({
+            identifier: "RowFilterList",
+          }),
+        }),
+        /*@__PURE__*/ S.Struct({
+          or: /*@__PURE__*/ S.suspend(() => __S(4709, __c147, 5)).annotate({
+            identifier: "RowFilterList",
+          }),
+        }),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ rowFilter: __S(4710, __c147, 6), sensitive: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "RowFilterConfiguration" });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ columnConfiguration: __S(4704, __c147, 0) }),
+        /*@__PURE__*/ S.Struct({ rowConfiguration: __S(4711, __c147, 7) }),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          domainId: S.String,
+          assetId: S.String,
+          name: SensitiveString,
+          description: S.optional(SensitiveString),
+          status: S.optional(S.String),
+          configuration: __S(4712, __c147, 8),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          errorMessage: S.optional(S.String),
+          effectiveColumnNames: S.optional(__S(32, __c1, 0)),
+          effectiveRowFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAssetFilterOutput" });
+  }
+}
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19226,9 +19993,9 @@ function __c136(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           typeRevision: S.optional(S.String),
           description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          formsInput: S.optional(__S(2113, __c66, 1)),
-          predictionConfiguration: S.optional(__S(3777, __c118, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          formsInput: S.optional(__S(2785, __c87, 1)),
+          predictionConfiguration: S.optional(__S(4449, __c139, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19246,7 +20013,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateAssetRevisionInput" });
   }
 }
-function __c137(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19257,14 +20024,14 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "FormEntryInput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4384, __c137, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4768, __c149, 0).pipe(S.optional));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: S.String,
           description: S.optional(SensitiveString),
-          formsInput: __S(4385, __c137, 1),
+          formsInput: __S(4769, __c149, 1),
           owningProjectIdentifier: S.String,
         }).pipe(
           T.all(
@@ -19284,7 +20051,7 @@ function __c137(j: number): any {
           name: S.String,
           revision: S.String,
           description: S.optional(SensitiveString),
-          formsOutput: __S(4417, __c138, 1),
+          formsOutput: __S(4801, __c150, 1),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -19296,7 +20063,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreateAssetTypeOutput" });
   }
 }
-function __c138(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19307,42 +20074,42 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "FormEntryOutput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4416, __c138, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4800, __c150, 0).pipe(S.optional));
   }
 }
-function __c139(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authenticationType: S.optional(S.String),
-          oAuth2Properties: S.optional(__S(4584, __c143, 8)),
+          oAuth2Properties: S.optional(__S(4968, __c155, 8)),
           secretArn: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
-          basicAuthenticationCredentials: S.optional(__S(4480, __c140, 0)),
-          customAuthenticationCredentials: S.optional(__S(4544, __c142, 0)),
+          basicAuthenticationCredentials: S.optional(__S(4864, __c152, 0)),
+          customAuthenticationCredentials: S.optional(__S(4928, __c154, 0)),
         }),
       ).annotate({ identifier: "AuthenticationConfigurationInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectionProperties: S.optional(__S(4544, __c142, 0)),
-          physicalConnectionRequirements: S.optional(__S(4580, __c143, 4)),
+          connectionProperties: S.optional(__S(4928, __c154, 0)),
+          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           connectionType: S.optional(S.String),
           matchCriteria: S.optional(S.String),
           validateCredentials: S.optional(S.Boolean),
-          validateForComputeEnvironments: S.optional(__S(8288, __c259, 0)),
-          sparkProperties: S.optional(__S(4544, __c142, 0)),
-          athenaProperties: S.optional(__S(4544, __c142, 0)),
-          pythonProperties: S.optional(__S(4544, __c142, 0)),
-          authenticationConfiguration: S.optional(__S(4448, __c139, 0)),
+          validateForComputeEnvironments: S.optional(__S(96, __c3, 0)),
+          sparkProperties: S.optional(__S(4928, __c154, 0)),
+          athenaProperties: S.optional(__S(4928, __c154, 0)),
+          pythonProperties: S.optional(__S(4928, __c154, 0)),
+          authenticationConfiguration: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "GlueConnectionInput" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ glueConnectionInput: S.optional(__S(4449, __c139, 1)) }),
+        S.Struct({ glueConnectionInput: S.optional(__S(4833, __c151, 1)) }),
       ).annotate({ identifier: "GluePropertiesInput" });
     case 3:
       return S.suspend(() =>
@@ -19351,32 +20118,32 @@ function __c139(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connectionProperties: S.optional(__S(4544, __c142, 0)),
-          physicalConnectionRequirements: S.optional(__S(4580, __c143, 4)),
+          connectionProperties: S.optional(__S(4928, __c154, 0)),
+          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           validateCredentials: S.optional(S.Boolean),
-          validateForComputeEnvironments: S.optional(__S(8288, __c259, 0)),
-          sparkProperties: S.optional(__S(4544, __c142, 0)),
-          athenaProperties: S.optional(__S(4544, __c142, 0)),
-          pythonProperties: S.optional(__S(4544, __c142, 0)),
-          authenticationConfiguration: S.optional(__S(4448, __c139, 0)),
+          validateForComputeEnvironments: S.optional(__S(96, __c3, 0)),
+          sparkProperties: S.optional(__S(4928, __c154, 0)),
+          athenaProperties: S.optional(__S(4928, __c154, 0)),
+          pythonProperties: S.optional(__S(4928, __c154, 0)),
+          authenticationConfiguration: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "ConnectivityProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          connectivityProperties: S.optional(__S(4452, __c139, 4)),
+          connectivityProperties: S.optional(__S(4836, __c151, 4)),
           snowflakeRole: S.String,
-          identityMapping: __S(4591, __c143, 15),
-          lineageSync: S.optional(__S(4485, __c140, 5)),
+          identityMapping: __S(4975, __c155, 15),
+          lineageSync: S.optional(__S(4869, __c152, 5)),
         }),
       ).annotate({ identifier: "SnowflakePropertiesInput" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           vpcId: S.String,
-          subnetIds: __S(8224, __c257, 0),
+          subnetIds: __S(32, __c1, 0),
           securityGroupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcPropertiesInput" });
@@ -19386,34 +20153,34 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GitPropertiesInput" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4579, __c143, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(4450, __c139, 2) }),
-        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4512, __c141, 0) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4451, __c139, 3) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4482, __c140, 2) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4483, __c140, 3) }),
-        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4590, __c143, 14) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4484, __c140, 4) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4453, __c139, 5) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4592, __c143, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4593, __c143, 17) }),
-        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4594, __c143, 18) }),
-        /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(32, __c1, 0) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4595, __c143, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4454, __c139, 6) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(4455, __c139, 7) }),
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(4834, __c151, 2) }),
+        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4896, __c153, 0) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(4835, __c151, 3) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4866, __c152, 2) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4867, __c152, 3) }),
+        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4974, __c155, 14) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(4868, __c152, 4) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4837, __c151, 5) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
+        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4978, __c155, 18) }),
+        /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(768, __c24, 0) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4838, __c151, 6) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(4839, __c151, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          awsLocation: S.optional(__S(4576, __c143, 0)),
+          awsLocation: S.optional(__S(4960, __c155, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          configurations: S.optional(__S(4578, __c143, 2)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           description: S.optional(SensitiveString),
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.optional(S.String),
           name: S.String,
-          props: S.optional(__S(4456, __c139, 8)),
+          props: S.optional(__S(4840, __c151, 8)),
           enableTrustedIdentityPropagation: S.optional(S.Boolean),
           scope: S.optional(S.String),
         }).pipe(
@@ -19431,22 +20198,22 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectionId: S.String,
-          configurations: S.optional(__S(4578, __c143, 2)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           description: S.optional(SensitiveString),
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4599, __c143, 23),
+          physicalEndpoints: __S(4983, __c155, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4612, __c144, 4)),
+          props: S.optional(__S(4996, __c156, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateConnectionOutput" });
   }
 }
-function __c140(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19454,17 +20221,17 @@ function __c140(j: number): any {
       ).annotate({ identifier: "BasicAuthenticationCredentials" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), schedule: S.optional(__S(4588, __c143, 12)) }),
+        S.Struct({ enabled: S.optional(S.Boolean), schedule: S.optional(__S(4972, __c155, 12)) }),
       ).annotate({ identifier: "RedshiftLineageSyncConfigurationInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(4585, __c143, 9)),
+          storage: S.optional(__S(4969, __c155, 9)),
           databaseName: S.optional(S.String),
           host: S.optional(S.String),
           port: S.optional(S.Number),
-          credentials: S.optional(__S(4587, __c143, 11)),
-          lineageSync: S.optional(__S(4481, __c140, 1)),
+          credentials: S.optional(__S(4971, __c155, 11)),
+          lineageSync: S.optional(__S(4865, __c152, 1)),
         }),
       ).annotate({ identifier: "RedshiftPropertiesInput" });
     case 3:
@@ -19498,7 +20265,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "LineageSyncInput" });
   }
 }
-function __c141(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ clusterName: S.String })).annotate({
@@ -19506,13 +20273,13 @@ function __c141(j: number): any {
       });
   }
 }
-function __c142(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c143(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19527,11 +20294,11 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           classification: S.optional(S.String),
-          properties: S.optional(__S(4544, __c142, 0)),
+          properties: S.optional(__S(4928, __c154, 0)),
         }),
       ).annotate({ identifier: "Configuration" });
     case 2:
-      return S.Array(__S(4577, __c143, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.suspend(() => S.Struct({ workgroupName: S.optional(S.String) })).annotate({
         identifier: "AthenaPropertiesInput",
@@ -19540,8 +20307,8 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subnetId: S.optional(S.String),
-          subnetIdList: S.optional(__S(8224, __c257, 0)),
-          securityGroupIdList: S.optional(__S(8224, __c257, 0)),
+          subnetIdList: S.optional(__S(32, __c1, 0)),
+          securityGroupIdList: S.optional(__S(32, __c1, 0)),
           availabilityZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "PhysicalConnectionRequirements" });
@@ -19569,11 +20336,11 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oAuth2GrantType: S.optional(S.String),
-          oAuth2ClientApplication: S.optional(__S(4581, __c143, 5)),
+          oAuth2ClientApplication: S.optional(__S(4965, __c155, 5)),
           tokenUrl: S.optional(S.String),
-          tokenUrlParametersMap: S.optional(__S(4544, __c142, 0)),
-          authorizationCodeProperties: S.optional(__S(4582, __c143, 6)),
-          oAuth2Credentials: S.optional(__S(4583, __c143, 7)),
+          tokenUrlParametersMap: S.optional(__S(4928, __c154, 0)),
+          authorizationCodeProperties: S.optional(__S(4966, __c155, 6)),
+          oAuth2Credentials: S.optional(__S(4967, __c155, 7)),
         }),
       ).annotate({ identifier: "OAuth2Properties" });
     case 9:
@@ -19588,7 +20355,7 @@ function __c143(j: number): any {
     case 11:
       return S.Union([
         /*@__PURE__*/ S.Struct({ secretArn: S.String }),
-        /*@__PURE__*/ S.Struct({ usernamePassword: __S(4586, __c143, 10) }),
+        /*@__PURE__*/ S.Struct({ usernamePassword: __S(4970, __c155, 10) }),
       ]);
     case 12:
       return S.suspend(() => S.Struct({ schedule: S.optional(S.String) })).annotate({
@@ -19601,9 +20368,9 @@ function __c143(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          additionalArgs: S.optional(__S(4589, __c143, 13)),
+          additionalArgs: S.optional(__S(4973, __c155, 13)),
           glueConnectionName: S.optional(S.String),
-          glueConnectionNames: S.optional(__S(8224, __c257, 0)),
+          glueConnectionNames: S.optional(__S(32, __c1, 0)),
           glueVersion: S.optional(S.String),
           idleTimeout: S.optional(S.Number),
           javaVirtualEnv: S.optional(S.String),
@@ -19641,7 +20408,7 @@ function __c143(j: number): any {
         S.Struct({
           authenticationType: S.optional(S.String),
           secretArn: S.optional(S.String),
-          oAuth2Properties: S.optional(__S(4584, __c143, 8)),
+          oAuth2Properties: S.optional(__S(4968, __c155, 8)),
         }),
       ).annotate({ identifier: "AuthenticationConfiguration" });
     case 21:
@@ -19650,30 +20417,30 @@ function __c143(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           connectionType: S.optional(S.String),
-          matchCriteria: S.optional(__S(8224, __c257, 0)),
-          connectionProperties: S.optional(__S(4544, __c142, 0)),
-          sparkProperties: S.optional(__S(4544, __c142, 0)),
-          athenaProperties: S.optional(__S(4544, __c142, 0)),
-          pythonProperties: S.optional(__S(4544, __c142, 0)),
-          physicalConnectionRequirements: S.optional(__S(4580, __c143, 4)),
+          matchCriteria: S.optional(__S(32, __c1, 0)),
+          connectionProperties: S.optional(__S(4928, __c154, 0)),
+          sparkProperties: S.optional(__S(4928, __c154, 0)),
+          athenaProperties: S.optional(__S(4928, __c154, 0)),
+          pythonProperties: S.optional(__S(4928, __c154, 0)),
+          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
           creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedBy: S.optional(S.String),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
           lastConnectionValidationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          authenticationConfiguration: S.optional(__S(4596, __c143, 20)),
+          authenticationConfiguration: S.optional(__S(4980, __c155, 20)),
           connectionSchemaVersion: S.optional(S.Number),
-          compatibleComputeEnvironments: S.optional(__S(8288, __c259, 0)),
+          compatibleComputeEnvironments: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "GlueConnection" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          awsLocation: S.optional(__S(4576, __c143, 0)),
+          awsLocation: S.optional(__S(4960, __c155, 0)),
           glueConnectionName: S.optional(S.String),
-          glueConnectionNames: S.optional(__S(8224, __c257, 0)),
-          glueConnection: S.optional(__S(4597, __c143, 21)),
+          glueConnectionNames: S.optional(__S(32, __c1, 0)),
+          glueConnection: S.optional(__S(4981, __c155, 21)),
           enableTrustedIdentityPropagation: S.optional(S.Boolean),
           host: S.optional(S.String),
           port: S.optional(S.Number),
@@ -19682,7 +20449,7 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "PhysicalEndpoint" });
     case 23:
-      return S.Array(__S(4598, __c143, 22));
+      return S.Array(__S(4982, __c155, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({ status: S.optional(S.String), errorMessage: S.optional(S.String) }),
@@ -19707,19 +20474,19 @@ function __c143(j: number): any {
         S.Struct({
           lineageJobId: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          schedule: S.optional(__S(4588, __c143, 12)),
+          schedule: S.optional(__S(4972, __c155, 12)),
         }),
       ).annotate({ identifier: "RedshiftLineageSyncConfigurationOutput" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(4585, __c143, 9)),
-          credentials: S.optional(__S(4587, __c143, 11)),
+          storage: S.optional(__S(4969, __c155, 9)),
+          credentials: S.optional(__S(4971, __c155, 11)),
           isProvisionedSecret: S.optional(S.Boolean),
           jdbcIamUrl: S.optional(S.String),
           jdbcUrl: S.optional(S.String),
           redshiftTempDir: S.optional(S.String),
-          lineageSync: S.optional(__S(4603, __c143, 27)),
+          lineageSync: S.optional(__S(4987, __c155, 27)),
           status: S.optional(S.String),
           databaseName: S.optional(S.String),
         }),
@@ -19732,7 +20499,7 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           computeArn: S.optional(S.String),
-          credentials: S.optional(__S(4586, __c143, 10)),
+          credentials: S.optional(__S(4970, __c155, 10)),
           credentialsExpiration: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           governanceType: S.optional(S.String),
           instanceProfileArn: S.optional(S.String),
@@ -19744,7 +20511,7 @@ function __c143(j: number): any {
           trustedCertificatesS3Uri: S.optional(S.String),
           certificateData: S.optional(S.String),
           managedEndpointArn: S.optional(S.String),
-          managedEndpointCredentials: S.optional(__S(4605, __c143, 29)),
+          managedEndpointCredentials: S.optional(__S(4989, __c155, 29)),
         }),
       ).annotate({ identifier: "SparkEmrPropertiesOutput" });
     case 31:
@@ -19759,7 +20526,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "S3PropertiesOutput" });
   }
 }
-function __c144(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19774,8 +20541,8 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.Struct({
           snowflakeRole: S.String,
-          identityMapping: __S(4591, __c143, 15),
-          lineageSync: __S(4608, __c144, 0),
+          identityMapping: __S(4975, __c155, 15),
+          lineageSync: __S(4992, __c156, 0),
           status: S.String,
           errorMessage: S.optional(S.String),
         }),
@@ -19784,10 +20551,10 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vpcId: S.String,
-          subnetIds: __S(8224, __c257, 0),
+          subnetIds: __S(32, __c1, 0),
           status: S.String,
           securityGroupId: S.optional(S.String),
-          glueConnectionNames: S.optional(__S(8224, __c257, 0)),
+          glueConnectionNames: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "VpcPropertiesOutput" });
     case 3:
@@ -19802,26 +20569,26 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GitPropertiesOutput" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4579, __c143, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(4600, __c143, 24) }),
-        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4601, __c143, 25) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4602, __c143, 26) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4604, __c143, 28) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4606, __c143, 30) }),
-        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4590, __c143, 14) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4607, __c143, 31) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4609, __c144, 1) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4592, __c143, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4593, __c143, 17) }),
-        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4594, __c143, 18) }),
-        /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(32, __c1, 0) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4595, __c143, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4610, __c144, 2) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(4611, __c144, 3) }),
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(4984, __c155, 24) }),
+        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4985, __c155, 25) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(4986, __c155, 26) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4988, __c155, 28) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4990, __c155, 30) }),
+        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4974, __c155, 14) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(4991, __c155, 31) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4993, __c156, 1) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
+        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4978, __c155, 18) }),
+        /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(768, __c24, 0) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4994, __c156, 2) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(4995, __c156, 3) }),
       ]);
   }
 }
-function __c145(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19830,9 +20597,9 @@ function __c145(j: number): any {
           name: SensitiveString,
           owningProjectIdentifier: S.String,
           description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          formsInput: S.optional(__S(2113, __c66, 1)),
-          items: S.optional(__S(4673, __c146, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          formsInput: S.optional(__S(2785, __c87, 1)),
+          items: S.optional(__S(5057, __c158, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19847,7 +20614,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CreateDataProductInput" });
   }
 }
-function __c146(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19855,11 +20622,11 @@ function __c146(j: number): any {
           itemType: S.String,
           identifier: S.String,
           revision: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "DataProductItem" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(5056, __c158, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19870,9 +20637,9 @@ function __c146(j: number): any {
           name: SensitiveString,
           status: S.String,
           description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          items: S.optional(__S(4673, __c146, 1)),
-          formsOutput: S.optional(__S(8257, __c258, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          items: S.optional(__S(5057, __c158, 1)),
+          formsOutput: S.optional(__S(65, __c2, 1)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -19881,7 +20648,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "CreateDataProductOutput" });
   }
 }
-function __c147(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19890,9 +20657,9 @@ function __c147(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          items: S.optional(__S(4673, __c146, 1)),
-          formsInput: S.optional(__S(2113, __c66, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          items: S.optional(__S(5057, __c158, 1)),
+          formsInput: S.optional(__S(2785, __c87, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19910,7 +20677,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateDataProductRevisionInput" });
   }
 }
-function __c148(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19922,12 +20689,12 @@ function __c148(j: number): any {
           environmentIdentifier: S.optional(S.String),
           connectionIdentifier: S.optional(S.String),
           type: S.String,
-          configuration: S.optional(__S(4771, __c149, 3)),
-          recommendation: S.optional(__S(4896, __c153, 0)),
+          configuration: S.optional(__S(5155, __c161, 3)),
+          recommendation: S.optional(__S(5280, __c165, 0)),
           enableSetting: S.optional(S.String),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsInput: S.optional(__S(2113, __c66, 1)),
+          assetFormsInput: S.optional(__S(2785, __c87, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19952,29 +20719,29 @@ function __c148(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(4843, __c151, 11)),
-          recommendation: S.optional(__S(4896, __c153, 0)),
+          configuration: S.optional(__S(5227, __c163, 11)),
+          recommendation: S.optional(__S(5280, __c165, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsOutput: S.optional(__S(8257, __c258, 1)),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          assetFormsOutput: S.optional(__S(65, __c2, 1)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(4864, __c152, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CreateDataSourceOutput" });
   }
 }
-function __c149(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(4835, __c151, 3),
+          relationalFilterConfigurations: __S(5219, __c163, 3),
           autoImportDataQualityResult: S.optional(S.Boolean),
           catalogName: S.optional(S.String),
         }),
@@ -19983,24 +20750,24 @@ function __c149(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(4835, __c151, 3),
-          redshiftCredentialConfiguration: S.optional(__S(4836, __c151, 4)),
-          redshiftStorage: S.optional(__S(4838, __c151, 6)),
+          relationalFilterConfigurations: __S(5219, __c163, 3),
+          redshiftCredentialConfiguration: S.optional(__S(5220, __c163, 4)),
+          redshiftStorage: S.optional(__S(5222, __c163, 6)),
         }),
       ).annotate({ identifier: "RedshiftRunConfigurationInput" });
     case 2:
-      return S.suspend(() => S.Struct({ trackingAssets: __S(4839, __c151, 7) })).annotate({
+      return S.suspend(() => S.Struct({ trackingAssets: __S(5223, __c163, 7) })).annotate({
         identifier: "SageMakerRunConfigurationInput",
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(4768, __c149, 0) }),
-        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(4769, __c149, 1) }),
-        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(4770, __c149, 2) }),
+        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5152, __c161, 0) }),
+        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5153, __c161, 1) }),
+        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5154, __c161, 2) }),
       ]);
   }
 }
-function __c150(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20008,24 +20775,24 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ScheduleConfiguration" });
   }
 }
-function __c151(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, expression: S.String })).annotate({
         identifier: "FilterExpression",
       });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.String,
           schemaName: S.optional(S.String),
-          filterExpressions: S.optional(__S(4833, __c151, 1)),
+          filterExpressions: S.optional(__S(5217, __c163, 1)),
         }),
       ).annotate({ identifier: "RelationalFilterConfiguration" });
     case 3:
-      return S.Array(__S(4834, __c151, 2));
+      return S.Array(__S(5218, __c163, 2));
     case 4:
       return S.suspend(() => S.Struct({ secretManagerArn: S.String })).annotate({
         identifier: "RedshiftCredentialConfiguration",
@@ -20036,18 +20803,18 @@ function __c151(j: number): any {
       });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ redshiftClusterSource: __S(4512, __c141, 0) }),
-        /*@__PURE__*/ S.Struct({ redshiftServerlessSource: __S(4837, __c151, 5) }),
+        /*@__PURE__*/ S.Struct({ redshiftClusterSource: __S(4896, __c153, 0) }),
+        /*@__PURE__*/ S.Struct({ redshiftServerlessSource: __S(5221, __c163, 5) }),
       ]);
     case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(8224, __c257, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(32, __c1, 0).pipe(S.optional));
     case 8:
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
           region: S.optional(S.String),
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(4835, __c151, 3),
+          relationalFilterConfigurations: __S(5219, __c163, 3),
           autoImportDataQualityResult: S.optional(S.Boolean),
           catalogName: S.optional(S.String),
         }),
@@ -20058,9 +20825,9 @@ function __c151(j: number): any {
           accountId: S.optional(S.String),
           region: S.optional(S.String),
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(4835, __c151, 3),
-          redshiftCredentialConfiguration: S.optional(__S(4836, __c151, 4)),
-          redshiftStorage: __S(4838, __c151, 6),
+          relationalFilterConfigurations: __S(5219, __c163, 3),
+          redshiftCredentialConfiguration: S.optional(__S(5220, __c163, 4)),
+          redshiftStorage: __S(5222, __c163, 6),
         }),
       ).annotate({ identifier: "RedshiftRunConfigurationOutput" });
     case 10:
@@ -20068,18 +20835,18 @@ function __c151(j: number): any {
         S.Struct({
           accountId: S.optional(S.String),
           region: S.optional(S.String),
-          trackingAssets: __S(4839, __c151, 7),
+          trackingAssets: __S(5223, __c163, 7),
         }),
       ).annotate({ identifier: "SageMakerRunConfigurationOutput" });
     case 11:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(4840, __c151, 8) }),
-        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(4841, __c151, 9) }),
-        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(4842, __c151, 10) }),
+        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5224, __c163, 8) }),
+        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5226, __c163, 10) }),
       ]);
   }
 }
-function __c152(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20087,7 +20854,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DataSourceErrorMessage" });
   }
 }
-function __c153(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20095,7 +20862,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "RecommendationConfiguration" });
   }
 }
-function __c154(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20118,7 +20885,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "CreateDesignationInput" });
   }
 }
-function __c155(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20137,17 +20904,17 @@ function __c155(j: number): any {
       ).annotate({ identifier: "CreateDesignationOutput" });
   }
 }
-function __c156(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5024, __c157, 0)),
+          singleSignOn: S.optional(__S(5408, __c169, 0)),
           domainExecutionRole: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
-          tags: S.optional(__S(4544, __c142, 0)),
+          tags: S.optional(__S(4928, __c154, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -20162,20 +20929,20 @@ function __c156(j: number): any {
           rootDomainUnitId: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5024, __c157, 0)),
+          singleSignOn: S.optional(__S(5408, __c169, 0)),
           domainExecutionRole: S.optional(S.String),
           arn: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
           status: S.optional(S.String),
           portalUrl: S.optional(S.String),
-          tags: S.optional(__S(4544, __c142, 0)),
+          tags: S.optional(__S(4928, __c154, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDomainOutput" });
   }
 }
-function __c157(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20187,7 +20954,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "SingleSignOn" });
   }
 }
-function __c158(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20216,15 +20983,15 @@ function __c158(j: number): any {
           name: SensitiveString,
           parentDomainUnitId: S.optional(S.String),
           description: S.optional(SensitiveString),
-          owners: __S(5091, __c159, 3),
-          ancestorDomainUnitIds: __S(8224, __c257, 0),
+          owners: __S(5475, __c171, 3),
+          ancestorDomainUnitIds: __S(32, __c1, 0),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDomainUnitOutput" });
   }
 }
-function __c159(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ userId: S.optional(S.String) })).annotate({
@@ -20236,14 +21003,14 @@ function __c159(j: number): any {
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ user: __S(5088, __c159, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(5089, __c159, 1) }),
+        /*@__PURE__*/ S.Struct({ user: __S(5472, __c171, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(5473, __c171, 1) }),
       ]);
     case 3:
-      return S.Array(__S(5090, __c159, 2));
+      return S.Array(__S(5474, __c171, 2));
   }
 }
-function __c160(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20253,8 +21020,8 @@ function __c160(j: number): any {
           description: S.optional(S.String),
           name: S.String,
           environmentProfileIdentifier: S.optional(S.String),
-          userParameters: S.optional(__S(5249, __c164, 1)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          userParameters: S.optional(__S(5633, __c176, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           environmentAccountIdentifier: S.optional(S.String),
           environmentAccountRegion: S.optional(S.String),
           environmentBlueprintIdentifier: S.optional(S.String),
@@ -20274,7 +21041,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentInput" });
   }
 }
-function __c161(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20289,10 +21056,10 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "CustomParameter" });
     case 1:
-      return S.Array(__S(5152, __c161, 0));
+      return S.Array(__S(5536, __c173, 0));
   }
 }
-function __c162(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ templateUrl: S.String })).annotate({
@@ -20300,12 +21067,12 @@ function __c162(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cloudFormation: __S(5184, __c162, 0) }),
+        /*@__PURE__*/ S.Struct({ cloudFormation: __S(5568, __c174, 0) }),
         /*@__PURE__*/ S.Struct({ manual: /*@__PURE__*/ S.Struct({}) }),
       ]);
   }
 }
-function __c163(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20316,17 +21083,17 @@ function __c163(j: number): any {
       ).annotate({ identifier: "DeploymentProperties" });
   }
 }
-function __c164(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "EnvironmentParameter" });
     case 1:
-      return S.Array(__S(5248, __c164, 0));
+      return S.Array(__S(5632, __c176, 0));
   }
 }
-function __c165(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ code: S.optional(S.String), message: S.String })).annotate({
@@ -20334,7 +21101,7 @@ function __c165(j: number): any {
       });
   }
 }
-function __c166(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20346,27 +21113,27 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "Resource" });
     case 1:
-      return S.Array(__S(5312, __c166, 0));
+      return S.Array(__S(5696, __c178, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "ConfigurableActionParameter" });
     case 3:
-      return S.Array(__S(5314, __c166, 2));
+      return S.Array(__S(5698, __c178, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ type: S.String, auth: S.optional(S.String), parameters: __S(5315, __c166, 3) }),
+        S.Struct({ type: S.String, auth: S.optional(S.String), parameters: __S(5699, __c178, 3) }),
       ).annotate({ identifier: "ConfigurableEnvironmentAction" });
     case 5:
-      return S.Array(__S(5316, __c166, 4));
+      return S.Array(__S(5700, __c178, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           deploymentId: S.optional(S.String),
           deploymentType: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
-          failureReason: S.optional(__S(5280, __c165, 0)),
-          messages: S.optional(__S(8224, __c257, 0)),
+          failureReason: S.optional(__S(5664, __c177, 0)),
+          messages: S.optional(__S(32, __c1, 0)),
           isDeploymentComplete: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Deployment" });
@@ -20385,14 +21152,14 @@ function __c166(j: number): any {
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
           provider: S.String,
-          provisionedResources: S.optional(__S(5313, __c166, 1)),
+          provisionedResources: S.optional(__S(5697, __c178, 1)),
           status: S.optional(S.String),
-          environmentActions: S.optional(__S(5317, __c166, 5)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          userParameters: S.optional(__S(5153, __c161, 1)),
-          lastDeployment: S.optional(__S(5318, __c166, 6)),
-          provisioningProperties: S.optional(__S(5185, __c162, 1)),
-          deploymentProperties: S.optional(__S(5216, __c163, 0)),
+          environmentActions: S.optional(__S(5701, __c178, 5)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          userParameters: S.optional(__S(5537, __c173, 1)),
+          lastDeployment: S.optional(__S(5702, __c178, 6)),
+          provisioningProperties: S.optional(__S(5569, __c174, 1)),
+          deploymentProperties: S.optional(__S(5600, __c175, 0)),
           environmentBlueprintId: S.optional(S.String),
           environmentConfigurationId: S.optional(SensitiveString),
           environmentConfigurationName: S.optional(SensitiveString),
@@ -20400,7 +21167,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentOutput" });
   }
 }
-function __c167(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20408,7 +21175,7 @@ function __c167(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           name: S.String,
-          parameters: __S(5377, __c168, 1),
+          parameters: __S(5761, __c180, 1),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -20426,14 +21193,14 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentActionInput" });
   }
 }
-function __c168(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ uri: S.optional(S.String) })).annotate({
         identifier: "AwsConsoleLinkParameters",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ awsConsoleLink: __S(5376, __c168, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ awsConsoleLink: __S(5760, __c180, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20441,13 +21208,13 @@ function __c168(j: number): any {
           environmentId: S.String,
           id: S.String,
           name: S.String,
-          parameters: __S(5377, __c168, 1),
+          parameters: __S(5761, __c180, 1),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateEnvironmentActionOutput" });
   }
 }
-function __c169(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20455,8 +21222,8 @@ function __c169(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: S.String,
           description: S.optional(SensitiveString),
-          provisioningProperties: __S(5185, __c162, 1),
-          userParameters: S.optional(__S(5153, __c161, 1)),
+          provisioningProperties: __S(5569, __c174, 1),
+          userParameters: S.optional(__S(5537, __c173, 1)),
           blueprintCategory: S.optional(S.String),
         }).pipe(
           T.all(
@@ -20474,7 +21241,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentBlueprintInput" });
   }
 }
-function __c170(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20483,10 +21250,10 @@ function __c170(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           provider: S.String,
-          provisioningProperties: __S(5185, __c162, 1),
-          deploymentProperties: S.optional(__S(5216, __c163, 0)),
-          userParameters: S.optional(__S(5153, __c161, 1)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          provisioningProperties: __S(5569, __c174, 1),
+          deploymentProperties: S.optional(__S(5600, __c175, 0)),
+          userParameters: S.optional(__S(5537, __c173, 1)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           blueprintCategory: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -20494,7 +21261,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentBlueprintOutput" });
   }
 }
-function __c171(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20504,7 +21271,7 @@ function __c171(j: number): any {
           description: S.optional(SensitiveString),
           environmentBlueprintIdentifier: S.String,
           projectIdentifier: S.String,
-          userParameters: S.optional(__S(5249, __c164, 1)),
+          userParameters: S.optional(__S(5633, __c176, 1)),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
         }).pipe(
@@ -20520,7 +21287,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentProfileInput" });
   }
 }
-function __c172(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20536,19 +21303,19 @@ function __c172(j: number): any {
           description: S.optional(SensitiveString),
           environmentBlueprintId: S.String,
           projectId: S.optional(S.String),
-          userParameters: S.optional(__S(5153, __c161, 1)),
+          userParameters: S.optional(__S(5537, __c173, 1)),
         }),
       ).annotate({ identifier: "CreateEnvironmentProfileOutput" });
   }
 }
-function __c173(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
-          model: __S(5568, __c174, 0),
+          model: __S(5952, __c186, 0),
           owningProjectIdentifier: S.String,
           status: S.optional(S.String),
           description: S.optional(SensitiveString),
@@ -20577,13 +21344,13 @@ function __c173(j: number): any {
       ).annotate({ identifier: "CreateFormTypeOutput" });
   }
 }
-function __c174(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ smithy: S.String })]);
   }
 }
-function __c175(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20593,7 +21360,7 @@ function __c175(j: number): any {
           owningProjectIdentifier: S.String,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -20608,7 +21375,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "CreateGlossaryInput" });
   }
 }
-function __c176(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20619,12 +21386,12 @@ function __c176(j: number): any {
           owningProjectId: S.String,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CreateGlossaryOutput" });
   }
 }
-function __c177(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20635,7 +21402,7 @@ function __c177(j: number): any {
           status: S.optional(S.String),
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(5696, __c178, 0)),
+          termRelations: S.optional(__S(6080, __c190, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -20650,18 +21417,15 @@ function __c177(j: number): any {
       ).annotate({ identifier: "CreateGlossaryTermInput" });
   }
 }
-function __c178(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isA: S.optional(__S(8224, __c257, 0)),
-          classifies: S.optional(__S(8224, __c257, 0)),
-        }),
+        S.Struct({ isA: S.optional(__S(32, __c1, 0)), classifies: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "TermRelations" });
   }
 }
-function __c179(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20673,13 +21437,13 @@ function __c179(j: number): any {
           status: S.String,
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(5696, __c178, 0)),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
+          termRelations: S.optional(__S(6080, __c190, 0)),
+          usageRestrictions: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CreateGlossaryTermOutput" });
   }
 }
-function __c180(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20701,7 +21465,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "CreateGroupProfileInput" });
   }
 }
-function __c181(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20716,7 +21480,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreateGroupProfileOutput" });
   }
 }
-function __c182(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20744,7 +21508,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "CreateListingChangeSetOutput" });
   }
 }
-function __c183(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20754,8 +21518,8 @@ function __c183(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           type: S.optional(S.String),
-          metadata: S.optional(__S(5920, __c185, 0)),
-          parameters: S.optional(__S(4544, __c142, 0)),
+          metadata: S.optional(__S(6304, __c197, 0)),
+          parameters: S.optional(__S(4928, __c154, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -20770,7 +21534,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "CreateNotebookInput" });
   }
 }
-function __c184(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ message: S.String })).annotate({
@@ -20778,12 +21542,12 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ packageManager: S.String, packageSpecification: S.optional(S.String) }),
@@ -20792,12 +21556,12 @@ function __c185(j: number): any {
       return S.suspend(() =>
         S.Struct({
           imageVersion: S.optional(S.String),
-          packageConfig: S.optional(__S(5922, __c185, 2)),
+          packageConfig: S.optional(__S(6306, __c197, 2)),
         }),
       ).annotate({ identifier: "EnvironmentConfig" });
   }
 }
-function __c186(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20813,7 +21577,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GitMetadata" });
   }
 }
-function __c187(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20822,7 +21586,7 @@ function __c187(j: number): any {
           name: SensitiveString,
           owningProjectId: S.String,
           domainId: S.String,
-          cellOrder: __S(5921, __c185, 1),
+          cellOrder: __S(6305, __c197, 1),
           status: S.String,
           type: S.optional(S.String),
           description: S.optional(SensitiveString),
@@ -20834,41 +21598,41 @@ function __c187(j: number): any {
           lockedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lockExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           computeId: S.optional(S.String),
-          metadata: S.optional(__S(5920, __c185, 0)),
-          parameters: S.optional(__S(4544, __c142, 0)),
-          environmentConfiguration: S.optional(__S(5923, __c185, 3)),
-          error: S.optional(__S(5888, __c184, 0)),
-          gitMetadata: S.optional(__S(5952, __c186, 0)),
+          metadata: S.optional(__S(6304, __c197, 0)),
+          parameters: S.optional(__S(4928, __c154, 0)),
+          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
+          error: S.optional(__S(6272, __c196, 0)),
+          gitMetadata: S.optional(__S(6336, __c198, 0)),
         }),
       ).annotate({ identifier: "CreateNotebookOutput" });
   }
 }
-function __c188(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          member: __S(6112, __c191, 0),
+          member: __S(6496, __c203, 0),
           designation: S.String,
           userCreatedDesignationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectMembershipAssignment" });
     case 1:
-      return S.Array(__S(6016, __c188, 0));
+      return S.Array(__S(6400, __c200, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          resourceTags: S.optional(__S(4544, __c142, 0)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          resourceTags: S.optional(__S(4928, __c154, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
           projectProfileId: S.optional(S.String),
-          userParameters: S.optional(__S(6082, __c190, 2)),
+          userParameters: S.optional(__S(6466, __c202, 2)),
           projectCategory: S.optional(S.String),
           projectExecutionRole: S.optional(S.String),
-          membershipAssignments: S.optional(__S(6017, __c188, 1)),
+          membershipAssignments: S.optional(__S(6401, __c200, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/projects" }),
@@ -20882,17 +21646,17 @@ function __c188(j: number): any {
       ).annotate({ identifier: "CreateProjectInput" });
   }
 }
-function __c189(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
       ).annotate({ identifier: "ProjectDeletionError" });
     case 1:
-      return S.Array(__S(6048, __c189, 0));
+      return S.Array(__S(6432, __c201, 0));
   }
 }
-function __c190(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20906,28 +21670,28 @@ function __c190(j: number): any {
       return S.suspend(() =>
         S.Struct({
           environmentId: S.optional(S.String),
-          environmentResolvedAccount: S.optional(__S(6080, __c190, 0)),
+          environmentResolvedAccount: S.optional(__S(6464, __c202, 0)),
           environmentConfigurationName: S.optional(SensitiveString),
-          environmentParameters: S.optional(__S(5249, __c164, 1)),
+          environmentParameters: S.optional(__S(5633, __c176, 1)),
         }),
       ).annotate({ identifier: "EnvironmentConfigurationUserParameter" });
     case 2:
-      return S.Array(__S(6081, __c190, 1));
+      return S.Array(__S(6465, __c202, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, source: S.String }),
       ).annotate({ identifier: "ResourceTag" });
     case 4:
-      return S.Array(__S(6083, __c190, 3));
+      return S.Array(__S(6467, __c202, 3));
     case 5:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5664, __c177, 0));
     case 6:
-      return S.Record(S.String, /*@__PURE__*/ __S(6085, __c190, 5).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(6469, __c202, 5).pipe(S.optional));
     case 7:
       return S.suspend(() =>
         S.Struct({
           overallDeploymentStatus: S.optional(S.String),
-          environmentFailureReasons: S.optional(__S(6086, __c190, 6)),
+          environmentFailureReasons: S.optional(__S(6470, __c202, 6)),
         }),
       ).annotate({ identifier: "EnvironmentDeploymentDetails" });
     case 8:
@@ -20938,22 +21702,22 @@ function __c190(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           projectStatus: S.optional(S.String),
-          failureReasons: S.optional(__S(6049, __c189, 1)),
+          failureReasons: S.optional(__S(6433, __c201, 1)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          resourceTags: S.optional(__S(6084, __c190, 4)),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
+          resourceTags: S.optional(__S(6468, __c202, 4)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
           projectProfileId: S.optional(S.String),
-          userParameters: S.optional(__S(6082, __c190, 2)),
-          environmentDeploymentDetails: S.optional(__S(6087, __c190, 7)),
+          userParameters: S.optional(__S(6466, __c202, 2)),
+          environmentDeploymentDetails: S.optional(__S(6471, __c202, 7)),
           projectCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectOutput" });
   }
 }
-function __c191(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -20962,14 +21726,14 @@ function __c191(j: number): any {
       ]);
   }
 }
-function __c192(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-          member: __S(6112, __c191, 0),
+          member: __S(6496, __c203, 0),
           designation: S.String,
           userCreatedDesignationId: S.optional(S.String),
         }).pipe(
@@ -20988,7 +21752,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "CreateProjectMembershipInput" });
   }
 }
-function __c193(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20997,10 +21761,10 @@ function __c193(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6209, __c194, 1)),
+          projectResourceTags: S.optional(__S(6593, __c206, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6215, __c194, 7)),
+          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
           domainUnitIdentifier: S.optional(S.String),
         }).pipe(
           T.all(
@@ -21015,14 +21779,14 @@ function __c193(j: number): any {
       ).annotate({ identifier: "CreateProjectProfileInput" });
   }
 }
-function __c194(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, isValueEditable: S.Boolean }),
       ).annotate({ identifier: "ResourceTagParameter" });
     case 1:
-      return S.Array(__S(6208, __c194, 0));
+      return S.Array(__S(6592, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21032,13 +21796,13 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentConfigurationParameter" });
     case 3:
-      return S.Array(__S(6210, __c194, 2));
+      return S.Array(__S(6594, __c206, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           ssmPath: S.optional(S.String),
-          parameterOverrides: S.optional(__S(6211, __c194, 3)),
-          resolvedParameters: S.optional(__S(6211, __c194, 3)),
+          parameterOverrides: S.optional(__S(6595, __c206, 3)),
+          resolvedParameters: S.optional(__S(6595, __c206, 3)),
         }),
       ).annotate({ identifier: "EnvironmentConfigurationParametersDetails" });
     case 5:
@@ -21054,15 +21818,15 @@ function __c194(j: number): any {
           environmentBlueprintId: S.String,
           description: S.optional(SensitiveString),
           deploymentMode: S.optional(S.String),
-          configurationParameters: S.optional(__S(6212, __c194, 4)),
-          awsAccount: S.optional(__S(6213, __c194, 5)),
-          accountPools: S.optional(__S(8224, __c257, 0)),
+          configurationParameters: S.optional(__S(6596, __c206, 4)),
+          awsAccount: S.optional(__S(6597, __c206, 5)),
+          accountPools: S.optional(__S(32, __c1, 0)),
           awsRegion: S.optional(Region),
           deploymentOrder: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EnvironmentConfiguration" });
     case 7:
-      return S.Array(__S(6214, __c194, 6));
+      return S.Array(__S(6598, __c206, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21071,10 +21835,10 @@ function __c194(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6209, __c194, 1)),
+          projectResourceTags: S.optional(__S(6593, __c206, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6215, __c194, 7)),
+          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -21083,17 +21847,17 @@ function __c194(j: number): any {
       ).annotate({ identifier: "CreateProjectProfileOutput" });
   }
 }
-function __c195(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
-          target: __S(6273, __c196, 1),
+          target: __S(6657, __c208, 1),
           action: S.String,
-          scope: __S(6276, __c196, 4),
-          detail: __S(6308, __c197, 4),
+          scope: __S(6660, __c208, 4),
+          detail: __S(6692, __c209, 4),
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -21113,10 +21877,10 @@ function __c195(j: number): any {
           identifier: S.String,
           name: SensitiveString,
           ruleType: S.String,
-          target: __S(6273, __c196, 1),
+          target: __S(6657, __c208, 1),
           action: S.String,
-          scope: __S(6276, __c196, 4),
-          detail: __S(6308, __c197, 4),
+          scope: __S(6660, __c208, 4),
+          detail: __S(6692, __c209, 4),
           targetType: S.optional(S.String),
           description: S.optional(SensitiveString),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -21125,77 +21889,77 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CreateRuleOutput" });
   }
 }
-function __c196(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ domainUnitId: S.String, includeChildDomainUnits: S.optional(S.Boolean) }),
       ).annotate({ identifier: "DomainUnitTarget" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitTarget: __S(6272, __c196, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitTarget: __S(6656, __c208, 0) })]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ selectionMode: S.String, specificAssetTypes: S.optional(__S(8224, __c257, 0)) }),
+        S.Struct({ selectionMode: S.String, specificAssetTypes: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "AssetTypesForRule" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ selectionMode: S.String, specificProjects: S.optional(__S(8224, __c257, 0)) }),
+        S.Struct({ selectionMode: S.String, specificProjects: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "ProjectsForRule" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          assetType: S.optional(__S(6274, __c196, 2)),
+          assetType: S.optional(__S(6658, __c208, 2)),
           dataProduct: S.optional(S.Boolean),
-          project: S.optional(__S(6275, __c196, 3)),
+          project: S.optional(__S(6659, __c208, 3)),
         }),
       ).annotate({ identifier: "RuleScope" });
   }
 }
-function __c197(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ typeIdentifier: S.String, typeRevision: S.String }),
       ).annotate({ identifier: "MetadataFormReference" });
     case 1:
-      return S.Array(__S(6304, __c197, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ requiredMetadataForms: S.optional(__S(6305, __c197, 1)) }),
+        S.Struct({ requiredMetadataForms: S.optional(__S(6689, __c209, 1)) }),
       ).annotate({ identifier: "MetadataFormEnforcementDetail" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ requiredGlossaryTermIds: S.optional(__S(8224, __c257, 0)) }),
+        S.Struct({ requiredGlossaryTermIds: S.optional(__S(32, __c1, 0)) }),
       ).annotate({ identifier: "GlossaryTermEnforcementDetail" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ metadataFormEnforcementDetail: __S(6306, __c197, 2) }),
-        /*@__PURE__*/ S.Struct({ glossaryTermEnforcementDetail: __S(6307, __c197, 3) }),
+        /*@__PURE__*/ S.Struct({ metadataFormEnforcementDetail: __S(6690, __c209, 2) }),
+        /*@__PURE__*/ S.Struct({ glossaryTermEnforcementDetail: __S(6691, __c209, 3) }),
       ]);
   }
 }
-function __c198(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.String, revision: S.String })).annotate({
         identifier: "ListingRevisionInput",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6336, __c198, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6720, __c210, 0) })]);
     case 2:
       return S.suspend(() => S.Struct({ assetId: S.String, targetName: S.String })).annotate({
         identifier: "AssetTargetNameMap",
       });
     case 3:
-      return S.Array(__S(6338, __c198, 2));
+      return S.Array(__S(6722, __c210, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.String,
           subscriptionTargetIdentifier: S.optional(S.String),
-          grantedEntity: __S(6337, __c198, 1),
-          assetTargetNames: S.optional(__S(6339, __c198, 3)),
+          grantedEntity: __S(6721, __c210, 1),
+          assetTargetNames: S.optional(__S(6723, __c210, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -21210,14 +21974,14 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionGrantInput" });
   }
 }
-function __c199(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ id: S.String, revision: S.String })).annotate({
         identifier: "ListingRevision",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6368, __c199, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6752, __c211, 0) })]);
     case 2:
       return S.suspend(() => S.Struct({ message: S.optional(S.String) })).annotate({
         identifier: "FailureCause",
@@ -21229,15 +21993,15 @@ function __c199(j: number): any {
           assetRevision: S.String,
           status: S.String,
           targetName: S.optional(S.String),
-          failureCause: S.optional(__S(6370, __c199, 2)),
+          failureCause: S.optional(__S(6754, __c211, 2)),
           grantedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           failureTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          assetScope: S.optional(__S(8321, __c260, 1)),
-          permissions: S.optional(__S(8320, __c260, 0)),
+          assetScope: S.optional(__S(129, __c4, 1)),
+          permissions: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "SubscribedAsset" });
     case 4:
-      return S.Array(__S(6371, __c199, 3));
+      return S.Array(__S(6755, __c211, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -21249,15 +22013,15 @@ function __c199(j: number): any {
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           environmentId: S.optional(S.String),
           subscriptionTargetId: S.String,
-          grantedEntity: __S(6369, __c199, 1),
+          grantedEntity: __S(6753, __c211, 1),
           status: S.String,
-          assets: S.optional(__S(6372, __c199, 4)),
+          assets: S.optional(__S(6756, __c211, 4)),
           subscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSubscriptionGrantOutput" });
   }
 }
-function __c200(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.optional(S.String) })).annotate({
@@ -21265,30 +22029,30 @@ function __c200(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ project: __S(6400, __c200, 0) }),
-        /*@__PURE__*/ S.Struct({ user: __S(6400, __c200, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(6400, __c200, 0) }),
-        /*@__PURE__*/ S.Struct({ iam: __S(6400, __c200, 0) }),
+        /*@__PURE__*/ S.Struct({ project: __S(6784, __c212, 0) }),
+        /*@__PURE__*/ S.Struct({ user: __S(6784, __c212, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(6784, __c212, 0) }),
+        /*@__PURE__*/ S.Struct({ iam: __S(6784, __c212, 0) }),
       ]);
     case 2:
-      return S.Array(__S(6401, __c200, 1));
+      return S.Array(__S(6785, __c212, 1));
     case 3:
       return S.suspend(() => S.Struct({ identifier: S.String })).annotate({
         identifier: "SubscribedListingInput",
       });
     case 4:
-      return S.Array(__S(6403, __c200, 3));
+      return S.Array(__S(6787, __c212, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          subscribedPrincipals: __S(6402, __c200, 2),
-          subscribedListings: __S(6404, __c200, 4),
+          subscribedPrincipals: __S(6786, __c212, 2),
+          subscribedListings: __S(6788, __c212, 4),
           requestReason: SensitiveString,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          metadataForms: S.optional(__S(2113, __c66, 1)),
-          assetPermissions: S.optional(__S(8451, __c264, 3)),
-          assetScopes: S.optional(__S(8449, __c264, 1)),
+          metadataForms: S.optional(__S(2785, __c87, 1)),
+          assetPermissions: S.optional(__S(259, __c8, 3)),
+          assetScopes: S.optional(__S(257, __c8, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/subscription-requests" }),
@@ -21302,7 +22066,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionRequestInput" });
   }
 }
-function __c201(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21311,10 +22075,10 @@ function __c201(j: number): any {
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           name: SensitiveString,
           type: S.String,
-          subscriptionTargetConfig: __S(6465, __c202, 1),
-          authorizedPrincipals: __S(8224, __c257, 0),
+          subscriptionTargetConfig: __S(6849, __c214, 1),
+          authorizedPrincipals: __S(32, __c1, 0),
           manageAccessRole: S.String,
-          applicableAssetTypes: __S(8224, __c257, 0),
+          applicableAssetTypes: __S(32, __c1, 0),
           provider: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           subscriptionGrantCreationMode: S.optional(S.String),
@@ -21334,19 +22098,19 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionTargetInput" });
   }
 }
-function __c202(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ formName: S.String, content: S.String })).annotate({
         identifier: "SubscriptionTargetForm",
       });
     case 1:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6848, __c214, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          authorizedPrincipals: __S(8224, __c257, 0),
+          authorizedPrincipals: __S(32, __c1, 0),
           domainId: S.String,
           projectId: S.String,
           environmentId: S.String,
@@ -21357,15 +22121,15 @@ function __c202(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           manageAccessRole: S.optional(S.String),
-          applicableAssetTypes: __S(8224, __c257, 0),
-          subscriptionTargetConfig: __S(6465, __c202, 1),
+          applicableAssetTypes: __S(32, __c1, 0),
+          subscriptionTargetConfig: __S(6849, __c214, 1),
           provider: S.String,
           subscriptionGrantCreationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSubscriptionTargetOutput" });
   }
 }
-function __c203(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21388,7 +22152,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "CreateUserProfileInput" });
   }
 }
-function __c204(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21397,12 +22161,12 @@ function __c204(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           status: S.optional(S.String),
-          details: S.optional(__S(8418, __c263, 2)),
+          details: S.optional(__S(226, __c7, 2)),
         }),
       ).annotate({ identifier: "CreateUserProfileOutput" });
   }
 }
-function __c205(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21425,7 +22189,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteAccountPoolInput" });
   }
 }
-function __c206(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21445,7 +22209,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteAssetInput" });
   }
 }
-function __c207(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21469,7 +22233,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteAssetFilterInput" });
   }
 }
-function __c208(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21492,7 +22256,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeleteAssetTypeInput" });
   }
 }
-function __c209(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21519,7 +22283,7 @@ function __c209(j: number): any {
       });
   }
 }
-function __c210(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21539,7 +22303,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeleteDataExportConfigurationInput" });
   }
 }
-function __c211(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21562,7 +22326,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeleteDataProductInput" });
   }
 }
-function __c212(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21599,24 +22363,24 @@ function __c212(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(4843, __c151, 11)),
+          configuration: S.optional(__S(5227, __c163, 11)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsOutput: S.optional(__S(8257, __c258, 1)),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          assetFormsOutput: S.optional(__S(65, __c2, 1)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(4864, __c152, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(6819, __c213, 3)),
+          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeleteDataSourceOutput" });
   }
 }
-function __c213(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21628,19 +22392,19 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "SelfGrantStatusDetail" });
     case 1:
-      return S.Array(__S(6816, __c213, 0));
+      return S.Array(__S(7200, __c225, 0));
     case 2:
-      return S.suspend(() => S.Struct({ selfGrantStatusDetails: __S(6817, __c213, 1) })).annotate({
+      return S.suspend(() => S.Struct({ selfGrantStatusDetails: __S(7201, __c225, 1) })).annotate({
         identifier: "GlueSelfGrantStatusOutput",
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueSelfGrantStatus: __S(6818, __c213, 2) }),
-        /*@__PURE__*/ S.Struct({ redshiftSelfGrantStatus: __S(6818, __c213, 2) }),
+        /*@__PURE__*/ S.Struct({ glueSelfGrantStatus: __S(7202, __c225, 2) }),
+        /*@__PURE__*/ S.Struct({ redshiftSelfGrantStatus: __S(7202, __c225, 2) }),
       ]);
   }
 }
-function __c214(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21663,7 +22427,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "DeleteDesignationInput" });
   }
 }
-function __c215(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21689,7 +22453,7 @@ function __c215(j: number): any {
       });
   }
 }
-function __c216(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21712,7 +22476,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "DeleteDomainUnitInput" });
   }
 }
-function __c217(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21735,7 +22499,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentInput" });
   }
 }
-function __c218(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21759,7 +22523,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentActionInput" });
   }
 }
-function __c219(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21782,7 +22546,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentBlueprintInput" });
   }
 }
-function __c220(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21807,7 +22571,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentBlueprintConfigurationInput" });
   }
 }
-function __c221(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21830,7 +22594,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentProfileInput" });
   }
 }
-function __c222(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21853,7 +22617,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "DeleteFormTypeInput" });
   }
 }
-function __c223(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21876,7 +22640,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryInput" });
   }
 }
-function __c224(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21899,7 +22663,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryTermInput" });
   }
 }
-function __c225(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21930,7 +22694,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "DeleteLineageEventOutput" });
   }
 }
-function __c226(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21953,7 +22717,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "DeleteListingInput" });
   }
 }
-function __c227(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21976,7 +22740,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "DeleteNotebookInput" });
   }
 }
-function __c228(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22000,14 +22764,14 @@ function __c228(j: number): any {
       ).annotate({ identifier: "DeleteProjectInput" });
   }
 }
-function __c229(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-          member: __S(6112, __c191, 0),
+          member: __S(6496, __c203, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -22024,7 +22788,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "DeleteProjectMembershipInput" });
   }
 }
-function __c230(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22047,7 +22811,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "DeleteProjectProfileInput" });
   }
 }
-function __c231(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22067,7 +22831,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "DeleteRuleInput" });
   }
 }
-function __c232(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22090,7 +22854,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionGrantInput" });
   }
 }
-function __c233(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22113,7 +22877,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionRequestInput" });
   }
 }
-function __c234(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22137,7 +22901,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionTargetInput" });
   }
 }
-function __c235(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22163,7 +22927,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "DeleteTimeSeriesDataPointsInput" });
   }
 }
-function __c236(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22187,7 +22951,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "DisassociateEnvironmentRoleInput" });
   }
 }
-function __c237(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22195,7 +22959,7 @@ function __c237(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
           entityType: S.String.pipe(T.HttpLabel("entityType")),
-          governedGlossaryTerms: __S(8224, __c257, 0),
+          governedGlossaryTerms: __S(32, __c1, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -22212,65 +22976,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "DisassociateGovernedTermsInput" });
   }
 }
-function __c238(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          predictionTarget: S.optional(S.String),
-          predictionChoice: S.optional(S.Number),
-          editedValue: S.optional(SensitiveString),
-        }),
-      ).annotate({ identifier: "AcceptChoice" });
-    case 1:
-      return S.Array(__S(7616, __c238, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-          revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-          acceptRule: S.optional(__S(7648, __c239, 0)),
-          acceptChoices: S.optional(__S(7617, __c238, 1)),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/accept-predictions",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AcceptPredictionsInput" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ domainId: S.String, assetId: S.String, revision: S.String }),
-      ).annotate({ identifier: "AcceptPredictionsOutput" });
-  }
-}
-function __c239(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ rule: S.optional(S.String), threshold: S.optional(S.Number) }),
-      ).annotate({ identifier: "AcceptRule" });
-  }
-}
-function __c240(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ regionName: S.String }),
-        /*@__PURE__*/ S.Struct({ regionNamePath: S.String }),
-      ]);
-  }
-}
-function __c241(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22293,7 +22999,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetAccountPoolInput" });
   }
 }
-function __c242(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22326,19 +23032,19 @@ function __c242(j: number): any {
           createdBy: S.optional(S.String),
           firstRevisionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           firstRevisionCreatedBy: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8224, __c257, 0)),
-          governedGlossaryTerms: S.optional(__S(8224, __c257, 0)),
+          glossaryTerms: S.optional(__S(32, __c1, 0)),
+          governedGlossaryTerms: S.optional(__S(32, __c1, 0)),
           owningProjectId: S.String,
           domainId: S.String,
-          listing: S.optional(__S(3808, __c119, 0)),
-          formsOutput: __S(8257, __c258, 1),
-          readOnlyFormsOutput: S.optional(__S(8257, __c258, 1)),
-          latestTimeSeriesDataPointFormsOutput: S.optional(__S(3841, __c120, 1)),
+          listing: S.optional(__S(4480, __c140, 0)),
+          formsOutput: __S(65, __c2, 1),
+          readOnlyFormsOutput: S.optional(__S(65, __c2, 1)),
+          latestTimeSeriesDataPointFormsOutput: S.optional(__S(4513, __c141, 1)),
         }),
       ).annotate({ identifier: "GetAssetOutput" });
   }
 }
-function __c243(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22362,7 +23068,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetAssetFilterInput" });
   }
 }
-function __c244(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22386,7 +23092,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetAssetTypeInput" });
   }
 }
-function __c245(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22395,7 +23101,7 @@ function __c245(j: number): any {
           name: S.String,
           revision: S.String,
           description: S.optional(SensitiveString),
-          formsOutput: __S(4417, __c138, 1),
+          formsOutput: __S(4801, __c150, 1),
           owningProjectId: S.String,
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -22407,7 +23113,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetAssetTypeOutput" });
   }
 }
-function __c246(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22432,8 +23138,8 @@ function __c246(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectionCredentials: S.optional(__S(7904, __c247, 0)),
-          configurations: S.optional(__S(4578, __c143, 2)),
+          connectionCredentials: S.optional(__S(8192, __c256, 0)),
+          configurations: S.optional(__S(4962, __c155, 2)),
           connectionId: S.String,
           description: S.optional(SensitiveString),
           domainId: S.String,
@@ -22441,16 +23147,16 @@ function __c246(j: number): any {
           environmentId: S.optional(S.String),
           environmentUserRole: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4599, __c143, 23),
+          physicalEndpoints: __S(4983, __c155, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4612, __c144, 4)),
+          props: S.optional(__S(4996, __c156, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConnectionOutput" });
   }
 }
-function __c247(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22463,7 +23169,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "ConnectionCredentials" });
   }
 }
-function __c248(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22486,7 +23192,7 @@ function __c248(j: number): any {
         S.Struct({
           isExportEnabled: S.optional(S.Boolean),
           status: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(7968, __c249, 0)),
+          encryptionConfiguration: S.optional(__S(8256, __c258, 0)),
           s3TableBucketArn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -22494,7 +23200,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetDataExportConfigurationOutput" });
   }
 }
-function __c249(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22502,7 +23208,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
-function __c250(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22526,7 +23232,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetDataProductInput" });
   }
 }
-function __c251(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22559,25 +23265,25 @@ function __c251(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(4843, __c151, 11)),
-          recommendation: S.optional(__S(4896, __c153, 0)),
+          configuration: S.optional(__S(5227, __c163, 11)),
+          recommendation: S.optional(__S(5280, __c165, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
-          assetFormsOutput: S.optional(__S(8257, __c258, 1)),
-          schedule: S.optional(__S(4800, __c150, 0)),
+          assetFormsOutput: S.optional(__S(65, __c2, 1)),
+          schedule: S.optional(__S(5184, __c162, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(4864, __c152, 0)),
+          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
           lastRunAssetCount: S.optional(S.Number),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(6819, __c213, 3)),
+          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
         }),
       ).annotate({ identifier: "GetDataSourceOutput" });
   }
 }
-function __c252(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22608,9 +23314,9 @@ function __c252(j: number): any {
           status: S.String,
           type: S.String,
           dataSourceConfigurationSnapshot: S.optional(S.String),
-          runStatisticsForAssets: S.optional(__S(8128, __c254, 0)),
-          lineageSummary: S.optional(__S(8096, __c253, 0)),
-          errorMessage: S.optional(__S(4864, __c152, 0)),
+          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
+          lineageSummary: S.optional(__S(8384, __c262, 0)),
+          errorMessage: S.optional(__S(5248, __c164, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -22619,7 +23325,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetDataSourceRunOutput" });
   }
 }
-function __c253(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ importStatus: S.optional(S.String) })).annotate({
@@ -22627,7 +23333,7 @@ function __c253(j: number): any {
       });
   }
 }
-function __c254(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22641,7 +23347,65 @@ function __c254(j: number): any {
       ).annotate({ identifier: "RunStatisticsForAssets" });
   }
 }
-function __c255(j: number): any {
+function __c264(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          predictionTarget: S.optional(S.String),
+          predictionChoice: S.optional(S.Number),
+          editedValue: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "AcceptChoice" });
+    case 1:
+      return S.Array(__S(8448, __c264, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+          revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
+          acceptRule: S.optional(__S(8512, __c266, 0)),
+          acceptChoices: S.optional(__S(8449, __c264, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/accept-predictions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AcceptPredictionsInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ domainId: S.String, assetId: S.String, revision: S.String }),
+      ).annotate({ identifier: "AcceptPredictionsOutput" });
+  }
+}
+function __c265(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ regionName: S.String }),
+        /*@__PURE__*/ S.Struct({ regionNamePath: S.String }),
+      ]);
+  }
+}
+function __c266(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ rule: S.optional(S.String), threshold: S.optional(S.Number) }),
+      ).annotate({ identifier: "AcceptRule" });
+  }
+}
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22664,235 +23428,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetDesignationInput" });
   }
 }
-function __c256(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-          decisionComment: S.optional(SensitiveString),
-          assetScopes: S.optional(__S(8449, __c264, 1)),
-          assetPermissions: S.optional(__S(8451, __c264, 3)),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AcceptSubscriptionRequestInput" });
-  }
-}
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          formName: S.String,
-          typeName: S.optional(SensitiveString),
-          typeRevision: S.optional(S.String),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormOutput" });
-    case 1:
-      return S.Array(__S(8256, __c258, 0));
-  }
-}
-function __c259(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c260(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(8288, __c259, 0) })]);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          assetId: S.String,
-          filterIds: __S(8224, __c257, 0),
-          status: S.String,
-          scopeName: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AssetScope" });
-  }
-}
-function __c261(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(SensitiveString),
-          shortDescription: S.optional(SensitiveString),
-        }),
-      ).annotate({ identifier: "DetailedGlossaryTerm" });
-    case 1:
-      return S.Array(__S(8352, __c261, 0));
-  }
-}
-function __c262(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
-      ).annotate({ identifier: "SubscribedProject" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ id: S.optional(S.String), details: S.optional(__S(8418, __c263, 2)) }),
-      ).annotate({ identifier: "SubscribedUser" });
-    case 2:
-      return S.suspend(() => S.Struct({ principalArn: S.optional(S.String) })).annotate({
-        identifier: "SubscribedIamPrincipal",
-      });
-    case 3:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ project: __S(8384, __c262, 0) }),
-        /*@__PURE__*/ S.Struct({ user: __S(8385, __c262, 1) }),
-        /*@__PURE__*/ S.Struct({ group: __S(8384, __c262, 0) }),
-        /*@__PURE__*/ S.Struct({ iam: __S(8386, __c262, 2) }),
-      ]);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          entityId: S.optional(S.String),
-          entityRevision: S.optional(S.String),
-          entityType: S.optional(S.String),
-          forms: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
-          assetScope: S.optional(__S(8321, __c260, 1)),
-          permissions: S.optional(__S(8320, __c260, 0)),
-        }),
-      ).annotate({ identifier: "SubscribedAssetListing" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          entityId: S.optional(S.String),
-          entityRevision: S.optional(S.String),
-          entityType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AssetInDataProductListingItem" });
-    case 6:
-      return S.Array(__S(8389, __c262, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          entityId: S.optional(S.String),
-          entityRevision: S.optional(S.String),
-          glossaryTerms: S.optional(__S(8353, __c261, 1)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          assetListings: S.optional(__S(8390, __c262, 6)),
-        }),
-      ).annotate({ identifier: "SubscribedProductListing" });
-    case 8:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ assetListing: __S(8388, __c262, 4) }),
-        /*@__PURE__*/ S.Struct({ productListing: __S(8391, __c262, 7) }),
-      ]);
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          revision: S.optional(S.String),
-          name: S.String,
-          description: SensitiveString,
-          item: __S(8392, __c262, 8),
-          ownerProjectId: S.String,
-          ownerProjectName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SubscribedListing" });
-  }
-}
-function __c263(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          arn: S.optional(S.String),
-          principalId: S.optional(S.String),
-          sessionName: S.optional(S.String),
-          groupProfileId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IamUserProfileDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(SensitiveString),
-          firstName: S.optional(SensitiveString),
-          lastName: S.optional(SensitiveString),
-        }),
-      ).annotate({ identifier: "SsoUserProfileDetails" });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ iam: __S(8416, __c263, 0) }),
-        /*@__PURE__*/ S.Struct({ sso: __S(8417, __c263, 1) }),
-      ]);
-  }
-}
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ assetId: S.String, filterIds: __S(8224, __c257, 0) }),
-      ).annotate({ identifier: "AcceptedAssetScope" });
-    case 1:
-      return S.Array(__S(8448, __c264, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ assetId: S.String, permissions: __S(8320, __c260, 0) }),
-      ).annotate({ identifier: "AssetPermission" });
-    case 3:
-      return S.Array(__S(8450, __c264, 2));
-  }
-}
-function __c265(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8387, __c262, 3));
-    case 1:
-      return S.Array(__S(8393, __c262, 9));
-  }
-}
-function __c266(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdBy: S.String,
-          updatedBy: S.optional(S.String),
-          domainId: S.String,
-          status: S.String,
-          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          requestReason: SensitiveString,
-          subscribedPrincipals: __S(8480, __c265, 0),
-          subscribedListings: __S(8481, __c265, 1),
-          reviewerId: S.optional(S.String),
-          decisionComment: S.optional(SensitiveString),
-          existingSubscriptionId: S.optional(S.String),
-          metadataForms: S.optional(__S(8257, __c258, 1)),
-        }),
-      ).annotate({ identifier: "AcceptSubscriptionRequestOutput" });
-  }
-}
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22912,7 +23448,7 @@ function __c267(j: number): any {
         S.Struct({ id: S.optional(S.String), message: S.optional(S.String) }),
       ).annotate({ identifier: "FailureReason" });
     case 2:
-      return S.Array(__S(8545, __c267, 1));
+      return S.Array(__S(8577, __c268, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ successfullyDeletedProjectCount: S.optional(S.Number) }),
@@ -22924,7 +23460,7 @@ function __c267(j: number): any {
           rootDomainUnitId: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5024, __c157, 0)),
+          singleSignOn: S.optional(__S(5408, __c169, 0)),
           domainExecutionRole: S.String,
           arn: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
@@ -22932,16 +23468,16 @@ function __c267(j: number): any {
           portalUrl: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          tags: S.optional(__S(4544, __c142, 0)),
+          tags: S.optional(__S(4928, __c154, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
-          failureReasons: S.optional(__S(8546, __c267, 2)),
-          deleteProgress: S.optional(__S(8547, __c267, 3)),
+          failureReasons: S.optional(__S(8578, __c268, 2)),
+          deleteProgress: S.optional(__S(8579, __c268, 3)),
         }),
       ).annotate({ identifier: "GetDomainOutput" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22970,7 +23506,7 @@ function __c268(j: number): any {
           name: SensitiveString,
           parentDomainUnitId: S.optional(S.String),
           description: S.optional(SensitiveString),
-          owners: __S(5091, __c159, 3),
+          owners: __S(5475, __c171, 3),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -22979,7 +23515,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "GetDomainUnitOutput" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23002,7 +23538,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetEnvironmentInput" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23026,7 +23562,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetEnvironmentActionInput" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23049,7 +23585,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetEnvironmentBlueprintInput" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23074,10 +23610,10 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GetEnvironmentBlueprintConfigurationInput" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(4544, __c142, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4928, __c154, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -23085,24 +23621,24 @@ function __c273(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           region: S.String,
-          parameters: __S(4544, __c142, 0),
+          parameters: __S(4928, __c154, 0),
         }),
       ).annotate({ identifier: "ResourceConfiguration" });
     case 2:
-      return S.Array(__S(8737, __c273, 1));
+      return S.Array(__S(8769, __c274, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           locationRegistrationRole: S.optional(S.String),
-          locationRegistrationExcludeS3Locations: S.optional(__S(8224, __c257, 0)),
+          locationRegistrationExcludeS3Locations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "LakeFormationConfiguration" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ lakeFormationConfiguration: __S(8739, __c273, 3) }),
+        /*@__PURE__*/ S.Struct({ lakeFormationConfiguration: __S(8771, __c274, 3) }),
       ]);
     case 5:
-      return S.Array(__S(8740, __c273, 4));
+      return S.Array(__S(8772, __c274, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -23111,18 +23647,18 @@ function __c273(j: number): any {
           provisioningRoleArn: S.optional(S.String),
           environmentRolePermissionBoundary: S.optional(S.String),
           manageAccessRoleArn: S.optional(S.String),
-          enabledRegions: S.optional(__S(8224, __c257, 0)),
-          regionalParameters: S.optional(__S(8736, __c273, 0)),
+          enabledRegions: S.optional(__S(32, __c1, 0)),
+          regionalParameters: S.optional(__S(8768, __c274, 0)),
           allowUserProvidedConfigurations: S.optional(S.Boolean),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          resourceConfigurations: S.optional(__S(8738, __c273, 2)),
-          provisioningConfigurations: S.optional(__S(8741, __c273, 5)),
+          resourceConfigurations: S.optional(__S(8770, __c274, 2)),
+          provisioningConfigurations: S.optional(__S(8773, __c274, 5)),
         }),
       ).annotate({ identifier: "GetEnvironmentBlueprintConfigurationOutput" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23145,7 +23681,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "GetEnvironmentCredentialsInput" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23168,7 +23704,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetEnvironmentProfileInput" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23196,7 +23732,7 @@ function __c276(j: number): any {
           domainId: S.String,
           name: SensitiveString,
           revision: S.String,
-          model: __S(5568, __c174, 0),
+          model: __S(5952, __c186, 0),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -23204,58 +23740,19 @@ function __c276(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          imports: S.optional(__S(8865, __c277, 1)),
+          imports: S.optional(__S(8897, __c278, 1)),
         }),
       ).annotate({ identifier: "GetFormTypeOutput" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: SensitiveString, revision: S.String })).annotate({
         identifier: "Import",
       });
     case 1:
-      return S.Array(__S(8864, __c277, 0));
-  }
-}
-function __c278(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "GET",
-              uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetGlossaryInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.String,
-          id: S.String,
-          owningProjectId: S.String,
-          name: SensitiveString,
-          description: S.optional(SensitiveString),
-          status: S.String,
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          createdBy: S.optional(S.String),
-          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          updatedBy: S.optional(S.String),
-          usageRestrictions: S.optional(__S(8288, __c259, 0)),
-        }),
-      ).annotate({ identifier: "GetGlossaryOutput" });
+      return S.Array(__S(8896, __c278, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

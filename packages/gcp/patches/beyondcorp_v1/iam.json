@@ -83,14 +83,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.beyondcorp_v1#ReportStatusProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
-      "value": {
-        "actions": ["beyondcorp.appConnectors.reportStatus"],
-        "roles": ["roles/beyondcorp.editor"]
-      }
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.gcp.beyondcorp_v1#ResolveInstanceConfigProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
       "value": {
         "actions": ["beyondcorp.appConnectors.update"],

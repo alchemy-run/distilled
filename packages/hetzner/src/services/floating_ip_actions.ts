@@ -206,13 +206,13 @@ export interface ListFloatingIpActionsRequest {
   /** ID of the Floating IP. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFloatingIpActionsRequestSortList;
+  sort?: ListFloatingIpActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListFloatingIpActionsRequestStatusList;
+  status?: ListFloatingIpActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListFloatingIpActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -293,15 +293,15 @@ export type ListFloatingIpsActionsRequestStatusList = Array<
 >;
 export interface ListFloatingIpsActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListFloatingIpsActionsRequestIdList;
+  id?: ListFloatingIpsActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFloatingIpsActionsRequestSortList;
+  sort?: ListFloatingIpsActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListFloatingIpsActionsRequestStatusList;
+  status?: ListFloatingIpsActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListFloatingIpsActionsResponseActionsItemStatus = "running" | "success" | "error";

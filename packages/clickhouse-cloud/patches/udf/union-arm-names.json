@@ -1,0 +1,165 @@
+{
+  "description": "UdfCreateRequest and UdfVersionCreateRequest are oneOf two inline object arms with no name in the spec, so the converter numbers them (UdfCreateRequestCase0, UdfCreateRequestCase1, ...). The arms are the two ways a UDF runs, and differ in `type`, `poolSize` and `maxCommandExecutionTime`: `executable` (one process per block) and `executable_pool` (a pool of long-running processes). Name each arm, and the enum and list shapes inline in it, for the mode it describes. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-12).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequest/members/Case0/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfCreateRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase0",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequest/members/arguments/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfCreateRequestArgumentsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase0ArgumentsList",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequestArgumentsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequest/members/runtime/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfCreateRequestRuntime"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase0Runtime",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequestRuntime"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequest/members/sandboxType/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfCreateRequestSandboxType"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase0SandboxType",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfCreateRequestSandboxType"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequest/members/Case1/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase1",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequest/members/arguments/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestArgumentsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase1ArgumentsList",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestArgumentsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequest/members/runtime/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestRuntime"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase1Runtime",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestRuntime"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequest/members/sandboxType/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestSandboxType"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfCreateRequestCase1SandboxType",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfCreateRequestSandboxType"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequest/members/Case0/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase0",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequest/members/arguments/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestArgumentsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase0ArgumentsList",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestArgumentsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequest/members/runtime/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestRuntime"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase0Runtime",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestRuntime"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequest/members/sandboxType/target",
+      "value": "com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestSandboxType"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase0SandboxType",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutableUdfVersionCreateRequestSandboxType"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequest/members/Case1/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase1",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequest/members/arguments/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestArgumentsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase1ArgumentsList",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestArgumentsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequest/members/runtime/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestRuntime"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase1Runtime",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestRuntime"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequest/members/sandboxType/target",
+      "value": "com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestSandboxType"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.udf#UdfVersionCreateRequestCase1SandboxType",
+      "path": "/shapes/com.clickhouse.cloud.udf#ExecutablePoolUdfVersionCreateRequestSandboxType"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import {
+  assertDescriptorsCover,
   convertProtoToSmithy,
   parseProto,
   protoDescriptors,
@@ -63,6 +64,7 @@ const files = PROTO_FILES.map((name) => {
 clearModels(OUT_DIR);
 
 let written = 0;
+const models: Array<ReturnType<typeof convertProtoToSmithy>["model"]> = [];
 let totalOps = 0;
 let totalStreaming = 0;
 
@@ -91,6 +93,7 @@ const convertService = (
     return;
   }
   writeModel(path.join(OUT_DIR, `${slug}.json`), result.model);
+  models.push(result.model);
   written++;
   totalOps += result.converted;
   totalStreaming += result.skippedStreaming;
@@ -150,6 +153,7 @@ const quoteForSource = (text: string): string =>
 // API only speaks binary gRPC, so the proto3 JSON bodies the services build
 // are transcoded with this table.
 const descriptors = protoDescriptors(files, { collectServerStreams: true, skipDeprecated: true });
+assertDescriptorsCover(models, descriptors);
 fs.writeFileSync(
   path.join(ROOT, "src", "descriptors.ts"),
   [

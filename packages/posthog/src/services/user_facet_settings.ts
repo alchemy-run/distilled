@@ -51,7 +51,7 @@ export interface UpdateUserFacetSettingsPartialRequest {
   /** Which product's custom facets to read or update. */
   product: UpdateUserFacetSettingsPartialRequestProduct | (string & {});
   /** Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set. */
-  custom_facets?: UpdateUserFacetSettingsPartialRequestCustomFacetsList;
+  custom_facets?: UpdateUserFacetSettingsPartialRequestCustomFacetsList | undefined;
 }
 export type GetUserFacetSettingsError = PosthogOpError;
 /** Get the authenticated user's custom facets for a product, within the current team. Pass `@me` as the UUID. */

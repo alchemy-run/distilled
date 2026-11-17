@@ -45,6 +45,10 @@ export const TELEMETRY: GraphQLTelemetry = {
       sessionId: [{ name: "railway.session_id" }],
       taskId: [{ name: "railway.task_id" }],
     },
+    "query.cloudAgentTaskModels": {
+      environmentId: [{ name: "railway.environment_id" }],
+      projectId: [{ name: "railway.project_id" }],
+    },
     "query.cloudAgentTasks": {
       cloudAgentId: [{ name: "railway.cloud_agent_id" }],
       environmentId: [{ name: "railway.environment_id" }],
@@ -54,6 +58,10 @@ export const TELEMETRY: GraphQLTelemetry = {
     "query.customDomain": {
       id: [{ name: "railway.custom_domain_id" }],
       projectId: [{ name: "railway.project_id" }],
+    },
+    "query.databasePasswordRotationProgress": {
+      environmentId: [{ name: "railway.environment_id" }],
+      serviceId: [{ name: "railway.service_id" }],
     },
     "query.deployment": { id: [{ name: "railway.deployment_id" }] },
     "query.deploymentEvents": { id: [{ name: "railway.query_deployment_events_connection_id" }] },
@@ -288,6 +296,7 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "query.workflowStatus": { workflowId: [{ name: "railway.workflow_id" }] },
     "query.workspace": { workspaceId: [{ name: "railway.workspace_id" }] },
+    "query.workspaceApiTokens": { workspaceId: [{ name: "railway.workspace_id" }] },
     "query.workspaceIdentityProviders": { workspaceId: [{ name: "railway.workspace_id" }] },
     "query.workspacePolicy": { workspaceId: [{ name: "railway.workspace_id" }] },
     "query.workspacePolicySelectableDeploySources": {
@@ -295,6 +304,7 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "query.workspaceTemplates": { workspaceId: [{ name: "railway.workspace_id" }] },
     "query.workspaceUsageTotals": { workspaceId: [{ name: "railway.workspace_id" }] },
+    "query.xAgentClaimInfo": { buildId: [{ name: "railway.build_id" }] },
     "mutation.accessGroupDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.accessGroupUpdate": { id: [{ name: "railway.access_group_id" }] },
     "mutation.apiTokenDelete": { id: [{ name: "railway.boolean_id" }] },
@@ -319,6 +329,7 @@ export const TELEMETRY: GraphQLTelemetry = {
       environmentId: [{ name: "railway.environment_id" }],
       rootServiceId: [{ name: "railway.root_service_id" }],
     },
+    "mutation.cloudAgentArchive": { id: [{ name: "railway.boolean_id" }] },
     "mutation.cloudAgentCheckpointCreate": { id: [{ name: "railway.cloud_agent_checkpoint_id" }] },
     "mutation.cloudAgentCheckpointDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.cloudAgentDelete": { id: [{ name: "railway.boolean_id" }] },
@@ -328,12 +339,21 @@ export const TELEMETRY: GraphQLTelemetry = {
       environmentId: [{ name: "railway.environment_id" }],
       id: [{ name: "railway.string_id" }],
     },
+    "mutation.cloudAgentMarkSeen": {
+      cloudAgentId: [{ name: "railway.cloud_agent_id" }],
+      sessionId: [{ name: "railway.session_id" }],
+    },
+    "mutation.cloudAgentSessionRename": {
+      cloudAgentId: [{ name: "railway.cloud_agent_id" }],
+      sessionId: [{ name: "railway.session_id" }],
+    },
     "mutation.cloudAgentSleep": { id: [{ name: "railway.cloud_agent_id" }] },
     "mutation.cloudAgentTaskCancel": { taskId: [{ name: "railway.task_id" }] },
     "mutation.cloudAgentTaskRecover": {
       cloudAgentId: [{ name: "railway.cloud_agent_id" }],
       sessionId: [{ name: "railway.session_id" }],
     },
+    "mutation.cloudAgentUnarchive": { id: [{ name: "railway.boolean_id" }] },
     "mutation.cloudAgentWake": { id: [{ name: "railway.cloud_agent_id" }] },
     "mutation.customDomainDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.customDomainIssueCertificate": { id: [{ name: "railway.boolean_id" }] },
@@ -410,7 +430,7 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.projectInvitationCreate": { id: [{ name: "railway.project_invitation_id" }] },
     "mutation.projectInvitationDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.projectInvitationResend": { id: [{ name: "railway.project_invitation_id" }] },
-    "mutation.projectInviteUser": { id: [{ name: "railway.boolean_id" }] },
+    "mutation.projectInviteCodeCreate": { projectId: [{ name: "railway.project_id" }] },
     "mutation.projectLeave": { id: [{ name: "railway.boolean_id" }] },
     "mutation.projectScheduleDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.projectScheduleDeleteCancel": { id: [{ name: "railway.boolean_id" }] },
@@ -537,6 +557,10 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "mutation.volumeUpdate": { volumeId: [{ name: "railway.volume_id" }] },
     "mutation.webhookTest": { notificationRuleId: [{ name: "railway.notification_rule_id" }] },
+    "mutation.workspaceApiTokenDelete": {
+      id: [{ name: "railway.boolean_id" }],
+      workspaceId: [{ name: "railway.workspace_id" }],
+    },
     "mutation.workspaceDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.workspaceInviteCodeCreate": { workspaceId: [{ name: "railway.workspace_id" }] },
     "mutation.workspaceLeave": { id: [{ name: "railway.boolean_id" }] },
@@ -556,6 +580,10 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.workspaceUpsertSlackChannel": { id: [{ name: "railway.boolean_id" }] },
     "mutation.workspaceUserInvite": { workspaceId: [{ name: "railway.workspace_id" }] },
     "mutation.workspaceUserRemove": { workspaceId: [{ name: "railway.workspace_id" }] },
+    "mutation.xAgentProjectClaim": {
+      buildId: [{ name: "railway.build_id" }],
+      workspaceId: [{ name: "railway.workspace_id" }],
+    },
   },
   propagate: "w3c",
 };

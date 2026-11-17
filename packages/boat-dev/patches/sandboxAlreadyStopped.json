@@ -1,0 +1,40 @@
+{
+  "description": "Type the 400 stopping an already stopped sandbox gets: {\"code\": \"stop_failed\", \"message\": \"Sandbox is archived, so it cannot be stopped.\"}. Observed live 2026-11-07.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxAlreadyStopped",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The sandbox is already stopped (archived).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "stop_failed"
+              },
+              "message": {
+                "includes": "archived"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Stop/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxAlreadyStopped"
+      }
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — turn the Clerk Backend API OpenAPI spec into a Smithy 2.0 JSON
- * model.
+ * convert — turn Clerk's Backend and Platform OpenAPI descriptions into
+ * separate Smithy 2.0 models.
  *
- * Input:  specs/spec-mirror-clerk/specs/openapi.json  (spec submodule)
- *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document)
- * Output: .generated-specs/clerk.json
+ * Input:  specs/spec-mirror-clerk/specs/{openapi,platform}.json
+ *         patches/<model>/*.json  (RFC-6902 patches to the Smithy model)
+ * Output: .generated-specs/{clerk,platform}.json
  *
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Clerk's pipeline
@@ -21,9 +21,20 @@ await runOpenApiConvert({
       name: "clerk",
       specPath: "specs/spec-mirror-clerk/specs/openapi.json",
     },
+    {
+      name: "platform",
+      specPath: "specs/spec-mirror-clerk/specs/platform.json",
+      options: {
+        namespace: "com.clerk.platform",
+        serviceName: "ClerkPlatform",
+        headerParams: true,
+        binaryTypes: true,
+        operationNames: (operationId) =>
+          operationId.startsWith("Platform") ? operationId.slice("Platform".length) : undefined,
+      },
+    },
   ],
-  // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The
-  // smithy-model patch chain in generate.ts is disabled (`patchesDir: false`).
+  // Patches target upstream Smithy names before deferred operation renaming.
   patchesDir: "patches",
   options: {
     namespace: "com.clerk.api",

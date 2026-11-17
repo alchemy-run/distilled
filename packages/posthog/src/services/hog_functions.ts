@@ -29,15 +29,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: HogInvocationRerunResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -47,6 +56,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -62,7 +73,7 @@ export type HogFunctionTypeEnum =
   | "transformation"
   | "transformation_log"
   | "legacy_destination";
-/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `task_skills` - task_skills */
+/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `posthog_survey` - posthog_survey * `task_skills` - task_skills * `replay_vision_scan` - replay_vision_scan */
 export type InputsSchemaItemTypeEnum =
   | "string"
   | "number"
@@ -85,36 +96,38 @@ export type InputsSchemaItemTypeEnum =
   | "task_repository"
   | "task_mcp_installations"
   | "signals_scout"
-  | "task_skills";
+  | "posthog_survey"
+  | "task_skills"
+  | "replay_vision_scan";
 export type InputsSchemaItemChoicesItemMap = { [key: string]: unknown | undefined };
 export type InputsSchemaItemChoicesList = Array<InputsSchemaItemChoicesItemMap>;
 export type InputsSchemaItemTemplatingCase1 = "hog" | "liquid";
 export type InputsSchemaItemTemplating = boolean | InputsSchemaItemTemplatingCase1;
 export interface InputsSchemaItem {
-  type?: InputsSchemaItemTypeEnum | (string & {});
-  key?: string;
-  label?: string;
-  choices?: InputsSchemaItemChoicesList;
-  searchable?: boolean;
-  required?: boolean;
-  default?: unknown;
-  secret?: boolean;
-  hidden?: boolean;
-  description?: string;
-  integration?: string;
-  integration_key?: string;
-  requires_field?: string;
-  integration_field?: string;
-  requiredScopes?: string;
-  templating?: InputsSchemaItemTemplating;
+  type?: InputsSchemaItemTypeEnum | (string & {}) | undefined;
+  key?: string | undefined;
+  label?: string | undefined;
+  choices?: InputsSchemaItemChoicesList | undefined;
+  searchable?: boolean | undefined;
+  required?: boolean | undefined;
+  default?: unknown | undefined;
+  secret?: boolean | undefined;
+  hidden?: boolean | undefined;
+  description?: string | undefined;
+  integration?: string | undefined;
+  integration_key?: string | undefined;
+  requires_field?: string | undefined;
+  integration_field?: string | undefined;
+  requiredScopes?: string | undefined;
+  templating?: InputsSchemaItemTemplating | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type CreateHogFunctionRequestInputsSchemaList = Array<InputsSchemaItem>;
 /** * `hog` - hog * `liquid` - liquid */
 export type HogFunctionTemplatingEnum = "hog" | "liquid";
 export interface InputsItemInput {
-  value?: unknown;
-  templating?: HogFunctionTemplatingEnum | (string & {});
+  value?: unknown | undefined;
+  templating?: HogFunctionTemplatingEnum | (string & {}) | undefined;
 }
 /** Values for each input defined in inputs_schema. */
 export type CreateHogFunctionRequestInputsMap = { [key: string]: InputsItemInput | undefined };
@@ -134,34 +147,34 @@ export type HogFunctionFiltersDataWarehouseList = Array<HogFunctionFiltersDataWa
 export type HogFunctionFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
 export type HogFunctionFiltersPropertiesList = Array<HogFunctionFiltersPropertiesItemMap>;
 export interface HogFunctionFilters {
-  source?: HogFunctionFiltersSourceEnum | (string & {});
-  actions?: HogFunctionFiltersActionsList;
-  events?: HogFunctionFiltersEventsList;
-  data_warehouse?: HogFunctionFiltersDataWarehouseList;
-  properties?: HogFunctionFiltersPropertiesList;
-  bytecode?: unknown;
-  transpiled?: unknown;
-  filter_test_accounts?: boolean;
-  bytecode_error?: string;
-  bytecode_contract?: string;
+  source?: HogFunctionFiltersSourceEnum | (string & {}) | undefined;
+  actions?: HogFunctionFiltersActionsList | undefined;
+  events?: HogFunctionFiltersEventsList | undefined;
+  data_warehouse?: HogFunctionFiltersDataWarehouseList | undefined;
+  properties?: HogFunctionFiltersPropertiesList | undefined;
+  bytecode?: unknown | undefined;
+  transpiled?: unknown | undefined;
+  filter_test_accounts?: boolean | undefined;
+  bytecode_error?: string | undefined;
+  bytecode_contract?: string | undefined;
 }
 export interface HogFunctionMasking {
   /** Time-to-live in seconds for the masking cache (60-86400). */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Optional threshold count before masking applies. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Hog expression used to compute the masking hash. */
-  hash?: string;
+  hash?: string | undefined;
   /** Compiled bytecode for the hash expression. Auto-generated. */
-  bytecode?: unknown;
+  bytecode?: unknown | undefined;
 }
 export type MappingsInputInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputInputsMap = { [key: string]: InputsItemInput | undefined };
 export interface MappingsInput {
-  name?: string;
-  inputs_schema?: MappingsInputInputsSchemaList;
-  inputs?: MappingsInputInputsMap;
-  filters?: HogFunctionFilters;
+  inputs_schema?: MappingsInputInputsSchemaList | undefined;
+  inputs?: MappingsInputInputsMap | undefined;
+  name?: string | undefined;
+  filters?: HogFunctionFilters | undefined;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
 export type CreateHogFunctionRequestMappingsList = Array<MappingsInput>;
@@ -169,36 +182,36 @@ export interface CreateHogFunctionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: CreateHogFunctionRequestInputsSchemaList;
+  inputs_schema?: CreateHogFunctionRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: CreateHogFunctionRequestInputsMap;
+  inputs?: CreateHogFunctionRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: CreateHogFunctionRequestMappingsList | null;
+  mappings?: CreateHogFunctionRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -215,134 +228,134 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type HogFunctionOutputInputsSchemaList = Array<InputsSchemaItem>;
 export type InputsItemBytecodeList = Array<unknown>;
 export interface InputsItem {
-  value?: unknown;
-  templating?: HogFunctionTemplatingEnum;
-  bytecode?: InputsItemBytecodeList;
-  bytecode_contract?: string;
-  order?: number;
-  transpiled?: unknown;
+  value?: unknown | undefined;
+  templating?: HogFunctionTemplatingEnum | undefined;
+  bytecode?: InputsItemBytecodeList | undefined;
+  bytecode_contract?: string | undefined;
+  order?: number | undefined;
+  transpiled?: unknown | undefined;
 }
 /** Values for each input defined in inputs_schema. */
 export type HogFunctionOutputInputsMap = { [key: string]: InputsItem | undefined };
 export type MappingsInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputsMap = { [key: string]: InputsItem | undefined };
 export interface Mappings {
-  name?: string;
-  inputs_schema?: MappingsInputsSchemaList;
-  inputs?: MappingsInputsMap;
-  filters?: HogFunctionFilters;
+  inputs_schema?: MappingsInputsSchemaList | undefined;
+  inputs?: MappingsInputsMap | undefined;
+  name?: string | undefined;
+  filters?: HogFunctionFilters | undefined;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
 export type HogFunctionOutputMappingsList = Array<Mappings>;
 export interface HogFunctionMappingTemplate {
   /** Name of this mapping template. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this mapping is enabled by default. */
-  include_by_default?: boolean | null;
+  include_by_default?: boolean | null | undefined;
   /** Whether this mapping should match all events by default, hiding the event filter UI. */
-  use_all_events_by_default?: boolean | null;
+  use_all_events_by_default?: boolean | null | undefined;
   /** Event filters specific to this mapping. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Input values specific to this mapping. */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** Additional input schema fields specific to this mapping. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
 }
 /** Pre-defined mapping configurations for destination templates. */
 export type HogFunctionTemplateMappingTemplatesList = Array<HogFunctionMappingTemplate>;
 export interface HogFunctionTemplate {
   /** Unique template identifier (e.g. 'template-slack'). */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** What this template does. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Source code of the template. */
-  code?: string;
+  code?: string | undefined;
   /** Programming language: 'hog' or 'javascript'. */
-  code_language?: string;
+  code_language?: string | undefined;
   /** Schema defining configurable inputs for functions created from this template. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
   /** Function type this template creates. */
-  type?: string;
+  type?: string | undefined;
   /** Lifecycle status: alpha, beta, stable, deprecated, or hidden. */
-  status?: string;
+  status?: string | undefined;
   /** Category tags for organizing templates. */
-  category?: unknown;
+  category?: unknown | undefined;
   /** Whether available on free plans. */
-  free?: boolean;
+  free?: boolean | undefined;
   /** URL for the template's icon. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Default event filters. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Default PII masking configuration. */
-  masking?: unknown;
+  masking?: unknown | undefined;
   /** Pre-defined mapping configurations for destination templates. */
-  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null;
+  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null | undefined;
 }
 /** * `0` - 0 * `1` - 1 * `2` - 2 * `3` - 3 * `11` - 11 * `12` - 12 */
 export type HogFunctionStatusStateEnum = 0 | 1 | 2 | 3 | 11 | 12;
 export interface HogFunctionStatus {
-  state?: HogFunctionStatusStateEnum;
-  tokens?: number;
+  state?: HogFunctionStatusStateEnum | undefined;
+  tokens?: number | undefined;
 }
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface HogFunctionOutput {
-  id?: string;
+  id?: string | undefined;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | null;
+  type?: HogFunctionTypeEnum | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
+  description?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
-  bytecode?: unknown;
-  transpiled?: string | null;
+  hog?: string | undefined;
+  bytecode?: unknown | undefined;
+  transpiled?: string | null | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionOutputInputsSchemaList;
+  inputs_schema?: HogFunctionOutputInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionOutputInputsMap;
+  inputs?: HogFunctionOutputInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionOutputMappingsList | null;
+  mappings?: HogFunctionOutputMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
-  template?: HogFunctionTemplate;
-  status?: HogFunctionStatus | null;
+  icon_url?: string | null | undefined;
+  template?: HogFunctionTemplate | undefined;
+  status?: HogFunctionStatus | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  batch_export_id?: string | null;
+  execution_order?: number | null | undefined;
+  batch_export_id?: string | null | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
   /** Incremented every time the live config changes. See the revisions endpoint. */
-  version?: number;
+  version?: number | undefined;
   /** Config staged for review but not live yet: a full snapshot of hog, inputs_schema, inputs, filters, mappings and masking. Null when nothing is staged. Publish or discard it to clear. */
-  draft?: unknown;
+  draft?: unknown | undefined;
   /** When config was last staged for review, or null when nothing is staged. */
-  draft_updated_at?: string | null;
+  draft_updated_at?: string | null | undefined;
 }
 export interface CreateHogFunctionsDiscardDraftRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -358,36 +371,36 @@ export type HogFunctionInputInputsMap = { [key: string]: InputsItemInput | undef
 export type HogFunctionInputMappingsList = Array<MappingsInput>;
 export interface HogFunctionInput {
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionInputInputsSchemaList;
+  inputs_schema?: HogFunctionInputInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionInputInputsMap;
+  inputs?: HogFunctionInputInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionInputMappingsList | null;
+  mappings?: HogFunctionInputMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 /** Mock global variables available during test invocation. */
 export type CreateHogFunctionsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
@@ -401,27 +414,27 @@ export interface CreateHogFunctionsInvocationRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Full function configuration to test. Omit when use_draft is true. */
-  configuration?: HogFunctionInput;
+  configuration?: HogFunctionInput | undefined;
   /** Test the function's staged draft instead of passing a configuration. Staged secret inputs are used; secrets the draft doesn't change fall back to the live values. 400 when nothing is staged. */
-  use_draft?: boolean;
+  use_draft?: boolean | undefined;
   /** Mock global variables available during test invocation. */
-  globals?: CreateHogFunctionsInvocationRequestGlobalsMap;
+  globals?: CreateHogFunctionsInvocationRequestGlobalsMap | undefined;
   /** Mock ClickHouse event data to test the function with. */
-  clickhouse_event?: CreateHogFunctionsInvocationRequestClickhouseEventMap;
+  clickhouse_event?: CreateHogFunctionsInvocationRequestClickhouseEventMap | undefined;
   /** When true (default), async functions like fetch() are simulated. */
-  mock_async_functions?: boolean;
+  mock_async_functions?: boolean | undefined;
   /** Optional invocation ID for correlation. */
-  invocation_id?: string | null;
+  invocation_id?: string | null | undefined;
 }
 /** Execution logs from the test invocation. */
 export type HogFunctionInvocationOutputLogsList = Array<unknown>;
 export interface HogFunctionInvocationOutput {
   /** Invocation result status. */
-  status?: string;
+  status?: string | undefined;
   /** Execution logs from the test invocation. */
-  logs?: HogFunctionInvocationOutputLogsList;
+  logs?: HogFunctionInvocationOutputLogsList | undefined;
   /** Optional invocation ID for correlation. */
-  invocation_id?: string | null;
+  invocation_id?: string | null | undefined;
 }
 /** * `running` - running * `succeeded` - succeeded * `failed` - failed * `canceled` - canceled */
 export type HogInvocationRerunFilterStatusEnum = "running" | "succeeded" | "failed" | "canceled";
@@ -440,17 +453,17 @@ export interface HogInvocationRerunFilter {
   /** Exclusive upper bound on `scheduled_at` (UTC). */
   window_end: string;
   /** Restrict to invocations whose latest status is one of these. Defaults to ['failed']. */
-  status?: HogInvocationRerunFilterStatusList;
+  status?: HogInvocationRerunFilterStatusList | undefined;
   /** Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout'). */
-  error_kind?: HogInvocationRerunFilterErrorKindList;
+  error_kind?: HogInvocationRerunFilterErrorKindList | undefined;
   /** Restrict to invocations whose error_message contains this substring (case-insensitive). Use to isolate one failure mode when error_kind is too coarse (most app-level errors share the 'hog_error' kind). */
-  error_message_contains?: string;
+  error_message_contains?: string | undefined;
   /** Skip invocations that have already been attempted this many times or more. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
   /** Maximum number of invocations to rerun in this request. Server-side cap is 10000. */
-  max_count?: number;
+  max_count?: number | undefined;
   /** Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned. */
-  invocation_ids?: HogInvocationRerunFilterInvocationIdsList;
+  invocation_ids?: HogInvocationRerunFilterInvocationIdsList | undefined;
 }
 export interface CreateHogFunctionsRerunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -491,17 +504,19 @@ export interface GetHogFunctionsLogRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Filter logs to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
+  level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
+  /** Number of log entries to skip before the first returned entry (default 0). */
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GetHogFunctionsLogResponse {}
 export interface GetHogFunctionsMaskedSecretRequest {
@@ -536,30 +551,30 @@ export interface GetHogFunctionsMetricsRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFunctionsMetricsRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFunctionsMetricsRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFunctionsMetricsRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
-  kind?: string;
-  /** Comma-separated metric names to filter by. */
-  name?: string;
+  interval?: GetHogFunctionsMetricsRequestInterval | (string & {}) | undefined;
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
+  kind?: string | undefined;
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
+  name?: string | undefined;
 }
 export type AppMetricsResponseLabelsList = Array<string>;
 export type AppMetricSeriesValuesList = Array<number>;
 export interface AppMetricSeries {
-  name?: string;
-  values?: AppMetricSeriesValuesList;
+  name?: string | undefined;
+  values?: AppMetricSeriesValuesList | undefined;
 }
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export interface AppMetricsResponse {
-  labels?: AppMetricsResponseLabelsList;
-  series?: AppMetricsResponseSeriesList;
+  labels?: AppMetricsResponseLabelsList | undefined;
+  series?: AppMetricsResponseSeriesList | undefined;
 }
 export type GetHogFunctionsMetricsTotalRequestBreakdownBy = "name" | "kind";
 export type GetHogFunctionsMetricsTotalRequestInterval = "hour" | "day" | "week";
@@ -569,23 +584,23 @@ export interface GetHogFunctionsMetricsTotalRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFunctionsMetricsTotalRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFunctionsMetricsTotalRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFunctionsMetricsTotalRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
-  kind?: string;
-  /** Comma-separated metric names to filter by. */
-  name?: string;
+  interval?: GetHogFunctionsMetricsTotalRequestInterval | (string & {}) | undefined;
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
+  kind?: string | undefined;
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
+  name?: string | undefined;
 }
 export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export interface AppMetricsTotalsResponse {
-  totals?: AppMetricsTotalsResponseTotalsMap;
+  totals?: AppMetricsTotalsResponseTotalsMap | undefined;
 }
 export interface GetHogFunctionsRevisionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -624,36 +639,36 @@ export interface HogFunctionsEnableBackfillsCreateRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: HogFunctionsEnableBackfillsCreateRequestInputsSchemaList;
+  inputs_schema?: HogFunctionsEnableBackfillsCreateRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: HogFunctionsEnableBackfillsCreateRequestInputsMap;
+  inputs?: HogFunctionsEnableBackfillsCreateRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: HogFunctionsEnableBackfillsCreateRequestMappingsList | null;
+  mappings?: HogFunctionsEnableBackfillsCreateRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 export interface HogFunctionsEnableBackfillsCreateResponse {}
 export interface HogFunctionsPublishCreateRequest {
@@ -662,9 +677,9 @@ export interface HogFunctionsPublishCreateRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** False (default) previews the publish: returns which config fields would change without changing anything. True applies the staged draft to the live function. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
   /** From the preview response, and required when confirm=true on an enabled function. Expires after 15 minutes, and any edit to the draft or the live config invalidates it (409), so you always publish the exact draft you previewed. */
-  confirm_token?: string;
+  confirm_token?: string | undefined;
 }
 /** Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews. */
 export type HogFunctionPublishResponseOutputChangedFieldsList = Array<string>;
@@ -678,7 +693,7 @@ export interface HogFunctionPublishResponseOutput {
   /** Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews. */
   changed_fields: HogFunctionPublishResponseOutputChangedFieldsList | null;
   /** The function after publishing (only set when published=true). */
-  function?: HogFunctionOutput | null;
+  function?: HogFunctionOutput | null | undefined;
 }
 export interface HogFunctionsRevisionsRestoreCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -688,50 +703,50 @@ export interface HogFunctionsRevisionsRestoreCreateRequest {
   /** Function version to restore. */
   version: number;
   /** Replace the open staged draft with this revision's config. Without it, restoring while a draft is open returns 409. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export type ListHogFunctionsRequestTypeList = Array<string>;
 export interface ListHogFunctionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  created_at?: string;
-  created_by?: number;
-  enabled?: boolean;
-  id?: string;
+  created_at?: string | undefined;
+  created_by?: number | undefined;
+  enabled?: boolean | undefined;
+  id?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Multiple values may be separated by commas. */
-  type?: ListHogFunctionsRequestTypeList;
-  updated_at?: string;
+  type?: ListHogFunctionsRequestTypeList | undefined;
+  updated_at?: string | undefined;
 }
 export interface HogFunctionMinimal {
-  id?: string;
-  type?: string | null;
-  name?: string | null;
-  description?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  enabled?: boolean;
-  hog?: string;
-  filters?: unknown;
-  icon_url?: string | null;
-  template?: HogFunctionTemplate;
-  status?: HogFunctionStatus | null;
-  execution_order?: number | null;
+  id?: string | undefined;
+  type?: string | null | undefined;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  enabled?: boolean | undefined;
+  hog?: string | undefined;
+  filters?: unknown | undefined;
+  icon_url?: string | null | undefined;
+  template?: HogFunctionTemplate | undefined;
+  status?: HogFunctionStatus | null | undefined;
+  execution_order?: number | null | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
   /** When config was last staged for review, or null when nothing is staged. */
-  draft_updated_at?: string | null;
+  draft_updated_at?: string | null | undefined;
 }
 export type PaginatedHogFunctionMinimalListResultsList = Array<HogFunctionMinimal>;
 export interface PaginatedHogFunctionMinimalList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedHogFunctionMinimalListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedHogFunctionMinimalListResultsList | undefined;
 }
 export interface ListHogFunctionsRevisionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -739,9 +754,9 @@ export interface ListHogFunctionsRevisionsRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface HogFunctionRevisionBasic {
   /** Function version this snapshot was published as. */
@@ -752,8 +767,8 @@ export interface HogFunctionRevisionBasic {
 export type PaginatedHogFunctionRevisionBasicListResultsList = Array<HogFunctionRevisionBasic>;
 export interface PaginatedHogFunctionRevisionBasicList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedHogFunctionRevisionBasicListResultsList;
 }
 /** Schema defining the configurable input parameters for this function. */
@@ -768,36 +783,36 @@ export interface UpdateHogFunctionRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: UpdateHogFunctionRequestInputsSchemaList;
+  inputs_schema?: UpdateHogFunctionRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: UpdateHogFunctionRequestInputsMap;
+  inputs?: UpdateHogFunctionRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: UpdateHogFunctionRequestMappingsList | null;
+  mappings?: UpdateHogFunctionRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
 /** Schema defining the configurable input parameters for this function. */
 export type UpdateHogFunctionsPartialRequestInputsSchemaList = Array<InputsSchemaItem>;
@@ -813,46 +828,46 @@ export interface UpdateHogFunctionsPartialRequest {
   /** A UUID string identifying this hog function. */
   id: string;
   /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
-  type?: HogFunctionTypeEnum | (string & {}) | null;
+  type?: HogFunctionTypeEnum | (string & {}) | null | undefined;
   /** Display name for the function. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this function does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the function is active and processing events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soft-delete flag. Set to true to archive the function. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Source code. Hog language for most types; TypeScript for site_destination and site_app. */
-  hog?: string;
+  hog?: string | undefined;
   /** Schema defining the configurable input parameters for this function. */
-  inputs_schema?: UpdateHogFunctionsPartialRequestInputsSchemaList;
+  inputs_schema?: UpdateHogFunctionsPartialRequestInputsSchemaList | undefined;
   /** Values for each input defined in inputs_schema. */
-  inputs?: UpdateHogFunctionsPartialRequestInputsMap;
+  inputs?: UpdateHogFunctionsPartialRequestInputsMap | undefined;
   /** Event filters that control which events trigger this function. */
-  filters?: HogFunctionFilters;
+  filters?: HogFunctionFilters | undefined;
   /** PII masking configuration with TTL, threshold, and hash expression. */
-  masking?: HogFunctionMasking | null;
+  masking?: HogFunctionMasking | null | undefined;
   /** Event-to-destination field mappings. Only for destination and site_destination types. */
-  mappings?: UpdateHogFunctionsPartialRequestMappingsList | null;
+  mappings?: UpdateHogFunctionsPartialRequestMappingsList | null | undefined;
   /** URL for the function's icon displayed in the UI. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** ID of the template to create this function from. */
-  template_id?: string | null;
+  template_id?: string | null | undefined;
   /** Execution priority for transformations. Lower values run first. */
-  execution_order?: number | null;
-  _create_in_folder?: string;
+  execution_order?: number | null | undefined;
+  _create_in_folder?: string | undefined;
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
 }
-/** Map of hog function UUIDs to their new execution_order values. */
+/** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
 export type UpdateHogFunctionsRearrangePartialRequestOrdersMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateHogFunctionsRearrangePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Map of hog function UUIDs to their new execution_order values. */
-  orders?: UpdateHogFunctionsRearrangePartialRequestOrdersMap;
+  /** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
+  orders?: UpdateHogFunctionsRearrangePartialRequestOrdersMap | undefined;
 }
 export type UpdateHogFunctionsRearrangePartialResponseBodyList = Array<HogFunctionOutput>;
 export type UpdateHogFunctionsRearrangePartialResponse =
@@ -864,8 +879,8 @@ export const createHogFunction: API.OperationMethod<
   CreateHogFunctionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateHogFunctionRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateHogFunctionRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -880,8 +895,8 @@ export const createHogFunctionsDiscardDraft: API.OperationMethod<
   CreateHogFunctionsDiscardDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<CreateHogFunctionsDiscardDraftRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateHogFunctionsDiscardDraftRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -896,8 +911,8 @@ export const createHogFunctionsInvocation: API.OperationMethod<
   CreateHogFunctionsInvocationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c24, 1) as any as S.Schema<CreateHogFunctionsInvocationRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<HogFunctionInvocationOutput>,
+  input: __S(201, __c25, 1) as any as S.Schema<CreateHogFunctionsInvocationRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<HogFunctionInvocationOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -913,8 +928,8 @@ export const createHogFunctionsRerun: API.OperationMethod<
   CreateHogFunctionsRerunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(202, __c25, 2) as any as S.Schema<CreateHogFunctionsRerunRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<HogInvocationRerunResponse>,
+  input: __S(210, __c26, 2) as any as S.Schema<CreateHogFunctionsRerunRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<HogInvocationRerunResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -929,8 +944,8 @@ export const getHogFunction: API.OperationMethod<
   GetHogFunctionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetHogFunctionRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetHogFunctionRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -945,8 +960,8 @@ export const getHogFunctionsIcon: API.OperationMethod<
   GetHogFunctionsIconError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetHogFunctionsIconRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<GetHogFunctionsIconResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetHogFunctionsIconRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<GetHogFunctionsIconResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -961,8 +976,8 @@ export const getHogFunctionsIcon2: API.OperationMethod<
   GetHogFunctionsIcon2Error,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetHogFunctionsIconRequest2>,
-  output: __S(232, __c29, 0) as any as S.Schema<GetHogFunctionsIcon2Response>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetHogFunctionsIconRequest2>,
+  output: __S(240, __c30, 0) as any as S.Schema<GetHogFunctionsIcon2Response>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -977,8 +992,8 @@ export const getHogFunctionsLog: API.OperationMethod<
   GetHogFunctionsLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetHogFunctionsLogRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<GetHogFunctionsLogResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetHogFunctionsLogRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<GetHogFunctionsLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -994,8 +1009,8 @@ export const getHogFunctionsMaskedSecret: API.OperationMethod<
   GetHogFunctionsMaskedSecretError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetHogFunctionsMaskedSecretRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<GetHogFunctionsMaskedSecretResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetHogFunctionsMaskedSecretRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<GetHogFunctionsMaskedSecretResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1010,8 +1025,8 @@ export const getHogFunctionsMetrics: API.OperationMethod<
   GetHogFunctionsMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetHogFunctionsMetricsRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<AppMetricsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetHogFunctionsMetricsRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<AppMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1026,8 +1041,8 @@ export const getHogFunctionsMetricsTotal: API.OperationMethod<
   GetHogFunctionsMetricsTotalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetHogFunctionsMetricsTotalRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<AppMetricsTotalsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetHogFunctionsMetricsTotalRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<AppMetricsTotalsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1057,8 @@ export const getHogFunctionsRevision: API.OperationMethod<
   GetHogFunctionsRevisionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetHogFunctionsRevisionRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<HogFunctionRevision>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetHogFunctionsRevisionRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<HogFunctionRevision>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1059,8 +1074,8 @@ export const hogFunctionsDestroy: API.OperationMethod<
   HogFunctionsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<HogFunctionsDestroyRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<HogFunctionsDestroyResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<HogFunctionsDestroyRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<HogFunctionsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1079,8 +1094,8 @@ export const hogFunctionsEnableBackfillsCreate: API.OperationMethod<
   HogFunctionsEnableBackfillsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<HogFunctionsEnableBackfillsCreateRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<HogFunctionsEnableBackfillsCreateResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<HogFunctionsEnableBackfillsCreateRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<HogFunctionsEnableBackfillsCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1095,8 +1110,8 @@ export const hogFunctionsPublishCreate: API.OperationMethod<
   HogFunctionsPublishCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<HogFunctionsPublishCreateRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<HogFunctionPublishResponseOutput>,
+  input: __S(72, __c9, 0) as any as S.Schema<HogFunctionsPublishCreateRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<HogFunctionPublishResponseOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1111,8 +1126,8 @@ export const hogFunctionsRevisionsRestoreCreate: API.OperationMethod<
   HogFunctionsRevisionsRestoreCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<HogFunctionsRevisionsRestoreCreateRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(80, __c10, 0) as any as S.Schema<HogFunctionsRevisionsRestoreCreateRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1127,8 +1142,8 @@ export const listHogFunctions: API.OperationMethod<
   ListHogFunctionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListHogFunctionsRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<PaginatedHogFunctionMinimalList>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListHogFunctionsRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<PaginatedHogFunctionMinimalList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1143,8 +1158,8 @@ export const listHogFunctionsRevisions: API.OperationMethod<
   ListHogFunctionsRevisionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListHogFunctionsRevisionsRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<PaginatedHogFunctionRevisionBasicList>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListHogFunctionsRevisionsRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<PaginatedHogFunctionRevisionBasicList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1174,8 @@ export const updateHogFunction: API.OperationMethod<
   UpdateHogFunctionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateHogFunctionRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateHogFunctionRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1175,8 +1190,8 @@ export const updateHogFunctionsPartial: API.OperationMethod<
   UpdateHogFunctionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdateHogFunctionsPartialRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<HogFunctionOutput>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateHogFunctionsPartialRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<HogFunctionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1196,8 +1211,8 @@ export const updateHogFunctionsRearrangePartial: API.OperationMethod<
   UpdateHogFunctionsRearrangePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UpdateHogFunctionsRearrangePartialRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<UpdateHogFunctionsRearrangePartialResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<UpdateHogFunctionsRearrangePartialRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<UpdateHogFunctionsRearrangePartialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1211,6 +1226,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          rerun_job_id: S.String,
+          queued_count: S.Number,
+          skipped_count: S.Number,
+        }),
+      ).annotate({ identifier: "HogInvocationRerunResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           after: S.optional(S.String.pipe(T.Query())),
@@ -1218,6 +1245,7 @@ function __c0(j: number): any {
           instance_id: S.optional(S.String.pipe(T.Query())),
           level: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1229,7 +1257,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetHogFunctionsLogRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1250,19 +1278,19 @@ function __c1(j: number): any {
           name: S.String,
           type: S.String,
           enabled: S.Boolean,
-          input_keys: __S(208, __c26, 0),
-          draft_input_keys: __S(208, __c26, 0),
+          input_keys: __S(216, __c27, 0),
+          draft_input_keys: __S(216, __c27, 0),
         }),
       ).annotate({ identifier: "HogFunctionMaskedSecret" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
-      return S.suspend(() => __S(10, __c1, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18, __c2, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHogFunctionsMaskedSecretResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1290,21 +1318,21 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          values: S.optional(__S(17, __c2, 1)),
+          values: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "AppMetricSeries" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(26, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(208, __c26, 0)),
-          series: S.optional(__S(19, __c2, 3)),
+          labels: S.optional(__S(216, __c27, 0)),
+          series: S.optional(__S(27, __c3, 3)),
         }),
       ).annotate({ identifier: "AppMetricsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1329,18 +1357,18 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totals: S.optional(__S(32, __c4, 0)),
+          totals: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "AppMetricsTotalsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1361,13 +1389,13 @@ function __c5(j: number): any {
         S.Struct({
           version: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(152, __c19, 0)),
+          created_by: S.NullOr(__S(160, __c20, 0)),
           content: S.Unknown,
         }),
       ).annotate({ identifier: "HogFunctionRevision" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1384,7 +1412,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "HogFunctionsDestroyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1397,11 +1425,11 @@ function __c7(j: number): any {
           enabled: S.optional(S.Boolean),
           deleted: S.optional(S.Boolean),
           hog: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(187, __c23, 3))),
           icon_url: S.optional(S.NullOr(S.String)),
           template_id: S.optional(S.NullOr(S.String)),
           execution_order: S.optional(S.NullOr(S.Number)),
@@ -1417,7 +1445,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "HogFunctionsEnableBackfillsCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1440,13 +1468,13 @@ function __c8(j: number): any {
           published: S.Boolean,
           draft_updated_at: S.NullOr(S.String),
           confirm_token: S.NullOr(S.String),
-          changed_fields: S.NullOr(__S(208, __c26, 0)),
-          function: S.optional(S.NullOr(__S(172, __c21, 4))),
+          changed_fields: S.NullOr(__S(216, __c27, 0)),
+          function: S.optional(S.NullOr(__S(180, __c22, 4))),
         }),
       ).annotate({ identifier: "HogFunctionPublishResponseOutput" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1465,7 +1493,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "HogFunctionsRevisionsRestoreCreateRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1477,7 +1505,7 @@ function __c10(j: number): any {
           id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          type: S.optional(__S(208, __c26, 0).pipe(T.Query())),
+          type: S.optional(__S(216, __c27, 0).pipe(T.Query())),
           updated_at: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_functions/", code: 200 }),
@@ -1491,33 +1519,33 @@ function __c10(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(152, __c19, 0))),
+          created_by: S.optional(S.NullOr(__S(160, __c20, 0))),
           updated_at: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           hog: S.optional(S.String),
           filters: S.optional(S.Unknown),
           icon_url: S.optional(S.NullOr(S.String)),
-          template: S.optional(__S(162, __c20, 2)),
-          status: S.optional(S.NullOr(__S(163, __c20, 3))),
+          template: S.optional(__S(170, __c21, 2)),
+          status: S.optional(S.NullOr(__S(171, __c21, 3))),
           execution_order: S.optional(S.NullOr(S.Number)),
           search_match_type: S.optional(S.NullOr(S.String)),
           draft_updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "HogFunctionMinimal" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(82, __c10, 2)),
+          results: S.optional(__S(90, __c11, 2)),
         }),
       ).annotate({ identifier: "PaginatedHogFunctionMinimalList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1539,53 +1567,20 @@ function __c11(j: number): any {
         S.Struct({
           version: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(152, __c19, 0)),
+          created_by: S.NullOr(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "HogFunctionRevisionBasic" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(90, __c11, 2),
+          results: __S(98, __c12, 2),
         }),
       ).annotate({ identifier: "PaginatedHogFunctionRevisionBasicList" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          type: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          deleted: S.optional(S.Boolean),
-          hog: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
-          icon_url: S.optional(S.NullOr(S.String)),
-          template_id: S.optional(S.NullOr(S.String)),
-          execution_order: S.optional(S.NullOr(S.Number)),
-          _create_in_folder: S.optional(S.String),
-          base_updated_at: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/hog_functions/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateHogFunctionRequest" });
   }
 }
 function __c13(j: number): any {
@@ -1601,11 +1596,44 @@ function __c13(j: number): any {
           enabled: S.optional(S.Boolean),
           deleted: S.optional(S.Boolean),
           hog: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(187, __c23, 3))),
+          icon_url: S.optional(S.NullOr(S.String)),
+          template_id: S.optional(S.NullOr(S.String)),
+          execution_order: S.optional(S.NullOr(S.Number)),
+          _create_in_folder: S.optional(S.String),
+          base_updated_at: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/hog_functions/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateHogFunctionRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          type: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean),
+          hog: S.optional(S.String),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(187, __c23, 3))),
           icon_url: S.optional(S.NullOr(S.String)),
           template_id: S.optional(S.NullOr(S.String)),
           execution_order: S.optional(S.NullOr(S.Number)),
@@ -1621,13 +1649,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateHogFunctionsPartialRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          orders: S.optional(__S(32, __c4, 0)),
+          orders: S.optional(__S(40, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1637,14 +1665,14 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "UpdateHogFunctionsRearrangePartialRequest" });
     case 1:
-      return S.Array(__S(172, __c21, 4));
+      return S.Array(__S(180, __c22, 4));
     case 2:
-      return S.suspend(() => __S(113, __c14, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(121, __c15, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateHogFunctionsRearrangePartialResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1656,11 +1684,11 @@ function __c15(j: number): any {
           enabled: S.optional(S.Boolean),
           deleted: S.optional(S.Boolean),
           hog: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(187, __c23, 3))),
           icon_url: S.optional(S.NullOr(S.String)),
           template_id: S.optional(S.NullOr(S.String)),
           execution_order: S.optional(S.NullOr(S.Number)),
@@ -1672,23 +1700,23 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateHogFunctionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(136, __c17, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           key: S.optional(S.String),
           label: S.optional(S.String),
-          choices: S.optional(__S(136, __c17, 0)),
+          choices: S.optional(__S(144, __c18, 0)),
           searchable: S.optional(S.Boolean),
           required: S.optional(S.Boolean),
           default: S.optional(S.Unknown),
@@ -1704,15 +1732,15 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "InputsSchemaItem" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
-          actions: S.optional(__S(136, __c17, 0)),
-          events: S.optional(__S(136, __c17, 0)),
-          data_warehouse: S.optional(__S(136, __c17, 0)),
-          properties: S.optional(__S(136, __c17, 0)),
+          actions: S.optional(__S(144, __c18, 0)),
+          events: S.optional(__S(144, __c18, 0)),
+          data_warehouse: S.optional(__S(144, __c18, 0)),
+          properties: S.optional(__S(144, __c18, 0)),
           bytecode: S.optional(S.Unknown),
           transpiled: S.optional(S.Unknown),
           filter_test_accounts: S.optional(S.Boolean),
@@ -1731,13 +1759,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "HogFunctionMasking" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1749,13 +1777,13 @@ function __c19(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(128, __c16, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(136, __c17, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1769,7 +1797,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "HogFunctionMappingTemplate" });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1786,7 +1814,7 @@ function __c20(j: number): any {
           icon_url: S.optional(S.NullOr(S.String)),
           filters: S.optional(S.Unknown),
           masking: S.optional(S.Unknown),
-          mapping_templates: S.optional(S.NullOr(__S(161, __c20, 1))),
+          mapping_templates: S.optional(S.NullOr(__S(169, __c21, 1))),
         }),
       ).annotate({ identifier: "HogFunctionTemplate" });
     case 3:
@@ -1798,32 +1826,32 @@ function __c20(j: number): any {
       ).annotate({ identifier: "HogFunctionStatus" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
           templating: S.optional(S.String),
-          bytecode: S.optional(__S(144, __c18, 0)),
+          bytecode: S.optional(__S(152, __c19, 0)),
           bytecode_contract: S.optional(S.String),
           order: S.optional(S.Number),
           transpiled: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InputsItem" });
     case 1:
-      return S.Record(S.String, __S(168, __c21, 0));
+      return S.Record(S.String, __S(176, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(177, __c22, 1)),
           name: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(169, __c21, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
+          filters: S.optional(__S(147, __c18, 3)),
         }),
       ).annotate({ identifier: "Mappings" });
     case 3:
-      return S.Array(__S(170, __c21, 2));
+      return S.Array(__S(178, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1832,20 +1860,20 @@ function __c21(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(152, __c19, 0))),
+          created_by: S.optional(S.NullOr(__S(160, __c20, 0))),
           updated_at: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           hog: S.optional(S.String),
           bytecode: S.optional(S.Unknown),
           transpiled: S.optional(S.NullOr(S.String)),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(169, __c21, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(171, __c21, 3))),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(177, __c22, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
           icon_url: S.optional(S.NullOr(S.String)),
-          template: S.optional(__S(162, __c20, 2)),
-          status: S.optional(S.NullOr(__S(163, __c20, 3))),
+          template: S.optional(__S(170, __c21, 2)),
+          status: S.optional(S.NullOr(__S(171, __c21, 3))),
           execution_order: S.optional(S.NullOr(S.Number)),
           batch_export_id: S.optional(S.NullOr(S.String)),
           search_match_type: S.optional(S.NullOr(S.String)),
@@ -1856,7 +1884,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "HogFunctionOutput" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1866,21 +1894,21 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "InputsItemInput" });
     case 1:
-      return S.Record(S.String, __S(176, __c22, 0));
+      return S.Record(S.String, __S(184, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
           name: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
+          filters: S.optional(__S(147, __c18, 3)),
         }),
       ).annotate({ identifier: "MappingsInput" });
     case 3:
-      return S.Array(__S(178, __c22, 2));
+      return S.Array(__S(186, __c23, 2));
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1897,7 +1925,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateHogFunctionsDiscardDraftRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1908,11 +1936,11 @@ function __c24(j: number): any {
           enabled: S.optional(S.Boolean),
           deleted: S.optional(S.Boolean),
           hog: S.optional(S.String),
-          inputs_schema: S.optional(__S(138, __c17, 2)),
-          inputs: S.optional(__S(177, __c22, 1)),
-          filters: S.optional(__S(139, __c17, 3)),
-          masking: S.optional(S.NullOr(__S(140, __c17, 4))),
-          mappings: S.optional(S.NullOr(__S(179, __c22, 3))),
+          inputs_schema: S.optional(__S(146, __c18, 2)),
+          inputs: S.optional(__S(185, __c23, 1)),
+          filters: S.optional(__S(147, __c18, 3)),
+          masking: S.optional(S.NullOr(__S(148, __c18, 4))),
+          mappings: S.optional(S.NullOr(__S(187, __c23, 3))),
           icon_url: S.optional(S.NullOr(S.String)),
           template_id: S.optional(S.NullOr(S.String)),
           execution_order: S.optional(S.NullOr(S.Number)),
@@ -1925,10 +1953,10 @@ function __c24(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          configuration: S.optional(__S(192, __c24, 0)),
+          configuration: S.optional(__S(200, __c25, 0)),
           use_draft: S.optional(S.Boolean),
-          globals: S.optional(__S(128, __c16, 0)),
-          clickhouse_event: S.optional(__S(128, __c16, 0)),
+          globals: S.optional(__S(136, __c17, 0)),
+          clickhouse_event: S.optional(__S(136, __c17, 0)),
           mock_async_functions: S.optional(S.Boolean),
           invocation_id: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -1943,13 +1971,13 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          logs: S.optional(__S(144, __c18, 0)),
+          logs: S.optional(__S(152, __c19, 0)),
           invocation_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "HogFunctionInvocationOutput" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1958,12 +1986,12 @@ function __c25(j: number): any {
         S.Struct({
           window_start: S.String,
           window_end: S.String,
-          status: S.optional(__S(200, __c25, 0)),
-          error_kind: S.optional(__S(208, __c26, 0)),
+          status: S.optional(__S(208, __c26, 0)),
+          error_kind: S.optional(__S(216, __c27, 0)),
           error_message_contains: S.optional(S.String),
           max_attempts: S.optional(S.Number),
           max_count: S.optional(S.Number),
-          invocation_ids: S.optional(__S(208, __c26, 0)),
+          invocation_ids: S.optional(__S(216, __c27, 0)),
         }),
       ).annotate({ identifier: "HogInvocationRerunFilter" });
     case 2:
@@ -1971,7 +1999,7 @@ function __c25(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          filter: __S(201, __c25, 1),
+          filter: __S(209, __c26, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1980,23 +2008,15 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateHogFunctionsRerunRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rerun_job_id: S.String,
-          queued_count: S.Number,
-          skipped_count: S.Number,
-        }),
-      ).annotate({ identifier: "HogInvocationRerunResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2013,7 +2033,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetHogFunctionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2029,13 +2049,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetHogFunctionsIconRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GetHogFunctionsIconResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

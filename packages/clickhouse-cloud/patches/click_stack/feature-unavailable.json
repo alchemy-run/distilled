@@ -1,0 +1,264 @@
+{
+  "description": "Type the 403 the ClickStack operations answer for a service that has no ClickStack: {\"status\": 403, \"error\": \"FORBIDDEN: ClickStack has not been setup for this service\"}. The spec types it only as the shared envelope, so it surfaced as the generic Forbidden, which is also what a missing permission answers. Observed live 2026-11-12 on a service without ClickStack: GET dashboards, alerts, sources, webhooks, roles and saved-searches (request ids a366806d-22da-4c9a-aaba-69d8e1eef623, bf1173f6-9a3c-4cad-a2e2-6e2d3ca8273e, 85797e45-23fb-4a5a-b8fd-6508085c256d, bbf3338c-c1f8-4019-a53c-a7ccb9c9fb50, 17a2829d-871a-42e3-b447-b61a22cf7fe9, 9ab16acf-9107-452c-9785-ebe12c240bae), and POST, PUT and DELETE on each of those collections plus the dashboard and webhook validate endpoints (20 write operations, e.g. createClickStackDashboard 055aab29-6d25-43c3-9def-aac0093ace64, deleteClickStackRole 4c649fa9-7714-44f9-85b1-45f98b093658). The get-by-id operations answer 400 'Invalid ClickStack resource id' to a bad id before this check, so they carry no error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#FeatureUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The feature is not available to this organization or service: its plan does not include it, it is not enabled for the organization, or it is not set up. The message says which.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "ClickStack has not been setup"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListDashboards/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListAlerts/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListSources/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListWebhooks/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListRoles/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackListSavedSearches/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateDashboard/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateDashboard/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteDashboard/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateAlert/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateAlert/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteAlert/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateSource/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateSource/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteSource/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateWebhook/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateWebhook/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteWebhook/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateRole/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateRole/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteRole/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateSavedSearch/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateSavedSearch/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackDeleteSavedSearch/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackValidateDashboard/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackValidateWebhook/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.click_stack#FeatureUnavailable"
+        }
+      ]
+    }
+  ]
+}

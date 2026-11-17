@@ -91,8 +91,12 @@ const streamOf = (frames: Uint8Array[]) =>
   });
 
 /** Decode every event-stream frame in a request body. */
+/** An input event stream body, the Effect stream the HttpClient sends, read to the end. */
+const bodyBytes = (body: Request["body"]) =>
+  run(Stream.mkUint8Array(body as Stream.Stream<Uint8Array, unknown>));
+
 const readFrames = async (body: Request["body"]) => {
-  const data = new Uint8Array(await new globalThis.Response(body as ReadableStream).arrayBuffer());
+  const data = await bodyBytes(body);
   const frames: { headers: Record<string, string | undefined>; payload: string }[] = [];
   for (let offset = 0; offset < data.length;) {
     const [message, length] = await run(decodeMessage(data.subarray(offset)));
@@ -110,7 +114,7 @@ const readFrames = async (body: Request["body"]) => {
 
 /** Decode every event-stream frame in a request body, string headers flattened. */
 const readMessages = async (body: Request["body"]) => {
-  const data = new Uint8Array(await new globalThis.Response(body as ReadableStream).arrayBuffer());
+  const data = await bodyBytes(body);
   const messages: { headers: Record<string, unknown>; payload: Uint8Array }[] = [];
   for (let offset = 0; offset < data.length;) {
     const [message, length] = await run(decodeMessage(data.subarray(offset)));
@@ -214,7 +218,7 @@ describe("awsJson request serialization", () => {
     expect(JSON.parse(request.body as string)).toEqual({
       logGroupName: "/aws/lambda/example",
       startTime: 1704164645,
-      EndTime: "2024-01-02T04:00:00.000Z",
+      EndTime: "2024-01-02T04:00:00Z",
       Payload: "AP8=",
     });
   });
@@ -290,13 +294,15 @@ describe("awsJson response deserialization", () => {
     op(DynamoDB.getItem.input, DynamoDB.getItem.output, "GetItem"),
   );
 
-  test("returns the parsed JSON document with nulls dropped", async () => {
+  // The codec drops a null member, and keeps a null in a `@sparse` list or map.
+  test("returns the parsed JSON document with its nulls", async () => {
     const body = JSON.stringify({
       Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
       ConsumedCapacity: null,
     });
     expect(await run(handler.deserializeResponse(response(body)))).toEqual({
-      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" } },
+      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
+      ConsumedCapacity: null,
     });
   });
 
@@ -516,26 +522,21 @@ describe("restJson1 request serialization: HTTP bindings", () => {
     });
   });
 
-  test("Lambda Invoke: streaming payloads keep bytes and convert Effect streams", async () => {
+  test("Lambda Invoke: streaming payloads keep bytes and Effect streams as given", async () => {
     const handler = restJson1Protocol(op(Lambda.invoke.input, Lambda.invoke.output));
     const payload = bytes("{}");
     const fromBytes = await run(handler.serializeRequest({ FunctionName: "f", Payload: payload }));
     expect(fromBytes.body).toBe(payload);
-    const fromStream = await run(
-      handler.serializeRequest({
-        FunctionName: "f",
-        Payload: Stream.fromIterable([bytes('{"a":'), bytes("1}")]),
-      }),
-    );
-    expect(fromStream.body).toBeInstanceOf(ReadableStream);
-    expect(await new globalThis.Response(fromStream.body as ReadableStream).text()).toBe('{"a":1}');
+    const stream = Stream.fromIterable([bytes('{"a":'), bytes("1}")]);
+    const fromStream = await run(handler.serializeRequest({ FunctionName: "f", Payload: stream }));
+    expect(fromStream.body).toBe(stream);
   });
 
   test("Lambda Invoke without a payload sends no body", async () => {
     const handler = restJson1Protocol(op(Lambda.invoke.input, Lambda.invoke.output));
     const request = await run(handler.serializeRequest({ FunctionName: "f" }));
     expect(request.body).toBeUndefined();
-    expect(request.headers).toEqual({ "Content-Type": "application/json" });
+    expect(request.headers).toEqual({});
     expect(request.hasStreamingInput).toBeUndefined();
   });
 
@@ -628,7 +629,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
       query: {
         maxResults: "10",
         includeDeleted: "false",
-        after: "2024-01-02T03:04:05.000Z",
+        after: "2024-01-02T03:04:05Z",
         before: "1704164645",
         status: "RUNNING",
       },
@@ -636,7 +637,6 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "If-Modified-Since": "Tue, 02 Jan 2024 03:04:05 GMT",
         "X-Amz-Priority": "3",
         "X-Amz-Dry-Run": "true",
-        "Content-Type": "application/json",
       },
     });
   });
@@ -684,7 +684,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "x-amzn-dataexchange-http-method": "PUT",
         "x-amzn-dataexchange-path": "/v1/items",
         "x-amzn-dataexchange-header-Accept": "text/csv",
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain",
       },
       body: "plain text",
     });
@@ -761,7 +761,7 @@ describe("restJson1 request serialization: bodies", () => {
       method: "GET",
       path: "/v2/tiles/vector.basemap/1/2/3",
       query: { "additional-features": ["Buildings", "ContourLines"] },
-      headers: { "Content-Type": "application/json" },
+      headers: {},
     });
   });
 
@@ -803,10 +803,7 @@ describe("restJson1 request serialization: bodies", () => {
       ),
     );
     const request = await run(restJson1Protocol(op(input)).serializeRequest({ restapi_id: "abc" }));
-    expect(request.headers).toEqual({
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    });
+    expect(request.headers).toEqual({ Accept: "application/json" });
   });
 
   test("Glacier adds X-Amz-Glacier-Version", async () => {
@@ -1033,9 +1030,7 @@ describe("restJson1 request serialization: input event streams", () => {
         ]),
       }),
     );
-    const data = new Uint8Array(
-      await new globalThis.Response(request.body as ReadableStream).arrayBuffer(),
-    );
+    const data = await bodyBytes(request.body);
     const [text, length] = await run(decodeMessage(data));
     expect(text.headers.Seq).toEqual({ type: HeaderType.Int, value: 7 });
     expect(text.headers.Final).toEqual({ type: HeaderType.BoolTrue, value: true });
@@ -1201,6 +1196,7 @@ describe("restJson1 response deserialization", () => {
       Truncated: false,
       LastModified: "Tue, 02 Jan 2024 03:04:05 GMT",
       Items: ["a"],
+      NextToken: null,
     });
   });
 

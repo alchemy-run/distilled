@@ -31,36 +31,116 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body4
+    | Error400Body2
+    | Error400Body9
+    | Error400
+    | Error400Body5
+    | Error400Body6
+    | Error400Body3
+    | Error400Body
+    | Error400Body8
+    | Error400Body7
+    | Error400Body10
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | Error403 | Error403Body3 | Error403Body2 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404 | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error422Body3
+    | Error422Body
+    | Error422Body8
+    | Error422Body5
+    | Error422Body4
+    | Error422Body6
+    | Error422Body2
+    | Error422
+    | Error422Body7
+    | string;
+}
 
 /** An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.<blockquote><strong>Note:</strong> Valid values are email addresses in the `additional_recipients` value associated with the invoice.</blockquote> */
 export type EmailAddressList = Array<string>;
@@ -68,28 +148,28 @@ export interface CancelInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface CancelInvoiceResponse {}
 /** The file reference. Can be a file in PayPal MediaServ, PayPal DMS, or other custom store. */
 export interface FileReference {
   /** The ID of the referenced file. */
-  id?: string;
+  id?: string | undefined;
   /** The reference URL for the file. */
-  reference_url?: string;
+  reference_url?: string | undefined;
   /** The [Internet Assigned Numbers Authority (IANA) media type of the file](https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The date and time when the file was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The size of the file, in bytes. */
-  size?: string;
+  size?: string | undefined;
 }
 /** An array of PayPal IDs for the files that are attached to an invoice. */
 export type FileReferenceList = Array<FileReference>;
@@ -107,82 +187,82 @@ export type PaymentTermType =
 /** The payment term of the invoice. Payment can be due upon receipt, a specified date, or in a set number of days. */
 export interface InvoicePaymentTerm {
   /** The payment term. Payment can be due upon receipt, a specified date, or in a set number of days. */
-  term_type?: PaymentTermType | (string & {});
+  term_type?: PaymentTermType | (string & {}) | undefined;
   /** The date when the invoice payment is due, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  due_date?: string;
+  due_date?: string | undefined;
 }
 /** The details of the invoice. Includes invoice number, date, payment terms, and audit metadata. */
 export interface InvoiceDetailInput {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The invoice number. Default is the number that is auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The invoice date as specificed by the sender, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Only UTC is supported in response. For example, *yyyy*-*MM*-*dd*T*z*. */
-  invoice_date?: string;
+  invoice_date?: string | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: InvoicePaymentTerm;
+  payment_term?: InvoicePaymentTerm | undefined;
 }
 /** The name of the party. */
 export interface Name {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business. */
-  alternate_full_name?: string;
+  alternate_full_name?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export interface AddressDetails {
   /** The street number. */
-  street_number?: string;
+  street_number?: string | undefined;
   /** The street name. Just `Drury` in `Drury Lane`. */
-  street_name?: string;
+  street_name?: string | undefined;
   /** The street type. For example, avenue, boulevard, road, or expressway. */
-  street_type?: string;
+  street_type?: string | undefined;
   /** The delivery service. Post office box, bag number, or post office name. */
-  delivery_service?: string;
+  delivery_service?: string | undefined;
   /** A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>. */
-  building_name?: string;
+  building_name?: string | undefined;
   /** The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment. */
-  sub_building?: string;
+  sub_building?: string | undefined;
 }
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface AddressPortable {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
-  address_details?: AddressDetails;
+  address_details?: AddressDetails | undefined;
 }
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -193,7 +273,7 @@ export interface PhoneDetail {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
   phone_type: PhoneType | (string & {});
 }
 /** An array of invoicer's phone numbers. The invoicer can choose to hide the phone number on the invoice. */
@@ -201,56 +281,56 @@ export type PhoneDetailList = Array<PhoneDetail>;
 /** The invoicer business information that appears on the invoice. */
 export interface InvoicerInfo {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
   /** The invoicer email address, which must be listed in the user's PayPal profile. If you omit this value, notifications are sent from and to the primary email address but do not appear on the invoice. */
-  email_address?: string;
-  phones?: PhoneDetailList;
+  email_address?: string | undefined;
+  phones?: PhoneDetailList | undefined;
   /** The invoicer's website. */
-  website?: string;
+  website?: string | undefined;
   /** The invoicer's tax ID. */
-  tax_id?: string;
+  tax_id?: string | undefined;
   /** Any additional information. Includes business hours. */
-  additional_notes?: string;
+  additional_notes?: string | undefined;
   /** The full URL to an external logo image. The logo image must not be larger than 250 pixels wide by 90 pixels high. */
-  logo_url?: string;
+  logo_url?: string | undefined;
 }
 /** The invoice recipient's phone numbers. Extension number is not supported. */
 export type DefinitionsPhoneDetailList = Array<PhoneDetail>;
 /** The billing information of the invoice recipient. Includes name, address, email, phone, and language. */
 export interface BillingInfo {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
   /** The invoice recipient email address. If you omit this value, the invoice is payable and a notification email is not sent. */
-  email_address?: string;
-  phones?: DefinitionsPhoneDetailList;
+  email_address?: string | undefined;
+  phones?: DefinitionsPhoneDetailList | undefined;
   /** Any additional information about the recipient. */
-  additional_info?: string;
+  additional_info?: string | undefined;
   /** The language in which to show the invoice recipient's email message. Used only when the recipient does not have a PayPal account. If you omit the language and the recipient does not have a PayPal account, the email message is sent in the language of the merchant's PayPal account. */
-  language?: string;
+  language?: string | undefined;
 }
 /** The contact information of the user. Includes name and address. */
 export interface ContactNameAddress {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export interface RecipientInfo {
   /** The billing information for the invoice recipient. Includes name, address, email, phone, and language. */
-  billing_info?: BillingInfo;
+  billing_info?: BillingInfo | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone and language. */
 export type RecipientInfoList = Array<RecipientInfo>;
@@ -267,16 +347,16 @@ export interface Tax {
   /** The tax rate. Value is from `0` to `100`. Supports up to five decimal places. */
   percent: string;
   /** The calculated tax amount. The tax amount is added to the item total. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The tax note used to track the tax related data. */
-  tax_note?: string;
+  tax_note?: string | undefined;
 }
 /** The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
 export interface Discount {
   /** The discount as a percentage value. Value is from `0` to `100`. Supports up to five decimal places. */
-  percent?: string;
+  percent?: string | undefined;
   /** The invoice level discount amount. Value is from `0` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
 }
 /** The unit of measure for the invoiced item. */
 export type UnitOfMeasure = "QUANTITY" | "HOURS" | "AMOUNT";
@@ -285,85 +365,85 @@ export interface ItemInput {
   /** The item name for the invoice line item. */
   name: string;
   /** The item description for the invoice line item. */
-  description?: string;
+  description?: string | undefined;
   /** The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places. */
   quantity: string;
   /** The unit price of the item. This does not include tax and discount. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
   unit_amount: Money;
   /** The tax associated with the item. The tax amount is added to the item total. Value is from `0` to `100`. Supports up to five decimal places. */
-  tax?: Tax;
+  tax?: Tax | undefined;
   /** The date when the item or service was provided, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  item_date?: string;
+  item_date?: string | undefined;
   /** Discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  discount?: Discount;
+  discount?: Discount | undefined;
   /** The unit of measure for the invoiced item. For `AMOUNT` the `unit_amount` and `quantity` are not shown on the invoice.<blockquote><strong>Note:</strong> If your specify different `unit_of_measure` values for the same invoice, the invoice uses the first value.</blockquote> */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
 }
 /** An array of invoice line item information. */
 export type ItemListInput = Array<ItemInput>;
 /** The partial payment details. Includes the minimum amount that the invoicer expects from the payer. */
 export interface PartialPayment {
   /** Indicates whether the invoice allows a partial payment. If `false`, the invoice must be paid in full. If `true`, the invoice allows partial payments.<blockquote><strong>Note:</strong> This feature is not available for users in `India`, `Brazil`, or `Israel`.</blockquote> */
-  allow_partial_payment?: boolean;
+  allow_partial_payment?: boolean | undefined;
   /** The minimum amount allowed for a partial payment. Valid only when `allow_partial_payment` is `true`. */
-  minimum_amount_due?: Money;
+  minimum_amount_due?: Money | undefined;
 }
 /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
 export interface Configuration {
   /** Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount. */
-  tax_calculated_after_discount?: boolean;
+  tax_calculated_after_discount?: boolean | undefined;
   /** Indicates whether the unit price includes tax. */
-  tax_inclusive?: boolean;
+  tax_inclusive?: boolean | undefined;
   /** Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.<blockquote><strong>Note:</strong> This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.</blockquote> */
-  allow_tip?: boolean;
+  allow_tip?: boolean | undefined;
   /** The partial payment details. Includes the minimum amount that the invoicer wants the payer to pay. */
-  partial_payment?: PartialPayment;
+  partial_payment?: PartialPayment | undefined;
   /** Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied. */
-  has_conditional_rule?: boolean;
+  has_conditional_rule?: boolean | undefined;
   /** The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.<blockquote><strong>Note:</strong> This is an optional field. If you wish to customize the invoice layout using a specific template, provide a valid template ID here. You can either use an existing template ID or create a new template via the create template API and then use the newly created template's ID.</blockquote> */
-  template_id?: string;
+  template_id?: string | undefined;
 }
 /** The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent. */
 export interface AggregatedDiscount {
   /** The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  invoice_discount?: Discount;
+  invoice_discount?: Discount | undefined;
   /** The discount as a percent or amount at item level. The item discount amount is subtracted from each item amount. */
-  item_discount?: Money;
+  item_discount?: Money | undefined;
 }
 /** The shipping fee for all items. Includes tax on shipping. */
 export interface ShippingCost {
   /** The shipping amount. Value is from `0` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The tax associated with the shipping. */
-  tax?: Tax;
+  tax?: Tax | undefined;
 }
 /** The custom amount to apply to an invoice. If you include a label, you must include a custom amount. */
 export interface CustomAmount {
   /** The label to the custom amount of the invoice. */
   label: string;
   /** The custom amount value. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
 }
 /** The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any. */
 export interface AmountWithBreakdown {
   /** The subtotal for all items. Must equal the sum of (`items[].unit_amount` * `items[].quantity`) for all items. */
-  item_total?: Money;
+  item_total?: Money | undefined;
   /** The discount can be at the item or invoice level, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent. */
-  discount?: AggregatedDiscount;
+  discount?: AggregatedDiscount | undefined;
   /** The aggregated amount of the item and shipping taxes. */
-  tax_total?: Money;
+  tax_total?: Money | undefined;
   /** The shipping fee for all items. Includes tax on shipping. */
-  shipping?: ShippingCost;
+  shipping?: ShippingCost | undefined;
   /** The custom amount to apply to an invoice. If you include a label, you must include the custom amount. */
-  custom?: CustomAmount;
+  custom?: CustomAmount | undefined;
 }
 /** The invoice amount summary of item total, discount, tax total, and shipping. */
 export interface AmountSummaryDetail {
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/). */
-  value?: string;
+  value?: string | undefined;
   /** The breakdown of the amount. Breakdown provides details such as total item amount, total tax amount, custom amount, shipping and discounts, if any. */
-  breakdown?: AmountWithBreakdown;
+  breakdown?: AmountWithBreakdown | undefined;
 }
 /** An array of payments registered against the invoice. */
 export interface PaymentsInput {}
@@ -373,18 +453,18 @@ export interface CreateInvoiceRequest {
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetailInput;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemListInput | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: PaymentsInput;
+  payments?: PaymentsInput | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: PaymentsInput;
+  refunds?: PaymentsInput | undefined;
 }
 /** The status of the invoice. */
 export type InvoiceStatus =
@@ -409,72 +489,72 @@ export type InvoiceCreationFlow = "MULTIPLE_RECIPIENTS_GROUP" | "BATCH" | "REGUL
 /** The audit metadata. Captures all invoicing actions on create, send, update, and cancel. */
 export interface Metadata {
   /** The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The email address of the account that created the resource. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The date and time when the resource was last edited, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_update_time?: string;
+  last_update_time?: string | undefined;
   /** The email address of the account that last edited the resource. */
-  last_updated_by?: string;
+  last_updated_by?: string | undefined;
   /** The date and time when the resource was canceled, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  cancel_time?: string;
+  cancel_time?: string | undefined;
   /** The actor who canceled the resource. */
-  cancelled_by?: string;
+  cancelled_by?: string | undefined;
   /** The date and time when the resource was first sent, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  first_sent_time?: string;
+  first_sent_time?: string | undefined;
   /** The date and time when the resource was last sent, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_sent_time?: string;
+  last_sent_time?: string | undefined;
   /** The email address of the account that last sent the resource. */
-  last_sent_by?: string;
+  last_sent_by?: string | undefined;
   /** The flow variation that created this invoice. */
-  created_by_flow?: InvoiceCreationFlow;
+  created_by_flow?: InvoiceCreationFlow | undefined;
   /** The URL for the invoice payer view hosted on paypal.com. */
-  recipient_view_url?: string;
+  recipient_view_url?: string | undefined;
   /** The URL for the invoice merchant view hosted on paypal.com. */
-  invoicer_view_url?: string;
+  invoicer_view_url?: string | undefined;
 }
 /** The details of the invoice. Includes invoice number, date, payment terms, and audit metadata. */
 export interface InvoiceDetail {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The invoice number. Default is the number that is auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The invoice date as specificed by the sender, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Only UTC is supported in response. For example, *yyyy*-*MM*-*dd*T*z*. */
-  invoice_date?: string;
+  invoice_date?: string | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: InvoicePaymentTerm;
+  payment_term?: InvoicePaymentTerm | undefined;
   /** The audit metadata. Captures all invoicing actions on create, send, update, and cancel. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** An array of invoice line item information. The maximum items for an invoice is `100`. */
 export interface Item {
   /** The ID of the invoice line item. */
-  id?: string;
+  id?: string | undefined;
   /** The item name for the invoice line item. */
   name: string;
   /** The item description for the invoice line item. */
-  description?: string;
+  description?: string | undefined;
   /** The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places. */
   quantity: string;
   /** The unit price of the item. This does not include tax and discount. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
   unit_amount: Money;
   /** The tax associated with the item. The tax amount is added to the item total. Value is from `0` to `100`. Supports up to five decimal places. */
-  tax?: Tax;
+  tax?: Tax | undefined;
   /** The date when the item or service was provided, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  item_date?: string;
+  item_date?: string | undefined;
   /** Discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  discount?: Discount;
+  discount?: Discount | undefined;
   /** The unit of measure for the invoiced item. For `AMOUNT` the `unit_amount` and `quantity` are not shown on the invoice.<blockquote><strong>Note:</strong> If your specify different `unit_of_measure` values for the same invoice, the invoice uses the first value.</blockquote> */
-  unit_of_measure?: UnitOfMeasure;
+  unit_of_measure?: UnitOfMeasure | undefined;
 }
 /** An array of invoice line item information. */
 export type ItemList = Array<Item>;
@@ -493,38 +573,38 @@ export type PaymentMethod =
 /** The payment details of the invoice. Includes payment type, method, date, discount, and transaction type. */
 export interface PaymentDetail {
   /** The payment type in an invoicing flow which can be PayPal or an external cash or check payment. */
-  type?: PaymentType;
+  type?: PaymentType | undefined;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** The date when the invoice was paid, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd* *z*. */
-  payment_date?: string;
+  payment_date?: string | undefined;
   /** The payment mode or method through which the invoicer can accept the payment. */
   method: PaymentMethod;
   /** A note associated with an external cash or check payment. */
-  note?: string;
+  note?: string | undefined;
   /** The payment amount to record against the invoice. If you omit this parameter, the total invoice amount is marked as paid. This amount cannot exceed the amount due. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** An array of payment details for the invoice. The payment details of the invoice like payment type, method, date, discount and transaction type. */
 export type PaymentDetailList = Array<PaymentDetail>;
 /** An array of payments registered against the invoice. */
 export interface Payments {
   /** The aggregated payment amounts against this invoice. */
-  paid_amount?: Money;
-  transactions?: PaymentDetailList;
+  paid_amount?: Money | undefined;
+  transactions?: PaymentDetailList | undefined;
 }
 /** The refund details of the invoice. Includes the refund type, date, amount, and method. */
 export interface RefundDetail {
   /** The PayPal refund type. Indicates whether the refund was paid through PayPal or externally in the invoicing flow. The record refund method supports the `EXTERNAL` refund type. The `PAYPAL` refund type is supported for backward compatibility. */
-  type?: PaymentType;
+  type?: PaymentType | undefined;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  refund_id?: string;
+  refund_id?: string | undefined;
   /** The date when the invoice was refunded, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `2014-02-27`. */
-  refund_date?: string;
+  refund_date?: string | undefined;
   /** The amount to record as refunded. If you omit the amount, the total invoice paid amount is recorded as refunded. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The payment mode or method through which the invoicer can accept the payments. */
   method: PaymentMethod;
 }
@@ -533,8 +613,8 @@ export type RefundDetailList = Array<RefundDetail>;
 /** The invoicing refund details. Includes the refund type, date, amount, and method. */
 export interface Refunds {
   /** The aggregated refund amounts. */
-  refund_amount?: Money;
-  transactions?: RefundDetailList;
+  refund_amount?: Money | undefined;
+  transactions?: RefundDetailList | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -553,62 +633,62 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** The invoice details which includes all information of the invoice like items, billing information. */
 export interface Invoice {
   /** The ID of the invoice. */
-  id?: string;
+  id?: string | undefined;
   /** The parent ID to an invoice that defines the group invoice to which the invoice is related. */
-  parent_id?: string;
-  status?: InvoiceStatus;
+  parent_id?: string | undefined;
+  status?: InvoiceStatus | undefined;
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetail;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemList;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemList | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** The due amount, which is the balance amount outstanding after payments. */
-  due_amount?: Money;
+  due_amount?: Money | undefined;
   /** The amount paid by the payer as gratuity to the invoicer. */
-  gratuity?: Money;
+  gratuity?: Money | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: Payments;
+  payments?: Payments | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: Refunds;
-  links?: LinkDescriptionList;
+  refunds?: Refunds | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** The payment term of the invoice. Payment can be due upon receipt, a specified date, or in a set number of days. */
 export interface PaymentTerm {
   /** The payment term. Payment can be due upon receipt, a specified date, or in a set number of days. */
-  term_type?: PaymentTermType | (string & {});
+  term_type?: PaymentTermType | (string & {}) | undefined;
 }
 /** The audit metadata. Captures all template actions on create and update. */
 export type TemplateMetadataInput = PaymentsInput;
 /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
 export interface TemplateDetailInput {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: PaymentTerm;
+  payment_term?: PaymentTerm | undefined;
   /** The audit metadata. Captures all template actions on create and update. */
-  metadata?: PaymentsInput;
+  metadata?: PaymentsInput | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export type DefinitionsRecipientInfoList = Array<RecipientInfo>;
@@ -617,29 +697,29 @@ export type DefinitionsItemListInput = Array<ItemInput>;
 /** The template configuration details. Includes tax information, tip, and partial payment. */
 export interface TemplateConfiguration {
   /** Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount. */
-  tax_calculated_after_discount?: boolean;
+  tax_calculated_after_discount?: boolean | undefined;
   /** Indicates whether the unit price includes tax. */
-  tax_inclusive?: boolean;
+  tax_inclusive?: boolean | undefined;
   /** Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.<blockquote><strong>Note:</strong> This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.</blockquote> */
-  allow_tip?: boolean;
+  allow_tip?: boolean | undefined;
   /** The partial payment details. Includes the minimum amount that the invoicer wants the payer to pay. */
-  partial_payment?: PartialPayment;
+  partial_payment?: PartialPayment | undefined;
   /** Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied. */
-  has_conditional_rule?: boolean;
+  has_conditional_rule?: boolean | undefined;
 }
 /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
 export interface TemplateInfoInput {
   /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
-  detail?: TemplateDetailInput;
+  detail?: TemplateDetailInput | undefined;
   /** The invoicer information. Includes business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: DefinitionsRecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: DefinitionsItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: DefinitionsRecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: DefinitionsItemListInput | undefined;
   /** The template configuration details. Includes tax information, tip, and partial payment. */
-  configuration?: TemplateConfiguration;
+  configuration?: TemplateConfiguration | undefined;
   /** The invoice amount summary of the item total, discount, tax total, and shipping. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
 }
 /** The field names for the invoice line items in the template. */
 export type TemplateItemField =
@@ -651,14 +731,14 @@ export type TemplateItemField =
 /** The template display preference. */
 export interface TemplateDisplayPreference {
   /** Indicates whether to show or hide this field. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
 }
 /** The template item setting. Sets a template as the default template or edit template. */
 export interface TemplateItemSetting {
   /** The field name in `template_data` for which to map corresponding display preferences. */
-  field_name?: TemplateItemField | (string & {});
+  field_name?: TemplateItemField | (string & {}) | undefined;
   /** The display preference. */
-  display_preference?: TemplateDisplayPreference;
+  display_preference?: TemplateDisplayPreference | undefined;
 }
 /** The template item headers display preference. */
 export type TemplateItemSettingList = Array<TemplateItemSetting>;
@@ -667,93 +747,93 @@ export type TemplateSubtotalField = "DISCOUNT" | "SHIPPING" | "CUSTOM";
 /** The template subtotal setting. Includes the field name and display preference. */
 export interface TemplateSubtotalSetting {
   /** The field name in `template_data` for which to map corresponding display preferences. */
-  field_name?: TemplateSubtotalField | (string & {});
+  field_name?: TemplateSubtotalField | (string & {}) | undefined;
   /** The display preference. */
-  display_preference?: TemplateDisplayPreference;
+  display_preference?: TemplateDisplayPreference | undefined;
 }
 /** The template subtotal headers display preference. */
 export type TemplateSubtotalSettingList = Array<TemplateSubtotalSetting>;
 /** The template settings. Sets a template as the default template or edit template. */
 export interface TemplateSettings {
-  template_item_settings?: TemplateItemSettingList;
-  template_subtotal_settings?: TemplateSubtotalSettingList;
+  template_item_settings?: TemplateItemSettingList | undefined;
+  template_subtotal_settings?: TemplateSubtotalSettingList | undefined;
 }
 export interface CreateTemplateRequest {
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfoInput;
+  template_info?: TemplateInfoInput | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
 }
 /** The audit metadata. Captures all template actions on create and update. */
 export interface TemplateMetadata {
   /** The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The email address of the account that created the resource. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The date and time when the resource was last edited, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_update_time?: string;
+  last_update_time?: string | undefined;
   /** The email address of the account that last edited the resource. */
-  last_updated_by?: string;
+  last_updated_by?: string | undefined;
 }
 /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
 export interface TemplateDetail {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: PaymentTerm;
+  payment_term?: PaymentTerm | undefined;
   /** The audit metadata. Captures all template actions on create and update. */
-  metadata?: TemplateMetadata;
+  metadata?: TemplateMetadata | undefined;
 }
 /** An array of invoice line-item information. */
 export type DefinitionsItemList = Array<Item>;
 /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
 export interface TemplateInfo {
   /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
-  detail?: TemplateDetail;
+  detail?: TemplateDetail | undefined;
   /** The invoicer information. Includes business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: DefinitionsRecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: DefinitionsItemList;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: DefinitionsRecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: DefinitionsItemList | undefined;
   /** The template configuration details. Includes tax information, tip, and partial payment. */
-  configuration?: TemplateConfiguration;
+  configuration?: TemplateConfiguration | undefined;
   /** The invoice amount summary of the item total, discount, tax total, and shipping. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** The amount due for the invoice. */
-  due_amount?: Money;
+  due_amount?: Money | undefined;
 }
 /** The template with invoice details to load with all captured fields. */
 export interface Template {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfo;
+  template_info?: TemplateInfo | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure;
+  unit_of_measure?: UnitOfMeasure | undefined;
   /** Indicates whether this template is a invoicer-created custom template. The system generates non-custom templates. */
-  standard_template?: boolean;
-  links?: LinkDescriptionList;
+  standard_template?: boolean | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface DeleteInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -785,17 +865,17 @@ export type ConnectionLastSyncStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED";
 /** This lists last sync status and connection platform name. */
 export interface Connection {
   /** The name of the platform. This property supports Unicode. The pattern is not provided because the value is defined by an external party. */
-  platform_name?: string;
+  platform_name?: string | undefined;
   /** The date and time when the resource is last synced with the accounting platform. This property supports Unicode. */
-  last_sync_time?: string;
+  last_sync_time?: string | undefined;
   /** The status of the last sync. This property supports Unicode. */
-  last_sync_status?: ConnectionLastSyncStatus;
+  last_sync_status?: ConnectionLastSyncStatus | undefined;
 }
 /** An array of connection-level details. */
 export type ConnectionList = Array<Connection>;
 /** This object contains an array of connection details. It is used to load sync status for a user. */
 export interface Connections {
-  connections?: ConnectionList;
+  connections?: ConnectionList | undefined;
 }
 export interface GetInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -814,109 +894,109 @@ export type ConnectionsList = Array<Connections>;
 /** Returns invoice connection status with timestamp per invoice. */
 export interface InvoiceConnectionDetails {
   /** The ID of the invoice. This property supports Unicode. */
-  id?: string;
-  connection_status?: ConnectionsList;
+  id?: string | undefined;
+  connection_status?: ConnectionsList | undefined;
 }
 export interface InvoicesGenerateQrCodeRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The width, in pixels, of the QR code image. Value is from `150` to `500`. */
-  width?: number;
+  width?: number | undefined;
   /** The height, in pixels, of the QR code image. Value is from `150` to `500`. */
-  height?: number;
+  height?: number | undefined;
   /** The type of URL for which to generate a QR code. Valid values are `pay` and `details`. */
-  action?: string;
+  action?: string | undefined;
 }
 export interface InvoicesGenerateQrCodeResponse {}
 export interface InvoicesPaymentsRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** The date when the invoice was paid, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd* *z*. */
-  payment_date?: string;
+  payment_date?: string | undefined;
   /** The payment mode or method through which the invoicer can accept the payment. */
   method: PaymentMethod | (string & {});
   /** A note associated with an external cash or check payment. */
-  note?: string;
+  note?: string | undefined;
   /** The payment amount to record against the invoice. If you omit this parameter, the total invoice amount is marked as paid. This amount cannot exceed the amount due. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** The reference to the payment detail. */
 export interface PaymentReference {
   /** The ID for the invoice payment. */
-  payment_id?: string;
+  payment_id?: string | undefined;
 }
 export interface InvoicesRefundsRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The date when the invoice was refunded, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `2014-02-27`. */
-  refund_date?: string;
+  refund_date?: string | undefined;
   /** The amount to record as refunded. If you omit the amount, the total invoice paid amount is recorded as refunded. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The payment mode or method through which the invoicer can accept the payments. */
   method: PaymentMethod | (string & {});
 }
 /** The reference to the refund payment detail. */
 export interface RefundReference {
   /** The ID of the refund of an invoice payment. */
-  refund_id?: string;
+  refund_id?: string | undefined;
 }
 export interface InvoicesRemindRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface InvoicesRemindResponse {}
 export interface InvoicingGenerateNextInvoiceNumberRequest {
   /** Optional to decide the number or ID. */
-  fetch_id?: boolean;
+  fetch_id?: boolean | undefined;
 }
 /** The invoice number. */
 export interface InvoiceNumber {
   /** The invoice number. If you omit this value, the default is the auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** Resource Id. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
 }
 export interface ListInvoicesRequest {
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Indicates whether the to show <code>total_pages</code> and <code>total_items</code> in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
   /** The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`. */
-  fields?: string;
+  fields?: string | undefined;
 }
 /** The list of invoices that match the search criteria. */
 export type InvoiceList = Array<Invoice>;
 /** An array of merchant invoices. Includes the total invoices count and [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links) for navigation. */
 export interface Invoices {
   /** The total number of pages that are available for the search criteria. <blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of total_pages is constant. The value MAY change from one request to the next</blockquote> */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** The total number of invoices that match the search criteria.<blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of <code>total_items</code> is constant. The value MAY change from one request to the next.</blockquote> */
-  total_items?: number;
-  items?: InvoiceList;
-  links?: LinkDescriptionList;
+  total_items?: number | undefined;
+  items?: InvoiceList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface ListTemplatesRequest {
   /** The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`. */
-  fields?: string;
+  fields?: string | undefined;
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** An array of addresses in the user's PayPal profile. */
 export type AddressPortableList = Array<AddressPortable>;
@@ -926,12 +1006,12 @@ export type TemplatesDefinitionsPhoneDetailList = Array<PhoneDetail>;
 export type TemplateList = Array<Template>;
 /** An array of merchant-created templates with associated details that include the emails, addresses, and phone numbers from the user's PayPal profile. */
 export interface Templates {
-  addresses?: AddressPortableList;
+  addresses?: AddressPortableList | undefined;
   /** An array of emails in the user's PayPal profile. */
-  emails?: string;
-  phones?: TemplatesDefinitionsPhoneDetailList;
-  templates?: TemplateList;
-  links?: LinkDescriptionList;
+  emails?: string | undefined;
+  phones?: TemplatesDefinitionsPhoneDetailList | undefined;
+  templates?: TemplateList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** An array of status values. */
 export type InvoiceStatusList = Array<InvoiceStatus | (string & {})>;
@@ -960,90 +1040,489 @@ export interface DateTimeRange {
 export type FieldsList = Array<string>;
 export interface SearchInvoicesRequest {
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Indicates whether the to show <code>total_pages</code> and <code>total_items</code> in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
   /** Filters the search by the email address. */
-  recipient_email?: string;
+  recipient_email?: string | undefined;
   /** Filters the search by the recipient first name. */
-  recipient_first_name?: string;
+  recipient_first_name?: string | undefined;
   /** Filters the search by the recipient last name. */
-  recipient_last_name?: string;
+  recipient_last_name?: string | undefined;
   /** Filters the search by the recipient business name. */
-  recipient_business_name?: string;
+  recipient_business_name?: string | undefined;
   /** Filters the search by the invoice number. */
-  invoice_number?: string;
-  status?: InvoiceStatusList;
+  invoice_number?: string | undefined;
+  status?: InvoiceStatusList | undefined;
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
+  memo?: string | undefined;
   /** Filters the search by the total amount. */
-  total_amount_range?: AmountRange;
+  total_amount_range?: AmountRange | undefined;
   /** Filters the search by a date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  invoice_date_range?: DateRange;
+  invoice_date_range?: DateRange | undefined;
   /** Filters the search by a due date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  due_date_range?: DateRange;
-  payment_date_range?: DateTimeRange;
+  due_date_range?: DateRange | undefined;
+  payment_date_range?: DateTimeRange | undefined;
   /** Filters the search by a creation date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  creation_date_range?: DateTimeRange;
+  creation_date_range?: DateTimeRange | undefined;
   /** Indicates whether to list merchant-archived invoices in the response. Value is:<ul><li><code>true</code>. Response lists only merchant-archived invoices.</li><li><code>false</code>. Response lists only unarchived invoices.</li><li><code>null</code>. Response lists all invoices.</li></ul> */
-  archived?: boolean;
-  fields?: FieldsList;
+  archived?: boolean | undefined;
+  fields?: FieldsList | undefined;
 }
 export interface SendInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface UpdateInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** Indicates whether to send the invoice update notification to the recipient. */
-  send_to_recipient?: boolean;
+  send_to_recipient?: boolean | undefined;
   /** Indicates whether to send the invoice update notification to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetailInput;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemListInput | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: PaymentsInput;
+  payments?: PaymentsInput | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: PaymentsInput;
+  refunds?: PaymentsInput | undefined;
 }
 export interface UpdateTemplateRequest {
   /** The ID of the template to delete. */
   template_id: string;
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfoInput;
+  template_info?: TemplateInfoInput | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
+}
+export type Error400BodyName4 = "INVALID_REQUEST";
+export type Error400BodyMessage4 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+/** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+export type ErrorLocation = "body" | "path" | "query";
+/** The error details. Required for client-side `4XX` errors. */
+export interface ErrorDetails {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  location?: ErrorLocation | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+export type Error400BodyDetailsList4 = Array<ErrorDetails>;
+/** The HTTP method required to make the related call. */
+export type ErrorLinkDescriptionMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+/** The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information. */
+export interface ErrorLinkDescription {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorLinkDescriptionMethod | undefined;
+}
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error400Body4 {
+  name?: Error400BodyName4 | undefined;
+  message?: Error400BodyMessage4 | undefined;
+  details?: Error400BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList4 | undefined;
+}
+export type Error400BodyName2 = "INVALID_REQUEST";
+export type Error400BodyMessage2 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error400Body2 {
+  name?: Error400BodyName2 | undefined;
+  message?: Error400BodyMessage2 | undefined;
+  details?: Error400BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList2 | undefined;
+}
+export type Error400BodyName9 = "INVALID_REQUEST";
+export type Error400BodyMessage9 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList9 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList9 = Array<ErrorLinkDescription>;
+export interface Error400Body9 {
+  name?: Error400BodyName9 | undefined;
+  message?: Error400BodyMessage9 | undefined;
+  details?: Error400BodyDetailsList9 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList9 | undefined;
+}
+export type Error400Name = "INVALID_REQUEST";
+export type Error400Message =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400LinksList = Array<ErrorLinkDescription>;
+/** Request is not well-formed, syntactically incorrect, or violates schema. */
+export interface Error400 {
+  name?: Error400Name | undefined;
+  message?: Error400Message | undefined;
+  details?: Error400DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400LinksList | undefined;
+}
+export type Error400BodyName5 = "INVALID_REQUEST";
+export type Error400BodyMessage5 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error400Body5 {
+  name?: Error400BodyName5 | undefined;
+  message?: Error400BodyMessage5 | undefined;
+  details?: Error400BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList5 | undefined;
+}
+export type Error400BodyName6 = "INVALID_REQUEST";
+export type Error400BodyMessage6 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error400Body6 {
+  name?: Error400BodyName6 | undefined;
+  message?: Error400BodyMessage6 | undefined;
+  details?: Error400BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList6 | undefined;
+}
+export type Error400BodyName3 = "INVALID_REQUEST";
+export type Error400BodyMessage3 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error400Body3 {
+  name?: Error400BodyName3 | undefined;
+  message?: Error400BodyMessage3 | undefined;
+  details?: Error400BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList3 | undefined;
+}
+export type Error400BodyName = "INVALID_REQUEST";
+export type Error400BodyMessage =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error400Body {
+  name?: Error400BodyName | undefined;
+  message?: Error400BodyMessage | undefined;
+  details?: Error400BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList | undefined;
+}
+export type Error400BodyName8 = "INVALID_REQUEST";
+export type Error400BodyMessage8 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error400Body8 {
+  name?: Error400BodyName8 | undefined;
+  message?: Error400BodyMessage8 | undefined;
+  details?: Error400BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList8 | undefined;
+}
+export type Error400BodyName7 = "INVALID_REQUEST";
+export type Error400BodyMessage7 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error400Body7 {
+  name?: Error400BodyName7 | undefined;
+  message?: Error400BodyMessage7 | undefined;
+  details?: Error400BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList7 | undefined;
+}
+export type Error400BodyName10 = "INVALID_REQUEST";
+export type Error400BodyMessage10 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList10 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList10 = Array<ErrorLinkDescription>;
+export interface Error400Body10 {
+  name?: Error400BodyName10 | undefined;
+  message?: Error400BodyMessage10 | undefined;
+  details?: Error400BodyDetailsList10 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList10 | undefined;
+}
+export type Error403BodyName = "NOT_AUTHORIZED";
+export type Error403BodyMessage = "Authorization failed due to insufficient permissions.";
+export type Error403BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error403Body {
+  name?: Error403BodyName | undefined;
+  message?: Error403BodyMessage | undefined;
+  details?: Error403BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403BodyLinksList | undefined;
+}
+export type Error403Name = "NOT_AUTHORIZED";
+export type Error403Message = "Authorization failed due to insufficient permissions.";
+export type Error403DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403LinksList = Array<ErrorLinkDescription>;
+/** The client is not authorized to access this resource, although it may have valid credentials. */
+export interface Error403 {
+  name?: Error403Name | undefined;
+  message?: Error403Message | undefined;
+  details?: Error403DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403LinksList | undefined;
+}
+export type Error403BodyName3 = "NOT_AUTHORIZED";
+export type Error403BodyMessage3 = "Authorization failed due to insufficient permissions.";
+export type Error403BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error403Body3 {
+  name?: Error403BodyName3 | undefined;
+  message?: Error403BodyMessage3 | undefined;
+  details?: Error403BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403BodyLinksList3 | undefined;
+}
+export type Error403BodyName2 = "NOT_AUTHORIZED";
+export type Error403BodyMessage2 = "Authorization failed due to insufficient permissions.";
+export type Error403BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error403Body2 {
+  name?: Error403BodyName2 | undefined;
+  message?: Error403BodyMessage2 | undefined;
+  details?: Error403BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403BodyLinksList2 | undefined;
+}
+export type Error404Name = "RESOURCE_NOT_FOUND";
+export type Error404Message = "The specified resource does not exist.";
+export type Error404DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404LinksList = Array<ErrorLinkDescription>;
+/** The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available. */
+export interface Error404 {
+  name?: Error404Name | undefined;
+  message?: Error404Message | undefined;
+  details?: Error404DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404LinksList | undefined;
+}
+export type Error422BodyName3 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage3 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error422Body3 {
+  name?: Error422BodyName3 | undefined;
+  message?: Error422BodyMessage3 | undefined;
+  details?: Error422BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList3 | undefined;
+}
+export type Error422BodyName = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error422Body {
+  name?: Error422BodyName | undefined;
+  message?: Error422BodyMessage | undefined;
+  details?: Error422BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList | undefined;
+}
+export type Error422BodyName8 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage8 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error422Body8 {
+  name?: Error422BodyName8 | undefined;
+  message?: Error422BodyMessage8 | undefined;
+  details?: Error422BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList8 | undefined;
+}
+export type Error422BodyName5 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage5 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error422Body5 {
+  name?: Error422BodyName5 | undefined;
+  message?: Error422BodyMessage5 | undefined;
+  details?: Error422BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList5 | undefined;
+}
+export type Error422BodyName4 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage4 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList4 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error422Body4 {
+  name?: Error422BodyName4 | undefined;
+  message?: Error422BodyMessage4 | undefined;
+  details?: Error422BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList4 | undefined;
+}
+export type Error422BodyName6 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage6 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error422Body6 {
+  name?: Error422BodyName6 | undefined;
+  message?: Error422BodyMessage6 | undefined;
+  details?: Error422BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList6 | undefined;
+}
+export type Error422BodyName2 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage2 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error422Body2 {
+  name?: Error422BodyName2 | undefined;
+  message?: Error422BodyMessage2 | undefined;
+  details?: Error422BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList2 | undefined;
+}
+export type Error422Name = "UNPROCESSABLE_ENTITY";
+export type Error422Message =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422LinksList = Array<ErrorLinkDescription>;
+/** The requested action cannot be performed and may require interaction with APIs or processes outside of the current request. This is distinct from a 500 response in that there are no systemic problems limiting the API from performing the request. */
+export interface Error422 {
+  name?: Error422Name | undefined;
+  message?: Error422Message | undefined;
+  details?: Error422DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422LinksList | undefined;
+}
+export type Error422BodyName7 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage7 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error422Body7 {
+  name?: Error422BodyName7 | undefined;
+  message?: Error422BodyMessage7 | undefined;
+  details?: Error422BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList7 | undefined;
 }
 export type CancelInvoiceError =
   | BadRequest
@@ -1058,8 +1537,8 @@ export const cancelInvoice: API.OperationMethod<
   CancelInvoiceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CancelInvoiceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<CancelInvoiceResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CancelInvoiceRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<CancelInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1075,8 +1554,8 @@ export const createInvoice: API.OperationMethod<
   CreateInvoiceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateInvoiceRequest>,
-  output: __S(714, __c22, 10) as any as S.Schema<Invoice>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateInvoiceRequest>,
+  output: __S(746, __c23, 10) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1110,7 +1589,7 @@ export const deleteInvoice: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteInvoiceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<DeleteInvoiceResponse>,
+  output: __S(672, __c21, 0) as any as S.Schema<DeleteInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1132,7 +1611,7 @@ export const deleteInvoicesPayment: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteInvoicesPaymentRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<DeleteInvoicesPaymentResponse>,
+  output: __S(672, __c21, 0) as any as S.Schema<DeleteInvoicesPaymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1149,7 +1628,7 @@ export const deleteInvoicesRefund: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteInvoicesRefundRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<DeleteInvoicesRefundResponse>,
+  output: __S(672, __c21, 0) as any as S.Schema<DeleteInvoicesRefundResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1165,8 +1644,8 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteTemplateRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<DeleteTemplateResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DeleteTemplateRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<DeleteTemplateResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1182,8 +1661,8 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<Connections>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<Connections>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1199,8 +1678,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(714, __c22, 10) as any as S.Schema<Invoice>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(746, __c23, 10) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1216,7 +1695,7 @@ export const getTemplate: API.OperationMethod<
   GetTemplateError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetTemplateRequest>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetTemplateRequest>,
   output: __S(969, __c30, 9) as any as S.Schema<Template>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
@@ -1233,8 +1712,8 @@ export const invoiceConnectionDetailsGet: API.OperationMethod<
   InvoiceConnectionDetailsGetError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<InvoiceConnectionDetailsGetRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<InvoiceConnectionDetails>,
+  input: __S(192, __c6, 0) as any as S.Schema<InvoiceConnectionDetailsGetRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<InvoiceConnectionDetails>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1250,8 +1729,8 @@ export const invoicesGenerateQrCode: API.OperationMethod<
   InvoicesGenerateQrCodeError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<InvoicesGenerateQrCodeRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<InvoicesGenerateQrCodeResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<InvoicesGenerateQrCodeRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<InvoicesGenerateQrCodeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1272,8 +1751,8 @@ export const invoicesPayments: API.OperationMethod<
   InvoicesPaymentsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<InvoicesPaymentsRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<PaymentReference>,
+  input: __S(256, __c8, 0) as any as S.Schema<InvoicesPaymentsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<PaymentReference>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1294,8 +1773,8 @@ export const invoicesRefunds: API.OperationMethod<
   InvoicesRefundsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<InvoicesRefundsRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<RefundReference>,
+  input: __S(288, __c9, 0) as any as S.Schema<InvoicesRefundsRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<RefundReference>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1316,8 +1795,8 @@ export const invoicesRemind: API.OperationMethod<
   InvoicesRemindError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<InvoicesRemindRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<InvoicesRemindResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<InvoicesRemindRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<InvoicesRemindResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1333,8 +1812,8 @@ export const invoicingGenerateNextInvoiceNumber: API.OperationMethod<
   InvoicingGenerateNextInvoiceNumberError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<InvoicingGenerateNextInvoiceNumberRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<InvoiceNumber>,
+  input: __S(352, __c11, 0) as any as S.Schema<InvoicingGenerateNextInvoiceNumberRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<InvoiceNumber>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1350,8 +1829,8 @@ export const listInvoices: API.OperationMethod<
   ListInvoicesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListInvoicesRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<Invoices>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListInvoicesRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<Invoices>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1367,8 +1846,8 @@ export const listTemplates: API.OperationMethod<
   ListTemplatesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListTemplatesRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<Templates>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListTemplatesRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<Templates>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1384,8 +1863,8 @@ export const searchInvoices: API.OperationMethod<
   SearchInvoicesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(451, __c14, 3) as any as S.Schema<SearchInvoicesRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<Invoices>,
+  input: __S(483, __c15, 3) as any as S.Schema<SearchInvoicesRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<Invoices>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1406,8 +1885,8 @@ export const sendInvoice: API.OperationMethod<
   SendInvoiceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<SendInvoiceRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<LinkDescription>,
+  input: __S(512, __c16, 0) as any as S.Schema<SendInvoiceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<LinkDescription>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1428,8 +1907,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(714, __c22, 10) as any as S.Schema<Invoice>,
+  input: __S(544, __c17, 0) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(746, __c23, 10) as any as S.Schema<Invoice>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1445,7 +1924,7 @@ export const updateTemplate: API.OperationMethod<
   UpdateTemplateError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<UpdateTemplateRequest>,
+  input: __S(576, __c18, 0) as any as S.Schema<UpdateTemplateRequest>,
   output: __S(969, __c30, 9) as any as S.Schema<Template>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
@@ -1460,6 +1939,42 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          message: S.optional(S.String),
+          details: S.optional(__S(3, __c0, 3)),
+          debug_id: S.optional(S.String),
+          links: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body4" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           template_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v2/invoicing/templates/{template_id}", code: 200 }),
@@ -1467,7 +1982,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteTemplateRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1481,7 +1996,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetConnectionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1492,16 +2007,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "Connection" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(96, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(65, __c2, 1)),
+          connections: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "Connections" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1511,7 +2026,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1521,7 +2036,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetTemplateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1536,17 +2051,17 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "InvoiceConnectionDetailsGetRequest" });
     case 1:
-      return S.Array(__S(66, __c2, 2));
+      return S.Array(__S(98, __c3, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          connection_status: S.optional(__S(161, __c5, 1)),
+          connection_status: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "InvoiceConnectionDetails" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1565,7 +2080,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "InvoicesGenerateQrCodeRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1575,8 +2090,8 @@ function __c7(j: number): any {
           payment_date: S.optional(S.String),
           method: S.String,
           note: S.optional(S.String),
-          amount: S.optional(__S(768, __c24, 0)),
-          shipping_info: S.optional(__S(803, __c25, 3)),
+          amount: S.optional(__S(800, __c25, 0)),
+          shipping_info: S.optional(__S(835, __c26, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1593,14 +2108,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PaymentReference" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           invoice_id: S.String.pipe(T.Label()),
           refund_date: S.optional(S.String),
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
           method: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/refunds", code: 200 }),
@@ -1614,7 +2129,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RefundReference" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1624,14 +2139,14 @@ function __c9(j: number): any {
           note: S.optional(S.String),
           send_to_invoicer: S.optional(S.Boolean),
           send_to_recipient: S.optional(S.Boolean),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/remind", code: 200 }),
         ),
       ).annotate({ identifier: "InvoicesRemindRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1650,7 +2165,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "InvoiceNumber" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,22 +2178,22 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListInvoicesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(714, __c22, 10));
+      return S.Array(__S(746, __c23, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
           total_pages: S.optional(S.Number),
           total_items: S.optional(S.Number),
-          items: S.optional(__S(384, __c12, 0)),
-          links: S.optional(__S(882, __c27, 18)),
+          items: S.optional(__S(416, __c13, 0)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Invoices" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1689,30 +2204,30 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/invoicing/templates", code: 200 })),
       ).annotate({ identifier: "ListTemplatesRequest" });
     case 1:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(834, __c26, 2));
     case 2:
       return S.Array(__S(969, __c30, 9));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(417, __c13, 1)),
+          addresses: S.optional(__S(449, __c14, 1)),
           emails: S.optional(S.String),
           phones: S.optional(__S(867, __c27, 3)),
-          templates: S.optional(__S(418, __c13, 2)),
-          links: S.optional(__S(882, __c27, 18)),
+          templates: S.optional(__S(450, __c14, 2)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Templates" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lower_amount: __S(768, __c24, 0),
-          upper_amount: __S(768, __c24, 0),
+          lower_amount: __S(800, __c25, 0),
+          upper_amount: __S(800, __c25, 0),
         }),
       ).annotate({ identifier: "AmountRange" });
     case 2:
@@ -1733,22 +2248,22 @@ function __c14(j: number): any {
           recipient_last_name: S.optional(S.String),
           recipient_business_name: S.optional(S.String),
           invoice_number: S.optional(S.String),
-          status: S.optional(__S(448, __c14, 0)),
+          status: S.optional(__S(480, __c15, 0)),
           reference: S.optional(S.String),
           currency_code: S.optional(S.String),
           memo: S.optional(S.String),
-          total_amount_range: S.optional(__S(449, __c14, 1)),
-          invoice_date_range: S.optional(__S(450, __c14, 2)),
-          due_date_range: S.optional(__S(450, __c14, 2)),
-          payment_date_range: S.optional(__S(450, __c14, 2)),
-          creation_date_range: S.optional(__S(450, __c14, 2)),
+          total_amount_range: S.optional(__S(481, __c15, 1)),
+          invoice_date_range: S.optional(__S(482, __c15, 2)),
+          due_date_range: S.optional(__S(482, __c15, 2)),
+          payment_date_range: S.optional(__S(482, __c15, 2)),
+          creation_date_range: S.optional(__S(482, __c15, 2)),
           archived: S.optional(S.Boolean),
-          fields: S.optional(__S(608, __c19, 0)),
+          fields: S.optional(__S(640, __c20, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/search-invoices", code: 200 })),
       ).annotate({ identifier: "SearchInvoicesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1758,14 +2273,14 @@ function __c15(j: number): any {
           note: S.optional(S.String),
           send_to_invoicer: S.optional(S.Boolean),
           send_to_recipient: S.optional(S.Boolean),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/send", code: 200 }),
         ),
       ).annotate({ identifier: "SendInvoiceRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1773,20 +2288,20 @@ function __c16(j: number): any {
           invoice_id: S.String.pipe(T.Label()),
           send_to_recipient: S.optional(S.Boolean.pipe(T.Query())),
           send_to_invoicer: S.optional(S.Boolean.pipe(T.Query())),
-          detail: __S(736, __c23, 0),
+          detail: __S(768, __c24, 0),
           invoicer: S.optional(__S(868, __c27, 4)),
           primary_recipients: S.optional(__S(871, __c27, 7)),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
           items: S.optional(__S(897, __c28, 1)),
-          configuration: S.optional(__S(705, __c22, 1)),
+          configuration: S.optional(__S(737, __c23, 1)),
           amount: S.optional(__S(879, __c27, 15)),
-          payments: S.optional(__S(640, __c20, 0)),
-          refunds: S.optional(__S(640, __c20, 0)),
+          payments: S.optional(__S(672, __c21, 0)),
+          refunds: S.optional(__S(672, __c21, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/invoicing/invoices/{invoice_id}", code: 200 })),
       ).annotate({ identifier: "UpdateInvoiceRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1801,7 +2316,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateTemplateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1811,44 +2326,44 @@ function __c18(j: number): any {
           note: S.optional(S.String),
           send_to_invoicer: S.optional(S.Boolean),
           send_to_recipient: S.optional(S.Boolean),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/invoicing/invoices/{invoice_id}/cancel", code: 200 }),
         ),
       ).annotate({ identifier: "CancelInvoiceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelInvoiceResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          detail: __S(736, __c23, 0),
+          detail: __S(768, __c24, 0),
           invoicer: S.optional(__S(868, __c27, 4)),
           primary_recipients: S.optional(__S(871, __c27, 7)),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
           items: S.optional(__S(897, __c28, 1)),
-          configuration: S.optional(__S(705, __c22, 1)),
+          configuration: S.optional(__S(737, __c23, 1)),
           amount: S.optional(__S(879, __c27, 15)),
-          payments: S.optional(__S(640, __c20, 0)),
-          refunds: S.optional(__S(640, __c20, 0)),
+          payments: S.optional(__S(672, __c21, 0)),
+          refunds: S.optional(__S(672, __c21, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/invoicing/invoices", code: 200 })),
       ).annotate({ identifier: "CreateInvoiceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1896,8 +2411,8 @@ function __c22(j: number): any {
           attachments: S.optional(__S(865, __c27, 1)),
           invoice_number: S.optional(S.String),
           invoice_date: S.optional(S.String),
-          payment_term: S.optional(__S(704, __c22, 0)),
-          metadata: S.optional(__S(706, __c22, 2)),
+          payment_term: S.optional(__S(736, __c23, 0)),
+          metadata: S.optional(__S(738, __c23, 2)),
         }),
       ).annotate({ identifier: "InvoiceDetail" });
     case 4:
@@ -1908,17 +2423,17 @@ function __c22(j: number): any {
           payment_date: S.optional(S.String),
           method: S.String,
           note: S.optional(S.String),
-          amount: S.optional(__S(768, __c24, 0)),
-          shipping_info: S.optional(__S(803, __c25, 3)),
+          amount: S.optional(__S(800, __c25, 0)),
+          shipping_info: S.optional(__S(835, __c26, 3)),
         }),
       ).annotate({ identifier: "PaymentDetail" });
     case 5:
-      return S.Array(__S(708, __c22, 4));
+      return S.Array(__S(740, __c23, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          paid_amount: S.optional(__S(768, __c24, 0)),
-          transactions: S.optional(__S(709, __c22, 5)),
+          paid_amount: S.optional(__S(800, __c25, 0)),
+          transactions: S.optional(__S(741, __c23, 5)),
         }),
       ).annotate({ identifier: "Payments" });
     case 7:
@@ -1927,17 +2442,17 @@ function __c22(j: number): any {
           type: S.optional(S.String),
           refund_id: S.optional(S.String),
           refund_date: S.optional(S.String),
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
           method: S.String,
         }),
       ).annotate({ identifier: "RefundDetail" });
     case 8:
-      return S.Array(__S(711, __c22, 7));
+      return S.Array(__S(743, __c23, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          refund_amount: S.optional(__S(768, __c24, 0)),
-          transactions: S.optional(__S(712, __c22, 8)),
+          refund_amount: S.optional(__S(800, __c25, 0)),
+          transactions: S.optional(__S(744, __c23, 8)),
         }),
       ).annotate({ identifier: "Refunds" });
     case 10:
@@ -1946,23 +2461,23 @@ function __c22(j: number): any {
           id: S.optional(S.String),
           parent_id: S.optional(S.String),
           status: S.optional(S.String),
-          detail: __S(707, __c22, 3),
+          detail: __S(739, __c23, 3),
           invoicer: S.optional(__S(868, __c27, 4)),
           primary_recipients: S.optional(__S(871, __c27, 7)),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
           items: S.optional(__S(881, __c27, 17)),
-          configuration: S.optional(__S(705, __c22, 1)),
+          configuration: S.optional(__S(737, __c23, 1)),
           amount: S.optional(__S(879, __c27, 15)),
-          due_amount: S.optional(__S(768, __c24, 0)),
-          gratuity: S.optional(__S(768, __c24, 0)),
-          payments: S.optional(__S(710, __c22, 6)),
-          refunds: S.optional(__S(713, __c22, 9)),
-          links: S.optional(__S(882, __c27, 18)),
+          due_amount: S.optional(__S(800, __c25, 0)),
+          gratuity: S.optional(__S(800, __c25, 0)),
+          payments: S.optional(__S(742, __c23, 6)),
+          refunds: S.optional(__S(745, __c23, 9)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Invoice" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1975,12 +2490,12 @@ function __c23(j: number): any {
           attachments: S.optional(__S(865, __c27, 1)),
           invoice_number: S.optional(S.String),
           invoice_date: S.optional(S.String),
-          payment_term: S.optional(__S(704, __c22, 0)),
+          payment_term: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "InvoiceDetailInput" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1991,7 +2506,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2028,29 +2543,17 @@ function __c25(j: number): any {
           admin_area_1: S.optional(S.String),
           postal_code: S.optional(S.String),
           country_code: S.String,
-          address_details: S.optional(__S(801, __c25, 1)),
+          address_details: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "AddressPortable" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           business_name: S.optional(S.String),
-          name: S.optional(__S(800, __c25, 0)),
-          address: S.optional(__S(802, __c25, 2)),
+          name: S.optional(__S(832, __c26, 0)),
+          address: S.optional(__S(834, __c26, 2)),
         }),
       ).annotate({ identifier: "ContactNameAddress" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
   }
 }
 function __c27(j: number): any {
@@ -2082,8 +2585,8 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           business_name: S.optional(S.String),
-          name: S.optional(__S(800, __c25, 0)),
-          address: S.optional(__S(802, __c25, 2)),
+          name: S.optional(__S(832, __c26, 0)),
+          address: S.optional(__S(834, __c26, 2)),
           email_address: S.optional(S.String),
           phones: S.optional(__S(867, __c27, 3)),
           website: S.optional(S.String),
@@ -2096,8 +2599,8 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           business_name: S.optional(S.String),
-          name: S.optional(__S(800, __c25, 0)),
-          address: S.optional(__S(802, __c25, 2)),
+          name: S.optional(__S(832, __c26, 0)),
+          address: S.optional(__S(834, __c26, 2)),
           email_address: S.optional(S.String),
           phones: S.optional(__S(867, __c27, 3)),
           additional_info: S.optional(S.String),
@@ -2108,7 +2611,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billing_info: S.optional(__S(869, __c27, 5)),
-          shipping_info: S.optional(__S(803, __c25, 3)),
+          shipping_info: S.optional(__S(835, __c26, 3)),
         }),
       ).annotate({ identifier: "RecipientInfo" });
     case 7:
@@ -2118,7 +2621,7 @@ function __c27(j: number): any {
         S.Struct({
           name: S.String,
           percent: S.String,
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
           tax_note: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tax" });
@@ -2126,27 +2629,27 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           percent: S.optional(S.String),
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "Discount" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           allow_partial_payment: S.optional(S.Boolean),
-          minimum_amount_due: S.optional(__S(768, __c24, 0)),
+          minimum_amount_due: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "PartialPayment" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           invoice_discount: S.optional(__S(873, __c27, 9)),
-          item_discount: S.optional(__S(768, __c24, 0)),
+          item_discount: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "AggregatedDiscount" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
           tax: S.optional(__S(872, __c27, 8)),
         }),
       ).annotate({ identifier: "ShippingCost" });
@@ -2154,15 +2657,15 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           label: S.String,
-          amount: S.optional(__S(768, __c24, 0)),
+          amount: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "CustomAmount" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          item_total: S.optional(__S(768, __c24, 0)),
+          item_total: S.optional(__S(800, __c25, 0)),
           discount: S.optional(__S(875, __c27, 11)),
-          tax_total: S.optional(__S(768, __c24, 0)),
+          tax_total: S.optional(__S(800, __c25, 0)),
           shipping: S.optional(__S(876, __c27, 12)),
           custom: S.optional(__S(877, __c27, 13)),
         }),
@@ -2182,7 +2685,7 @@ function __c27(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           quantity: S.String,
-          unit_amount: __S(768, __c24, 0),
+          unit_amount: __S(800, __c25, 0),
           tax: S.optional(__S(872, __c27, 8)),
           item_date: S.optional(S.String),
           discount: S.optional(__S(873, __c27, 9)),
@@ -2191,8 +2694,6 @@ function __c27(j: number): any {
       ).annotate({ identifier: "Item" });
     case 17:
       return S.Array(__S(880, __c27, 16));
-    case 18:
-      return S.Array(__S(832, __c26, 0));
   }
 }
 function __c28(j: number): any {
@@ -2203,7 +2704,7 @@ function __c28(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           quantity: S.String,
-          unit_amount: __S(768, __c24, 0),
+          unit_amount: __S(800, __c25, 0),
           tax: S.optional(__S(872, __c27, 8)),
           item_date: S.optional(S.String),
           discount: S.optional(__S(873, __c27, 9)),
@@ -2296,11 +2797,11 @@ function __c30(j: number): any {
           detail: S.optional(__S(967, __c30, 7)),
           invoicer: S.optional(__S(868, __c27, 4)),
           primary_recipients: S.optional(__S(871, __c27, 7)),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
           items: S.optional(__S(881, __c27, 17)),
           configuration: S.optional(__S(961, __c30, 1)),
           amount: S.optional(__S(879, __c27, 15)),
-          due_amount: S.optional(__S(768, __c24, 0)),
+          due_amount: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "TemplateInfo" });
     case 9:
@@ -2313,7 +2814,7 @@ function __c30(j: number): any {
           settings: S.optional(__S(965, __c30, 5)),
           unit_of_measure: S.optional(S.String),
           standard_template: S.optional(S.Boolean),
-          links: S.optional(__S(882, __c27, 18)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Template" });
   }
@@ -2330,7 +2831,7 @@ function __c31(j: number): any {
           memo: S.optional(S.String),
           attachments: S.optional(__S(865, __c27, 1)),
           payment_term: S.optional(__S(960, __c30, 0)),
-          metadata: S.optional(__S(640, __c20, 0)),
+          metadata: S.optional(__S(672, __c21, 0)),
         }),
       ).annotate({ identifier: "TemplateDetailInput" });
     case 1:
@@ -2339,7 +2840,7 @@ function __c31(j: number): any {
           detail: S.optional(__S(992, __c31, 0)),
           invoicer: S.optional(__S(868, __c27, 4)),
           primary_recipients: S.optional(__S(871, __c27, 7)),
-          additional_recipients: S.optional(__S(608, __c19, 0)),
+          additional_recipients: S.optional(__S(640, __c20, 0)),
           items: S.optional(__S(897, __c28, 1)),
           configuration: S.optional(__S(961, __c30, 1)),
           amount: S.optional(__S(879, __c27, 15)),

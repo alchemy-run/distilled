@@ -309,7 +309,16 @@ export const parseXml = (
       return Effect.succeed(parseXmlSync(xml, options));
     } catch (error) {
       if (error instanceof XmlParseError) return Effect.fail(error);
-      throw error;
+      // Anything else the parser throws (a stack overflow on deep nesting,
+      // ...) still means this document could not be parsed.
+      return Effect.fail(
+        new XmlParseError({
+          message: `XML could not be parsed: ${error instanceof Error ? error.message : String(error)}`,
+          offset: 0,
+          line: 1,
+          column: 1,
+        }),
+      );
     }
   });
 

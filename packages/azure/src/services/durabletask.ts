@@ -42,9 +42,9 @@ export interface DeleteRetentionPolicyRequest {
 }
 export interface DeleteRetentionPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchedulerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -56,9 +56,9 @@ export interface DeleteSchedulerRequest {
 }
 export interface DeleteSchedulerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchedulerPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -72,9 +72,9 @@ export interface DeleteSchedulerPrivateEndpointConnectionRequest {
 }
 export interface DeleteSchedulerPrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTaskHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -88,9 +88,9 @@ export interface DeleteTaskHubRequest {
 }
 export interface DeleteTaskHubResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetRetentionPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -107,17 +107,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the current operation */
 export type ProvisioningState =
@@ -135,28 +135,28 @@ export interface RetentionPolicyDetails {
   /** The retention period in days after which the orchestration will be purged automatically */
   retentionPeriodInDays: number;
   /** The orchestration state to which this policy applies. If omitted, the policy applies to all purgeable orchestration states. */
-  orchestrationState?: PurgeableOrchestrationState | (string & {});
+  orchestrationState?: PurgeableOrchestrationState | (string & {}) | undefined;
 }
 /** The orchestration retention policies */
 export type RetentionPolicyPropertiesRetentionPoliciesList = Array<RetentionPolicyDetails>;
 /** The retention policy settings for the resource */
 export interface RetentionPolicyProperties {
   /** The status of the last operation */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The orchestration retention policies */
-  retentionPolicies?: RetentionPolicyPropertiesRetentionPoliciesList;
+  retentionPolicies?: RetentionPolicyPropertiesRetentionPoliciesList | undefined;
 }
 export interface GetRetentionPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyProperties;
+  properties?: RetentionPolicyProperties | undefined;
 }
 export interface GetSchedulerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -179,9 +179,9 @@ export interface SchedulerSku {
   /** The name of the SKU */
   name: SchedulerSkuName | (string & {});
   /** The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Indicates whether the current SKU configuration is zone redundant */
-  redundancyState?: RedundancyState | (string & {});
+  redundancyState?: RedundancyState | (string & {}) | undefined;
 }
 /** State of the public network access. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
@@ -190,18 +190,18 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -212,26 +212,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface SchedulerPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The private endpoints exposed by this resource */
 export type SchedulerPropertiesPrivateEndpointConnectionsList =
@@ -239,33 +239,33 @@ export type SchedulerPropertiesPrivateEndpointConnectionsList =
 /** Details of the Scheduler */
 export interface SchedulerProperties {
   /** The status of the last operation */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** URL of the durable task scheduler */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** IP allow list for durable task scheduler. Values can be IPv4, IPv6 or CIDR */
   ipAllowlist: SchedulerPropertiesIpAllowlistList;
   /** SKU of the durable task scheduler */
   sku: SchedulerSku;
   /** Allow or disallow public network access to durable task scheduler */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The private endpoints exposed by this resource */
-  privateEndpointConnections?: SchedulerPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: SchedulerPropertiesPrivateEndpointConnectionsList | undefined;
 }
 export interface GetSchedulerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSchedulerResponseTagsMap;
+  tags?: GetSchedulerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerProperties;
+  properties?: SchedulerProperties | undefined;
 }
 export interface GetSchedulerPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -279,15 +279,15 @@ export interface GetSchedulerPrivateEndpointConnectionRequest {
 }
 export interface GetSchedulerPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetSchedulerPrivateLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -306,23 +306,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetSchedulerPrivateLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetTaskHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -337,33 +337,33 @@ export interface GetTaskHubRequest {
 /** The properties of Task Hub */
 export interface TaskHubProperties {
   /** The status of the last operation */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** URL of the durable task scheduler dashboard */
-  dashboardUrl?: string;
+  dashboardUrl?: string | undefined;
 }
 export interface GetTaskHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TaskHubProperties;
+  properties?: TaskHubProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -372,23 +372,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRetentionPolicyBySchedulerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -401,15 +401,15 @@ export interface ListRetentionPolicyBySchedulerRequest {
 /** A retention policy resource belonging to the scheduler */
 export interface RetentionPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyProperties;
+  properties?: RetentionPolicyProperties | undefined;
 }
 /** The RetentionPolicy items on this page */
 export type RetentionPolicyListResultValueList = Array<RetentionPolicy>;
@@ -418,7 +418,7 @@ export interface RetentionPolicyListResult {
   /** The RetentionPolicy items on this page */
   value: RetentionPolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchedulerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -431,19 +431,19 @@ export type SchedulerTagsMap = { [key: string]: string | undefined };
 /** A Durable Task Scheduler resource */
 export interface Scheduler {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchedulerTagsMap;
+  tags?: SchedulerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerProperties;
+  properties?: SchedulerProperties | undefined;
 }
 /** The Scheduler items on this page */
 export type SchedulerListResultValueList = Array<Scheduler>;
@@ -452,7 +452,7 @@ export interface SchedulerListResult {
   /** The Scheduler items on this page */
   value: SchedulerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchedulerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -477,7 +477,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchedulerPrivateLinksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -490,15 +490,15 @@ export interface ListSchedulerPrivateLinksRequest {
 /** A private link resource. */
 export interface SchedulerPrivateLinkResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The SchedulerPrivateLinkResource items on this page */
 export type SchedulerPrivateLinkResourceListResultValueList =
@@ -508,7 +508,7 @@ export interface SchedulerPrivateLinkResourceListResult {
   /** The SchedulerPrivateLinkResource items on this page */
   value: SchedulerPrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTaskHubBySchedulerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -521,15 +521,15 @@ export interface ListTaskHubBySchedulerRequest {
 /** A Task Hub resource belonging to the scheduler */
 export interface TaskHub {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TaskHubProperties;
+  properties?: TaskHubProperties | undefined;
 }
 /** The TaskHub items on this page */
 export type TaskHubListResultValueList = Array<TaskHub>;
@@ -538,14 +538,14 @@ export interface TaskHubListResult {
   /** The TaskHub items on this page */
   value: TaskHubListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The orchestration retention policies */
 export type RetentionPolicyPropertiesInputRetentionPoliciesList = Array<RetentionPolicyDetails>;
 /** The retention policy settings for the resource */
 export interface RetentionPolicyPropertiesInput {
   /** The orchestration retention policies */
-  retentionPolicies?: RetentionPolicyPropertiesInputRetentionPoliciesList;
+  retentionPolicies?: RetentionPolicyPropertiesInputRetentionPoliciesList | undefined;
 }
 export interface RetentionPoliciesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -555,23 +555,23 @@ export interface RetentionPoliciesCreateOrReplaceRequest {
   /** The name of the Scheduler */
   schedulerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyPropertiesInput;
+  properties?: RetentionPolicyPropertiesInput | undefined;
 }
 export interface RetentionPoliciesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyProperties;
+  properties?: RetentionPolicyProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SchedulersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -584,7 +584,7 @@ export interface SchedulerPropertiesInput {
   /** SKU of the durable task scheduler */
   sku: SchedulerSku;
   /** Allow or disallow public network access to durable task scheduler */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface SchedulersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -594,40 +594,40 @@ export interface SchedulersCreateOrUpdateRequest {
   /** The name of the Scheduler */
   schedulerName: string;
   /** Resource tags. */
-  tags?: SchedulersCreateOrUpdateRequestTagsMap;
+  tags?: SchedulersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerPropertiesInput;
+  properties?: SchedulerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SchedulersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SchedulersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchedulersCreateOrUpdateResponseTagsMap;
+  tags?: SchedulersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerProperties;
+  properties?: SchedulerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -641,23 +641,23 @@ export interface SchedulersCreateOrUpdatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface SchedulersCreateOrUpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of Task Hub */
 export type TaskHubPropertiesInput = PrivateEndpointInput;
@@ -671,23 +671,23 @@ export interface TaskHubsCreateOrUpdateRequest {
   /** The name of the TaskHub */
   taskHubName: string;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointInput;
+  properties?: PrivateEndpointInput | undefined;
 }
 export interface TaskHubsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TaskHubProperties;
+  properties?: TaskHubProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateRetentionPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -697,41 +697,41 @@ export interface UpdateRetentionPolicyRequest {
   /** The name of the Scheduler */
   schedulerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyPropertiesInput;
+  properties?: RetentionPolicyPropertiesInput | undefined;
 }
 export interface UpdateRetentionPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RetentionPolicyProperties;
+  properties?: RetentionPolicyProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** IP allow list for durable task scheduler. Values can be IPv4, IPv6 or CIDR */
 export type SchedulerPropertiesUpdateInputIpAllowlistList = Array<string>;
 /** The SKU (Stock Keeping Unit) properties to be updated */
 export interface SchedulerSkuUpdate {
   /** The name of the SKU */
-  name?: SchedulerSkuName | (string & {});
+  name?: SchedulerSkuName | (string & {}) | undefined;
   /** The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The Scheduler resource properties to be updated */
 export interface SchedulerPropertiesUpdateInput {
   /** IP allow list for durable task scheduler. Values can be IPv4, IPv6 or CIDR */
-  ipAllowlist?: SchedulerPropertiesUpdateInputIpAllowlistList;
+  ipAllowlist?: SchedulerPropertiesUpdateInputIpAllowlistList | undefined;
   /** SKU of the durable task scheduler */
-  sku?: SchedulerSkuUpdate;
+  sku?: SchedulerSkuUpdate | undefined;
   /** Allow or disallow public network access to durable task scheduler */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateSchedulerRequestTagsMap = { [key: string]: string | undefined };
@@ -743,31 +743,31 @@ export interface UpdateSchedulerRequest {
   /** The name of the Scheduler */
   schedulerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerPropertiesUpdateInput;
+  properties?: SchedulerPropertiesUpdateInput | undefined;
   /** Resource tags. */
-  tags?: UpdateSchedulerRequestTagsMap;
+  tags?: UpdateSchedulerRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSchedulerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSchedulerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSchedulerResponseTagsMap;
+  tags?: UpdateSchedulerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchedulerProperties;
+  properties?: SchedulerProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The private endpoint resource. */
 export type UpdateSchedulerPrivateEndpointConnectionRequestPropertiesPrivateEndpoint =
@@ -778,9 +778,9 @@ export type UpdateSchedulerPrivateEndpointConnectionRequestPropertiesPrivateLink
 /** The private endpoint connection properties */
 export interface UpdateSchedulerPrivateEndpointConnectionRequestProperties {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 export interface UpdateSchedulerPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -792,23 +792,23 @@ export interface UpdateSchedulerPrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** The private endpoint connection properties */
-  properties?: UpdateSchedulerPrivateEndpointConnectionRequestProperties;
+  properties?: UpdateSchedulerPrivateEndpointConnectionRequestProperties | undefined;
 }
 export interface UpdateSchedulerPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteRetentionPolicyError = AzureOpError;
 /** Delete a Retention Policy */

@@ -47,11 +47,11 @@ export interface FetchDataCollectionRuleConfigurationMetadataRequest {
   /** The Azure region for the metadata request. */
   location: string;
   /** DCR Kind for which metadata is being requested (e.g., PlatformTelemetry). */
-  dcrKind?: string;
+  dcrKind?: string | undefined;
   /** Optional resource type filter (e.g., Microsoft.Compute/virtualMachines). If specified, returns configuration metadata for that resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** When true, returns detailed stream metadata in the response. Defaults to false. */
-  withStreamMetadata?: boolean;
+  withStreamMetadata?: boolean | undefined;
 }
 /** List of supported destination resource types. */
 export type TelemetryTypeMetadataSupportedDestinationsList = Array<string>;
@@ -62,70 +62,70 @@ export type LogsSpecificationGroupsList = Array<string>;
 /** Specification for a logs stream. */
 export interface LogsSpecification {
   /** The name of the logs stream. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the logs stream. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Categorization groups for the logs stream. */
-  groups?: LogsSpecificationGroupsList;
+  groups?: LogsSpecificationGroupsList | undefined;
 }
 /** Categorization groups for the metric. */
 export type MetricsSpecificationGroupsList = Array<string>;
 /** Specification for a metrics stream. Properties are driven by the service and are manifest driven. */
 export interface MetricsSpecification {
   /** The name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the metric. */
-  description?: string;
+  description?: string | undefined;
   /** The unit of measurement for the metric. This value is provided by the service and is manifest-driven; the set of possible values may evolve over time. Example: "Count". */
-  unit?: string;
+  unit?: string | undefined;
   /** The aggregation type for the metric. This value is provided by the service and is manifest-driven; the set of possible values may evolve over time. Example: "Total". */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Categorization groups for the metric. */
-  groups?: MetricsSpecificationGroupsList;
+  groups?: MetricsSpecificationGroupsList | undefined;
 }
 /** Detailed metadata for a stream (logs or metrics specification). */
 export interface StreamDetailMetadata {
   /** Specification for logs stream. */
-  logsSpecification?: LogsSpecification;
+  logsSpecification?: LogsSpecification | undefined;
   /** Specification for metrics stream. */
-  metricsSpecification?: MetricsSpecification;
+  metricsSpecification?: MetricsSpecification | undefined;
 }
 /** Metadata for a specific data stream. */
 export interface StreamMetadata {
   /** The unique identifier for the stream. */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Additional metadata about the stream. */
-  metadata?: StreamDetailMetadata;
+  metadata?: StreamDetailMetadata | undefined;
 }
 /** Detailed stream information. Only returned when withStreamMetadata is true in the request. */
 export type TelemetryTypeMetadataSupportedStreamsList = Array<StreamMetadata>;
 /** Metadata for a specific telemetry type (logs or metrics). */
 export interface TelemetryTypeMetadata {
   /** List of supported destination resource types. */
-  supportedDestinations?: TelemetryTypeMetadataSupportedDestinationsList;
+  supportedDestinations?: TelemetryTypeMetadataSupportedDestinationsList | undefined;
   /** List of supported source resource types. */
-  supportedResourceTypes?: TelemetryTypeMetadataSupportedResourceTypesList;
+  supportedResourceTypes?: TelemetryTypeMetadataSupportedResourceTypesList | undefined;
   /** Detailed stream information. Only returned when withStreamMetadata is true in the request. */
-  supportedStreams?: TelemetryTypeMetadataSupportedStreamsList;
+  supportedStreams?: TelemetryTypeMetadataSupportedStreamsList | undefined;
 }
 /** Metadata for platform telemetry (logs and metrics). */
 export interface PlatformTelemetryMetadata {
   /** Configuration metadata for platform logs. */
-  platformLogs?: TelemetryTypeMetadata;
+  platformLogs?: TelemetryTypeMetadata | undefined;
   /** Configuration metadata for platform metrics. */
-  platformMetrics?: TelemetryTypeMetadata;
+  platformMetrics?: TelemetryTypeMetadata | undefined;
 }
 /** Configuration metadata for data collection. */
 export interface ConfigurationMetadata {
   /** Platform telemetry configuration metadata. */
-  platformTelemetry?: PlatformTelemetryMetadata;
+  platformTelemetry?: PlatformTelemetryMetadata | undefined;
 }
 /** Response containing configuration metadata for data collection rules. */
 export interface DataCollectionRuleConfigurationMetadataResponse {
   /** The configuration metadata for platform telemetry. */
-  configurationMetadata?: ConfigurationMetadata;
+  configurationMetadata?: ConfigurationMetadata | undefined;
 }
 export interface GetScheduledQueryRuleRequest {
   /** The ID of the target subscription. */
@@ -140,9 +140,9 @@ export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** User assigned identity properties. */
 export interface UserIdentityProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -151,13 +151,13 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
   type: IdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type ScheduledQueryRuleResourceTagsMap = { [key: string]: string | undefined };
@@ -178,17 +178,17 @@ export type ScheduledQueryRuleResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ScheduledQueryRuleResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ScheduledQueryRuleResourceSystemDataCreatedByType;
+  createdByType?: ScheduledQueryRuleResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ScheduledQueryRuleResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: ScheduledQueryRuleResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
 export type ScheduledQueryRulePropertiesSeverity = 0 | 1 | 2 | 3 | 4;
@@ -226,45 +226,45 @@ export type ConditionOperator =
 /** The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert. */
 export interface ConditionFailingPeriods {
   /** The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 */
-  numberOfEvaluationPeriods?: number;
+  numberOfEvaluationPeriods?: number | undefined;
   /** The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1 */
-  minFailingPeriodsToAlert?: number;
+  minFailingPeriodsToAlert?: number | undefined;
 }
 /** A condition of the scheduled query rule. */
 export interface Condition {
   /** Specifies the type of threshold criteria */
-  criterionType?: ConditionCriterionType | (string & {});
+  criterionType?: ConditionCriterionType | (string & {}) | undefined;
   /** Log query alert */
-  query?: string;
+  query?: string | undefined;
   /** Aggregation type. Relevant and required only for rules of the kind LogAlert. */
-  timeAggregation?: ConditionTimeAggregation | (string & {});
+  timeAggregation?: ConditionTimeAggregation | (string & {}) | undefined;
   /** The column containing the metric measure number. Relevant only for rules of the kind LogAlert. */
-  metricMeasureColumn?: string;
+  metricMeasureColumn?: string | undefined;
   /** The column containing the resource id. The content of the column must be a uri formatted as resource id. Relevant only for rules of the kind LogAlert. */
-  resourceIdColumn?: string;
+  resourceIdColumn?: string | undefined;
   /** List of Dimensions conditions. Relevant only for rules of the kind LogAlert and LogToMetric. */
-  dimensions?: ConditionDimensionsList;
+  dimensions?: ConditionDimensionsList | undefined;
   /** The criteria operator. Relevant and required only for rules of the kind LogAlert. */
-  operator?: ConditionOperator | (string & {});
+  operator?: ConditionOperator | (string & {}) | undefined;
   /** the criteria threshold value that activates the alert. Relevant and required only for static threshold rules of the kind LogAlert. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** The extent of deviation required to trigger an alert. Allowed values are 'Low', 'Medium' and 'High'. This will affect how tight the threshold is to the metric series pattern. Relevant only for dynamic threshold rules of the kind LogAlert. */
-  alertSensitivity?: string;
+  alertSensitivity?: string | undefined;
   /** Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert. */
-  ignoreDataBefore?: string;
+  ignoreDataBefore?: string | undefined;
   /** The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert. */
-  failingPeriods?: ConditionFailingPeriods;
+  failingPeriods?: ConditionFailingPeriods | undefined;
   /** The name of the metric to be sent. Relevant and required only for rules of the kind LogToMetric. */
-  metricName?: string;
+  metricName?: string | undefined;
   /** The minimum results count that should be found for triggering an alert. Relevant only for rules of the kind SimpleLogAlert. */
-  minRecurrenceCount?: number;
+  minRecurrenceCount?: number | undefined;
 }
 /** A list of conditions to evaluate against the specified scopes */
 export type ScheduledQueryRuleCriteriaAllOfList = Array<Condition>;
 /** The rule criteria that defines the conditions of the scheduled query rule. */
 export interface ScheduledQueryRuleCriteria {
   /** A list of conditions to evaluate against the specified scopes */
-  allOf?: ScheduledQueryRuleCriteriaAllOfList;
+  allOf?: ScheduledQueryRuleCriteriaAllOfList | undefined;
 }
 /** Action Group resource Ids to invoke when the alert fires. */
 export type ActionsActionGroupsList = Array<string>;
@@ -275,80 +275,80 @@ export type ActionsActionPropertiesMap = { [key: string]: string | undefined };
 /** Actions to invoke when the alert fires. */
 export interface Actions {
   /** Action Group resource Ids to invoke when the alert fires. */
-  actionGroups?: ActionsActionGroupsList;
+  actionGroups?: ActionsActionGroupsList | undefined;
   /** The properties of an alert payload. */
-  customProperties?: ActionsCustomPropertiesMap;
+  customProperties?: ActionsCustomPropertiesMap | undefined;
   /** The properties of an action properties. */
-  actionProperties?: ActionsActionPropertiesMap;
+  actionProperties?: ActionsActionPropertiesMap | undefined;
 }
 /** TBD. Relevant only for rules of the kind LogAlert. */
 export interface RuleResolveConfiguration {
   /** The flag that indicates whether or not to auto resolve a fired alert. */
-  autoResolved?: boolean;
+  autoResolved?: boolean | undefined;
   /** The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format. */
-  timeToResolve?: string;
+  timeToResolve?: string | undefined;
 }
 /** scheduled query rule Definition */
 export interface ScheduledQueryRuleProperties {
   /** The api-version used when creating this alert rule */
-  createdWithApiVersion?: string;
+  createdWithApiVersion?: string | undefined;
   /** True if alert rule is legacy Log Analytic rule */
-  isLegacyLogAnalyticsRule?: boolean;
+  isLegacyLogAnalyticsRule?: boolean | undefined;
   /** The description of the scheduled query rule. */
-  description?: string;
+  description?: string | undefined;
   /** The display name of the alert rule */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-  severity?: ScheduledQueryRulePropertiesSeverity;
+  severity?: ScheduledQueryRulePropertiesSeverity | undefined;
   /** The flag which indicates whether this scheduled query rule is enabled. Value should be true or false */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The list of resource id's that this scheduled query rule is scoped to. */
-  scopes?: ScheduledQueryRulePropertiesScopesList;
+  scopes?: ScheduledQueryRulePropertiesScopesList | undefined;
   /** How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. */
-  evaluationFrequency?: string;
+  evaluationFrequency?: string | undefined;
   /** The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. */
-  windowSize?: string;
+  windowSize?: string | undefined;
   /** If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. */
-  overrideQueryTimeRange?: string;
+  overrideQueryTimeRange?: string | undefined;
   /** List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert */
-  targetResourceTypes?: ScheduledQueryRulePropertiesTargetResourceTypesList;
+  targetResourceTypes?: ScheduledQueryRulePropertiesTargetResourceTypesList | undefined;
   /** The rule criteria that defines the conditions of the scheduled query rule. */
-  criteria?: ScheduledQueryRuleCriteria;
+  criteria?: ScheduledQueryRuleCriteria | undefined;
   /** Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. */
-  muteActionsDuration?: string;
+  muteActionsDuration?: string | undefined;
   /** Actions to invoke when the alert fires. */
-  actions?: Actions;
+  actions?: Actions | undefined;
   /** The flag which indicates whether this scheduled query rule has been configured to be stored in the customer's storage. The default is false. */
-  isWorkspaceAlertsStorageConfigured?: boolean;
+  isWorkspaceAlertsStorageConfigured?: boolean | undefined;
   /** The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert. */
-  checkWorkspaceAlertsStorageConfigured?: boolean;
+  checkWorkspaceAlertsStorageConfigured?: boolean | undefined;
   /** The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. */
-  skipQueryValidation?: boolean;
+  skipQueryValidation?: boolean | undefined;
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  autoMitigate?: boolean;
+  autoMitigate?: boolean | undefined;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  resolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: RuleResolveConfiguration | undefined;
 }
 /** The scheduled query rule resource. */
 export interface ScheduledQueryRuleResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Resource tags. */
-  tags?: ScheduledQueryRuleResourceTagsMap;
+  tags?: ScheduledQueryRuleResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Indicates the type of scheduled query rule. The default is LogAlert. */
-  kind?: ScheduledQueryRuleResourceKind;
+  kind?: ScheduledQueryRuleResourceKind | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ScheduledQueryRuleResourceSystemData;
+  systemData?: ScheduledQueryRuleResourceSystemData | undefined;
   /** The rule properties of the resource. */
   properties: ScheduledQueryRuleProperties;
 }
@@ -356,13 +356,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -371,23 +371,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduledQueryRuleByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -400,9 +400,9 @@ export type ScheduledQueryRuleResourceCollectionValueList = Array<ScheduledQuery
 /** Represents a collection of scheduled query rule resources. */
 export interface ScheduledQueryRuleResourceCollection {
   /** The values for the scheduled query rule resources. */
-  value?: ScheduledQueryRuleResourceCollectionValueList;
+  value?: ScheduledQueryRuleResourceCollectionValueList | undefined;
   /** Provides the link to retrieve the next set of elements. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduledQueryRuleBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -421,7 +421,7 @@ export interface IdentityInput {
   /** Type of managed service identity. */
   type: IdentityInputType | (string & {});
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type ScheduledQueryRulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -439,37 +439,37 @@ export type ScheduledQueryRulePropertiesInputTargetResourceTypesList = Array<str
 /** scheduled query rule Definition */
 export interface ScheduledQueryRulePropertiesInput {
   /** The description of the scheduled query rule. */
-  description?: string;
+  description?: string | undefined;
   /** The display name of the alert rule */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-  severity?: ScheduledQueryRulePropertiesInputSeverity | (number & {});
+  severity?: ScheduledQueryRulePropertiesInputSeverity | (number & {}) | undefined;
   /** The flag which indicates whether this scheduled query rule is enabled. Value should be true or false */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The list of resource id's that this scheduled query rule is scoped to. */
-  scopes?: ScheduledQueryRulePropertiesInputScopesList;
+  scopes?: ScheduledQueryRulePropertiesInputScopesList | undefined;
   /** How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. */
-  evaluationFrequency?: string;
+  evaluationFrequency?: string | undefined;
   /** The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. */
-  windowSize?: string;
+  windowSize?: string | undefined;
   /** If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. */
-  overrideQueryTimeRange?: string;
+  overrideQueryTimeRange?: string | undefined;
   /** List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert */
-  targetResourceTypes?: ScheduledQueryRulePropertiesInputTargetResourceTypesList;
+  targetResourceTypes?: ScheduledQueryRulePropertiesInputTargetResourceTypesList | undefined;
   /** The rule criteria that defines the conditions of the scheduled query rule. */
-  criteria?: ScheduledQueryRuleCriteria;
+  criteria?: ScheduledQueryRuleCriteria | undefined;
   /** Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. */
-  muteActionsDuration?: string;
+  muteActionsDuration?: string | undefined;
   /** Actions to invoke when the alert fires. */
-  actions?: Actions;
+  actions?: Actions | undefined;
   /** The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert. */
-  checkWorkspaceAlertsStorageConfigured?: boolean;
+  checkWorkspaceAlertsStorageConfigured?: boolean | undefined;
   /** The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. */
-  skipQueryValidation?: boolean;
+  skipQueryValidation?: boolean | undefined;
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  autoMitigate?: boolean;
+  autoMitigate?: boolean | undefined;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  resolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: RuleResolveConfiguration | undefined;
 }
 export interface ScheduledQueryRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -479,13 +479,13 @@ export interface ScheduledQueryRulesCreateOrUpdateRequest {
   /** The name of the rule. */
   ruleName: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Resource tags. */
-  tags?: ScheduledQueryRulesCreateOrUpdateRequestTagsMap;
+  tags?: ScheduledQueryRulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Indicates the type of scheduled query rule. The default is LogAlert. */
-  kind?: ScheduledQueryRulesCreateOrUpdateRequestKind | (string & {});
+  kind?: ScheduledQueryRulesCreateOrUpdateRequestKind | (string & {}) | undefined;
   /** The rule properties of the resource. */
   properties: ScheduledQueryRulePropertiesInput;
 }
@@ -499,11 +499,11 @@ export interface UpdateScheduledQueryRuleRequest {
   /** The name of the rule. */
   ruleName: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Resource tags */
-  tags?: UpdateScheduledQueryRuleRequestTagsMap;
+  tags?: UpdateScheduledQueryRuleRequestTagsMap | undefined;
   /** The scheduled query rule properties of the resource. */
-  properties?: ScheduledQueryRulePropertiesInput;
+  properties?: ScheduledQueryRulePropertiesInput | undefined;
 }
 export type DeleteScheduledQueryRuleError = AzureOpError;
 /** Deletes a scheduled query rule. */

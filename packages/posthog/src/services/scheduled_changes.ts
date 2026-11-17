@@ -39,12 +39,12 @@ export interface CreateScheduledChangeRequest {
   /** ISO 8601 datetime when the change should be applied (e.g. '2025-06-01T14:00:00Z'). */
   scheduled_at: string;
   /** Whether this schedule repeats. Only the 'update_status' operation supports recurring schedules. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** How often the schedule repeats. Required when is_recurring is true. One of: daily, weekly, monthly, yearly. * `daily` - daily * `weekly` - weekly * `monthly` - monthly * `yearly` - yearly */
-  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null;
-  cron_expression?: string | null;
+  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null | undefined;
+  cron_expression?: string | null | undefined;
   /** Optional ISO 8601 datetime after which a recurring schedule stops executing. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -61,15 +61,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `pending` - Pending * `approved` - Approved (awaiting application) * `applied` - Applied * `rejected` - Rejected * `expired` - Expired * `failed` - Failed to apply */
 export type ChangeRequestStateEnum =
@@ -104,13 +104,13 @@ export interface ScheduledChange {
   created_by: UserBasic;
   updated_at: string;
   /** Whether this schedule repeats. Only the 'update_status' operation supports recurring schedules. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** How often the schedule repeats. Required when is_recurring is true. One of: daily, weekly, monthly, yearly. * `daily` - daily * `weekly` - weekly * `monthly` - monthly * `yearly` - yearly */
-  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | null;
-  cron_expression?: string | null;
+  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | null | undefined;
+  cron_expression?: string | null | undefined;
   last_executed_at: string | null;
   /** Optional ISO 8601 datetime after which a recurring schedule stops executing. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   timezone: string | null;
   /** Summary of the approval change request gating this scheduled change. Null when no approval policy applies. The change only applies at its scheduled time if the request is approved by then. */
   change_request: ChangeRequestSummary | null;
@@ -125,19 +125,19 @@ export interface ListScheduledChangesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by model type. Use "FeatureFlag" to see feature flag schedules. */
-  model_name?: string;
+  model_name?: string | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by the ID of a specific feature flag. */
-  record_id?: string;
+  record_id?: string | undefined;
 }
 export type PaginatedScheduledChangeListResultsList = Array<ScheduledChange>;
 export interface PaginatedScheduledChangeList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedScheduledChangeListResultsList;
 }
 export interface ScheduledChangesDestroyRequest {
@@ -161,12 +161,12 @@ export interface UpdateScheduledChangeRequest {
   /** ISO 8601 datetime when the change should be applied (e.g. '2025-06-01T14:00:00Z'). */
   scheduled_at: string;
   /** Whether this schedule repeats. Only the 'update_status' operation supports recurring schedules. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** How often the schedule repeats. Required when is_recurring is true. One of: daily, weekly, monthly, yearly. * `daily` - daily * `weekly` - weekly * `monthly` - monthly * `yearly` - yearly */
-  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null;
-  cron_expression?: string | null;
+  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null | undefined;
+  cron_expression?: string | null | undefined;
   /** Optional ISO 8601 datetime after which a recurring schedule stops executing. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
 }
 export interface UpdateScheduledChangesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -174,20 +174,20 @@ export interface UpdateScheduledChangesPartialRequest {
   /** A unique integer value identifying this scheduled change. */
   id: number;
   /** The ID of the record to modify (e.g. the feature flag ID). */
-  record_id?: string;
+  record_id?: string | undefined;
   /** The type of record to modify. Currently only "FeatureFlag" is supported. * `FeatureFlag` - feature flag */
-  model_name?: ScheduledChangeAllowedModelsEnum | (string & {});
+  model_name?: ScheduledChangeAllowedModelsEnum | (string & {}) | undefined;
   /** The change to apply. Must include an 'operation' key and a 'value' key. Supported operations: 'update_status' (value: true/false to enable/disable the flag), 'add_release_condition' (value: object with 'groups', 'payloads', and 'multivariate' keys), 'update_variants' (value: object with 'variants' and 'payloads' keys). */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** ISO 8601 datetime when the change should be applied (e.g. '2025-06-01T14:00:00Z'). */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
   /** Whether this schedule repeats. Only the 'update_status' operation supports recurring schedules. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** How often the schedule repeats. Required when is_recurring is true. One of: daily, weekly, monthly, yearly. * `daily` - daily * `weekly` - weekly * `monthly` - monthly * `yearly` - yearly */
-  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null;
-  cron_expression?: string | null;
+  recurrence_interval?: ScheduledChangeRecurrenceIntervalEnum | (string & {}) | null | undefined;
+  cron_expression?: string | null | undefined;
   /** Optional ISO 8601 datetime after which a recurring schedule stops executing. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
 }
 export type CreateScheduledChangeError = PosthogOpError;
 /** Create, read, update and delete scheduled changes. */

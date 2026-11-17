@@ -162,17 +162,17 @@ export interface SourceAwsConfiguration {
   accountId: string;
   accountType: SourceAccountType;
   assumableRoleArn: string;
-  externalId?: string;
-  agentElevatedRoleArn?: string;
-  agentElevatedRoleArnStatus?: ValidationStatus;
+  externalId?: string | undefined;
+  agentElevatedRoleArn?: string | undefined;
+  agentElevatedRoleArnStatus?: ValidationStatus | undefined;
 }
 export type MonitorAccountType = "monitor" | (string & {});
 export interface AWSConfiguration {
   assumableRoleArn: string;
   accountId: string;
   accountType: MonitorAccountType;
-  agentElevatedRoleArn?: string;
-  agentElevatedRoleArnStatus?: ValidationStatus;
+  agentElevatedRoleArn?: string | undefined;
+  agentElevatedRoleArnStatus?: ValidationStatus | undefined;
 }
 export type GithubRepoOwnerType = "organization" | "user" | (string & {});
 export type AssociationId = string;
@@ -181,37 +181,37 @@ export interface GitHubConfiguration {
   repoId: string;
   owner: string;
   ownerType: GithubRepoOwnerType;
-  instanceIdentifier?: string;
-  runtimeRoleArn?: string;
-  releaseManagementAssociationId?: string;
+  instanceIdentifier?: string | undefined;
+  runtimeRoleArn?: string | undefined;
+  releaseManagementAssociationId?: string | undefined;
 }
 export interface SlackChannel {
-  channelName?: string;
+  channelName?: string | undefined;
   channelId: string;
 }
 export interface SlackTransmissionTarget {
   opsOncallTarget: SlackChannel;
-  opsSRETarget?: SlackChannel;
+  opsSRETarget?: SlackChannel | undefined;
 }
 export interface SlackBidirectionalConfiguration {
   roleArn: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface SlackConfiguration {
   workspaceId: string;
   workspaceName: string;
   transmissionTarget: SlackTransmissionTarget;
-  bidirectional?: SlackBidirectionalConfiguration;
+  bidirectional?: SlackBidirectionalConfiguration | undefined;
 }
 export type DynatraceResourceList = string[];
 export interface DynatraceConfiguration {
   envId: string;
-  resources?: string[];
+  resources?: string[] | undefined;
 }
 export type ServiceNowAuthenticationScopeList = string[];
 export interface ServiceNowConfiguration {
-  instanceId?: string;
-  authScopes?: string[];
+  instanceId?: string | undefined;
+  authScopes?: string[] | undefined;
 }
 export interface MCPServerNewRelicConfiguration {
   accountId: string;
@@ -220,23 +220,23 @@ export interface MCPServerNewRelicConfiguration {
 export type ToolClassification = "READ_ONLY" | "MUTATIVE" | "DESTRUCTIVE" | (string & {});
 export interface MCPToolDetail {
   name: string;
-  toolClassification?: ToolClassification;
+  toolClassification?: ToolClassification | undefined;
 }
 export type MCPToolDetailsList = MCPToolDetail[];
 export interface MCPServerDatadogConfiguration {
-  enabledElevatedTools?: MCPToolDetail[];
+  enabledElevatedTools?: MCPToolDetail[] | undefined;
 }
 export type MCPToolsList = string[];
 export interface MCPServerConfiguration {
   tools: string[];
-  toolDetails?: MCPToolDetail[];
+  toolDetails?: MCPToolDetail[] | undefined;
 }
 export interface GitLabConfiguration {
   projectId: string;
   projectPath: string;
-  instanceIdentifier?: string;
-  runtimeRoleArn?: string;
-  releaseManagementAssociationId?: string;
+  instanceIdentifier?: string | undefined;
+  runtimeRoleArn?: string | undefined;
+  releaseManagementAssociationId?: string | undefined;
 }
 export interface MCPServerSplunkConfiguration {}
 export interface EventChannelConfiguration {}
@@ -250,9 +250,9 @@ export interface AzureDevOpsConfiguration {
 }
 export interface MCPServerGrafanaConfiguration {
   endpoint: string;
-  organizationId?: string;
-  tools?: string[];
-  enabledElevatedTools?: MCPToolDetail[];
+  organizationId?: string | undefined;
+  tools?: string[] | undefined;
+  enabledElevatedTools?: MCPToolDetail[] | undefined;
 }
 export type PagerDutyServicesList = string[];
 export type EmailAddress = string | redacted.Redacted<string>;
@@ -262,7 +262,7 @@ export interface PagerDutyConfiguration {
 }
 export interface MCPServerSigV4Configuration {
   tools: string[];
-  toolDetails?: MCPToolDetail[];
+  toolDetails?: MCPToolDetail[] | undefined;
 }
 export interface RemoteAgentConfiguration {}
 export interface RemoteAgentSigV4Configuration {}
@@ -273,13 +273,18 @@ export interface MSTeamsChannel {
   channelId: string;
 }
 export interface MSTeamsTransmissionTarget {
-  opsOncallTarget?: MSTeamsChannel;
-  opsSRETarget?: MSTeamsChannel;
+  opsOncallTarget?: MSTeamsChannel | undefined;
+  opsSRETarget?: MSTeamsChannel | undefined;
+}
+export interface MSTeamsBidirectionalConfiguration {
+  roleArn: string;
+  enabled?: boolean | undefined;
 }
 export interface MSTeamsConfiguration {
   teamId: string;
   teamName: string;
   transmissionTarget: MSTeamsTransmissionTarget;
+  bidirectional?: MSTeamsBidirectionalConfiguration | undefined;
 }
 export type DisplayName = string;
 export type PrivateConnectionName = string;
@@ -295,485 +300,485 @@ export interface ReleaseManagementConfiguration {
 export type ServiceConfiguration =
   | {
       sourceAws: SourceAwsConfiguration;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
+      sourceAws?: undefined;
       aws: AWSConfiguration;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
       github: GitHubConfiguration;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
       slack: SlackConfiguration;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
       dynatrace: DynatraceConfiguration;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
       servicenow: ServiceNowConfiguration;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
       mcpservernewrelic: MCPServerNewRelicConfiguration;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
       mcpserverdatadog: MCPServerDatadogConfiguration;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
       mcpserver: MCPServerConfiguration;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
       gitlab: GitLabConfiguration;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
       mcpserversplunk: MCPServerSplunkConfiguration;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
       eventChannel: EventChannelConfiguration;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
       azure: AzureConfiguration;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
       azuredevops: AzureDevOpsConfiguration;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
       mcpservergrafana: MCPServerGrafanaConfiguration;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
       pagerduty: PagerDutyConfiguration;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
       mcpserversigv4: MCPServerSigV4Configuration;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
       remoteagent: RemoteAgentConfiguration;
-      remoteagentsigv4?: never;
-      msteams?: never;
-      releaseManagement?: never;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
       remoteagentsigv4: RemoteAgentSigV4Configuration;
-      msteams?: never;
-      releaseManagement?: never;
+      msteams?: undefined;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
       msteams: MSTeamsConfiguration;
-      releaseManagement?: never;
+      releaseManagement?: undefined;
     }
   | {
-      sourceAws?: never;
-      aws?: never;
-      github?: never;
-      slack?: never;
-      dynatrace?: never;
-      servicenow?: never;
-      mcpservernewrelic?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      eventChannel?: never;
-      azure?: never;
-      azuredevops?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
-      msteams?: never;
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement: ReleaseManagementConfiguration;
     };
 export type CapabilityType =
@@ -788,44 +793,46 @@ export interface PatternFilter {
   patterns: string[];
 }
 export interface TriggerFilterGroup {
-  events?: TriggerEvent[];
-  targetBranches?: PatternFilter;
+  events?: TriggerEvent[] | undefined;
+  targetBranches?: PatternFilter | undefined;
 }
 export type TriggerFilterGroups = TriggerFilterGroup[];
 export interface CapabilityConfiguration {
-  enabled?: boolean;
-  triggerFilterGroups?: TriggerFilterGroup[];
+  enabled?: boolean | undefined;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
 }
-export type AssociationCapabilities = { [key in CapabilityType]?: CapabilityConfiguration };
+export type AssociationCapabilities = {
+  [key in CapabilityType]?: CapabilityConfiguration | undefined;
+};
 export interface AssociateServiceInput {
   agentSpaceId: string;
   serviceId: string;
   configuration: ServiceConfiguration;
-  capabilities?: { [key: string]: CapabilityConfiguration | undefined };
+  capabilities?: { [key: string]: CapabilityConfiguration | undefined } | undefined;
 }
 export interface Association {
   agentSpaceId: string;
   createdAt: Date;
   updatedAt: Date;
-  status?: ValidationStatus;
+  status?: ValidationStatus | undefined;
   associationId: string;
   serviceId: string;
   configuration: ServiceConfiguration;
-  capabilities?: { [key: string]: CapabilityConfiguration | undefined };
+  capabilities?: { [key: string]: CapabilityConfiguration | undefined } | undefined;
 }
 export type WebhookType = "hmac" | "apikey" | "gitlab" | "pagerduty" | (string & {});
 export type WebhookSecret = string | redacted.Redacted<string>;
 export type ApiKeyValue = string | redacted.Redacted<string>;
 export interface GenericWebhook {
-  webhookUrl?: string;
-  webhookId?: string;
-  webhookType?: WebhookType;
-  webhookSecret?: string | redacted.Redacted<string>;
-  apiKey?: string | redacted.Redacted<string>;
+  webhookUrl?: string | undefined;
+  webhookId?: string | undefined;
+  webhookType?: WebhookType | undefined;
+  webhookSecret?: string | redacted.Redacted<string> | undefined;
+  apiKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface AssociateServiceOutput {
   association: Association;
-  webhook?: GenericWebhook;
+  webhook?: GenericWebhook | undefined;
 }
 export type AgentSpaceName = string;
 export type Description = string | redacted.Redacted<string>;
@@ -835,40 +842,42 @@ export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export type AgentSpacePreferenceKey = "elevatedActionsEnabled" | (string & {});
-export type AgentSpacePreferences = { [key in AgentSpacePreferenceKey]?: boolean };
+export type AgentSpacePreferences = { [key in AgentSpacePreferenceKey]?: boolean | undefined };
 export interface CreateAgentSpaceInput {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  locale?: string;
-  kmsKeyArn?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  preferences?: { [key: string]: boolean | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  locale?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  preferences?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface AgentSpace {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  locale?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  locale?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   agentSpaceId: string;
-  preferences?: { [key: string]: boolean | undefined };
+  preferences?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface CreateAgentSpaceOutput {
   agentSpace: AgentSpace;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentSpaceIdentifier = string;
 export type AssetType = string;
 export type AssetFilePath = string;
 export type AssetFileBytes = Uint8Array;
 export type AssetFileText = string;
-export type AssetFileBody = { bytes: Uint8Array; text?: never } | { bytes?: never; text: string };
+export type AssetFileBody =
+  | { bytes: Uint8Array; text?: undefined }
+  | { bytes?: undefined; text: string };
 export interface AssetFileContent {
   path: string;
   body: AssetFileBody;
-  metadata?: any;
+  metadata?: any | undefined;
 }
 export type AssetZipBytes = Uint8Array;
 export interface AssetZipContent {
@@ -879,15 +888,15 @@ export interface AssetSourceUrlContent {
   url: string;
 }
 export type AssetContent =
-  | { file: AssetFileContent; zip?: never; sourceUrl?: never }
-  | { file?: never; zip: AssetZipContent; sourceUrl?: never }
-  | { file?: never; zip?: never; sourceUrl: AssetSourceUrlContent };
+  | { file: AssetFileContent; zip?: undefined; sourceUrl?: undefined }
+  | { file?: undefined; zip: AssetZipContent; sourceUrl?: undefined }
+  | { file?: undefined; zip?: undefined; sourceUrl: AssetSourceUrlContent };
 export interface CreateAssetRequest {
   agentSpaceId: string;
   assetType: string;
-  metadata?: any;
+  metadata?: any | undefined;
   content: AssetContent;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ResourceId = string;
 export interface Asset {
@@ -906,13 +915,13 @@ export interface CreateAssetFileRequest {
   assetId: string;
   path: string;
   content: AssetFileBody;
-  metadata?: any;
-  clientToken?: string;
+  metadata?: any | undefined;
+  clientToken?: string | undefined;
 }
 export interface AssetFile {
   path: string;
   content: AssetFileBody;
-  metadata?: any;
+  metadata?: any | undefined;
   version: number;
   createdAt: Date;
   updatedAt: Date;
@@ -922,7 +931,7 @@ export interface CreateAssetFileResponse {
 }
 export interface ReferenceInput {
   system: string;
-  title?: string;
+  title?: string | undefined;
   referenceId: string;
   referenceUrl: string;
   associationId: string;
@@ -938,16 +947,16 @@ export type BacklogTaskDescription = string;
 export type Priority = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL" | (string & {});
 export interface CreateBacklogTaskRequest {
   agentSpaceId: string;
-  reference?: ReferenceInput;
+  reference?: ReferenceInput | undefined;
   taskType: TaskType;
   title: string;
-  description?: string;
+  description?: string | undefined;
   priority: Priority;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface ReferenceOutput {
   system: string;
-  title?: string;
+  title?: string | undefined;
   referenceId: string;
   referenceUrl: string;
   associationId: string;
@@ -969,21 +978,21 @@ export type BackLogTimestamp = Date;
 export interface Task {
   agentSpaceId: string;
   taskId: string;
-  executionId?: string;
+  executionId?: string | undefined;
   title: string;
-  description?: string;
-  reference?: ReferenceOutput;
+  description?: string | undefined;
+  reference?: ReferenceOutput | undefined;
   taskType: TaskType;
   priority: Priority;
   status: TaskStatus;
   createdAt: Date;
   updatedAt: Date;
   version: number;
-  supportMetadata?: any;
-  metadata?: any;
-  primaryTaskId?: string;
-  statusReason?: string;
-  hasLinkedTasks?: boolean;
+  supportMetadata?: any | undefined;
+  metadata?: any | undefined;
+  primaryTaskId?: string | undefined;
+  statusReason?: string | undefined;
+  hasLinkedTasks?: boolean | undefined;
 }
 export interface CreateBacklogTaskResponse {
   task: Task;
@@ -991,8 +1000,8 @@ export interface CreateBacklogTaskResponse {
 export type UserType = "IAM" | "IDC" | "IDP" | (string & {});
 export interface CreateChatRequest {
   agentSpaceId: string;
-  userId?: string;
-  userType?: UserType;
+  userId?: string | undefined;
+  userType?: UserType | undefined;
 }
 export interface CreateChatResponse {
   executionId: string;
@@ -1014,25 +1023,25 @@ export interface ServiceManagedInput {
   hostAddress: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: IpAddressType;
-  ipv4AddressesPerEni?: number;
-  portRanges?: string[];
-  certificate?: string;
-  dnsResolution?: ResourceConfigDnsResolution;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  portRanges?: string[] | undefined;
+  certificate?: string | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
 }
 export type ResourceConfigurationArn = string;
 export interface SelfManagedInput {
   resourceConfigurationId: string;
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export type PrivateConnectionMode =
-  | { serviceManaged: ServiceManagedInput; selfManaged?: never }
-  | { serviceManaged?: never; selfManaged: SelfManagedInput };
+  | { serviceManaged: ServiceManagedInput; selfManaged?: undefined }
+  | { serviceManaged?: undefined; selfManaged: SelfManagedInput };
 export interface CreatePrivateConnectionInput {
   name: string;
   mode: PrivateConnectionMode;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivateConnectionType = "SELF_MANAGED" | "SERVICE_MANAGED" | (string & {});
 export type ResourceGatewayArn = string;
@@ -1047,15 +1056,15 @@ export type FailureMessage = string;
 export interface CreatePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
   status: PrivateConnectionStatus;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TriggerType = string;
 export type ScheduleExpression = string;
@@ -1080,20 +1089,20 @@ export interface MonthlyRecurrence {
   dayOfMonth: number;
 }
 export type Recurrence =
-  | { daily: DailyRecurrence; weekly?: never; monthly?: never }
-  | { daily?: never; weekly: WeeklyRecurrence; monthly?: never }
-  | { daily?: never; weekly?: never; monthly: MonthlyRecurrence };
+  | { daily: DailyRecurrence; weekly?: undefined; monthly?: undefined }
+  | { daily?: undefined; weekly: WeeklyRecurrence; monthly?: undefined }
+  | { daily?: undefined; weekly?: undefined; monthly: MonthlyRecurrence };
 export interface TimeRangeSchedule {
   startAfter: string;
   startBefore: string;
   recurrence: Recurrence;
 }
 export type ScheduleSpec =
-  | { cron: CronSchedule; timeRange?: never }
-  | { cron?: never; timeRange: TimeRangeSchedule };
+  | { cron: CronSchedule; timeRange?: undefined }
+  | { cron?: undefined; timeRange: TimeRangeSchedule };
 export interface ScheduleCondition {
-  expression?: string;
-  spec?: ScheduleSpec;
+  expression?: string | undefined;
+  spec?: ScheduleSpec | undefined;
 }
 export type TriggerCondition = { schedule: ScheduleCondition };
 export type TriggerAction = unknown;
@@ -1103,8 +1112,8 @@ export interface CreateTriggerRequest {
   type: string;
   condition: TriggerCondition;
   action: any;
-  status?: string;
-  clientToken?: string;
+  status?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface Trigger {
   triggerId: string;
@@ -1156,20 +1165,20 @@ export interface DescribePrivateConnectionInput {
 export interface DescribePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
   status: PrivateConnectionStatus;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AuthFlow = "iam" | "idc" | "idp" | (string & {});
 export interface DisableOperatorAppInput {
   agentSpaceId: string;
-  authFlow?: AuthFlow;
+  authFlow?: AuthFlow | undefined;
 }
 export interface DisableOperatorAppResponse {}
 export interface DisassociateServiceInput {
@@ -1183,24 +1192,24 @@ export interface EnableOperatorAppInput {
   agentSpaceId: string;
   authFlow: AuthFlow;
   operatorAppRoleArn: string;
-  idcInstanceArn?: string;
-  issuerUrl?: string;
-  idpClientId?: string;
-  idpClientSecret?: string | redacted.Redacted<string>;
-  provider?: string;
+  idcInstanceArn?: string | undefined;
+  issuerUrl?: string | undefined;
+  idpClientId?: string | undefined;
+  idpClientSecret?: string | redacted.Redacted<string> | undefined;
+  provider?: string | undefined;
 }
 export type OperatorAppUrl = string;
 export interface IamAuthConfiguration {
   operatorAppRoleArn: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface IdcAuthConfiguration {
   operatorAppRoleArn: string;
   idcInstanceArn: string;
-  idcApplicationArn?: string;
+  idcApplicationArn?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface IdpAuthConfiguration {
   issuerUrl: string;
@@ -1208,14 +1217,14 @@ export interface IdpAuthConfiguration {
   operatorAppRoleArn: string;
   provider: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface EnableOperatorAppOutput {
   agentSpaceId: string;
-  operatorAppUrl?: string;
-  iam?: IamAuthConfiguration;
-  idc?: IdcAuthConfiguration;
-  idp?: IdpAuthConfiguration;
+  operatorAppUrl?: string | undefined;
+  iam?: IamAuthConfiguration | undefined;
+  idc?: IdcAuthConfiguration | undefined;
+  idp?: IdpAuthConfiguration | undefined;
 }
 export interface GetAccountUsageInput {}
 export interface UsageMetric {
@@ -1223,27 +1232,27 @@ export interface UsageMetric {
   usage: number;
 }
 export interface GetAccountUsageOutput {
-  monthlyAccountInvestigationHours?: UsageMetric;
-  monthlyAccountEvaluationHours?: UsageMetric;
-  monthlyAccountSystemLearningHours?: UsageMetric;
-  monthlyAccountOnDemandHours?: UsageMetric;
-  monthlyAccountGraderHours?: UsageMetric;
+  monthlyAccountInvestigationHours?: UsageMetric | undefined;
+  monthlyAccountEvaluationHours?: UsageMetric | undefined;
+  monthlyAccountSystemLearningHours?: UsageMetric | undefined;
+  monthlyAccountOnDemandHours?: UsageMetric | undefined;
+  monthlyAccountGraderHours?: UsageMetric | undefined;
   usagePeriodStartTime: Date;
   usagePeriodEndTime: Date;
 }
 export type IncludedData = "METADATA_ONLY" | "ALL_DATA" | (string & {});
 export interface GetAgentSpaceInput {
   agentSpaceId: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export interface GetAgentSpaceOutput {
   agentSpace: AgentSpace;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAssetRequest {
   agentSpaceId: string;
   assetId: string;
-  assetVersion?: number;
+  assetVersion?: number | undefined;
 }
 export interface GetAssetResponse {
   asset: Asset;
@@ -1251,7 +1260,7 @@ export interface GetAssetResponse {
 export interface GetAssetContentRequest {
   agentSpaceId: string;
   assetId: string;
-  assetVersion?: number;
+  assetVersion?: number | undefined;
 }
 export interface GetAssetContentResponse {
   content: AssetZipContent;
@@ -1261,7 +1270,7 @@ export interface GetAssetFileRequest {
   agentSpaceId: string;
   assetId: string;
   path: string;
-  assetVersion?: number;
+  assetVersion?: number | undefined;
 }
 export interface GetAssetFileResponse {
   file: AssetFile;
@@ -1284,19 +1293,19 @@ export interface GetOperatorAppInput {
   agentSpaceId: string;
 }
 export interface GetOperatorAppOutput {
-  operatorAppUrl?: string;
-  iam?: IamAuthConfiguration;
-  idc?: IdcAuthConfiguration;
-  idp?: IdpAuthConfiguration;
+  operatorAppUrl?: string | undefined;
+  iam?: IamAuthConfiguration | undefined;
+  idc?: IdcAuthConfiguration | undefined;
+  idp?: IdpAuthConfiguration | undefined;
 }
 export interface GetRecommendationRequest {
   agentSpaceId: string;
   recommendationId: string;
-  recommendationVersion?: number;
+  recommendationVersion?: number | undefined;
 }
 export interface RecommendationContent {
   summary: string;
-  spec?: string;
+  spec?: string | undefined;
 }
 export type RecommendationStatus =
   | "PROPOSED"
@@ -1311,15 +1320,15 @@ export interface Recommendation {
   agentSpaceArn: string;
   recommendationId: string;
   taskId: string;
-  goalId?: string;
+  goalId?: string | undefined;
   title: string;
   content: RecommendationContent;
   status: RecommendationStatus;
   priority: RecommendationPriority;
-  goalVersion?: number;
-  additionalContext?: string;
-  rankPosition?: number;
-  rankedAt?: Date;
+  goalVersion?: number | undefined;
+  additionalContext?: string | undefined;
+  rankPosition?: number | undefined;
+  rankedAt?: Date | undefined;
   createdAt: Date;
   updatedAt: Date;
   version: number;
@@ -1356,7 +1365,7 @@ export type DocumentList = any[];
 export interface RegisteredGithubServiceDetails {
   owner: string;
   ownerType: GithubRepoOwnerType;
-  targetUrl?: string;
+  targetUrl?: string | undefined;
 }
 export interface RegisteredSlackServiceDetails {
   teamId: string;
@@ -1375,25 +1384,25 @@ export interface RegisteredMCPServerDetails {
   name: string;
   endpoint: string;
   authorizationMethod: MCPServerAuthorizationMethod;
-  description?: string | redacted.Redacted<string>;
-  apiKeyHeader?: string;
-  customHeaderNames?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  apiKeyHeader?: string | undefined;
+  customHeaderNames?: string[] | undefined;
 }
 export type ServiceNowInstanceUrl = string;
 export interface RegisteredServiceNowDetails {
-  instanceUrl?: string;
+  instanceUrl?: string | undefined;
 }
 export type GitLabTokenType = "personal" | "group" | (string & {});
 export interface RegisteredGitLabServiceDetails {
   targetUrl: string;
   tokenType: GitLabTokenType;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type NewRelicRegion = "US" | "EU" | "JP" | (string & {});
 export interface RegisteredNewRelicDetails {
   accountId: string;
   region: NewRelicRegion;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface RegisteredAzureDevOpsServiceDetails {
   organizationName: string;
@@ -1421,12 +1430,12 @@ export type CustomHeaders = { [key: string]: string | redacted.Redacted<string> 
 export interface RegisteredMCPServerSigV4Details {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   region: string;
   service: string;
   roleArn: string;
-  mcpRoleArn?: string;
-  customHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  mcpRoleArn?: string | undefined;
+  customHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type RemoteAgentName = string;
 export type RemoteAgentEndpoint = string;
@@ -1438,288 +1447,288 @@ export type RemoteAgentAuthorizationMethod =
 export interface RegisteredRemoteAgentDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationMethod: RemoteAgentAuthorizationMethod;
-  apiKeyHeader?: string;
+  apiKeyHeader?: string | undefined;
 }
 export interface RegisteredRemoteAgentSigV4Details {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   region: string;
   service: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export type AdditionalServiceDetails =
   | {
       github: RegisteredGithubServiceDetails;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       slack: RegisteredSlackServiceDetails;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
+      github?: undefined;
+      slack?: undefined;
       mcpserverdatadog: RegisteredMCPServerDetails;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
       mcpserver: RegisteredMCPServerDetails;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
       servicenow: RegisteredServiceNowDetails;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
       gitlab: RegisteredGitLabServiceDetails;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
       mcpserversplunk: RegisteredMCPServerDetails;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
       mcpservernewrelic: RegisteredNewRelicDetails;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
       azuredevops: RegisteredAzureDevOpsServiceDetails;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
       azureidentity: RegisteredAzureIdentityDetails;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
       mcpservergrafana: RegisteredGrafanaServerDetails;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
       pagerduty: RegisteredPagerDutyDetails;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
       mcpserversigv4: RegisteredMCPServerSigV4Details;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
       remoteagent: RegisteredRemoteAgentDetails;
-      remoteagentsigv4?: never;
+      remoteagentsigv4?: undefined;
     }
   | {
-      github?: never;
-      slack?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      servicenow?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      azuredevops?: never;
-      azureidentity?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
+      github?: undefined;
+      slack?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      servicenow?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      azuredevops?: undefined;
+      azureidentity?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
       remoteagentsigv4: RegisteredRemoteAgentSigV4Details;
     };
 export interface RegisteredService {
   serviceId: string;
   serviceType: Service;
-  name?: string;
-  accessibleResources?: any[];
-  additionalServiceDetails?: AdditionalServiceDetails;
-  kmsKeyArn?: string;
-  privateConnectionName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  name?: string | undefined;
+  accessibleResources?: any[] | undefined;
+  additionalServiceDetails?: AdditionalServiceDetails | undefined;
+  kmsKeyArn?: string | undefined;
+  privateConnectionName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetServiceOutput {
   service: RegisteredService & { createdAt: Date; updatedAt: Date };
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTriggerRequest {
   agentSpaceId: string;
@@ -1730,25 +1739,25 @@ export interface GetTriggerResponse {
 }
 export type NextToken = string;
 export interface ListAgentSpacesInput {
-  maxResults?: number;
-  nextToken?: string;
-  includedData?: IncludedData;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  includedData?: IncludedData | undefined;
 }
 export type AgentSpaceList = AgentSpace[];
 export interface ListAgentSpacesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   agentSpaces: AgentSpace[];
 }
 export interface ListAssetFilesRequest {
   agentSpaceId: string;
   assetId: string;
-  assetVersion?: number;
-  nextToken?: string;
-  maxResults?: number;
+  assetVersion?: number | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetFileSummary {
   path: string;
-  metadata?: any;
+  metadata?: any | undefined;
   version: number;
   createdAt: Date;
   updatedAt: Date;
@@ -1756,24 +1765,24 @@ export interface AssetFileSummary {
 export type AssetFileSummaryList = AssetFileSummary[];
 export interface ListAssetFilesResponse {
   items: AssetFileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssetsRequest {
   agentSpaceId: string;
-  assetType?: string;
-  updatedAfter?: Date;
-  updatedBefore?: Date;
-  nextToken?: string;
-  maxResults?: number;
+  assetType?: string | undefined;
+  updatedAfter?: Date | undefined;
+  updatedBefore?: Date | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AssetList = Asset[];
 export interface ListAssetsResponse {
   items: Asset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssetTypesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetTypeSummary {
   assetType: string;
@@ -1782,13 +1791,13 @@ export interface AssetTypeSummary {
 export type AssetTypeList = AssetTypeSummary[];
 export interface ListAssetTypesResponse {
   items: AssetTypeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssetVersionsRequest {
   agentSpaceId: string;
   assetId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AssetVersionMetadata {
   version: number;
@@ -1798,67 +1807,67 @@ export interface AssetVersionMetadata {
 export type AssetVersionMetadataList = AssetVersionMetadata[];
 export interface ListAssetVersionsResponse {
   items: AssetVersionMetadata[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssociationsInput {
   agentSpaceId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filterServiceTypes?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filterServiceTypes?: string | undefined;
 }
 export type AssociationsList = Association[];
 export interface ListAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   associations: Association[];
 }
 export type PriorityList = Priority[];
 export type TaskStatusList = TaskStatus[];
 export type TaskTypeList = TaskType[];
 export interface TaskFilter {
-  createdAfter?: Date;
-  createdBefore?: Date;
-  priority?: Priority[];
-  status?: TaskStatus[];
-  taskType?: TaskType[];
-  primaryTaskId?: string;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  priority?: Priority[] | undefined;
+  status?: TaskStatus[] | undefined;
+  taskType?: TaskType[] | undefined;
+  primaryTaskId?: string | undefined;
 }
 export type TaskSortField = "CREATED_AT" | "PRIORITY" | (string & {});
 export type TaskSortOrder = "ASC" | "DESC" | (string & {});
 export interface ListBacklogTasksRequest {
   agentSpaceId: string;
-  filter?: TaskFilter;
-  limit?: number;
-  nextToken?: string;
-  sortField?: TaskSortField;
-  order?: TaskSortOrder;
+  filter?: TaskFilter | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
+  sortField?: TaskSortField | undefined;
+  order?: TaskSortOrder | undefined;
 }
 export type TaskList = Task[];
 export interface ListBacklogTasksResponse {
   tasks: Task[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListChatsRequest {
   agentSpaceId: string;
-  userId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  userId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ChatExecution {
   executionId: string;
   createdAt: Date;
-  updatedAt?: Date;
-  summary?: string;
+  updatedAt?: Date | undefined;
+  summary?: string | undefined;
 }
 export type ChatExecutionList = ChatExecution[];
 export interface ListChatsResponse {
   executions: ChatExecution[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListExecutionsRequest {
   agentSpaceId: string;
   taskId: string;
-  limit?: number;
-  nextToken?: string;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JournalTimestamp = Date;
 export type ExecutionStatus =
@@ -1872,27 +1881,27 @@ export type ExecutionStatus =
 export interface Execution {
   agentSpaceId: string;
   executionId: string;
-  parentExecutionId?: string;
+  parentExecutionId?: string | undefined;
   agentSubTask: string;
   createdAt: Date;
   updatedAt: Date;
   executionStatus: ExecutionStatus;
-  agentType?: string;
-  uid?: string;
+  agentType?: string | undefined;
+  uid?: string | undefined;
 }
 export type ExecutionList = Execution[];
 export interface ListExecutionsResponse {
   executions: Execution[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GoalStatus = "ACTIVE" | "PAUSED" | "COMPLETE" | (string & {});
 export type GoalType = "CUSTOMER_DEFINED" | "ONCALL_REPORT" | (string & {});
 export interface ListGoalsRequest {
   agentSpaceId: string;
-  status?: GoalStatus;
-  goalType?: GoalType;
-  limit?: number;
-  nextToken?: string;
+  status?: GoalStatus | undefined;
+  goalType?: GoalType | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GoalContent {
   description: string;
@@ -1901,7 +1910,7 @@ export interface GoalContent {
 export type SchedulerState = "ENABLED" | "DISABLED" | (string & {});
 export interface GoalSchedule {
   state: SchedulerState;
-  expression?: string;
+  expression?: string | undefined;
 }
 export interface Goal {
   agentSpaceArn: string;
@@ -1912,25 +1921,25 @@ export interface Goal {
   goalType: GoalType;
   createdAt: Date;
   updatedAt: Date;
-  lastEvaluatedAt?: Date;
-  lastTaskId?: string;
-  lastSuccessfulTaskId?: string;
+  lastEvaluatedAt?: Date | undefined;
+  lastTaskId?: string | undefined;
+  lastSuccessfulTaskId?: string | undefined;
   version: number;
-  evaluationSchedule?: GoalSchedule;
+  evaluationSchedule?: GoalSchedule | undefined;
 }
 export type GoalList = Goal[];
 export interface ListGoalsResponse {
   goals: Goal[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type OrderType = "ASC" | "DESC" | (string & {});
 export interface ListJournalRecordsRequest {
   agentSpaceId: string;
   executionId: string;
-  limit?: number;
-  nextToken?: string;
-  recordType?: string;
-  order?: OrderType;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
+  recordType?: string | undefined;
+  order?: OrderType | undefined;
 }
 export interface UserReference {
   userId: string;
@@ -1943,28 +1952,28 @@ export interface JournalRecord {
   content: any;
   createdAt: Date;
   recordType: string;
-  userReference?: UserReference;
+  userReference?: UserReference | undefined;
 }
 export type JournalRecordList = JournalRecord[];
 export interface ListJournalRecordsResponse {
   records: JournalRecord[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPendingMessagesRequest {
   agentSpaceId: string;
   executionId: string;
 }
 export type UserMessageBlock =
-  | { text: string; toolResult?: never }
-  | { text?: never; toolResult: any };
+  | { text: string; toolResult?: undefined }
+  | { text?: undefined; toolResult: any };
 export type UserMessage = UserMessageBlock[];
 export type AssistantMessageBlock =
-  | { text: string; toolUse?: never }
-  | { text?: never; toolUse: any };
+  | { text: string; toolUse?: undefined }
+  | { text?: undefined; toolUse: any };
 export type AssistantMessage = AssistantMessageBlock[];
 export type Message =
-  | { userMessage: UserMessageBlock[]; assistantMessage?: never }
-  | { userMessage?: never; assistantMessage: AssistantMessageBlock[] };
+  | { userMessage: UserMessageBlock[]; assistantMessage?: undefined }
+  | { userMessage?: undefined; assistantMessage: AssistantMessageBlock[] };
 export interface PendingMessage {
   messageId: string;
   message: Message;
@@ -1980,14 +1989,14 @@ export interface ListPrivateConnectionsInput {}
 export interface PrivateConnectionSummary {
   name: string;
   type: PrivateConnectionType;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
   status: PrivateConnectionStatus;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
 }
 export type PrivateConnectionSummaryList = PrivateConnectionSummary[];
 export interface ListPrivateConnectionsOutput {
@@ -1995,26 +2004,26 @@ export interface ListPrivateConnectionsOutput {
 }
 export interface ListRecommendationsRequest {
   agentSpaceId: string;
-  taskId?: string;
-  goalId?: string;
-  status?: RecommendationStatus;
-  priority?: RecommendationPriority;
-  limit?: number;
-  nextToken?: string;
+  taskId?: string | undefined;
+  goalId?: string | undefined;
+  status?: RecommendationStatus | undefined;
+  priority?: RecommendationPriority | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RecommendationList = Recommendation[];
 export interface ListRecommendationsResponse {
   recommendations: Recommendation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServicesInput {
-  maxResults?: number;
-  nextToken?: string;
-  filterServiceType?: Service;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filterServiceType?: Service | undefined;
 }
 export type RegisteredServicesList = RegisteredService[];
 export interface ListServicesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   services: (RegisteredService & { createdAt: Date; updatedAt: Date })[];
 }
 export interface ListTagsForResourceRequest {
@@ -2025,14 +2034,14 @@ export interface ListTagsForResourceResponse {
 }
 export interface ListTriggersRequest {
   agentSpaceId: string;
-  status?: string;
-  nextToken?: string;
-  maxResults?: number;
+  status?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TriggerList = Trigger[];
 export interface ListTriggersResponse {
   items: Trigger[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWebhooksInput {
   agentSpaceId: string;
@@ -2040,7 +2049,7 @@ export interface ListWebhooksInput {
 }
 export interface Webhook {
   webhookUrl: string;
-  webhookType?: WebhookType;
+  webhookType?: WebhookType | undefined;
   webhookId: string;
 }
 export type WebhooksList = Webhook[];
@@ -2068,9 +2077,11 @@ export type ExchangeParameterValue = string | redacted.Redacted<string>;
 export type ExchangeParameters = { [key: string]: string | redacted.Redacted<string> | undefined };
 export type ClientSecret = string | redacted.Redacted<string>;
 export interface DynatraceOAuthClientCredentialsConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   clientSecret: string | redacted.Redacted<string>;
 }
 export type DynatraceServiceAuthorizationConfig = {
@@ -2078,12 +2089,14 @@ export type DynatraceServiceAuthorizationConfig = {
 };
 export interface DynatraceServiceDetails {
   accountUrn: string;
-  authorizationConfig?: DynatraceServiceAuthorizationConfig;
+  authorizationConfig?: DynatraceServiceAuthorizationConfig | undefined;
 }
 export interface ServiceNowOAuthClientCredentialsConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   clientSecret: string | redacted.Redacted<string>;
 }
 export type ServiceNowServiceAuthorizationConfig = {
@@ -2091,7 +2104,7 @@ export type ServiceNowServiceAuthorizationConfig = {
 };
 export interface ServiceNowServiceDetails {
   instanceUrl: string;
-  authorizationConfig?: ServiceNowServiceAuthorizationConfig;
+  authorizationConfig?: ServiceNowServiceAuthorizationConfig | undefined;
 }
 export interface MCPServerAuthorizationDiscoveryConfig {
   returnToEndpoint: string;
@@ -2102,29 +2115,33 @@ export type DatadogAuthorizationConfig = {
 export interface DatadogServiceDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: DatadogAuthorizationConfig;
 }
 export type OAuthScope = string;
 export type Scopes = string[];
 export interface MCPServerOAuthClientCredentialsConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   clientSecret: string | redacted.Redacted<string>;
   exchangeUrl: string;
-  scopes?: string[];
+  scopes?: string[] | undefined;
 }
 export interface MCPServerOAuth3LOConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   returnToEndpoint: string;
   authorizationUrl: string;
   exchangeUrl: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  supportCodeChallenge?: boolean;
-  scopes?: string[];
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  supportCodeChallenge?: boolean | undefined;
+  scopes?: string[] | undefined;
 }
 export interface MCPServerAPIKeyConfig {
   apiKeyName: string;
@@ -2135,7 +2152,7 @@ export type TokenValue = string | redacted.Redacted<string>;
 export interface MCPServerBearerTokenConfig {
   tokenName: string;
   tokenValue: string | redacted.Redacted<string>;
-  authorizationHeader?: string;
+  authorizationHeader?: string | undefined;
 }
 export interface MCPServerCustomHeadersConfig {
   headers: { [key: string]: string | redacted.Redacted<string> | undefined };
@@ -2143,56 +2160,56 @@ export interface MCPServerCustomHeadersConfig {
 export type MCPServerAuthorizationConfig =
   | {
       oAuthClientCredentials: MCPServerOAuthClientCredentialsConfig;
-      oAuth3LO?: never;
-      apiKey?: never;
-      bearerToken?: never;
-      customHeaders?: never;
-      authorizationDiscovery?: never;
+      oAuth3LO?: undefined;
+      apiKey?: undefined;
+      bearerToken?: undefined;
+      customHeaders?: undefined;
+      authorizationDiscovery?: undefined;
     }
   | {
-      oAuthClientCredentials?: never;
+      oAuthClientCredentials?: undefined;
       oAuth3LO: MCPServerOAuth3LOConfig;
-      apiKey?: never;
-      bearerToken?: never;
-      customHeaders?: never;
-      authorizationDiscovery?: never;
+      apiKey?: undefined;
+      bearerToken?: undefined;
+      customHeaders?: undefined;
+      authorizationDiscovery?: undefined;
     }
   | {
-      oAuthClientCredentials?: never;
-      oAuth3LO?: never;
+      oAuthClientCredentials?: undefined;
+      oAuth3LO?: undefined;
       apiKey: MCPServerAPIKeyConfig;
-      bearerToken?: never;
-      customHeaders?: never;
-      authorizationDiscovery?: never;
+      bearerToken?: undefined;
+      customHeaders?: undefined;
+      authorizationDiscovery?: undefined;
     }
   | {
-      oAuthClientCredentials?: never;
-      oAuth3LO?: never;
-      apiKey?: never;
+      oAuthClientCredentials?: undefined;
+      oAuth3LO?: undefined;
+      apiKey?: undefined;
       bearerToken: MCPServerBearerTokenConfig;
-      customHeaders?: never;
-      authorizationDiscovery?: never;
+      customHeaders?: undefined;
+      authorizationDiscovery?: undefined;
     }
   | {
-      oAuthClientCredentials?: never;
-      oAuth3LO?: never;
-      apiKey?: never;
-      bearerToken?: never;
+      oAuthClientCredentials?: undefined;
+      oAuth3LO?: undefined;
+      apiKey?: undefined;
+      bearerToken?: undefined;
       customHeaders: MCPServerCustomHeadersConfig;
-      authorizationDiscovery?: never;
+      authorizationDiscovery?: undefined;
     }
   | {
-      oAuthClientCredentials?: never;
-      oAuth3LO?: never;
-      apiKey?: never;
-      bearerToken?: never;
-      customHeaders?: never;
+      oAuthClientCredentials?: undefined;
+      oAuth3LO?: undefined;
+      apiKey?: undefined;
+      bearerToken?: undefined;
+      customHeaders?: undefined;
       authorizationDiscovery: MCPServerAuthorizationDiscoveryConfig;
     };
 export interface MCPServerDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: MCPServerAuthorizationConfig;
 }
 export type GitLabTokenValue = string | redacted.Redacted<string>;
@@ -2200,7 +2217,7 @@ export interface GitLabDetails {
   targetUrl: string;
   tokenType: GitLabTokenType;
   tokenValue: string | redacted.Redacted<string>;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type NewRelicApiKey = string | redacted.Redacted<string>;
 export type NewRelicApplicationIds = string[];
@@ -2210,9 +2227,9 @@ export interface NewRelicApiKeyConfig {
   apiKey: string | redacted.Redacted<string>;
   accountId: string;
   region: NewRelicRegion;
-  applicationIds?: string[];
-  entityGuids?: string[];
-  alertPolicyIds?: string[];
+  applicationIds?: string[] | undefined;
+  entityGuids?: string[] | undefined;
+  alertPolicyIds?: string[] | undefined;
 }
 export type NewRelicServiceAuthorizationConfig = { apiKey: NewRelicApiKeyConfig };
 export interface NewRelicServiceDetails {
@@ -2220,19 +2237,21 @@ export interface NewRelicServiceDetails {
 }
 export type EventChannelType = "webhook" | (string & {});
 export interface EventChannelDetails {
-  type?: EventChannelType;
+  type?: EventChannelType | undefined;
 }
 export interface GrafanaServiceDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: MCPServerAuthorizationConfig;
 }
 export type PagerDutyScopes = string[];
 export interface PagerDutyOAuthClientCredentialsConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   clientSecret: string | redacted.Redacted<string>;
 }
 export type PagerDutyAuthorizationConfig = {
@@ -2245,14 +2264,14 @@ export interface PagerDutyDetails {
 export interface MCPServerSigV4AuthorizationConfig {
   region: string;
   service: string;
-  roleArn?: string;
-  mcpRoleArn?: string;
-  customHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  roleArn?: string | undefined;
+  mcpRoleArn?: string | undefined;
+  customHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface MCPServerSigV4ServiceDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: MCPServerSigV4AuthorizationConfig;
 }
 export interface RemoteAgentAPIKeyConfig {
@@ -2261,288 +2280,294 @@ export interface RemoteAgentAPIKeyConfig {
   apiKeyHeader: string;
 }
 export interface RemoteAgentOAuthClientCredentialsConfig {
-  clientName?: string;
+  clientName?: string | undefined;
   clientId: string | redacted.Redacted<string>;
-  exchangeParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  exchangeParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   clientSecret: string | redacted.Redacted<string>;
   exchangeUrl: string;
-  scopes?: string[];
+  scopes?: string[] | undefined;
 }
 export interface RemoteAgentBearerTokenConfig {
   tokenName: string;
   tokenValue: string | redacted.Redacted<string>;
-  authorizationHeader?: string;
+  authorizationHeader?: string | undefined;
 }
 export type RemoteAgentAuthorizationConfig =
-  | { apiKey: RemoteAgentAPIKeyConfig; oAuthClientCredentials?: never; bearerToken?: never }
+  | { apiKey: RemoteAgentAPIKeyConfig; oAuthClientCredentials?: undefined; bearerToken?: undefined }
   | {
-      apiKey?: never;
+      apiKey?: undefined;
       oAuthClientCredentials: RemoteAgentOAuthClientCredentialsConfig;
-      bearerToken?: never;
+      bearerToken?: undefined;
     }
-  | { apiKey?: never; oAuthClientCredentials?: never; bearerToken: RemoteAgentBearerTokenConfig };
+  | {
+      apiKey?: undefined;
+      oAuthClientCredentials?: undefined;
+      bearerToken: RemoteAgentBearerTokenConfig;
+    };
 export interface RemoteAgentServiceDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: RemoteAgentAuthorizationConfig;
 }
 export interface RemoteAgentSigV4AuthorizationConfig {
   region: string;
   service: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export interface RemoteAgentSigV4ServiceDetails {
   name: string;
   endpoint: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   authorizationConfig: RemoteAgentSigV4AuthorizationConfig;
 }
 export type ServiceDetails =
   | {
       dynatrace: DynatraceServiceDetails;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
+      dynatrace?: undefined;
       servicenow: ServiceNowServiceDetails;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
       mcpserverdatadog: DatadogServiceDetails;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
       mcpserver: MCPServerDetails;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
       gitlab: GitLabDetails;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
       mcpserversplunk: MCPServerDetails;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
       mcpservernewrelic: NewRelicServiceDetails;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
       eventChannel: EventChannelDetails;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
       mcpservergrafana: GrafanaServiceDetails;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
       pagerduty: PagerDutyDetails;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
       azureidentity: RegisteredAzureIdentityDetails;
-      mcpserversigv4?: never;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
       mcpserversigv4: MCPServerSigV4ServiceDetails;
-      remoteagent?: never;
-      remoteagentsigv4?: never;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
       remoteagent: RemoteAgentServiceDetails;
-      remoteagentsigv4?: never;
+      remoteagentsigv4?: undefined;
     }
   | {
-      dynatrace?: never;
-      servicenow?: never;
-      mcpserverdatadog?: never;
-      mcpserver?: never;
-      gitlab?: never;
-      mcpserversplunk?: never;
-      mcpservernewrelic?: never;
-      eventChannel?: never;
-      mcpservergrafana?: never;
-      pagerduty?: never;
-      azureidentity?: never;
-      mcpserversigv4?: never;
-      remoteagent?: never;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      mcpservernewrelic?: undefined;
+      eventChannel?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      azureidentity?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
       remoteagentsigv4: RemoteAgentSigV4ServiceDetails;
     };
 export type ServiceNameInput = string;
 export interface RegisterServiceInput {
   service: PostRegisterServiceSupportedService;
   serviceDetails: ServiceDetails;
-  kmsKeyArn?: string;
-  privateConnectionName?: string;
-  targetUrlPrivateConnectionName?: string;
-  exchangeUrlPrivateConnectionName?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  privateConnectionName?: string | undefined;
+  targetUrlPrivateConnectionName?: string | undefined;
+  exchangeUrlPrivateConnectionName?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface OAuthAdditionalStepDetails {
   authorizationUrl: string;
 }
 export type AdditionalServiceRegistrationStep = { oauth: OAuthAdditionalStepDetails };
 export interface RegisterServiceOutput {
-  serviceId?: string;
-  additionalStep?: AdditionalServiceRegistrationStep;
-  kmsKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
+  serviceId?: string | undefined;
+  additionalStep?: AdditionalServiceRegistrationStep | undefined;
+  kmsKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ChatExecutionId = string;
 export type MessageContent = string;
@@ -2552,183 +2577,183 @@ export type ApprovalId = string;
 export type ButtonText = string;
 export type ApprovalActionType = "APPROVED" | "REJECTED" | (string & {});
 export interface ApprovalAction {
-  toolUseId?: string;
-  interruptId?: string;
-  approvalId?: string;
-  buttonText?: string;
-  action?: ApprovalActionType;
+  toolUseId?: string | undefined;
+  interruptId?: string | undefined;
+  approvalId?: string | undefined;
+  buttonText?: string | undefined;
+  action?: ApprovalActionType | undefined;
 }
 export interface SendMessageContext {
-  currentPage?: string;
-  lastMessage?: string;
-  userActionResponse?: string;
-  approvalAction?: ApprovalAction;
+  currentPage?: string | undefined;
+  lastMessage?: string | undefined;
+  userActionResponse?: string | undefined;
+  approvalAction?: ApprovalAction | undefined;
 }
 export type AssetIdList = string[];
 export interface SendMessageRequest {
   agentSpaceId: string;
   executionId: string;
   content: string;
-  context?: SendMessageContext;
-  userId?: string;
-  assetIds?: string[];
-  modelTier?: string;
+  context?: SendMessageContext | undefined;
+  userId?: string | undefined;
+  assetIds?: string[] | undefined;
+  modelTier?: string | undefined;
 }
 export interface SendMessageResponseCreatedEvent {
-  responseId?: string;
-  sequenceNumber?: number;
+  responseId?: string | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageResponseInProgressEvent {
-  responseId?: string;
-  sequenceNumber?: number;
+  responseId?: string | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageUsageInfo {
-  inputTokens?: number;
-  outputTokens?: number;
-  totalTokens?: number;
+  inputTokens?: number | undefined;
+  outputTokens?: number | undefined;
+  totalTokens?: number | undefined;
 }
 export interface SendMessageResponseCompletedEvent {
-  responseId?: string;
-  usage?: SendMessageUsageInfo;
-  sequenceNumber?: number;
+  responseId?: string | undefined;
+  usage?: SendMessageUsageInfo | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageResponseFailedEvent {
-  responseId?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  sequenceNumber?: number;
+  responseId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageSummaryEvent {
-  content?: string;
-  sequenceNumber?: number;
+  content?: string | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageHeartbeatEvent {}
 export interface SendMessageContentBlockStartEvent {
-  index?: number;
-  type?: string;
-  id?: string;
-  parentId?: string;
-  sequenceNumber?: number;
+  index?: number | undefined;
+  type?: string | undefined;
+  id?: string | undefined;
+  parentId?: string | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageTextDelta {
-  text?: string;
+  text?: string | undefined;
 }
 export interface SendMessageJsonDelta {
-  partialJson?: string;
+  partialJson?: string | undefined;
 }
 export type SendMessageContentBlockDelta =
-  | { textDelta: SendMessageTextDelta; jsonDelta?: never }
-  | { textDelta?: never; jsonDelta: SendMessageJsonDelta };
+  | { textDelta: SendMessageTextDelta; jsonDelta?: undefined }
+  | { textDelta?: undefined; jsonDelta: SendMessageJsonDelta };
 export interface SendMessageContentBlockDeltaEvent {
-  index?: number;
-  delta?: SendMessageContentBlockDelta;
-  sequenceNumber?: number;
+  index?: number | undefined;
+  delta?: SendMessageContentBlockDelta | undefined;
+  sequenceNumber?: number | undefined;
 }
 export interface SendMessageContentBlockStopEvent {
-  index?: number;
-  type?: string;
-  text?: string;
-  last?: boolean;
-  sequenceNumber?: number;
+  index?: number | undefined;
+  type?: string | undefined;
+  text?: string | undefined;
+  last?: boolean | undefined;
+  sequenceNumber?: number | undefined;
 }
 export type SendMessageEvents =
   | {
       responseCreated: SendMessageResponseCreatedEvent;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
+      responseCreated?: undefined;
       responseInProgress: SendMessageResponseInProgressEvent;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
       responseCompleted: SendMessageResponseCompletedEvent;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
       responseFailed: SendMessageResponseFailedEvent;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
       summary: SendMessageSummaryEvent;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
       heartbeat: SendMessageHeartbeatEvent;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
       contentBlockStart: SendMessageContentBlockStartEvent;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
       contentBlockDelta: SendMessageContentBlockDeltaEvent;
-      contentBlockStop?: never;
+      contentBlockStop?: undefined;
     }
   | {
-      responseCreated?: never;
-      responseInProgress?: never;
-      responseCompleted?: never;
-      responseFailed?: never;
-      summary?: never;
-      heartbeat?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
+      responseCreated?: undefined;
+      responseInProgress?: undefined;
+      responseCompleted?: undefined;
+      responseFailed?: undefined;
+      summary?: undefined;
+      heartbeat?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
       contentBlockStop: SendMessageContentBlockStopEvent;
     };
 export interface SendMessageResponse {
@@ -2747,10 +2772,10 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAgentSpaceInput {
   agentSpaceId: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  locale?: string;
-  preferences?: { [key: string]: boolean | undefined };
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  locale?: string | undefined;
+  preferences?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface UpdateAgentSpaceOutput {
   agentSpace: AgentSpace;
@@ -2768,10 +2793,10 @@ export interface UpdateApprovalActionRequest {
   agentSpaceId: string;
   approvalId: string;
   action: ApprovalActionType;
-  finalPattern?: ApprovalPattern;
-  reason?: string;
-  ttlSeconds?: number;
-  singleUse?: boolean;
+  finalPattern?: ApprovalPattern | undefined;
+  reason?: string | undefined;
+  ttlSeconds?: number | undefined;
+  singleUse?: boolean | undefined;
 }
 export type ApprovalStatus =
   | "PENDING"
@@ -2783,14 +2808,14 @@ export type ApprovalStatus =
 export interface UpdateApprovalActionResponse {
   approvalId: string;
   status: ApprovalStatus;
-  expiresAt?: Date;
+  expiresAt?: Date | undefined;
 }
 export interface UpdateAssetRequest {
   agentSpaceId: string;
   assetId: string;
-  metadata?: any;
-  content?: AssetContent;
-  clientToken?: string;
+  metadata?: any | undefined;
+  content?: AssetContent | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateAssetResponse {
   asset: Asset;
@@ -2799,9 +2824,9 @@ export interface UpdateAssetFileRequest {
   agentSpaceId: string;
   assetId: string;
   path: string;
-  content?: AssetFileBody;
-  metadata?: any;
-  clientToken?: string;
+  content?: AssetFileBody | undefined;
+  metadata?: any | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateAssetFileResponse {
   file: AssetFile;
@@ -2810,17 +2835,17 @@ export interface UpdateAssociationInput {
   agentSpaceId: string;
   associationId: string;
   configuration: ServiceConfiguration;
-  capabilities?: { [key: string]: CapabilityConfiguration | undefined };
+  capabilities?: { [key: string]: CapabilityConfiguration | undefined } | undefined;
 }
 export interface UpdateAssociationOutput {
   association: Association;
-  webhook?: GenericWebhook;
+  webhook?: GenericWebhook | undefined;
 }
 export interface UpdateBacklogTaskRequest {
   agentSpaceId: string;
   taskId: string;
-  taskStatus?: TaskStatus;
-  clientToken?: string;
+  taskStatus?: TaskStatus | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateBacklogTaskResponse {
   task: Task;
@@ -2831,15 +2856,15 @@ export interface GoalScheduleInput {
 export interface UpdateGoalRequest {
   agentSpaceId: string;
   goalId: string;
-  evaluationSchedule?: GoalScheduleInput;
-  clientToken?: string;
+  evaluationSchedule?: GoalScheduleInput | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateGoalResponse {
   goal: Goal;
 }
 export interface UpdateOperatorAppIdpConfigInput {
   agentSpaceId: string;
-  idpClientSecret?: string | redacted.Redacted<string>;
+  idpClientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateOperatorAppIdpConfigOutput {
   agentSpaceId: string;
@@ -2852,21 +2877,21 @@ export interface UpdatePrivateConnectionCertificateInput {
 export interface UpdatePrivateConnectionCertificateOutput {
   name: string;
   type: PrivateConnectionType;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
   status: PrivateConnectionStatus;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
 }
 export interface UpdateRecommendationRequest {
   agentSpaceId: string;
   recommendationId: string;
-  status?: RecommendationStatus;
-  additionalContext?: string;
-  clientToken?: string;
+  status?: RecommendationStatus | undefined;
+  additionalContext?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateRecommendationResponse {
   recommendation: Recommendation;
@@ -2874,8 +2899,8 @@ export interface UpdateRecommendationResponse {
 export interface UpdateTriggerRequest {
   agentSpaceId: string;
   triggerId: string;
-  status?: string;
-  clientToken?: string;
+  status?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateTriggerResponse {
   trigger: Trigger;
@@ -2896,6 +2921,9 @@ export type AssociateServiceError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success.
@@ -2915,6 +2943,9 @@ export const associateService: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2930,6 +2961,10 @@ export type CreateAgentSpaceError =
   | InvalidParameterException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed.
@@ -2948,6 +2983,10 @@ export const createAgentSpace: API.OperationMethod<
     InvalidParameterException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2963,6 +3002,10 @@ export type CreateAssetError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new asset in the specified agent space
@@ -2981,6 +3024,10 @@ export const createAsset: API.OperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2998,6 +3045,8 @@ export type CreateAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a file in an asset
@@ -3018,6 +3067,8 @@ export const createAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3034,6 +3085,9 @@ export type CreateBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new backlog task in the specified agent space
@@ -3053,6 +3107,9 @@ export const createBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3067,6 +3124,11 @@ export type CreateChatError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new chat execution in the specified agent space
@@ -3084,6 +3146,11 @@ export const createChat: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3098,6 +3165,11 @@ export type CreatePrivateConnectionError =
   | InternalServerException
   | InvalidParameterException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Creates a Private Connection to a target resource.
@@ -3115,6 +3187,11 @@ export const createPrivateConnection: API.OperationMethod<
     InternalServerException,
     InvalidParameterException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3131,6 +3208,9 @@ export type CreateTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Creates a new Trigger in the specified agent space
@@ -3150,6 +3230,9 @@ export const createTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3164,6 +3247,11 @@ export type DeleteAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
@@ -3181,6 +3269,11 @@ export const deleteAgentSpace: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3197,6 +3290,9 @@ export type DeleteAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes an asset and all its files from the specified agent space
@@ -3216,6 +3312,9 @@ export const deleteAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3231,6 +3330,10 @@ export type DeleteAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes a file from an asset
@@ -3249,6 +3352,10 @@ export const deleteAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3263,6 +3370,11 @@ export type DeletePrivateConnectionError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status.
@@ -3280,6 +3392,11 @@ export const deletePrivateConnection: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3296,6 +3413,9 @@ export type DeleteTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Deletes a Trigger from the specified agent space
@@ -3315,6 +3435,9 @@ export const deleteTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3329,6 +3452,11 @@ export type DeregisterServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deregister a service
@@ -3346,6 +3474,11 @@ export const deregisterService: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3360,6 +3493,11 @@ export type DescribePrivateConnectionError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves details of an existing Private Connection.
@@ -3377,6 +3515,11 @@ export const describePrivateConnection: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3390,6 +3533,13 @@ export type DisableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Disable the Operator App for the specified AgentSpace
@@ -3402,7 +3552,18 @@ export const disableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DisableOperatorAppInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisableOperatorAppResponse>,
-  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
+  errors: [
+    IdentityCenterServiceException,
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOperatorApp",
@@ -3415,6 +3576,12 @@ export type DisassociateServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
@@ -3427,7 +3594,17 @@ export const disassociateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DisassociateServiceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisassociateServiceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateService",
@@ -3440,6 +3617,13 @@ export type EnableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Enable the Operator App to access the given AgentSpace
@@ -3452,7 +3636,18 @@ export const enableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<EnableOperatorAppInput>,
   output: __S(1153, __c36, 1) as any as S.Schema<EnableOperatorAppOutput>,
-  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
+  errors: [
+    IdentityCenterServiceException,
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOperatorApp",
@@ -3467,6 +3662,10 @@ export type GetAccountUsageError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves monthly account usage metrics and limits for the AWS account.
@@ -3485,6 +3684,10 @@ export const getAccountUsage: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3498,6 +3701,12 @@ export type GetAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves detailed information about a specific AgentSpace.
@@ -3510,7 +3719,17 @@ export const getAgentSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetAgentSpaceInput>,
   output: __S(256, __c8, 0) as any as S.Schema<GetAgentSpaceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentSpace",
@@ -3525,6 +3744,10 @@ export type GetAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets an asset from the specified agent space
@@ -3543,6 +3766,10 @@ export const getAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3558,6 +3785,10 @@ export type GetAssetContentError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets an asset's content as a zip bundle
@@ -3576,6 +3807,10 @@ export const getAssetContent: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3591,6 +3826,10 @@ export type GetAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a file from an asset
@@ -3609,6 +3848,10 @@ export const getAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3622,6 +3865,12 @@ export type GetAssociationError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves given associations configured for a specific AgentSpace.
@@ -3634,7 +3883,17 @@ export const getAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetAssociationInput>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetAssociationOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociation",
@@ -3650,6 +3909,9 @@ export type GetBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a backlog task for the specified agent space and task id
@@ -3669,6 +3931,9 @@ export const getBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3678,7 +3943,17 @@ export const getBacklogTask: API.OperationMethod<
   span: "GetBacklogTask",
 }));
 
-export type GetOperatorAppError = InternalServerException | ValidationException | CommonErrors;
+export type GetOperatorAppError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Get the full auth configuration of operator including any enabled auth flow
  */
@@ -3690,7 +3965,17 @@ export const getOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetOperatorAppInput>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetOperatorAppOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperatorApp",
@@ -3705,6 +3990,10 @@ export type GetRecommendationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves a specific recommendation by its ID
@@ -3723,6 +4012,10 @@ export const getRecommendation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3736,6 +4029,12 @@ export type GetServiceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Retrieves given service by it's unique identifier
@@ -3748,7 +4047,17 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetServiceInput>,
   output: __S(1601, __c50, 1) as any as S.Schema<GetServiceOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
@@ -3763,6 +4072,10 @@ export type GetTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Gets a Trigger from the specified agent space
@@ -3781,6 +4094,10 @@ export const getTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3790,7 +4107,17 @@ export const getTrigger: API.OperationMethod<
   span: "GetTrigger",
 }));
 
-export type ListAgentSpacesError = InternalServerException | ValidationException | CommonErrors;
+export type ListAgentSpacesError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * Lists all AgentSpaces with optional pagination.
  */
@@ -3803,7 +4130,17 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListAgentSpacesInput>,
   output: __S(1730, __c54, 2) as any as S.Schema<ListAgentSpacesOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentSpaces",
@@ -3824,6 +4161,10 @@ export type ListAssetFilesError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists files in an asset
@@ -3843,6 +4184,10 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3863,6 +4208,11 @@ export type ListAssetsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists assets in the specified agent space
@@ -3881,6 +4231,11 @@ export const listAssets: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3901,6 +4256,11 @@ export type ListAssetTypesError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists the supported asset types
@@ -3919,6 +4279,11 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3940,6 +4305,10 @@ export type ListAssetVersionsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists versions of an asset in the specified agent space
@@ -3959,6 +4328,10 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3978,6 +4351,12 @@ export type ListAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * List all associations for given AgentSpace
@@ -3991,7 +4370,17 @@ export const listAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListAssociationsInput>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListAssociationsOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociations",
@@ -4011,6 +4400,11 @@ export type ListBacklogTasksError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists backlog tasks in the specified agent space with optional filtering and sorting
@@ -4029,6 +4423,11 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4049,6 +4448,11 @@ export type ListChatsError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Retrieves a paginated list of the user's recent chat executions
@@ -4066,6 +4470,11 @@ export const listChats: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4081,6 +4490,10 @@ export type ListExecutionsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List executions
@@ -4100,6 +4513,10 @@ export const listExecutions: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4120,6 +4537,11 @@ export type ListGoalsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists goals in the specified agent space with optional filtering
@@ -4138,6 +4560,11 @@ export const listGoals: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4159,6 +4586,10 @@ export type ListJournalRecordsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List journal records for a specific execution
@@ -4178,6 +4609,10 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4199,6 +4634,10 @@ export type ListPendingMessagesError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * List pending messages for a specific execution.
@@ -4217,6 +4656,10 @@ export const listPendingMessages: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4230,6 +4673,12 @@ export type ListPrivateConnectionsError =
   | AccessDeniedException
   | InternalServerException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Lists all Private Connections in the caller's account.
@@ -4242,7 +4691,17 @@ export const listPrivateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListPrivateConnectionsInput>,
   output: __S(2146, __c67, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPrivateConnections",
@@ -4256,6 +4715,11 @@ export type ListRecommendationsError =
   | InternalServerException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists recommendations for the specified agent space
@@ -4273,6 +4737,11 @@ export const listRecommendations: API.OperationMethod<
     InternalServerException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4282,7 +4751,17 @@ export const listRecommendations: API.OperationMethod<
   span: "ListRecommendations",
 }));
 
-export type ListServicesError = InternalServerException | ValidationException | CommonErrors;
+export type ListServicesError =
+  | InternalServerException
+  | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors;
 /**
  * List a list of registered service on the account level.
  */
@@ -4295,7 +4774,17 @@ export const listServices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListServicesInput>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListServicesOutput>,
-  errors: [InternalServerException, ValidationException],
+  errors: [
+    InternalServerException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServices",
@@ -4315,6 +4804,11 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Lists tags for the specified AWS DevOps Agent resource.
@@ -4332,6 +4826,11 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4347,6 +4846,10 @@ export type ListTriggersError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Lists Triggers in the specified agent space
@@ -4366,6 +4869,10 @@ export const listTriggers: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4385,6 +4892,12 @@ export type ListWebhooksError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * List all webhooks for given Association
@@ -4397,7 +4910,17 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListWebhooksInput>,
   output: __S(2339, __c73, 3) as any as S.Schema<ListWebhooksOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
@@ -4411,6 +4934,11 @@ export type RegisterServiceError =
   | InvalidParameterException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * This operation registers the specified service
@@ -4428,6 +4956,11 @@ export const registerService: API.OperationMethod<
     InvalidParameterException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4444,6 +4977,9 @@ export type SendMessageError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
   | CommonErrors;
 /**
  * Sends a chat message and streams the response for the specified agent space execution
@@ -4463,6 +4999,9 @@ export const sendMessage: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4477,6 +5016,11 @@ export type TagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Adds or overwrites tags for the specified AWS DevOps Agent resource.
@@ -4494,6 +5038,11 @@ export const tagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4508,6 +5057,11 @@ export type UntagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Removes tags from the specified AWS DevOps Agent resource.
@@ -4525,6 +5079,11 @@ export const untagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4539,6 +5098,11 @@ export type UpdateAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Updates the information of an existing AgentSpace.
@@ -4556,6 +5120,11 @@ export const updateAgentSpace: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4573,6 +5142,8 @@ export type UpdateApprovalActionError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
   | CommonErrors;
 /**
  * Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
@@ -4593,6 +5164,8 @@ export const updateApprovalAction: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4609,6 +5182,9 @@ export type UpdateAssetError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates an asset in the specified agent space
@@ -4628,6 +5204,9 @@ export const updateAsset: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4645,6 +5224,8 @@ export type UpdateAssetFileError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates a file in an asset
@@ -4665,6 +5246,8 @@ export const updateAssetFile: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4680,6 +5263,10 @@ export type UpdateAssociationError =
   | ResourceNotFoundException
   | ServiceQuotaExceededException
   | ValidationException
+  | AccessDeniedException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Partially updates the configuration of an existing service association for an AgentSpace. Present fields are fully replaced; absent fields are left unchanged. Returns 200 OK on success.
@@ -4698,6 +5285,10 @@ export const updateAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
+    AccessDeniedException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4714,6 +5305,9 @@ export type UpdateBacklogTaskError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Update an existing backlog task.
@@ -4733,6 +5327,9 @@ export const updateBacklogTask: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4749,6 +5346,9 @@ export type UpdateGoalError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Update an existing goal
@@ -4768,6 +5368,9 @@ export const updateGoal: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4781,6 +5384,12 @@ export type UpdateOperatorAppIdpConfigError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Update the external Identity Provider configuration for the Operator App
@@ -4793,7 +5402,17 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateOperatorAppIdpConfigInput>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateOperatorAppIdpConfigOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
@@ -4807,6 +5426,11 @@ export type UpdatePrivateConnectionCertificateError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Updates the certificate associated with a Private Connection.
@@ -4824,6 +5448,11 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4840,6 +5469,9 @@ export type UpdateRecommendationError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates an existing recommendation with new content, status, or metadata
@@ -4859,6 +5491,9 @@ export const updateRecommendation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4874,6 +5509,10 @@ export type UpdateTriggerError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates the status of an existing Trigger
@@ -4892,6 +5531,10 @@ export const updateTrigger: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4905,6 +5548,12 @@ export type ValidateAwsAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
+  | AccessDeniedException
+  | ConflictException
+  | ContentSizeExceededException
+  | InvalidParameterException
+  | ServiceQuotaExceededException
+  | ThrottlingException
   | CommonErrors;
 /**
  * Validates an aws association and set status and returns a 204 No Content response on success.
@@ -4917,7 +5566,17 @@ export const validateAwsAssociations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ValidateAwsAssociationsInput>,
   output: __S(64, __c2, 0) as any as S.Schema<ValidateAwsAssociationsOutput>,
-  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+    AccessDeniedException,
+    ConflictException,
+    ContentSizeExceededException,
+    InvalidParameterException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateAwsAssociations",
@@ -5096,7 +5755,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "MSTeamsTransmissionTarget" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ teamId: S.String, teamName: S.String, transmissionTarget: __S(148, __c4, 20) }),
+        S.Struct({
+          teamId: S.String,
+          teamName: S.String,
+          transmissionTarget: __S(148, __c4, 20),
+          bidirectional: S.optional(__S(133, __c4, 5)),
+        }),
       ).annotate({ identifier: "MSTeamsConfiguration" });
     case 22:
       return S.suspend(() =>
@@ -6370,10 +7034,10 @@ function __c56(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           assetType: S.optional(S.String).pipe(T.HttpQuery("assetType")),
-          updatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          updatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("updatedAfter"),
           ),
-          updatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          updatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("updatedBefore"),
           ),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),

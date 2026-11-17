@@ -28,33 +28,30 @@ const TELEMETRY = {
 
 export interface FullTextSearchDocsRequest {
   q: string;
-  limit?: number;
-  domain?: string;
+  limit?: number | undefined;
+  domain?: string | undefined;
 }
 export interface FullTextSearchDocsResponseHitsItemFormatted {
-  url?: string;
-  hierarchy_lvl0?: string;
-  hierarchy_lvl1?: string;
-  hierarchy_lvl2?: string;
-  hierarchy_lvl3?: string;
-  hierarchy_lvl4?: string;
-  hierarchy_lvl5?: string;
-  hierarchy_lvl6?: string;
-  content?: string;
-  anchor?: string;
+  url?: string | undefined;
+  hierarchy_lvl0?: string | undefined;
+  hierarchy_lvl1?: string | undefined;
+  hierarchy_lvl2?: string | undefined;
+  hierarchy_lvl3?: string | undefined;
+  hierarchy_lvl4?: string | undefined;
+  hierarchy_lvl5?: string | undefined;
+  hierarchy_lvl6?: string | undefined;
+  content?: string | undefined;
 }
 export interface FullTextSearchDocsResponseHitsItem {
   url: string;
-  hierarchy_lvl0?: string;
-  hierarchy_lvl1?: string;
-  hierarchy_lvl2?: string;
-  hierarchy_lvl3?: string;
-  hierarchy_lvl4?: string;
-  hierarchy_lvl5?: string;
-  hierarchy_lvl6?: string;
-  content?: string;
-  anchor?: string;
-  _formatted?: FullTextSearchDocsResponseHitsItemFormatted;
+  hierarchy_lvl0?: string | undefined;
+  hierarchy_lvl1?: string | undefined;
+  hierarchy_lvl2?: string | undefined;
+  hierarchy_lvl3?: string | undefined;
+  hierarchy_lvl4?: string | undefined;
+  hierarchy_lvl5?: string | undefined;
+  hierarchy_lvl6?: string | undefined;
+  _formatted?: FullTextSearchDocsResponseHitsItemFormatted | undefined;
 }
 export type FullTextSearchDocsResponseHitsList = Array<FullTextSearchDocsResponseHitsItem>;
 export interface FullTextSearchDocsResponse {
@@ -64,7 +61,7 @@ export interface ListDocsRequest {}
 export interface ListDocsResponseBodyItem {
   id: string;
   url: string;
-  category?: string;
+  category?: string | undefined;
 }
 export type ListDocsResponseBodyList = Array<ListDocsResponseBodyItem>;
 export type ListDocsResponse = ListDocsResponseBodyList;
@@ -132,8 +129,8 @@ export type SearchDocsRequestProduct =
   | "xet";
 export interface SearchDocsRequest {
   q: string;
-  product?: SearchDocsRequestProduct | (string & {});
-  limit?: number;
+  product?: SearchDocsRequestProduct | (string & {}) | undefined;
+  limit?: number | undefined;
 }
 export type SearchDocsResponseBodyItemVectorsEmbeddingsList = Array<number>;
 export interface SearchDocsResponseBodyItemVectors {
@@ -144,13 +141,14 @@ export interface SearchDocsResponseBodyItem {
   _vectors: SearchDocsResponseBodyItemVectors;
   heading1: string;
   text: string;
+  text_plain: string;
   product: string;
   source_page_url: string;
   source_page_title: string;
-  heading2?: string;
-  heading3?: string;
-  heading4?: string;
-  heading5?: string;
+  heading2?: string | undefined;
+  heading3?: string | undefined;
+  heading4?: string | undefined;
+  heading5?: string | undefined;
 }
 export type SearchDocsResponseBodyList = Array<SearchDocsResponseBodyItem>;
 export type SearchDocsResponse = SearchDocsResponseBodyList;
@@ -228,7 +226,6 @@ function __c0(j: number): any {
           hierarchy_lvl5: S.optional(S.String),
           hierarchy_lvl6: S.optional(S.String),
           content: S.optional(S.String),
-          anchor: S.optional(S.String),
         }),
       ).annotate({ identifier: "FullTextSearchDocsResponseHitsItemFormatted" });
     case 2:
@@ -242,8 +239,6 @@ function __c0(j: number): any {
           hierarchy_lvl4: S.optional(S.String),
           hierarchy_lvl5: S.optional(S.String),
           hierarchy_lvl6: S.optional(S.String),
-          content: S.optional(S.String),
-          anchor: S.optional(S.String),
           _formatted: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "FullTextSearchDocsResponseHitsItem" });
@@ -304,6 +299,7 @@ function __c2(j: number): any {
           _vectors: __S(18, __c2, 2),
           heading1: S.String,
           text: S.String,
+          text_plain: S.String,
           product: S.String,
           source_page_url: S.String,
           source_page_title: S.String,

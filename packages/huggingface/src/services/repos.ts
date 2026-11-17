@@ -33,9 +33,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 /** The region where the repository is hosted. */
 export type CreateRepositoryRequestBodyCase0Region = "us" | "eu";
@@ -130,25 +137,25 @@ export type CreateRepositoryRequestBodyCase0FilesItemEncoding = "utf-8" | "base6
 export interface CreateRepositoryRequestBodyCase0FilesItem {
   content: string;
   path: string;
-  encoding?: CreateRepositoryRequestBodyCase0FilesItemEncoding | (string & {});
+  encoding?: CreateRepositoryRequestBodyCase0FilesItemEncoding | (string & {}) | undefined;
 }
 export type CreateRepositoryRequestBodyCase0FilesList =
   Array<CreateRepositoryRequestBodyCase0FilesItem>;
 export interface CreateRepositoryRequestBodyCase0 {
   name: string;
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The region where the repository is hosted. */
-  region?: CreateRepositoryRequestBodyCase0Region | (string & {});
+  region?: CreateRepositoryRequestBodyCase0Region | (string & {}) | undefined;
   /** The license of the repository. You can select 'Other' if your license is not in the list */
-  license?: CreateRepositoryRequestBodyCase0License | (string & {});
-  license_name?: string;
-  license_link?: string;
+  license?: CreateRepositoryRequestBodyCase0License | (string & {}) | undefined;
+  license_name?: string | undefined;
+  license_link?: string | undefined;
   /** Repository visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private. */
-  visibility?: CreateRepositoryRequestBodyCase0Visibility | (string & {});
-  resourceGroupId?: string | null;
-  files?: CreateRepositoryRequestBodyCase0FilesList;
+  visibility?: CreateRepositoryRequestBodyCase0Visibility | (string & {}) | undefined;
+  resourceGroupId?: string | null | undefined;
+  files?: CreateRepositoryRequestBodyCase0FilesList | undefined;
   type: string;
 }
 /** The region where the repository is hosted. */
@@ -244,26 +251,26 @@ export type CreateRepositoryRequestBodyCase1FilesItemEncoding = "utf-8" | "base6
 export interface CreateRepositoryRequestBodyCase1FilesItem {
   content: string;
   path: string;
-  encoding?: CreateRepositoryRequestBodyCase1FilesItemEncoding | (string & {});
+  encoding?: CreateRepositoryRequestBodyCase1FilesItemEncoding | (string & {}) | undefined;
 }
 export type CreateRepositoryRequestBodyCase1FilesList =
   Array<CreateRepositoryRequestBodyCase1FilesItem>;
 export interface CreateRepositoryRequestBodyCase1 {
   name: string;
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The region where the repository is hosted. */
-  region?: CreateRepositoryRequestBodyCase1Region | (string & {});
+  region?: CreateRepositoryRequestBodyCase1Region | (string & {}) | undefined;
   /** The license of the repository. You can select 'Other' if your license is not in the list */
-  license?: CreateRepositoryRequestBodyCase1License | (string & {});
-  license_name?: string;
-  license_link?: string;
+  license?: CreateRepositoryRequestBodyCase1License | (string & {}) | undefined;
+  license_name?: string | undefined;
+  license_link?: string | undefined;
   /** Repository visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private. */
-  visibility?: CreateRepositoryRequestBodyCase1Visibility | (string & {});
-  resourceGroupId?: string | null;
-  files?: CreateRepositoryRequestBodyCase1FilesList;
-  type?: string;
+  visibility?: CreateRepositoryRequestBodyCase1Visibility | (string & {}) | undefined;
+  resourceGroupId?: string | null | undefined;
+  files?: CreateRepositoryRequestBodyCase1FilesList | undefined;
+  type?: string | undefined;
 }
 /** The region where the repository is hosted. */
 export type CreateRepositoryRequestBodyCase2Region = "us" | "eu";
@@ -358,25 +365,25 @@ export type CreateRepositoryRequestBodyCase2FilesItemEncoding = "utf-8" | "base6
 export interface CreateRepositoryRequestBodyCase2FilesItem {
   content: string;
   path: string;
-  encoding?: CreateRepositoryRequestBodyCase2FilesItemEncoding | (string & {});
+  encoding?: CreateRepositoryRequestBodyCase2FilesItemEncoding | (string & {}) | undefined;
 }
 export type CreateRepositoryRequestBodyCase2FilesList =
   Array<CreateRepositoryRequestBodyCase2FilesItem>;
 export interface CreateRepositoryRequestBodyCase2 {
   name: string;
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The region where the repository is hosted. */
-  region?: CreateRepositoryRequestBodyCase2Region | (string & {});
+  region?: CreateRepositoryRequestBodyCase2Region | (string & {}) | undefined;
   /** The license of the repository. You can select 'Other' if your license is not in the list */
-  license?: CreateRepositoryRequestBodyCase2License | (string & {});
-  license_name?: string;
-  license_link?: string;
+  license?: CreateRepositoryRequestBodyCase2License | (string & {}) | undefined;
+  license_name?: string | undefined;
+  license_link?: string | undefined;
   /** Repository visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private. */
-  visibility?: CreateRepositoryRequestBodyCase2Visibility | (string & {});
-  resourceGroupId?: string | null;
-  files?: CreateRepositoryRequestBodyCase2FilesList;
+  visibility?: CreateRepositoryRequestBodyCase2Visibility | (string & {}) | undefined;
+  resourceGroupId?: string | null | undefined;
+  files?: CreateRepositoryRequestBodyCase2FilesList | undefined;
   type: string;
 }
 /** The region where the repository is hosted. */
@@ -472,7 +479,7 @@ export type CreateRepositoryRequestBodyCase3FilesItemEncoding = "utf-8" | "base6
 export interface CreateRepositoryRequestBodyCase3FilesItem {
   content: string;
   path: string;
-  encoding?: CreateRepositoryRequestBodyCase3FilesItemEncoding | (string & {});
+  encoding?: CreateRepositoryRequestBodyCase3FilesItemEncoding | (string & {}) | undefined;
 }
 export type CreateRepositoryRequestBodyCase3FilesList =
   Array<CreateRepositoryRequestBodyCase3FilesItem>;
@@ -510,7 +517,7 @@ export type CreateRepositoryRequestBodyCase3Hardware =
   | "zerogpu";
 export interface CreateRepositoryRequestBodyCase3SecretsItem {
   key: string;
-  description?: string;
+  description?: string | undefined;
   value: string;
 }
 export type CreateRepositoryRequestBodyCase3SecretsList =
@@ -532,11 +539,11 @@ export interface CreateRepositoryRequestBodyCase3VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the Space container. */
 export type CreateRepositoryRequestBodyCase3VolumesList =
@@ -545,33 +552,33 @@ export type CreateRepositoryRequestBodyCase3VolumesList =
 export type CreateRepositoryRequestBodyCase3Sdk = "gradio" | "docker" | "static";
 export interface CreateRepositoryRequestBodyCase3 {
   name: string;
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The region where the repository is hosted. */
-  region?: CreateRepositoryRequestBodyCase3Region | (string & {});
+  region?: CreateRepositoryRequestBodyCase3Region | (string & {}) | undefined;
   /** The license of the repository. You can select 'Other' if your license is not in the list */
-  license?: CreateRepositoryRequestBodyCase3License | (string & {});
-  license_name?: string;
-  license_link?: string;
+  license?: CreateRepositoryRequestBodyCase3License | (string & {}) | undefined;
+  license_name?: string | undefined;
+  license_link?: string | undefined;
   /** Repository visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private. */
-  visibility?: CreateRepositoryRequestBodyCase3Visibility | (string & {});
-  resourceGroupId?: string | null;
-  files?: CreateRepositoryRequestBodyCase3FilesList;
+  visibility?: CreateRepositoryRequestBodyCase3Visibility | (string & {}) | undefined;
+  resourceGroupId?: string | null | undefined;
+  files?: CreateRepositoryRequestBodyCase3FilesList | undefined;
   type: string;
-  template?: string;
-  short_description?: string;
+  template?: string | undefined;
+  short_description?: string | undefined;
   /** The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio. */
-  hardware?: CreateRepositoryRequestBodyCase3Hardware | (string & {});
-  secrets?: CreateRepositoryRequestBodyCase3SecretsList;
-  variables?: CreateRepositoryRequestBodyCase3VariablesList;
-  sleepTimeSeconds?: CreateRepositoryRequestBodyCase3SleepTimeSeconds;
+  hardware?: CreateRepositoryRequestBodyCase3Hardware | (string & {}) | undefined;
+  secrets?: CreateRepositoryRequestBodyCase3SecretsList | undefined;
+  variables?: CreateRepositoryRequestBodyCase3VariablesList | undefined;
+  sleepTimeSeconds?: CreateRepositoryRequestBodyCase3SleepTimeSeconds | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the Space container. */
-  volumes?: CreateRepositoryRequestBodyCase3VolumesList;
+  volumes?: CreateRepositoryRequestBodyCase3VolumesList | undefined;
   /** The Space SDK. `static` is free for everyone. `gradio` and `docker` run on compute: on the free `cpu-basic` flavor they require a subscription (PRO for users, Team/Enterprise for orgs), while paid hardware only requires billing (a payment method and prepaid credits). */
   sdk: CreateRepositoryRequestBodyCase3Sdk | (string & {});
-  sdkVersion?: string | null;
-  devModeEnabled?: boolean;
+  sdkVersion?: string | null | undefined;
+  devModeEnabled?: boolean | undefined;
 }
 export type CreateRepositoryRequestBody =
   | CreateRepositoryRequestBodyCase0
@@ -579,14 +586,14 @@ export type CreateRepositoryRequestBody =
   | CreateRepositoryRequestBodyCase2
   | CreateRepositoryRequestBodyCase3;
 export interface CreateRepositoryRequest {
-  body?: CreateRepositoryRequestBody;
+  body?: CreateRepositoryRequestBody | undefined;
 }
 export interface CreateRepositoryResponse {
   url: string;
   name: string;
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  filesCopyPending?: boolean;
+  filesCopyPending?: boolean | undefined;
 }
 export type DuplicateRepositoryRequestRepoType = "spaces";
 export type DuplicateRepositoryRequestVisibility = "private" | "public" | "protected";
@@ -636,11 +643,11 @@ export interface DuplicateRepositoryRequestVolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the duplicated Space. */
 export type DuplicateRepositoryRequestVolumesList = Array<DuplicateRepositoryRequestVolumesItem>;
@@ -649,15 +656,15 @@ export interface DuplicateRepositoryRequest {
   namespace: string;
   repo: string;
   repository: string;
-  private?: boolean;
-  visibility?: DuplicateRepositoryRequestVisibility | (string & {});
-  resourceGroupId?: string | null;
-  hardware?: DuplicateRepositoryRequestHardware | (string & {});
-  sleepTimeSeconds?: DuplicateRepositoryRequestSleepTimeSeconds;
-  secrets?: DuplicateRepositoryRequestSecretsList;
-  variables?: DuplicateRepositoryRequestVariablesList;
+  private?: boolean | undefined;
+  visibility?: DuplicateRepositoryRequestVisibility | (string & {}) | undefined;
+  resourceGroupId?: string | null | undefined;
+  hardware?: DuplicateRepositoryRequestHardware | (string & {}) | undefined;
+  sleepTimeSeconds?: DuplicateRepositoryRequestSleepTimeSeconds | undefined;
+  secrets?: DuplicateRepositoryRequestSecretsList | undefined;
+  variables?: DuplicateRepositoryRequestVariablesList | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the duplicated Space. */
-  volumes?: DuplicateRepositoryRequestVolumesList;
+  volumes?: DuplicateRepositoryRequestVolumesList | undefined;
 }
 export interface DuplicateRepositoryResponse {
   url: string;
@@ -674,17 +681,21 @@ export interface DuplicationStatusResponse {
   /** True while the LFS/Xet files are still being copied */
   pending: boolean;
   /** Number of LFS/Xet files the duplicate references */
-  filesTotal?: number;
+  filesTotal?: number | undefined;
   /** Number of files copied so far */
-  filesCopied?: number;
+  filesCopied?: number | undefined;
 }
 export type MoveRepoRequestType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export interface MoveRepoRequest {
   fromRepo: string;
   toRepo: string;
-  type?: MoveRepoRequestType | (string & {});
+  type?: MoveRepoRequestType | (string & {}) | undefined;
 }
 export interface MoveRepoResponse {}
+export interface Error409Body {
+  error: string;
+  url: string;
+}
 export type CreateRepositoryError = Conflict | HuggingFaceOpError;
 /** Create repository */
 export const createRepository: API.OperationMethod<
@@ -693,8 +704,8 @@ export const createRepository: API.OperationMethod<
   CreateRepositoryError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateRepositoryRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateRepositoryResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateRepositoryRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CreateRepositoryResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -710,8 +721,8 @@ export const duplicateRepository: API.OperationMethod<
   DuplicateRepositoryError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c1, 4) as any as S.Schema<DuplicateRepositoryRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<DuplicateRepositoryResponse>,
+  input: __S(20, __c2, 4) as any as S.Schema<DuplicateRepositoryRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<DuplicateRepositoryResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -727,8 +738,8 @@ export const duplicationStatus: API.OperationMethod<
   DuplicationStatusError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DuplicationStatusRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<DuplicationStatusResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DuplicationStatusRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<DuplicationStatusResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -744,8 +755,8 @@ export const moveRepo: API.OperationMethod<
   MoveRepoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<MoveRepoRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<MoveRepoResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<MoveRepoRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<MoveRepoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -755,6 +766,17 @@ export const moveRepo: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -773,7 +795,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateRepositoryResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,7 +806,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3SecretsItem" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -797,7 +819,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3VolumesItem" });
     case 3:
-      return S.Array(__S(10, __c1, 2));
+      return S.Array(__S(18, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -810,9 +832,9 @@ function __c1(j: number): any {
           resourceGroupId: S.optional(S.NullOr(S.String)),
           hardware: S.optional(S.String),
           sleepTimeSeconds: S.optional(S.Unknown),
-          secrets: S.optional(__S(9, __c1, 1)),
-          variables: S.optional(__S(9, __c1, 1)),
-          volumes: S.optional(__S(11, __c1, 3)),
+          secrets: S.optional(__S(17, __c2, 1)),
+          variables: S.optional(__S(17, __c2, 1)),
+          volumes: S.optional(__S(19, __c2, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -830,7 +852,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DuplicateRepositoryResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -856,7 +878,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DuplicationStatusResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

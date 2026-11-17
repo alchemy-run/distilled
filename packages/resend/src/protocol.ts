@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ResendProtocol -- hand-written.
  *
@@ -10,7 +11,9 @@ import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.resend.com), resolved from the
- *             calling fiber on every request
+ *             calling fiber on every request, plus a `User-Agent`:
+ *             Resend's edge rejects requests without one (403, Cloudflare
+ *             error 1010), and not every runtime's fetch adds it
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ name?, message, statusCode? }` bodies
@@ -23,7 +26,10 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownResendError, ResendParseError } from "./errors.ts";
+import { type ResendCommonError, UnknownResendError, ResendParseError } from "./errors.ts";
+
+/** Sent on every request; Resend's edge returns 403 (error 1010) without one. */
+export const USER_AGENT = "distilled.cloud-resend";
 
 /**
  * Error channel shared by every generated Resend operation. Generated service
@@ -33,11 +39,13 @@ import { UnknownResendError, ResendParseError } from "./errors.ts";
  */
 export type ResendOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
+  | ResendCommonError
   | UnknownResendError
   | ConfigError
   | HttpClientError.HttpClientError
   | ResendParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Resend operation. */
 export type ResendOpContext = Credentials | HttpClient.HttpClient;
@@ -49,6 +57,7 @@ export const ResendProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    "User-Agent": USER_AGENT,
   }),
   // Resend's error body is `{ name?: string, message: string, statusCode?: number }`.
   // The factory's default lenient envelope covers `{ code, message }`; `name`
@@ -62,11 +71,6 @@ export const ResendProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
     if (code === undefined && message === undefined) return undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownResendError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownResendError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ResendParseError({ body, cause }),
 });

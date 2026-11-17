@@ -67,7 +67,7 @@ export interface GeneratePathCleaningSuggestionResponse {
   /** generated, skipped_low_cardinality, skipped_no_paths, skipped_configured, or error. */
   status: string;
   /** The stored suggestion when status is generated, else null. */
-  suggestion?: PathCleaningSuggestionIssue | null;
+  suggestion?: PathCleaningSuggestionIssue | null | undefined;
 }
 export interface PreviewWebAnalyticsPathCleaningSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

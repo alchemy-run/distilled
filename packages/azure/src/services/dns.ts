@@ -68,29 +68,29 @@ export interface DeleteZoneResponse {}
 /** A reference to a another resource */
 export interface SubResource {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of references to azure resources for which referencing dns records need to be queried. */
 export type DnsResourceReferenceRequestPropertiesTargetResourcesList = Array<SubResource>;
 /** Represents the properties of the Dns Resource Reference Request. */
 export interface DnsResourceReferenceRequestProperties {
   /** A list of references to azure resources for which referencing dns records need to be queried. */
-  targetResources?: DnsResourceReferenceRequestPropertiesTargetResourcesList;
+  targetResources?: DnsResourceReferenceRequestPropertiesTargetResourcesList | undefined;
 }
 export interface GetDnsResourceReferenceByTargetResourcesRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
   subscriptionId: string;
   /** The properties of the Resource Reference Request. */
-  properties?: DnsResourceReferenceRequestProperties;
+  properties?: DnsResourceReferenceRequestProperties | undefined;
 }
 /** A list of dns Records */
 export type DnsResourceReferenceDnsResourcesList = Array<SubResource>;
 /** Represents a single Azure resource and its referencing DNS records. */
 export interface DnsResourceReference {
   /** A list of dns Records */
-  dnsResources?: DnsResourceReferenceDnsResourcesList;
+  dnsResources?: DnsResourceReferenceDnsResourcesList | undefined;
   /** A reference to an azure resource from where the dns resource value is taken. */
-  targetResource?: SubResource;
+  targetResource?: SubResource | undefined;
 }
 /** The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request */
 export type DnsResourceReferenceResultPropertiesDnsResourceReferencesList =
@@ -98,12 +98,12 @@ export type DnsResourceReferenceResultPropertiesDnsResourceReferencesList =
 /** The result of dns resource reference request. Returns a list of dns resource references for each of the azure resource in the request. */
 export interface DnsResourceReferenceResultProperties {
   /** The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request */
-  dnsResourceReferences?: DnsResourceReferenceResultPropertiesDnsResourceReferencesList;
+  dnsResourceReferences?: DnsResourceReferenceResultPropertiesDnsResourceReferencesList | undefined;
 }
 /** Represents the properties of the Dns Resource Reference Result. */
 export interface DnsResourceReferenceResult {
   /** The result of dns resource reference request. Returns a list of dns resource references for each of the azure resource in the request. */
-  properties?: DnsResourceReferenceResultProperties;
+  properties?: DnsResourceReferenceResultProperties | undefined;
 }
 export type GetRecordSetRequestRecordType =
   | "A"
@@ -133,50 +133,50 @@ export type RecordSetPropertiesMetadataMap = { [key: string]: string | undefined
 /** An A record. */
 export interface ARecord {
   /** The IPv4 address of this A record. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
 }
 /** The list of A records in the record set. */
 export type RecordSetPropertiesARecordsList = Array<ARecord>;
 /** An AAAA record. */
 export interface AaaaRecord {
   /** The IPv6 address of this AAAA record. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
 }
 /** The list of AAAA records in the record set. */
 export type RecordSetPropertiesAAAARecordsList = Array<AaaaRecord>;
 /** An MX record. */
 export interface MxRecord {
   /** The preference value for this MX record. */
-  preference?: number;
+  preference?: number | undefined;
   /** The domain name of the mail host for this MX record. */
-  exchange?: string;
+  exchange?: string | undefined;
 }
 /** The list of MX records in the record set. */
 export type RecordSetPropertiesMXRecordsList = Array<MxRecord>;
 /** An NS record. */
 export interface NsRecord {
   /** The name server name for this NS record. */
-  nsdname?: string;
+  nsdname?: string | undefined;
 }
 /** The list of NS records in the record set. */
 export type RecordSetPropertiesNSRecordsList = Array<NsRecord>;
 /** A PTR record. */
 export interface PtrRecord {
   /** The PTR target domain name for this PTR record. */
-  ptrdname?: string;
+  ptrdname?: string | undefined;
 }
 /** The list of PTR records in the record set. */
 export type RecordSetPropertiesPTRRecordsList = Array<PtrRecord>;
 /** An SRV record. */
 export interface SrvRecord {
   /** The priority value for this SRV record. */
-  priority?: number;
+  priority?: number | undefined;
   /** The weight value for this SRV record. */
-  weight?: number;
+  weight?: number | undefined;
   /** The port value for this SRV record. */
-  port?: number;
+  port?: number | undefined;
   /** The target domain name for this SRV record. */
-  target?: string;
+  target?: string | undefined;
 }
 /** The list of SRV records in the record set. */
 export type RecordSetPropertiesSRVRecordsList = Array<SrvRecord>;
@@ -185,88 +185,88 @@ export type TxtRecordValueList = Array<string>;
 /** A TXT record. */
 export interface TxtRecord {
   /** The text value of this TXT record. */
-  value?: TxtRecordValueList;
+  value?: TxtRecordValueList | undefined;
 }
 /** The list of TXT records in the record set. */
 export type RecordSetPropertiesTXTRecordsList = Array<TxtRecord>;
 /** A CNAME record. */
 export interface CnameRecord {
   /** The canonical name for this CNAME record. */
-  cname?: string;
+  cname?: string | undefined;
 }
 /** An SOA record. */
 export interface SoaRecord {
   /** The domain name of the authoritative name server for this SOA record. */
-  host?: string;
+  host?: string | undefined;
   /** The email contact for this SOA record. */
-  email?: string;
+  email?: string | undefined;
   /** The serial number for this SOA record. */
-  serialNumber?: number;
+  serialNumber?: number | undefined;
   /** The refresh value for this SOA record. */
-  refreshTime?: number;
+  refreshTime?: number | undefined;
   /** The retry time for this SOA record. */
-  retryTime?: number;
+  retryTime?: number | undefined;
   /** The expire time for this SOA record. */
-  expireTime?: number;
+  expireTime?: number | undefined;
   /** The minimum value for this SOA record. By convention this is used to determine the negative caching duration. */
-  minimumTTL?: number;
+  minimumTTL?: number | undefined;
 }
 /** A CAA record. */
 export interface CaaRecord {
   /** The flags for this CAA record as an integer between 0 and 255. */
-  flags?: number;
+  flags?: number | undefined;
   /** The tag for this CAA record. */
-  tag?: string;
+  tag?: string | undefined;
   /** The value for this CAA record. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The list of CAA records in the record set. */
 export type RecordSetPropertiesCaaRecordsList = Array<CaaRecord>;
 /** Represents the properties of the records in the record set. */
 export interface RecordSetProperties {
   /** The metadata attached to the record set. */
-  metadata?: RecordSetPropertiesMetadataMap;
+  metadata?: RecordSetPropertiesMetadataMap | undefined;
   /** The TTL (time-to-live) of the records in the record set. */
-  TTL?: number;
+  TTL?: number | undefined;
   /** Fully qualified domain name of the record set. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** provisioning State of the record set. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** A reference to an azure resource from where the dns resource value is taken. */
-  targetResource?: SubResource;
+  targetResource?: SubResource | undefined;
   /** The list of A records in the record set. */
-  ARecords?: RecordSetPropertiesARecordsList;
+  ARecords?: RecordSetPropertiesARecordsList | undefined;
   /** The list of AAAA records in the record set. */
-  AAAARecords?: RecordSetPropertiesAAAARecordsList;
+  AAAARecords?: RecordSetPropertiesAAAARecordsList | undefined;
   /** The list of MX records in the record set. */
-  MXRecords?: RecordSetPropertiesMXRecordsList;
+  MXRecords?: RecordSetPropertiesMXRecordsList | undefined;
   /** The list of NS records in the record set. */
-  NSRecords?: RecordSetPropertiesNSRecordsList;
+  NSRecords?: RecordSetPropertiesNSRecordsList | undefined;
   /** The list of PTR records in the record set. */
-  PTRRecords?: RecordSetPropertiesPTRRecordsList;
+  PTRRecords?: RecordSetPropertiesPTRRecordsList | undefined;
   /** The list of SRV records in the record set. */
-  SRVRecords?: RecordSetPropertiesSRVRecordsList;
+  SRVRecords?: RecordSetPropertiesSRVRecordsList | undefined;
   /** The list of TXT records in the record set. */
-  TXTRecords?: RecordSetPropertiesTXTRecordsList;
+  TXTRecords?: RecordSetPropertiesTXTRecordsList | undefined;
   /** The CNAME record in the record set. */
-  CNAMERecord?: CnameRecord;
+  CNAMERecord?: CnameRecord | undefined;
   /** The SOA record in the record set. */
-  SOARecord?: SoaRecord;
+  SOARecord?: SoaRecord | undefined;
   /** The list of CAA records in the record set. */
-  caaRecords?: RecordSetPropertiesCaaRecordsList;
+  caaRecords?: RecordSetPropertiesCaaRecordsList | undefined;
 }
 /** Describes a DNS record set (a collection of DNS records with the same name and type). */
 export interface RecordSet {
   /** The ID of the record set. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the record set. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the record set. */
-  type?: string;
+  type?: string | undefined;
   /** The etag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetProperties;
+  properties?: RecordSetProperties | undefined;
 }
 export interface GetZoneRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -289,35 +289,35 @@ export type ZonePropertiesResolutionVirtualNetworksList = Array<SubResource>;
 /** Represents the properties of the zone. */
 export interface ZoneProperties {
   /** The maximum number of record sets that can be created in this DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  maxNumberOfRecordSets?: number;
+  maxNumberOfRecordSets?: number | undefined;
   /** The maximum number of records per record set that can be created in this DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  maxNumberOfRecordsPerRecordSet?: number;
+  maxNumberOfRecordsPerRecordSet?: number | undefined;
   /** The current number of record sets in this DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  numberOfRecordSets?: number;
+  numberOfRecordSets?: number | undefined;
   /** The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored. */
-  nameServers?: ZonePropertiesNameServersList;
+  nameServers?: ZonePropertiesNameServersList | undefined;
   /** The type of this DNS zone (Public or Private). */
-  zoneType?: ZonePropertiesZoneType;
+  zoneType?: ZonePropertiesZoneType | undefined;
   /** A list of references to virtual networks that register hostnames in this DNS zone. This is a only when ZoneType is Private. */
-  registrationVirtualNetworks?: ZonePropertiesRegistrationVirtualNetworksList;
+  registrationVirtualNetworks?: ZonePropertiesRegistrationVirtualNetworksList | undefined;
   /** A list of references to virtual networks that resolve records in this DNS zone. This is a only when ZoneType is Private. */
-  resolutionVirtualNetworks?: ZonePropertiesResolutionVirtualNetworksList;
+  resolutionVirtualNetworks?: ZonePropertiesResolutionVirtualNetworksList | undefined;
 }
 export interface GetZoneResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: GetZoneResponseTagsMap;
+  tags?: GetZoneResponseTagsMap | undefined;
   /** The etag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the zone. */
-  properties?: ZoneProperties;
+  properties?: ZoneProperties | undefined;
 }
 export interface ListRecordSetAllByDnsZoneRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -327,18 +327,18 @@ export interface ListRecordSetAllByDnsZoneRequest {
   /** The name of the DNS zone (without a terminating dot). */
   zoneName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
   /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  _recordsetnamesuffix?: string;
+  _recordsetnamesuffix?: string | undefined;
 }
 /** Information about the record sets in the response. */
 export type RecordSetListResultValueList = Array<RecordSet>;
 /** The response to a record set List operation. */
 export interface RecordSetListResult {
   /** Information about the record sets in the response. */
-  value?: RecordSetListResultValueList;
+  value?: RecordSetListResultValueList | undefined;
   /** The continuation token for the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecordSetByDnsZoneRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -348,9 +348,9 @@ export interface ListRecordSetByDnsZoneRequest {
   /** The name of the DNS zone (without a terminating dot). */
   zoneName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
   /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  _recordsetnamesuffix?: string;
+  _recordsetnamesuffix?: string | undefined;
 }
 export type ListRecordSetByTypeRequestRecordType =
   | "A"
@@ -373,9 +373,9 @@ export interface ListRecordSetByTypeRequest {
   /** The type of record sets to enumerate. */
   recordType: ListRecordSetByTypeRequestRecordType | (string & {});
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
   /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  _recordsetnamesuffix?: string;
+  _recordsetnamesuffix?: string | undefined;
 }
 export interface ListZoneByResourceGroupRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -383,41 +383,41 @@ export interface ListZoneByResourceGroupRequest {
   /** The name of the resource group. */
   resourceGroupName: string;
   /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type ZoneTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS zone. */
 export interface Zone {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: ZoneTagsMap;
+  tags?: ZoneTagsMap | undefined;
   /** The etag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the zone. */
-  properties?: ZoneProperties;
+  properties?: ZoneProperties | undefined;
 }
 /** Information about the DNS zones. */
 export type ZoneListResultValueList = Array<Zone>;
 /** The response to a Zone List or ListAll operation. */
 export interface ZoneListResult {
   /** Information about the DNS zones. */
-  value?: ZoneListResultValueList;
+  value?: ZoneListResultValueList | undefined;
   /** The continuation token for the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListZonesRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
   subscriptionId: string;
   /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export type RecordSetsCreateOrUpdateRequestRecordType =
   | "A"
@@ -451,31 +451,31 @@ export type RecordSetPropertiesInputCaaRecordsList = Array<CaaRecord>;
 /** Represents the properties of the records in the record set. */
 export interface RecordSetPropertiesInput {
   /** The metadata attached to the record set. */
-  metadata?: RecordSetPropertiesInputMetadataMap;
+  metadata?: RecordSetPropertiesInputMetadataMap | undefined;
   /** The TTL (time-to-live) of the records in the record set. */
-  TTL?: number;
+  TTL?: number | undefined;
   /** A reference to an azure resource from where the dns resource value is taken. */
-  targetResource?: SubResource;
+  targetResource?: SubResource | undefined;
   /** The list of A records in the record set. */
-  ARecords?: RecordSetPropertiesInputARecordsList;
+  ARecords?: RecordSetPropertiesInputARecordsList | undefined;
   /** The list of AAAA records in the record set. */
-  AAAARecords?: RecordSetPropertiesInputAAAARecordsList;
+  AAAARecords?: RecordSetPropertiesInputAAAARecordsList | undefined;
   /** The list of MX records in the record set. */
-  MXRecords?: RecordSetPropertiesInputMXRecordsList;
+  MXRecords?: RecordSetPropertiesInputMXRecordsList | undefined;
   /** The list of NS records in the record set. */
-  NSRecords?: RecordSetPropertiesInputNSRecordsList;
+  NSRecords?: RecordSetPropertiesInputNSRecordsList | undefined;
   /** The list of PTR records in the record set. */
-  PTRRecords?: RecordSetPropertiesInputPTRRecordsList;
+  PTRRecords?: RecordSetPropertiesInputPTRRecordsList | undefined;
   /** The list of SRV records in the record set. */
-  SRVRecords?: RecordSetPropertiesInputSRVRecordsList;
+  SRVRecords?: RecordSetPropertiesInputSRVRecordsList | undefined;
   /** The list of TXT records in the record set. */
-  TXTRecords?: RecordSetPropertiesInputTXTRecordsList;
+  TXTRecords?: RecordSetPropertiesInputTXTRecordsList | undefined;
   /** The CNAME record in the record set. */
-  CNAMERecord?: CnameRecord;
+  CNAMERecord?: CnameRecord | undefined;
   /** The SOA record in the record set. */
-  SOARecord?: SoaRecord;
+  SOARecord?: SoaRecord | undefined;
   /** The list of CAA records in the record set. */
-  caaRecords?: RecordSetPropertiesInputCaaRecordsList;
+  caaRecords?: RecordSetPropertiesInputCaaRecordsList | undefined;
 }
 export interface RecordSetsCreateOrUpdateRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -489,9 +489,9 @@ export interface RecordSetsCreateOrUpdateRequest {
   /** The name of the record set, relative to the name of the zone. */
   relativeRecordSetName: string;
   /** The etag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetPropertiesInput;
+  properties?: RecordSetPropertiesInput | undefined;
 }
 export type UpdateRecordSetRequestRecordType =
   | "A"
@@ -516,9 +516,9 @@ export interface UpdateRecordSetRequest {
   /** The name of the record set, relative to the name of the zone. */
   relativeRecordSetName: string;
   /** The etag of the record set. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the record set. */
-  properties?: RecordSetPropertiesInput;
+  properties?: RecordSetPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateZoneRequestTagsMap = { [key: string]: string | undefined };
@@ -530,25 +530,25 @@ export interface UpdateZoneRequest {
   /** The name of the DNS zone (without a terminating dot). */
   zoneName: string;
   /** Resource tags. */
-  tags?: UpdateZoneRequestTagsMap;
+  tags?: UpdateZoneRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateZoneResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateZoneResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: UpdateZoneResponseTagsMap;
+  tags?: UpdateZoneResponseTagsMap | undefined;
   /** The etag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the zone. */
-  properties?: ZoneProperties;
+  properties?: ZoneProperties | undefined;
 }
 /** Resource tags. */
 export type ZonesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -561,11 +561,11 @@ export type ZonePropertiesInputResolutionVirtualNetworksList = Array<SubResource
 /** Represents the properties of the zone. */
 export interface ZonePropertiesInput {
   /** The type of this DNS zone (Public or Private). */
-  zoneType?: ZonePropertiesInputZoneType | (string & {});
+  zoneType?: ZonePropertiesInputZoneType | (string & {}) | undefined;
   /** A list of references to virtual networks that register hostnames in this DNS zone. This is a only when ZoneType is Private. */
-  registrationVirtualNetworks?: ZonePropertiesInputRegistrationVirtualNetworksList;
+  registrationVirtualNetworks?: ZonePropertiesInputRegistrationVirtualNetworksList | undefined;
   /** A list of references to virtual networks that resolve records in this DNS zone. This is a only when ZoneType is Private. */
-  resolutionVirtualNetworks?: ZonePropertiesInputResolutionVirtualNetworksList;
+  resolutionVirtualNetworks?: ZonePropertiesInputResolutionVirtualNetworksList | undefined;
 }
 export interface ZonesCreateOrUpdateRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -577,29 +577,29 @@ export interface ZonesCreateOrUpdateRequest {
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: ZonesCreateOrUpdateRequestTagsMap;
+  tags?: ZonesCreateOrUpdateRequestTagsMap | undefined;
   /** The etag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the zone. */
-  properties?: ZonePropertiesInput;
+  properties?: ZonePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ZonesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ZonesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
   location: string;
   /** Resource tags. */
-  tags?: ZonesCreateOrUpdateResponseTagsMap;
+  tags?: ZonesCreateOrUpdateResponseTagsMap | undefined;
   /** The etag of the zone. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties of the zone. */
-  properties?: ZoneProperties;
+  properties?: ZoneProperties | undefined;
 }
 export type DeleteRecordSetError = AzureOpError;
 /** Deletes a record set from a DNS zone. This operation cannot be undone. */

@@ -614,6 +614,26 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  registerAssistantReplicaKey: {
+    iam: {
+      actions: ["wisdom:RegisterAssistantReplicaKey"],
+      resources: {
+        "wisdom:RegisterAssistantReplicaKey": [
+          "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+        ],
+      },
+    },
+  },
+  registerKnowledgeBaseReplicaKey: {
+    iam: {
+      actions: ["wisdom:RegisterKnowledgeBaseReplicaKey"],
+      resources: {
+        "wisdom:RegisterKnowledgeBaseReplicaKey": [
+          "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+        ],
+      },
+    },
+  },
   removeAssistantAIAgent: {
     iam: {
       actions: ["wisdom:RemoveAssistantAIAgent"],

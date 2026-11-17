@@ -30,42 +30,70 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface CreateReactionRequest {
   /** The emoji to react with, in shortcode or unicode format. For example, ':heart:' or a unicode emoji. Ignored in forums where reactions are always likes. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** The unique identifier of a poll option to vote for. Only valid when the target message or post contains a poll. */
-  poll_option_id?: string | null;
+  poll_option_id?: string | null | undefined;
   /** The unique identifier of the message or forum post to react to. */
   resource_id: string;
 }
@@ -92,7 +120,7 @@ export interface Reaction {
 export interface DeleteReactionRequest {
   /** The unique identifier of the reaction to remove, or the identifier of the message or forum post to remove a reaction from. When passing a message or post ID, you must also provide the emoji argument. */
   id: string;
-  emoji?: string;
+  emoji?: string | undefined;
 }
 export type DeleteReactionResponse = boolean;
 export interface GetReactionRequest {
@@ -100,10 +128,10 @@ export interface GetReactionRequest {
   id: string;
 }
 export interface ListReactionRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   resource_id: string;
 }
 /** The user who left this reaction on the post. */
@@ -138,6 +166,17 @@ export interface ListReactionResponse {
   /** Information to aid in pagination. */
   page_info: PageInfo;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateReactionError =
   | BadRequest
   | Forbidden
@@ -151,8 +190,8 @@ export const createReaction: API.OperationMethod<
   CreateReactionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateReactionRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<Reaction>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateReactionRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<Reaction>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -173,8 +212,8 @@ export const deleteReaction: API.OperationMethod<
   DeleteReactionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteReactionRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteReactionResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteReactionRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<DeleteReactionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -195,8 +234,8 @@ export const getReaction: API.OperationMethod<
   GetReactionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetReactionRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<Reaction>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetReactionRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<Reaction>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -219,8 +258,8 @@ export const listReaction: API.PaginatedOperationMethod<
   ReactionListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListReactionRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListReactionResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListReactionRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListReactionResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -244,6 +283,25 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           emoji: S.optional(S.NullOr(S.String)),
           poll_option_id: S.optional(S.NullOr(S.String)),
           resource_id: S.String,
@@ -251,7 +309,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateReactionRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -267,12 +325,12 @@ function __c1(j: number): any {
           emoji: S.NullOr(S.String),
           id: S.String,
           resource_id: S.String,
-          user: __S(4, __c1, 0),
+          user: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "Reaction" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -287,7 +345,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -297,7 +355,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetReactionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -310,7 +368,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/reactions", code: 200 })),
       ).annotate({ identifier: "ListReactionRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -323,8 +381,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListReactionResponse" });
   }

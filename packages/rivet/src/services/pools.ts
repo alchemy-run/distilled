@@ -31,58 +31,112 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The namespace does not exist (`namespace.not_found`). */
 export class NamespaceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, headers: { "x-rivet-error": "namespace.not_found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The node pool still has connected nodes (`pool.nodes_connected`). Retry once its nodes have drained. */
 export class PoolNodesConnected
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PoolNodesConnected>()("PoolNodesConnected", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, headers: { "x-rivet-error": "pool.nodes_connected" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The node pool does not exist (`pool.not_found`). */
 export class PoolNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PoolNotFound>()("PoolNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, headers: { "x-rivet-error": "pool.not_found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
+
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface DeletePoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type DeletePoolResponse = unknown;
 export interface GetPoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface Pool {
   /** Name of the node pool. */
@@ -105,11 +159,11 @@ export interface ListPoolNodesRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Maximum number of results to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor from the previous response's `pagination.cursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface Node {
   /** Node key, unique within the pool. */
@@ -140,11 +194,11 @@ export interface PoolsListNodesResponse {
 }
 export interface ListPoolsRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Maximum number of results to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the last pool on the previous page. Pass the `pagination.cursor` value from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PoolsListResponsePoolsList = Array<Pool>;
 export interface PoolsListResponse {
@@ -155,23 +209,35 @@ export interface UpsertPoolRequest {
   /** Name of the node pool. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   pool: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Drain nodes running an older version when a newer version connects. */
-  drain_on_version_upgrade?: boolean;
+  drain_on_version_upgrade?: boolean | undefined;
   /** Seconds to wait before evicting actors from a draining node. */
-  actor_eviction_delay?: number;
+  actor_eviction_delay?: number | undefined;
   /** Seconds over which actors are evicted from a draining node. */
-  actor_eviction_period?: number;
+  actor_eviction_period?: number | undefined;
   /** Rate at which actors are evicted from a draining node. Must be finite and greater than 0. */
-  actor_eviction_rate?: number;
+  actor_eviction_rate?: number | undefined;
   /** Opaque JSON stored with the pool, at most 16 KiB when serialized. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
+}
+/** A structured error. The response also carries an `x-rivet-error: <group>.<code>` header. */
+export interface ErrorResponse {
+  /** Error group, for example `actor`. */
+  group: string;
+  /** Error code within the group, for example `not_found`. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  /** Extra details. Only present on some errors raised while authenticating or authorizing the request. */
+  metadata?: unknown | undefined;
 }
 export type DeletePoolError =
   | PoolNotFound
   | NamespaceNotFound
   | PoolNodesConnected
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Deletes a node pool. Fails while any node of the pool is connected. */
@@ -181,13 +247,14 @@ export const deletePool: API.OperationMethod<
   DeletePoolError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeletePoolRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DeletePoolResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeletePoolRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<DeletePoolResponse>,
   errors: [
     PoolNotFound,
     NamespaceNotFound,
     PoolNodesConnected,
     StorageOverloaded,
+    StorageCommandCapacity,
     CommandDeadlineElapsed,
     UnknownRivetError,
   ],
@@ -201,6 +268,7 @@ export type GetPoolError =
   | PoolNotFound
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Returns a node pool's configuration. */
@@ -210,12 +278,13 @@ export const getPool: API.OperationMethod<
   GetPoolError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetPoolRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<PoolResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetPoolRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<PoolResponse>,
   errors: [
     PoolNotFound,
     NamespaceNotFound,
     StorageOverloaded,
+    StorageCommandCapacity,
     CommandDeadlineElapsed,
     UnknownRivetError,
   ],
@@ -229,6 +298,7 @@ export type ListPoolNodesError =
   | PoolNotFound
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Lists a page of the pool's live nodes in node key order. A node is listed while its heartbeat is recent enough for it to receive actors. */
@@ -240,12 +310,13 @@ export const listPoolNodes: API.PaginatedOperationMethod<
   Node
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListPoolNodesRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<PoolsListNodesResponse>,
+    input: __S(24, __c6, 0) as any as S.Schema<ListPoolNodesRequest>,
+    output: __S(27, __c6, 3) as any as S.Schema<PoolsListNodesResponse>,
     errors: [
       PoolNotFound,
       NamespaceNotFound,
       StorageOverloaded,
+      StorageCommandCapacity,
       CommandDeadlineElapsed,
       UnknownRivetError,
     ],
@@ -267,6 +338,7 @@ export const listPoolNodes: API.PaginatedOperationMethod<
 export type ListPoolsError =
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Lists a page of the namespace's configured node pools, ordered by name. A pool is listed once it is configured, whether or not any node is connected. */
@@ -278,9 +350,15 @@ export const listPools: API.PaginatedOperationMethod<
   Pool
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24, __c6, 0) as any as S.Schema<ListPoolsRequest>,
-    output: __S(26, __c6, 2) as any as S.Schema<PoolsListResponse>,
-    errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+    input: __S(32, __c8, 0) as any as S.Schema<ListPoolsRequest>,
+    output: __S(34, __c8, 2) as any as S.Schema<PoolsListResponse>,
+    errors: [
+      NamespaceNotFound,
+      StorageOverloaded,
+      StorageCommandCapacity,
+      CommandDeadlineElapsed,
+      UnknownRivetError,
+    ],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -299,6 +377,7 @@ export const listPools: API.PaginatedOperationMethod<
 export type UpsertPoolError =
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Creates or replaces a node pool's configuration. Omitted fields take their defaults. Nodes pick up the new configuration on their next connection. */
@@ -308,9 +387,15 @@ export const upsertPool: API.OperationMethod<
   UpsertPoolError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpsertPoolRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<PoolResponse>,
-  errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  input: __S(4, __c1, 0) as any as S.Schema<UpsertPoolRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<PoolResponse>,
+  errors: [
+    NamespaceNotFound,
+    StorageOverloaded,
+    StorageCommandCapacity,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,6 +404,35 @@ export const upsertPool: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group: S.String,
+          code: S.String,
+          message: S.String,
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pool: S.String.pipe(T.Label()),
+          namespace: S.optional(S.String.pipe(T.Query())),
+          drain_on_version_upgrade: S.optional(S.Boolean),
+          actor_eviction_delay: S.optional(S.Number),
+          actor_eviction_period: S.optional(S.Number),
+          actor_eviction_rate: S.optional(S.Number),
+          metadata: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PUT", uri: "/pools/{pool}", code: 200 })),
+      ).annotate({ identifier: "UpsertPoolRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -333,7 +447,7 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -344,7 +458,17 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetPoolRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pool: __S(20, __c5, 0),
+        }),
+      ).annotate({ identifier: "PoolResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -359,17 +483,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Pool" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pool: __S(8, __c2, 0),
-        }),
-      ).annotate({ identifier: "PoolResponse" });
-  }
-}
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -394,17 +508,17 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "Node" });
     case 2:
-      return S.Array(__S(17, __c4, 1));
+      return S.Array(__S(25, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(18, __c4, 2),
-          pagination: __S(20, __c5, 0),
+          nodes: __S(26, __c6, 2),
+          pagination: __S(28, __c7, 0),
         }),
       ).annotate({ identifier: "PoolsListNodesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -414,7 +528,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,30 +539,14 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/pools", code: 200 })),
       ).annotate({ identifier: "ListPoolsRequest" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(20, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(20, __c5, 0),
-          pools: __S(25, __c6, 1),
+          pagination: __S(28, __c7, 0),
+          pools: __S(33, __c8, 1),
         }),
       ).annotate({ identifier: "PoolsListResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pool: S.String.pipe(T.Label()),
-          namespace: S.optional(S.String.pipe(T.Query())),
-          drain_on_version_upgrade: S.optional(S.Boolean),
-          actor_eviction_delay: S.optional(S.Number),
-          actor_eviction_period: S.optional(S.Number),
-          actor_eviction_rate: S.optional(S.Number),
-          metadata: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "PUT", uri: "/pools/{pool}", code: 200 })),
-      ).annotate({ identifier: "UpsertPoolRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

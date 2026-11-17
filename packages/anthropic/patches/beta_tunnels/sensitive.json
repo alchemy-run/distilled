@@ -1,0 +1,10 @@
+{
+  "description": "`BetaTunnelToken.tunnel_token`, returned by `revealTunnelToken` and `rotateTunnelToken`, is the connector token that runs the tunnel; the spec describes it as \"Treat as a credential\" but does not mark it sensitive. Mark it so it is returned `Redacted`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_tunnels#BetaTunnelToken/members/tunnel_token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -29,6 +29,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -38,6 +40,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -47,6 +51,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -56,6 +62,8 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -64,10 +72,10 @@ export type DangerouslyDeleteBySrcImagesRequestSrcImagesList = Array<string>;
 export interface DangerouslyDeleteBySrcImagesRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  revalidationDeadlineSeconds?: number;
+  slug?: string | undefined;
+  revalidationDeadlineSeconds?: number | undefined;
   srcImages: DangerouslyDeleteBySrcImagesRequestSrcImagesList;
 }
 export interface DangerouslyDeleteBySrcImagesResponse {}
@@ -79,21 +87,21 @@ export type DangerouslyDeleteByTagsRequestTarget = "production" | "preview";
 export interface DangerouslyDeleteByTagsRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  revalidationDeadlineSeconds?: number;
+  slug?: string | undefined;
+  revalidationDeadlineSeconds?: number | undefined;
   tags: DangerouslyDeleteByTagsRequestTags;
-  target?: DangerouslyDeleteByTagsRequestTarget | (string & {});
+  target?: DangerouslyDeleteByTagsRequestTarget | (string & {}) | undefined;
 }
 export interface DangerouslyDeleteByTagsResponse {}
 export type InvalidateBySrcImagesRequestSrcImagesList = Array<string>;
 export interface InvalidateBySrcImagesRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   srcImages: InvalidateBySrcImagesRequestSrcImagesList;
 }
 export interface InvalidateBySrcImagesResponse {}
@@ -103,11 +111,11 @@ export type InvalidateByTagsRequestTarget = "production" | "preview";
 export interface InvalidateByTagsRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   tags: InvalidateByTagsRequestTags;
-  target?: InvalidateByTagsRequestTarget | (string & {});
+  target?: InvalidateByTagsRequestTarget | (string & {}) | undefined;
 }
 export interface InvalidateByTagsResponse {}
 export type DangerouslyDeleteBySrcImagesError =

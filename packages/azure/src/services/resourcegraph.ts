@@ -56,55 +56,55 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Enum indicating a type of graph query. */
 export type ResultKind = "basic";
 /** Properties that contain a graph query. */
 export interface GraphQueryProperties {
   /** Date and time in UTC of the last modification that was made to this graph query definition. */
-  timeModified?: string;
+  timeModified?: string | undefined;
   /** The description of a graph query. */
-  description?: string;
+  description?: string | undefined;
   /** KQL query that will be graph. */
   query: string;
   /** Enum indicating a type of graph query. */
-  resultKind?: ResultKind;
+  resultKind?: ResultKind | undefined;
 }
 /** Resource tags. */
 export type GetGraphQueryResponseTagsMap = { [key: string]: string | undefined };
 export interface GetGraphQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
+  properties?: GraphQueryProperties | undefined;
   /** Resource tags. */
-  tags?: GetGraphQueryResponseTagsMap;
+  tags?: GetGraphQueryResponseTagsMap | undefined;
   /** The location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Properties that contain a graph query. */
 export interface GraphQueryPropertiesInput {
   /** The description of a graph query. */
-  description?: string;
+  description?: string | undefined;
   /** KQL query that will be graph. */
   query: string;
 }
@@ -118,33 +118,33 @@ export interface GraphQueryCreateOrUpdateRequest {
   /** The name of the Graph Query resource. */
   resourceName: string;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryPropertiesInput;
+  properties?: GraphQueryPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: GraphQueryCreateOrUpdateRequestTagsMap;
+  tags?: GraphQueryCreateOrUpdateRequestTagsMap | undefined;
   /** The location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type GraphQueryCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface GraphQueryCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
+  properties?: GraphQueryProperties | undefined;
   /** Resource tags. */
-  tags?: GraphQueryCreateOrUpdateResponseTagsMap;
+  tags?: GraphQueryCreateOrUpdateResponseTagsMap | undefined;
   /** The location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListGraphQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -157,21 +157,21 @@ export type GraphQueryResourceTagsMap = { [key: string]: string | undefined };
 /** Graph Query entity definition. */
 export interface GraphQueryResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
+  properties?: GraphQueryProperties | undefined;
   /** Resource tags. */
-  tags?: GraphQueryResourceTagsMap;
+  tags?: GraphQueryResourceTagsMap | undefined;
   /** The location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The GraphQueryResource items on this page */
 export type GraphQueryListResultValueList = Array<GraphQueryResource>;
@@ -180,7 +180,7 @@ export interface GraphQueryListResult {
   /** The GraphQueryResource items on this page */
   value: GraphQueryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGraphQueryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -190,22 +190,22 @@ export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Resource Graph. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Resource Graph REST API operation definition. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The origin of operations. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -214,7 +214,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Azure subscriptions against which to execute the query. */
 export type ResourcesRequestSubscriptionsList = Array<string>;
@@ -231,61 +231,95 @@ export type QueryRequestOptionsAuthorizationScopeFilter =
 /** The options for query evaluation */
 export interface QueryRequestOptions {
   /** Continuation token for pagination, capturing the next page size and offset, as well as the context of the query. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** The maximum number of rows that the query should return. Overrides the page size when ```$skipToken``` property is present. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of rows to skip from the beginning of the results. Overrides the next page offset when ```$skipToken``` property is present. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Defines in which format query result returned. */
-  resultFormat?: QueryRequestOptionsResultFormat | (string & {});
+  resultFormat?: QueryRequestOptionsResultFormat | (string & {}) | undefined;
   /** Only applicable for tenant and management group level queries to decide whether to allow partial scopes for result in case the number of subscriptions exceed allowed limits. */
-  allowPartialScopes?: boolean;
+  allowPartialScopes?: boolean | undefined;
   /** Defines what level of authorization resources should be returned based on the which subscriptions and management groups are passed as scopes. */
-  authorizationScopeFilter?: QueryRequestOptionsAuthorizationScopeFilter | (string & {});
+  authorizationScopeFilter?:
+    | QueryRequestOptionsAuthorizationScopeFilter
+    | (string & {})
+    | undefined;
 }
 /** The sorting order by the selected column (count by default). */
 export type FacetRequestOptionsSortOrder = "asc" | "desc";
 /** The options for facet evaluation */
 export interface FacetRequestOptions {
   /** The column name or query expression to sort on. Defaults to count if not present. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The sorting order by the selected column (count by default). */
-  sortOrder?: FacetRequestOptionsSortOrder | (string & {});
+  sortOrder?: FacetRequestOptionsSortOrder | (string & {}) | undefined;
   /** Specifies the filter condition for the 'where' clause which will be run on main query's result, just before the actual faceting. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of facet rows that should be returned. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A request to compute additional statistics (facets) over the query results. */
 export interface FacetRequest {
   /** The column or list of columns to summarize by */
   expression: string;
   /** The options for facet evaluation */
-  options?: FacetRequestOptions;
+  options?: FacetRequestOptions | undefined;
 }
 /** An array of facet requests to be computed against the query result. */
 export type ResourcesRequestFacetsList = Array<FacetRequest>;
 export interface ResourcesRequest {
   /** Azure subscriptions against which to execute the query. */
-  subscriptions?: ResourcesRequestSubscriptionsList;
+  subscriptions?: ResourcesRequestSubscriptionsList | undefined;
   /** Azure management groups against which to execute the query. Example: [ 'mg1', 'mg2' ] */
-  managementGroups?: ResourcesRequestManagementGroupsList;
+  managementGroups?: ResourcesRequestManagementGroupsList | undefined;
   /** The resources query. */
   query: string;
   /** The query evaluation options */
-  options?: QueryRequestOptions;
+  options?: QueryRequestOptions | undefined;
   /** An array of facet requests to be computed against the query result. */
-  facets?: ResourcesRequestFacetsList;
+  facets?: ResourcesRequestFacetsList | undefined;
 }
 /** Indicates whether the query results are truncated. */
 export type ResultTruncated = "true" | "false";
-/** A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError. */
-export interface Facet {
+/** Result type */
+export type FacetErrorResultType = "FacetError";
+/** Error details. */
+export interface ResourceGraphCommonErrorDetails {
+  /** Error code identifying the specific error. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  [key: string]: unknown;
+}
+/** An array containing detected facet errors with details. */
+export type FacetErrorErrorsList = Array<ResourceGraphCommonErrorDetails>;
+/** A facet whose execution resulted in an error. */
+export interface FacetError {
   /** Facet expression, same as in the corresponding facet request. */
   expression: string;
   /** Result type */
-  resultType: string;
+  resultType: FacetErrorResultType;
+  /** An array containing detected facet errors with details. */
+  errors: FacetErrorErrorsList;
 }
+/** Result type */
+export type FacetResultResultType = "FacetResult";
+/** Successfully executed facet containing additional statistics on the response of a query. */
+export interface FacetResult {
+  /** Facet expression, same as in the corresponding facet request. */
+  expression: string;
+  /** Result type */
+  resultType: FacetResultResultType;
+  /** Number of total records in the facet results. */
+  totalRecords: number;
+  /** Number of records returned in the facet response. */
+  count: number;
+  /** A JObject array or Table containing the desired facets. Only present if the facet is valid. */
+  data: unknown;
+}
+/** A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError. */
+export type Facet = FacetError | FacetResult;
 /** Query facets. */
 export type QueryResponseFacetsList = Array<Facet>;
 /** Query result. */
@@ -297,20 +331,20 @@ export interface QueryResponse {
   /** Indicates whether the query results are truncated. */
   resultTruncated: ResultTruncated;
   /** When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Query output in JObject array or Table format. */
   data: unknown;
   /** Query facets. */
-  facets?: QueryResponseFacetsList;
+  facets?: QueryResponseFacetsList | undefined;
 }
 /** Resource tags */
 export type UpdateGraphQueryRequestTagsMap = { [key: string]: string | undefined };
 /** Properties that contain a workbook for PATCH operation. */
 export interface GraphQueryPropertiesUpdateParameters {
   /** The description of a graph query. */
-  description?: string;
+  description?: string | undefined;
   /** KQL query that will be graph. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface UpdateGraphQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -320,31 +354,31 @@ export interface UpdateGraphQueryRequest {
   /** The name of the Graph Query resource. */
   resourceName: string;
   /** Resource tags */
-  tags?: UpdateGraphQueryRequestTagsMap;
+  tags?: UpdateGraphQueryRequestTagsMap | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryPropertiesUpdateParameters;
+  properties?: GraphQueryPropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateGraphQueryResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateGraphQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
+  properties?: GraphQueryProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateGraphQueryResponseTagsMap;
+  tags?: UpdateGraphQueryResponseTagsMap | undefined;
   /** The location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type DeleteGraphQueryError = AzureOpError;
 /** Delete a graph query. */
@@ -457,7 +491,7 @@ export const Resources: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(133, __c8, 5) as any as S.Schema<ResourcesRequest>,
-  output: __S(136, __c8, 8) as any as S.Schema<QueryResponse>,
+  output: __S(140, __c8, 12) as any as S.Schema<QueryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -733,14 +767,39 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ResourcesRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          expression: S.String,
-          resultType: S.String,
-        }),
-      ).annotate({ identifier: "Facet" });
+        S.StructWithRest(
+          S.Struct({
+            code: S.String,
+            message: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ResourceGraphCommonErrorDetails" });
     case 7:
       return S.Array(__S(134, __c8, 6));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          resultType: S.String,
+          errors: __S(135, __c8, 7),
+        }),
+      ).annotate({ identifier: "FacetError" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          resultType: S.String,
+          totalRecords: S.Number,
+          count: S.Number,
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "FacetResult" });
+    case 10:
+      return S.Union([__S(136, __c8, 8), __S(137, __c8, 9)]);
+    case 11:
+      return S.Array(__S(138, __c8, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           totalRecords: S.Number,
@@ -748,7 +807,7 @@ function __c8(j: number): any {
           resultTruncated: S.String,
           _skipToken: S.optional(S.String.pipe(T.Body("$skipToken"))),
           data: S.Unknown,
-          facets: S.optional(__S(135, __c8, 7)),
+          facets: S.optional(__S(139, __c8, 11)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }

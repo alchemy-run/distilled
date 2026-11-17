@@ -51,13 +51,19 @@ export interface GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccur
   /** Markdown description of this API endpoint vulnerability occurrence. */
   description: string;
   /** The API endpoint URL associated with this vulnerability occurrence. */
-  fromUrl?: string | null;
+  fromUrl?: string | null | undefined;
   /** The API params associated with this vulnerability. */
-  queryParams?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList | null;
+  queryParams?:
+    | GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList
+    | null
+    | undefined;
   /** The API headers associated with this vulnerability. */
-  headers?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList | null;
+  headers?:
+    | GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList
+    | null
+    | undefined;
   /** The body of the request passed to the API, with sensitive information redacted. */
-  body?: string | null;
+  body?: string | null | undefined;
 }
 /** A list of occurrences of vulnerable API endpoints. */
 export type GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesList =
@@ -84,16 +90,16 @@ export interface GetApiEndpointVulnerabilityConnectorsResponseResourcesItem {
   /** The HTTP method (eg: GET, POST) associated with this vulnerability. */
   httpMethod: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string | null;
+  cveId?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string | null;
+  cvss3Vector?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number | null;
+  cvss3Score?: number | null | undefined;
 }
 export type GetApiEndpointVulnerabilityConnectorsResponseResourcesList =
   Array<GetApiEndpointVulnerabilityConnectorsResponseResourcesItem>;
 export interface GetApiEndpointVulnerabilityConnectorsResponse {
-  resources?: GetApiEndpointVulnerabilityConnectorsResponseResourcesList;
+  resources?: GetApiEndpointVulnerabilityConnectorsResponseResourcesList | undefined;
 }
 export interface GetBackgroundCheckConnectorRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -118,12 +124,12 @@ export interface GetBackgroundCheckConnectorResponseResourcesItem {
   /** The current status of the background check. */
   status: GetBackgroundCheckConnectorResponseResourcesItemStatus;
   /** If complete, the date of completion of the background check. */
-  completionDate?: string | null;
+  completionDate?: string | null | undefined;
 }
 export type GetBackgroundCheckConnectorResponseResourcesList =
   Array<GetBackgroundCheckConnectorResponseResourcesItem>;
 export interface GetBackgroundCheckConnectorResponse {
-  resources?: GetBackgroundCheckConnectorResponseResourcesList;
+  resources?: GetBackgroundCheckConnectorResponseResourcesList | undefined;
 }
 export interface GetCustomResourceRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -139,7 +145,7 @@ export interface GetCustomResourceResponseResourcesItem {
 }
 export type GetCustomResourceResponseResourcesList = Array<GetCustomResourceResponseResourcesItem>;
 export interface GetCustomResourceResponse {
-  resources?: GetCustomResourceResponseResourcesList;
+  resources?: GetCustomResourceResponseResourcesList | undefined;
 }
 export interface GetMacosUserComputerRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -151,7 +157,7 @@ export interface GetMacosUserComputerResponseResourcesItemApplicationsItem {
   /** The bundle identifier of the application. */
   bundleId: string;
   /** The last time the application was opened. */
-  lastOpenedTimestamp?: string | null;
+  lastOpenedTimestamp?: string | null | undefined;
 }
 /** All the installed Mac Apps on the system. */
 export type GetMacosUserComputerResponseResourcesItemApplicationsList =
@@ -182,7 +188,7 @@ export interface GetMacosUserComputerResponseResourcesItemDrivesItem {
   /** Does the drive have filevault enabled. */
   filevaultEnabled: boolean;
   /** Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives. */
-  isBootVolume?: boolean | null;
+  isBootVolume?: boolean | null | undefined;
 }
 /** A list of drives on this device. Used to verify encryption status. */
 export type GetMacosUserComputerResponseResourcesItemDrivesList =
@@ -205,7 +211,7 @@ export interface GetMacosUserComputerResponseResourcesItemUsersItem {
   screenlockPolicies: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
 }
 /** The human users of the system. If it's not feasible to send only human users, prefer skipping sending users entirely. */
 export type GetMacosUserComputerResponseResourcesItemUsersList =
@@ -251,17 +257,17 @@ export interface GetMacosUserComputerResponseResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string | null;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
+  owner?: string | null | undefined;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null | undefined;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string | null;
+  lastEnrolledTimestamp?: string | null | undefined;
   /** Is XProtect enabled on the system. */
-  isXProtectEnabled?: boolean | null;
+  isXProtectEnabled?: boolean | null | undefined;
 }
 export type GetMacosUserComputerResponseResourcesList =
   Array<GetMacosUserComputerResponseResourcesItem>;
 export interface GetMacosUserComputerResponse {
-  resources?: GetMacosUserComputerResponseResourcesList;
+  resources?: GetMacosUserComputerResponseResourcesList | undefined;
 }
 export interface GetPackageVulnerabilityConnectorsRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -289,18 +295,18 @@ export interface GetPackageVulnerabilityConnectorsResponseResourcesItem {
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** Whether there is a code path to the vulnerable code in this package. This field is optional. */
-  isReachable?: boolean | null;
+  isReachable?: boolean | null | undefined;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string | null;
+  cveId?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string | null;
+  cvss3Vector?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number | null;
+  cvss3Score?: number | null | undefined;
 }
 export type GetPackageVulnerabilityConnectorsResponseResourcesList =
   Array<GetPackageVulnerabilityConnectorsResponseResourcesItem>;
 export interface GetPackageVulnerabilityConnectorsResponse {
-  resources?: GetPackageVulnerabilityConnectorsResponseResourcesList;
+  resources?: GetPackageVulnerabilityConnectorsResponseResourcesList | undefined;
 }
 export interface GetSecretRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -324,15 +330,15 @@ export interface GetSecretResponseResourcesItem {
   /** The current owner of the secret. Vanta will check that every secret has a valid owner. */
   owner: string;
   /** When the secret was last updated. */
-  updatedTimestamp?: string | null;
+  updatedTimestamp?: string | null | undefined;
   /** When the secret was last accessed. */
-  lastAccessedTimestamp?: string | null;
+  lastAccessedTimestamp?: string | null | undefined;
   /** When the secret is set to expire, if relevant. */
-  expiresTimestamp?: string | null;
+  expiresTimestamp?: string | null | undefined;
 }
 export type GetSecretResponseResourcesList = Array<GetSecretResponseResourcesItem>;
 export interface GetSecretResponse {
-  resources?: GetSecretResponseResourcesList;
+  resources?: GetSecretResponseResourcesList | undefined;
 }
 export interface GetSecurityTaskRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -370,13 +376,13 @@ export interface GetSecurityTaskResponseResourcesItem {
   /** The set of task tags or labels. */
   labels: GetSecurityTaskResponseResourcesItemLabelsList;
   /** When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent. */
-  closedTimestamp?: string | null;
+  closedTimestamp?: string | null | undefined;
   /** When the task was last updated. */
-  updatedTimestamp?: string | null;
+  updatedTimestamp?: string | null | undefined;
 }
 export type GetSecurityTaskResponseResourcesList = Array<GetSecurityTaskResponseResourcesItem>;
 export interface GetSecurityTaskResponse {
-  resources?: GetSecurityTaskResponseResourcesList;
+  resources?: GetSecurityTaskResponseResourcesList | undefined;
 }
 export interface GetStaticAnalysisCodeVulnerabilityConnectorsRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -419,16 +425,16 @@ export interface GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesIt
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string | null;
+  cveId?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string | null;
+  cvss3Vector?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number | null;
+  cvss3Score?: number | null | undefined;
 }
 export type GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesList =
   Array<GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesItem>;
 export interface GetStaticAnalysisCodeVulnerabilityConnectorsResponse {
-  resources?: GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesList;
+  resources?: GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesList | undefined;
 }
 export interface GetUserAccountRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -484,21 +490,21 @@ export interface GetUserAccountResponseResourcesItem {
   /** How the user logs into the system. This is useful for us to validate security properties, like ensuring MFA is enabled if the user logs in with a password. */
   authMethod: GetUserAccountResponseResourcesItemAuthMethod;
   /** A human readable description of the user's role. */
-  roleDescription?: string | null;
+  roleDescription?: string | null | undefined;
   /** The last time the user was updated in the system. */
-  updatedTimestamp?: string | null;
+  updatedTimestamp?: string | null | undefined;
   /** If the user is deactivated, the timestamp of that deactivation. */
-  deactivatedTimestamp?: string | null;
+  deactivatedTimestamp?: string | null | undefined;
   /** The time at which the user last logged in. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
   /** The time at which the user last reset their password. Helps with future Vanta functionality. */
-  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null;
+  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null | undefined;
   /** If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future. */
-  groupIds?: GetUserAccountResponseResourcesItemGroupIdsList | null;
+  groupIds?: GetUserAccountResponseResourcesItemGroupIdsList | null | undefined;
 }
 export type GetUserAccountResponseResourcesList = Array<GetUserAccountResponseResourcesItem>;
 export interface GetUserAccountResponse {
-  resources?: GetUserAccountResponseResourcesList;
+  resources?: GetUserAccountResponseResourcesList | undefined;
 }
 export interface GetUserSecurityTrainingStatusRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -543,12 +549,12 @@ export interface GetUserSecurityTrainingStatusResponseResourcesItem {
   /** The time at which this training course is due for the user. Vanta will check whether employees complete their training on time. */
   trainingDueTimestamp: string;
   /** The time at which this training course was completed by the user. */
-  trainingCompletedTimestamp?: string | null;
+  trainingCompletedTimestamp?: string | null | undefined;
 }
 export type GetUserSecurityTrainingStatusResponseResourcesList =
   Array<GetUserSecurityTrainingStatusResponseResourcesItem>;
 export interface GetUserSecurityTrainingStatusResponse {
-  resources?: GetUserSecurityTrainingStatusResponseResourcesList;
+  resources?: GetUserSecurityTrainingStatusResponseResourcesList | undefined;
 }
 export interface GetVulnerableComponentRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -585,7 +591,7 @@ export interface GetVulnerableComponentResponseResourcesItem {
 export type GetVulnerableComponentResponseResourcesList =
   Array<GetVulnerableComponentResponseResourcesItem>;
 export interface GetVulnerableComponentResponse {
-  resources?: GetVulnerableComponentResponseResourcesList;
+  resources?: GetVulnerableComponentResponseResourcesList | undefined;
 }
 export interface GetWindowsUserComputerRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -595,7 +601,7 @@ export interface GetWindowsUserComputerResponseResourcesItemProgramsItem {
   /** The name of the application. */
   name: string;
   /** The last time the application was opened. */
-  lastOpenedTimestamp?: string | null;
+  lastOpenedTimestamp?: string | null | undefined;
 }
 /** All the installed programs on the Windows system. */
 export type GetWindowsUserComputerResponseResourcesItemProgramsList =
@@ -624,7 +630,7 @@ export interface GetWindowsUserComputerResponseResourcesItemDrivesItem {
   /** Does the drive have some sort of encryption on it. */
   encrypted: boolean;
   /** Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives. */
-  isBootVolume?: boolean | null;
+  isBootVolume?: boolean | null | undefined;
 }
 /** A list of drives on this device. Used to verify encryption status. */
 export type GetWindowsUserComputerResponseResourcesItemDrivesList =
@@ -643,7 +649,7 @@ export interface GetWindowsUserComputerResponseResourcesItemUsersItem {
   screenlockPolicies: GetWindowsUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
 }
 /** The human users of the system. If it's not feasible to send only human users, prefer skipping sending users entirely. */
 export type GetWindowsUserComputerResponseResourcesItemUsersList =
@@ -768,18 +774,24 @@ export interface GetWindowsUserComputerResponseResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string | null;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
+  owner?: string | null | undefined;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null | undefined;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string | null;
+  lastEnrolledTimestamp?: string | null | undefined;
   /** A list of services that are monitored by Windows Security Center (WSC). */
-  windowsSecurityProducts?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList | null;
-  windowsSecurityCenter?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter | null;
+  windowsSecurityProducts?:
+    | GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList
+    | null
+    | undefined;
+  windowsSecurityCenter?:
+    | GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter
+    | null
+    | undefined;
 }
 export type GetWindowsUserComputerResponseResourcesList =
   Array<GetWindowsUserComputerResponseResourcesItem>;
 export interface GetWindowsUserComputerResponse {
-  resources?: GetWindowsUserComputerResponseResourcesList;
+  resources?: GetWindowsUserComputerResponseResourcesList | undefined;
 }
 export type PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsItem =
   GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsItem;
@@ -795,13 +807,19 @@ export interface PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurr
   /** Markdown description of this API endpoint vulnerability occurrence. */
   description: string;
   /** The API endpoint URL associated with this vulnerability occurrence. */
-  fromUrl?: string | null;
+  fromUrl?: string | null | undefined;
   /** The API params associated with this vulnerability. */
-  queryParams?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList | null;
+  queryParams?:
+    | PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList
+    | null
+    | undefined;
   /** The API headers associated with this vulnerability. */
-  headers?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList | null;
+  headers?:
+    | PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList
+    | null
+    | undefined;
   /** The body of the request passed to the API, with sensitive information redacted. */
-  body?: string | null;
+  body?: string | null | undefined;
 }
 /** A list of occurrences of vulnerable API endpoints. */
 export type PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesList =
@@ -828,11 +846,11 @@ export interface PutApiEndpointVulnerabilityConnectorsRequestResourcesItem {
   /** The HTTP method (eg: GET, POST) associated with this vulnerability. */
   httpMethod: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string | null;
+  cveId?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string | null;
+  cvss3Vector?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number | null;
+  cvss3Score?: number | null | undefined;
 }
 export type PutApiEndpointVulnerabilityConnectorsRequestResourcesList =
   Array<PutApiEndpointVulnerabilityConnectorsRequestResourcesItem>;
@@ -863,7 +881,7 @@ export interface PutBackgroundCheckConnectorRequestResourcesItem {
   /** The current status of the background check. */
   status: PutBackgroundCheckConnectorRequestResourcesItemStatus | (string & {});
   /** If complete, the date of completion of the background check. */
-  completionDate?: string | null;
+  completionDate?: string | null | undefined;
 }
 export type PutBackgroundCheckConnectorRequestResourcesList =
   Array<PutBackgroundCheckConnectorRequestResourcesItem>;
@@ -927,7 +945,7 @@ export interface PutMacosUserComputerRequestResourcesItemUsersItem {
   screenlockPolicies: PutMacosUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
 }
 /** The human users of the system. If it's not feasible to send only human users, prefer skipping sending users entirely. */
 export type PutMacosUserComputerRequestResourcesItemUsersList =
@@ -971,12 +989,12 @@ export interface PutMacosUserComputerRequestResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string | null;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
+  owner?: string | null | undefined;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null | undefined;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string | null;
+  lastEnrolledTimestamp?: string | null | undefined;
   /** Is XProtect enabled on the system. */
-  isXProtectEnabled?: boolean | null;
+  isXProtectEnabled?: boolean | null | undefined;
 }
 export type PutMacosUserComputerRequestResourcesList =
   Array<PutMacosUserComputerRequestResourcesItem>;
@@ -1042,9 +1060,9 @@ export interface PutSecurityTaskRequestResourcesItem {
   /** The set of task tags or labels. */
   labels: PutSecurityTaskRequestResourcesItemLabelsList;
   /** When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent. */
-  closedTimestamp?: string | null;
+  closedTimestamp?: string | null | undefined;
   /** When the task was last updated. */
-  updatedTimestamp?: string | null;
+  updatedTimestamp?: string | null | undefined;
 }
 export type PutSecurityTaskRequestResourcesList = Array<PutSecurityTaskRequestResourcesItem>;
 export interface PutSecurityTaskRequest {
@@ -1082,11 +1100,11 @@ export interface PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesIte
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string | null;
+  cveId?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string | null;
+  cvss3Vector?: string | null | undefined;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number | null;
+  cvss3Score?: number | null | undefined;
 }
 export type PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesList =
   Array<PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesItem>;
@@ -1149,17 +1167,17 @@ export interface PutUserAccountRequestResourcesItem {
   /** How the user logs into the system. This is useful for us to validate security properties, like ensuring MFA is enabled if the user logs in with a password. */
   authMethod: PutUserAccountRequestResourcesItemAuthMethod | (string & {});
   /** A human readable description of the user's role. */
-  roleDescription?: string | null;
+  roleDescription?: string | null | undefined;
   /** The last time the user was updated in the system. */
-  updatedTimestamp?: string | null;
+  updatedTimestamp?: string | null | undefined;
   /** If the user is deactivated, the timestamp of that deactivation. */
-  deactivatedTimestamp?: string | null;
+  deactivatedTimestamp?: string | null | undefined;
   /** The time at which the user last logged in. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
   /** The time at which the user last reset their password. Helps with future Vanta functionality. */
-  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null;
+  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null | undefined;
   /** If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future. */
-  groupIds?: PutUserAccountRequestResourcesItemGroupIdsList | null;
+  groupIds?: PutUserAccountRequestResourcesItemGroupIdsList | null | undefined;
 }
 export type PutUserAccountRequestResourcesList = Array<PutUserAccountRequestResourcesItem>;
 export interface PutUserAccountRequest {
@@ -1210,7 +1228,7 @@ export interface PutUserSecurityTrainingStatusRequestResourcesItem {
   /** The time at which this training course is due for the user. Vanta will check whether employees complete their training on time. */
   trainingDueTimestamp: string;
   /** The time at which this training course was completed by the user. */
-  trainingCompletedTimestamp?: string | null;
+  trainingCompletedTimestamp?: string | null | undefined;
 }
 export type PutUserSecurityTrainingStatusRequestResourcesList =
   Array<PutUserSecurityTrainingStatusRequestResourcesItem>;
@@ -1302,7 +1320,7 @@ export interface PutWindowsUserComputerRequestResourcesItemUsersItem {
   screenlockPolicies: PutWindowsUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string | null;
+  lastLoginTimestamp?: string | null | undefined;
 }
 /** The human users of the system. If it's not feasible to send only human users, prefer skipping sending users entirely. */
 export type PutWindowsUserComputerRequestResourcesItemUsersList =
@@ -1439,13 +1457,19 @@ export interface PutWindowsUserComputerRequestResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string | null;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
+  owner?: string | null | undefined;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null | undefined;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string | null;
+  lastEnrolledTimestamp?: string | null | undefined;
   /** A list of services that are monitored by Windows Security Center (WSC). */
-  windowsSecurityProducts?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList | null;
-  windowsSecurityCenter?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter | null;
+  windowsSecurityProducts?:
+    | PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList
+    | null
+    | undefined;
+  windowsSecurityCenter?:
+    | PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter
+    | null
+    | undefined;
 }
 export type PutWindowsUserComputerRequestResourcesList =
   Array<PutWindowsUserComputerRequestResourcesItem>;
@@ -1461,9 +1485,9 @@ export interface UploadFileForDocumentRequest {
   documentId: string;
   file: string;
   /** Date indicating when the document is effective from. */
-  effectiveAtDate?: string;
+  effectiveAtDate?: string | undefined;
   /** Description of the uploaded document. */
-  description?: string;
+  description?: string | undefined;
 }
 export type UploadedDocumentUploadedByType = "USER" | "APPLICATION";
 /** The actor who uploaded this document. It could be a user or an app. */

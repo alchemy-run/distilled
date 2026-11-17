@@ -9,12 +9,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       roles: ["roles/assuredworkloads.admin"],
     },
   },
-  aggregateProjectsLocationsDbFrameworkComplianceReports: {
-    iam: {
-      actions: ["assuredworkloads.dbFrameworkComplianceReports.aggregate"],
-      roles: ["roles/assuredworkloads.reader"],
-    },
-  },
   analyzeWorkloadMoveOrganizationsLocationsWorkloads: {
     iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
   },
@@ -26,12 +20,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
   },
   enableResourceMonitoringOrganizationsLocationsWorkloads: {
     iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
-  },
-  fetchProjectsLocationsDbFrameworkComplianceReports: {
-    iam: {
-      actions: ["assuredworkloads.dbFrameworkComplianceReports.get"],
-      roles: ["roles/assuredworkloads.reader"],
-    },
   },
   getOrganizationsLocationsWorkloads: {
     iam: { actions: ["assuredworkloads.workload.get"], roles: ["roles/assuredworkloads.reader"] },
@@ -45,24 +33,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
   listOrganizationsLocationsWorkloadsViolations: {
     iam: {
       actions: ["assuredworkloads.violations.list"],
-      roles: ["roles/assuredworkloads.reader"],
-    },
-  },
-  listProjectsLocationsDbFindingSummaries: {
-    iam: {
-      actions: ["assuredworkloads.dbFindingSummaries.list"],
-      roles: ["roles/assuredworkloads.reader"],
-    },
-  },
-  listProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummaries: {
-    iam: {
-      actions: ["assuredworkloads.dbControlComplianceSummaries.list"],
-      roles: ["roles/assuredworkloads.reader"],
-    },
-  },
-  listProjectsLocationsDbFrameworkComplianceSummaries: {
-    iam: {
-      actions: ["assuredworkloads.dbFrameworkComplianceSummaries.list"],
       roles: ["roles/assuredworkloads.reader"],
     },
   },

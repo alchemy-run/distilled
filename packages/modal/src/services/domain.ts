@@ -29,6 +29,8 @@ export class DomainAlreadyExists
     /*@__PURE__*/ S.TaggedError<DomainAlreadyExists>()("DomainAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,14 +41,15 @@ export class DomainNotFound
     /*@__PURE__*/ S.TaggedError<DomainNotFound>()("DomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface CreateDomainRequest {
-  domainName?: string;
+  domainName?: string | undefined;
 }
-/** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
 export interface DNSRecord {
   type: DNSRecordType;
@@ -76,10 +79,10 @@ export interface ListDomainResponse {
   domains: DomainList2;
 }
 export interface VerifyDomainCertificateRequest {
-  domainId?: string;
+  domainId?: string | undefined;
 }
 export interface VerifyDomainCertificateResponse {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export type CreateDomainError = DomainAlreadyExists | ModalOpError;
 export const createDomain: API.OperationMethod<

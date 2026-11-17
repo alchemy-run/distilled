@@ -38,11 +38,11 @@ export type PrincipalType = "Unknown" | "User" | "Group" | "ServicePrincipal";
 /** Properties of a server administrator associated to a Microsoft Entra principal. */
 export interface AdministratorMicrosoftEntraPropertiesForAdd {
   /** Type of Microsoft Entra principal to which the server administrator is associated. */
-  principalType?: PrincipalType | (string & {});
+  principalType?: PrincipalType | (string & {}) | undefined;
   /** Name of the Microsoft Entra principal. */
-  principalName?: string;
+  principalName?: string | undefined;
   /** Identifier of the tenant in which the Microsoft Entra principal exists. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface AdministratorsMicrosoftEntraCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -54,15 +54,55 @@ export interface AdministratorsMicrosoftEntraCreateOrUpdateRequest {
   /** Object identifier of the Microsoft Entra principal. */
   objectId: string;
   /** Properties of the server administrator associated to a Microsoft Entra principal. */
-  properties?: AdministratorMicrosoftEntraPropertiesForAdd;
+  properties?: AdministratorMicrosoftEntraPropertiesForAdd | undefined;
 }
 export interface AdministratorsMicrosoftEntraCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
+}
+export interface ApplyMaintenanceEventNowRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** The name of the MaintenanceEventResource */
+  maintenanceEventId: string;
+}
+/** The status of a maintenance event. */
+export type MaintenanceEventStatus =
+  | "Planned"
+  | "InProgress"
+  | "Complete"
+  | "Rescheduled"
+  | "Canceled";
+/** Response model for maintenance event reschedule and apply-now actions. */
+export interface MaintenanceEventActionResponse {
+  /** The maintenance event name (maintenance ID). */
+  maintenanceEventId?: string | undefined;
+  /** The full Azure resource ID of the server. */
+  serverId?: string | undefined;
+  /** The status of the maintenance event. */
+  status?: MaintenanceEventStatus | undefined;
+  /** The planned start time of the maintenance event (UTC). */
+  plannedStartTime?: string | undefined;
+  /** The planned end time of the maintenance event (UTC). */
+  plannedEndTime?: string | undefined;
+  /** A value indicating whether this was an apply-now (immediate) action. True for ApplyNow; false for Reschedule. */
+  appliedNow?: boolean | undefined;
+  /** The time this maintenance event record was last updated (UTC). */
+  lastUpdatedTime?: string | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface CancelMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81,17 +121,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CancelMigrationResponseTagsMap = { [key: string]: string | undefined };
@@ -129,37 +169,37 @@ export type MigrationDatabaseState =
 /** Migration state of a database. */
 export interface DatabaseMigrationState {
   /** Name of database. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Migration state of a database. */
-  migrationState?: MigrationDatabaseState;
+  migrationState?: MigrationDatabaseState | undefined;
   /** Migration operation of a database. */
-  migrationOperation?: string;
+  migrationOperation?: string | undefined;
   /** Start time of a migration state. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** End time of a migration state. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Number of tables queued for the migration of a database. */
-  fullLoadQueuedTables?: number;
+  fullLoadQueuedTables?: number | undefined;
   /** Number of tables encountering errors during the migration of a database. */
-  fullLoadErroredTables?: number;
+  fullLoadErroredTables?: number | undefined;
   /** Number of tables loading during the migration of a database. */
-  fullLoadLoadingTables?: number;
+  fullLoadLoadingTables?: number | undefined;
   /** Number of tables loaded during the migration of a database. */
-  fullLoadCompletedTables?: number;
+  fullLoadCompletedTables?: number | undefined;
   /** Change Data Capture update counter. */
-  cdcUpdateCounter?: number;
+  cdcUpdateCounter?: number | undefined;
   /** Change Data Capture delete counter. */
-  cdcDeleteCounter?: number;
+  cdcDeleteCounter?: number | undefined;
   /** Change Data Capture insert counter. */
-  cdcInsertCounter?: number;
+  cdcInsertCounter?: number | undefined;
   /** Change Data Capture applied changes counter. */
-  appliedChanges?: number;
+  appliedChanges?: number | undefined;
   /** Change Data Capture incoming changes counter. */
-  incomingChanges?: number;
+  incomingChanges?: number | undefined;
   /** Lag in seconds between source and target during online phase. */
-  latency?: number;
+  latency?: number | undefined;
   /** Error message, if any, for the migration state. */
-  message?: string;
+  message?: string | undefined;
 }
 export type MigrationSubstateDetailsDbDetailsMap = {
   [key: string]: DatabaseMigrationState | undefined;
@@ -169,20 +209,20 @@ export type ValidationState = "Failed" | "Succeeded" | "Warning";
 /** Validation message object. */
 export interface ValidationMessage {
   /** Severity of validation message. */
-  state?: ValidationState;
+  state?: ValidationState | undefined;
   /** Validation message string. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Validation messages. */
 export type ValidationSummaryItemMessagesList = Array<ValidationMessage>;
 /** Validation summary object. */
 export interface ValidationSummaryItem {
   /** Validation type. */
-  type?: string;
+  type?: string | undefined;
   /** Validation status for migration. */
-  state?: ValidationState;
+  state?: ValidationState | undefined;
   /** Validation messages. */
-  messages?: ValidationSummaryItemMessagesList;
+  messages?: ValidationSummaryItemMessagesList | undefined;
 }
 /** Details of server level validations. */
 export type ValidationDetailsServerLevelValidationDetailsList = Array<ValidationSummaryItem>;
@@ -191,44 +231,44 @@ export type DbLevelValidationStatusSummaryList = Array<ValidationSummaryItem>;
 /** Validation status summary for a database. */
 export interface DbLevelValidationStatus {
   /** Name of database. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Start time of a database level validation. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** End time of a database level validation. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Summary of database level validations. */
-  summary?: DbLevelValidationStatusSummaryList;
+  summary?: DbLevelValidationStatusSummaryList | undefined;
 }
 /** Details of server level validations. */
 export type ValidationDetailsDbLevelValidationDetailsList = Array<DbLevelValidationStatus>;
 /** Details for the validation for migration. */
 export interface ValidationDetails {
   /** Validation status for migration. */
-  status?: ValidationState;
+  status?: ValidationState | undefined;
   /** Start time (UTC) for validation. */
-  validationStartTimeInUtc?: string;
+  validationStartTimeInUtc?: string | undefined;
   /** End time (UTC) for validation. */
-  validationEndTimeInUtc?: string;
+  validationEndTimeInUtc?: string | undefined;
   /** Details of server level validations. */
-  serverLevelValidationDetails?: ValidationDetailsServerLevelValidationDetailsList;
+  serverLevelValidationDetails?: ValidationDetailsServerLevelValidationDetailsList | undefined;
   /** Details of server level validations. */
-  dbLevelValidationDetails?: ValidationDetailsDbLevelValidationDetailsList;
+  dbLevelValidationDetails?: ValidationDetailsDbLevelValidationDetailsList | undefined;
 }
 /** Details of migration substate. */
 export interface MigrationSubstateDetails {
   /** Substate of migration. */
-  currentSubState?: MigrationSubstate;
-  dbDetails?: MigrationSubstateDetailsDbDetailsMap;
-  validationDetails?: ValidationDetails;
+  currentSubState?: MigrationSubstate | undefined;
+  dbDetails?: MigrationSubstateDetailsDbDetailsMap | undefined;
+  validationDetails?: ValidationDetails | undefined;
 }
 /** State of migration. */
 export interface MigrationStatus {
   /** State of migration. */
-  state?: MigrationState;
+  state?: MigrationState | undefined;
   /** Error message, if any, for the migration state. */
-  error?: string;
+  error?: string | undefined;
   /** Current migration sub state details. */
-  currentSubStateDetails?: MigrationSubstateDetails;
+  currentSubStateDetails?: MigrationSubstateDetails | undefined;
 }
 /** Mode used to perform the migration. */
 export type MigrationMode = "Offline" | "Online";
@@ -267,20 +307,20 @@ export type SkuTier = "Burstable" | "GeneralPurpose" | "MemoryOptimized";
 /** Compute information of a server. */
 export interface ServerSku {
   /** Compute tier and size of the database server. This object is empty for an Azure Database for PostgreSQL single server. */
-  name?: string;
+  name?: string | undefined;
   /** Tier of the compute assigned to a server. */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
 }
 /** Database server metadata. */
 export interface DbServerMetadata {
   /** Location of database server. */
-  location?: string;
+  location?: string | undefined;
   /** Major version of PostgreSQL database engine. */
-  version?: string;
+  version?: string | undefined;
   /** Storage size (in MB) for database server. */
-  storageMb?: number;
+  storageMb?: number | undefined;
   /** Compute tier and size of the database server. This object is empty for an Azure Database for PostgreSQL single server. */
-  sku?: ServerSku;
+  sku?: ServerSku | undefined;
 }
 /** Credentials of administrator users for source and target servers. */
 export interface AdminCredentials {
@@ -294,9 +334,9 @@ export interface MigrationSecretParameters {
   /** Credentials of administrator users for source and target servers. */
   adminCredentials: AdminCredentials;
   /** Gets or sets the name of the user for the source server. This user doesn't need to be an administrator. */
-  sourceServerUsername?: string;
+  sourceServerUsername?: string | undefined;
   /** Gets or sets the name of the user for the target server. This user doesn't need to be an administrator. */
-  targetServerUsername?: string;
+  targetServerUsername?: string | undefined;
 }
 /** Names of databases to migrate. */
 export type MigrationPropertiesDbsToMigrateList = Array<string>;
@@ -319,71 +359,71 @@ export type MigrationPropertiesDbsToCancelMigrationOnList = Array<string>;
 /** Migration. */
 export interface MigrationProperties {
   /** Identifier of a migration. */
-  migrationId?: string;
+  migrationId?: string | undefined;
   /** Current status of a migration. */
-  currentStatus?: MigrationStatus;
+  currentStatus?: MigrationStatus | undefined;
   /** Identifier of the private endpoint migration instance. */
-  migrationInstanceResourceId?: string;
+  migrationInstanceResourceId?: string | undefined;
   /** Mode used to perform the migration: Online or Offline. */
-  migrationMode?: MigrationMode;
+  migrationMode?: MigrationMode | undefined;
   /** Supported option for a migration. */
-  migrationOption?: MigrationOption;
+  migrationOption?: MigrationOption | undefined;
   /** Source server type used for the migration: ApsaraDB_RDS, AWS, AWS_AURORA, AWS_EC2, AWS_RDS, AzureVM, Crunchy_PostgreSQL, Digital_Ocean_Droplets, Digital_Ocean_PostgreSQL, EDB, EDB_Oracle_Server, EDB_PostgreSQL, GCP, GCP_AlloyDB, GCP_CloudSQL, GCP_Compute, Heroku_PostgreSQL, Huawei_Compute, Huawei_RDS, OnPremises, PostgreSQLCosmosDB, PostgreSQLFlexibleServer, PostgreSQLSingleServer, or Supabase_PostgreSQL */
-  sourceType?: SourceType;
+  sourceType?: SourceType | undefined;
   /** SSL mode used by a migration. Default SSL mode for 'PostgreSQLSingleServer' is 'VerifyFull'. Default SSL mode for other source types is 'Prefer'. */
-  sslMode?: SslMode;
+  sslMode?: SslMode | undefined;
   /** Metadata of source database server. */
-  sourceDbServerMetadata?: DbServerMetadata;
+  sourceDbServerMetadata?: DbServerMetadata | undefined;
   /** Metadata of target database server. */
-  targetDbServerMetadata?: DbServerMetadata;
+  targetDbServerMetadata?: DbServerMetadata | undefined;
   /** Identifier of the source database server resource, when 'sourceType' is 'PostgreSQLSingleServer'. For other source types this must be set to ipaddress:port@username or hostname:port@username. */
-  sourceDbServerResourceId?: string;
+  sourceDbServerResourceId?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the source server. This property is optional. When provided, the migration service will always use it to connect to the source server. */
-  sourceDbServerFullyQualifiedDomainName?: string;
+  sourceDbServerFullyQualifiedDomainName?: string | undefined;
   /** Identifier of the target database server resource. */
-  targetDbServerResourceId?: string;
+  targetDbServerResourceId?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the target server. This property is optional. When provided, the migration service will always use it to connect to the target server. */
-  targetDbServerFullyQualifiedDomainName?: string;
+  targetDbServerFullyQualifiedDomainName?: string | undefined;
   /** Migration secret parameters. */
-  secretParameters?: MigrationSecretParameters;
+  secretParameters?: MigrationSecretParameters | undefined;
   /** Names of databases to migrate. */
-  dbsToMigrate?: MigrationPropertiesDbsToMigrateList;
+  dbsToMigrate?: MigrationPropertiesDbsToMigrateList | undefined;
   /** Indicates whether to setup logical replication on source server, if needed. */
-  setupLogicalReplicationOnSourceDbIfNeeded?: LogicalReplicationOnSourceServer;
+  setupLogicalReplicationOnSourceDbIfNeeded?: LogicalReplicationOnSourceServer | undefined;
   /** Indicates if databases on the target server can be overwritten when already present. If set to 'False', when the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. */
-  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer;
+  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer | undefined;
   /** Start time (UTC) for migration window. */
-  migrationWindowStartTimeInUtc?: string;
+  migrationWindowStartTimeInUtc?: string | undefined;
   /** End time (UTC) for migration window. */
-  migrationWindowEndTimeInUtc?: string;
+  migrationWindowEndTimeInUtc?: string | undefined;
   /** Indicates if roles and permissions must be migrated. */
-  migrateRoles?: MigrateRolesAndPermissions;
+  migrateRoles?: MigrateRolesAndPermissions | undefined;
   /** Indicates if data migration must start right away. */
-  startDataMigration?: StartDataMigration;
+  startDataMigration?: StartDataMigration | undefined;
   /** Indicates if cutover must be triggered for the entire migration. */
-  triggerCutover?: TriggerCutover;
+  triggerCutover?: TriggerCutover | undefined;
   /** When you want to trigger cutover for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToTriggerCutoverOn?: MigrationPropertiesDbsToTriggerCutoverOnList;
+  dbsToTriggerCutoverOn?: MigrationPropertiesDbsToTriggerCutoverOnList | undefined;
   /** Indicates if cancel must be triggered for the entire migration. */
-  cancel?: Cancel;
+  cancel?: Cancel | undefined;
   /** When you want to trigger cancel for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToCancelMigrationOn?: MigrationPropertiesDbsToCancelMigrationOnList;
+  dbsToCancelMigrationOn?: MigrationPropertiesDbsToCancelMigrationOnList | undefined;
 }
 export interface CancelMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CancelMigrationResponseTagsMap;
+  tags?: CancelMigrationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationProperties;
+  properties?: MigrationProperties | undefined;
 }
 /** Settings for the long term backup. */
 export interface BackupSettings {
@@ -431,33 +471,33 @@ export interface MigrationNameAvailability {
   /** Type of resource. */
   type: string;
   /** Indicates if the migration name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Migration name availability reason. */
-  reason?: MigrationNameAvailabilityReason;
+  reason?: MigrationNameAvailabilityReason | undefined;
   /** Migration name availability message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckNameAvailabilityGloballyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckNameAvailabilityGloballyResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckNameAvailabilityGloballyResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityGloballyResponseReason;
+  reason?: CheckNameAvailabilityGloballyResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
   /** Name for which validity and availability was checked. */
-  name?: string;
+  name?: string | undefined;
   /** Type of resource. It can be 'Microsoft.DBforPostgreSQL/flexibleServers' or 'Microsoft.DBforPostgreSQL/flexibleServers/virtualendpoints'. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CheckNameAvailabilityWithLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -465,23 +505,23 @@ export interface CheckNameAvailabilityWithLocationRequest {
   /** The name of the location. */
   locationName: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckNameAvailabilityWithLocationResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckNameAvailabilityWithLocationResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityWithLocationResponseReason;
+  reason?: CheckNameAvailabilityWithLocationResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
   /** Name for which validity and availability was checked. */
-  name?: string;
+  name?: string | undefined;
   /** Type of resource. It can be 'Microsoft.DBforPostgreSQL/flexibleServers' or 'Microsoft.DBforPostgreSQL/flexibleServers/virtualendpoints'. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateBackupsAutomaticAndOnDemandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -495,18 +535,18 @@ export interface CreateBackupsAutomaticAndOnDemandRequest {
 }
 export interface CreateBackupsAutomaticAndOnDemandResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of a database. */
 export interface DatabaseProperties {
   /** Character set of the database. */
-  charset?: string;
+  charset?: string | undefined;
   /** Collation of the database. */
-  collation?: string;
+  collation?: string | undefined;
 }
 export interface CreateDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -518,15 +558,15 @@ export interface CreateDatabaseRequest {
   /** Name of the database (case-sensitive). Exact database names can be retrieved by getting the list of all existing databases in a server. */
   databaseName: string;
   /** Properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 export interface CreateDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateMigrationRequestTagsMap = { [key: string]: string | undefined };
@@ -539,45 +579,48 @@ export type MigrationPropertiesInputDbsToCancelMigrationOnList = Array<string>;
 /** Migration. */
 export interface MigrationPropertiesInput {
   /** Identifier of the private endpoint migration instance. */
-  migrationInstanceResourceId?: string;
+  migrationInstanceResourceId?: string | undefined;
   /** Mode used to perform the migration: Online or Offline. */
-  migrationMode?: MigrationMode | (string & {});
+  migrationMode?: MigrationMode | (string & {}) | undefined;
   /** Supported option for a migration. */
-  migrationOption?: MigrationOption | (string & {});
+  migrationOption?: MigrationOption | (string & {}) | undefined;
   /** Source server type used for the migration: ApsaraDB_RDS, AWS, AWS_AURORA, AWS_EC2, AWS_RDS, AzureVM, Crunchy_PostgreSQL, Digital_Ocean_Droplets, Digital_Ocean_PostgreSQL, EDB, EDB_Oracle_Server, EDB_PostgreSQL, GCP, GCP_AlloyDB, GCP_CloudSQL, GCP_Compute, Heroku_PostgreSQL, Huawei_Compute, Huawei_RDS, OnPremises, PostgreSQLCosmosDB, PostgreSQLFlexibleServer, PostgreSQLSingleServer, or Supabase_PostgreSQL */
-  sourceType?: SourceType | (string & {});
+  sourceType?: SourceType | (string & {}) | undefined;
   /** SSL mode used by a migration. Default SSL mode for 'PostgreSQLSingleServer' is 'VerifyFull'. Default SSL mode for other source types is 'Prefer'. */
-  sslMode?: SslMode | (string & {});
+  sslMode?: SslMode | (string & {}) | undefined;
   /** Identifier of the source database server resource, when 'sourceType' is 'PostgreSQLSingleServer'. For other source types this must be set to ipaddress:port@username or hostname:port@username. */
-  sourceDbServerResourceId?: string;
+  sourceDbServerResourceId?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the source server. This property is optional. When provided, the migration service will always use it to connect to the source server. */
-  sourceDbServerFullyQualifiedDomainName?: string;
+  sourceDbServerFullyQualifiedDomainName?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the target server. This property is optional. When provided, the migration service will always use it to connect to the target server. */
-  targetDbServerFullyQualifiedDomainName?: string;
+  targetDbServerFullyQualifiedDomainName?: string | undefined;
   /** Migration secret parameters. */
-  secretParameters?: MigrationSecretParameters;
+  secretParameters?: MigrationSecretParameters | undefined;
   /** Names of databases to migrate. */
-  dbsToMigrate?: MigrationPropertiesInputDbsToMigrateList;
+  dbsToMigrate?: MigrationPropertiesInputDbsToMigrateList | undefined;
   /** Indicates whether to setup logical replication on source server, if needed. */
-  setupLogicalReplicationOnSourceDbIfNeeded?: LogicalReplicationOnSourceServer | (string & {});
+  setupLogicalReplicationOnSourceDbIfNeeded?:
+    | LogicalReplicationOnSourceServer
+    | (string & {})
+    | undefined;
   /** Indicates if databases on the target server can be overwritten when already present. If set to 'False', when the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. */
-  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer | (string & {});
+  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer | (string & {}) | undefined;
   /** Start time (UTC) for migration window. */
-  migrationWindowStartTimeInUtc?: string;
+  migrationWindowStartTimeInUtc?: string | undefined;
   /** End time (UTC) for migration window. */
-  migrationWindowEndTimeInUtc?: string;
+  migrationWindowEndTimeInUtc?: string | undefined;
   /** Indicates if roles and permissions must be migrated. */
-  migrateRoles?: MigrateRolesAndPermissions | (string & {});
+  migrateRoles?: MigrateRolesAndPermissions | (string & {}) | undefined;
   /** Indicates if data migration must start right away. */
-  startDataMigration?: StartDataMigration | (string & {});
+  startDataMigration?: StartDataMigration | (string & {}) | undefined;
   /** Indicates if cutover must be triggered for the entire migration. */
-  triggerCutover?: TriggerCutover | (string & {});
+  triggerCutover?: TriggerCutover | (string & {}) | undefined;
   /** When you want to trigger cutover for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToTriggerCutoverOn?: MigrationPropertiesInputDbsToTriggerCutoverOnList;
+  dbsToTriggerCutoverOn?: MigrationPropertiesInputDbsToTriggerCutoverOnList | undefined;
   /** Indicates if cancel must be triggered for the entire migration. */
-  cancel?: Cancel | (string & {});
+  cancel?: Cancel | (string & {}) | undefined;
   /** When you want to trigger cancel for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToCancelMigrationOn?: MigrationPropertiesInputDbsToCancelMigrationOnList;
+  dbsToCancelMigrationOn?: MigrationPropertiesInputDbsToCancelMigrationOnList | undefined;
 }
 export interface CreateMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -589,29 +632,29 @@ export interface CreateMigrationRequest {
   /** Name of migration. */
   migrationName: string;
   /** Resource tags. */
-  tags?: CreateMigrationRequestTagsMap;
+  tags?: CreateMigrationRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationPropertiesInput;
+  properties?: MigrationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateMigrationResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateMigrationResponseTagsMap;
+  tags?: CreateMigrationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationProperties;
+  properties?: MigrationProperties | undefined;
 }
 /** Type of endpoint for the virtual endpoints. */
 export type VirtualEndpointType = "ReadWrite";
@@ -620,9 +663,9 @@ export type VirtualEndpointResourcePropertiesInputMembersList = Array<string>;
 /** Properties of a pair of virtual endpoints. */
 export interface VirtualEndpointResourcePropertiesInput {
   /** Type of endpoint for the virtual endpoints. */
-  endpointType?: VirtualEndpointType | (string & {});
+  endpointType?: VirtualEndpointType | (string & {}) | undefined;
   /** List of servers that one of the virtual endpoints can refer to. */
-  members?: VirtualEndpointResourcePropertiesInputMembersList;
+  members?: VirtualEndpointResourcePropertiesInputMembersList | undefined;
 }
 export interface CreateVirtualEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -634,15 +677,15 @@ export interface CreateVirtualEndpointRequest {
   /** Base name of the virtual endpoints. */
   virtualEndpointName: string;
   /** Properties of the pair of virtual endpoints. */
-  properties?: VirtualEndpointResourcePropertiesInput;
+  properties?: VirtualEndpointResourcePropertiesInput | undefined;
 }
 export interface CreateVirtualEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAdministratorsMicrosoftEntraRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -656,11 +699,11 @@ export interface DeleteAdministratorsMicrosoftEntraRequest {
 }
 export interface DeleteAdministratorsMicrosoftEntraResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBackupsAutomaticAndOnDemandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -674,11 +717,11 @@ export interface DeleteBackupsAutomaticAndOnDemandRequest {
 }
 export interface DeleteBackupsAutomaticAndOnDemandResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -692,11 +735,11 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -710,11 +753,11 @@ export interface DeleteFirewallRuleRequest {
 }
 export interface DeleteFirewallRuleResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -728,11 +771,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -744,11 +787,11 @@ export interface DeleteServerRequest {
 }
 export interface DeleteServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -762,11 +805,11 @@ export interface DeleteVirtualEndpointRequest {
 }
 export interface DeleteVirtualEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of a firewall rule. */
 export interface FirewallRuleProperties {
@@ -789,11 +832,11 @@ export interface FirewallRulesCreateOrUpdateRequest {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAdministratorsMicrosoftEntraRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -808,23 +851,23 @@ export interface GetAdministratorsMicrosoftEntraRequest {
 /** Properties of a server administrator associated to a Microsoft Entra principal. */
 export interface AdministratorMicrosoftEntraProperties {
   /** Type of Microsoft Entra principal to which the server administrator is associated. */
-  principalType?: PrincipalType;
+  principalType?: PrincipalType | undefined;
   /** Name of the Microsoft Entra principal. */
-  principalName?: string;
+  principalName?: string | undefined;
   /** Object identifier of the Microsoft Entra principal. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Identifier of the tenant in which the Microsoft Entra principal exists. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetAdministratorsMicrosoftEntraResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a server administrator associated to a Microsoft Entra principal. */
   properties: AdministratorMicrosoftEntraProperties;
 }
@@ -848,19 +891,19 @@ export interface AdvancedThreatProtectionSettingsProperties {
   /** Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been applied yet on the server. */
   state: ThreatProtectionState;
   /** Specifies the creation time (UTC) of the policy. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export interface GetAdvancedThreatProtectionSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Advanced threat protection properties. */
-  properties?: AdvancedThreatProtectionSettingsProperties;
+  properties?: AdvancedThreatProtectionSettingsProperties | undefined;
 }
 export interface GetBackupsAutomaticAndOnDemandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -877,23 +920,23 @@ export type BackupType = "Full" | "Customer On-Demand";
 /** Properties of a backup. */
 export interface BackupAutomaticAndOnDemandProperties {
   /** Type of backup. */
-  backupType?: BackupType;
+  backupType?: BackupType | undefined;
   /** Time(ISO8601 format) at which the backup was completed. */
-  completedTime?: string;
+  completedTime?: string | undefined;
   /** Source of the backup. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface GetBackupsAutomaticAndOnDemandResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a backup. */
-  properties?: BackupAutomaticAndOnDemandProperties;
+  properties?: BackupAutomaticAndOnDemandProperties | undefined;
 }
 export interface GetBackupsLongTermRetentionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -910,37 +953,37 @@ export type ExecutionStatus = "Running" | "Cancelled" | "Failed" | "Succeeded";
 /** Response for the backup request. */
 export interface LtrBackupOperationResponseProperties {
   /** Size of datasource in bytes. */
-  datasourceSizeInBytes?: number;
+  datasourceSizeInBytes?: number | undefined;
   /** Data transferred in bytes. */
-  dataTransferredInBytes?: number;
+  dataTransferredInBytes?: number | undefined;
   /** Name of Backup operation. */
-  backupName?: string;
+  backupName?: string | undefined;
   /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc. */
-  backupMetadata?: string;
+  backupMetadata?: string | undefined;
   /** Service-set extensible enum indicating the status of operation. */
   status: ExecutionStatus;
   /** Start time of the operation. */
   startTime: string;
   /** End time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Percentage completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Error code. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Error message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface GetBackupsLongTermRetentionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Long Term Retention Backup Operation Resource Properties */
-  properties?: LtrBackupOperationResponseProperties;
+  properties?: LtrBackupOperationResponseProperties | undefined;
 }
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -963,39 +1006,39 @@ export type ConfigurationDataType =
 /** Properties of a configuration (also known as server parameter). */
 export interface ConfigurationProperties {
   /** Value of the configuration (also known as server parameter). Required to update the value assigned to a specific modifiable configuration. */
-  value?: string;
+  value?: string | undefined;
   /** Description of the configuration (also known as server parameter). */
-  description?: string;
+  description?: string | undefined;
   /** Value assigned by default to the configuration (also known as server parameter). */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Data type of the configuration (also known as server parameter). */
-  dataType?: ConfigurationDataType;
+  dataType?: ConfigurationDataType | undefined;
   /** Allowed values of the configuration (also known as server parameter). */
-  allowedValues?: string;
+  allowedValues?: string | undefined;
   /** Source of the value assigned to the configuration (also known as server parameter). Required to update the value assigned to a specific modifiable configuration. */
-  source?: string;
+  source?: string | undefined;
   /** Indicates if it's a dynamic (true) or static (false) configuration (also known as server parameter). Static server parameters require a server restart after changing the value assigned to them, for the change to take effect. Dynamic server parameters do not require a server restart after changing the value assigned to them, for the change to take effect. */
-  isDynamicConfig?: boolean;
+  isDynamicConfig?: boolean | undefined;
   /** Indicates if it's a read-only (true) or modifiable (false) configuration (also known as server parameter). */
-  isReadOnly?: boolean;
+  isReadOnly?: boolean | undefined;
   /** Indicates if the value assigned to the configuration (also known as server parameter) is pending a server restart for it to take effect. */
-  isConfigPendingRestart?: boolean;
+  isConfigPendingRestart?: boolean | undefined;
   /** Units in which the configuration (also known as server parameter) value is expressed. */
-  unit?: string;
+  unit?: string | undefined;
   /** Link pointing to the documentation of the configuration (also known as server parameter). */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
 }
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a configuration (also known as server parameter). */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface GetDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1009,15 +1052,15 @@ export interface GetDatabaseRequest {
 }
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1031,15 +1074,143 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a firewall rule. */
   properties: FirewallRuleProperties;
+}
+export interface GetMaintenanceEventRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** The name of the MaintenanceEventResource */
+  maintenanceEventId: string;
+}
+/** Type of a maintenance event resource. */
+export type MaintenanceType = "PlannedMaintenance";
+/** Properties of a maintenance event resource. */
+export interface MaintenanceEventResourceProperties {
+  /** A service-generated identifier for this maintenance event, assigned by the platform (e.g., 'YL1T-HFG'). The format is not contractual and clients should not attempt to parse or construct this value. */
+  maintenanceEventId?: string | undefined;
+  /** The maintenance type (e.g., 'PlannedMaintenance'). */
+  maintenanceType: MaintenanceType;
+  /** The human-readable description of the maintenance event. */
+  description?: string | undefined;
+  /** The customer-facing status of the maintenance event. */
+  status: MaintenanceEventStatus;
+  /** The scheduled start time of the maintenance event (UTC). */
+  startTime: string;
+  /** The scheduled end time of the maintenance event (UTC). */
+  endTime: string;
+  /** The estimated downtime as an ISO 8601 duration string (e.g., 'PT60S' = 60 seconds). */
+  estimatedDowntime?: string | undefined;
+  /** A value indicating whether this maintenance event can be rescheduled by the customer. */
+  deferrable: boolean;
+  /** The latest date/time this maintenance event can be postponed to (UTC). Present only when deferrable is true. */
+  deferralDeadline?: string | undefined;
+  /** The previous scheduled start time before the most recent reschedule (UTC). Null if the event has never been rescheduled. */
+  rescheduledFrom?: string | undefined;
+  /** The time this maintenance event record was last updated (UTC). */
+  lastUpdatedTime?: string | undefined;
+  /** The initial scheduled start time before any reschedule (UTC). Equals startTime when the event has never been rescheduled. */
+  originalStartTime: string;
+}
+export interface GetMaintenanceEventResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MaintenanceEventResourceProperties | undefined;
+}
+export interface GetMajorVersionUpgradePrecheckRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** The name of the MajorVersionUpgradePrecheckResource */
+  precheckValidationId: string;
+}
+/** The status of the major version upgrade precheck. */
+export type MajorVersionUpgradePrecheckStatus = "Validating" | "Succeeded" | "Failed" | "Canceled";
+/** Upgrade sequence information. */
+export interface UpgradeSequence {
+  /** The source PostgreSQL version. */
+  sourceVersion?: string | undefined;
+  /** The target PostgreSQL version. */
+  targetVersion?: string | undefined;
+}
+/** Error information from precheck validation. */
+export interface PrecheckErrorInfo {
+  /** The error code. */
+  errorCode?: number | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+}
+/** Array of error information. */
+export type PrecheckResultErrorInfoList = Array<PrecheckErrorInfo>;
+/** Precheck result details. */
+export interface PrecheckResult {
+  /** The action performed. */
+  action?: string | undefined;
+  /** The upgrade sequence information. */
+  upgradeSequence?: UpgradeSequence | undefined;
+  /** Array of error information. */
+  errorInfo?: PrecheckResultErrorInfoList | undefined;
+}
+/** Policy validation details. */
+export interface PolicyDetail {
+  /** The name of the policy. */
+  policyName?: string | undefined;
+  /** Whether the policy validation passed. */
+  passed?: boolean | undefined;
+  /** The error code if validation failed. */
+  errorCode?: number | undefined;
+  /** The error message if validation failed. */
+  errorMessage?: string | undefined;
+  /** Description of what the policy validates. */
+  policyDescription?: string | undefined;
+}
+/** Array of policy validation details. */
+export type MajorVersionUpgradePrecheckResourcePropertiesPolicyDetailsList = Array<PolicyDetail>;
+/** Major version upgrade precheck resource with validation results. */
+export interface MajorVersionUpgradePrecheckResourceProperties {
+  /** The time when the precheck was created. */
+  createTime?: string | undefined;
+  /** The status of the precheck validation. */
+  status?: MajorVersionUpgradePrecheckStatus | undefined;
+  /** The detailed result of the precheck operation. */
+  precheckResult?: PrecheckResult | undefined;
+  /** The target PostgreSQL major version for the upgrade. */
+  targetVersion?: string | undefined;
+  /** Array of policy validation details. */
+  policyDetails?: MajorVersionUpgradePrecheckResourcePropertiesPolicyDetailsList | undefined;
+}
+export interface GetMajorVersionUpgradePrecheckResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MajorVersionUpgradePrecheckResourceProperties | undefined;
 }
 export interface GetMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1055,19 +1226,19 @@ export interface GetMigrationRequest {
 export type GetMigrationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMigrationResponseTagsMap;
+  tags?: GetMigrationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationProperties;
+  properties?: MigrationProperties | undefined;
 }
 export interface GetPrivateDnsZoneSuffixRequest {}
 export type GetPrivateDnsZoneSuffixResponse = string;
@@ -1086,18 +1257,18 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -1108,25 +1279,25 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1145,23 +1316,23 @@ export type GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList = Arra
 /** Properties of a private link resource. */
 export interface GetPrivateLinkResourceResponseProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: GetPrivateLinkResourceResponsePropertiesRequiredMembersList;
+  requiredMembers?: GetPrivateLinkResourceResponsePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GetPrivateLinkResourceResponsePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: GetPrivateLinkResourceResponseProperties;
+  properties?: GetPrivateLinkResourceResponseProperties | undefined;
 }
 export interface GetServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1173,8 +1344,6 @@ export interface GetServerRequest {
 }
 /** Resource tags. */
 export type GetServerResponseTagsMap = { [key: string]: string | undefined };
-/** Major version of PostgreSQL database engine. */
-export type PostgresMajorVersion = "18" | "17" | "16" | "15" | "14" | "13" | "12" | "11";
 /** State of a server. */
 export type ServerState =
   | "Ready"
@@ -1210,17 +1379,21 @@ export type StorageType = "Premium_LRS" | "PremiumV2_LRS" | "UltraSSD_LRS";
 /** Storage properties of a server. */
 export interface Storage {
   /** Size of storage assigned to a server. */
-  storageSizeGB?: number;
+  storageSizeGB?: number | undefined;
   /** Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size. */
-  autoGrow?: StorageAutoGrow | (string & {});
+  autoGrow?: StorageAutoGrow | (string & {}) | undefined;
+  /** Maximum allocated storage size to which storage autogrow may grow, in MB. This value is not a disk-utilization trigger threshold and must be at least the effective current or requested storage size. Storage conversion uses 1 GB = 1,024 MB. */
+  autoGrowMaxThresholdMb?: number | undefined;
+  /** Storage autogrow increment as a percentage of the current allocated storage size. This value is not an absolute size increment or a utilization threshold. */
+  autoGrowIncrementPercent?: number | undefined;
   /** Storage tier of a server. */
-  tier?: AzureManagedDiskPerformanceTier | (string & {});
+  tier?: AzureManagedDiskPerformanceTier | (string & {}) | undefined;
   /** Maximum IOPS supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS. */
-  iops?: number;
+  iops?: number | undefined;
   /** Maximum throughput supported for storage. Required when type of storage is PremiumV2_LRS or UltraSSD_LRS. */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS. */
-  type?: StorageType | (string & {});
+  type?: StorageType | (string & {}) | undefined;
 }
 /** Indicates if the server supports Microsoft Entra authentication. */
 export type MicrosoftEntraAuth = "Enabled" | "Disabled";
@@ -1229,11 +1402,11 @@ export type AuthConfigPasswordAuth = "Enabled" | "Disabled";
 /** Authentication configuration properties of a server. */
 export interface AuthConfig {
   /** Indicates if the server supports Microsoft Entra authentication. */
-  activeDirectoryAuth?: MicrosoftEntraAuth | (string & {});
+  activeDirectoryAuth?: MicrosoftEntraAuth | (string & {}) | undefined;
   /** Indicates if the server supports password based authentication. */
-  passwordAuth?: AuthConfigPasswordAuth | (string & {});
+  passwordAuth?: AuthConfigPasswordAuth | (string & {}) | undefined;
   /** Identifier of the tenant of the delegated resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Data encryption type used by a server. */
 export type DataEncryptionType = "SystemManaged" | "AzureKeyVault";
@@ -1242,41 +1415,49 @@ export type EncryptionKeyStatus = "Valid" | "Invalid";
 /** Data encryption properties of a server. */
 export interface DataEncryption {
   /** URI of the key in Azure Key Vault used for data encryption of the primary storage associated to a server. */
-  primaryKeyURI?: string;
+  primaryKeyURI?: string | undefined;
   /** Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data encryption of the primary storage associated to a server. */
-  primaryUserAssignedIdentityId?: string;
+  primaryUserAssignedIdentityId?: string | undefined;
   /** Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data encryption of the geographically redundant storage associated to a server that is configured to support geographically redundant backups. */
-  geoBackupKeyURI?: string;
+  geoBackupKeyURI?: string | undefined;
   /** Identifier of the user assigned managed identity used to access the key in Azure Key Vault for data encryption of the geographically redundant storage associated to a server that is configured to support geographically redundant backups. */
-  geoBackupUserAssignedIdentityId?: string;
+  geoBackupUserAssignedIdentityId?: string | undefined;
   /** Data encryption type used by a server. */
-  type?: DataEncryptionType | (string & {});
+  type?: DataEncryptionType | (string & {}) | undefined;
   /** Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary storage associated to the server. */
-  primaryEncryptionKeyStatus?: EncryptionKeyStatus | (string & {});
+  primaryEncryptionKeyStatus?: EncryptionKeyStatus | (string & {}) | undefined;
   /** Status of key used by a server configured with data encryption based on customer managed key, to encrypt the geographically redundant storage associated to the server when it is configured to support geographically redundant backups. */
-  geoBackupEncryptionKeyStatus?: EncryptionKeyStatus | (string & {});
+  geoBackupEncryptionKeyStatus?: EncryptionKeyStatus | (string & {}) | undefined;
+  /** Client id of multi-tenant Microsoft Entra application. */
+  primaryFederatedIdentityClientId?: string | undefined;
+  /** Client id of multi-tenant Microsoft Entra application for when it is configured to support geographically redundant backups. */
+  geoBackupFederatedIdentityClientId?: string | undefined;
 }
 /** Indicates if the server is configured to create geographically redundant backups. */
 export type BackupGeoRedundantBackup = "Enabled" | "Disabled";
+/** Indicates if the server is configured to create immutable backups. */
+export type ImmutableBackup = "Enabled" | "Disabled";
 /** Backup properties of a server. */
 export interface Backup {
   /** Backup retention days for the server. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Indicates if the server is configured to create geographically redundant backups. */
-  geoRedundantBackup?: BackupGeoRedundantBackup;
+  geoRedundantBackup?: BackupGeoRedundantBackup | undefined;
+  /** Indicates if the server is configured to create immutable backups. */
+  immutableBackup?: ImmutableBackup | undefined;
   /** Earliest restore point time (ISO8601 format) for a server. */
-  earliestRestoreDate?: string;
+  earliestRestoreDate?: string | undefined;
 }
 /** Indicates if public network access is enabled or not. */
 export type ServerPublicNetworkAccessState = "Enabled" | "Disabled";
 /** Network properties of a server. */
 export interface Network {
   /** Indicates if public network access is enabled or not. This is only supported for servers that are not integrated into a virtual network which is owned and provided by customer when server is deployed. */
-  publicNetworkAccess?: ServerPublicNetworkAccessState | (string & {});
+  publicNetworkAccess?: ServerPublicNetworkAccessState | (string & {}) | undefined;
   /** Resource identifier of the delegated subnet. Required during creation of a new server, in case you want the server to be integrated into your own virtual network. For an update operation, you only have to provide this property if you want to change the value assigned for the private DNS zone. */
-  delegatedSubnetResourceId?: string;
+  delegatedSubnetResourceId?: string | undefined;
   /** Identifier of the private DNS zone. Required during creation of a new server, in case you want the server to be integrated into your own virtual network. For an update operation, you only have to provide this property if you want to change the value assigned for the private DNS zone. */
-  privateDnsZoneArmResourceId?: string;
+  privateDnsZoneArmResourceId?: string | undefined;
 }
 /** High availability mode for a server. */
 export type HighAvailabilityMode = "Disabled" | "ZoneRedundant" | "SameZone";
@@ -1293,22 +1474,22 @@ export type HighAvailabilityState =
 /** High availability properties of a server. */
 export interface HighAvailability {
   /** High availability mode for a server. */
-  mode?: HighAvailabilityMode | (string & {});
+  mode?: HighAvailabilityMode | (string & {}) | undefined;
   /** Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant. */
-  state?: HighAvailabilityState | (string & {});
+  state?: HighAvailabilityState | (string & {}) | undefined;
   /** Availability zone associated to the standby server created when high availability is set to SameZone or ZoneRedundant. */
-  standbyAvailabilityZone?: string;
+  standbyAvailabilityZone?: string | undefined;
 }
 /** Maintenance window properties of a server. */
 export interface MaintenanceWindow {
   /** Indicates whether custom window is enabled or disabled. */
-  customWindow?: string;
+  customWindow?: string | undefined;
   /** Start hour to be used for maintenance window. */
-  startHour?: number;
+  startHour?: number | undefined;
   /** Start minute to be used for maintenance window. */
-  startMinute?: number;
+  startMinute?: number | undefined;
   /** Day of the week to be used for maintenance window. */
-  dayOfWeek?: number;
+  dayOfWeek?: number | undefined;
 }
 /** Role of the server in a replication set. */
 export type ReplicationRole = "None" | "Primary" | "AsyncReplica" | "GeoAsyncReplica";
@@ -1327,15 +1508,15 @@ export type ReadReplicaPromoteOption = "Planned" | "Forced";
 /** Replica properties of a server. */
 export interface Replica {
   /** Role of the server in a replication set. */
-  role?: ReplicationRole;
+  role?: ReplicationRole | undefined;
   /** Maximum number of read replicas allowed for a server. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. Possible values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating */
-  replicationState?: ReplicationState;
+  replicationState?: ReplicationState | undefined;
   /** Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server. */
-  promoteMode?: ReadReplicaPromoteMode;
+  promoteMode?: ReadReplicaPromoteMode | undefined;
   /** Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only. */
-  promoteOption?: ReadReplicaPromoteOption;
+  promoteOption?: ReadReplicaPromoteOption | undefined;
 }
 /** Creation mode of a new server. */
 export type CreateMode =
@@ -1349,15 +1530,15 @@ export type CreateMode =
 /** The private endpoint connection resource. */
 export interface ServerPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections associated with the specified server. */
 export type ServerPropertiesPrivateEndpointConnectionsList =
@@ -1365,56 +1546,60 @@ export type ServerPropertiesPrivateEndpointConnectionsList =
 /** Cluster properties of a server. */
 export interface Cluster {
   /** Number of nodes assigned to the elastic cluster. */
-  clusterSize?: number;
+  clusterSize?: number | undefined;
   /** Default database name for the elastic cluster. */
-  defaultDatabaseName?: string;
+  defaultDatabaseName?: string | undefined;
 }
+/** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+export type ServerPropertiesFipsMode = "Enabled" | "Disabled";
 /** Properties of a server. */
 export interface ServerProperties {
   /** Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn't deleted. */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion;
+  version?: string | undefined;
   /** Minor version of PostgreSQL database engine. */
-  minorVersion?: string;
+  minorVersion?: string | undefined;
   /** Possible states of a server. */
-  state?: ServerState;
+  state?: ServerState | undefined;
   /** Fully qualified domain name of a server. */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
   /** Storage properties of a server. */
-  storage?: Storage;
+  storage?: Storage | undefined;
   /** Authentication configuration properties of a server. */
-  authConfig?: AuthConfig;
+  authConfig?: AuthConfig | undefined;
   /** Data encryption properties of a server. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** Backup properties of a server. */
-  backup?: Backup;
+  backup?: Backup | undefined;
   /** Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. */
-  network?: Network;
+  network?: Network | undefined;
   /** High availability properties of a server. */
-  highAvailability?: HighAvailability;
+  highAvailability?: HighAvailability | undefined;
   /** Maintenance window properties of a server. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Identifier of the server to be used as the source of the new server. Required when 'createMode' is 'PointInTimeRestore', 'GeoRestore', 'Replica', or 'ReviveDropped'. This property is returned only when the target server is a read replica. */
-  sourceServerResourceId?: string;
+  sourceServerResourceId?: string | undefined;
   /** Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It's required when 'createMode' is 'PointInTimeRestore', 'GeoRestore', or 'ReviveDropped'. */
-  pointInTimeUTC?: string;
+  pointInTimeUTC?: string | undefined;
   /** Availability zone of a server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Role of the server in a replication set. */
-  replicationRole?: ReplicationRole;
+  replicationRole?: ReplicationRole | undefined;
   /** Maximum number of read replicas allowed for a server. */
-  replicaCapacity?: number;
+  replicaCapacity?: number | undefined;
   /** Read replica properties of a server. Required only in case that you want to promote a server. */
-  replica?: Replica;
+  replica?: Replica | undefined;
   /** Creation mode of a new server. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** List of private endpoint connections associated with the specified server. */
-  privateEndpointConnections?: ServerPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ServerPropertiesPrivateEndpointConnectionsList | undefined;
   /** Cluster properties of a server. */
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+  fipsMode?: ServerPropertiesFipsMode | undefined;
 }
 /** Compute information of a server. */
 export interface Sku {
@@ -1426,9 +1611,9 @@ export interface Sku {
 /** User assigned managed identity associated with a server. */
 export interface UserIdentity {
   /** Identifier of the object of the service principal associated to the user assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Identifier of the client of the service principal associated to the user assigned managed identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Map of user assigned managed identities. */
 export type UserAssignedIdentityUserAssignedIdentitiesMap = {
@@ -1443,33 +1628,33 @@ export type IdentityType =
 /** Identities associated with a server. */
 export interface UserAssignedIdentity {
   /** Map of user assigned managed identities. */
-  userAssignedIdentities?: UserAssignedIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UserAssignedIdentityUserAssignedIdentitiesMap | undefined;
   /** Identifier of the object of the service principal associated to the user assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Types of identities associated with a server. */
   type: IdentityType;
   /** Identifier of the tenant of a server. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServerResponseTagsMap;
+  tags?: GetServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** Compute tier and size of a server. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** User assigned managed identities assigned to the server. */
-  identity?: UserAssignedIdentity;
+  identity?: UserAssignedIdentity | undefined;
 }
 export type GetTuningOptionRequestTuningOption = "index" | "table";
 export interface GetTuningOptionRequest {
@@ -1485,19 +1670,19 @@ export interface GetTuningOptionRequest {
 /** Properties of a tuning option. */
 export interface TuningOptionsProperties {
   /** State of the tuning option. */
-  state?: string;
+  state?: string | undefined;
 }
 export interface GetTuningOptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TuningOptionsProperties;
+  properties?: TuningOptionsProperties | undefined;
 }
 export interface GetVirtualEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1516,23 +1701,23 @@ export type VirtualEndpointResourcePropertiesVirtualEndpointsList = Array<string
 /** Properties of a pair of virtual endpoints. */
 export interface VirtualEndpointResourceProperties {
   /** Type of endpoint for the virtual endpoints. */
-  endpointType?: VirtualEndpointType;
+  endpointType?: VirtualEndpointType | undefined;
   /** List of servers that one of the virtual endpoints can refer to. */
-  members?: VirtualEndpointResourcePropertiesMembersList;
+  members?: VirtualEndpointResourcePropertiesMembersList | undefined;
   /** List of virtual endpoints for a server. */
-  virtualEndpoints?: VirtualEndpointResourcePropertiesVirtualEndpointsList;
+  virtualEndpoints?: VirtualEndpointResourcePropertiesVirtualEndpointsList | undefined;
 }
 export interface GetVirtualEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the pair of virtual endpoints. */
-  properties?: VirtualEndpointResourceProperties;
+  properties?: VirtualEndpointResourceProperties | undefined;
 }
 export interface ListAdministratorsMicrosoftEntraByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1545,13 +1730,13 @@ export interface ListAdministratorsMicrosoftEntraByServerRequest {
 /** Server administrator associated to a Microsoft Entra principal. */
 export interface AdministratorMicrosoftEntra {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a server administrator associated to a Microsoft Entra principal. */
   properties: AdministratorMicrosoftEntraProperties;
 }
@@ -1562,7 +1747,7 @@ export interface AdministratorMicrosoftEntraList {
   /** The AdministratorMicrosoftEntra items on this page */
   value: AdministratorMicrosoftEntraListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAdvancedThreatProtectionSettingsByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1575,15 +1760,15 @@ export interface ListAdvancedThreatProtectionSettingsByServerRequest {
 /** Advanced threat protection settings of the server. */
 export interface AdvancedThreatProtectionSettingsModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Advanced threat protection properties. */
-  properties?: AdvancedThreatProtectionSettingsProperties;
+  properties?: AdvancedThreatProtectionSettingsProperties | undefined;
 }
 /** The AdvancedThreatProtectionSettingsModel items on this page */
 export type AdvancedThreatProtectionSettingsListValueList =
@@ -1593,7 +1778,7 @@ export interface AdvancedThreatProtectionSettingsList {
   /** The AdvancedThreatProtectionSettingsModel items on this page */
   value: AdvancedThreatProtectionSettingsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBackupsAutomaticAndOnDemandByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1606,15 +1791,15 @@ export interface ListBackupsAutomaticAndOnDemandByServerRequest {
 /** Properties of a backup. */
 export interface BackupAutomaticAndOnDemand {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a backup. */
-  properties?: BackupAutomaticAndOnDemandProperties;
+  properties?: BackupAutomaticAndOnDemandProperties | undefined;
 }
 /** The BackupAutomaticAndOnDemand items on this page */
 export type BackupAutomaticAndOnDemandListValueList = Array<BackupAutomaticAndOnDemand>;
@@ -1623,7 +1808,7 @@ export interface BackupAutomaticAndOnDemandList {
   /** The BackupAutomaticAndOnDemand items on this page */
   value: BackupAutomaticAndOnDemandListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBackupsLongTermRetentionByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1636,15 +1821,15 @@ export interface ListBackupsLongTermRetentionByServerRequest {
 /** Response for the LTR backup Operation API call */
 export interface BackupsLongTermRetentionOperation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Long Term Retention Backup Operation Resource Properties */
-  properties?: LtrBackupOperationResponseProperties;
+  properties?: LtrBackupOperationResponseProperties | undefined;
 }
 /** The BackupsLongTermRetentionOperation items on this page */
 export type LtrServerBackupOperationListValueList = Array<BackupsLongTermRetentionOperation>;
@@ -1653,7 +1838,7 @@ export interface LtrServerBackupOperationList {
   /** The BackupsLongTermRetentionOperation items on this page */
   value: LtrServerBackupOperationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapabilitiesByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1666,53 +1851,53 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 /** Capability of a storage tier. */
 export interface StorageTierCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Name of the storage tier. */
-  name?: string;
+  name?: string | undefined;
   /** Supported IOPS for the storage tier. */
-  iops?: number;
+  iops?: number | undefined;
 }
 /** List of all supported storage tiers for this tier and storage size. */
 export type StorageMbCapabilitySupportedIopsTiersList = Array<StorageTierCapability>;
 /** Storage size (in MB) capability. */
 export interface StorageMbCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Minimum IOPS supported by the storage size. */
-  supportedIops?: number;
+  supportedIops?: number | undefined;
   /** Maximum IOPS supported by the storage size. */
-  supportedMaximumIops?: number;
+  supportedMaximumIops?: number | undefined;
   /** Minimum supported size (in MB) of storage. */
-  storageSizeMb?: number;
+  storageSizeMb?: number | undefined;
   /** Maximum supported size (in MB) of storage. */
-  maximumStorageSizeMb?: number;
+  maximumStorageSizeMb?: number | undefined;
   /** Minimum supported throughput (in MB/s) of storage. */
-  supportedThroughput?: number;
+  supportedThroughput?: number | undefined;
   /** Maximum supported throughput (in MB/s) of storage. */
-  supportedMaximumThroughput?: number;
+  supportedMaximumThroughput?: number | undefined;
   /** Default IOPS for this tier and storage size. */
-  defaultIopsTier?: string;
+  defaultIopsTier?: string | undefined;
   /** List of all supported storage tiers for this tier and storage size. */
-  supportedIopsTiers?: StorageMbCapabilitySupportedIopsTiersList;
+  supportedIopsTiers?: StorageMbCapabilitySupportedIopsTiersList | undefined;
 }
 /** Configurations of storage supported for this storage tier. */
 export type StorageEditionCapabilitySupportedStorageMbList = Array<StorageMbCapability>;
 /** Capabilities in terms of storage tier. */
 export interface StorageEditionCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Name of storage tier. */
-  name?: string;
+  name?: string | undefined;
   /** Default storage size (in MB) for this storage tier. */
-  defaultStorageSizeMb?: number;
+  defaultStorageSizeMb?: number | undefined;
   /** Configurations of storage supported for this storage tier. */
-  supportedStorageMb?: StorageEditionCapabilitySupportedStorageMbList;
+  supportedStorageMb?: StorageEditionCapabilitySupportedStorageMbList | undefined;
 }
 /** List of storage editions supported by this compute tier and compute name. */
 export type ServerEditionCapabilitySupportedStorageEditionsList = Array<StorageEditionCapability>;
@@ -1727,51 +1912,51 @@ export type FeatureStatus = "Enabled" | "Disabled";
 /** Features supported. */
 export interface SupportedFeature {
   /** Name of the feature. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the feature. Indicates if the feature is enabled or not. */
-  status?: FeatureStatus;
+  status?: FeatureStatus | undefined;
 }
 /** Features supported. */
 export type ServerSkuCapabilitySupportedFeaturesList = Array<SupportedFeature>;
 /** Capabilities in terms of compute. */
 export interface ServerSkuCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Name of the compute (SKU). */
-  name?: string;
+  name?: string | undefined;
   /** vCores available for this compute. */
-  vCores?: number;
+  vCores?: number | undefined;
   /** Maximum IOPS supported by this compute. */
-  supportedIops?: number;
+  supportedIops?: number | undefined;
   /** Supported memory (in MB) per virtual core assigned to this compute. */
-  supportedMemoryPerVcoreMb?: number;
+  supportedMemoryPerVcoreMb?: number | undefined;
   /** List of supported availability zones. E.g. '1', '2', '3' */
-  supportedZones?: ServerSkuCapabilitySupportedZonesList;
+  supportedZones?: ServerSkuCapabilitySupportedZonesList | undefined;
   /** Modes of high availability supported for this compute. */
-  supportedHaMode?: ServerSkuCapabilitySupportedHaModeList;
+  supportedHaMode?: ServerSkuCapabilitySupportedHaModeList | undefined;
   /** Features supported. */
-  supportedFeatures?: ServerSkuCapabilitySupportedFeaturesList;
+  supportedFeatures?: ServerSkuCapabilitySupportedFeaturesList | undefined;
   /** Security profile of the compute. Indicates if it's a Confidential Compute virtual machine. */
-  securityProfile?: string;
+  securityProfile?: string | undefined;
 }
 /** List of supported compute names (SKUs). */
 export type ServerEditionCapabilitySupportedServerSkusList = Array<ServerSkuCapability>;
 /** Capabilities in terms of compute tier. */
 export interface ServerEditionCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Name of compute tier. */
-  name?: string;
+  name?: string | undefined;
   /** Default compute name (SKU) for this computer tier. */
-  defaultSkuName?: string;
+  defaultSkuName?: string | undefined;
   /** List of storage editions supported by this compute tier and compute name. */
-  supportedStorageEditions?: ServerEditionCapabilitySupportedStorageEditionsList;
+  supportedStorageEditions?: ServerEditionCapabilitySupportedStorageEditionsList | undefined;
   /** List of supported compute names (SKUs). */
-  supportedServerSkus?: ServerEditionCapabilitySupportedServerSkusList;
+  supportedServerSkus?: ServerEditionCapabilitySupportedServerSkusList | undefined;
 }
 /** List of supported compute tiers. */
 export type CapabilitySupportedServerEditionsList = Array<ServerEditionCapability>;
@@ -1782,15 +1967,15 @@ export type ServerVersionCapabilitySupportedFeaturesList = Array<SupportedFeatur
 /** Capabilities in terms of major versions of PostgreSQL database engine. */
 export interface ServerVersionCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Major version of PostgreSQL database engine. */
-  name?: string;
+  name?: string | undefined;
   /** Major versions of PostgreSQL database engine to which this version can be automatically upgraded. */
-  supportedVersionsToUpgrade?: ServerVersionCapabilitySupportedVersionsToUpgradeList;
+  supportedVersionsToUpgrade?: ServerVersionCapabilitySupportedVersionsToUpgradeList | undefined;
   /** Features supported. */
-  supportedFeatures?: ServerVersionCapabilitySupportedFeaturesList;
+  supportedFeatures?: ServerVersionCapabilitySupportedFeaturesList | undefined;
 }
 /** List of supported major versions of PostgreSQL database engine. */
 export type CapabilitySupportedServerVersionsList = Array<ServerVersionCapability>;
@@ -1801,19 +1986,19 @@ export type FastProvisioningSupport = "Enabled" | "Disabled";
 /** Capability of a fast provisioning compute tier. */
 export interface FastProvisioningEditionCapability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Compute tier supporting fast provisioning. */
-  supportedTier?: string;
+  supportedTier?: string | undefined;
   /** Compute name (SKU) supporting fast provisioning. */
-  supportedSku?: string;
+  supportedSku?: string | undefined;
   /** Storage size (in GB) supporting fast provisioning. */
-  supportedStorageGb?: number;
+  supportedStorageGb?: number | undefined;
   /** Major version of PostgreSQL database engine supporting fast provisioning. */
-  supportedServerVersions?: string;
+  supportedServerVersions?: string | undefined;
   /** Count of servers in cache matching this specification. */
-  serverCount?: number;
+  serverCount?: number | undefined;
 }
 /** List of compute tiers supporting fast provisioning. */
 export type CapabilitySupportedFastProvisioningEditionsList =
@@ -1835,33 +2020,35 @@ export type LocationRestricted = "Enabled" | "Disabled";
 /** Capability for the Azure Database for PostgreSQL flexible server. */
 export interface Capability {
   /** Status of the capability. */
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
   /** Reason for the capability not being available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Name of flexible servers capabilities. */
-  name?: string;
+  name?: string | undefined;
   /** List of supported compute tiers. */
-  supportedServerEditions?: CapabilitySupportedServerEditionsList;
+  supportedServerEditions?: CapabilitySupportedServerEditionsList | undefined;
   /** List of supported major versions of PostgreSQL database engine. */
-  supportedServerVersions?: CapabilitySupportedServerVersionsList;
+  supportedServerVersions?: CapabilitySupportedServerVersionsList | undefined;
   /** Features supported. */
-  supportedFeatures?: CapabilitySupportedFeaturesList;
+  supportedFeatures?: CapabilitySupportedFeaturesList | undefined;
   /** Indicates if fast provisioning is supported. 'Enabled' means fast provisioning is supported. 'Disabled' stands for fast provisioning is not supported. Will be deprecated in the future. Look to Supported Features for 'FastProvisioning'. */
-  fastProvisioningSupported?: FastProvisioningSupport;
+  fastProvisioningSupported?: FastProvisioningSupport | undefined;
   /** List of compute tiers supporting fast provisioning. */
-  supportedFastProvisioningEditions?: CapabilitySupportedFastProvisioningEditionsList;
+  supportedFastProvisioningEditions?: CapabilitySupportedFastProvisioningEditionsList | undefined;
   /** Indicates if geographically redundant backups are supported in this location. 'Enabled' means geographically redundant backups are supported. 'Disabled' stands for geographically redundant backup is not supported. Will be deprecated in the future. Look to Supported Features for 'GeoBackup'. */
-  geoBackupSupported?: GeographicallyRedundantBackupSupport;
+  geoBackupSupported?: GeographicallyRedundantBackupSupport | undefined;
   /** Indicates if high availability with zone redundancy is supported in this location. 'Enabled' means high availability with zone redundancy is supported. 'Disabled' stands for high availability with zone redundancy is not supported. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHa'. */
-  zoneRedundantHaSupported?: ZoneRedundantHighAvailabilitySupport;
+  zoneRedundantHaSupported?: ZoneRedundantHighAvailabilitySupport | undefined;
   /** Indicates if high availability with zone redundancy is supported in conjunction with geographically redundant backups in this location. 'Enabled' means high availability with zone redundancy is supported in conjunction with geographically redundant backups is supported. 'Disabled' stands for high availability with zone redundancy is supported in conjunction with geographically redundant backups is not supported. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHaAndGeoBackup'. */
-  zoneRedundantHaAndGeoBackupSupported?: ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport;
+  zoneRedundantHaAndGeoBackupSupported?:
+    | ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport
+    | undefined;
   /** Indicates if storage autogrow is supported in this location. 'Enabled' means storage autogrow is supported. 'Disabled' stands for storage autogrow is not supported. Will be deprecated in the future. Look to Supported Features for 'StorageAutoGrowth'. */
-  storageAutoGrowthSupported?: StorageAutoGrowthSupport;
+  storageAutoGrowthSupported?: StorageAutoGrowthSupport | undefined;
   /** Indicates if resizing the storage, without interrupting the operation of the database engine, is supported in this location for the given subscription. 'Enabled' means resizing the storage without interrupting the operation of the database engine is supported. 'Disabled' means resizing the storage without interrupting the operation of the database engine is not supported. Will be deprecated in the future. Look to Supported Features for 'OnlineResize'. */
-  onlineResizeSupported?: OnlineStorageResizeSupport;
+  onlineResizeSupported?: OnlineStorageResizeSupport | undefined;
   /** Indicates if this location is restricted. 'Enabled' means location is restricted. 'Disabled' stands for location is not restricted. Will be deprecated in the future. Look to Supported Features for 'Restricted'. */
-  restricted?: LocationRestricted;
+  restricted?: LocationRestricted | undefined;
 }
 /** The Capability items on this page */
 export type CapabilityListValueList = Array<Capability>;
@@ -1870,7 +2057,7 @@ export interface CapabilityList {
   /** The Capability items on this page */
   value: CapabilityListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapabilitiesByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1891,28 +2078,28 @@ export interface ListCapturedLogByServerRequest {
 /** Properties of a log file. */
 export interface CapturedLogProperties {
   /** Creation timestamp of the log file. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Last modified timestamp of the log file. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Size (in KB) of the log file. */
-  sizeInKb?: number;
+  sizeInKb?: number | undefined;
   /** Type of log file. Can be 'ServerLogs' or 'UpgradeLogs'. */
-  type?: string;
+  type?: string | undefined;
   /** URL to download the log file from. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Log file. */
 export interface CapturedLog {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a log file. */
-  properties?: CapturedLogProperties;
+  properties?: CapturedLogProperties | undefined;
 }
 /** The CapturedLog items on this page */
 export type CapturedLogListValueList = Array<CapturedLog>;
@@ -1921,7 +2108,7 @@ export interface CapturedLogList {
   /** The CapturedLog items on this page */
   value: CapturedLogListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1934,15 +2121,15 @@ export interface ListConfigurationByServerRequest {
 /** Configuration (also known as server parameter). */
 export interface Configuration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a configuration (also known as server parameter). */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The Configuration items on this page */
 export type ConfigurationListValueList = Array<Configuration>;
@@ -1951,7 +2138,7 @@ export interface ConfigurationList {
   /** The Configuration items on this page */
   value: ConfigurationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1964,15 +2151,15 @@ export interface ListDatabaseByServerRequest {
 /** Represents a database. */
 export interface Database {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 /** The Database items on this page */
 export type DatabaseListValueList = Array<Database>;
@@ -1981,7 +2168,7 @@ export interface DatabaseList {
   /** The Database items on this page */
   value: DatabaseListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRuleByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1994,13 +2181,13 @@ export interface ListFirewallRuleByServerRequest {
 /** Firewall rule. */
 export interface FirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a firewall rule. */
   properties: FirewallRuleProperties;
 }
@@ -2011,7 +2198,71 @@ export interface FirewallRuleList {
   /** The FirewallRule items on this page */
   value: FirewallRuleListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
+}
+export type ListMaintenanceEventsRequestMaintenanceStatus = "Upcoming" | "Past";
+export interface ListMaintenanceEventsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** Filter maintenance events by status. */
+  maintenanceStatus?: ListMaintenanceEventsRequestMaintenanceStatus | (string & {}) | undefined;
+}
+/** Maintenance event resource for a PostgreSQL flexible server. */
+export interface MaintenanceEventResource {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MaintenanceEventResourceProperties | undefined;
+}
+/** The MaintenanceEventResource items on this page */
+export type MaintenanceEventResourceListResultValueList = Array<MaintenanceEventResource>;
+/** The response of a MaintenanceEventResource list operation. */
+export interface MaintenanceEventResourceListResult {
+  /** The MaintenanceEventResource items on this page */
+  value: MaintenanceEventResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListMajorVersionUpgradePrecheckRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+}
+/** Major version upgrade precheck resource for a PostgreSQL flexible server. */
+export interface MajorVersionUpgradePrecheckResource {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MajorVersionUpgradePrecheckResourceProperties | undefined;
+}
+/** The MajorVersionUpgradePrecheckResource items on this page */
+export type MajorVersionUpgradePrecheckResourceListResultValueList =
+  Array<MajorVersionUpgradePrecheckResource>;
+/** The response of a MajorVersionUpgradePrecheckResource list operation. */
+export interface MajorVersionUpgradePrecheckResourceListResult {
+  /** The MajorVersionUpgradePrecheckResource items on this page */
+  value: MajorVersionUpgradePrecheckResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export type ListMigrationByTargetServerRequestMigrationListFilter = "Active" | "All";
 export interface ListMigrationByTargetServerRequest {
@@ -2022,26 +2273,29 @@ export interface ListMigrationByTargetServerRequest {
   /** The name of the server. */
   serverName: string;
   /** Migration list filter. Indicates if the request should retrieve only active migrations or all migrations. Defaults to Active. */
-  migrationListFilter?: ListMigrationByTargetServerRequestMigrationListFilter | (string & {});
+  migrationListFilter?:
+    | ListMigrationByTargetServerRequestMigrationListFilter
+    | (string & {})
+    | undefined;
 }
 /** Resource tags. */
 export type MigrationTagsMap = { [key: string]: string | undefined };
 /** Properties of a migration. */
 export interface Migration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MigrationTagsMap;
+  tags?: MigrationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationProperties;
+  properties?: MigrationProperties | undefined;
 }
 /** The Migration items on this page */
 export type MigrationListValueList = Array<Migration>;
@@ -2050,19 +2304,19 @@ export interface MigrationList {
   /** The Migration items on this page */
   value: MigrationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** Type of resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Intended executor of the operation. */
 export type OperationOrigin = "NotSpecified" | "user" | "system";
@@ -2073,59 +2327,59 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Metric specification for an operation. */
 export interface MetricSpecification {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit of the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** Aggregation type of the metric. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Supported aggregation types for the metric. */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** Supported time grain types for the metric. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** Category of the metric. */
-  category?: string;
+  category?: string | undefined;
 }
 /** Metric specifications for the operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Log specification for an operation. */
 export interface LogSpecification {
   /** Name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the log. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration for the log. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Log specifications for the operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Service specification for an operation. */
 export interface ServiceSpecification {
   /** Metric specifications for the operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Log specifications for the operation. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Additional properties for operation metadata. */
 export interface OperationProperties {
   /** Service specification for the operation. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** REST API operation definition. */
 export interface Operation {
   /** Name of the operation being performed on this particular object. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display information for this particular operation or action. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Indicates if the operation is a data action. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Intended executor of the operation. */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Additional descriptions for the operation. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The Operation items on this page */
 export type OperationListValueList = Array<Operation>;
@@ -2134,7 +2388,7 @@ export interface OperationList {
   /** The Operation items on this page */
   value: OperationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2154,7 +2408,7 @@ export interface PrivateEndpointConnectionList {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2171,24 +2425,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
@@ -2197,7 +2451,7 @@ export interface PrivateLinkResourceList {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotaUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2208,22 +2462,22 @@ export interface ListQuotaUsagesRequest {
 /** Name property for quota usage */
 export interface NameProperty {
   /** Name value */
-  value?: string;
+  value?: string | undefined;
   /** Localized name */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Quota usage for servers */
 export interface QuotaUsage {
   /** Name of quota usage for servers */
-  name?: NameProperty;
+  name?: NameProperty | undefined;
   /** Quota limit */
-  limit?: number;
+  limit?: number | undefined;
   /** Quota unit */
-  unit?: string;
+  unit?: string | undefined;
   /** Current Quota usage value */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Fully qualified ARM resource Id */
-  id?: string;
+  id?: string | undefined;
 }
 /** The QuotaUsage items on this page */
 export type QuotaUsageListValueList = Array<QuotaUsage>;
@@ -2232,7 +2486,7 @@ export interface QuotaUsageList {
   /** The QuotaUsage items on this page */
   value: QuotaUsageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReplicasByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2247,23 +2501,23 @@ export type ServerTagsMap = { [key: string]: string | undefined };
 /** Properties of a server. */
 export interface Server {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServerTagsMap;
+  tags?: ServerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** Compute tier and size of a server. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** User assigned managed identities assigned to the server. */
-  identity?: UserAssignedIdentity;
+  identity?: UserAssignedIdentity | undefined;
 }
 /** The Server items on this page */
 export type ServerListValueList = Array<Server>;
@@ -2272,7 +2526,7 @@ export interface ServerList {
   /** The Server items on this page */
   value: ServerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2295,15 +2549,15 @@ export interface ListTuningOptionByServerRequest {
 /** Impact on some metric if this recommended action is applied. */
 export interface TuningOptions {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TuningOptionsProperties;
+  properties?: TuningOptionsProperties | undefined;
 }
 /** The TuningOptions items on this page */
 export type TuningOptionsListValueList = Array<TuningOptions>;
@@ -2312,14 +2566,15 @@ export interface TuningOptionsList {
   /** The TuningOptions items on this page */
   value: TuningOptionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTuningOptionRecommendationsRequestTuningOption = "index" | "table";
 export type ListTuningOptionRecommendationsRequestRecommendationType =
   | "CreateIndex"
   | "DropIndex"
   | "ReIndex"
-  | "AnalyzeTable";
+  | "AnalyzeTable"
+  | "VacuumTable";
 export interface ListTuningOptionRecommendationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2330,38 +2585,46 @@ export interface ListTuningOptionRecommendationsRequest {
   /** The name of the tuning option. */
   tuningOption: ListTuningOptionRecommendationsRequestTuningOption | (string & {});
   /** Recommendations list filter. Retrieves recommendations based on type. */
-  recommendationType?: ListTuningOptionRecommendationsRequestRecommendationType | (string & {});
+  recommendationType?:
+    | ListTuningOptionRecommendationsRequestRecommendationType
+    | (string & {})
+    | undefined;
 }
 /** List of identifiers for all queries identified as targets for improvement if the recommendation is applied. The list is only populated for CREATE INDEX recommendations. */
 export type ObjectRecommendationPropertiesImprovedQueryIdsList = Array<number>;
 /** Type for this recommendation. */
-export type RecommendationTypeEnum = "CreateIndex" | "DropIndex" | "ReIndex" | "AnalyzeTable";
+export type RecommendationTypeEnum =
+  | "CreateIndex"
+  | "DropIndex"
+  | "ReIndex"
+  | "AnalyzeTable"
+  | "VacuumTable";
 /** Implementation details for the recommended action. */
 export interface ObjectRecommendationPropertiesImplementationDetails {
   /** Method of implementation for recommended action. */
-  method?: string;
+  method?: string | undefined;
   /** Implementation script for the recommended action. */
-  script?: string;
+  script?: string | undefined;
 }
 /** Workload information for the recommended action. */
 export interface ObjectRecommendationPropertiesAnalyzedWorkload {
   /** Start time (UTC) of the workload analyzed. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time (UTC) of the workload analyzed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Number of queries from the workload that were examined to produce this recommendation. For DROP INDEX recommendations it's 0 (zero). */
-  queryCount?: number;
+  queryCount?: number | undefined;
 }
 /** Impact on some metric if this recommended action is applied. */
 export interface ImpactRecord {
   /** Dimension name. */
-  dimensionName?: string;
+  dimensionName?: string | undefined;
   /** Dimension unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** Optional property that can be used to store the identifier of the query, if the metric is for a specific query. */
-  queryId?: number;
+  queryId?: number | undefined;
   /** Absolute value. */
-  absoluteValue?: number;
+  absoluteValue?: number | undefined;
 }
 /** Estimated impact of this recommended action. */
 export type ObjectRecommendationPropertiesEstimatedImpactList = Array<ImpactRecord>;
@@ -2372,59 +2635,59 @@ export type ObjectRecommendationDetailsIncludedColumnsList = Array<string>;
 /** Recommendation details for the recommended action. */
 export interface ObjectRecommendationDetails {
   /** Database name. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Schema name. */
-  schema?: string;
+  schema?: string | undefined;
   /** Table name. */
-  table?: string;
+  table?: string | undefined;
   /** Index type. */
-  indexType?: string;
+  indexType?: string | undefined;
   /** Index name. */
-  indexName?: string;
+  indexName?: string | undefined;
   /** Index columns. */
-  indexColumns?: ObjectRecommendationDetailsIndexColumnsList;
+  indexColumns?: ObjectRecommendationDetailsIndexColumnsList | undefined;
   /** Index included columns. */
-  includedColumns?: ObjectRecommendationDetailsIncludedColumnsList;
+  includedColumns?: ObjectRecommendationDetailsIncludedColumnsList | undefined;
 }
 /** Object recommendation properties. */
 export interface ObjectRecommendationProperties {
   /** Creation time (UTC) of this recommendation. */
-  initialRecommendedTime?: string;
+  initialRecommendedTime?: string | undefined;
   /** Last time (UTC) that this recommendation was produced. */
-  lastRecommendedTime?: string;
+  lastRecommendedTime?: string | undefined;
   /** Number of times this recommendation has been produced. */
-  timesRecommended?: number;
+  timesRecommended?: number | undefined;
   /** List of identifiers for all queries identified as targets for improvement if the recommendation is applied. The list is only populated for CREATE INDEX recommendations. */
-  improvedQueryIds?: ObjectRecommendationPropertiesImprovedQueryIdsList;
+  improvedQueryIds?: ObjectRecommendationPropertiesImprovedQueryIdsList | undefined;
   /** Reason for this recommendation. */
-  recommendationReason?: string;
+  recommendationReason?: string | undefined;
   /** Current state. */
-  currentState?: string;
+  currentState?: string | undefined;
   /** Type for this recommendation. */
-  recommendationType?: RecommendationTypeEnum;
+  recommendationType?: RecommendationTypeEnum | undefined;
   /** Implementation details for the recommended action. */
-  implementationDetails?: ObjectRecommendationPropertiesImplementationDetails;
+  implementationDetails?: ObjectRecommendationPropertiesImplementationDetails | undefined;
   /** Workload information for the recommended action. */
-  analyzedWorkload?: ObjectRecommendationPropertiesAnalyzedWorkload;
+  analyzedWorkload?: ObjectRecommendationPropertiesAnalyzedWorkload | undefined;
   /** Estimated impact of this recommended action. */
-  estimatedImpact?: ObjectRecommendationPropertiesEstimatedImpactList;
+  estimatedImpact?: ObjectRecommendationPropertiesEstimatedImpactList | undefined;
   /** Recommendation details for the recommended action. */
-  details?: ObjectRecommendationDetails;
+  details?: ObjectRecommendationDetails | undefined;
 }
 /** Object recommendation properties. */
 export interface ObjectRecommendation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Always empty. */
-  kind?: string;
+  kind?: string | undefined;
   /** Properties of an object recommendation. */
-  properties?: ObjectRecommendationProperties;
+  properties?: ObjectRecommendationProperties | undefined;
 }
 /** The ObjectRecommendation items on this page */
 export type ObjectRecommendationListValueList = Array<ObjectRecommendation>;
@@ -2433,7 +2696,7 @@ export interface ObjectRecommendationList {
   /** The ObjectRecommendation items on this page */
   value: ObjectRecommendationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualEndpointByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2446,15 +2709,15 @@ export interface ListVirtualEndpointByServerRequest {
 /** Pair of virtual endpoints for a server. */
 export interface VirtualEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the pair of virtual endpoints. */
-  properties?: VirtualEndpointResourceProperties;
+  properties?: VirtualEndpointResourceProperties | undefined;
 }
 /** The VirtualEndpoint items on this page */
 export type VirtualEndpointsListValueList = Array<VirtualEndpoint>;
@@ -2463,7 +2726,7 @@ export interface VirtualEndpointsList {
   /** The VirtualEndpoint items on this page */
   value: VirtualEndpointsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkSubnetUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2471,30 +2734,75 @@ export interface ListVirtualNetworkSubnetUsageRequest {
   /** The name of the location. */
   locationName: string;
   /** Virtual network resource id. */
-  virtualNetworkArmResourceId?: string;
+  virtualNetworkArmResourceId?: string | undefined;
 }
 /** Delegated subnet usage data. */
 export interface DelegatedSubnetUsage {
   /** Name of the delegated subnet for which IP addresses are in use */
-  subnetName?: string;
+  subnetName?: string | undefined;
   /** Number of IP addresses used by the delegated subnet */
-  usage?: number;
+  usage?: number | undefined;
 }
 export type VirtualNetworkSubnetUsageModelDelegatedSubnetsUsageList = Array<DelegatedSubnetUsage>;
 /** Virtual network subnet usage data. */
 export interface VirtualNetworkSubnetUsageModel {
-  delegatedSubnetsUsage?: VirtualNetworkSubnetUsageModelDelegatedSubnetsUsageList;
+  delegatedSubnetsUsage?: VirtualNetworkSubnetUsageModelDelegatedSubnetsUsageList | undefined;
   /** location of the delegated subnet usage */
-  location?: string;
+  location?: string | undefined;
   /** subscriptionId of the delegated subnet usage */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
+}
+export interface MaintenanceEventsRescheduleRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** The name of the MaintenanceEventResource */
+  maintenanceEventId: string;
+  /** New start time in RFC3339 format. */
+  postponeToDateTime: string;
+}
+export interface MigrateServerNetworkModeRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+}
+/** State of the network migration operation. */
+export type NetworkMigrationState =
+  | "Pending"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "CancelInProgress"
+  | "Cancelled";
+/** Status of a network migration operation. */
+export interface MigrateNetworkStatus {
+  /** Identifier of the subscription. */
+  subscriptionId?: string | undefined;
+  /** Name of the resource group. */
+  resourceGroupName?: string | undefined;
+  /** Name of the server. */
+  serverName?: string | undefined;
+  /** State of the network migration operation. */
+  state?: NetworkMigrationState | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 /** Properties of a configuration (also known as server parameter). */
 export interface ConfigurationPropertiesInput {
   /** Value of the configuration (also known as server parameter). Required to update the value assigned to a specific modifiable configuration. */
-  value?: string;
+  value?: string | undefined;
   /** Source of the value assigned to the configuration (also known as server parameter). Required to update the value assigned to a specific modifiable configuration. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface PutConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2506,15 +2814,15 @@ export interface PutConfigurationRequest {
   /** Name of the configuration (also known as server parameter). */
   configurationName: string;
   /** Properties of a configuration (also known as server parameter). */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface PutConfigurationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Failover mode. */
 export type FailoverMode =
@@ -2530,17 +2838,17 @@ export interface RestartServerRequest {
   /** The name of the server. */
   serverName: string;
   /** Indicates if restart the PostgreSQL database engine should failover or switch over from primary to standby. This only works if server has high availability enabled. */
-  restartWithFailover?: boolean;
+  restartWithFailover?: boolean | undefined;
   /** Failover mode. */
-  failoverMode?: FailoverMode | (string & {});
+  failoverMode?: FailoverMode | (string & {}) | undefined;
 }
 export interface RestartServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ServersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2549,55 +2857,61 @@ export type BackupInputGeoRedundantBackup = "Enabled" | "Disabled";
 /** Backup properties of a server. */
 export interface BackupInput {
   /** Backup retention days for the server. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Indicates if the server is configured to create geographically redundant backups. */
-  geoRedundantBackup?: BackupInputGeoRedundantBackup | (string & {});
+  geoRedundantBackup?: BackupInputGeoRedundantBackup | (string & {}) | undefined;
+  /** Indicates if the server is configured to create immutable backups. */
+  immutableBackup?: ImmutableBackup | (string & {}) | undefined;
 }
 /** Replica properties of a server. */
 export interface ReplicaInput {
   /** Role of the server in a replication set. */
-  role?: ReplicationRole | (string & {});
+  role?: ReplicationRole | (string & {}) | undefined;
   /** Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server. */
-  promoteMode?: ReadReplicaPromoteMode | (string & {});
+  promoteMode?: ReadReplicaPromoteMode | (string & {}) | undefined;
   /** Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only. */
-  promoteOption?: ReadReplicaPromoteOption | (string & {});
+  promoteOption?: ReadReplicaPromoteOption | (string & {}) | undefined;
 }
+/** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+export type ServerPropertiesInputFipsMode = "Enabled" | "Disabled";
 /** Properties of a server. */
 export interface ServerPropertiesInput {
   /** Name of the login designated as the first password based administrator assigned to your instance of PostgreSQL. Must be specified the first time that you enable password based authentication on a server. Once set to a given value, it cannot be changed for the rest of the life of a server. If you disable password based authentication on a server which had it enabled, this password based role isn't deleted. */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion | (string & {});
+  version?: string | undefined;
   /** Storage properties of a server. */
-  storage?: Storage;
+  storage?: Storage | undefined;
   /** Authentication configuration properties of a server. */
-  authConfig?: AuthConfig;
+  authConfig?: AuthConfig | undefined;
   /** Data encryption properties of a server. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** Backup properties of a server. */
-  backup?: BackupInput;
+  backup?: BackupInput | undefined;
   /** Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. */
-  network?: Network;
+  network?: Network | undefined;
   /** High availability properties of a server. */
-  highAvailability?: HighAvailability;
+  highAvailability?: HighAvailability | undefined;
   /** Maintenance window properties of a server. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Identifier of the server to be used as the source of the new server. Required when 'createMode' is 'PointInTimeRestore', 'GeoRestore', 'Replica', or 'ReviveDropped'. This property is returned only when the target server is a read replica. */
-  sourceServerResourceId?: string;
+  sourceServerResourceId?: string | undefined;
   /** Creation time (in ISO8601 format) of the backup which you want to restore in the new server. It's required when 'createMode' is 'PointInTimeRestore', 'GeoRestore', or 'ReviveDropped'. */
-  pointInTimeUTC?: string;
+  pointInTimeUTC?: string | undefined;
   /** Availability zone of a server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Role of the server in a replication set. */
-  replicationRole?: ReplicationRole | (string & {});
+  replicationRole?: ReplicationRole | (string & {}) | undefined;
   /** Read replica properties of a server. Required only in case that you want to promote a server. */
-  replica?: ReplicaInput;
+  replica?: ReplicaInput | undefined;
   /** Creation mode of a new server. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** Cluster properties of a server. */
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified on create, it defaults to Disabled. */
+  fipsMode?: ServerPropertiesInputFipsMode | (string & {}) | undefined;
 }
 /** Map of user assigned managed identities. */
 export type UserAssignedIdentityInputUserAssignedIdentitiesMap = {
@@ -2606,9 +2920,9 @@ export type UserAssignedIdentityInputUserAssignedIdentitiesMap = {
 /** Identities associated with a server. */
 export interface UserAssignedIdentityInput {
   /** Map of user assigned managed identities. */
-  userAssignedIdentities?: UserAssignedIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UserAssignedIdentityInputUserAssignedIdentitiesMap | undefined;
   /** Identifier of the object of the service principal associated to the user assigned managed identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Types of identities associated with a server. */
   type: IdentityType | (string & {});
 }
@@ -2620,23 +2934,23 @@ export interface ServersCreateOrUpdateRequest {
   /** The name of the server. */
   serverName: string;
   /** Resource tags. */
-  tags?: ServersCreateOrUpdateRequestTagsMap;
+  tags?: ServersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a server. */
-  properties?: ServerPropertiesInput;
+  properties?: ServerPropertiesInput | undefined;
   /** Compute tier and size of a server. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** User assigned managed identities assigned to the server. */
-  identity?: UserAssignedIdentityInput;
+  identity?: UserAssignedIdentityInput | undefined;
 }
 export interface ServersCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ServerThreatProtectionSettingsCreateOrUpdateRequestThreatProtectionName = "Default";
 /** Properties of advanced threat protection state for a server. */
@@ -2656,15 +2970,15 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateRequest {
     | ServerThreatProtectionSettingsCreateOrUpdateRequestThreatProtectionName
     | (string & {});
   /** Advanced threat protection properties. */
-  properties?: AdvancedThreatProtectionSettingsPropertiesInput;
+  properties?: AdvancedThreatProtectionSettingsPropertiesInput | undefined;
 }
 export interface ServerThreatProtectionSettingsCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of SAS uri of storage containers where backup data is to be streamed/copied. */
 export type BackupStoreDetailsSasUriListList = Array<string>;
@@ -2688,13 +3002,13 @@ export interface StartBackupsLongTermRetentionRequest {
 /** Response for the LTR backup API call */
 export interface BackupsLongTermRetentionResponse {
   /** Long Term Retention Backup Operation Resource Properties */
-  properties?: LtrBackupOperationResponseProperties;
+  properties?: LtrBackupOperationResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2706,11 +3020,36 @@ export interface StartServerRequest {
 }
 export interface StartServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
+}
+export interface StartServerMajorVersionUpgradePrecheckRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the server. */
+  serverName: string;
+  /** The target major version to upgrade to. */
+  targetVersion: string;
+}
+/** Response model for starting a major version upgrade precheck. */
+export interface StartMajorVersionUpgradePrecheckResponse {
+  /** The precheck validation ID. */
+  name?: string | undefined;
+  /** The time when the precheck was created. */
+  createTime?: string | undefined;
+  /** The status of the precheck validation. */
+  status?: MajorVersionUpgradePrecheckStatus | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface StopServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2722,11 +3061,11 @@ export interface StopServerRequest {
 }
 export interface StopServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2738,31 +3077,31 @@ export interface UpdateConfigurationRequest {
   /** Name of the configuration (also known as server parameter). */
   configurationName: string;
   /** Properties of a configuration (also known as server parameter). */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface UpdateConfigurationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Credentials of administrator users for source and target servers. */
 export interface AdminCredentialsForPatch {
   /** Password for the user of the source server. */
-  sourceServerPassword?: string | Redacted.Redacted<string>;
+  sourceServerPassword?: string | Redacted.Redacted<string> | undefined;
   /** Password for the user of the target server. */
-  targetServerPassword?: string | Redacted.Redacted<string>;
+  targetServerPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** Migration secret parameters. */
 export interface MigrationSecretParametersForPatch {
   /** Credentials of administrator users for source and target servers. */
-  adminCredentials?: AdminCredentialsForPatch;
+  adminCredentials?: AdminCredentialsForPatch | undefined;
   /** Gets or sets the name of the user for the source server. This user doesn't need to be an administrator. */
-  sourceServerUsername?: string;
+  sourceServerUsername?: string | undefined;
   /** Gets or sets the name of the user for the target server. This user doesn't need to be an administrator. */
-  targetServerUsername?: string;
+  targetServerUsername?: string | undefined;
 }
 /** Names of databases to migrate. */
 export type MigrationPropertiesForPatchDbsToMigrateList = Array<string>;
@@ -2773,35 +3112,38 @@ export type MigrationPropertiesForPatchDbsToCancelMigrationOnList = Array<string
 /** Migration properties. */
 export interface MigrationPropertiesForPatch {
   /** Identifier of the source database server resource, when 'sourceType' is 'PostgreSQLSingleServer'. For other source types this must be set to ipaddress:port@username or hostname:port@username. */
-  sourceDbServerResourceId?: string;
+  sourceDbServerResourceId?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the source server. This property is optional. When provided, the migration service will always use it to connect to the source server. */
-  sourceDbServerFullyQualifiedDomainName?: string;
+  sourceDbServerFullyQualifiedDomainName?: string | undefined;
   /** Fully qualified domain name (FQDN) or IP address of the target server. This property is optional. When provided, the migration service will always use it to connect to the target server. */
-  targetDbServerFullyQualifiedDomainName?: string;
+  targetDbServerFullyQualifiedDomainName?: string | undefined;
   /** Migration secret parameters. */
-  secretParameters?: MigrationSecretParametersForPatch;
+  secretParameters?: MigrationSecretParametersForPatch | undefined;
   /** Names of databases to migrate. */
-  dbsToMigrate?: MigrationPropertiesForPatchDbsToMigrateList;
+  dbsToMigrate?: MigrationPropertiesForPatchDbsToMigrateList | undefined;
   /** Indicates whether to setup logical replication on source server, if needed. */
-  setupLogicalReplicationOnSourceDbIfNeeded?: LogicalReplicationOnSourceServer | (string & {});
+  setupLogicalReplicationOnSourceDbIfNeeded?:
+    | LogicalReplicationOnSourceServer
+    | (string & {})
+    | undefined;
   /** Indicates if databases on the target server can be overwritten when already present. If set to 'False', when the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. */
-  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer | (string & {});
+  overwriteDbsInTarget?: OverwriteDatabasesOnTargetServer | (string & {}) | undefined;
   /** Start time (UTC) for migration window. */
-  migrationWindowStartTimeInUtc?: string;
+  migrationWindowStartTimeInUtc?: string | undefined;
   /** Indicates if roles and permissions must be migrated. */
-  migrateRoles?: MigrateRolesAndPermissions | (string & {});
+  migrateRoles?: MigrateRolesAndPermissions | (string & {}) | undefined;
   /** Indicates if data migration must start right away. */
-  startDataMigration?: StartDataMigration | (string & {});
+  startDataMigration?: StartDataMigration | (string & {}) | undefined;
   /** Indicates if cutover must be triggered for the entire migration. */
-  triggerCutover?: TriggerCutover | (string & {});
+  triggerCutover?: TriggerCutover | (string & {}) | undefined;
   /** When you want to trigger cutover for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToTriggerCutoverOn?: MigrationPropertiesForPatchDbsToTriggerCutoverOnList;
+  dbsToTriggerCutoverOn?: MigrationPropertiesForPatchDbsToTriggerCutoverOnList | undefined;
   /** Indicates if cancel must be triggered for the entire migration. */
-  cancel?: Cancel | (string & {});
+  cancel?: Cancel | (string & {}) | undefined;
   /** When you want to trigger cancel for specific databases set 'triggerCutover' to 'True' and the names of the specific databases in this array. */
-  dbsToCancelMigrationOn?: MigrationPropertiesForPatchDbsToCancelMigrationOnList;
+  dbsToCancelMigrationOn?: MigrationPropertiesForPatchDbsToCancelMigrationOnList | undefined;
   /** Mode used to perform the migration: Online or Offline. */
-  migrationMode?: MigrationMode | (string & {});
+  migrationMode?: MigrationMode | (string & {}) | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateMigrationRequestTagsMap = { [key: string]: string | undefined };
@@ -2815,34 +3157,34 @@ export interface UpdateMigrationRequest {
   /** Name of migration. */
   migrationName: string;
   /** Migration properties. */
-  properties?: MigrationPropertiesForPatch;
+  properties?: MigrationPropertiesForPatch | undefined;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateMigrationRequestTagsMap;
+  tags?: UpdateMigrationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMigrationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMigrationResponseTagsMap;
+  tags?: UpdateMigrationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Migration properties. */
-  properties?: MigrationProperties;
+  properties?: MigrationProperties | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -2856,27 +3198,29 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Compute information of a server. */
 export interface SkuForPatch {
   /** Name by which is known a given compute size assigned to a server. */
-  name?: string;
+  name?: string | undefined;
   /** Tier of the compute assigned to a server. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 /** Backup properties of a server. */
 export interface BackupForPatchInput {
   /** Backup retention days for the server. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
+  /** Indicates if the server is configured to create immutable backups. */
+  immutableBackup?: ImmutableBackup | (string & {}) | undefined;
 }
 /** Mode of high availability supported for this compute. */
 export type PostgreSqlFlexibleServerHighAvailabilityMode =
@@ -2886,9 +3230,9 @@ export type PostgreSqlFlexibleServerHighAvailabilityMode =
 /** High availability properties of a server. */
 export interface HighAvailabilityForPatch {
   /** High availability mode for a server. */
-  mode?: PostgreSqlFlexibleServerHighAvailabilityMode | (string & {});
+  mode?: PostgreSqlFlexibleServerHighAvailabilityMode | (string & {}) | undefined;
   /** Availability zone associated to the standby server created when high availability is set to SameZone or ZoneRedundant. */
-  standbyAvailabilityZone?: string;
+  standbyAvailabilityZone?: string | undefined;
 }
 /** Maintenance window properties of a server. */
 export type MaintenanceWindowForPatch = MaintenanceWindow;
@@ -2897,44 +3241,50 @@ export type PasswordBasedAuth = "Enabled" | "Disabled";
 /** Authentication configuration properties of a server. */
 export interface AuthConfigForPatch {
   /** Indicates if the server supports Microsoft Entra authentication. */
-  activeDirectoryAuth?: MicrosoftEntraAuth | (string & {});
+  activeDirectoryAuth?: MicrosoftEntraAuth | (string & {}) | undefined;
   /** Indicates if the server supports password based authentication. */
-  passwordAuth?: PasswordBasedAuth | (string & {});
+  passwordAuth?: PasswordBasedAuth | (string & {}) | undefined;
   /** Identifier of the tenant of the delegated resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Update mode of an existing server. */
 export type CreateModeForPatch = "Default" | "Update";
+/** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. */
+export type FipsMode = "Enabled" | "Disabled";
 /** Properties of a server. */
 export interface ServerPropertiesForPatchInput {
   /** Password assigned to the administrator login. As long as password authentication is enabled, this password can be changed at any time. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Major version of PostgreSQL database engine. */
-  version?: PostgresMajorVersion | (string & {});
+  version?: string | undefined;
   /** Storage properties of a server. */
-  storage?: Storage;
+  storage?: Storage | undefined;
   /** Backup properties of a server. */
-  backup?: BackupForPatchInput;
+  backup?: BackupForPatchInput | undefined;
   /** High availability properties of a server. */
-  highAvailability?: HighAvailabilityForPatch;
+  highAvailability?: HighAvailabilityForPatch | undefined;
   /** Maintenance window properties of a server. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Authentication configuration properties of a server. */
-  authConfig?: AuthConfigForPatch;
+  authConfig?: AuthConfigForPatch | undefined;
   /** Data encryption properties of a server. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** Availability zone of a server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Update mode of an existing server. */
-  createMode?: CreateModeForPatch | (string & {});
+  createMode?: CreateModeForPatch | (string & {}) | undefined;
+  /** Identifier of the server to be used as the source of the new server. */
+  sourceServerResourceId?: string | undefined;
   /** Role of the server in a replication set. */
-  replicationRole?: ReplicationRole | (string & {});
+  replicationRole?: ReplicationRole | (string & {}) | undefined;
   /** Read replica properties of a server. Required only in case that you want to promote a server. */
-  replica?: ReplicaInput;
+  replica?: ReplicaInput | undefined;
   /** Network properties of a server. Only required if you want your server to be integrated into a virtual network provided by customer. */
-  network?: Network;
+  network?: Network | undefined;
   /** Cluster properties of a server. */
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
+  /** Indicates if FIPS (Federal Information Processing Standards) mode is enabled on the server. If not specified, the current value is preserved. */
+  fipsMode?: FipsMode | (string & {}) | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateServerRequestTagsMap = { [key: string]: string | undefined };
@@ -2946,21 +3296,21 @@ export interface UpdateServerRequest {
   /** The name of the server. */
   serverName: string;
   /** Compute tier and size of a server. */
-  sku?: SkuForPatch;
+  sku?: SkuForPatch | undefined;
   /** Describes the identity of the application. */
-  identity?: UserAssignedIdentityInput;
+  identity?: UserAssignedIdentityInput | undefined;
   /** Properties of the server. */
-  properties?: ServerPropertiesForPatchInput;
+  properties?: ServerPropertiesForPatchInput | undefined;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateServerRequestTagsMap;
+  tags?: UpdateServerRequestTagsMap | undefined;
 }
 export interface UpdateServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateVirtualEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2972,15 +3322,15 @@ export interface UpdateVirtualEndpointRequest {
   /** Base name of the virtual endpoints. */
   virtualEndpointName: string;
   /** Properties of the pair of virtual endpoints. */
-  properties?: VirtualEndpointResourcePropertiesInput;
+  properties?: VirtualEndpointResourcePropertiesInput | undefined;
 }
 export interface UpdateVirtualEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AdministratorsMicrosoftEntraCreateOrUpdateError = AzureOpError;
 /** Creates a new server administrator associated to a Microsoft Entra principal. */
@@ -2999,6 +3349,23 @@ export const AdministratorsMicrosoftEntraCreateOrUpdate: API.OperationMethod<
   span: "AdministratorsMicrosoftEntraCreateOrUpdate",
 }));
 
+export type ApplyMaintenanceEventNowError = AzureOpError;
+/** Applies the maintenance event immediately. */
+export const ApplyMaintenanceEventNow: API.OperationMethod<
+  ApplyMaintenanceEventNowRequest,
+  MaintenanceEventActionResponse,
+  ApplyMaintenanceEventNowError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<ApplyMaintenanceEventNowRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<MaintenanceEventActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyMaintenanceEventNow",
+}));
+
 export type CancelMigrationError = AzureOpError;
 /** Cancels an active migration. */
 export const CancelMigration: API.OperationMethod<
@@ -3007,8 +3374,8 @@ export const CancelMigration: API.OperationMethod<
   CancelMigrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CancelMigrationRequest>,
-  output: __S(175, __c5, 15) as any as S.Schema<CancelMigrationResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<CancelMigrationRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<CancelMigrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3024,8 +3391,8 @@ export const CheckBackupsLongTermRetentionPrerequisites: API.OperationMethod<
   CheckBackupsLongTermRetentionPrerequisitesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CheckBackupsLongTermRetentionPrerequisitesRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<LtrPreBackupResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CheckBackupsLongTermRetentionPrerequisitesRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<LtrPreBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3041,8 +3408,8 @@ export const CheckMigrationNameAvailability: API.OperationMethod<
   CheckMigrationNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CheckMigrationNameAvailabilityRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<MigrationNameAvailability>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CheckMigrationNameAvailabilityRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<MigrationNameAvailability>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3058,8 +3425,8 @@ export const CheckNameAvailabilityGlobally: API.OperationMethod<
   CheckNameAvailabilityGloballyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CheckNameAvailabilityGloballyRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<CheckNameAvailabilityGloballyResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<CheckNameAvailabilityGloballyRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CheckNameAvailabilityGloballyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3075,8 +3442,8 @@ export const CheckNameAvailabilityWithLocation: API.OperationMethod<
   CheckNameAvailabilityWithLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<CheckNameAvailabilityWithLocationRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<CheckNameAvailabilityWithLocationResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CheckNameAvailabilityWithLocationRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CheckNameAvailabilityWithLocationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3092,7 +3459,7 @@ export const CreateBackupsAutomaticAndOnDemand: API.OperationMethod<
   CreateBackupsAutomaticAndOnDemandError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<CreateBackupsAutomaticAndOnDemandRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateBackupsAutomaticAndOnDemandRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateBackupsAutomaticAndOnDemandResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3109,7 +3476,7 @@ export const CreateDatabase: API.OperationMethod<
   CreateDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateDatabaseRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3126,8 +3493,8 @@ export const CreateMigration: API.OperationMethod<
   CreateMigrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3041, __c95, 1) as any as S.Schema<CreateMigrationRequest>,
-  output: __S(175, __c5, 15) as any as S.Schema<CreateMigrationResponse>,
+  input: __S(3457, __c108, 1) as any as S.Schema<CreateMigrationRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<CreateMigrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3143,7 +3510,7 @@ export const CreateVirtualEndpoint: API.OperationMethod<
   CreateVirtualEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateVirtualEndpointRequest>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateVirtualEndpointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateVirtualEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3160,7 +3527,7 @@ export const DeleteAdministratorsMicrosoftEntra: API.OperationMethod<
   DeleteAdministratorsMicrosoftEntraError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteAdministratorsMicrosoftEntraRequest>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteAdministratorsMicrosoftEntraRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAdministratorsMicrosoftEntraResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3177,7 +3544,7 @@ export const DeleteBackupsAutomaticAndOnDemand: API.OperationMethod<
   DeleteBackupsAutomaticAndOnDemandError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteBackupsAutomaticAndOnDemandRequest>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteBackupsAutomaticAndOnDemandRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteBackupsAutomaticAndOnDemandResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3194,7 +3561,7 @@ export const DeleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3211,7 +3578,7 @@ export const DeleteFirewallRule: API.OperationMethod<
   DeleteFirewallRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3228,7 +3595,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3245,7 +3612,7 @@ export const DeleteServer: API.OperationMethod<
   DeleteServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteServerRequest>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteServerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3262,7 +3629,7 @@ export const DeleteVirtualEndpoint: API.OperationMethod<
   DeleteVirtualEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteVirtualEndpointRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteVirtualEndpointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteVirtualEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3279,7 +3646,7 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   FirewallRulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<FirewallRulesCreateOrUpdateRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<FirewallRulesCreateOrUpdateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<FirewallRulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3296,8 +3663,8 @@ export const GetAdministratorsMicrosoftEntra: API.OperationMethod<
   GetAdministratorsMicrosoftEntraError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetAdministratorsMicrosoftEntraRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<GetAdministratorsMicrosoftEntraResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetAdministratorsMicrosoftEntraRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<GetAdministratorsMicrosoftEntraResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3313,8 +3680,8 @@ export const GetAdvancedThreatProtectionSettings: API.OperationMethod<
   GetAdvancedThreatProtectionSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAdvancedThreatProtectionSettingsRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<GetAdvancedThreatProtectionSettingsResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetAdvancedThreatProtectionSettingsRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetAdvancedThreatProtectionSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3330,8 +3697,8 @@ export const GetBackupsAutomaticAndOnDemand: API.OperationMethod<
   GetBackupsAutomaticAndOnDemandError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetBackupsAutomaticAndOnDemandRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<GetBackupsAutomaticAndOnDemandResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetBackupsAutomaticAndOnDemandRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<GetBackupsAutomaticAndOnDemandResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3347,8 +3714,8 @@ export const GetBackupsLongTermRetention: API.OperationMethod<
   GetBackupsLongTermRetentionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetBackupsLongTermRetentionRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetBackupsLongTermRetentionResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetBackupsLongTermRetentionRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<GetBackupsLongTermRetentionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3364,8 +3731,8 @@ export const GetConfiguration: API.OperationMethod<
   GetConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetConfigurationRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<GetConfigurationResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetConfigurationRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<GetConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3381,8 +3748,8 @@ export const GetDatabase: API.OperationMethod<
   GetDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<GetDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3398,13 +3765,47 @@ export const GetFirewallRule: API.OperationMethod<
   GetFirewallRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetFirewallRuleRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<GetFirewallRuleResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetFirewallRuleRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GetFirewallRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFirewallRule",
+}));
+
+export type GetMaintenanceEventError = AzureOpError;
+/** Gets information about a maintenance event for a flexible server. */
+export const GetMaintenanceEvent: API.OperationMethod<
+  GetMaintenanceEventRequest,
+  GetMaintenanceEventResponse,
+  GetMaintenanceEventError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1152, __c36, 0) as any as S.Schema<GetMaintenanceEventRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetMaintenanceEventResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceEvent",
+}));
+
+export type GetMajorVersionUpgradePrecheckError = AzureOpError;
+/** Gets information about a major version upgrade precheck for a flexible server. */
+export const GetMajorVersionUpgradePrecheck: API.OperationMethod<
+  GetMajorVersionUpgradePrecheckRequest,
+  GetMajorVersionUpgradePrecheckResponse,
+  GetMajorVersionUpgradePrecheckError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1216, __c38, 0) as any as S.Schema<GetMajorVersionUpgradePrecheckRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<GetMajorVersionUpgradePrecheckResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMajorVersionUpgradePrecheck",
 }));
 
 export type GetMigrationError = AzureOpError;
@@ -3415,8 +3816,8 @@ export const GetMigration: API.OperationMethod<
   GetMigrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetMigrationRequest>,
-  output: __S(175, __c5, 15) as any as S.Schema<GetMigrationResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetMigrationRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<GetMigrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3432,8 +3833,8 @@ export const GetPrivateDnsZoneSuffix: API.OperationMethod<
   GetPrivateDnsZoneSuffixError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetPrivateDnsZoneSuffixRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<GetPrivateDnsZoneSuffixResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetPrivateDnsZoneSuffixRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<GetPrivateDnsZoneSuffixResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3449,8 +3850,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3466,8 +3867,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3483,8 +3884,8 @@ export const GetServer: API.OperationMethod<
   GetServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<GetServerResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(1636, __c51, 4) as any as S.Schema<GetServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3500,8 +3901,8 @@ export const GetTuningOption: API.OperationMethod<
   GetTuningOptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetTuningOptionRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<GetTuningOptionResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetTuningOptionRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<GetTuningOptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3517,8 +3918,8 @@ export const GetVirtualEndpoint: API.OperationMethod<
   GetVirtualEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetVirtualEndpointRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<GetVirtualEndpointResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetVirtualEndpointRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<GetVirtualEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3534,8 +3935,8 @@ export const ListAdministratorsMicrosoftEntraByServer: API.OperationMethod<
   ListAdministratorsMicrosoftEntraByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListAdministratorsMicrosoftEntraByServerRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<AdministratorMicrosoftEntraList>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListAdministratorsMicrosoftEntraByServerRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<AdministratorMicrosoftEntraList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3552,11 +3953,11 @@ export const ListAdvancedThreatProtectionSettingsByServer: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<ListAdvancedThreatProtectionSettingsByServerRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<AdvancedThreatProtectionSettingsList>,
+  output: __S(1890, __c59, 2) as any as S.Schema<AdvancedThreatProtectionSettingsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3572,8 +3973,8 @@ export const ListBackupsAutomaticAndOnDemandByServer: API.OperationMethod<
   ListBackupsAutomaticAndOnDemandByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListBackupsAutomaticAndOnDemandByServerRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<BackupAutomaticAndOnDemandList>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListBackupsAutomaticAndOnDemandByServerRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<BackupAutomaticAndOnDemandList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3589,8 +3990,8 @@ export const ListBackupsLongTermRetentionByServer: API.OperationMethod<
   ListBackupsLongTermRetentionByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListBackupsLongTermRetentionByServerRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<LtrServerBackupOperationList>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListBackupsLongTermRetentionByServerRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<LtrServerBackupOperationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3606,8 +4007,8 @@ export const ListCapabilitiesByLocation: API.OperationMethod<
   ListCapabilitiesByLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListCapabilitiesByLocationRequest>,
-  output: __S(1811, __c56, 19) as any as S.Schema<CapabilityList>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListCapabilitiesByLocationRequest>,
+  output: __S(2035, __c63, 19) as any as S.Schema<CapabilityList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3623,8 +4024,8 @@ export const ListCapabilitiesByServer: API.OperationMethod<
   ListCapabilitiesByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListCapabilitiesByServerRequest>,
-  output: __S(1811, __c56, 19) as any as S.Schema<CapabilityList>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListCapabilitiesByServerRequest>,
+  output: __S(2035, __c63, 19) as any as S.Schema<CapabilityList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3640,8 +4041,8 @@ export const ListCapturedLogByServer: API.OperationMethod<
   ListCapturedLogByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListCapturedLogByServerRequest>,
-  output: __S(1860, __c58, 4) as any as S.Schema<CapturedLogList>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListCapturedLogByServerRequest>,
+  output: __S(2116, __c66, 4) as any as S.Schema<CapturedLogList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3657,8 +4058,8 @@ export const ListConfigurationByServer: API.OperationMethod<
   ListConfigurationByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListConfigurationByServerRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<ConfigurationList>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListConfigurationByServerRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ConfigurationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3674,8 +4075,8 @@ export const ListDatabaseByServer: API.OperationMethod<
   ListDatabaseByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListDatabaseByServerRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<DatabaseList>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListDatabaseByServerRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<DatabaseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3691,13 +4092,47 @@ export const ListFirewallRuleByServer: API.OperationMethod<
   ListFirewallRuleByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListFirewallRuleByServerRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<FirewallRuleList>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListFirewallRuleByServerRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<FirewallRuleList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRuleByServer",
+}));
+
+export type ListMaintenanceEventsError = AzureOpError;
+/** Lists all maintenance events for a flexible server. */
+export const ListMaintenanceEvents: API.OperationMethod<
+  ListMaintenanceEventsRequest,
+  MaintenanceEventResourceListResult,
+  ListMaintenanceEventsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2240, __c70, 0) as any as S.Schema<ListMaintenanceEventsRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<MaintenanceEventResourceListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenanceEvents",
+}));
+
+export type ListMajorVersionUpgradePrecheckError = AzureOpError;
+/** Lists major version upgrade prechecks for a flexible server. */
+export const ListMajorVersionUpgradePrecheck: API.OperationMethod<
+  ListMajorVersionUpgradePrecheckRequest,
+  MajorVersionUpgradePrecheckResourceListResult,
+  ListMajorVersionUpgradePrecheckError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2272, __c71, 0) as any as S.Schema<ListMajorVersionUpgradePrecheckRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<MajorVersionUpgradePrecheckResourceListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMajorVersionUpgradePrecheck",
 }));
 
 export type ListMigrationByTargetServerError = AzureOpError;
@@ -3708,8 +4143,8 @@ export const ListMigrationByTargetServer: API.OperationMethod<
   ListMigrationByTargetServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListMigrationByTargetServerRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<MigrationList>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListMigrationByTargetServerRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<MigrationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3725,8 +4160,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(2090, __c65, 10) as any as S.Schema<OperationList>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2346, __c73, 10) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3742,8 +4177,8 @@ export const ListPrivateEndpointConnectionByServer: API.OperationMethod<
   ListPrivateEndpointConnectionByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListPrivateEndpointConnectionByServerRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<PrivateEndpointConnectionList>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListPrivateEndpointConnectionByServerRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<PrivateEndpointConnectionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3759,8 +4194,8 @@ export const ListPrivateLinkResourceByServer: API.OperationMethod<
   ListPrivateLinkResourceByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListPrivateLinkResourceByServerRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<PrivateLinkResourceList>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListPrivateLinkResourceByServerRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<PrivateLinkResourceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3776,8 +4211,8 @@ export const ListQuotaUsages: API.OperationMethod<
   ListQuotaUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListQuotaUsagesRequest>,
-  output: __S(2180, __c68, 4) as any as S.Schema<QuotaUsageList>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListQuotaUsagesRequest>,
+  output: __S(2500, __c78, 4) as any as S.Schema<QuotaUsageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3793,8 +4228,8 @@ export const ListReplicasByServer: API.OperationMethod<
   ListReplicasByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListReplicasByServerRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ServerList>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListReplicasByServerRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<ServerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3810,8 +4245,8 @@ export const ListServerByResourceGroup: API.OperationMethod<
   ListServerByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ServerList>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<ServerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3827,8 +4262,8 @@ export const ListServerBySubscription: API.OperationMethod<
   ListServerBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListServerBySubscriptionRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ServerList>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListServerBySubscriptionRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<ServerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3844,8 +4279,8 @@ export const ListTuningOptionByServer: API.OperationMethod<
   ListTuningOptionByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListTuningOptionByServerRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<TuningOptionsList>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListTuningOptionByServerRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<TuningOptionsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3861,8 +4296,8 @@ export const ListTuningOptionRecommendations: API.OperationMethod<
   ListTuningOptionRecommendationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListTuningOptionRecommendationsRequest>,
-  output: __S(2410, __c75, 10) as any as S.Schema<ObjectRecommendationList>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListTuningOptionRecommendationsRequest>,
+  output: __S(2698, __c84, 10) as any as S.Schema<ObjectRecommendationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3878,8 +4313,8 @@ export const ListVirtualEndpointByServer: API.OperationMethod<
   ListVirtualEndpointByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListVirtualEndpointByServerRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<VirtualEndpointsList>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListVirtualEndpointByServerRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<VirtualEndpointsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3895,13 +4330,47 @@ export const ListVirtualNetworkSubnetUsage: API.OperationMethod<
   ListVirtualNetworkSubnetUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListVirtualNetworkSubnetUsageRequest>,
-  output: __S(2467, __c77, 3) as any as S.Schema<VirtualNetworkSubnetUsageModel>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListVirtualNetworkSubnetUsageRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<VirtualNetworkSubnetUsageModel>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkSubnetUsage",
+}));
+
+export type MaintenanceEventsRescheduleError = AzureOpError;
+/** Reschedules a maintenance event to a new date and time. */
+export const MaintenanceEventsReschedule: API.OperationMethod<
+  MaintenanceEventsRescheduleRequest,
+  MaintenanceEventActionResponse,
+  MaintenanceEventsRescheduleError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2784, __c87, 0) as any as S.Schema<MaintenanceEventsRescheduleRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<MaintenanceEventActionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaintenanceEventsReschedule",
+}));
+
+export type MigrateServerNetworkModeError = AzureOpError;
+/** Migrates an Azure Database for PostgreSQL server from VNet integration to a Private Link network model. */
+export const MigrateServerNetworkMode: API.OperationMethod<
+  MigrateServerNetworkModeRequest,
+  MigrateNetworkStatus,
+  MigrateServerNetworkModeError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2848, __c89, 0) as any as S.Schema<MigrateServerNetworkModeRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<MigrateNetworkStatus>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateServerNetworkMode",
 }));
 
 export type PutConfigurationError = AzureOpError;
@@ -3912,7 +4381,7 @@ export const PutConfiguration: API.OperationMethod<
   PutConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PutConfigurationRequest>,
+  input: __S(2880, __c90, 0) as any as S.Schema<PutConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3929,7 +4398,7 @@ export const RestartServer: API.OperationMethod<
   RestartServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<RestartServerRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<RestartServerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3946,7 +4415,7 @@ export const ServersCreateOrUpdate: API.OperationMethod<
   ServersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2594, __c81, 2) as any as S.Schema<ServersCreateOrUpdateRequest>,
+  input: __S(2978, __c93, 2) as any as S.Schema<ServersCreateOrUpdateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ServersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3964,8 +4433,8 @@ export const ServerThreatProtectionSettingsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2657,
-    __c83,
+    3041,
+    __c95,
     1,
   ) as any as S.Schema<ServerThreatProtectionSettingsCreateOrUpdateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ServerThreatProtectionSettingsCreateOrUpdateResponse>,
@@ -3984,8 +4453,8 @@ export const StartBackupsLongTermRetention: API.OperationMethod<
   StartBackupsLongTermRetentionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2689, __c84, 1) as any as S.Schema<StartBackupsLongTermRetentionRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<BackupsLongTermRetentionResponse>,
+  input: __S(3073, __c96, 1) as any as S.Schema<StartBackupsLongTermRetentionRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<BackupsLongTermRetentionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4001,13 +4470,30 @@ export const StartServer: API.OperationMethod<
   StartServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<StartServerRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<StartServerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartServer",
+}));
+
+export type StartServerMajorVersionUpgradePrecheckError = AzureOpError;
+/** Start Major Version Upgrade Prechecks. */
+export const StartServerMajorVersionUpgradePrecheck: API.OperationMethod<
+  StartServerMajorVersionUpgradePrecheckRequest,
+  StartMajorVersionUpgradePrecheckResponse,
+  StartServerMajorVersionUpgradePrecheckError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3136, __c98, 0) as any as S.Schema<StartServerMajorVersionUpgradePrecheckRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<StartMajorVersionUpgradePrecheckResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServerMajorVersionUpgradePrecheck",
 }));
 
 export type StopServerError = AzureOpError;
@@ -4018,7 +4504,7 @@ export const StopServer: API.OperationMethod<
   StopServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<StopServerRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<StopServerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4035,7 +4521,7 @@ export const UpdateConfiguration: API.OperationMethod<
   UpdateConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<UpdateConfigurationRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4052,8 +4538,8 @@ export const UpdateMigration: API.OperationMethod<
   UpdateMigrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2851, __c89, 3) as any as S.Schema<UpdateMigrationRequest>,
-  output: __S(175, __c5, 15) as any as S.Schema<UpdateMigrationResponse>,
+  input: __S(3267, __c102, 3) as any as S.Schema<UpdateMigrationRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<UpdateMigrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4069,7 +4555,7 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   UpdatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2882, __c90, 2) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
+  input: __S(3298, __c103, 2) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4086,7 +4572,7 @@ export const UpdateServer: API.OperationMethod<
   UpdateServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2915, __c91, 3) as any as S.Schema<UpdateServerRequest>,
+  input: __S(3331, __c104, 3) as any as S.Schema<UpdateServerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4103,7 +4589,7 @@ export const UpdateVirtualEndpoint: API.OperationMethod<
   UpdateVirtualEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UpdateVirtualEndpointRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateVirtualEndpointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateVirtualEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4136,7 +4622,7 @@ function __c0(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "AdministratorsMicrosoftEntraCreateOrUpdateRequest" });
@@ -4162,19 +4648,310 @@ function __c2(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          maintenanceEventId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/applyNow",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ApplyMaintenanceEventNowRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceEventId: S.optional(S.String),
+          serverId: S.optional(S.String),
+          status: S.optional(S.String),
+          plannedStartTime: S.optional(S.String),
+          plannedEndTime: S.optional(S.String),
+          appliedNow: S.optional(S.Boolean),
+          lastUpdatedTime: S.optional(S.String),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "MaintenanceEventActionResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          virtualEndpointName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(160, __c5, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateVirtualEndpointRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.optional(S.String),
+          members: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "VirtualEndpointResourcePropertiesInput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          objectId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteAdministratorsMicrosoftEntraRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          backupName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteBackupsAutomaticAndOnDemandRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          databaseName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteDatabaseRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          firewallRuleName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteFirewallRuleRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          privateEndpointConnectionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteServerRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          virtualEndpointName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteVirtualEndpointRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          firewallRuleName: S.String.pipe(T.Label()),
+          properties: __S(448, __c14, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "FirewallRulesCreateOrUpdateRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startIpAddress: S.String,
+          endIpAddress: S.String,
+        }),
+      ).annotate({ identifier: "FirewallRuleProperties" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          objectId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetAdministratorsMicrosoftEntraRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          principalType: S.optional(S.String),
+          principalName: S.optional(S.String),
+          objectId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdministratorMicrosoftEntraProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "GetAdministratorsMicrosoftEntraResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
           migrationName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrations/{migrationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CancelMigrationRequest" });
   }
 }
-function __c3(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4189,13 +4966,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SystemData" });
   }
 }
-function __c4(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c5(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4219,7 +4996,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseMigrationState" });
     case 1:
-      return S.Record(S.String, __S(160, __c5, 0));
+      return S.Record(S.String, __S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4228,44 +5005,44 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ValidationMessage" });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           state: S.optional(S.String),
-          messages: S.optional(__S(163, __c5, 3)),
+          messages: S.optional(__S(675, __c21, 3)),
         }),
       ).annotate({ identifier: "ValidationSummaryItem" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.optional(S.String),
           startedOn: S.optional(S.String),
           endedOn: S.optional(S.String),
-          summary: S.optional(__S(165, __c5, 5)),
+          summary: S.optional(__S(677, __c21, 5)),
         }),
       ).annotate({ identifier: "DbLevelValidationStatus" });
     case 7:
-      return S.Array(__S(166, __c5, 6));
+      return S.Array(__S(678, __c21, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           validationStartTimeInUtc: S.optional(S.String),
           validationEndTimeInUtc: S.optional(S.String),
-          serverLevelValidationDetails: S.optional(__S(165, __c5, 5)),
-          dbLevelValidationDetails: S.optional(__S(167, __c5, 7)),
+          serverLevelValidationDetails: S.optional(__S(677, __c21, 5)),
+          dbLevelValidationDetails: S.optional(__S(679, __c21, 7)),
         }),
       ).annotate({ identifier: "ValidationDetails" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           currentSubState: S.optional(S.String),
-          dbDetails: S.optional(__S(161, __c5, 1)),
-          validationDetails: S.optional(__S(168, __c5, 8)),
+          dbDetails: S.optional(__S(673, __c21, 1)),
+          validationDetails: S.optional(__S(680, __c21, 8)),
         }),
       ).annotate({ identifier: "MigrationSubstateDetails" });
     case 10:
@@ -4273,7 +5050,7 @@ function __c5(j: number): any {
         S.Struct({
           state: S.optional(S.String),
           error: S.optional(S.String),
-          currentSubStateDetails: S.optional(__S(169, __c5, 9)),
+          currentSubStateDetails: S.optional(__S(681, __c21, 9)),
         }),
       ).annotate({ identifier: "MigrationStatus" });
     case 11:
@@ -4282,7 +5059,7 @@ function __c5(j: number): any {
           location: S.optional(S.String),
           version: S.optional(S.String),
           storageMb: S.optional(S.Number),
-          sku: S.optional(__S(192, __c6, 0)),
+          sku: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "DbServerMetadata" });
     case 12:
@@ -4295,7 +5072,7 @@ function __c5(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          adminCredentials: __S(172, __c5, 12),
+          adminCredentials: __S(684, __c21, 12),
           sourceServerUsername: S.optional(S.String),
           targetServerUsername: S.optional(S.String),
         }),
@@ -4304,20 +5081,20 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           migrationId: S.optional(S.String),
-          currentStatus: S.optional(__S(170, __c5, 10)),
+          currentStatus: S.optional(__S(682, __c21, 10)),
           migrationInstanceResourceId: S.optional(S.String),
           migrationMode: S.optional(S.String),
           migrationOption: S.optional(S.String),
           sourceType: S.optional(S.String),
           sslMode: S.optional(S.String),
-          sourceDbServerMetadata: S.optional(__S(171, __c5, 11)),
-          targetDbServerMetadata: S.optional(__S(171, __c5, 11)),
+          sourceDbServerMetadata: S.optional(__S(683, __c21, 11)),
+          targetDbServerMetadata: S.optional(__S(683, __c21, 11)),
           sourceDbServerResourceId: S.optional(S.String),
           sourceDbServerFullyQualifiedDomainName: S.optional(S.String),
           targetDbServerResourceId: S.optional(S.String),
           targetDbServerFullyQualifiedDomainName: S.optional(S.String),
-          secretParameters: S.optional(__S(173, __c5, 13)),
-          dbsToMigrate: S.optional(__S(224, __c7, 0)),
+          secretParameters: S.optional(__S(685, __c21, 13)),
+          dbsToMigrate: S.optional(__S(576, __c18, 0)),
           setupLogicalReplicationOnSourceDbIfNeeded: S.optional(S.String),
           overwriteDbsInTarget: S.optional(S.String),
           migrationWindowStartTimeInUtc: S.optional(S.String),
@@ -4325,9 +5102,9 @@ function __c5(j: number): any {
           migrateRoles: S.optional(S.String),
           startDataMigration: S.optional(S.String),
           triggerCutover: S.optional(S.String),
-          dbsToTriggerCutoverOn: S.optional(__S(224, __c7, 0)),
+          dbsToTriggerCutoverOn: S.optional(__S(576, __c18, 0)),
           cancel: S.optional(S.String),
-          dbsToCancelMigrationOn: S.optional(__S(224, __c7, 0)),
+          dbsToCancelMigrationOn: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "MigrationProperties" });
     case 15:
@@ -4336,15 +5113,15 @@ function __c5(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          tags: S.optional(__S(128, __c4, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          tags: S.optional(__S(640, __c20, 0)),
           location: S.String,
-          properties: S.optional(__S(174, __c5, 14)),
+          properties: S.optional(__S(686, __c21, 14)),
         }),
       ).annotate({ identifier: "CancelMigrationResponse" });
   }
 }
-function __c6(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4355,227 +5132,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ServerSku" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          objectId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteAdministratorsMicrosoftEntraRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          backupName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteBackupsAutomaticAndOnDemandRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          databaseName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteDatabaseRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          firewallRuleName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteFirewallRuleRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          privateEndpointConnectionName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteServerRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          virtualEndpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteVirtualEndpointRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          firewallRuleName: S.String.pipe(T.Label()),
-          properties: __S(512, __c16, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "FirewallRulesCreateOrUpdateRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startIpAddress: S.String,
-          endIpAddress: S.String,
-        }),
-      ).annotate({ identifier: "FirewallRuleProperties" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          objectId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetAdministratorsMicrosoftEntraRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          principalType: S.optional(S.String),
-          principalName: S.optional(S.String),
-          objectId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdministratorMicrosoftEntraProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: __S(576, __c18, 0),
-        }),
-      ).annotate({ identifier: "GetAdministratorsMicrosoftEntraResponse" });
-  }
-}
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4589,13 +5146,13 @@ function __c19(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetAdvancedThreatProtectionSettingsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4610,55 +5167,13 @@ function __c20(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(640, __c20, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "GetAdvancedThreatProtectionSettingsResponse" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          backupSettings: __S(704, __c22, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrPreBackup",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckBackupsLongTermRetentionPrerequisitesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          numberOfContainers: S.Number,
-        }),
-      ).annotate({ identifier: "BackupsLongTermRetentionResponseProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          properties: __S(673, __c21, 1),
-        }),
-      ).annotate({ identifier: "LtrPreBackupResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          backupName: S.String,
-        }),
-      ).annotate({ identifier: "BackupSettings" });
-  }
-}
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4672,13 +5187,13 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupsAutomaticAndOnDemandRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4694,13 +5209,13 @@ function __c24(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(768, __c24, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "GetBackupsAutomaticAndOnDemandResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4714,13 +5229,13 @@ function __c25(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations/{backupName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetBackupsLongTermRetentionRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4728,13 +5243,13 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(864, __c27, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "GetBackupsLongTermRetentionResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4753,7 +5268,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "LtrBackupOperationResponseProperties" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4767,13 +5282,13 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetConfigurationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4797,13 +5312,13 @@ function __c29(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(928, __c29, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "GetConfigurationResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4817,13 +5332,13 @@ function __c30(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4831,13 +5346,13 @@ function __c31(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(3008, __c94, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4851,13 +5366,13 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetFirewallRuleRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4865,13 +5380,144 @@ function __c33(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: __S(512, __c16, 0),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: __S(448, __c14, 0),
         }),
       ).annotate({ identifier: "GetFirewallRuleResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          maintenanceEventId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetMaintenanceEventRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceEventId: S.optional(S.String),
+          maintenanceType: S.String,
+          description: S.optional(S.String),
+          status: S.String,
+          startTime: S.String,
+          endTime: S.String,
+          estimatedDowntime: S.optional(S.String),
+          deferrable: S.Boolean,
+          deferralDeadline: S.optional(S.String),
+          rescheduledFrom: S.optional(S.String),
+          lastUpdatedTime: S.optional(S.String),
+          originalStartTime: S.String,
+        }),
+      ).annotate({ identifier: "MaintenanceEventResourceProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1184, __c37, 0)),
+        }),
+      ).annotate({ identifier: "GetMaintenanceEventResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          precheckValidationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/majorVersionUpgradePrecheck/{precheckValidationId}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetMajorVersionUpgradePrecheckRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceVersion: S.optional(S.String),
+          targetVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpgradeSequence" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.Number),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrecheckErrorInfo" });
+    case 2:
+      return S.Array(__S(1249, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.String),
+          upgradeSequence: S.optional(__S(1248, __c39, 0)),
+          errorInfo: S.optional(__S(1250, __c39, 2)),
+        }),
+      ).annotate({ identifier: "PrecheckResult" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          policyName: S.optional(S.String),
+          passed: S.optional(S.Boolean),
+          errorCode: S.optional(S.Number),
+          errorMessage: S.optional(S.String),
+          policyDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolicyDetail" });
+    case 5:
+      return S.Array(__S(1252, __c39, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          status: S.optional(S.String),
+          precheckResult: S.optional(__S(1251, __c39, 3)),
+          targetVersion: S.optional(S.String),
+          policyDetails: S.optional(__S(1253, __c39, 5)),
+        }),
+      ).annotate({ identifier: "MajorVersionUpgradePrecheckResourceProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1254, __c39, 6)),
+        }),
+      ).annotate({ identifier: "GetMajorVersionUpgradePrecheckResponse" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4885,13 +5531,13 @@ function __c34(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrations/{migrationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetMigrationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4900,7 +5546,7 @@ function __c35(j: number): any {
             method: "POST",
             uri: "/providers/Microsoft.DBforPostgreSQL/getPrivateDnsZoneSuffix",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateDnsZoneSuffixRequest" });
@@ -4910,7 +5556,49 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          backupSettings: __S(1376, __c43, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrPreBackup",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckBackupsLongTermRetentionPrerequisitesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          numberOfContainers: S.Number,
+        }),
+      ).annotate({ identifier: "BackupsLongTermRetentionResponseProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          properties: __S(1345, __c42, 1),
+        }),
+      ).annotate({ identifier: "LtrPreBackupResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          backupName: S.String,
+        }),
+      ).annotate({ identifier: "BackupSettings" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4924,13 +5612,13 @@ function __c36(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4941,9 +5629,9 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(__S(224, __c7, 0)),
-          privateEndpoint: S.optional(__S(1184, __c37, 0)),
-          privateLinkServiceConnectionState: __S(1216, __c38, 0),
+          groupIds: S.optional(__S(576, __c18, 0)),
+          privateEndpoint: S.optional(__S(1440, __c45, 0)),
+          privateLinkServiceConnectionState: __S(1472, __c46, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -4953,13 +5641,13 @@ function __c37(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(1185, __c37, 1)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "GetPrivateEndpointConnectionResponse" });
   }
 }
-function __c38(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4971,7 +5659,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PrivateLinkServiceConnectionState" });
   }
 }
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4985,20 +5673,20 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateLinkResources/{groupName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(224, __c7, 0)),
-          requiredZoneNames: S.optional(__S(224, __c7, 0)),
+          requiredMembers: S.optional(__S(576, __c18, 0)),
+          requiredZoneNames: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponseProperties" });
     case 1:
@@ -5007,13 +5695,13 @@ function __c40(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(1280, __c40, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponse" });
   }
 }
-function __c41(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5026,25 +5714,26 @@ function __c41(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "GetServerRequest" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1442, __c45, 2));
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           backupRetentionDays: S.optional(S.Number),
           geoRedundantBackup: S.optional(S.String),
+          immutableBackup: S.optional(S.String),
           earliestRestoreDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "Backup" });
@@ -5067,28 +5756,29 @@ function __c43(j: number): any {
           minorVersion: S.optional(S.String),
           state: S.optional(S.String),
           fullyQualifiedDomainName: S.optional(S.String),
-          storage: S.optional(__S(1440, __c45, 0)),
-          authConfig: S.optional(__S(1441, __c45, 1)),
-          dataEncryption: S.optional(__S(1442, __c45, 2)),
-          backup: S.optional(__S(1376, __c43, 0)),
-          network: S.optional(__S(1443, __c45, 3)),
-          highAvailability: S.optional(__S(1408, __c44, 0)),
-          maintenanceWindow: S.optional(__S(1444, __c45, 4)),
+          storage: S.optional(__S(1696, __c53, 0)),
+          authConfig: S.optional(__S(1697, __c53, 1)),
+          dataEncryption: S.optional(__S(1698, __c53, 2)),
+          backup: S.optional(__S(1632, __c51, 0)),
+          network: S.optional(__S(1699, __c53, 3)),
+          highAvailability: S.optional(__S(1664, __c52, 0)),
+          maintenanceWindow: S.optional(__S(1700, __c53, 4)),
           sourceServerResourceId: S.optional(S.String),
           pointInTimeUTC: S.optional(S.String),
           availabilityZone: S.optional(S.String),
           replicationRole: S.optional(S.String),
           replicaCapacity: S.optional(S.Number),
-          replica: S.optional(__S(1377, __c43, 1)),
+          replica: S.optional(__S(1633, __c51, 1)),
           createMode: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(1344, __c42, 0)),
-          cluster: S.optional(__S(1445, __c45, 5)),
+          privateEndpointConnections: S.optional(__S(1600, __c50, 0)),
+          cluster: S.optional(__S(1701, __c53, 5)),
+          fipsMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userAssignedIdentities: S.optional(__S(1447, __c45, 7)),
+          userAssignedIdentities: S.optional(__S(1703, __c53, 7)),
           principalId: S.optional(S.String),
           type: S.String,
           tenantId: S.optional(S.String),
@@ -5100,17 +5790,17 @@ function __c43(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          tags: S.optional(__S(128, __c4, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          tags: S.optional(__S(640, __c20, 0)),
           location: S.String,
-          properties: S.optional(__S(1378, __c43, 2)),
-          sku: S.optional(__S(1409, __c44, 1)),
-          identity: S.optional(__S(1379, __c43, 3)),
+          properties: S.optional(__S(1634, __c51, 2)),
+          sku: S.optional(__S(1665, __c52, 1)),
+          identity: S.optional(__S(1635, __c51, 3)),
         }),
       ).annotate({ identifier: "GetServerResponse" });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5129,13 +5819,15 @@ function __c44(j: number): any {
       ).annotate({ identifier: "Sku" });
   }
 }
-function __c45(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           storageSizeGB: S.optional(S.Number),
           autoGrow: S.optional(S.String),
+          autoGrowMaxThresholdMb: S.optional(S.Number),
+          autoGrowIncrementPercent: S.optional(S.Number),
           tier: S.optional(S.String),
           iops: S.optional(S.Number),
           throughput: S.optional(S.Number),
@@ -5160,6 +5852,8 @@ function __c45(j: number): any {
           type: S.optional(S.String),
           primaryEncryptionKeyStatus: S.optional(S.String),
           geoBackupEncryptionKeyStatus: S.optional(S.String),
+          primaryFederatedIdentityClientId: S.optional(S.String),
+          geoBackupFederatedIdentityClientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataEncryption" });
     case 3:
@@ -5194,10 +5888,361 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentity" });
     case 7:
-      return S.Record(S.String, __S(1446, __c45, 6));
+      return S.Record(S.String, __S(1702, __c53, 6));
   }
 }
-function __c46(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          tuningOption: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetTuningOptionRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TuningOptionsProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "GetTuningOptionResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          virtualEndpointName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetVirtualEndpointRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.optional(S.String),
+          members: S.optional(__S(576, __c18, 0)),
+          virtualEndpoints: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "VirtualEndpointResourceProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(1824, __c57, 0)),
+        }),
+      ).annotate({ identifier: "GetVirtualEndpointResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListAdministratorsMicrosoftEntraByServerRequest" });
+    case 1:
+      return S.Array(__S(513, __c16, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1857, __c58, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdministratorMicrosoftEntraList" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListAdvancedThreatProtectionSettingsByServerRequest" });
+    case 1:
+      return S.Array(__S(769, __c24, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1889, __c59, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdvancedThreatProtectionSettingsList" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListBackupsAutomaticAndOnDemandByServerRequest" });
+    case 1:
+      return S.Array(__S(833, __c26, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1921, __c60, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupAutomaticAndOnDemandList" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListBackupsLongTermRetentionByServerRequest" });
+    case 1:
+      return S.Array(__S(896, __c28, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1953, __c61, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LtrServerBackupOperationList" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          locationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/capabilities",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListCapabilitiesByLocationRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          iops: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StorageTierCapability" });
+    case 1:
+      return S.Array(__S(2016, __c63, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          supportedIops: S.optional(S.Number),
+          supportedMaximumIops: S.optional(S.Number),
+          storageSizeMb: S.optional(S.Number),
+          maximumStorageSizeMb: S.optional(S.Number),
+          supportedThroughput: S.optional(S.Number),
+          supportedMaximumThroughput: S.optional(S.Number),
+          defaultIopsTier: S.optional(S.String),
+          supportedIopsTiers: S.optional(__S(2017, __c63, 1)),
+        }),
+      ).annotate({ identifier: "StorageMbCapability" });
+    case 3:
+      return S.Array(__S(2018, __c63, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          defaultStorageSizeMb: S.optional(S.Number),
+          supportedStorageMb: S.optional(__S(2019, __c63, 3)),
+        }),
+      ).annotate({ identifier: "StorageEditionCapability" });
+    case 5:
+      return S.Array(__S(2020, __c63, 4));
+    case 6:
+      return S.Array(S.String);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SupportedFeature" });
+    case 8:
+      return S.Array(__S(2023, __c63, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          vCores: S.optional(S.Number),
+          supportedIops: S.optional(S.Number),
+          supportedMemoryPerVcoreMb: S.optional(S.Number),
+          supportedZones: S.optional(__S(576, __c18, 0)),
+          supportedHaMode: S.optional(__S(2022, __c63, 6)),
+          supportedFeatures: S.optional(__S(2024, __c63, 8)),
+          securityProfile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerSkuCapability" });
+    case 10:
+      return S.Array(__S(2025, __c63, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          defaultSkuName: S.optional(S.String),
+          supportedStorageEditions: S.optional(__S(2021, __c63, 5)),
+          supportedServerSkus: S.optional(__S(2026, __c63, 10)),
+        }),
+      ).annotate({ identifier: "ServerEditionCapability" });
+    case 12:
+      return S.Array(__S(2027, __c63, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          supportedVersionsToUpgrade: S.optional(__S(576, __c18, 0)),
+          supportedFeatures: S.optional(__S(2024, __c63, 8)),
+        }),
+      ).annotate({ identifier: "ServerVersionCapability" });
+    case 14:
+      return S.Array(__S(2029, __c63, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          supportedTier: S.optional(S.String),
+          supportedSku: S.optional(S.String),
+          supportedStorageGb: S.optional(S.Number),
+          supportedServerVersions: S.optional(S.String),
+          serverCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FastProvisioningEditionCapability" });
+    case 16:
+      return S.Array(__S(2031, __c63, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          supportedServerEditions: S.optional(__S(2028, __c63, 12)),
+          supportedServerVersions: S.optional(__S(2030, __c63, 14)),
+          supportedFeatures: S.optional(__S(2024, __c63, 8)),
+          fastProvisioningSupported: S.optional(S.String),
+          supportedFastProvisioningEditions: S.optional(__S(2032, __c63, 16)),
+          geoBackupSupported: S.optional(S.String),
+          zoneRedundantHaSupported: S.optional(S.String),
+          zoneRedundantHaAndGeoBackupSupported: S.optional(S.String),
+          storageAutoGrowthSupported: S.optional(S.String),
+          onlineResizeSupported: S.optional(S.String),
+          restricted: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Capability" });
+    case 18:
+      return S.Array(__S(2033, __c63, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2034, __c63, 18),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CapabilityList" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5212,7 +6257,7 @@ function __c46(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/checkMigrationNameAvailability",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CheckMigrationNameAvailabilityRequest" });
@@ -5228,358 +6273,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MigrationNameAvailability" });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          tuningOption: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetTuningOptionRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TuningOptionsProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(1536, __c48, 0)),
-        }),
-      ).annotate({ identifier: "GetTuningOptionResponse" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          virtualEndpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "GetVirtualEndpointRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endpointType: S.optional(S.String),
-          members: S.optional(__S(224, __c7, 0)),
-          virtualEndpoints: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "VirtualEndpointResourceProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(1600, __c50, 0)),
-        }),
-      ).annotate({ identifier: "GetVirtualEndpointResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListAdministratorsMicrosoftEntraByServerRequest" });
-    case 1:
-      return S.Array(__S(577, __c18, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1633, __c51, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdministratorMicrosoftEntraList" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListAdvancedThreatProtectionSettingsByServerRequest" });
-    case 1:
-      return S.Array(__S(641, __c20, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1665, __c52, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdvancedThreatProtectionSettingsList" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListBackupsAutomaticAndOnDemandByServerRequest" });
-    case 1:
-      return S.Array(__S(769, __c24, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1697, __c53, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupAutomaticAndOnDemandList" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListBackupsLongTermRetentionByServerRequest" });
-    case 1:
-      return S.Array(__S(832, __c26, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1729, __c54, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LtrServerBackupOperationList" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          locationName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/capabilities",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListCapabilitiesByLocationRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          iops: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StorageTierCapability" });
-    case 1:
-      return S.Array(__S(1792, __c56, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          supportedIops: S.optional(S.Number),
-          supportedMaximumIops: S.optional(S.Number),
-          storageSizeMb: S.optional(S.Number),
-          maximumStorageSizeMb: S.optional(S.Number),
-          supportedThroughput: S.optional(S.Number),
-          supportedMaximumThroughput: S.optional(S.Number),
-          defaultIopsTier: S.optional(S.String),
-          supportedIopsTiers: S.optional(__S(1793, __c56, 1)),
-        }),
-      ).annotate({ identifier: "StorageMbCapability" });
-    case 3:
-      return S.Array(__S(1794, __c56, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          defaultStorageSizeMb: S.optional(S.Number),
-          supportedStorageMb: S.optional(__S(1795, __c56, 3)),
-        }),
-      ).annotate({ identifier: "StorageEditionCapability" });
-    case 5:
-      return S.Array(__S(1796, __c56, 4));
-    case 6:
-      return S.Array(S.String);
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SupportedFeature" });
-    case 8:
-      return S.Array(__S(1799, __c56, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          vCores: S.optional(S.Number),
-          supportedIops: S.optional(S.Number),
-          supportedMemoryPerVcoreMb: S.optional(S.Number),
-          supportedZones: S.optional(__S(224, __c7, 0)),
-          supportedHaMode: S.optional(__S(1798, __c56, 6)),
-          supportedFeatures: S.optional(__S(1800, __c56, 8)),
-          securityProfile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServerSkuCapability" });
-    case 10:
-      return S.Array(__S(1801, __c56, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          defaultSkuName: S.optional(S.String),
-          supportedStorageEditions: S.optional(__S(1797, __c56, 5)),
-          supportedServerSkus: S.optional(__S(1802, __c56, 10)),
-        }),
-      ).annotate({ identifier: "ServerEditionCapability" });
-    case 12:
-      return S.Array(__S(1803, __c56, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          supportedVersionsToUpgrade: S.optional(__S(224, __c7, 0)),
-          supportedFeatures: S.optional(__S(1800, __c56, 8)),
-        }),
-      ).annotate({ identifier: "ServerVersionCapability" });
-    case 14:
-      return S.Array(__S(1805, __c56, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          supportedTier: S.optional(S.String),
-          supportedSku: S.optional(S.String),
-          supportedStorageGb: S.optional(S.Number),
-          supportedServerVersions: S.optional(S.String),
-          serverCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FastProvisioningEditionCapability" });
-    case 16:
-      return S.Array(__S(1807, __c56, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          name: S.optional(S.String),
-          supportedServerEditions: S.optional(__S(1804, __c56, 12)),
-          supportedServerVersions: S.optional(__S(1806, __c56, 14)),
-          supportedFeatures: S.optional(__S(1800, __c56, 8)),
-          fastProvisioningSupported: S.optional(S.String),
-          supportedFastProvisioningEditions: S.optional(__S(1808, __c56, 16)),
-          geoBackupSupported: S.optional(S.String),
-          zoneRedundantHaSupported: S.optional(S.String),
-          zoneRedundantHaAndGeoBackupSupported: S.optional(S.String),
-          storageAutoGrowthSupported: S.optional(S.String),
-          onlineResizeSupported: S.optional(S.String),
-          restricted: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Capability" });
-    case 18:
-      return S.Array(__S(1809, __c56, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1810, __c56, 18),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CapabilityList" });
-  }
-}
-function __c57(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5592,13 +6286,13 @@ function __c57(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/capabilities",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListCapabilitiesByServerRequest" });
   }
 }
-function __c58(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5611,7 +6305,7 @@ function __c58(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/logFiles",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListCapturedLogByServerRequest" });
@@ -5631,22 +6325,22 @@ function __c58(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(1857, __c58, 1)),
+          systemData: S.optional(__S(608, __c19, 0)),
+          properties: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "CapturedLog" });
     case 3:
-      return S.Array(__S(1858, __c58, 2));
+      return S.Array(__S(2114, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1859, __c58, 3),
+          value: __S(2115, __c66, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapturedLogList" });
   }
 }
-function __c59(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5659,55 +6353,22 @@ function __c59(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationByServerRequest" });
     case 1:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(993, __c31, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1889, __c59, 1),
+          value: __S(2145, __c67, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationList" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/checkNameAvailability",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckNameAvailabilityGloballyRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nameAvailable: S.optional(S.Boolean),
-          reason: S.optional(S.String),
-          message: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CheckNameAvailabilityGloballyResponse" });
-  }
-}
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5720,22 +6381,22 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseByServerRequest" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1985, __c62, 1),
+          value: __S(2177, __c68, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseList" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5748,22 +6409,79 @@ function __c63(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListFirewallRuleByServerRequest" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2017, __c63, 1),
+          value: __S(2209, __c69, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRuleList" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          maintenanceStatus: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListMaintenanceEventsRequest" });
+    case 1:
+      return S.Array(__S(1185, __c37, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2241, __c70, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceEventResourceListResult" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/majorVersionUpgradePrecheck",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListMajorVersionUpgradePrecheckRequest" });
+    case 1:
+      return S.Array(__S(1255, __c39, 7));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2273, __c71, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MajorVersionUpgradePrecheckResourceListResult" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5777,22 +6495,22 @@ function __c64(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrations",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListMigrationByTargetServerRequest" });
     case 1:
-      return S.Array(__S(175, __c5, 15));
+      return S.Array(__S(687, __c21, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2049, __c64, 1),
+          value: __S(2305, __c72, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationList" });
   }
 }
-function __c65(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5801,7 +6519,7 @@ function __c65(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.DBforPostgreSQL/operations",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5822,13 +6540,13 @@ function __c65(j: number): any {
           displayDescription: S.optional(S.String),
           unit: S.optional(S.String),
           aggregationType: S.optional(S.String),
-          supportedAggregationTypes: S.optional(__S(224, __c7, 0)),
-          supportedTimeGrainTypes: S.optional(__S(224, __c7, 0)),
+          supportedAggregationTypes: S.optional(__S(576, __c18, 0)),
+          supportedTimeGrainTypes: S.optional(__S(576, __c18, 0)),
           category: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricSpecification" });
     case 3:
-      return S.Array(__S(2082, __c65, 2));
+      return S.Array(__S(2338, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5838,224 +6556,39 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "LogSpecification" });
     case 5:
-      return S.Array(__S(2084, __c65, 4));
+      return S.Array(__S(2340, __c73, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metricSpecifications: S.optional(__S(2083, __c65, 3)),
-          logSpecifications: S.optional(__S(2085, __c65, 5)),
+          metricSpecifications: S.optional(__S(2339, __c73, 3)),
+          logSpecifications: S.optional(__S(2341, __c73, 5)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(2086, __c65, 6)),
+          serviceSpecification: S.optional(__S(2342, __c73, 6)),
         }),
       ).annotate({ identifier: "OperationProperties" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(2081, __c65, 1)),
+          display: S.optional(__S(2337, __c73, 1)),
           isDataAction: S.optional(S.Boolean),
           origin: S.optional(S.String),
-          properties: S.optional(__S(2087, __c65, 7)),
+          properties: S.optional(__S(2343, __c73, 7)),
         }),
       ).annotate({ identifier: "Operation" });
     case 9:
-      return S.Array(__S(2088, __c65, 8));
+      return S.Array(__S(2344, __c73, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2089, __c65, 9),
+          value: __S(2345, __c73, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPrivateEndpointConnectionByServerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1344, __c42, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateEndpointConnectionList" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateLinkResources",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPrivateLinkResourceByServerRequest" });
-    case 1:
-      return S.Array(__S(1281, __c40, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(2145, __c67, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateLinkResourceList" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          locationName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/resourceType/flexibleServers/usages",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListQuotaUsagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          localizedValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NameProperty" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(__S(2177, __c68, 1)),
-          limit: S.optional(S.Number),
-          unit: S.optional(S.String),
-          currentValue: S.optional(S.Number),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QuotaUsage" });
-    case 3:
-      return S.Array(__S(2178, __c68, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(2179, __c68, 3),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QuotaUsageList" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListReplicasByServerRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1380, __c43, 4));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(2240, __c70, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServerList" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListServerByResourceGroupRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/flexibleServers",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListServerBySubscriptionRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          locationName: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkNameAvailability",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "CheckNameAvailabilityWithLocationRequest" });
   }
 }
 function __c74(j: number): any {
@@ -6069,24 +6602,222 @@ function __c74(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "ListTuningOptionByServerRequest" });
+      ).annotate({ identifier: "ListPrivateEndpointConnectionByServerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1600, __c50, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointConnectionList" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/checkNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckNameAvailabilityGloballyRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nameAvailable: S.optional(S.Boolean),
+          reason: S.optional(S.String),
+          message: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckNameAvailabilityGloballyResponse" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateLinkResources",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListPrivateLinkResourceByServerRequest" });
     case 1:
       return S.Array(__S(1537, __c48, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2369, __c74, 1),
+          value: __S(2465, __c77, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateLinkResourceList" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          locationName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/resourceType/flexibleServers/usages",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListQuotaUsagesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          localizedValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NameProperty" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(__S(2497, __c78, 1)),
+          limit: S.optional(S.Number),
+          unit: S.optional(S.String),
+          currentValue: S.optional(S.Number),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QuotaUsage" });
+    case 3:
+      return S.Array(__S(2498, __c78, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2499, __c78, 3),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QuotaUsageList" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListReplicasByServerRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1636, __c51, 4));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2560, __c80, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerList" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListServerByResourceGroupRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/flexibleServers",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListServerBySubscriptionRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListTuningOptionByServerRequest" });
+    case 1:
+      return S.Array(__S(1761, __c55, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2657, __c83, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TuningOptionsList" });
   }
 }
-function __c75(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6101,7 +6832,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/tuningOptions/{tuningOption}/recommendations",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListTuningOptionRecommendationsRequest" });
@@ -6132,7 +6863,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ImpactRecord" });
     case 5:
-      return S.Array(__S(2404, __c75, 4));
+      return S.Array(__S(2692, __c84, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6141,8 +6872,8 @@ function __c75(j: number): any {
           table: S.optional(S.String),
           indexType: S.optional(S.String),
           indexName: S.optional(S.String),
-          indexColumns: S.optional(__S(224, __c7, 0)),
-          includedColumns: S.optional(__S(224, __c7, 0)),
+          indexColumns: S.optional(__S(576, __c18, 0)),
+          includedColumns: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ObjectRecommendationDetails" });
     case 7:
@@ -6151,14 +6882,14 @@ function __c75(j: number): any {
           initialRecommendedTime: S.optional(S.String),
           lastRecommendedTime: S.optional(S.String),
           timesRecommended: S.optional(S.Number),
-          improvedQueryIds: S.optional(__S(2401, __c75, 1)),
+          improvedQueryIds: S.optional(__S(2689, __c84, 1)),
           recommendationReason: S.optional(S.String),
           currentState: S.optional(S.String),
           recommendationType: S.optional(S.String),
-          implementationDetails: S.optional(__S(2402, __c75, 2)),
-          analyzedWorkload: S.optional(__S(2403, __c75, 3)),
-          estimatedImpact: S.optional(__S(2405, __c75, 5)),
-          details: S.optional(__S(2406, __c75, 6)),
+          implementationDetails: S.optional(__S(2690, __c84, 2)),
+          analyzedWorkload: S.optional(__S(2691, __c84, 3)),
+          estimatedImpact: S.optional(__S(2693, __c84, 5)),
+          details: S.optional(__S(2694, __c84, 6)),
         }),
       ).annotate({ identifier: "ObjectRecommendationProperties" });
     case 8:
@@ -6167,23 +6898,23 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(96, __c3, 0)),
+          systemData: S.optional(__S(608, __c19, 0)),
           kind: S.optional(S.String),
-          properties: S.optional(__S(2407, __c75, 7)),
+          properties: S.optional(__S(2695, __c84, 7)),
         }),
       ).annotate({ identifier: "ObjectRecommendation" });
     case 9:
-      return S.Array(__S(2408, __c75, 8));
+      return S.Array(__S(2696, __c84, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2409, __c75, 9),
+          value: __S(2697, __c84, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectRecommendationList" });
   }
 }
-function __c76(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6196,22 +6927,22 @@ function __c76(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListVirtualEndpointByServerRequest" });
     case 1:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2433, __c76, 1),
+          value: __S(2721, __c85, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualEndpointsList" });
   }
 }
-function __c77(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6224,7 +6955,7 @@ function __c77(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkVirtualNetworkSubnetUsage",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkSubnetUsageRequest" });
@@ -6236,18 +6967,90 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "DelegatedSubnetUsage" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          delegatedSubnetsUsage: S.optional(__S(2466, __c77, 2)),
+          delegatedSubnetsUsage: S.optional(__S(2754, __c86, 2)),
           location: S.optional(S.String),
           subscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualNetworkSubnetUsageModel" });
   }
 }
-function __c78(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          maintenanceEventId: S.String.pipe(T.Label()),
+          postponeToDateTime: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/reschedule",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "MaintenanceEventsRescheduleRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          locationName: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkNameAvailability",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "CheckNameAvailabilityWithLocationRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrateNetwork",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "MigrateServerNetworkModeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.optional(S.String),
+          resourceGroupName: S.optional(S.String),
+          serverName: S.optional(S.String),
+          state: S.optional(S.String),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "MigrateNetworkStatus" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6256,19 +7059,19 @@ function __c78(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2528, __c79, 0)),
+          properties: S.optional(__S(2912, __c91, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "PutConfigurationRequest" });
   }
 }
-function __c79(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6279,7 +7082,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ConfigurationPropertiesInput" });
   }
 }
-function __c80(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6294,19 +7097,20 @@ function __c80(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/restart",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "RestartServerRequest" });
   }
 }
-function __c81(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           backupRetentionDays: S.optional(S.Number),
           geoRedundantBackup: S.optional(S.String),
+          immutableBackup: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupInput" });
     case 1:
@@ -6315,20 +7119,21 @@ function __c81(j: number): any {
           administratorLogin: S.optional(S.String),
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           version: S.optional(S.String),
-          storage: S.optional(__S(1440, __c45, 0)),
-          authConfig: S.optional(__S(1441, __c45, 1)),
-          dataEncryption: S.optional(__S(1442, __c45, 2)),
-          backup: S.optional(__S(2592, __c81, 0)),
-          network: S.optional(__S(1443, __c45, 3)),
-          highAvailability: S.optional(__S(1408, __c44, 0)),
-          maintenanceWindow: S.optional(__S(1444, __c45, 4)),
+          storage: S.optional(__S(1696, __c53, 0)),
+          authConfig: S.optional(__S(1697, __c53, 1)),
+          dataEncryption: S.optional(__S(1698, __c53, 2)),
+          backup: S.optional(__S(2976, __c93, 0)),
+          network: S.optional(__S(1699, __c53, 3)),
+          highAvailability: S.optional(__S(1664, __c52, 0)),
+          maintenanceWindow: S.optional(__S(1700, __c53, 4)),
           sourceServerResourceId: S.optional(S.String),
           pointInTimeUTC: S.optional(S.String),
           availabilityZone: S.optional(S.String),
           replicationRole: S.optional(S.String),
-          replica: S.optional(__S(2624, __c82, 0)),
+          replica: S.optional(__S(3008, __c94, 0)),
           createMode: S.optional(S.String),
-          cluster: S.optional(__S(1445, __c45, 5)),
+          cluster: S.optional(__S(1701, __c53, 5)),
+          fipsMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerPropertiesInput" });
     case 2:
@@ -6337,23 +7142,23 @@ function __c81(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c4, 0)),
+          tags: S.optional(__S(640, __c20, 0)),
           location: S.String,
-          properties: S.optional(__S(2593, __c81, 1)),
-          sku: S.optional(__S(1409, __c44, 1)),
-          identity: S.optional(__S(2625, __c82, 1)),
+          properties: S.optional(__S(2977, __c93, 1)),
+          sku: S.optional(__S(1665, __c52, 1)),
+          identity: S.optional(__S(3009, __c94, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ServersCreateOrUpdateRequest" });
   }
 }
-function __c82(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6366,14 +7171,14 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userAssignedIdentities: S.optional(__S(1447, __c45, 7)),
+          userAssignedIdentities: S.optional(__S(1703, __c53, 7)),
           principalId: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "UserAssignedIdentityInput" });
   }
 }
-function __c83(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6388,24 +7193,24 @@ function __c83(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           threatProtectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2656, __c83, 0)),
+          properties: S.optional(__S(3040, __c95, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "ServerThreatProtectionSettingsCreateOrUpdateRequest" });
   }
 }
-function __c84(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sasUriList: __S(224, __c7, 0),
+          sasUriList: __S(576, __c18, 0),
         }),
       ).annotate({ identifier: "BackupStoreDetails" });
     case 1:
@@ -6414,21 +7219,21 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
-          backupSettings: __S(704, __c22, 0),
-          targetDetails: __S(2688, __c84, 0),
+          backupSettings: __S(1376, __c43, 0),
+          targetDetails: __S(3072, __c96, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/startLtrBackup",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "StartBackupsLongTermRetentionRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(864, __c27, 0)),
+          properties: S.optional(__S(928, __c29, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -6436,7 +7241,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "BackupsLongTermRetentionResponse" });
   }
 }
-function __c85(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6449,13 +7254,84 @@ function __c85(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/start",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "StartServerRequest" });
   }
 }
-function __c86(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          targetVersion: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/startMajorVersionUpgradePrecheck",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartServerMajorVersionUpgradePrecheckRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          status: S.optional(S.String),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "StartMajorVersionUpgradePrecheckResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/stop",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "StopServerRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serverName: S.String.pipe(T.Label()),
+          configurationName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(2912, __c91, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateConfigurationRequest" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6469,53 +7345,13 @@ function __c86(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/backups/{backupName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateBackupsAutomaticAndOnDemandRequest" });
   }
 }
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/stop",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "StopServerRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          configurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2528, __c79, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateConfigurationRequest" });
-  }
-}
-function __c89(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6527,7 +7363,7 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          adminCredentials: S.optional(__S(2848, __c89, 0)),
+          adminCredentials: S.optional(__S(3264, __c102, 0)),
           sourceServerUsername: S.optional(S.String),
           targetServerUsername: S.optional(S.String),
         }),
@@ -6538,17 +7374,17 @@ function __c89(j: number): any {
           sourceDbServerResourceId: S.optional(S.String),
           sourceDbServerFullyQualifiedDomainName: S.optional(S.String),
           targetDbServerFullyQualifiedDomainName: S.optional(S.String),
-          secretParameters: S.optional(__S(2849, __c89, 1)),
-          dbsToMigrate: S.optional(__S(224, __c7, 0)),
+          secretParameters: S.optional(__S(3265, __c102, 1)),
+          dbsToMigrate: S.optional(__S(576, __c18, 0)),
           setupLogicalReplicationOnSourceDbIfNeeded: S.optional(S.String),
           overwriteDbsInTarget: S.optional(S.String),
           migrationWindowStartTimeInUtc: S.optional(S.String),
           migrateRoles: S.optional(S.String),
           startDataMigration: S.optional(S.String),
           triggerCutover: S.optional(S.String),
-          dbsToTriggerCutoverOn: S.optional(__S(224, __c7, 0)),
+          dbsToTriggerCutoverOn: S.optional(__S(576, __c18, 0)),
           cancel: S.optional(S.String),
-          dbsToCancelMigrationOn: S.optional(__S(224, __c7, 0)),
+          dbsToCancelMigrationOn: S.optional(__S(576, __c18, 0)),
           migrationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationPropertiesForPatch" });
@@ -6559,28 +7395,28 @@ function __c89(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           migrationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2850, __c89, 2)),
-          tags: S.optional(__S(128, __c4, 0)),
+          properties: S.optional(__S(3266, __c102, 2)),
+          tags: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrations/{migrationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateMigrationRequest" });
   }
 }
-function __c90(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "PrivateEndpointInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(2880, __c90, 0)),
-          privateLinkServiceConnectionState: __S(1216, __c38, 0),
+          privateEndpoint: S.optional(__S(3296, __c103, 0)),
+          privateLinkServiceConnectionState: __S(1472, __c46, 0),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 2:
@@ -6590,24 +7426,25 @@ function __c90(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2881, __c90, 1)),
+          properties: S.optional(__S(3297, __c103, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
   }
 }
-function __c91(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           backupRetentionDays: S.optional(S.Number),
+          immutableBackup: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupForPatchInput" });
     case 1:
@@ -6622,18 +7459,20 @@ function __c91(j: number): any {
         S.Struct({
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           version: S.optional(S.String),
-          storage: S.optional(__S(1440, __c45, 0)),
-          backup: S.optional(__S(2912, __c91, 0)),
-          highAvailability: S.optional(__S(2913, __c91, 1)),
-          maintenanceWindow: S.optional(__S(1444, __c45, 4)),
-          authConfig: S.optional(__S(1441, __c45, 1)),
-          dataEncryption: S.optional(__S(1442, __c45, 2)),
+          storage: S.optional(__S(1696, __c53, 0)),
+          backup: S.optional(__S(3328, __c104, 0)),
+          highAvailability: S.optional(__S(3329, __c104, 1)),
+          maintenanceWindow: S.optional(__S(1700, __c53, 4)),
+          authConfig: S.optional(__S(1697, __c53, 1)),
+          dataEncryption: S.optional(__S(1698, __c53, 2)),
           availabilityZone: S.optional(S.String),
           createMode: S.optional(S.String),
+          sourceServerResourceId: S.optional(S.String),
           replicationRole: S.optional(S.String),
-          replica: S.optional(__S(2624, __c82, 0)),
-          network: S.optional(__S(1443, __c45, 3)),
-          cluster: S.optional(__S(1445, __c45, 5)),
+          replica: S.optional(__S(3008, __c94, 0)),
+          network: S.optional(__S(1699, __c53, 3)),
+          cluster: S.optional(__S(1701, __c53, 5)),
+          fipsMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerPropertiesForPatchInput" });
     case 3:
@@ -6642,22 +7481,22 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
-          sku: S.optional(__S(192, __c6, 0)),
-          identity: S.optional(__S(2625, __c82, 1)),
-          properties: S.optional(__S(2914, __c91, 2)),
-          tags: S.optional(__S(128, __c4, 0)),
+          sku: S.optional(__S(704, __c22, 0)),
+          identity: S.optional(__S(3009, __c94, 1)),
+          properties: S.optional(__S(3330, __c104, 2)),
+          tags: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateServerRequest" });
   }
 }
-function __c92(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6666,19 +7505,19 @@ function __c92(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           virtualEndpointName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3104, __c97, 0)),
+          properties: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "UpdateVirtualEndpointRequest" });
   }
 }
-function __c93(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6687,19 +7526,19 @@ function __c93(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3008, __c94, 0)),
+          properties: S.optional(__S(3424, __c107, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateDatabaseRequest" });
   }
 }
-function __c94(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6710,7 +7549,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DatabaseProperties" });
   }
 }
-function __c95(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6723,8 +7562,8 @@ function __c95(j: number): any {
           sourceDbServerResourceId: S.optional(S.String),
           sourceDbServerFullyQualifiedDomainName: S.optional(S.String),
           targetDbServerFullyQualifiedDomainName: S.optional(S.String),
-          secretParameters: S.optional(__S(173, __c5, 13)),
-          dbsToMigrate: S.optional(__S(224, __c7, 0)),
+          secretParameters: S.optional(__S(685, __c21, 13)),
+          dbsToMigrate: S.optional(__S(576, __c18, 0)),
           setupLogicalReplicationOnSourceDbIfNeeded: S.optional(S.String),
           overwriteDbsInTarget: S.optional(S.String),
           migrationWindowStartTimeInUtc: S.optional(S.String),
@@ -6732,9 +7571,9 @@ function __c95(j: number): any {
           migrateRoles: S.optional(S.String),
           startDataMigration: S.optional(S.String),
           triggerCutover: S.optional(S.String),
-          dbsToTriggerCutoverOn: S.optional(__S(224, __c7, 0)),
+          dbsToTriggerCutoverOn: S.optional(__S(576, __c18, 0)),
           cancel: S.optional(S.String),
-          dbsToCancelMigrationOn: S.optional(__S(224, __c7, 0)),
+          dbsToCancelMigrationOn: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "MigrationPropertiesInput" });
     case 1:
@@ -6744,50 +7583,18 @@ function __c95(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           migrationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c4, 0)),
+          tags: S.optional(__S(640, __c20, 0)),
           location: S.String,
-          properties: S.optional(__S(3040, __c95, 0)),
+          properties: S.optional(__S(3456, __c108, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrations/{migrationName}",
             code: 200,
-            apiVersion: "2025-08-01",
+            apiVersion: "2026-10-01",
           }),
         ),
       ).annotate({ identifier: "CreateMigrationRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serverName: S.String.pipe(T.Label()),
-          virtualEndpointName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3104, __c97, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
-            code: 200,
-            apiVersion: "2025-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "CreateVirtualEndpointRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endpointType: S.optional(S.String),
-          members: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "VirtualEndpointResourcePropertiesInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

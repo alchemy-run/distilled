@@ -30,9 +30,16 @@ export class GitReferenceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<GitReferenceNotFound>()("GitReferenceNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { includes: "reference not found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** files to add (use . for all files) */
 export type AddFilesRequestFilesList = Array<string>;
@@ -44,20 +51,20 @@ export interface AddFilesRequest {
 export interface AddFilesResponse {}
 export interface AddRemoteRequest {
   /** Fetch fetches from the remote immediately after adding it. */
-  fetch?: boolean;
+  fetch?: boolean | undefined;
   name: string;
   /** Overwrite replaces an existing remote with the same name. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   path: string;
   url: string;
 }
 export interface AddRemoteResponse {}
 export interface AuthenticateRequest {
   /** Host defaults to github.com. */
-  host?: string;
+  host?: string | undefined;
   password: string | Redacted.Redacted<string>;
   /** Protocol defaults to https. */
-  protocol?: string;
+  protocol?: string | undefined;
   username: string;
 }
 export interface AuthenticateResponse {}
@@ -67,20 +74,20 @@ export interface CheckoutBranchRequest {
 }
 export interface CheckoutBranchResponse {}
 export interface CloneRepositoryRequest {
-  branch?: string;
-  commit_id?: string;
+  branch?: string | undefined;
+  commit_id?: string | undefined;
   /** Depth creates a shallow clone truncated to the given number of commits. */
-  depth?: number;
+  depth?: number | undefined;
   /** Skip TLS certificate verification for this clone. Defaults to false (verify). Set to true ONLY for trusted internal Git servers with self-signed or private-CA certs; credentials, if supplied, will be transmitted over an unverified TLS connection and are exposed to any MITM on the route. */
-  insecure_skip_tls?: boolean;
-  password?: string | Redacted.Redacted<string>;
+  insecure_skip_tls?: boolean | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   url: string;
-  username?: string;
+  username?: string | undefined;
 }
 export interface CloneRepositoryResponse {}
 export interface CommitChangesRequest {
-  allow_empty?: boolean;
+  allow_empty?: boolean | undefined;
   author: string;
   email: string;
   message: string;
@@ -93,9 +100,9 @@ export interface ConfigureUserRequest {
   email: string;
   name: string;
   /** Path is the repository path, required when scope is "local". */
-  path?: string;
+  path?: string | undefined;
   /** Scope is one of global (default), local or system. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface ConfigureUserResponse {}
 export interface CreateBranchRequest {
@@ -125,13 +132,13 @@ export interface GetGitConfigRequest {
   /** Config key (e.g. user.name) */
   key: string;
   /** Repository path (required for local scope) */
-  path?: string;
+  path?: string | undefined;
   /** Config scope: global (default), local or system */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface GitConfigResponse {
   /** Value is the config value, null when the key is not set. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetStatusRequest {
   /** Repository path */
@@ -154,21 +161,21 @@ export interface FileStatus {
 }
 export type GitStatusFileStatusList = Array<FileStatus>;
 export interface GitStatus {
-  ahead?: number;
-  behind?: number;
-  branchPublished?: boolean;
+  ahead?: number | undefined;
+  behind?: number | undefined;
+  branchPublished?: boolean | undefined;
   currentBranch: string;
   /** Detached is true when HEAD is not on a branch (detached HEAD state). */
-  detached?: boolean;
+  detached?: boolean | undefined;
   fileStatus: GitStatusFileStatusList;
   /** Upstream is the upstream tracking branch (e.g. "origin/main"), empty when unset. */
-  upstream?: string;
+  upstream?: string | undefined;
 }
 export interface InitRepositoryRequest {
   /** Bare creates a repository without a working tree. */
-  bare?: boolean;
+  bare?: boolean | undefined;
   /** InitialBranch sets the name of the initial branch. */
-  initial_branch?: string;
+  initial_branch?: string | undefined;
   path: string;
 }
 export interface InitRepositoryResponse {}
@@ -180,7 +187,7 @@ export type ListBranchResponseBranchesList = Array<string>;
 export interface ListBranchResponse {
   branches: ListBranchResponseBranchesList;
   /** Current is the name of the checked out branch (empty when HEAD is detached). */
-  current?: string;
+  current?: string | undefined;
 }
 export interface ListRemotesRequest {
   /** Repository path */
@@ -196,36 +203,36 @@ export interface ListRemotesResponse {
 }
 export interface PullChangesRequest {
   /** Branch to pull (defaults to the current branch's upstream). */
-  branch?: string;
-  password?: string | Redacted.Redacted<string>;
+  branch?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   /** Remote to pull from (defaults to "origin"). */
-  remote?: string;
-  username?: string;
+  remote?: string | undefined;
+  username?: string | undefined;
 }
 export interface PullChangesResponse {}
 export interface PushChangesRequest {
   /** Branch to push (defaults to the current branch). */
-  branch?: string;
-  password?: string | Redacted.Redacted<string>;
+  branch?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   /** Remote to push to (defaults to "origin"). */
-  remote?: string;
+  remote?: string | undefined;
   /** SetUpstream records the pushed branch as the upstream tracking branch. */
-  set_upstream?: boolean;
-  username?: string;
+  set_upstream?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface PushChangesResponse {}
 /** Files constrains the reset to the given paths. */
 export type ResetChangesRequestFilesList = Array<string>;
 export interface ResetChangesRequest {
   /** Files constrains the reset to the given paths. */
-  files?: ResetChangesRequestFilesList;
+  files?: ResetChangesRequestFilesList | undefined;
   /** Mode is one of soft, mixed (default), hard, merge or keep. */
-  mode?: string;
+  mode?: string | undefined;
   path: string;
   /** Target is the revision to reset to (defaults to HEAD). */
-  target?: string;
+  target?: string | undefined;
 }
 export interface ResetChangesResponse {}
 export type RestoreFilesRequestFilesList = Array<string>;
@@ -233,22 +240,64 @@ export interface RestoreFilesRequest {
   files: RestoreFilesRequestFilesList;
   path: string;
   /** Source restores file contents from the given revision instead of the index. */
-  source?: string;
+  source?: string | undefined;
   /** Staged restores the staging index for the given files. */
-  staged?: boolean;
+  staged?: boolean | undefined;
   /** Worktree restores the working tree for the given files. */
-  worktree?: boolean;
+  worktree?: boolean | undefined;
 }
 export interface RestoreFilesResponse {}
 export interface SetGitConfigRequest {
   key: string;
   /** Path is the repository path, required when scope is "local". */
-  path?: string;
+  path?: string | undefined;
   /** Scope is one of global (default), local or system. */
-  scope?: string;
+  scope?: string | undefined;
   value: string;
 }
 export interface SetGitConfigResponse {}
+export type DaemonErrorCode =
+  | "GIT_AUTH_FAILED"
+  | "GIT_REPO_NOT_FOUND"
+  | "GIT_BRANCH_NOT_FOUND"
+  | "GIT_BRANCH_EXISTS"
+  | "GIT_PUSH_REJECTED"
+  | "GIT_DIRTY_WORKTREE"
+  | "GIT_MERGE_CONFLICT"
+  | "GIT_TRANSPORT_FAILED"
+  | "GIT_REMOTE_REJECTED"
+  | "FILE_NOT_FOUND"
+  | "FILE_ACCESS_DENIED"
+  | "INVALID_FILE_PATH"
+  | "FILE_READ_FAILED"
+  | "LSP_SERVER_NOT_INITIALIZED"
+  | "PROCESS_EXECUTION_TIMEOUT"
+  | "PROCESS_NOT_FOUND"
+  | "SESSION_ENDED"
+  | "COMMAND_ALREADY_COMPLETED"
+  | "A11Y_UNAVAILABLE"
+  | "RECORDING_STILL_ACTIVE"
+  | "RECORDING_FFMPEG_NOT_FOUND"
+  | "BAD_REQUEST"
+  | "INVALID_REQUEST_BODY"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "NOT_FOUND"
+  | "CONFLICT"
+  | "REQUEST_TIMEOUT"
+  | "GONE"
+  | "UNPROCESSABLE_ENTITY"
+  | "INTERNAL_SERVER_ERROR";
+/** Error response */
+export interface ErrorResponse {
+  code?: DaemonErrorCode | undefined;
+  message: string;
+  method?: string | undefined;
+  path: string;
+  source?: string | undefined;
+  statusCode: number;
+  timestamp: string;
+}
 export type AddFilesError = DaytonaOpError;
 /** Add files to Git staging Add files to the Git staging area */
 export const addFiles: API.OperationMethod<
@@ -257,8 +306,8 @@ export const addFiles: API.OperationMethod<
   AddFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddFilesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<AddFilesResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<AddFilesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<AddFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -274,8 +323,8 @@ export const addRemote: API.OperationMethod<
   AddRemoteError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<AddRemoteRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<AddRemoteResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<AddRemoteRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<AddRemoteResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -291,8 +340,8 @@ export const authenticate: API.OperationMethod<
   AuthenticateError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<AuthenticateRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<AuthenticateResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<AuthenticateRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<AuthenticateResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -308,8 +357,8 @@ export const checkoutBranch: API.OperationMethod<
   CheckoutBranchError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<CheckoutBranchRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CheckoutBranchResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<CheckoutBranchRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CheckoutBranchResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -325,8 +374,8 @@ export const cloneRepository: API.OperationMethod<
   CloneRepositoryError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<CloneRepositoryRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CloneRepositoryResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<CloneRepositoryRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CloneRepositoryResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -342,8 +391,8 @@ export const commitChanges: API.OperationMethod<
   CommitChangesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<CommitChangesRequest>,
-  output: __S(73, __c18, 1) as any as S.Schema<GitCommitResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<CommitChangesRequest>,
+  output: __S(77, __c19, 1) as any as S.Schema<GitCommitResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -359,8 +408,8 @@ export const configureUser: API.OperationMethod<
   ConfigureUserError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<ConfigureUserRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<ConfigureUserResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<ConfigureUserRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<ConfigureUserResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -376,8 +425,8 @@ export const createBranch: API.OperationMethod<
   CreateBranchError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CreateBranchRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CreateBranchResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateBranchRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateBranchResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -393,8 +442,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -410,8 +459,8 @@ export const getCommitHistory: API.OperationMethod<
   GetCommitHistoryError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetCommitHistoryRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<GetCommitHistoryResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetCommitHistoryRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<GetCommitHistoryResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -427,8 +476,8 @@ export const getGitConfig: API.OperationMethod<
   GetGitConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetGitConfigRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<GitConfigResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetGitConfigRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<GitConfigResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -444,8 +493,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<GitStatus>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<GitStatus>,
   errors: [GitReferenceNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -461,8 +510,8 @@ export const initRepository: API.OperationMethod<
   InitRepositoryError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<InitRepositoryRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<InitRepositoryResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<InitRepositoryRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<InitRepositoryResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -478,8 +527,8 @@ export const listBranches: API.OperationMethod<
   ListBranchesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListBranchesRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<ListBranchResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListBranchesRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<ListBranchResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -495,8 +544,8 @@ export const listRemotes: API.OperationMethod<
   ListRemotesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListRemotesRequest>,
-  output: __S(35, __c8, 3) as any as S.Schema<ListRemotesResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListRemotesRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<ListRemotesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -512,8 +561,8 @@ export const pullChanges: API.OperationMethod<
   PullChangesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<PullChangesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<PullChangesResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<PullChangesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<PullChangesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -529,8 +578,8 @@ export const pushChanges: API.OperationMethod<
   PushChangesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<PushChangesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<PushChangesResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<PushChangesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<PushChangesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -546,8 +595,8 @@ export const resetChanges: API.OperationMethod<
   ResetChangesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ResetChangesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<ResetChangesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ResetChangesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<ResetChangesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -563,8 +612,8 @@ export const restoreFiles: API.OperationMethod<
   RestoreFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<RestoreFilesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<RestoreFilesResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<RestoreFilesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<RestoreFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -580,8 +629,8 @@ export const setGitConfig: API.OperationMethod<
   SetGitConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<SetGitConfigRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<SetGitConfigResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<SetGitConfigRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<SetGitConfigResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -595,25 +644,41 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: __S(4, __c1, 0),
+          code: S.optional(S.String),
+          message: S.String,
+          method: S.optional(S.String),
           path: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/git/add", code: 200 })),
-      ).annotate({ identifier: "AddFilesRequest" });
+          source: S.optional(S.String),
+          statusCode: S.Number,
+          timestamp: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          files: __S(8, __c2, 0),
+          path: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/git/add", code: 200 })),
+      ).annotate({ identifier: "AddFilesRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "AddFilesResponse" });
+      return S.Array(S.String);
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AddFilesResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -632,14 +697,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "GitCommitInfo" });
     case 2:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(17, __c4, 1));
     case 3:
-      return S.suspend(() => __S(14, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18, __c4, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCommitHistoryResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -657,7 +722,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GitConfigResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -675,7 +740,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "FileStatus" });
     case 2:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(25, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -684,13 +749,13 @@ function __c5(j: number): any {
           branchPublished: S.optional(S.Boolean),
           currentBranch: S.String,
           detached: S.optional(S.Boolean),
-          fileStatus: __S(22, __c5, 2),
+          fileStatus: __S(26, __c6, 2),
           upstream: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitStatus" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -702,7 +767,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "InitRepositoryRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -713,13 +778,13 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branches: __S(4, __c1, 0),
+          branches: __S(8, __c2, 0),
           current: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBranchResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,16 +800,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GitRemote" });
     case 2:
-      return S.Array(__S(33, __c8, 1));
+      return S.Array(__S(37, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          remotes: __S(34, __c8, 2),
+          remotes: __S(38, __c9, 2),
         }),
       ).annotate({ identifier: "ListRemotesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -758,7 +823,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PullChangesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -773,12 +838,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PushChangesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(4, __c1, 0)),
+          files: S.optional(__S(8, __c2, 0)),
           mode: S.optional(S.String),
           path: S.String,
           target: S.optional(S.String),
@@ -786,12 +851,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ResetChangesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: __S(4, __c1, 0),
+          files: __S(8, __c2, 0),
           path: S.String,
           source: S.optional(S.String),
           staged: S.optional(S.Boolean),
@@ -800,7 +865,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RestoreFilesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -814,7 +879,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "AddRemoteRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -827,7 +892,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SetGitConfigRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -840,7 +905,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "AuthenticateRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -851,7 +916,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CheckoutBranchRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -868,7 +933,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CloneRepositoryRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -888,7 +953,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GitCommitResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -901,7 +966,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ConfigureUserRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -912,7 +977,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateBranchRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

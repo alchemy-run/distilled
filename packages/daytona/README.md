@@ -14,9 +14,10 @@ npm install @distilled.cloud/daytona effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Daytona from "@distilled.cloud/daytona";
+import * as Sandbox from "@distilled.cloud/daytona/sandbox";
 
 const program = Effect.gen(function* () {
-  const result = yield* Daytona.sandbox.createSandbox({});
+  const result = yield* Sandbox.createSandbox({});
   return result;
 });
 

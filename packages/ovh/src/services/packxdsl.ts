@@ -39,9 +39,9 @@ export interface CreatePackXdslAddressMoveOfferRequest {
 }
 /** A contract */
 export interface OrderContract {
-  content?: string;
-  name?: string;
-  url?: string;
+  content?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 /** Contracts details for this offer */
 export type PackXdslAddressMoveMoveOfferContractsList = Array<OrderContract>;
@@ -63,16 +63,16 @@ export type OrderCurrencyCodeEnum =
   | "points";
 /** Price with it's currency and textual representation */
 export interface OrderPrice {
-  currencyCode?: OrderCurrencyCodeEnum;
-  text?: string;
-  value?: number;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
 }
 /** Available modem option for the offer */
 export interface PackXdslMigrationOfferModemOption {
   /** Name of the modem */
-  name?: string;
+  name?: string | undefined;
   /** Price of for this modem */
-  price?: OrderPrice | null;
+  price?: OrderPrice | null | undefined;
 }
 /** List of modems for this offer */
 export type PackXdslAddressMoveMoveOfferModemOptionsList = Array<PackXdslMigrationOfferModemOption>;
@@ -96,69 +96,69 @@ export type ConnectivityEligibilityOfferProductProviderEnum =
 /** Available option for the offer */
 export interface PackXdslMigrationOfferAvailableOption {
   /** Number of months paid for */
-  duration?: number;
+  duration?: number | undefined;
   /** Number of slots included by default in this offer */
-  included?: number;
+  included?: number | undefined;
   /** Name of the option */
-  name?: string;
+  name?: string | undefined;
   /** Number of optional slots that can be puchased */
-  optional?: number;
+  optional?: number | undefined;
   /** Price of an additional slot. You pay this price everytime the duration is expired */
-  optionalPrice?: OrderPrice | null;
+  optionalPrice?: OrderPrice | null | undefined;
 }
 /** Available options for the migration */
 export type PackXdslAddressMoveMoveOfferOptionsList = Array<PackXdslMigrationOfferAvailableOption>;
 /** Price details for an offer */
 export interface PackXdslAddressMovePrice {
   /** Description of the price */
-  description?: string;
+  description?: string | undefined;
   /** Price of the offer */
-  price?: OrderPrice | null;
+  price?: OrderPrice | null | undefined;
 }
 /** Migration or address move offer promotion details */
 export interface PackXdslMigrationAndAddressMovePromotionDetails {
   /** Promotion discount */
-  discount?: OrderPrice;
+  discount?: OrderPrice | undefined;
   /** Duration of the promotion, if applicable (only for recurrent billing) */
-  duration?: string | null;
+  duration?: string | null | undefined;
 }
 /** Migration or address move offer promotion */
 export interface PackXdslMigrationAndAddressMovePromotion {
   /** Promotion end date, if applicable */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Identifier of the promotion */
-  id?: string;
+  id?: string | undefined;
   /** Details of the promotion for the install fee */
-  installFee?: PackXdslMigrationAndAddressMovePromotionDetails | null;
+  installFee?: PackXdslMigrationAndAddressMovePromotionDetails | null | undefined;
   /** Promotion start date, if applicable */
-  startDate?: string | null;
+  startDate?: string | null | undefined;
   /** Details of the promotion for the subscription */
-  subscription?: PackXdslMigrationAndAddressMovePromotionDetails | null;
+  subscription?: PackXdslMigrationAndAddressMovePromotionDetails | null | undefined;
 }
 /** Price details for an offer */
 export interface PackXdslAddressMovePriceOffer {
   /** Creation line fees */
-  creationLineFees?: PackXdslAddressMovePrice;
+  creationLineFees?: PackXdslAddressMovePrice | undefined;
   /** Price of the current offer */
-  currentOfferPrice?: PackXdslAddressMovePrice;
+  currentOfferPrice?: PackXdslAddressMovePrice | undefined;
   /** Upgrade offer price */
-  due?: PackXdslAddressMovePrice;
+  due?: PackXdslAddressMovePrice | undefined;
   /** Subscription price the first year */
-  firstYearPromo?: PackXdslAddressMovePrice;
+  firstYearPromo?: PackXdslAddressMovePrice | undefined;
   /** Install fee for GTR option comfort additional cost */
-  gtrComfortFees?: PackXdslAddressMovePrice | null;
+  gtrComfortFees?: PackXdslAddressMovePrice | null | undefined;
   /** Installation fees */
-  installFees?: PackXdslAddressMovePrice;
+  installFees?: PackXdslAddressMovePrice | undefined;
   /** Price for modem rental */
-  modemRental?: PackXdslAddressMovePrice;
+  modemRental?: PackXdslAddressMovePrice | undefined;
   /** Price of the offer */
-  price?: PackXdslAddressMovePrice;
+  price?: PackXdslAddressMovePrice | undefined;
   /** Promotion, if available */
-  promotion?: PackXdslMigrationAndAddressMovePromotion | null;
+  promotion?: PackXdslMigrationAndAddressMovePromotion | null | undefined;
   /** Subscription price for provider AI additional cost */
-  providerAI?: PackXdslAddressMovePrice | null;
+  providerAI?: PackXdslAddressMovePrice | null | undefined;
   /** Subscription price for provider ORANGE additional cost */
-  providerOrange?: PackXdslAddressMovePrice | null;
+  providerOrange?: PackXdslAddressMovePrice | null | undefined;
 }
 /** List of product from provider available for an offer */
 export type PackXdslAddressMoveMoveOfferProductCodesList = Array<string>;
@@ -195,11 +195,11 @@ export type PackXdslServiceNameEnum =
 /** Sub service to delete */
 export interface PackXdslMigrationSubServiceToDelete {
   /** Number of services to be deleted */
-  numberToDelete?: number;
+  numberToDelete?: number | undefined;
   /** List of domains of sub services */
-  services?: PackXdslMigrationSubServiceToDeleteServicesList;
+  services?: PackXdslMigrationSubServiceToDeleteServicesList | undefined;
   /** Type of service to be deleted */
-  type?: PackXdslServiceNameEnum;
+  type?: PackXdslServiceNameEnum | undefined;
 }
 /** List of sub services to delete */
 export type PackXdslAddressMoveMoveOfferSubServicesToDeleteList =
@@ -207,61 +207,61 @@ export type PackXdslAddressMoveMoveOfferSubServicesToDeleteList =
 /** Address move offer */
 export interface PackXdslAddressMoveMoveOffer {
   /** Contracts details for this offer */
-  contracts?: PackXdslAddressMoveMoveOfferContractsList;
+  contracts?: PackXdslAddressMoveMoveOfferContractsList | undefined;
   /** Tells if the custom ont address is available on the offer */
-  customOntAddress?: boolean;
+  customOntAddress?: boolean | undefined;
   /** Description of the offer */
-  description?: string;
+  description?: string | undefined;
   /** Number of months of engagement */
-  engageMonths?: number | null;
+  engageMonths?: number | null | undefined;
   /** Tells if the customer is still engaged */
-  engaged?: boolean;
+  engaged?: boolean | undefined;
   /** List of modems for this offer */
-  modemOptions?: PackXdslAddressMoveMoveOfferModemOptionsList | null;
+  modemOptions?: PackXdslAddressMoveMoveOfferModemOptionsList | null | undefined;
   /** Modem reference (Mac or Serial) to be returned */
-  modemReferenceToReturn?: string | null;
+  modemReferenceToReturn?: string | null | undefined;
   /** Tells if the offer needs a modem */
-  needModem?: boolean;
+  needModem?: boolean | undefined;
   /** Tells if the customer will have to change its modem */
-  needNewModem?: boolean;
+  needNewModem?: boolean | undefined;
   /** Name of the offer */
-  offerName?: string;
+  offerName?: string | undefined;
   /** Collection operator (CO) */
-  operator?: ConnectivityEligibilityOfferProductProviderEnum | null;
+  operator?: ConnectivityEligibilityOfferProductProviderEnum | null | undefined;
   /** Available options for the migration */
-  options?: PackXdslAddressMoveMoveOfferOptionsList;
+  options?: PackXdslAddressMoveMoveOfferOptionsList | undefined;
   /** Prices detailed applicable for this offer */
-  prices?: PackXdslAddressMovePriceOffer;
+  prices?: PackXdslAddressMovePriceOffer | undefined;
   /** List of product from provider available for an offer */
-  productCodes?: PackXdslAddressMoveMoveOfferProductCodesList;
+  productCodes?: PackXdslAddressMoveMoveOfferProductCodesList | undefined;
   /** List of sub services to delete */
-  subServicesToDelete?: PackXdslAddressMoveMoveOfferSubServicesToDeleteList;
+  subServicesToDelete?: PackXdslAddressMoveMoveOfferSubServicesToDeleteList | undefined;
   /** URL of the offer */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of offers */
 export type PackXdslAddressMoveMoveOfferResponseOffersList = Array<PackXdslAddressMoveMoveOffer>;
 /** List of available Move address offer */
 export interface PackXdslAddressMoveMoveOfferResponse {
   /** Array of offers */
-  offers?: PackXdslAddressMoveMoveOfferResponseOffersList;
+  offers?: PackXdslAddressMoveMoveOfferResponseOffersList | undefined;
 }
 /** AsyncTask status */
 export type PackXdslAsyncTaskStatusEnum = "error" | "ok" | "pending";
 /** Async task */
 export interface PackXdslAsyncTaskPackXdslAddressMoveMoveOfferResponse {
   /** Error */
-  error?: string | null;
-  result?: PackXdslAddressMoveMoveOfferResponse;
+  error?: string | null | undefined;
+  result?: PackXdslAddressMoveMoveOfferResponse | undefined;
   /** Status of the call */
-  status?: PackXdslAsyncTaskStatusEnum;
+  status?: PackXdslAsyncTaskStatusEnum | undefined;
 }
 /** Option of Offer */
 export interface PackXdslMigrationOfferOption {
   /** Name of the option */
-  name?: string;
+  name?: string | undefined;
   /** Number of slots, couting included slots */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 /** Options wanted in the new offer */
 export type CreatePackXdslAddressMoveServicesToDeleteUnpackTermRequestOptionsList =
@@ -274,20 +274,20 @@ export interface CreatePackXdslAddressMoveServicesToDeleteUnpackTermRequest {
   /** Reference of the new offer */
   offerName: string;
   /** Options wanted in the new offer */
-  options?: CreatePackXdslAddressMoveServicesToDeleteUnpackTermRequestOptionsList;
+  options?: CreatePackXdslAddressMoveServicesToDeleteUnpackTermRequestOptionsList | undefined;
 }
 /** Sub service with unpack terms details */
 export interface PackXdslMigrationSubServiceDetails {
   /** Tells whether or not the service can be unpacked */
-  isAllowed?: boolean;
+  isAllowed?: boolean | undefined;
   /** Price bill on the unpack action */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Renew period in month of the service */
-  renewPeriod?: number;
+  renewPeriod?: number | undefined;
   /** The price it will cost when it will be renewed */
-  renewPrice?: OrderPrice;
+  renewPrice?: OrderPrice | undefined;
   /** sub service name */
-  service?: string;
+  service?: string | undefined;
 }
 /** List of domains of sub services with unpack terms */
 export type PackXdslMigrationSubServicesDetailsToDeleteServicesList =
@@ -295,11 +295,11 @@ export type PackXdslMigrationSubServicesDetailsToDeleteServicesList =
 /** Sub services to delete with unpack terms */
 export interface PackXdslMigrationSubServicesDetailsToDelete {
   /** Number of services to be deleted */
-  numberToDelete?: number;
+  numberToDelete?: number | undefined;
   /** List of domains of sub services with unpack terms */
-  services?: PackXdslMigrationSubServicesDetailsToDeleteServicesList;
+  services?: PackXdslMigrationSubServicesDetailsToDeleteServicesList | undefined;
   /** Type of service to be deleted */
-  type?: PackXdslServiceNameEnum;
+  type?: PackXdslServiceNameEnum | undefined;
 }
 export type CreatePackXdslAddressMoveServicesToDeleteUnpackTermResponseBodyList =
   Array<PackXdslMigrationSubServicesDetailsToDelete>;
@@ -309,11 +309,11 @@ export interface CreatePackXdslChangeContactRequest {
   /** The internal name of your pack */
   packName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreatePackXdslChangeContactResponseBodyList = Array<number>;
 export type CreatePackXdslChangeContactResponse = CreatePackXdslChangeContactResponseBodyList;
@@ -325,7 +325,7 @@ export interface CreatePackXdslDomainServiceRequest {
   /** Domain action */
   action: PackXdslDomainActionEnum | (string & {});
   /** Needed for transfer from another registrar */
-  authInfo?: string;
+  authInfo?: string | undefined;
   /** Domain name */
   domain: string;
   /** TLD of the domain */
@@ -335,10 +335,10 @@ export interface CreatePackXdslDomainServiceRequest {
 export type PackXdslTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | "problem" | "todo";
 /** Describes the current status of a task */
 export interface PackXdslTask {
-  function?: string;
-  id?: number;
-  status?: PackXdslTaskStatusEnum;
-  updateDate?: string;
+  function?: string | undefined;
+  id?: number | undefined;
+  status?: PackXdslTaskStatusEnum | undefined;
+  updateDate?: string | undefined;
 }
 export interface CreatePackXdslEmailProServiceRequest {
   /** The internal name of your pack */
@@ -368,16 +368,16 @@ export interface CreatePackXdslMigrationOfferRequest {
   /** The internal name of your pack */
   packName: string;
   /** Building reference for FTTH and FTTE offers */
-  buildingReference?: string;
+  buildingReference?: string | undefined;
 }
 /** List of floor indentifier, "_NA_" if no identifier is available */
 export type ConnectivityEligibilityBuildingStairFloorsList = Array<string>;
 /** Stair details of a Building */
 export interface ConnectivityEligibilityBuildingStair {
   /** List of floor indentifier, "_NA_" if no identifier is available */
-  floors?: ConnectivityEligibilityBuildingStairFloorsList;
+  floors?: ConnectivityEligibilityBuildingStairFloorsList | undefined;
   /** Stair identifier, "_NA_" if no identifier is available */
-  stair?: string;
+  stair?: string | undefined;
 }
 /** Stairs for this building */
 export type ConnectivityEligibilityBuildingStairsList = Array<ConnectivityEligibilityBuildingStair>;
@@ -386,15 +386,15 @@ export type ConnectivityEligibilityBuildingTypeEnum = "BUILDING" | "HOUSE";
 /** Details of a Building */
 export interface ConnectivityEligibilityBuilding {
   /** Building name */
-  name?: string;
+  name?: string | undefined;
   /** Building NRO (Optical main distribution frame) */
-  nro?: string | null;
+  nro?: string | null | undefined;
   /** Identifier which refer to a building uniquely */
-  reference?: string;
+  reference?: string | undefined;
   /** Stairs for this building */
-  stairs?: ConnectivityEligibilityBuildingStairsList | null;
+  stairs?: ConnectivityEligibilityBuildingStairsList | null | undefined;
   /** Building type */
-  type?: ConnectivityEligibilityBuildingTypeEnum | null;
+  type?: ConnectivityEligibilityBuildingTypeEnum | null | undefined;
 }
 /** Array of buildings */
 export type PackXdslMigrationMigrationOfferResponseBuildingsList =
@@ -417,59 +417,59 @@ export type PackXdslMigrationMigrationOfferSubServicesToDeleteList =
 /** Migration offer */
 export interface PackXdslMigrationMigrationOffer {
   /** DEPRECATED - List of contracts */
-  contractList?: PackXdslMigrationMigrationOfferContractListList;
+  contractList?: PackXdslMigrationMigrationOfferContractListList | undefined;
   /** List of contracts for this offer */
-  contracts?: PackXdslMigrationMigrationOfferContractsList;
+  contracts?: PackXdslMigrationMigrationOfferContractsList | undefined;
   /** Price of the current offer */
-  currentOfferPrice?: OrderPrice;
+  currentOfferPrice?: OrderPrice | undefined;
   /** Tells if the custom ont address is available on the offer */
-  customOntAddress?: boolean;
+  customOntAddress?: boolean | undefined;
   /** Description of the offer */
-  description?: string;
+  description?: string | undefined;
   /** Price to make the migration */
-  due?: OrderPrice | null;
+  due?: OrderPrice | null | undefined;
   /** Number of months of engagement */
-  engageMonths?: number | null;
+  engageMonths?: number | null | undefined;
   /** Tells if the customer is still engaged */
-  engaged?: boolean;
+  engaged?: boolean | undefined;
   /** List of number of months possible for engagement */
-  engagementMonths?: PackXdslMigrationMigrationOfferEngagementMonthsList;
+  engagementMonths?: PackXdslMigrationMigrationOfferEngagementMonthsList | undefined;
   /** Subscription price the first year */
-  firstYearPromo?: OrderPrice | null;
+  firstYearPromo?: OrderPrice | null | undefined;
   /** Install fee for GTR option comfort additional cost */
-  gtrComfortFees?: OrderPrice | null;
+  gtrComfortFees?: OrderPrice | null | undefined;
   /** Installation fees */
-  installFees?: OrderPrice | null;
+  installFees?: OrderPrice | null | undefined;
   /** Mac address of the modem to be returned */
-  modemMacToReturn?: string | null;
+  modemMacToReturn?: string | null | undefined;
   /** List of modems for this offer */
-  modemOptions?: PackXdslMigrationMigrationOfferModemOptionsList | null;
+  modemOptions?: PackXdslMigrationMigrationOfferModemOptionsList | null | undefined;
   /** Price for modem rental */
-  modemRental?: OrderPrice | null;
+  modemRental?: OrderPrice | null | undefined;
   /** Tells if the multiOtp is possible on the address */
-  multiOtp?: boolean;
+  multiOtp?: boolean | undefined;
   /** Tells if the offer needs a modem */
-  needModem?: boolean;
+  needModem?: boolean | undefined;
   /** Tells if the customer will have to change its modem */
-  needNewModem?: boolean;
+  needNewModem?: boolean | undefined;
   /** Name of the offer */
-  offerName?: string;
+  offerName?: string | undefined;
   /** Collection operator (CO) */
-  operator?: ConnectivityEligibilityOfferProductProviderEnum | null;
+  operator?: ConnectivityEligibilityOfferProductProviderEnum | null | undefined;
   /** Available options for the migration */
-  options?: PackXdslMigrationMigrationOfferOptionsList;
+  options?: PackXdslMigrationMigrationOfferOptionsList | undefined;
   /** Price of the offer */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Promotion, if available */
-  promotion?: PackXdslMigrationAndAddressMovePromotion | null;
+  promotion?: PackXdslMigrationAndAddressMovePromotion | null | undefined;
   /** Subscription price for provider AI additional cost */
-  providerAI?: OrderPrice | null;
+  providerAI?: OrderPrice | null | undefined;
   /** Subscription price for provider ORANGE additional cost */
-  providerOrange?: OrderPrice | null;
+  providerOrange?: OrderPrice | null | undefined;
   /** List of sub services to delete */
-  subServicesToDelete?: PackXdslMigrationMigrationOfferSubServicesToDeleteList;
+  subServicesToDelete?: PackXdslMigrationMigrationOfferSubServicesToDeleteList | undefined;
   /** URL of the offer */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of offers */
 export type PackXdslMigrationMigrationOfferResponseOffersList =
@@ -477,17 +477,17 @@ export type PackXdslMigrationMigrationOfferResponseOffersList =
 /** List of available Migration offer */
 export interface PackXdslMigrationMigrationOfferResponse {
   /** Array of buildings */
-  buildings?: PackXdslMigrationMigrationOfferResponseBuildingsList;
+  buildings?: PackXdslMigrationMigrationOfferResponseBuildingsList | undefined;
   /** Array of offers */
-  offers?: PackXdslMigrationMigrationOfferResponseOffersList;
+  offers?: PackXdslMigrationMigrationOfferResponseOffersList | undefined;
 }
 /** Async task */
 export interface PackXdslAsyncTaskPackXdslMigrationMigrationOfferResponse {
   /** Error */
-  error?: string | null;
-  result?: PackXdslMigrationMigrationOfferResponse;
+  error?: string | null | undefined;
+  result?: PackXdslMigrationMigrationOfferResponse | undefined;
   /** Status of the call */
-  status?: PackXdslAsyncTaskStatusEnum;
+  status?: PackXdslAsyncTaskStatusEnum | undefined;
 }
 /** Options wanted in the new offer */
 export type CreatePackXdslMigrationServicesToDeleteUnpackTermRequestOptionsList =
@@ -498,7 +498,7 @@ export interface CreatePackXdslMigrationServicesToDeleteUnpackTermRequest {
   /** Reference of the new offer */
   offerName: string;
   /** Options wanted in the new offer */
-  options?: CreatePackXdslMigrationServicesToDeleteUnpackTermRequestOptionsList;
+  options?: CreatePackXdslMigrationServicesToDeleteUnpackTermRequestOptionsList | undefined;
 }
 export type CreatePackXdslMigrationServicesToDeleteUnpackTermResponseBodyList =
   Array<PackXdslMigrationSubServicesDetailsToDelete>;
@@ -520,11 +520,11 @@ export type PackXdslResiliationReasonEnum =
 /** Information about the reason for the resiliation */
 export interface PackXdslResiliationSurvey {
   /** Comment about this resiliation */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Subsidiary response about this resiliation */
-  subsidiary?: string | null;
+  subsidiary?: string | null | undefined;
   /** Type of reason for the resiliation */
-  type?: PackXdslResiliationReasonEnum | (string & {});
+  type?: PackXdslResiliationReasonEnum | (string & {}) | undefined;
 }
 /** Ids of service you will keep on resiliation. (you can get it with /pack/xdsl/{packName}/subServices) */
 export type CreatePackXdslResiliateRequestServicesToKeepList = Array<number>;
@@ -532,22 +532,22 @@ export interface CreatePackXdslResiliateRequest {
   /** The internal name of your pack */
   packName: string;
   /** Effective date of the resiliation */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
   /** Comment about resiliation reasons */
   resiliationSurvey: PackXdslResiliationSurvey;
   /** Ids of service you will keep on resiliation. (you can get it with /pack/xdsl/{packName}/subServices) */
-  servicesToKeep?: CreatePackXdslResiliateRequestServicesToKeepList;
+  servicesToKeep?: CreatePackXdslResiliateRequestServicesToKeepList | undefined;
 }
 /** Details about the resiliation */
 export interface PackXdslResiliationFollowUpDetail {
   /** Date when the resiliation will take effect */
-  dateTodo?: string;
+  dateTodo?: string | undefined;
   /** If the customer needs to return his modem */
-  needModemReturn?: boolean;
+  needModemReturn?: boolean | undefined;
   /** Date when the resiliation was asked */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** Status of the resiliation */
-  status?: string;
+  status?: string | undefined;
 }
 export interface CreatePackXdslVoipEcofaxServiceRequest {
   /** The internal name of your pack */
@@ -576,18 +576,18 @@ export interface CreatePackXdslVoipLineServiceRequest {
   /** List of names from hardwares call */
   hardwareNames: CreatePackXdslVoipLineServiceRequestHardwareNamesList;
   /** Mondial relay ID */
-  mondialRelayId?: string;
+  mondialRelayId?: string | undefined;
   /** Shipping ID for the order */
-  shippingId?: string;
+  shippingId?: string | undefined;
 }
 export type PackXdslVoIPLineOrderTaskIdsList = Array<number>;
 /** Represents an order of VoIP lines */
 export interface PackXdslVoIPLineOrder {
   /** Whether or not this order need to be payed manually */
-  needPayment?: boolean;
-  orderId?: number;
-  orderUrl?: string;
-  taskIds?: PackXdslVoIPLineOrderTaskIdsList;
+  needPayment?: boolean | undefined;
+  orderId?: number | undefined;
+  orderUrl?: string | undefined;
+  taskIds?: PackXdslVoIPLineOrderTaskIdsList | undefined;
 }
 export interface DeletePackXdslHostedEmailServiceRequest {
   /** The internal name of your pack */
@@ -606,39 +606,39 @@ export interface GetPackXdslRequest {
 /** Describe the capabilities of this pack */
 export interface PackXdslPackCapabilities {
   /** Whether or not this pack can move address */
-  canMoveAddress?: boolean;
+  canMoveAddress?: boolean | undefined;
   /** Whether or not this pack is from an old offer */
-  isLegacyOffer?: boolean;
+  isLegacyOffer?: boolean | undefined;
   /** Whether or not this pack is a reseller offer */
-  isResellerOffer?: boolean;
+  isResellerOffer?: boolean | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Pack of xDSL services */
 export interface PackXdslPackAdslWithIAM {
   /** Capabilities of the pack */
-  capabilities?: PackXdslPackCapabilities;
+  capabilities?: PackXdslPackCapabilities | undefined;
   /** Customer pack description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Name of the offer */
-  offerDescription?: string;
+  offerDescription?: string | undefined;
   /** Price of the offer */
-  offerPrice?: OrderPrice;
+  offerPrice?: OrderPrice | undefined;
   /** Name of the xdsl pack */
-  packName?: string;
+  packName?: string | undefined;
 }
 export interface GetPackXdslCanCancelResiliationRequest {
   /** The internal name of your pack */
@@ -908,25 +908,25 @@ export type NichandleCountryEnum =
 /** Information about the contact */
 export interface PackXdslContactInfos {
   /** contact address */
-  address?: string | null;
+  address?: string | null | undefined;
   /** contact city */
-  city?: string | null;
+  city?: string | null | undefined;
   /** contact country */
-  country?: NichandleCountryEnum;
+  country?: NichandleCountryEnum | undefined;
   /** contact email */
-  email?: string;
+  email?: string | undefined;
   /** contact firstname */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** contact name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** contact organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** contact phone */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** contact phoneCountry */
-  phoneCountry?: NichandleCountryEnum | null;
+  phoneCountry?: NichandleCountryEnum | null | undefined;
   /** contact zip */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 export interface GetPackXdslEmailProOptionIsEmailAvailableRequest {
   /** The internal name of your pack */
@@ -942,9 +942,9 @@ export interface GetPackXdslExchangeAccountServiceRequest {
 }
 /** Exchange 2013 service */
 export interface PackXdslExchangeAccountService {
-  domain?: string;
-  exchangeService?: string;
-  organizationName?: string;
+  domain?: string | undefined;
+  exchangeService?: string | undefined;
+  organizationName?: string | undefined;
 }
 export interface GetPackXdslExchangeIndividualOptionIsEmailAvailableRequest {
   /** The internal name of your pack */
@@ -960,7 +960,7 @@ export interface GetPackXdslHostedEmailServiceRequest {
 }
 /** Hosted email services */
 export interface PackXdslHostedEmailService {
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface GetPackXdslHostedEmailServiceAccountRequest {
   /** The internal name of your pack */
@@ -971,23 +971,23 @@ export interface GetPackXdslHostedEmailServiceAccountRequest {
 export type PackXdslHostedEmailAccountOfferEnum = "individual";
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueLong {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** HostedEmail account */
 export interface PackXdslHostedEmailAccount {
   /** Is the anti-spam enabled ? */
-  antispamEnabled?: boolean;
+  antispamEnabled?: boolean | undefined;
   /** Is the anti-virus enabled ? */
-  antivirusEnabled?: boolean;
+  antivirusEnabled?: boolean | undefined;
   /** Offer name */
-  offer?: PackXdslHostedEmailAccountOfferEnum;
+  offer?: PackXdslHostedEmailAccountOfferEnum | undefined;
   /** Primary email address */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
   /** Quota of the mailbox */
-  quota?: ComplexTypeUnitAndValueLong;
+  quota?: ComplexTypeUnitAndValueLong | undefined;
   /** Size of the maibox */
-  size?: ComplexTypeUnitAndValueLong;
+  size?: ComplexTypeUnitAndValueLong | undefined;
 }
 export interface GetPackXdslResiliationFollowUpRequest {
   /** The internal name of your pack */
@@ -997,22 +997,22 @@ export interface GetPackXdslResiliationTermsRequest {
   /** The internal name of your pack */
   packName: string;
   /** The desired resiliation date */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
 }
 /** List of available resiliation reasons */
 export type PackXdslResiliationTermsResiliationReasonsList = Array<PackXdslResiliationReasonEnum>;
 /** Show the resiliation terms */
 export interface PackXdslResiliationTerms {
   /** Price due at resiliationDate */
-  due?: OrderPrice;
+  due?: OrderPrice | undefined;
   /** Date until which the customer is engaged */
-  engageDate?: string | null;
+  engageDate?: string | null | undefined;
   /** Minimum date at which the pack can be resiliated */
-  minResiliationDate?: string;
+  minResiliationDate?: string | undefined;
   /** Date at which the pack will be resiliated */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
   /** List of available resiliation reasons */
-  resiliationReasons?: PackXdslResiliationTermsResiliationReasonsList;
+  resiliationReasons?: PackXdslResiliationTermsResiliationReasonsList | undefined;
 }
 export interface GetPackXdslServiceInfosRequest {
   /** The internal name of your pack */
@@ -1023,15 +1023,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1053,21 +1053,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetPackXdslSubServiceRequest {
   /** The internal name of your pack */
@@ -1076,9 +1076,9 @@ export interface GetPackXdslSubServiceRequest {
 }
 /** Service link to the pack */
 export interface PackXdslService {
-  domain?: string;
-  id?: number;
-  type?: PackXdslServiceNameEnum;
+  domain?: string | undefined;
+  id?: number | undefined;
+  type?: PackXdslServiceNameEnum | undefined;
 }
 export interface GetPackXdslSubServiceKeepServiceTermsRequest {
   /** The internal name of your pack */
@@ -1088,13 +1088,13 @@ export interface GetPackXdslSubServiceKeepServiceTermsRequest {
 /** Terms to unpack services */
 export interface PackXdslUnpackTerms {
   /** Tells whether or not the service can be unpacked */
-  isAllowed?: boolean;
+  isAllowed?: boolean | undefined;
   /** Price bill on the unpack action */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Renew period in month of the service */
-  renewPeriod?: number;
+  renewPeriod?: number | undefined;
   /** The price it will cost when it will be renew */
-  renewPrice?: OrderPrice;
+  renewPrice?: OrderPrice | undefined;
 }
 export interface GetPackXdslTaskRequest {
   /** The internal name of your pack */
@@ -1109,8 +1109,8 @@ export interface GetPackXdslVoipLineServiceRequest {
 }
 /** VOIP line services */
 export interface PackXdslVoipLineService {
-  billingAccount?: string;
-  domain?: string;
+  billingAccount?: string | undefined;
+  domain?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1120,7 +1120,7 @@ export type ListPackXdslRequestIamTagsMap = {
 };
 export interface ListPackXdslRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListPackXdslRequestIamTagsMap;
+  iamTags?: ListPackXdslRequestIamTagsMap | undefined;
 }
 export type ListPackXdslResponseBodyList = Array<string>;
 export type ListPackXdslResponse = ListPackXdslResponseBodyList;
@@ -1194,17 +1194,17 @@ export type PackXdslHostedEmailConfigurationServiceEnum =
 /** HostedEmail configuration service */
 export interface PackXdslHostedEmailConfigurationService {
   /** Service host */
-  host?: string;
+  host?: string | undefined;
   /** Service IP */
-  ip?: string;
+  ip?: string | undefined;
   /** Service port */
-  port?: number;
+  port?: number | undefined;
   /** Service name */
-  service?: PackXdslHostedEmailConfigurationServiceEnum;
+  service?: PackXdslHostedEmailConfigurationServiceEnum | undefined;
   /** Does the service use SMTP AUTH ? */
-  smtpAuth?: boolean | null;
+  smtpAuth?: boolean | null | undefined;
   /** Does the service use STARTTLS ? */
-  startTls?: boolean;
+  startTls?: boolean | undefined;
 }
 /** List of services configurations */
 export type PackXdslHostedEmailConfigurationServicesList =
@@ -1214,11 +1214,11 @@ export type PackXdslHostedEmailConfigurationStatusEnum = "active" | "suspended";
 /** HostedEmail configuration */
 export interface PackXdslHostedEmailConfiguration {
   /** List of services configurations */
-  services?: PackXdslHostedEmailConfigurationServicesList;
+  services?: PackXdslHostedEmailConfigurationServicesList | undefined;
   /** Status */
-  status?: PackXdslHostedEmailConfigurationStatusEnum;
+  status?: PackXdslHostedEmailConfigurationStatusEnum | undefined;
   /** Webmail url */
-  webmailUrl?: string;
+  webmailUrl?: string | undefined;
 }
 export interface ListPackXdslHostedEmailServicesRequest {
   /** The internal name of your pack */
@@ -1236,17 +1236,17 @@ export type PackXdslOrderFollowUpStepCommentsList = Array<string>;
 /** Information about order follow up step */
 export interface PackXdslOrderFollowUpStep {
   /** Additional information about the step */
-  comments?: PackXdslOrderFollowUpStepCommentsList;
+  comments?: PackXdslOrderFollowUpStepCommentsList | undefined;
   /** Date when the step has been done */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Unit used for the expected duration step */
-  durationUnit?: string;
+  durationUnit?: string | undefined;
   /** Expected duration step */
-  expectedDuration?: number;
+  expectedDuration?: number | undefined;
   /** Order follow up step name */
-  name?: string;
+  name?: string | undefined;
   /** Status of the step */
-  status?: string;
+  status?: string | undefined;
 }
 export type ListPackXdslOrderFollowUpResponseBodyList = Array<PackXdslOrderFollowUpStep>;
 export type ListPackXdslOrderFollowUpResponse = ListPackXdslOrderFollowUpResponseBodyList;
@@ -1267,13 +1267,13 @@ export type PackXdslPromotionCodeCapabilitiesReasonCodesList =
 /** Informations about a promotion code */
 export interface PackXdslPromotionCodeCapabilities {
   /** Amount of the promotion code */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** True if the promotion code generation is available */
-  canGenerate?: boolean;
+  canGenerate?: boolean | undefined;
   /** Number of months of engagement */
-  engagement?: number;
+  engagement?: number | undefined;
   /** Enum of the possible errors */
-  reasonCodes?: PackXdslPromotionCodeCapabilitiesReasonCodesList;
+  reasonCodes?: PackXdslPromotionCodeCapabilitiesReasonCodesList | undefined;
 }
 export interface ListPackXdslSearchRequest {
   /** This parameter could be IP / line number / pack name / access name / order id / mac address */
@@ -1284,15 +1284,15 @@ export type XdslDslTypeEnum = "adsl" | "ftte" | "ftth" | "sdsl" | "vdsl";
 /** Information about pack xdsl */
 export interface PackXdslPackDetail {
   /** Reference of the access */
-  accessname?: string;
+  accessname?: string | undefined;
   /** Description of the access */
-  description?: string;
+  description?: string | undefined;
   /** Number of the line */
-  number?: string;
+  number?: string | undefined;
   /** Name of the pack */
-  packname?: string;
+  packname?: string | undefined;
   /** Type of the access */
-  type?: XdslDslTypeEnum;
+  type?: XdslDslTypeEnum | undefined;
 }
 export type ListPackXdslSearchResponseBodyList = Array<PackXdslPackDetail>;
 export type ListPackXdslSearchResponse = ListPackXdslSearchResponseBodyList;
@@ -1302,10 +1302,10 @@ export interface ListPackXdslServicesRequest {
 }
 /** Informations about a service */
 export interface PackXdslServiceInformation {
-  inCreation?: number;
-  name?: PackXdslServiceNameEnum;
-  total?: number;
-  used?: number;
+  inCreation?: number | undefined;
+  name?: PackXdslServiceNameEnum | undefined;
+  total?: number | undefined;
+  used?: number | undefined;
 }
 export type ListPackXdslServicesResponseBodyList = Array<PackXdslServiceInformation>;
 export type ListPackXdslServicesResponse = ListPackXdslServicesResponseBodyList;
@@ -1319,13 +1319,13 @@ export interface ListPackXdslShippingAddressesRequest {
 }
 /** Shipping address */
 export interface PackXdslShippingAddress {
-  address?: string;
-  cityName?: string;
-  countryCode?: string;
-  firstName?: string;
-  lastName?: string;
-  shippingId?: string;
-  zipCode?: string;
+  address?: string | undefined;
+  cityName?: string | undefined;
+  countryCode?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  shippingId?: string | undefined;
+  zipCode?: string | undefined;
 }
 export type ListPackXdslShippingAddressesResponseBodyList = Array<PackXdslShippingAddress>;
 export type ListPackXdslShippingAddressesResponse = ListPackXdslShippingAddressesResponseBodyList;
@@ -1339,9 +1339,9 @@ export interface ListPackXdslTasksRequest {
   /** The internal name of your pack */
   packName: string;
   /** Filter the value of function property (=) */
-  function?: string;
+  function?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: PackXdslTaskStatusEnum | (string & {});
+  status?: PackXdslTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListPackXdslTasksResponseBodyList = Array<number>;
 export type ListPackXdslTasksResponse = ListPackXdslTasksResponseBodyList;
@@ -1364,14 +1364,14 @@ export interface ListPackXdslVoipLineOptionHardwaresRequest {
 }
 /** Hardware for VoIP line */
 export interface PackXdslVoIPHardware {
-  deposit?: OrderPrice | null;
-  fees?: OrderPrice | null;
-  image?: string | null;
-  label?: string;
-  max?: number | null;
-  name?: string;
-  needShipping?: boolean;
-  url?: string | null;
+  deposit?: OrderPrice | null | undefined;
+  fees?: OrderPrice | null | undefined;
+  image?: string | null | undefined;
+  label?: string | undefined;
+  max?: number | null | undefined;
+  name?: string | undefined;
+  needShipping?: boolean | undefined;
+  url?: string | null | undefined;
 }
 export type ListPackXdslVoipLineOptionHardwaresResponseBodyList = Array<PackXdslVoIPHardware>;
 export type ListPackXdslVoipLineOptionHardwaresResponse =
@@ -1405,22 +1405,22 @@ export type ConnectivityEligibilityInstallationTypeEnum =
 /** Represents a time slot for a meeting */
 export interface XdslEligibilityMeetingSlot {
   /** The end of the time slot */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Represent a meeting id for a fiber collect operator */
-  slotId?: string | null;
+  slotId?: string | null | undefined;
   /** The beginning of the time slot */
-  startDate?: string;
+  startDate?: string | undefined;
   /** An opaque string that represents an intervention unit */
-  uiCode?: string;
+  uiCode?: string | undefined;
 }
 /** Parameters to book a time slot for a meeting */
 export interface XdslEligibilityBookMeetingSlot {
   /** Whether or not to book a fake meeting slots (if no slots are available) */
-  fakeMeeting?: boolean;
+  fakeMeeting?: boolean | undefined;
   /** The time slot to book, null if fakeMeeting is true */
-  meetingSlot?: XdslEligibilityMeetingSlot | null;
+  meetingSlot?: XdslEligibilityMeetingSlot | null | undefined;
   /** The name of the customer */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** modem type */
 export type PackXdslModemOptionEnum = "no" | "recycled" | "yes";
@@ -1429,9 +1429,9 @@ export type MigratePackXdslMigrationRequestOptionsList = Array<PackXdslMigration
 /** Option of Offer */
 export interface PackXdslMigrationOfferServiceToDelete {
   /** Type of the service */
-  service?: string;
+  service?: string | undefined;
   /** Type of the service to delete */
-  type?: PackXdslServiceNameEnum | (string & {});
+  type?: PackXdslServiceNameEnum | (string & {}) | undefined;
 }
 /** List of domains of services to delete if needed */
 export type MigratePackXdslMigrationRequestSubServicesToDeleteList =
@@ -1439,9 +1439,9 @@ export type MigratePackXdslMigrationRequestSubServicesToDeleteList =
 /** Option of Offer */
 export interface PackXdslMigrationOfferServiceToKeep {
   /** Type of the service */
-  service?: string;
+  service?: string | undefined;
   /** Type of the service to keep */
-  type?: PackXdslServiceNameEnum | (string & {});
+  type?: PackXdslServiceNameEnum | (string & {}) | undefined;
 }
 /** List of domains of services to keep if needed */
 export type MigratePackXdslMigrationRequestSubServicesToKeepList =
@@ -1452,41 +1452,41 @@ export interface MigratePackXdslMigrationRequest {
   /** You explicitly accept the terms of the contract corresponding to your new offer */
   acceptContracts: boolean;
   /** Building reference for FTTH and FTTE offers */
-  buildingReference?: string;
+  buildingReference?: string | undefined;
   /** Customer contact phone number */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Number of months of re-engagement */
-  engageMonths?: number;
+  engageMonths?: number | undefined;
   /** Floor identifier, "_NA_" if no identifier is available */
-  floor?: string;
+  floor?: string | undefined;
   /** Installation type, only on FTTH technology */
-  installationType?: ConnectivityEligibilityInstallationTypeEnum | (string & {});
+  installationType?: ConnectivityEligibilityInstallationTypeEnum | (string & {}) | undefined;
   /** Data to book a meeting slot */
-  meeting?: XdslEligibilityBookMeetingSlot;
+  meeting?: XdslEligibilityBookMeetingSlot | undefined;
   /** Modem choose */
   modem: PackXdslModemOptionEnum | (string & {});
   /** Mondial relay ID if a shipping is needed */
-  mondialRelayId?: number;
+  mondialRelayId?: number | undefined;
   /** nicShipping if a shipping is needed */
-  nicShipping?: string;
+  nicShipping?: string | undefined;
   /** Reference of the new offer */
   offerName: string;
   /** Allows you to personalize a delivery address for the ONT. If empty, the address will be that of the installation */
-  ontShippingContact?: string;
+  ontShippingContact?: string | undefined;
   /** Options wanted in the new offer */
-  options?: MigratePackXdslMigrationRequestOptionsList;
+  options?: MigratePackXdslMigrationRequestOptionsList | undefined;
   /** Do you have an Optical Termination Point (Point de Terminaison Optique) at home ? */
-  otp?: boolean;
+  otp?: boolean | undefined;
   /** Reference of the Optical Termination Point */
-  otpReference?: string;
+  otpReference?: string | undefined;
   /** Product code, an unique identifier to designate the chosen offer */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Stair identifier, "_NA_" if no identifier is available */
-  stair?: string;
+  stair?: string | undefined;
   /** List of domains of services to delete if needed */
-  subServicesToDelete?: MigratePackXdslMigrationRequestSubServicesToDeleteList;
+  subServicesToDelete?: MigratePackXdslMigrationRequestSubServicesToDeleteList | undefined;
   /** List of domains of services to keep if needed */
-  subServicesToKeep?: MigratePackXdslMigrationRequestSubServicesToKeepList;
+  subServicesToKeep?: MigratePackXdslMigrationRequestSubServicesToKeepList | undefined;
 }
 /** Options wanted in the new offer */
 export type MovePackXdslAddressMoveOfferRequestOptionsList = Array<PackXdslMigrationOfferOption>;
@@ -1502,74 +1502,74 @@ export interface MovePackXdslAddressMoveOfferRequest {
   /** You explicitly accept the terms of the contract corresponding to your new offer */
   acceptContracts: boolean;
   /** Building identifier, "null" if no identifier is available */
-  building?: string;
+  building?: string | undefined;
   /** Building reference for FTTH and FTTE offers */
-  buildingReference?: string;
+  buildingReference?: string | undefined;
   /** Customer contact phone number */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Door identifier, "null" if no identifier is available */
-  door?: string;
+  door?: string | undefined;
   /** Eligibility reference */
   eligibilityReference: string;
   /** Number of months of re-engagement */
-  engageMonths?: number;
+  engageMonths?: number | undefined;
   /** Floor identifier, "null" if no identifier is available */
-  floor?: string;
+  floor?: string | undefined;
   /** Installation type, only on FTTH technology */
-  installationType?: ConnectivityEligibilityInstallationTypeEnum | (string & {});
+  installationType?: ConnectivityEligibilityInstallationTypeEnum | (string & {}) | undefined;
   /** Whether or not the current number should be kept */
   keepCurrentNumber: boolean;
   /** Data to book a meeting slot */
-  meeting?: XdslEligibilityBookMeetingSlot;
+  meeting?: XdslEligibilityBookMeetingSlot | undefined;
   /** Modem choose */
   modem: PackXdslModemOptionEnum | (string & {});
   /** Mondial relay ID if a shipping is needed */
-  mondialRelayId?: number;
+  mondialRelayId?: number | undefined;
   /** The date when the customer is no longer at the current address. Must be between now and +30 days. The default date will be the one in 30 days from now. */
-  moveOutDate?: string;
+  moveOutDate?: string | undefined;
   /** nicShipping if a shipping is needed */
-  nicShipping?: string;
+  nicShipping?: string | undefined;
   /** Reference of the new offer */
   offerName: string;
   /** Allows you to personalize a delivery address for the ONT. If empty, the address will be that of the installation */
-  ontShippingContact?: string;
+  ontShippingContact?: string | undefined;
   /** Options wanted in the new offer */
-  options?: MovePackXdslAddressMoveOfferRequestOptionsList;
+  options?: MovePackXdslAddressMoveOfferRequestOptionsList | undefined;
   /** Do you have an Optical Termination Point (Point de Terminaison Optique) at home ? */
   otp: boolean;
   /** Reference of the Optical Termination Point */
-  otpReference?: string;
+  otpReference?: string | undefined;
   /** Product code, an unique identifier for the product from addressMove/offer */
   productCode: string;
   /** Residence identifier, "null" if no identifier is available */
-  residence?: string;
+  residence?: string | undefined;
   /** Stair identifier, "null" if no identifier is available */
-  stair?: string;
+  stair?: string | undefined;
   /** List of domains of services to delete if needed */
-  subServicesToDelete?: MovePackXdslAddressMoveOfferRequestSubServicesToDeleteList;
+  subServicesToDelete?: MovePackXdslAddressMoveOfferRequestSubServicesToDeleteList | undefined;
   /** List of domains of services to keep if needed */
-  subServicesToKeep?: MovePackXdslAddressMoveOfferRequestSubServicesToKeepList;
+  subServicesToKeep?: MovePackXdslAddressMoveOfferRequestSubServicesToKeepList | undefined;
 }
 /** Async task */
 export interface PackXdslAsyncTaskLong {
   /** Error */
-  error?: string | null;
-  result?: number;
+  error?: string | null | undefined;
+  result?: number | undefined;
   /** Status of the call */
-  status?: PackXdslAsyncTaskStatusEnum;
+  status?: PackXdslAsyncTaskStatusEnum | undefined;
 }
 export interface PutPackXdslRequest {
   /** The internal name of your pack */
   packName: string;
   /** Customer pack description */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutPackXdslResponse {}
 export interface PutPackXdslServiceInfosRequest {
   /** The internal name of your pack */
   packName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutPackXdslServiceInfosResponse {}
 export type CancelPackXdslResiliationError = OvhOpError;

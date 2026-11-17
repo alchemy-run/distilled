@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * GrowthBookProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type GrowthBookOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | GrowthBookParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated GrowthBook operation. */
 export type GrowthBookOpContext = Credentials | HttpClient.HttpClient;
@@ -53,12 +55,7 @@ export const GrowthBookProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     }),
     // GrowthBook's error body is `{ message: string }` -- the factory's
     // default lenient envelope covers `{ code, message }`.
-    unknownError: ({ code, message, body }) =>
-      new UnknownGrowthBookError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownGrowthBookError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new GrowthBookParseError({ body, cause }),
   },
 );

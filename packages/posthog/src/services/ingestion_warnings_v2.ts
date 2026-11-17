@@ -29,23 +29,23 @@ export interface ListIngestionWarningsV2Request {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return warnings in this category (e.g. 'size', 'merge', 'event'). Warnings from producers that don't yet emit a category have category 'unknown'. */
-  category?: string;
+  category?: string | undefined;
   /** Maximum number of warning types to return (default 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Sort order for warning types: 'count' (most frequent first, the default) or 'last_seen' (most recent first). * `count` - count * `last_seen` - last_seen */
-  order_by?: ListIngestionWarningsV2RequestOrderBy | (string & {});
+  order_by?: ListIngestionWarningsV2RequestOrderBy | (string & {}) | undefined;
   /** Only return warnings whose type or details contain this substring (case-sensitive). Useful for finding warnings about a specific distinct ID, event or property. */
-  q?: string;
+  q?: string | undefined;
   /** Maximum number of recent sample warnings to return per warning type (default 5). */
-  samples?: number;
+  samples?: number | undefined;
   /** Only return warnings with this severity. Warnings from producers that don't yet emit a severity have severity 'warning'. * `info` - info * `warning` - warning * `error` - error */
-  severity?: ListIngestionWarningsV2RequestSeverity | (string & {});
+  severity?: ListIngestionWarningsV2RequestSeverity | (string & {}) | undefined;
   /** Start of the time range, as an ISO 8601 datetime (e.g. '2026-07-01T00:00:00Z') or a relative duration (e.g. '-24h', '-7d'). Defaults to 24 hours ago. Warnings are retained for 90 days. */
-  since?: string;
+  since?: string | undefined;
   /** Only return warnings of this type (e.g. 'message_size_too_large', 'cannot_merge_already_identified'). */
-  type?: string;
+  type?: string | undefined;
   /** End of the time range, as an ISO 8601 datetime or a relative duration (e.g. '-1h'). Defaults to now. */
-  until?: string;
+  until?: string | undefined;
 }
 export interface IngestionWarningV2SparklinePoint {
   /** Start of the time bucket (UTC). */

@@ -29,15 +29,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -47,36 +56,68 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export class Locked
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Locked>()("Locked", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 423 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIRepoArchivedError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(305, __c38, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | APIError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIValidationError | string;
+}
 
 export type CreateIssueRequestAssigneesList = Array<string>;
 /** list of label ids */
@@ -87,141 +128,141 @@ export interface CreateIssueRequest {
   /** name of the repo */
   repo: string;
   /** deprecated */
-  assignee?: string;
-  assignees?: CreateIssueRequestAssigneesList;
-  body?: string;
-  closed?: boolean;
-  due_date?: string;
+  assignee?: string | undefined;
+  assignees?: CreateIssueRequestAssigneesList | undefined;
+  body?: string | undefined;
+  closed?: boolean | undefined;
+  due_date?: string | undefined;
   /** list of label ids */
-  labels?: CreateIssueRequestLabelsList;
+  labels?: CreateIssueRequestLabelsList | undefined;
   /** milestone id */
-  milestone?: number;
-  ref?: string;
+  milestone?: number | undefined;
+  ref?: string | undefined;
   title: string;
 }
 export type AttachmentType = "attachment" | "external";
 /** Attachment a generic attachment */
 export interface Attachment {
-  browser_download_url?: string;
-  created_at?: string;
-  download_count?: number;
-  id?: number;
-  name?: string;
-  size?: number;
-  type?: AttachmentType;
-  uuid?: string;
+  browser_download_url?: string | undefined;
+  created_at?: string | undefined;
+  download_count?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  type?: AttachmentType | undefined;
+  uuid?: string | undefined;
 }
 export type IssueAssetsList = Array<Attachment>;
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 export type IssueAssigneesList = Array<User>;
 /** Label a label to an issue or a pr */
 export interface Label {
   color: string;
-  description?: string;
-  exclusive?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
   id: number;
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export type IssueLabelsList = Array<Label>;
 /** Milestone milestone is a collection of issues on one repository */
 export interface Milestone {
-  closed_at?: string;
-  closed_issues?: number;
-  created_at?: string;
-  description?: string;
-  due_on?: string;
-  id?: number;
-  open_issues?: number;
-  state?: string;
-  title?: string;
-  updated_at?: string;
+  closed_at?: string | undefined;
+  closed_issues?: number | undefined;
+  created_at?: string | undefined;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  id?: number | undefined;
+  open_issues?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** PullRequestMeta PR info if an issue is a PR */
 export interface PullRequestMeta {
-  draft?: boolean;
-  html_url?: string;
-  merged?: boolean;
-  merged_at?: string;
+  draft?: boolean | undefined;
+  html_url?: string | undefined;
+  merged?: boolean | undefined;
+  merged_at?: string | undefined;
 }
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
-  full_name?: string;
-  id?: number;
-  name?: string;
-  owner?: string;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 /** Issue represents an issue in a repository */
 export interface Issue {
-  assets?: IssueAssetsList;
-  assignee?: User;
-  assignees?: IssueAssigneesList;
-  body?: string;
-  closed_at?: string;
-  comments?: number;
-  created_at?: string;
-  due_date?: string;
-  html_url?: string;
-  id?: number;
-  is_locked?: boolean;
-  labels?: IssueLabelsList;
-  milestone?: Milestone;
-  number?: number;
-  original_author?: string;
-  original_author_id?: number;
-  pin_order?: number;
-  pull_request?: PullRequestMeta;
-  ref?: string;
-  repository?: RepositoryMeta;
-  state?: string;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
+  assets?: IssueAssetsList | undefined;
+  assignee?: User | undefined;
+  assignees?: IssueAssigneesList | undefined;
+  body?: string | undefined;
+  closed_at?: string | undefined;
+  comments?: number | undefined;
+  created_at?: string | undefined;
+  due_date?: string | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  is_locked?: boolean | undefined;
+  labels?: IssueLabelsList | undefined;
+  milestone?: Milestone | undefined;
+  number?: number | undefined;
+  original_author?: string | undefined;
+  original_author_id?: number | undefined;
+  pin_order?: number | undefined;
+  pull_request?: PullRequestMeta | undefined;
+  ref?: string | undefined;
+  repository?: RepositoryMeta | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
 }
 export interface CreateIssueAttachmentRequest {
   /** owner of the repo */
@@ -231,9 +272,9 @@ export interface CreateIssueAttachmentRequest {
   /** index of the issue */
   index: number;
   /** name of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** time of the attachment's creation. This is a timestamp in RFC 3339 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateIssueBlockingRequest {
   /** owner of the repo */
@@ -251,9 +292,9 @@ export interface CreateIssueCommentAttachmentRequest {
   /** id of the comment */
   id: number;
   /** name of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** time of the attachment's creation. This is a timestamp in RFC 3339 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateIssueDependenciesRequest {
   /** owner of the repo */
@@ -301,7 +342,7 @@ export interface DeleteIssueReactionRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface DeleteIssueReactionResponse {}
 export type EditIssueRequestAssigneesList = Array<string>;
@@ -313,16 +354,16 @@ export interface EditIssueRequest {
   /** index of the issue to edit */
   index: number;
   /** deprecated */
-  assignee?: string;
-  assignees?: EditIssueRequestAssigneesList;
-  body?: string;
-  due_date?: string;
-  milestone?: number;
-  ref?: string;
-  state?: string;
-  title?: string;
-  unset_due_date?: boolean;
-  updated_at?: string;
+  assignee?: string | undefined;
+  assignees?: EditIssueRequestAssigneesList | undefined;
+  body?: string | undefined;
+  due_date?: string | undefined;
+  milestone?: number | undefined;
+  ref?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  unset_due_date?: boolean | undefined;
+  updated_at?: string | undefined;
 }
 export interface EditIssueAttachmentRequest {
   /** owner of the repo */
@@ -334,8 +375,8 @@ export interface EditIssueAttachmentRequest {
   /** id of the attachment to edit */
   attachment_id: number;
   /** (Can only be set if existing attachment is of external type) */
-  browser_download_url?: string;
-  name?: string;
+  browser_download_url?: string | undefined;
+  name?: string | undefined;
 }
 export interface EditIssueCommentAttachmentRequest {
   /** owner of the repo */
@@ -347,8 +388,8 @@ export interface EditIssueCommentAttachmentRequest {
   /** id of the attachment to edit */
   attachment_id: number;
   /** (Can only be set if existing attachment is of external type) */
-  browser_download_url?: string;
-  name?: string;
+  browser_download_url?: string | undefined;
+  name?: string | undefined;
 }
 export interface EditIssueDeadlineRequest {
   /** owner of the repo */
@@ -361,7 +402,7 @@ export interface EditIssueDeadlineRequest {
 }
 /** IssueDeadline represents an issue deadline */
 export interface IssueDeadline {
-  due_date?: string;
+  due_date?: string | undefined;
 }
 export interface GetIssueRequest {
   /** owner of the repo */
@@ -399,15 +440,15 @@ export interface GetIssueReactionsRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Reaction contain one reaction */
 export interface Reaction {
-  content?: string;
-  created_at?: string;
-  user?: User;
+  content?: string | undefined;
+  created_at?: string | undefined;
+  user?: User | undefined;
 }
 export type GetIssueReactionsResponseBodyList = Array<Reaction>;
 export type GetIssueReactionsResponse = GetIssueReactionsResponseBodyList;
@@ -421,8 +462,8 @@ export interface IssueAddLabelRequest {
   /** index of the issue */
   index: number;
   /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
-  labels?: IssueAddLabelRequestLabelsList;
-  updated_at?: string;
+  labels?: IssueAddLabelRequestLabelsList | undefined;
+  updated_at?: string | undefined;
 }
 export type IssueAddLabelResponseBodyList = Array<Label>;
 export type IssueAddLabelResponse = IssueAddLabelResponseBodyList;
@@ -444,24 +485,24 @@ export interface IssueAddTimeRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  created?: string;
+  created?: string | undefined;
   /** time in seconds */
   time: number;
   /** User who spent the time (optional) */
-  user_name?: string;
+  user_name?: string | undefined;
 }
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
-  created?: string;
-  id?: number;
-  issue?: Issue;
+  created?: string | undefined;
+  id?: number | undefined;
+  issue?: Issue | undefined;
   /** deprecated (only for backwards compatibility) */
-  issue_id?: number;
+  issue_id?: number | undefined;
   /** Time in seconds */
-  time?: number;
+  time?: number | undefined;
   /** deprecated (only for backwards compatibility) */
-  user_id?: number;
-  user_name?: string;
+  user_id?: number | undefined;
+  user_name?: string | undefined;
 }
 export interface IssueCheckSubscriptionRequest {
   /** owner of the repo */
@@ -473,12 +514,12 @@ export interface IssueCheckSubscriptionRequest {
 }
 /** WatchInfo represents an API watch status of one repository */
 export interface WatchInfo {
-  created_at?: string;
-  ignored?: boolean;
-  reason?: unknown;
-  repository_url?: string;
-  subscribed?: boolean;
-  url?: string;
+  created_at?: string | undefined;
+  ignored?: boolean | undefined;
+  reason?: unknown | undefined;
+  repository_url?: string | undefined;
+  subscribed?: boolean | undefined;
+  url?: string | undefined;
 }
 export interface IssueClearLabelsRequest {
   /** owner of the repo */
@@ -487,7 +528,7 @@ export interface IssueClearLabelsRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueClearLabelsResponse {}
 export interface IssueCreateCommentRequest {
@@ -500,33 +541,33 @@ export interface IssueCreateCommentRequest {
   /** The body of the comment */
   body: string;
   /** The time of the comment's update, needs admin or repository owner permission */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The attachments to the comment */
 export type CommentAssetsList = Array<Attachment>;
 /** Comment represents a comment on a commit or issue */
 export interface Comment {
   /** The attachments to the comment */
-  assets?: CommentAssetsList;
+  assets?: CommentAssetsList | undefined;
   /** The body of the comment */
-  body?: string;
+  body?: string | undefined;
   /** The time of the comment's creation */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The HTML URL of the comment */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The identifier of the comment */
-  id?: number;
+  id?: number | undefined;
   /** The HTML URL of the issue if the comment is posted on an issue, else empty string */
-  issue_url?: string;
+  issue_url?: string | undefined;
   /** The original author that posted the comment if it was not posted locally, else empty string */
-  original_author?: string;
+  original_author?: string | undefined;
   /** The ID of the original author that posted the comment if it was not posted locally, else 0 */
-  original_author_id?: number;
+  original_author_id?: number | undefined;
   /** The HTML URL of the pull request if the comment is posted on a pull request, else empty string */
-  pull_request_url?: string;
+  pull_request_url?: string | undefined;
   /** The time of the comment's update */
-  updated_at?: string;
-  user?: User;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export interface IssueCreateLabelRequest {
   /** owner of the repo */
@@ -534,9 +575,9 @@ export interface IssueCreateLabelRequest {
   /** name of the repo */
   repo: string;
   color: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
   name: string;
 }
 export type IssueCreateMilestoneRequestState = "open" | "closed";
@@ -545,10 +586,10 @@ export interface IssueCreateMilestoneRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  description?: string;
-  due_on?: string;
-  state?: IssueCreateMilestoneRequestState | (string & {});
-  title?: string;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  state?: IssueCreateMilestoneRequestState | (string & {}) | undefined;
+  title?: string | undefined;
 }
 export interface IssueDeleteCommentRequest {
   /** owner of the repo */
@@ -566,7 +607,7 @@ export interface IssueDeleteCommentReactionRequest {
   repo: string;
   /** id of the comment to edit */
   id: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface IssueDeleteCommentReactionResponse {}
 export interface IssueDeleteLabelRequest {
@@ -628,7 +669,7 @@ export interface IssueEditCommentRequest {
   /** The body of the comment */
   body: string;
   /** The time of the comment's update, needs admin or repository owner permission */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueEditLabelRequest {
   /** owner of the repo */
@@ -637,11 +678,11 @@ export interface IssueEditLabelRequest {
   repo: string;
   /** id of the label to edit */
   id: number;
-  color?: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
-  name?: string;
+  color?: string | undefined;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface IssueEditMilestoneRequest {
   /** owner of the repo */
@@ -650,10 +691,10 @@ export interface IssueEditMilestoneRequest {
   repo: string;
   /** the milestone to edit, identified by ID and if not available by name */
   id: number;
-  description?: string;
-  due_on?: string;
-  state?: string;
-  title?: string;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
 }
 export interface IssueGetCommentRequest {
   /** owner of the repo */
@@ -681,9 +722,9 @@ export interface IssueGetCommentsRequest {
   /** index of the issue */
   index: number;
   /** if provided, only comments updated since the specified time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
 }
 export type IssueGetCommentsResponseBodyList = Array<Comment>;
 export type IssueGetCommentsResponse = IssueGetCommentsResponseBodyList;
@@ -695,78 +736,78 @@ export interface IssueGetCommentsAndTimelineRequest {
   /** index of the issue */
   index: number;
   /** if provided, only comments updated since the specified time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 /** TimelineComment represents a timeline comment (comment of any type) on a commit or issue */
 export interface TimelineComment {
-  assignee?: User;
-  assignee_team?: Team;
-  body?: string;
-  created_at?: string;
-  dependent_issue?: Issue;
-  html_url?: string;
-  id?: number;
-  issue_url?: string;
-  label?: Label;
-  milestone?: Milestone;
-  new_ref?: string;
-  new_title?: string;
-  old_milestone?: Milestone;
-  old_project_id?: number;
-  old_ref?: string;
-  old_title?: string;
-  project_id?: number;
-  pull_request_url?: string;
-  ref_action?: string;
-  ref_comment?: Comment;
+  assignee?: User | undefined;
+  assignee_team?: Team | undefined;
+  body?: string | undefined;
+  created_at?: string | undefined;
+  dependent_issue?: Issue | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  issue_url?: string | undefined;
+  label?: Label | undefined;
+  milestone?: Milestone | undefined;
+  new_ref?: string | undefined;
+  new_title?: string | undefined;
+  old_milestone?: Milestone | undefined;
+  old_project_id?: number | undefined;
+  old_ref?: string | undefined;
+  old_title?: string | undefined;
+  project_id?: number | undefined;
+  pull_request_url?: string | undefined;
+  ref_action?: string | undefined;
+  ref_comment?: Comment | undefined;
   /** commit SHA where issue/PR was referenced */
-  ref_commit_sha?: string;
-  ref_issue?: Issue;
+  ref_commit_sha?: string | undefined;
+  ref_issue?: Issue | undefined;
   /** whether the assignees were removed or added */
-  removed_assignee?: boolean;
-  resolve_doer?: User;
-  review_id?: number;
-  tracked_time?: TrackedTime;
-  type?: string;
-  updated_at?: string;
-  user?: User;
+  removed_assignee?: boolean | undefined;
+  resolve_doer?: User | undefined;
+  review_id?: number | undefined;
+  tracked_time?: TrackedTime | undefined;
+  type?: string | undefined;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export type IssueGetCommentsAndTimelineResponseBodyList = Array<TimelineComment>;
 export type IssueGetCommentsAndTimelineResponse = IssueGetCommentsAndTimelineResponseBodyList;
@@ -802,13 +843,13 @@ export interface IssueGetMilestonesListRequest {
   /** name of the repo */
   repo: string;
   /** Milestone state, Recognized values are open, closed and all. Defaults to "open" */
-  state?: string;
+  state?: string | undefined;
   /** filter by milestone name */
-  name?: string;
+  name?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueGetMilestonesListResponseBodyList = Array<Milestone>;
 export type IssueGetMilestonesListResponse = IssueGetMilestonesListResponseBodyList;
@@ -818,13 +859,13 @@ export interface IssueGetRepoCommentsRequest {
   /** name of the repo */
   repo: string;
   /** if provided, only comments updated since the provided time are returned. */
-  since?: string;
+  since?: string | undefined;
   /** if provided, only comments updated before the provided time are returned. */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueGetRepoCommentsResponseBodyList = Array<Comment>;
 export type IssueGetRepoCommentsResponse = IssueGetRepoCommentsResponseBodyList;
@@ -836,9 +877,9 @@ export interface IssueListBlocksRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueListBlocksResponseBodyList = Array<Issue>;
 export type IssueListBlocksResponse = IssueListBlocksResponseBodyList;
@@ -849,11 +890,11 @@ export interface IssueListLabelsRequest {
   /** name of the repo */
   repo: string;
   /** Specifies the sorting method: mostissues, leastissues, or reversealphabetically. */
-  sort?: IssueListLabelsRequestSort | (string & {});
+  sort?: IssueListLabelsRequestSort | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueListLabelsResponseBodyList = Array<Label>;
 export type IssueListLabelsResponse = IssueListLabelsResponseBodyList;
@@ -864,7 +905,7 @@ export interface IssuePostCommentReactionRequest {
   repo: string;
   /** id of the comment to edit */
   id: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface IssueRemoveLabelRequest {
   /** owner of the repo */
@@ -875,7 +916,7 @@ export interface IssueRemoveLabelRequest {
   index: number;
   /** name or id of the label to remove */
   identifier: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface IssueRemoveLabelResponse {}
 /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
@@ -888,8 +929,8 @@ export interface IssueReplaceLabelsRequest {
   /** index of the issue */
   index: number;
   /** Labels can be a list of integers representing label IDs or a list of strings representing label names */
-  labels?: IssueReplaceLabelsRequestLabelsList;
-  updated_at?: string;
+  labels?: IssueReplaceLabelsRequestLabelsList | undefined;
+  updated_at?: string | undefined;
 }
 export type IssueReplaceLabelsResponseBodyList = Array<Label>;
 export type IssueReplaceLabelsResponse = IssueReplaceLabelsResponseBodyList;
@@ -928,9 +969,9 @@ export interface IssueSubscriptionsRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueSubscriptionsResponseBodyList = Array<User>;
 export type IssueSubscriptionsResponse = IssueSubscriptionsResponseBodyList;
@@ -942,15 +983,15 @@ export interface IssueTrackedTimesRequest {
   /** index of the issue */
   index: number;
   /** optional filter by user (available for issue managers) */
-  user?: string;
+  user?: string | undefined;
   /** Only show times updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show times updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type IssueTrackedTimesResponseBodyList = Array<TrackedTime>;
 export type IssueTrackedTimesResponse = IssueTrackedTimesResponseBodyList;
@@ -982,9 +1023,9 @@ export interface ListIssueDependenciesRequest {
   /** index of the issue */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListIssueDependenciesResponseBodyList = Array<Issue>;
 export type ListIssueDependenciesResponse = ListIssueDependenciesResponseBodyList;
@@ -1006,31 +1047,31 @@ export interface ListIssuesRequest {
   /** name of the repo */
   repo: string;
   /** whether issue is open or closed */
-  state?: ListIssuesRequestState | (string & {});
+  state?: ListIssuesRequestState | (string & {}) | undefined;
   /** comma separated list of labels. Fetch only issues that have any of this labels. Non existent labels are discarded */
-  labels?: string;
+  labels?: string | undefined;
   /** search string */
-  q?: string;
+  q?: string | undefined;
   /** filter by type (issues / pulls) if set */
-  type?: ListIssuesRequestType | (string & {});
+  type?: ListIssuesRequestType | (string & {}) | undefined;
   /** comma separated list of milestone names or ids. It uses names and fall back to ids. Fetch only issues that have any of this milestones. Non existent milestones are discarded */
-  milestones?: string;
+  milestones?: string | undefined;
   /** Only show items updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show items updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** Only show items which were created by the given user */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Only show items for which the given user is assigned */
-  assigned_by?: string;
+  assigned_by?: string | undefined;
   /** Only show items in which the given user was mentioned */
-  mentioned_by?: string;
+  mentioned_by?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** Type of sort */
-  sort?: ListIssuesRequestSort | (string & {});
+  sort?: ListIssuesRequestSort | (string & {}) | undefined;
 }
 export type ListIssuesResponseBodyList = Array<Issue>;
 export type ListIssuesResponse = ListIssuesResponseBodyList;
@@ -1061,7 +1102,7 @@ export interface PostIssueReactionRequest {
   repo: string;
   /** index of the issue */
   index: number;
-  content?: string;
+  content?: string | undefined;
 }
 export interface RemoveIssueBlockingRequest {
   /** owner of the repo */
@@ -1093,41 +1134,41 @@ export type SearchIssuesRequestSort =
   | "farduedate";
 export interface SearchIssuesRequest {
   /** State of the issue */
-  state?: SearchIssuesRequestState | (string & {});
+  state?: SearchIssuesRequestState | (string & {}) | undefined;
   /** Comma-separated list of label names. Fetch only issues that have any of these labels. Non existent labels are discarded. */
-  labels?: string;
+  labels?: string | undefined;
   /** Comma-separated list of milestone names. Fetch only issues that have any of these milestones. Non existent milestones are discarded. */
-  milestones?: string;
+  milestones?: string | undefined;
   /** Search string */
-  q?: string;
+  q?: string | undefined;
   /** Repository ID to prioritize in the results */
-  priority_repo_id?: number;
+  priority_repo_id?: number | undefined;
   /** Filter by issue type */
-  type?: SearchIssuesRequestType | (string & {});
+  type?: SearchIssuesRequestType | (string & {}) | undefined;
   /** Only show issues updated after the given time (RFC 3339 format) */
-  since?: string;
+  since?: string | undefined;
   /** Only show issues updated before the given time (RFC 3339 format) */
-  before?: string;
+  before?: string | undefined;
   /** Filter issues or pulls assigned to the authenticated user */
-  assigned?: boolean;
+  assigned?: boolean | undefined;
   /** Filter issues or pulls created by the authenticated user */
-  created?: boolean;
+  created?: boolean | undefined;
   /** Filter issues or pulls mentioning the authenticated user */
-  mentioned?: boolean;
+  mentioned?: boolean | undefined;
   /** Filter pull requests where the authenticated user's review was requested */
-  review_requested?: boolean;
+  review_requested?: boolean | undefined;
   /** Filter pull requests reviewed by the authenticated user */
-  reviewed?: boolean;
+  reviewed?: boolean | undefined;
   /** Filter by repository owner */
-  owner?: string;
+  owner?: string | undefined;
   /** Filter by team (requires organization owner parameter) */
-  team?: string;
+  team?: string | undefined;
   /** Page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Type of sort */
-  sort?: SearchIssuesRequestSort | (string & {});
+  sort?: SearchIssuesRequestSort | (string & {}) | undefined;
 }
 export type SearchIssuesResponseBodyList = Array<Issue>;
 export type SearchIssuesResponse = SearchIssuesResponseBodyList;
@@ -1140,6 +1181,20 @@ export interface UnpinIssueRequest {
   index: number;
 }
 export interface UnpinIssueResponse {}
+/** APIError is an api error with a message */
+export interface APIError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIForbiddenError = APIError;
+export type APIRepoArchivedError = APIError;
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIValidationError = APIError;
 export type CreateIssueError = Forbidden | NotFound | UnprocessableEntity | Locked | ForgejoOpError;
 /** Create an issue. If using deadline only the date will be taken into account, and time of day ignored. */
 export const createIssue: API.OperationMethod<
@@ -1148,8 +1203,8 @@ export const createIssue: API.OperationMethod<
   CreateIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(473, __c59, 1) as any as S.Schema<CreateIssueRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(489, __c61, 1) as any as S.Schema<CreateIssueRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1170,8 +1225,8 @@ export const createIssueAttachment: API.OperationMethod<
   CreateIssueAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<CreateIssueAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(648, __c81, 0) as any as S.Schema<CreateIssueAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [BadRequest, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1187,8 +1242,8 @@ export const createIssueBlocking: API.OperationMethod<
   CreateIssueBlockingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<CreateIssueBlockingRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(664, __c83, 0) as any as S.Schema<CreateIssueBlockingRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1209,8 +1264,8 @@ export const createIssueCommentAttachment: API.OperationMethod<
   CreateIssueCommentAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<CreateIssueCommentAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(672, __c84, 0) as any as S.Schema<CreateIssueCommentAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [BadRequest, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1226,8 +1281,8 @@ export const createIssueDependencies: API.OperationMethod<
   CreateIssueDependenciesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateIssueDependenciesRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateIssueDependenciesRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1243,8 +1298,8 @@ export const deleteIssue: API.OperationMethod<
   DeleteIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteIssueRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<DeleteIssueResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteIssueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteIssueResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1260,8 +1315,8 @@ export const deleteIssueAttachment: API.OperationMethod<
   DeleteIssueAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteIssueAttachmentRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<DeleteIssueAttachmentResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteIssueAttachmentRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteIssueAttachmentResponse>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1277,8 +1332,8 @@ export const deleteIssueCommentAttachment: API.OperationMethod<
   DeleteIssueCommentAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteIssueCommentAttachmentRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<DeleteIssueCommentAttachmentResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteIssueCommentAttachmentRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteIssueCommentAttachmentResponse>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1294,8 +1349,8 @@ export const deleteIssueReaction: API.OperationMethod<
   DeleteIssueReactionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteIssueReactionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<DeleteIssueReactionResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteIssueReactionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteIssueReactionResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1311,8 +1366,8 @@ export const editIssue: API.OperationMethod<
   EditIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<EditIssueRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(56, __c7, 0) as any as S.Schema<EditIssueRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1328,8 +1383,8 @@ export const editIssueAttachment: API.OperationMethod<
   EditIssueAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<EditIssueAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(64, __c8, 0) as any as S.Schema<EditIssueAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1345,8 +1400,8 @@ export const editIssueCommentAttachment: API.OperationMethod<
   EditIssueCommentAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<EditIssueCommentAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(72, __c9, 0) as any as S.Schema<EditIssueCommentAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1362,8 +1417,8 @@ export const editIssueDeadline: API.OperationMethod<
   EditIssueDeadlineError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<EditIssueDeadlineRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<IssueDeadline>,
+  input: __S(80, __c10, 0) as any as S.Schema<EditIssueDeadlineRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<IssueDeadline>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1379,8 +1434,8 @@ export const getIssue: API.OperationMethod<
   GetIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetIssueRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetIssueRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1396,8 +1451,8 @@ export const getIssueAttachment: API.OperationMethod<
   GetIssueAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetIssueAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetIssueAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1413,8 +1468,8 @@ export const getIssueCommentAttachment: API.OperationMethod<
   GetIssueCommentAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetIssueCommentAttachmentRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Attachment>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetIssueCommentAttachmentRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<Attachment>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1430,8 +1485,8 @@ export const getIssueReactions: API.OperationMethod<
   GetIssueReactionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetIssueReactionsRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetIssueReactionsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetIssueReactionsRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<GetIssueReactionsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1447,8 +1502,8 @@ export const issueAddLabel: API.OperationMethod<
   IssueAddLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<IssueAddLabelRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<IssueAddLabelResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<IssueAddLabelRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<IssueAddLabelResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1464,8 +1519,8 @@ export const issueAddSubscription: API.OperationMethod<
   IssueAddSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<IssueAddSubscriptionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueAddSubscriptionResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<IssueAddSubscriptionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueAddSubscriptionResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1481,8 +1536,8 @@ export const issueAddTime: API.OperationMethod<
   IssueAddTimeError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<IssueAddTimeRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<TrackedTime>,
+  input: __S(168, __c21, 0) as any as S.Schema<IssueAddTimeRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<TrackedTime>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1498,8 +1553,8 @@ export const issueCheckSubscription: API.OperationMethod<
   IssueCheckSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<IssueCheckSubscriptionRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<WatchInfo>,
+  input: __S(184, __c23, 0) as any as S.Schema<IssueCheckSubscriptionRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<WatchInfo>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1515,8 +1570,8 @@ export const issueClearLabels: API.OperationMethod<
   IssueClearLabelsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<IssueClearLabelsRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueClearLabelsResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<IssueClearLabelsRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueClearLabelsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1532,8 +1587,8 @@ export const issueCreateComment: API.OperationMethod<
   IssueCreateCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<IssueCreateCommentRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Comment>,
+  input: __S(200, __c25, 0) as any as S.Schema<IssueCreateCommentRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<Comment>,
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1549,8 +1604,8 @@ export const issueCreateLabel: API.OperationMethod<
   IssueCreateLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<IssueCreateLabelRequest>,
-  output: __S(504, __c63, 0) as any as S.Schema<Label>,
+  input: __S(216, __c27, 0) as any as S.Schema<IssueCreateLabelRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<Label>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1566,8 +1621,8 @@ export const issueCreateMilestone: API.OperationMethod<
   IssueCreateMilestoneError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<IssueCreateMilestoneRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<Milestone>,
+  input: __S(224, __c28, 0) as any as S.Schema<IssueCreateMilestoneRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Milestone>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1583,8 +1638,8 @@ export const issueDeleteComment: API.OperationMethod<
   IssueDeleteCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<IssueDeleteCommentRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteCommentResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<IssueDeleteCommentRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteCommentResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1600,8 +1655,8 @@ export const issueDeleteCommentReaction: API.OperationMethod<
   IssueDeleteCommentReactionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<IssueDeleteCommentReactionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteCommentReactionResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<IssueDeleteCommentReactionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteCommentReactionResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1617,8 +1672,8 @@ export const issueDeleteLabel: API.OperationMethod<
   IssueDeleteLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<IssueDeleteLabelRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteLabelResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<IssueDeleteLabelRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteLabelResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1634,8 +1689,8 @@ export const issueDeleteMilestone: API.OperationMethod<
   IssueDeleteMilestoneError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<IssueDeleteMilestoneRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteMilestoneResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<IssueDeleteMilestoneRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteMilestoneResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1651,8 +1706,8 @@ export const issueDeleteStopWatch: API.OperationMethod<
   IssueDeleteStopWatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<IssueDeleteStopWatchRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteStopWatchResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<IssueDeleteStopWatchRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteStopWatchResponse>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1668,8 +1723,8 @@ export const issueDeleteSubscription: API.OperationMethod<
   IssueDeleteSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<IssueDeleteSubscriptionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteSubscriptionResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<IssueDeleteSubscriptionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteSubscriptionResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1685,8 +1740,8 @@ export const issueDeleteTime: API.OperationMethod<
   IssueDeleteTimeError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<IssueDeleteTimeRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueDeleteTimeResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<IssueDeleteTimeRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueDeleteTimeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1702,8 +1757,8 @@ export const issueEditComment: API.OperationMethod<
   IssueEditCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<IssueEditCommentRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Comment>,
+  input: __S(288, __c36, 0) as any as S.Schema<IssueEditCommentRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<Comment>,
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1719,8 +1774,8 @@ export const issueEditLabel: API.OperationMethod<
   IssueEditLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<IssueEditLabelRequest>,
-  output: __S(504, __c63, 0) as any as S.Schema<Label>,
+  input: __S(296, __c37, 0) as any as S.Schema<IssueEditLabelRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<Label>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1736,8 +1791,8 @@ export const issueEditMilestone: API.OperationMethod<
   IssueEditMilestoneError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<IssueEditMilestoneRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<Milestone>,
+  input: __S(312, __c39, 0) as any as S.Schema<IssueEditMilestoneRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Milestone>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1753,8 +1808,8 @@ export const issueGetComment: API.OperationMethod<
   IssueGetCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<IssueGetCommentRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Comment>,
+  input: __S(320, __c40, 0) as any as S.Schema<IssueGetCommentRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<Comment>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1770,8 +1825,8 @@ export const issueGetCommentReactions: API.OperationMethod<
   IssueGetCommentReactionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<IssueGetCommentReactionsRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<IssueGetCommentReactionsResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<IssueGetCommentReactionsRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<IssueGetCommentReactionsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1787,8 +1842,8 @@ export const issueGetComments: API.OperationMethod<
   IssueGetCommentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<IssueGetCommentsRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<IssueGetCommentsResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<IssueGetCommentsRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<IssueGetCommentsResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1804,8 +1859,8 @@ export const issueGetCommentsAndTimeline: API.OperationMethod<
   IssueGetCommentsAndTimelineError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<IssueGetCommentsAndTimelineRequest>,
-  output: __S(342, __c42, 6) as any as S.Schema<IssueGetCommentsAndTimelineResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<IssueGetCommentsAndTimelineRequest>,
+  output: __S(358, __c44, 6) as any as S.Schema<IssueGetCommentsAndTimelineResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1821,8 +1876,8 @@ export const issueGetLabel: API.OperationMethod<
   IssueGetLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<IssueGetLabelRequest>,
-  output: __S(504, __c63, 0) as any as S.Schema<Label>,
+  input: __S(360, __c45, 0) as any as S.Schema<IssueGetLabelRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<Label>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1838,8 +1893,8 @@ export const issueGetLabels: API.OperationMethod<
   IssueGetLabelsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<IssueGetLabelsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<IssueGetLabelsResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<IssueGetLabelsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<IssueGetLabelsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1855,8 +1910,8 @@ export const issueGetMilestone: API.OperationMethod<
   IssueGetMilestoneError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<IssueGetMilestoneRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<Milestone>,
+  input: __S(376, __c47, 0) as any as S.Schema<IssueGetMilestoneRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Milestone>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1872,8 +1927,8 @@ export const issueGetMilestonesList: API.OperationMethod<
   IssueGetMilestonesListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<IssueGetMilestonesListRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<IssueGetMilestonesListResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<IssueGetMilestonesListRequest>,
+  output: __S(386, __c48, 2) as any as S.Schema<IssueGetMilestonesListResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1889,8 +1944,8 @@ export const issueGetRepoComments: API.OperationMethod<
   IssueGetRepoCommentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<IssueGetRepoCommentsRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<IssueGetRepoCommentsResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<IssueGetRepoCommentsRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<IssueGetRepoCommentsResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1906,8 +1961,8 @@ export const issueListBlocks: API.OperationMethod<
   IssueListBlocksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<IssueListBlocksRequest>,
-  output: __S(393, __c49, 1) as any as S.Schema<IssueListBlocksResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<IssueListBlocksRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<IssueListBlocksResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1923,8 +1978,8 @@ export const issueListLabels: API.OperationMethod<
   IssueListLabelsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<IssueListLabelsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<IssueListLabelsResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<IssueListLabelsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<IssueListLabelsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1940,8 +1995,8 @@ export const issuePostCommentReaction: API.OperationMethod<
   IssuePostCommentReactionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<IssuePostCommentReactionRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<Reaction>,
+  input: __S(424, __c53, 0) as any as S.Schema<IssuePostCommentReactionRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<Reaction>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1957,8 +2012,8 @@ export const issueRemoveLabel: API.OperationMethod<
   IssueRemoveLabelError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<IssueRemoveLabelRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueRemoveLabelResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<IssueRemoveLabelRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueRemoveLabelResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1974,8 +2029,8 @@ export const issueReplaceLabels: API.OperationMethod<
   IssueReplaceLabelsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<IssueReplaceLabelsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<IssueReplaceLabelsResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<IssueReplaceLabelsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<IssueReplaceLabelsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1991,8 +2046,8 @@ export const issueResetTime: API.OperationMethod<
   IssueResetTimeError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<IssueResetTimeRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueResetTimeResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<IssueResetTimeRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueResetTimeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2008,8 +2063,8 @@ export const issueStartStopWatch: API.OperationMethod<
   IssueStartStopWatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<IssueStartStopWatchRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueStartStopWatchResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<IssueStartStopWatchRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueStartStopWatchResponse>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2025,8 +2080,8 @@ export const issueStopStopWatch: API.OperationMethod<
   IssueStopStopWatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<IssueStopStopWatchRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<IssueStopStopWatchResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<IssueStopStopWatchRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<IssueStopStopWatchResponse>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2042,8 +2097,8 @@ export const issueSubscriptions: API.OperationMethod<
   IssueSubscriptionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<IssueSubscriptionsRequest>,
-  output: __S(457, __c57, 1) as any as S.Schema<IssueSubscriptionsResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<IssueSubscriptionsRequest>,
+  output: __S(473, __c59, 1) as any as S.Schema<IssueSubscriptionsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2059,8 +2114,8 @@ export const issueTrackedTimes: API.OperationMethod<
   IssueTrackedTimesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<IssueTrackedTimesRequest>,
-  output: __S(466, __c58, 2) as any as S.Schema<IssueTrackedTimesResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<IssueTrackedTimesRequest>,
+  output: __S(482, __c60, 2) as any as S.Schema<IssueTrackedTimesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2076,8 +2131,8 @@ export const listIssueAttachments: API.OperationMethod<
   ListIssueAttachmentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<ListIssueAttachmentsRequest>,
-  output: __S(560, __c70, 0) as any as S.Schema<ListIssueAttachmentsResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<ListIssueAttachmentsRequest>,
+  output: __S(568, __c71, 0) as any as S.Schema<ListIssueAttachmentsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2093,8 +2148,8 @@ export const listIssueCommentAttachments: API.OperationMethod<
   ListIssueCommentAttachmentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ListIssueCommentAttachmentsRequest>,
-  output: __S(560, __c70, 0) as any as S.Schema<ListIssueCommentAttachmentsResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<ListIssueCommentAttachmentsRequest>,
+  output: __S(568, __c71, 0) as any as S.Schema<ListIssueCommentAttachmentsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2110,8 +2165,8 @@ export const listIssueDependencies: API.OperationMethod<
   ListIssueDependenciesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ListIssueDependenciesRequest>,
-  output: __S(393, __c49, 1) as any as S.Schema<ListIssueDependenciesResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<ListIssueDependenciesRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<ListIssueDependenciesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2127,8 +2182,8 @@ export const listIssues: API.OperationMethod<
   ListIssuesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<ListIssuesRequest>,
-  output: __S(393, __c49, 1) as any as S.Schema<ListIssuesResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<ListIssuesRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<ListIssuesResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2144,8 +2199,8 @@ export const moveIssuePin: API.OperationMethod<
   MoveIssuePinError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<MoveIssuePinRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<MoveIssuePinResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<MoveIssuePinRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<MoveIssuePinResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2161,8 +2216,8 @@ export const pinIssue: API.OperationMethod<
   PinIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<PinIssueRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<PinIssueResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<PinIssueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<PinIssueResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2178,8 +2233,8 @@ export const postIssueReaction: API.OperationMethod<
   PostIssueReactionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<PostIssueReactionRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<Reaction>,
+  input: __S(616, __c77, 0) as any as S.Schema<PostIssueReactionRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<Reaction>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2195,8 +2250,8 @@ export const removeIssueBlocking: API.OperationMethod<
   RemoveIssueBlockingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<RemoveIssueBlockingRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(624, __c78, 0) as any as S.Schema<RemoveIssueBlockingRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2212,8 +2267,8 @@ export const removeIssueDependencies: API.OperationMethod<
   RemoveIssueDependenciesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<RemoveIssueDependenciesRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<Issue>,
+  input: __S(632, __c79, 0) as any as S.Schema<RemoveIssueDependenciesRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<Issue>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2229,8 +2284,8 @@ export const searchIssues: API.OperationMethod<
   SearchIssuesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<SearchIssuesRequest>,
-  output: __S(393, __c49, 1) as any as S.Schema<SearchIssuesResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<SearchIssuesRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<SearchIssuesResponse>,
   errors: [BadRequest, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2246,8 +2301,8 @@ export const unpinIssue: API.OperationMethod<
   UnpinIssueError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<UnpinIssueRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<UnpinIssueResponse>,
+  input: __S(656, __c82, 0) as any as S.Schema<UnpinIssueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UnpinIssueResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2257,6 +2312,17 @@ export const unpinIssue: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2274,7 +2340,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateIssueDependenciesRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2288,13 +2354,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteIssueRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteIssueResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2313,7 +2379,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteIssueAttachmentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2332,7 +2398,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteIssueCommentAttachmentRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2351,7 +2417,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteIssueReactionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2360,7 +2426,7 @@ function __c6(j: number): any {
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
           assignee: S.optional(S.String),
-          assignees: S.optional(__S(480, __c60, 0)),
+          assignees: S.optional(__S(304, __c38, 0)),
           body: S.optional(S.String),
           due_date: S.optional(S.String),
           milestone: S.optional(S.Number),
@@ -2375,7 +2441,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EditIssueRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2396,7 +2462,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EditIssueAttachmentRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2417,7 +2483,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EditIssueCommentAttachmentRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2442,7 +2508,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "IssueDeadline" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2454,7 +2520,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetIssueRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2473,7 +2539,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetIssueAttachmentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2492,7 +2558,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetIssueCommentAttachmentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2512,26 +2578,14 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetIssueReactionsRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(120, __c15, 0));
-    case 1:
-      return S.suspend(() => __S(112, __c14, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetIssueReactionsResponse",
-      });
-  }
-}
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          content: S.optional(S.String),
-          created_at: S.optional(S.String),
-          user: S.optional(__S(496, __c62, 0)),
-        }),
-      ).annotate({ identifier: "Reaction" });
+      return S.Array(__S(128, __c16, 0));
+    case 1:
+      return S.suspend(() => __S(120, __c15, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetIssueReactionsResponse",
+      });
   }
 }
 function __c16(j: number): any {
@@ -2539,10 +2593,22 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          content: S.optional(S.String),
+          created_at: S.optional(S.String),
+          user: S.optional(__S(504, __c63, 0)),
+        }),
+      ).annotate({ identifier: "Reaction" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
-          labels: S.optional(__S(144, __c18, 0)),
+          labels: S.optional(__S(152, __c19, 0)),
           updated_at: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 }),
@@ -2550,21 +2616,21 @@ function __c16(j: number): any {
       ).annotate({ identifier: "IssueAddLabelRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(512, __c64, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(520, __c65, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueAddLabelResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2583,7 +2649,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IssueAddSubscriptionRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,14 +2666,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "IssueAddTimeRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created: S.optional(S.String),
           id: S.optional(S.Number),
-          issue: S.optional(__S(546, __c68, 2)),
+          issue: S.optional(__S(554, __c69, 2)),
           issue_id: S.optional(S.Number),
           time: S.optional(S.Number),
           user_id: S.optional(S.Number),
@@ -2616,7 +2682,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TrackedTime" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2645,7 +2711,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "WatchInfo" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2664,7 +2730,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "IssueClearLabelsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2684,12 +2750,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "IssueCreateCommentRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(520, __c65, 0)),
+          assets: S.optional(__S(528, __c66, 0)),
           body: S.optional(S.String),
           created_at: S.optional(S.String),
           html_url: S.optional(S.String),
@@ -2699,12 +2765,12 @@ function __c25(j: number): any {
           original_author_id: S.optional(S.Number),
           pull_request_url: S.optional(S.String),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(496, __c62, 0)),
+          user: S.optional(__S(504, __c63, 0)),
         }),
       ).annotate({ identifier: "Comment" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2720,7 +2786,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "IssueCreateLabelRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2735,7 +2801,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "IssueCreateMilestoneRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2753,7 +2819,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "IssueDeleteCommentRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2772,7 +2838,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "IssueDeleteCommentReactionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,7 +2850,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "IssueDeleteLabelRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2798,7 +2864,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "IssueDeleteMilestoneRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2816,7 +2882,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "IssueDeleteStopWatchRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2835,7 +2901,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "IssueDeleteSubscriptionRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2854,7 +2920,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "IssueDeleteTimeRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2870,7 +2936,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "IssueEditCommentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2887,7 +2953,21 @@ function __c36(j: number): any {
       ).annotate({ identifier: "IssueEditLabelRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(304, __c38, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2905,7 +2985,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "IssueEditMilestoneRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2919,7 +2999,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "IssueGetCommentRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2937,7 +3017,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "IssueGetCommentReactionsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2957,17 +3037,17 @@ function __c40(j: number): any {
       ).annotate({ identifier: "IssueGetCommentsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(208, __c26, 0));
     case 1:
-      return S.suspend(() => __S(328, __c41, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(344, __c43, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueGetCommentsResponse",
       });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3014,55 +3094,55 @@ function __c42(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(337, __c42, 1)),
+          organization: S.optional(__S(353, __c44, 1)),
           permission: S.optional(S.String),
-          units: S.optional(__S(480, __c60, 0)),
-          units_map: S.optional(__S(338, __c42, 2)),
+          units: S.optional(__S(304, __c38, 0)),
+          units_map: S.optional(__S(354, __c44, 2)),
         }),
       ).annotate({ identifier: "Team" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          assignee: S.optional(__S(496, __c62, 0)),
-          assignee_team: S.optional(__S(339, __c42, 3)),
+          assignee: S.optional(__S(504, __c63, 0)),
+          assignee_team: S.optional(__S(355, __c44, 3)),
           body: S.optional(S.String),
           created_at: S.optional(S.String),
-          dependent_issue: S.optional(__S(546, __c68, 2)),
+          dependent_issue: S.optional(__S(554, __c69, 2)),
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           issue_url: S.optional(S.String),
-          label: S.optional(__S(504, __c63, 0)),
-          milestone: S.optional(__S(528, __c66, 0)),
+          label: S.optional(__S(512, __c64, 0)),
+          milestone: S.optional(__S(536, __c67, 0)),
           new_ref: S.optional(S.String),
           new_title: S.optional(S.String),
-          old_milestone: S.optional(__S(528, __c66, 0)),
+          old_milestone: S.optional(__S(536, __c67, 0)),
           old_project_id: S.optional(S.Number),
           old_ref: S.optional(S.String),
           old_title: S.optional(S.String),
           project_id: S.optional(S.Number),
           pull_request_url: S.optional(S.String),
           ref_action: S.optional(S.String),
-          ref_comment: S.optional(__S(200, __c25, 0)),
+          ref_comment: S.optional(__S(208, __c26, 0)),
           ref_commit_sha: S.optional(S.String),
-          ref_issue: S.optional(__S(546, __c68, 2)),
+          ref_issue: S.optional(__S(554, __c69, 2)),
           removed_assignee: S.optional(S.Boolean),
-          resolve_doer: S.optional(__S(496, __c62, 0)),
+          resolve_doer: S.optional(__S(504, __c63, 0)),
           review_id: S.optional(S.Number),
-          tracked_time: S.optional(__S(168, __c21, 0)),
+          tracked_time: S.optional(__S(176, __c22, 0)),
           type: S.optional(S.String),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(496, __c62, 0)),
+          user: S.optional(__S(504, __c63, 0)),
         }),
       ).annotate({ identifier: "TimelineComment" });
     case 5:
-      return S.Array(__S(340, __c42, 4));
+      return S.Array(__S(356, __c44, 4));
     case 6:
-      return S.suspend(() => __S(341, __c42, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(357, __c44, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueGetCommentsAndTimelineResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3074,7 +3154,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "IssueGetLabelRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3088,7 +3168,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "IssueGetLabelsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3100,7 +3180,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "IssueGetMilestoneRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3114,14 +3194,14 @@ function __c46(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
       ).annotate({ identifier: "IssueGetMilestonesListRequest" });
     case 1:
-      return S.Array(__S(528, __c66, 0));
+      return S.Array(__S(536, __c67, 0));
     case 2:
-      return S.suspend(() => __S(369, __c46, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(385, __c48, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueGetMilestonesListResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3136,7 +3216,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "IssueGetRepoCommentsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3152,17 +3232,17 @@ function __c48(j: number): any {
       ).annotate({ identifier: "IssueListBlocksRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(546, __c68, 2));
+      return S.Array(__S(554, __c69, 2));
     case 1:
-      return S.suspend(() => __S(392, __c49, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(408, __c51, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueListBlocksResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3176,7 +3256,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "IssueListLabelsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3195,7 +3275,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "IssuePostCommentReactionRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3215,7 +3295,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "IssueRemoveLabelRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3223,7 +3303,7 @@ function __c53(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
-          labels: S.optional(__S(144, __c18, 0)),
+          labels: S.optional(__S(152, __c19, 0)),
           updated_at: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 }),
@@ -3231,7 +3311,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "IssueReplaceLabelsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3249,7 +3329,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "IssueResetTimeRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3267,7 +3347,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "IssueStartStopWatchRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3285,7 +3365,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "IssueStopStopWatchRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3304,12 +3384,12 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "IssueSubscriptionsRequest" });
     case 1:
-      return S.suspend(() => __S(536, __c67, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(544, __c68, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueSubscriptionsResponse",
       });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3327,14 +3407,14 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "IssueTrackedTimesRequest" });
     case 1:
-      return S.Array(__S(168, __c21, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
-      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(481, __c60, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "IssueTrackedTimesResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -3344,11 +3424,11 @@ function __c59(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           assignee: S.optional(S.String),
-          assignees: S.optional(__S(480, __c60, 0)),
+          assignees: S.optional(__S(304, __c38, 0)),
           body: S.optional(S.String),
           closed: S.optional(S.Boolean),
           due_date: S.optional(S.String),
-          labels: S.optional(__S(472, __c59, 0)),
+          labels: S.optional(__S(488, __c61, 0)),
           milestone: S.optional(S.Number),
           ref: S.optional(S.String),
           title: S.String,
@@ -3356,13 +3436,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateIssueRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3379,7 +3453,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "Attachment" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3411,7 +3485,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3427,19 +3501,19 @@ function __c63(j: number): any {
       ).annotate({ identifier: "Label" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(504, __c63, 0));
-  }
-}
 function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(488, __c61, 0));
+      return S.Array(__S(512, __c64, 0));
   }
 }
 function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(496, __c62, 0));
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3458,13 +3532,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "Milestone" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(496, __c62, 0));
+      return S.Array(__S(504, __c63, 0));
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3487,9 +3561,9 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(520, __c65, 0)),
-          assignee: S.optional(__S(496, __c62, 0)),
-          assignees: S.optional(__S(536, __c67, 0)),
+          assets: S.optional(__S(528, __c66, 0)),
+          assignee: S.optional(__S(504, __c63, 0)),
+          assignees: S.optional(__S(544, __c68, 0)),
           body: S.optional(S.String),
           closed_at: S.optional(S.String),
           comments: S.optional(S.Number),
@@ -3498,25 +3572,25 @@ function __c68(j: number): any {
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           is_locked: S.optional(S.Boolean),
-          labels: S.optional(__S(512, __c64, 0)),
-          milestone: S.optional(__S(528, __c66, 0)),
+          labels: S.optional(__S(520, __c65, 0)),
+          milestone: S.optional(__S(536, __c67, 0)),
           number: S.optional(S.Number),
           original_author: S.optional(S.String),
           original_author_id: S.optional(S.Number),
           pin_order: S.optional(S.Number),
-          pull_request: S.optional(__S(544, __c68, 0)),
+          pull_request: S.optional(__S(552, __c69, 0)),
           ref: S.optional(S.String),
-          repository: S.optional(__S(545, __c68, 1)),
+          repository: S.optional(__S(553, __c69, 1)),
           state: S.optional(S.String),
           title: S.optional(S.String),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
-          user: S.optional(__S(496, __c62, 0)),
+          user: S.optional(__S(504, __c63, 0)),
         }),
       ).annotate({ identifier: "Issue" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3530,15 +3604,15 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ListIssueAttachmentsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(520, __c65, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(528, __c66, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIssueAttachmentsResponse",
       });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3556,7 +3630,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ListIssueCommentAttachmentsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3576,7 +3650,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ListIssueDependenciesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3600,7 +3674,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ListIssuesRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3619,7 +3693,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "MoveIssuePinRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3633,7 +3707,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PinIssueRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3652,7 +3726,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PostIssueReactionRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3670,7 +3744,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "RemoveIssueBlockingRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3688,7 +3762,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "RemoveIssueDependenciesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3715,7 +3789,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SearchIssuesRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3731,7 +3805,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateIssueAttachmentRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3745,7 +3819,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UnpinIssueRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3759,7 +3833,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateIssueBlockingRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

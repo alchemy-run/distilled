@@ -105,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -123,7 +123,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -148,45 +148,45 @@ export type HumanLoopStatus =
 export type HumanLoopArn = string;
 export type FlowDefinitionArn = string;
 export interface HumanLoopOutput {
-  OutputS3Uri?: string;
+  OutputS3Uri?: string | undefined;
 }
 export interface DescribeHumanLoopResponse {
   CreationTime: Date;
-  FailureReason?: string;
-  FailureCode?: string;
+  FailureReason?: string | undefined;
+  FailureCode?: string | undefined;
   HumanLoopStatus: HumanLoopStatus;
   HumanLoopName: string;
   HumanLoopArn: string;
   FlowDefinitionArn: string;
-  HumanLoopOutput?: HumanLoopOutput & { OutputS3Uri: string };
+  HumanLoopOutput?: (HumanLoopOutput & { OutputS3Uri: string }) | undefined;
 }
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListHumanLoopsRequest {
-  CreationTimeAfter?: Date;
-  CreationTimeBefore?: Date;
-  FlowDefinitionArn?: string;
-  SortOrder?: SortOrder;
-  NextToken?: string;
-  MaxResults?: number;
+  CreationTimeAfter?: Date | undefined;
+  CreationTimeBefore?: Date | undefined;
+  FlowDefinitionArn?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FailureReason = string;
 export interface HumanLoopSummary {
-  HumanLoopName?: string;
-  HumanLoopStatus?: HumanLoopStatus;
-  CreationTime?: Date;
-  FailureReason?: string;
-  FlowDefinitionArn?: string;
+  HumanLoopName?: string | undefined;
+  HumanLoopStatus?: HumanLoopStatus | undefined;
+  CreationTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
 }
 export type HumanLoopSummaries = HumanLoopSummary[];
 export interface ListHumanLoopsResponse {
   HumanLoopSummaries: HumanLoopSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InputContent = string;
 export interface HumanLoopInput {
-  InputContent?: string;
+  InputContent?: string | undefined;
 }
 export type ContentClassifier =
   | "FreeOfPersonallyIdentifiableInformation"
@@ -194,19 +194,19 @@ export type ContentClassifier =
   | (string & {});
 export type ContentClassifiers = ContentClassifier[];
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifier[];
+  ContentClassifiers?: ContentClassifier[] | undefined;
 }
 export interface StartHumanLoopRequest {
-  HumanLoopName?: string;
-  FlowDefinitionArn?: string;
-  HumanLoopInput?: HumanLoopInput;
-  DataAttributes?: HumanLoopDataAttributes;
+  HumanLoopName?: string | undefined;
+  FlowDefinitionArn?: string | undefined;
+  HumanLoopInput?: HumanLoopInput | undefined;
+  DataAttributes?: HumanLoopDataAttributes | undefined;
 }
 export interface StartHumanLoopResponse {
-  HumanLoopArn?: string;
+  HumanLoopArn?: string | undefined;
 }
 export interface StopHumanLoopRequest {
-  HumanLoopName?: string;
+  HumanLoopName?: string | undefined;
 }
 export interface StopHumanLoopResponse {}
 export type DeleteHumanLoopError =

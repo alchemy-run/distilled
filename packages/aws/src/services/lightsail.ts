@@ -168,7 +168,7 @@ export class ServiceException
       tip: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnauthenticatedException
   extends /*@__PURE__*/ S.TaggedError<UnauthenticatedException>()(
     "UnauthenticatedException",
@@ -206,6 +206,7 @@ export type ResourceType =
   | "Distribution"
   | "Certificate"
   | "Bucket"
+  | "Subdomain"
   | (string & {});
 export type IsoDate = Date;
 export type RegionName =
@@ -231,8 +232,8 @@ export type RegionName =
   | "sa-east-1"
   | (string & {});
 export interface ResourceLocation {
-  availabilityZone?: string;
-  regionName?: RegionName;
+  availabilityZone?: string | undefined;
+  regionName?: RegionName | undefined;
 }
 export type OperationType =
   | "DeleteKnownHostKeys"
@@ -319,6 +320,9 @@ export type OperationType =
   | "StopGUISession"
   | "SetupInstanceHttps"
   | "GetProfile"
+  | "CreateSubdomain"
+  | "UpdateSubdomainAssociation"
+  | "DeleteSubdomain"
   | (string & {});
 export type OperationStatus =
   | "NotStarted"
@@ -328,38 +332,38 @@ export type OperationStatus =
   | "Succeeded"
   | (string & {});
 export interface Operation {
-  id?: string;
-  resourceName?: string;
-  resourceType?: ResourceType;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  isTerminal?: boolean;
-  operationDetails?: string;
-  operationType?: OperationType;
-  status?: OperationStatus;
-  statusChangedAt?: Date;
-  errorCode?: string;
-  errorDetails?: string;
+  id?: string | undefined;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  isTerminal?: boolean | undefined;
+  operationDetails?: string | undefined;
+  operationType?: OperationType | undefined;
+  status?: OperationStatus | undefined;
+  statusChangedAt?: Date | undefined;
+  errorCode?: string | undefined;
+  errorDetails?: string | undefined;
 }
 export type OperationList = Operation[];
 export interface AllocateStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachCertificateToDistributionRequest {
   distributionName: string;
   certificateName: string;
 }
 export interface AttachCertificateToDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface AttachDiskRequest {
   diskName: string;
   instanceName: string;
   diskPath: string;
-  autoMounting?: boolean;
+  autoMounting?: boolean | undefined;
 }
 export interface AttachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceNameList = string[];
 export interface AttachInstancesToLoadBalancerRequest {
@@ -367,85 +371,94 @@ export interface AttachInstancesToLoadBalancerRequest {
   instanceNames: string[];
 }
 export interface AttachInstancesToLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
 }
 export interface AttachLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachStaticIpRequest {
   staticIpName: string;
   instanceName: string;
 }
 export interface AttachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
+}
+export interface CheckSubdomainAvailabilityRequest {
+  subdomainName: string;
+  reserve?: boolean | undefined;
+}
+export interface CheckSubdomainAvailabilityResult {
+  available?: boolean | undefined;
+  reservationExpiresAt?: Date | undefined;
+  subdomainName?: string | undefined;
 }
 export type Port = number;
 export type NetworkProtocol = "tcp" | "all" | "udp" | "icmp" | "icmpv6" | (string & {});
 export type StringList = string[];
 export interface PortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export interface CloseInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface CloseInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CopySnapshotRequest {
-  sourceSnapshotName?: string;
-  sourceResourceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  sourceSnapshotName?: string | undefined;
+  sourceResourceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
   targetSnapshotName: string;
   sourceRegion: RegionName;
 }
 export interface CopySnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type BucketName = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateBucketRequest {
   bucketName: string;
   bundleId: string;
-  tags?: Tag[];
-  enableObjectVersioning?: boolean;
+  tags?: Tag[] | undefined;
+  enableObjectVersioning?: boolean | undefined;
 }
 export type AccessType = "public" | "private" | (string & {});
 export interface AccessRules {
-  getObject?: AccessType;
-  allowPublicOverrides?: boolean;
+  getObject?: AccessType | undefined;
+  allowPublicOverrides?: boolean | undefined;
 }
 export type PartnerIdList = string[];
 export interface ResourceReceivingAccess {
-  name?: string;
-  resourceType?: string;
+  name?: string | undefined;
+  resourceType?: string | undefined;
 }
 export type AccessReceiverList = ResourceReceivingAccess[];
 export interface BucketState {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type BucketAccessLogPrefix = string;
 export interface BucketAccessLogConfig {
   enabled: boolean;
-  destination?: string;
-  prefix?: string;
+  destination?: string | undefined;
+  prefix?: string | undefined;
 }
 export type BucketCorsRuleId = string;
 export type BucketCorsAllowedMethod = string;
@@ -454,60 +467,61 @@ export type BucketCorsAllowedOrigins = string[];
 export type BucketCorsAllowedHeaders = string[];
 export type BucketCorsExposeHeaders = string[];
 export interface BucketCorsRule {
-  id?: string;
+  id?: string | undefined;
   allowedMethods: string[];
   allowedOrigins: string[];
-  allowedHeaders?: string[];
-  exposeHeaders?: string[];
-  maxAgeSeconds?: number;
+  allowedHeaders?: string[] | undefined;
+  exposeHeaders?: string[] | undefined;
+  maxAgeSeconds?: number | undefined;
 }
 export type BucketCorsRules = BucketCorsRule[];
 export interface BucketCorsConfig {
-  rules?: BucketCorsRule[];
+  rules?: BucketCorsRule[] | undefined;
 }
 export interface Bucket {
-  resourceType?: string;
-  accessRules?: AccessRules;
-  arn?: string;
-  bundleId?: string;
-  createdAt?: Date;
-  url?: string;
-  location?: ResourceLocation;
-  name?: string;
-  supportCode?: string;
-  tags?: Tag[];
-  objectVersioning?: string;
-  ableToUpdateBundle?: boolean;
-  readonlyAccessAccounts?: string[];
-  resourcesReceivingAccess?: ResourceReceivingAccess[];
-  state?: BucketState;
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  resourceType?: string | undefined;
+  accessRules?: AccessRules | undefined;
+  arn?: string | undefined;
+  bundleId?: string | undefined;
+  createdAt?: Date | undefined;
+  url?: string | undefined;
+  location?: ResourceLocation | undefined;
+  name?: string | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
+  objectVersioning?: string | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  resourcesReceivingAccess?: ResourceReceivingAccess[] | undefined;
+  state?: BucketState | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface CreateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface CreateBucketAccessKeyRequest {
   bucketName: string;
 }
 export type IAMAccessKeyId = string | redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type StatusType = "Active" | "Inactive" | (string & {});
 export interface AccessKeyLastUsed {
-  lastUsedDate?: Date;
-  region?: string;
-  serviceName?: string;
+  lastUsedDate?: Date | undefined;
+  region?: string | undefined;
+  serviceName?: string | undefined;
 }
 export interface AccessKey {
-  accessKeyId?: string | redacted.Redacted<string>;
-  secretAccessKey?: string;
-  status?: StatusType;
-  createdAt?: Date;
-  lastUsed?: AccessKeyLastUsed;
+  accessKeyId?: string | redacted.Redacted<string> | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  status?: StatusType | undefined;
+  createdAt?: Date | undefined;
+  lastUsed?: AccessKeyLastUsed | undefined;
 }
 export interface CreateBucketAccessKeyResult {
-  accessKey?: AccessKey;
-  operations?: Operation[];
+  accessKey?: AccessKey | undefined;
+  operations?: Operation[] | undefined;
 }
 export type CertificateName = string;
 export type DomainName = string;
@@ -515,8 +529,8 @@ export type SubjectAlternativeNameList = string[];
 export interface CreateCertificateRequest {
   certificateName: string;
   domainName: string;
-  subjectAlternativeNames?: string[];
-  tags?: Tag[];
+  subjectAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CertificateStatus =
   | "PENDING_VALIDATION"
@@ -529,14 +543,14 @@ export type CertificateStatus =
   | (string & {});
 export type SerialNumber = string;
 export interface ResourceRecord {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type DnsRecordCreationStateCode = "SUCCEEDED" | "STARTED" | "FAILED" | (string & {});
 export interface DnsRecordCreationState {
-  code?: DnsRecordCreationStateCode;
-  message?: string;
+  code?: DnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export type CertificateDomainValidationStatus =
   | "PENDING_VALIDATION"
@@ -544,10 +558,10 @@ export type CertificateDomainValidationStatus =
   | "SUCCESS"
   | (string & {});
 export interface DomainValidationRecord {
-  domainName?: string;
-  resourceRecord?: ResourceRecord;
-  dnsRecordCreationState?: DnsRecordCreationState;
-  validationStatus?: CertificateDomainValidationStatus;
+  domainName?: string | undefined;
+  resourceRecord?: ResourceRecord | undefined;
+  dnsRecordCreationState?: DnsRecordCreationState | undefined;
+  validationStatus?: CertificateDomainValidationStatus | undefined;
 }
 export type DomainValidationRecordList = DomainValidationRecord[];
 export type RequestFailureReason = string;
@@ -563,52 +577,52 @@ export type RenewalStatus =
   | (string & {});
 export type RenewalStatusReason = string;
 export interface RenewalSummary {
-  domainValidationRecords?: DomainValidationRecord[];
-  renewalStatus?: RenewalStatus;
-  renewalStatusReason?: string;
-  updatedAt?: Date;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  renewalStatus?: RenewalStatus | undefined;
+  renewalStatusReason?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type RevocationReason = string;
 export interface Certificate {
-  arn?: string;
-  name?: string;
-  domainName?: string;
-  status?: CertificateStatus;
-  serialNumber?: string;
-  subjectAlternativeNames?: string[];
-  domainValidationRecords?: DomainValidationRecord[];
-  requestFailureReason?: string;
-  inUseResourceCount?: number;
-  keyAlgorithm?: string;
-  createdAt?: Date;
-  issuedAt?: Date;
-  issuerCA?: string;
-  notBefore?: Date;
-  notAfter?: Date;
-  eligibleToRenew?: string;
-  renewalSummary?: RenewalSummary;
-  revokedAt?: Date;
-  revocationReason?: string;
-  tags?: Tag[];
-  supportCode?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  domainName?: string | undefined;
+  status?: CertificateStatus | undefined;
+  serialNumber?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  requestFailureReason?: string | undefined;
+  inUseResourceCount?: number | undefined;
+  keyAlgorithm?: string | undefined;
+  createdAt?: Date | undefined;
+  issuedAt?: Date | undefined;
+  issuerCA?: string | undefined;
+  notBefore?: Date | undefined;
+  notAfter?: Date | undefined;
+  eligibleToRenew?: string | undefined;
+  renewalSummary?: RenewalSummary | undefined;
+  revokedAt?: Date | undefined;
+  revocationReason?: string | undefined;
+  tags?: Tag[] | undefined;
+  supportCode?: string | undefined;
 }
 export interface CertificateSummary {
-  certificateArn?: string;
-  certificateName?: string;
-  domainName?: string;
-  certificateDetail?: Certificate;
-  tags?: Tag[];
+  certificateArn?: string | undefined;
+  certificateName?: string | undefined;
+  domainName?: string | undefined;
+  certificateDetail?: Certificate | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateCertificateResult {
-  certificate?: CertificateSummary;
-  operations?: Operation[];
+  certificate?: CertificateSummary | undefined;
+  operations?: Operation[] | undefined;
 }
 export type PortInfoSourceType = "DEFAULT" | "INSTANCE" | "NONE" | "CLOSED" | (string & {});
 export interface InstanceEntry {
   sourceName: string;
   instanceType: string;
   portInfoSource: PortInfoSourceType;
-  userData?: string;
+  userData?: string | undefined;
   availabilityZone: string;
 }
 export type InstanceEntryList = InstanceEntry[];
@@ -616,17 +630,17 @@ export interface CreateCloudFormationStackRequest {
   instances: InstanceEntry[];
 }
 export interface CreateCloudFormationStackResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContactProtocol = "Email" | "SMS" | (string & {});
 export type StringMax256 = string;
 export interface CreateContactMethodRequest {
   protocol: ContactProtocol;
   contactEndpoint: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerServiceName = string;
 export type ContainerServicePowerName =
@@ -645,43 +659,43 @@ export type Environment = { [key: string]: string | undefined };
 export type ContainerServiceProtocol = "HTTP" | "HTTPS" | "TCP" | "UDP" | (string & {});
 export type PortMap = { [key: string]: ContainerServiceProtocol | undefined };
 export interface Container {
-  image?: string;
-  command?: string[];
-  environment?: { [key: string]: string | undefined };
-  ports?: { [key: string]: ContainerServiceProtocol | undefined };
+  image?: string | undefined;
+  command?: string[] | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  ports?: { [key: string]: ContainerServiceProtocol | undefined } | undefined;
 }
 export type ContainerMap = { [key: string]: Container | undefined };
 export interface ContainerServiceHealthCheckConfig {
-  healthyThreshold?: number;
-  unhealthyThreshold?: number;
-  timeoutSeconds?: number;
-  intervalSeconds?: number;
-  path?: string;
-  successCodes?: string;
+  healthyThreshold?: number | undefined;
+  unhealthyThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
+  intervalSeconds?: number | undefined;
+  path?: string | undefined;
+  successCodes?: string | undefined;
 }
 export interface EndpointRequest {
   containerName: string;
   containerPort: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeploymentRequest {
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface ContainerServiceECRImagePullerRoleRequest {
-  isActive?: boolean;
+  isActive?: boolean | undefined;
 }
 export interface PrivateRegistryAccessRequest {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest | undefined;
 }
 export interface CreateContainerServiceRequest {
   serviceName: string;
   power: ContainerServicePowerName;
   scale: number;
-  tags?: Tag[];
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  deployment?: ContainerServiceDeploymentRequest;
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  tags?: Tag[] | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  deployment?: ContainerServiceDeploymentRequest | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export type ContainerServiceState =
   | "PENDING"
@@ -704,8 +718,8 @@ export type ContainerServiceStateDetailCode =
   | "UNKNOWN_ERROR"
   | (string & {});
 export interface ContainerServiceStateDetail {
-  code?: ContainerServiceStateDetailCode;
-  message?: string;
+  code?: ContainerServiceStateDetailCode | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceDeploymentState =
   | "ACTIVATING"
@@ -714,131 +728,132 @@ export type ContainerServiceDeploymentState =
   | "FAILED"
   | (string & {});
 export interface ContainerServiceEndpoint {
-  containerName?: string;
-  containerPort?: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  containerName?: string | undefined;
+  containerPort?: number | undefined;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeployment {
-  version?: number;
-  state?: ContainerServiceDeploymentState;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: ContainerServiceEndpoint;
-  createdAt?: Date;
+  version?: number | undefined;
+  state?: ContainerServiceDeploymentState | undefined;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: ContainerServiceEndpoint | undefined;
+  createdAt?: Date | undefined;
 }
 export interface ContainerServiceECRImagePullerRole {
-  isActive?: boolean;
-  principalArn?: string;
+  isActive?: boolean | undefined;
+  principalArn?: string | undefined;
 }
 export interface PrivateRegistryAccess {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRole;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRole | undefined;
 }
 export interface ContainerService {
-  containerServiceName?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  power?: ContainerServicePowerName;
-  powerId?: string;
-  state?: ContainerServiceState;
-  stateDetail?: ContainerServiceStateDetail;
-  scale?: number;
-  currentDeployment?: ContainerServiceDeployment;
-  nextDeployment?: ContainerServiceDeployment;
-  isDisabled?: boolean;
-  principalArn?: string;
-  privateDomainName?: string;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  url?: string;
-  privateRegistryAccess?: PrivateRegistryAccess;
+  containerServiceName?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  power?: ContainerServicePowerName | undefined;
+  powerId?: string | undefined;
+  state?: ContainerServiceState | undefined;
+  stateDetail?: ContainerServiceStateDetail | undefined;
+  scale?: number | undefined;
+  currentDeployment?: ContainerServiceDeployment | undefined;
+  nextDeployment?: ContainerServiceDeployment | undefined;
+  isDisabled?: boolean | undefined;
+  principalArn?: string | undefined;
+  privateDomainName?: string | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  url?: string | undefined;
+  privateRegistryAccess?: PrivateRegistryAccess | undefined;
 }
 export interface CreateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceDeploymentRequest {
   serviceName: string;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface CreateContainerServiceDeploymentResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceRegistryLoginRequest {}
+export type SensitiveString = string | redacted.Redacted<string>;
 export interface ContainerServiceRegistryLogin {
-  username?: string;
-  password?: string;
-  expiresAt?: Date;
-  registry?: string;
+  username?: string | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  expiresAt?: Date | undefined;
+  registry?: string | undefined;
 }
 export interface CreateContainerServiceRegistryLoginResult {
-  registryLogin?: ContainerServiceRegistryLogin;
+  registryLogin?: ContainerServiceRegistryLogin | undefined;
 }
 export type AddOnType = "AutoSnapshot" | "StopInstanceOnIdle" | (string & {});
 export type TimeOfDay = string;
 export interface AutoSnapshotAddOnRequest {
-  snapshotTimeOfDay?: string;
+  snapshotTimeOfDay?: string | undefined;
 }
 export interface StopInstanceOnIdleRequest {
-  threshold?: string;
-  duration?: string;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export interface AddOnRequest {
   addOnType: AddOnType;
-  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest;
-  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest;
+  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest | undefined;
+  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest | undefined;
 }
 export type AddOnRequestList = AddOnRequest[];
 export interface CreateDiskRequest {
   diskName: string;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
 }
 export interface CreateDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskFromSnapshotRequest {
   diskName: string;
-  diskSnapshotName?: string;
+  diskSnapshotName?: string | undefined;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  sourceDiskName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  sourceDiskName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateDiskFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskSnapshotRequest {
-  diskName?: string;
+  diskName?: string | undefined;
   diskSnapshotName: string;
-  instanceName?: string;
-  tags?: Tag[];
+  instanceName?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type OriginProtocolPolicyEnum = "http-only" | "https-only" | (string & {});
 export type OriginIpAddressTypeEnum = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export interface InputOrigin {
-  name?: string;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
+  name?: string | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
 }
 export type BehaviorEnum = "dont-cache" | "cache" | (string & {});
 export interface CacheBehavior {
-  behavior?: BehaviorEnum;
+  behavior?: BehaviorEnum | undefined;
 }
 export type ForwardValues = "none" | "allow-list" | "all" | (string & {});
 export interface CookieObject {
-  option?: ForwardValues;
-  cookiesAllowList?: string[];
+  option?: ForwardValues | undefined;
+  cookiesAllowList?: string[] | undefined;
 }
 export type HeaderEnum =
   | "Accept"
@@ -859,26 +874,26 @@ export type HeaderEnum =
   | (string & {});
 export type HeaderForwardList = HeaderEnum[];
 export interface HeaderObject {
-  option?: ForwardValues;
-  headersAllowList?: HeaderEnum[];
+  option?: ForwardValues | undefined;
+  headersAllowList?: HeaderEnum[] | undefined;
 }
 export interface QueryStringObject {
-  option?: boolean;
-  queryStringsAllowList?: string[];
+  option?: boolean | undefined;
+  queryStringsAllowList?: string[] | undefined;
 }
 export interface CacheSettings {
-  defaultTTL?: number;
-  minimumTTL?: number;
-  maximumTTL?: number;
-  allowedHTTPMethods?: string;
-  cachedHTTPMethods?: string;
-  forwardedCookies?: CookieObject;
-  forwardedHeaders?: HeaderObject;
-  forwardedQueryStrings?: QueryStringObject;
+  defaultTTL?: number | undefined;
+  minimumTTL?: number | undefined;
+  maximumTTL?: number | undefined;
+  allowedHTTPMethods?: string | undefined;
+  cachedHTTPMethods?: string | undefined;
+  forwardedCookies?: CookieObject | undefined;
+  forwardedHeaders?: HeaderObject | undefined;
+  forwardedQueryStrings?: QueryStringObject | undefined;
 }
 export interface CacheBehaviorPerPath {
-  path?: string;
-  behavior?: BehaviorEnum;
+  path?: string | undefined;
+  behavior?: BehaviorEnum | undefined;
 }
 export type CacheBehaviorList = CacheBehaviorPerPath[];
 export type IpAddressType = "dualstack" | "ipv4" | "ipv6" | (string & {});
@@ -889,126 +904,140 @@ export type ViewerMinimumTlsProtocolVersionEnum =
   | "TLSv1.2_2021"
   | (string & {});
 export interface DistributionCustomErrorResponse {
-  errorCode?: number;
-  responseCode?: string;
-  responsePagePath?: string;
-  errorCachingMinTTL?: number;
+  errorCode?: number | undefined;
+  responseCode?: string | undefined;
+  responsePagePath?: string | undefined;
+  errorCachingMinTTL?: number | undefined;
 }
 export type DistributionCustomErrorResponseList = DistributionCustomErrorResponse[];
 export type WafPayloadTypeEnum = "JSON" | "FORM_ENCODED" | (string & {});
 export type WafStatusCodeList = number[];
 export interface WafResponseInspection {
-  successCodes?: number[];
-  failureCodes?: number[];
+  successCodes?: number[] | undefined;
+  failureCodes?: number[] | undefined;
 }
 export interface WafAtpConfig {
-  loginPath?: string;
-  payloadType?: WafPayloadTypeEnum;
-  usernameField?: string;
-  passwordField?: string;
-  responseInspection?: WafResponseInspection;
+  loginPath?: string | undefined;
+  payloadType?: WafPayloadTypeEnum | undefined;
+  usernameField?: string | undefined;
+  passwordField?: string | undefined;
+  responseInspection?: WafResponseInspection | undefined;
 }
 export interface WafAcfpConfig {
-  payloadType?: WafPayloadTypeEnum;
-  creationPath?: string;
-  registrationPagePath?: string;
-  responseInspection?: WafResponseInspection;
+  payloadType?: WafPayloadTypeEnum | undefined;
+  creationPath?: string | undefined;
+  registrationPagePath?: string | undefined;
+  responseInspection?: WafResponseInspection | undefined;
 }
 export type WafInspectionLevelEnum = "COMMON" | "TARGETED" | (string & {});
 export interface WafBotControlConfig {
-  inspectionLevel?: WafInspectionLevelEnum;
+  inspectionLevel?: WafInspectionLevelEnum | undefined;
 }
 export interface WafRule {
   name: string;
-  atpConfig?: WafAtpConfig;
-  acfpConfig?: WafAcfpConfig;
-  botControlConfig?: WafBotControlConfig;
+  atpConfig?: WafAtpConfig | undefined;
+  acfpConfig?: WafAcfpConfig | undefined;
+  botControlConfig?: WafBotControlConfig | undefined;
 }
 export type WafRuleList = WafRule[];
 export interface CreateDistributionRequest {
   distributionName: string;
   origin: InputOrigin;
   defaultCacheBehavior: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
   bundleId: string;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  certificateName?: string;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
-  enableWaf?: boolean;
-  wafRules?: WafRule[];
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  certificateName?: string | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  enableWaf?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
+  subdomainName?: string | undefined;
 }
 export interface Origin {
-  name?: string;
-  resourceType?: ResourceType;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
-  isPrivateOriginAccessEnabled?: boolean;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
+  isPrivateOriginAccessEnabled?: boolean | undefined;
 }
 export interface WafConfig {
-  isWafEnabled?: boolean;
-  wafRules?: WafRule[];
+  isWafEnabled?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
+}
+export type LightsailDistributionSubdomainStateEnum =
+  | "Creating"
+  | "Attaching"
+  | "Attached"
+  | "Error"
+  | (string & {});
+export interface LightsailDistributionSubdomain {
+  name: string;
+  state: LightsailDistributionSubdomainStateEnum;
+  errorCode?: string | undefined;
+  errorDetails?: string | undefined;
 }
 export interface LightsailDistribution {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  alternativeDomainNames?: string[];
-  status?: string;
-  isEnabled?: boolean;
-  domainName?: string;
-  bundleId?: string;
-  certificateName?: string;
-  origin?: Origin;
-  originPublicDNS?: string;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  ableToUpdateBundle?: boolean;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  viewerMinimumTlsProtocolVersion?: string;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
-  waf?: WafConfig;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  alternativeDomainNames?: string[] | undefined;
+  status?: string | undefined;
+  isEnabled?: boolean | undefined;
+  domainName?: string | undefined;
+  bundleId?: string | undefined;
+  certificateName?: string | undefined;
+  origin?: Origin | undefined;
+  originPublicDNS?: string | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  viewerMinimumTlsProtocolVersion?: string | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  waf?: WafConfig | undefined;
+  subdomain?: LightsailDistributionSubdomain | undefined;
 }
 export interface CreateDistributionResult {
-  distribution?: LightsailDistribution;
-  operation?: Operation;
+  distribution?: LightsailDistribution | undefined;
+  operation?: Operation | undefined;
 }
 export interface CreateDomainRequest {
   domainName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type DomainEntryType = string;
 export type DomainEntryOptionsKeys = string;
 export type DomainEntryOptions = { [key: string]: string | undefined };
 export interface DomainEntry {
-  id?: string;
-  name?: string;
-  target?: string;
-  isAlias?: boolean;
-  type?: string;
-  options?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  target?: string | undefined;
+  isAlias?: boolean | undefined;
+  type?: string | undefined;
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface CreateDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CreateGUISessionAccessDetailsRequest {
   resourceName: string;
@@ -1025,157 +1054,194 @@ export type Status =
   | "failedStartingGUISession"
   | "failedStoppingGUISession"
   | (string & {});
-export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export interface Session {
-  name?: string;
-  url?: string | redacted.Redacted<string>;
-  isPrimary?: boolean;
+  name?: string | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type Sessions = Session[];
 export interface CreateGUISessionAccessDetailsResult {
-  resourceName?: string;
-  status?: Status;
-  percentageComplete?: number;
-  failureReason?: string;
-  sessions?: Session[];
+  resourceName?: string | undefined;
+  status?: Status | undefined;
+  percentageComplete?: number | undefined;
+  failureReason?: string | undefined;
+  sessions?: Session[] | undefined;
 }
 export interface CreateInstancesRequest {
   instanceNames: string[];
   availabilityZone: string;
-  customImageName?: string;
+  customImageName?: string | undefined;
   blueprintId: string;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
 }
 export interface CreateInstancesResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DiskMap {
-  originalDiskPath?: string;
-  newDiskName?: string;
+  originalDiskPath?: string | undefined;
+  newDiskName?: string | undefined;
 }
 export type DiskMapList = DiskMap[];
 export type AttachedDiskMap = { [key: string]: DiskMap[] | undefined };
 export interface CreateInstancesFromSnapshotRequest {
   instanceNames: string[];
-  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined };
+  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined } | undefined;
   availabilityZone: string;
-  instanceSnapshotName?: string;
+  instanceSnapshotName?: string | undefined;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
-  sourceInstanceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  sourceInstanceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateInstancesFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateInstanceSnapshotRequest {
   instanceSnapshotName: string;
   instanceName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateKeyPairRequest {
   keyPairName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type Base64 = string;
 export interface KeyPair {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  fingerprint?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  fingerprint?: string | undefined;
 }
+export type SensitiveBase64 = string | redacted.Redacted<string>;
 export interface CreateKeyPairResult {
-  keyPair?: KeyPair;
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  operation?: Operation;
+  keyPair?: KeyPair | undefined;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | redacted.Redacted<string> | undefined;
+  operation?: Operation | undefined;
 }
 export type DomainNameList = string[];
 export interface CreateLoadBalancerRequest {
   loadBalancerName: string;
   instancePort: number;
-  healthCheckPath?: string;
-  certificateName?: string;
-  certificateDomainName?: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
-  ipAddressType?: IpAddressType;
-  tlsPolicyName?: string;
+  healthCheckPath?: string | undefined;
+  certificateName?: string | undefined;
+  certificateDomainName?: string | undefined;
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface CreateLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
   certificateDomainName: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
-export type SensitiveString = string | redacted.Redacted<string>;
 export interface CreateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   relationalDatabaseBlueprintId: string;
   relationalDatabaseBundleId: string;
   masterDatabaseName: string;
   masterUsername: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  tags?: Tag[];
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
-  publiclyAccessible?: boolean;
-  relationalDatabaseSnapshotName?: string;
-  relationalDatabaseBundleId?: string;
-  sourceRelationalDatabaseName?: string;
-  restoreTime?: Date;
-  useLatestRestorableTime?: boolean;
-  tags?: Tag[];
+  availabilityZone?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  relationalDatabaseSnapshotName?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  sourceRelationalDatabaseName?: string | undefined;
+  restoreTime?: Date | undefined;
+  useLatestRestorableTime?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotRequest {
   relationalDatabaseName: string;
   relationalDatabaseSnapshotName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
+}
+export interface CreateSubdomainRequest {
+  subdomainName: string;
+  tags?: Tag[] | undefined;
+}
+export type SubdomainState =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "UNATTACHED"
+  | "ATTACHING"
+  | "ATTACHED"
+  | "DETACHING"
+  | "TRANSFERRING"
+  | "IMPLICIT"
+  | (string & {});
+export interface SubdomainAttachableResource {
+  arn?: string | undefined;
+  name?: string | undefined;
+  attachedAt?: Date | undefined;
+}
+export type SubdomainList = Subdomain[];
+export interface Subdomain {
+  subdomainName?: string | undefined;
+  arn?: string | undefined;
+  fqdn?: string | undefined;
+  depth?: number | undefined;
+  state?: SubdomainState | undefined;
+  attachedResource?: SubdomainAttachableResource | undefined;
+  attachingResource?: SubdomainAttachableResource | undefined;
+  location?: ResourceLocation | undefined;
+  createdAt?: Date | undefined;
+  parentFqdn?: string | undefined;
+  children?: Subdomain[] | undefined;
+  tags?: Tag[] | undefined;
+}
+export interface CreateSubdomainResult {
+  subdomain?: Subdomain | undefined;
+  operation?: Operation | undefined;
 }
 export interface DeleteAlarmRequest {
   alarmName: string;
 }
 export interface DeleteAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type AutoSnapshotDate = string;
 export interface DeleteAutoSnapshotRequest {
@@ -1183,33 +1249,33 @@ export interface DeleteAutoSnapshotRequest {
   date: string;
 }
 export interface DeleteAutoSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketRequest {
   bucketName: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketAccessKeyRequest {
   bucketName: string;
   accessKeyId: string;
 }
 export interface DeleteBucketAccessKeyResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteCertificateRequest {
   certificateName: string;
 }
 export interface DeleteCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContactMethodRequest {
   protocol: ContactProtocol;
 }
 export interface DeleteContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContainerImageRequest {
   serviceName: string;
@@ -1222,158 +1288,165 @@ export interface DeleteContainerServiceRequest {
 export interface DeleteContainerServiceResult {}
 export interface DeleteDiskRequest {
   diskName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export interface DeleteDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDistributionRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface DeleteDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainRequest {
   domainName: string;
 }
 export interface DeleteDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface DeleteDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteInstanceRequest {
   instanceName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export interface DeleteInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteKeyPairRequest {
   keyPairName: string;
-  expectedFingerprint?: string;
+  expectedFingerprint?: string | undefined;
 }
 export interface DeleteKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteKnownHostKeysRequest {
   instanceName: string;
 }
 export interface DeleteKnownHostKeysResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerRequest {
   loadBalancerName: string;
 }
 export interface DeleteLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  skipFinalSnapshot?: boolean;
-  finalRelationalDatabaseSnapshotName?: string;
+  skipFinalSnapshot?: boolean | undefined;
+  finalRelationalDatabaseSnapshotName?: string | undefined;
 }
 export interface DeleteRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface DeleteRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
+}
+export interface DeleteSubdomainRequest {
+  subdomainName: string;
+}
+export interface DeleteSubdomainResult {
+  subdomain?: Subdomain | undefined;
+  operation?: Operation | undefined;
 }
 export interface DetachCertificateFromDistributionRequest {
   distributionName: string;
 }
 export interface DetachCertificateFromDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DetachDiskRequest {
   diskName: string;
 }
 export interface DetachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachInstancesFromLoadBalancerRequest {
   loadBalancerName: string;
   instanceNames: string[];
 }
 export interface DetachInstancesFromLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachStaticIpRequest {
   staticIpName: string;
 }
 export interface DetachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DisableAddOnRequest {
   addOnType: AddOnType;
   resourceName: string;
 }
 export interface DisableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DownloadDefaultKeyPairRequest {}
 export interface DownloadDefaultKeyPairResult {
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  createdAt?: Date;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
 }
 export interface EnableAddOnRequest {
   resourceName: string;
   addOnRequest: AddOnRequest;
 }
 export interface EnableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ExportSnapshotRequest {
   sourceSnapshotName: string;
 }
 export interface ExportSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface GetActiveNamesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetActiveNamesResult {
-  activeNames?: string[];
-  nextPageToken?: string;
+  activeNames?: string[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAlarmsRequest {
-  alarmName?: string;
-  pageToken?: string;
-  monitoredResourceName?: string;
+  alarmName?: string | undefined;
+  pageToken?: string | undefined;
+  monitoredResourceName?: string | undefined;
 }
 export type ResourceArn = string;
 export interface MonitoredResourceInfo {
-  arn?: string;
-  name?: string;
-  resourceType?: ResourceType;
+  arn?: string | undefined;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type ComparisonOperator =
   | "GreaterThanOrEqualToThreshold"
@@ -1459,103 +1532,103 @@ export type MetricUnit =
 export type ContactProtocolsList = ContactProtocol[];
 export type NotificationTriggerList = AlarmState[];
 export interface Alarm {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  monitoredResourceInfo?: MonitoredResourceInfo;
-  comparisonOperator?: ComparisonOperator;
-  evaluationPeriods?: number;
-  period?: number;
-  threshold?: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  statistic?: MetricStatistic;
-  metricName?: MetricName;
-  state?: AlarmState;
-  unit?: MetricUnit;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  monitoredResourceInfo?: MonitoredResourceInfo | undefined;
+  comparisonOperator?: ComparisonOperator | undefined;
+  evaluationPeriods?: number | undefined;
+  period?: number | undefined;
+  threshold?: number | undefined;
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  statistic?: MetricStatistic | undefined;
+  metricName?: MetricName | undefined;
+  state?: AlarmState | undefined;
+  unit?: MetricUnit | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export type AlarmsList = Alarm[];
 export interface GetAlarmsResult {
-  alarms?: Alarm[];
-  nextPageToken?: string;
+  alarms?: Alarm[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAutoSnapshotsRequest {
   resourceName: string;
 }
 export type AutoSnapshotStatus = "Success" | "Failed" | "InProgress" | "NotFound" | (string & {});
 export interface AttachedDisk {
-  path?: string;
-  sizeInGb?: number;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
 }
 export type AttachedDiskList = AttachedDisk[];
 export interface AutoSnapshotDetails {
-  date?: string;
-  createdAt?: Date;
-  status?: AutoSnapshotStatus;
-  fromAttachedDisks?: AttachedDisk[];
+  date?: string | undefined;
+  createdAt?: Date | undefined;
+  status?: AutoSnapshotStatus | undefined;
+  fromAttachedDisks?: AttachedDisk[] | undefined;
 }
 export type AutoSnapshotDetailsList = AutoSnapshotDetails[];
 export interface GetAutoSnapshotsResult {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  autoSnapshots?: AutoSnapshotDetails[];
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  autoSnapshots?: AutoSnapshotDetails[] | undefined;
 }
 export type AppCategory = "LfR" | (string & {});
 export interface GetBlueprintsRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintType = "os" | "app" | (string & {});
 export type InstancePlatform = "LINUX_UNIX" | "WINDOWS" | (string & {});
 export interface Blueprint {
-  blueprintId?: string;
-  name?: string;
-  group?: string;
-  type?: BlueprintType;
-  description?: string;
-  isActive?: boolean;
-  minPower?: number;
-  version?: string;
-  versionCode?: string;
-  productUrl?: string;
-  licenseUrl?: string;
-  platform?: InstancePlatform;
-  appCategory?: AppCategory;
+  blueprintId?: string | undefined;
+  name?: string | undefined;
+  group?: string | undefined;
+  type?: BlueprintType | undefined;
+  description?: string | undefined;
+  isActive?: boolean | undefined;
+  minPower?: number | undefined;
+  version?: string | undefined;
+  versionCode?: string | undefined;
+  productUrl?: string | undefined;
+  licenseUrl?: string | undefined;
+  platform?: InstancePlatform | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintList = Blueprint[];
 export interface GetBlueprintsResult {
-  blueprints?: Blueprint[];
-  nextPageToken?: string;
+  blueprints?: Blueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetBucketAccessKeysRequest {
   bucketName: string;
 }
 export type AccessKeyList = AccessKey[];
 export interface GetBucketAccessKeysResult {
-  accessKeys?: AccessKey[];
+  accessKeys?: AccessKey[] | undefined;
 }
 export interface GetBucketBundlesRequest {
-  includeInactive?: boolean;
+  includeInactive?: boolean | undefined;
 }
 export interface BucketBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  storagePerMonthInGb?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  storagePerMonthInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type BucketBundleList = BucketBundle[];
 export interface GetBucketBundlesResult {
-  bundles?: BucketBundle[];
+  bundles?: BucketBundle[] | undefined;
 }
 export type BucketMetricName = "BucketSizeBytes" | "NumberOfObjects" | (string & {});
 export type MetricStatisticList = MetricStatistic[];
@@ -1569,24 +1642,24 @@ export interface GetBucketMetricDataRequest {
   unit: MetricUnit;
 }
 export interface MetricDatapoint {
-  average?: number;
-  maximum?: number;
-  minimum?: number;
-  sampleCount?: number;
-  sum?: number;
-  timestamp?: Date;
-  unit?: MetricUnit;
+  average?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
+  sampleCount?: number | undefined;
+  sum?: number | undefined;
+  timestamp?: Date | undefined;
+  unit?: MetricUnit | undefined;
 }
 export type MetricDatapointList = MetricDatapoint[];
 export interface GetBucketMetricDataResult {
-  metricName?: BucketMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: BucketMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetBucketsRequest {
-  bucketName?: string;
-  pageToken?: string;
-  includeConnectedResources?: boolean;
-  includeCors?: boolean;
+  bucketName?: string | undefined;
+  pageToken?: string | undefined;
+  includeConnectedResources?: boolean | undefined;
+  includeCors?: boolean | undefined;
 }
 export type BucketList = Bucket[];
 export type AccountLevelBpaSyncStatus =
@@ -1602,147 +1675,147 @@ export type BPAStatusMessage =
   | "Unknown"
   | (string & {});
 export interface AccountLevelBpaSync {
-  status?: AccountLevelBpaSyncStatus;
-  lastSyncedAt?: Date;
-  message?: BPAStatusMessage;
-  bpaImpactsLightsail?: boolean;
+  status?: AccountLevelBpaSyncStatus | undefined;
+  lastSyncedAt?: Date | undefined;
+  message?: BPAStatusMessage | undefined;
+  bpaImpactsLightsail?: boolean | undefined;
 }
 export interface GetBucketsResult {
-  buckets?: Bucket[];
-  nextPageToken?: string;
-  accountLevelBpaSync?: AccountLevelBpaSync;
+  buckets?: Bucket[] | undefined;
+  nextPageToken?: string | undefined;
+  accountLevelBpaSync?: AccountLevelBpaSync | undefined;
 }
 export interface GetBundlesRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type InstancePlatformList = InstancePlatform[];
 export type AppCategoryList = AppCategory[];
 export interface Bundle {
-  price?: number;
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  bundleId?: string;
-  instanceType?: string;
-  isActive?: boolean;
-  name?: string;
-  power?: number;
-  ramSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  supportedPlatforms?: InstancePlatform[];
-  supportedAppCategories?: AppCategory[];
-  publicIpv4AddressCount?: number;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  bundleId?: string | undefined;
+  instanceType?: string | undefined;
+  isActive?: boolean | undefined;
+  name?: string | undefined;
+  power?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  supportedPlatforms?: InstancePlatform[] | undefined;
+  supportedAppCategories?: AppCategory[] | undefined;
+  publicIpv4AddressCount?: number | undefined;
 }
 export type BundleList = Bundle[];
 export interface GetBundlesResult {
-  bundles?: Bundle[];
-  nextPageToken?: string;
+  bundles?: Bundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type CertificateStatusList = CertificateStatus[];
 export type IncludeCertificateDetails = boolean;
 export interface GetCertificatesRequest {
-  certificateStatuses?: CertificateStatus[];
-  includeCertificateDetails?: boolean;
-  certificateName?: string;
-  pageToken?: string;
+  certificateStatuses?: CertificateStatus[] | undefined;
+  includeCertificateDetails?: boolean | undefined;
+  certificateName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface GetCertificatesResult {
-  certificates?: CertificateSummary[];
-  nextPageToken?: string;
+  certificates?: CertificateSummary[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetCloudFormationStackRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RecordState = "Started" | "Succeeded" | "Failed" | (string & {});
 export type CloudFormationStackRecordSourceType = "ExportSnapshotRecord" | (string & {});
 export interface CloudFormationStackRecordSourceInfo {
-  resourceType?: CloudFormationStackRecordSourceType;
-  name?: string;
-  arn?: string;
+  resourceType?: CloudFormationStackRecordSourceType | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type CloudFormationStackRecordSourceInfoList = CloudFormationStackRecordSourceInfo[];
 export interface DestinationInfo {
-  id?: string;
-  service?: string;
+  id?: string | undefined;
+  service?: string | undefined;
 }
 export interface CloudFormationStackRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: CloudFormationStackRecordSourceInfo[];
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: CloudFormationStackRecordSourceInfo[] | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type CloudFormationStackRecordList = CloudFormationStackRecord[];
 export interface GetCloudFormationStackRecordsResult {
-  cloudFormationStackRecords?: CloudFormationStackRecord[];
-  nextPageToken?: string;
+  cloudFormationStackRecords?: CloudFormationStackRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContactMethodsRequest {
-  protocols?: ContactProtocol[];
+  protocols?: ContactProtocol[] | undefined;
 }
 export type ContactMethodStatus = "PendingVerification" | "Valid" | "Invalid" | (string & {});
 export interface ContactMethod {
-  contactEndpoint?: string;
-  status?: ContactMethodStatus;
-  protocol?: ContactProtocol;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  tags?: Tag[];
+  contactEndpoint?: string | undefined;
+  status?: ContactMethodStatus | undefined;
+  protocol?: ContactProtocol | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ContactMethodsList = ContactMethod[];
 export interface GetContactMethodsResult {
-  contactMethods?: ContactMethod[];
+  contactMethods?: ContactMethod[] | undefined;
 }
 export interface GetContainerAPIMetadataRequest {}
 export type ContainerServiceMetadataEntry = { [key: string]: string | undefined };
 export type ContainerServiceMetadataEntryList = { [key: string]: string | undefined }[];
 export interface GetContainerAPIMetadataResult {
-  metadata?: { [key: string]: string | undefined }[];
+  metadata?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface GetContainerImagesRequest {
   serviceName: string;
 }
 export interface ContainerImage {
-  image?: string;
-  digest?: string;
-  createdAt?: Date;
+  image?: string | undefined;
+  digest?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type ContainerImageList = ContainerImage[];
 export interface GetContainerImagesResult {
-  containerImages?: ContainerImage[];
+  containerImages?: ContainerImage[] | undefined;
 }
 export interface GetContainerLogRequest {
   serviceName: string;
   containerName: string;
-  startTime?: Date;
-  endTime?: Date;
-  filterPattern?: string;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  filterPattern?: string | undefined;
+  pageToken?: string | undefined;
 }
 export interface ContainerServiceLogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceLogEventList = ContainerServiceLogEvent[];
 export interface GetContainerLogResult {
-  logEvents?: ContainerServiceLogEvent[];
-  nextPageToken?: string;
+  logEvents?: ContainerServiceLogEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContainerServiceDeploymentsRequest {
   serviceName: string;
 }
 export type ContainerServiceDeploymentList = ContainerServiceDeployment[];
 export interface GetContainerServiceDeploymentsResult {
-  deployments?: ContainerServiceDeployment[];
+  deployments?: ContainerServiceDeployment[] | undefined;
 }
 export type ContainerServiceMetricName = "CPUUtilization" | "MemoryUtilization" | (string & {});
 export interface GetContainerServiceMetricDataRequest {
@@ -1754,28 +1827,28 @@ export interface GetContainerServiceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetContainerServiceMetricDataResult {
-  metricName?: ContainerServiceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: ContainerServiceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetContainerServicePowersRequest {}
 export interface ContainerServicePower {
-  powerId?: string;
-  price?: number;
-  cpuCount?: number;
-  ramSizeInGb?: number;
-  name?: string;
-  isActive?: boolean;
+  powerId?: string | undefined;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
 }
 export type ContainerServicePowerList = ContainerServicePower[];
 export interface GetContainerServicePowersResult {
-  powers?: ContainerServicePower[];
+  powers?: ContainerServicePower[] | undefined;
 }
 export interface GetContainerServicesRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export type ContainerServiceList = ContainerService[];
 export interface ContainerServicesListResult {
-  containerServices?: ContainerService[];
+  containerServices?: ContainerService[] | undefined;
 }
 export interface GetCostEstimateRequest {
   resourceName: string;
@@ -1785,128 +1858,128 @@ export interface GetCostEstimateRequest {
 export type PricingUnit = "GB" | "Hrs" | "GB-Mo" | "Bundles" | "Queries" | (string & {});
 export type Currency = "USD" | (string & {});
 export interface TimePeriod {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export interface EstimateByTime {
-  usageCost?: number;
-  pricingUnit?: PricingUnit;
-  unit?: number;
-  currency?: Currency;
-  timePeriod?: TimePeriod;
+  usageCost?: number | undefined;
+  pricingUnit?: PricingUnit | undefined;
+  unit?: number | undefined;
+  currency?: Currency | undefined;
+  timePeriod?: TimePeriod | undefined;
 }
 export type EstimatesByTime = EstimateByTime[];
 export interface CostEstimate {
-  usageType?: string;
-  resultsByTime?: EstimateByTime[];
+  usageType?: string | undefined;
+  resultsByTime?: EstimateByTime[] | undefined;
 }
 export type CostEstimates = CostEstimate[];
 export interface ResourceBudgetEstimate {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  costEstimates?: CostEstimate[];
-  startTime?: Date;
-  endTime?: Date;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  costEstimates?: CostEstimate[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type ResourcesBudgetEstimate = ResourceBudgetEstimate[];
 export interface GetCostEstimateResult {
-  resourcesBudgetEstimate?: ResourceBudgetEstimate[];
+  resourcesBudgetEstimate?: ResourceBudgetEstimate[] | undefined;
 }
 export interface GetDiskRequest {
   diskName: string;
 }
 export interface AddOn {
-  name?: string;
-  status?: string;
-  snapshotTimeOfDay?: string;
-  nextSnapshotTimeOfDay?: string;
-  threshold?: string;
-  duration?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  snapshotTimeOfDay?: string | undefined;
+  nextSnapshotTimeOfDay?: string | undefined;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export type AddOnList = AddOn[];
 export type DiskState = "pending" | "error" | "available" | "in-use" | "unknown" | (string & {});
 export type AutoMountStatus = "Failed" | "Pending" | "Mounted" | "NotMounted" | (string & {});
 export interface Disk {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  addOns?: AddOn[];
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
-  iops?: number;
-  path?: string;
-  state?: DiskState;
-  attachedTo?: string;
-  isAttached?: boolean;
-  attachmentState?: string;
-  gbInUse?: number;
-  autoMountStatus?: AutoMountStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOn[] | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
+  iops?: number | undefined;
+  path?: string | undefined;
+  state?: DiskState | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
+  attachmentState?: string | undefined;
+  gbInUse?: number | undefined;
+  autoMountStatus?: AutoMountStatus | undefined;
 }
 export interface GetDiskResult {
-  disk?: Disk;
+  disk?: Disk | undefined;
 }
 export interface GetDisksRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskList = Disk[];
 export interface GetDisksResult {
-  disks?: Disk[];
-  nextPageToken?: string;
+  disks?: Disk[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export type DiskSnapshotState = "pending" | "completed" | "error" | "unknown" | (string & {});
 export interface DiskSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  sizeInGb?: number;
-  state?: DiskSnapshotState;
-  progress?: string;
-  fromDiskName?: string;
-  fromDiskArn?: string;
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  isFromAutoSnapshot?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  sizeInGb?: number | undefined;
+  state?: DiskSnapshotState | undefined;
+  progress?: string | undefined;
+  fromDiskName?: string | undefined;
+  fromDiskArn?: string | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
 }
 export interface GetDiskSnapshotResult {
-  diskSnapshot?: DiskSnapshot;
+  diskSnapshot?: DiskSnapshot | undefined;
 }
 export interface GetDiskSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskSnapshotList = DiskSnapshot[];
 export interface GetDiskSnapshotsResult {
-  diskSnapshots?: DiskSnapshot[];
-  nextPageToken?: string;
+  diskSnapshots?: DiskSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDistributionBundlesRequest {}
 export interface DistributionBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type DistributionBundleList = DistributionBundle[];
 export interface GetDistributionBundlesResult {
-  bundles?: DistributionBundle[];
+  bundles?: DistributionBundle[] | undefined;
 }
 export interface GetDistributionLatestCacheResetRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface GetDistributionLatestCacheResetResult {
-  status?: string;
-  createTime?: Date;
+  status?: string | undefined;
+  createTime?: Date | undefined;
 }
 export type DistributionMetricName =
   | "Requests"
@@ -1928,17 +2001,17 @@ export interface GetDistributionMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetDistributionMetricDataResult {
-  metricName?: DistributionMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: DistributionMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetDistributionsRequest {
-  distributionName?: string;
-  pageToken?: string;
+  distributionName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type DistributionList = LightsailDistribution[];
 export interface GetDistributionsResult {
-  distributions?: LightsailDistribution[];
-  nextPageToken?: string;
+  distributions?: LightsailDistribution[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDomainRequest {
   domainName: string;
@@ -1951,8 +2024,8 @@ export type NameServersUpdateStateCode =
   | "STARTED"
   | (string & {});
 export interface NameServersUpdateState {
-  code?: NameServersUpdateStateCode;
-  message?: string;
+  code?: NameServersUpdateStateCode | undefined;
+  message?: string | undefined;
 }
 export type R53HostedZoneDeletionStateCode =
   | "SUCCEEDED"
@@ -1961,127 +2034,127 @@ export type R53HostedZoneDeletionStateCode =
   | "STARTED"
   | (string & {});
 export interface R53HostedZoneDeletionState {
-  code?: R53HostedZoneDeletionStateCode;
-  message?: string;
+  code?: R53HostedZoneDeletionStateCode | undefined;
+  message?: string | undefined;
 }
 export interface RegisteredDomainDelegationInfo {
-  nameServersUpdateState?: NameServersUpdateState;
-  r53HostedZoneDeletionState?: R53HostedZoneDeletionState;
+  nameServersUpdateState?: NameServersUpdateState | undefined;
+  r53HostedZoneDeletionState?: R53HostedZoneDeletionState | undefined;
 }
 export interface Domain {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  domainEntries?: DomainEntry[];
-  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  domainEntries?: DomainEntry[] | undefined;
+  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo | undefined;
 }
 export interface GetDomainResult {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export interface GetDomainsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DomainList = Domain[];
 export interface GetDomainsResult {
-  domains?: Domain[];
-  nextPageToken?: string;
+  domains?: Domain[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetExportSnapshotRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ExportSnapshotRecordSourceType = "InstanceSnapshot" | "DiskSnapshot" | (string & {});
 export interface DiskInfo {
-  name?: string;
-  path?: string;
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
+  name?: string | undefined;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
 }
 export type DiskInfoList = DiskInfo[];
 export interface InstanceSnapshotInfo {
-  fromBundleId?: string;
-  fromBlueprintId?: string;
-  fromDiskInfo?: DiskInfo[];
+  fromBundleId?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromDiskInfo?: DiskInfo[] | undefined;
 }
 export interface DiskSnapshotInfo {
-  sizeInGb?: number;
+  sizeInGb?: number | undefined;
 }
 export interface ExportSnapshotRecordSourceInfo {
-  resourceType?: ExportSnapshotRecordSourceType;
-  createdAt?: Date;
-  name?: string;
-  arn?: string;
-  fromResourceName?: string;
-  fromResourceArn?: string;
-  instanceSnapshotInfo?: InstanceSnapshotInfo;
-  diskSnapshotInfo?: DiskSnapshotInfo;
+  resourceType?: ExportSnapshotRecordSourceType | undefined;
+  createdAt?: Date | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  fromResourceName?: string | undefined;
+  fromResourceArn?: string | undefined;
+  instanceSnapshotInfo?: InstanceSnapshotInfo | undefined;
+  diskSnapshotInfo?: DiskSnapshotInfo | undefined;
 }
 export interface ExportSnapshotRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: ExportSnapshotRecordSourceInfo;
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: ExportSnapshotRecordSourceInfo | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type ExportSnapshotRecordList = ExportSnapshotRecord[];
 export interface GetExportSnapshotRecordsResult {
-  exportSnapshotRecords?: ExportSnapshotRecord[];
-  nextPageToken?: string;
+  exportSnapshotRecords?: ExportSnapshotRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceRequest {
   instanceName: string;
-  includeHealthStatus?: boolean;
+  includeHealthStatus?: boolean | undefined;
 }
 export type IpAddress = string;
 export type Ipv6Address = string;
 export type Ipv6AddressList = string[];
 export interface InstanceHardware {
-  cpuCount?: number;
-  disks?: Disk[];
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  disks?: Disk[] | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface MonthlyTransfer {
-  gbPerMonthAllocated?: number;
+  gbPerMonthAllocated?: number | undefined;
 }
 export type PortAccessType = "Public" | "Private" | (string & {});
 export type AccessDirection = "inbound" | "outbound" | (string & {});
 export interface InstancePortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  accessFrom?: string;
-  accessType?: PortAccessType;
-  commonName?: string;
-  accessDirection?: AccessDirection;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  accessFrom?: string | undefined;
+  accessType?: PortAccessType | undefined;
+  commonName?: string | undefined;
+  accessDirection?: AccessDirection | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortInfoList = InstancePortInfo[];
 export interface InstanceNetworking {
-  monthlyTransfer?: MonthlyTransfer;
-  ports?: InstancePortInfo[];
+  monthlyTransfer?: MonthlyTransfer | undefined;
+  ports?: InstancePortInfo[] | undefined;
 }
 export interface InstanceState {
-  code?: number;
-  name?: string;
+  code?: number | undefined;
+  name?: string | undefined;
 }
 export type InstanceMetadataState = "pending" | "applied" | (string & {});
 export type HttpTokens = "optional" | "required" | (string & {});
 export type HttpEndpoint = "disabled" | "enabled" | (string & {});
 export type HttpProtocolIpv6 = "disabled" | "enabled" | (string & {});
 export interface InstanceMetadataOptions {
-  state?: InstanceMetadataState;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  state?: InstanceMetadataState | undefined;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
 }
 export type InstanceHealthStatusValue =
   | "ok"
@@ -2098,78 +2171,78 @@ export type InstanceHealthStatusDetailValue =
   | "initializing"
   | (string & {});
 export interface InstanceHealthStatusDetail {
-  name?: InstanceHealthStatusDetailName;
-  status?: InstanceHealthStatusDetailValue;
-  impairedSince?: Date;
+  name?: InstanceHealthStatusDetailName | undefined;
+  status?: InstanceHealthStatusDetailValue | undefined;
+  impairedSince?: Date | undefined;
 }
 export type InstanceHealthStatusDetailList = InstanceHealthStatusDetail[];
 export interface InstanceHealthStatus {
-  status?: InstanceHealthStatusValue;
-  details?: InstanceHealthStatusDetail[];
+  status?: InstanceHealthStatusValue | undefined;
+  details?: InstanceHealthStatusDetail[] | undefined;
 }
 export interface Instance {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  blueprintId?: string;
-  blueprintName?: string;
-  bundleId?: string;
-  addOns?: AddOn[];
-  isStaticIp?: boolean;
-  privateIpAddress?: string;
-  publicIpAddress?: string;
-  ipv6Addresses?: string[];
-  ipAddressType?: IpAddressType;
-  hardware?: InstanceHardware;
-  networking?: InstanceNetworking;
-  state?: InstanceState;
-  username?: string;
-  sshKeyName?: string;
-  metadataOptions?: InstanceMetadataOptions;
-  instanceStatus?: InstanceHealthStatus;
-  systemStatus?: InstanceHealthStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  blueprintId?: string | undefined;
+  blueprintName?: string | undefined;
+  bundleId?: string | undefined;
+  addOns?: AddOn[] | undefined;
+  isStaticIp?: boolean | undefined;
+  privateIpAddress?: string | undefined;
+  publicIpAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  hardware?: InstanceHardware | undefined;
+  networking?: InstanceNetworking | undefined;
+  state?: InstanceState | undefined;
+  username?: string | undefined;
+  sshKeyName?: string | undefined;
+  metadataOptions?: InstanceMetadataOptions | undefined;
+  instanceStatus?: InstanceHealthStatus | undefined;
+  systemStatus?: InstanceHealthStatus | undefined;
 }
 export interface GetInstanceResult {
-  instance?: Instance;
+  instance?: Instance | undefined;
 }
 export type InstanceAccessProtocol = "ssh" | "rdp" | (string & {});
 export interface GetInstanceAccessDetailsRequest {
   instanceName: string;
-  protocol?: InstanceAccessProtocol;
+  protocol?: InstanceAccessProtocol | undefined;
 }
 export interface PasswordData {
-  ciphertext?: string;
-  keyPairName?: string;
+  ciphertext?: string | redacted.Redacted<string> | undefined;
+  keyPairName?: string | undefined;
 }
 export interface HostKeyAttributes {
-  algorithm?: string;
-  publicKey?: string;
-  witnessedAt?: Date;
-  fingerprintSHA1?: string;
-  fingerprintSHA256?: string;
-  notValidBefore?: Date;
-  notValidAfter?: Date;
+  algorithm?: string | undefined;
+  publicKey?: string | undefined;
+  witnessedAt?: Date | undefined;
+  fingerprintSHA1?: string | undefined;
+  fingerprintSHA256?: string | undefined;
+  notValidBefore?: Date | undefined;
+  notValidAfter?: Date | undefined;
 }
 export type HostKeysList = HostKeyAttributes[];
 export interface InstanceAccessDetails {
-  certKey?: string;
-  expiresAt?: Date;
-  ipAddress?: string;
-  ipv6Addresses?: string[];
-  password?: string;
-  passwordData?: PasswordData;
-  privateKey?: string;
-  protocol?: InstanceAccessProtocol;
-  instanceName?: string;
-  username?: string;
-  hostKeys?: HostKeyAttributes[];
+  certKey?: string | undefined;
+  expiresAt?: Date | undefined;
+  ipAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  passwordData?: PasswordData | undefined;
+  privateKey?: string | redacted.Redacted<string> | undefined;
+  protocol?: InstanceAccessProtocol | undefined;
+  instanceName?: string | undefined;
+  username?: string | undefined;
+  hostKeys?: HostKeyAttributes[] | undefined;
 }
 export interface GetInstanceAccessDetailsResult {
-  accessDetails?: InstanceAccessDetails;
+  accessDetails?: InstanceAccessDetails | undefined;
 }
 export type InstanceMetricName =
   | "CPUUtilization"
@@ -2199,88 +2272,88 @@ export interface GetInstanceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetInstanceMetricDataResult {
-  metricName?: InstanceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: InstanceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetInstancePortStatesRequest {
   instanceName: string;
 }
 export type PortState = "open" | "closed" | (string & {});
 export interface InstancePortState {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  state?: PortState;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  state?: PortState | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortStateList = InstancePortState[];
 export interface GetInstancePortStatesResult {
-  portStates?: InstancePortState[];
+  portStates?: InstancePortState[] | undefined;
 }
 export interface GetInstancesRequest {
-  pageToken?: string;
-  includeHealthStatus?: boolean;
+  pageToken?: string | undefined;
+  includeHealthStatus?: boolean | undefined;
 }
 export type InstanceList = Instance[];
 export interface GetInstancesResult {
-  instances?: Instance[];
-  nextPageToken?: string;
+  instances?: Instance[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export type InstanceSnapshotState = "pending" | "error" | "available" | (string & {});
 export interface InstanceSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  state?: InstanceSnapshotState;
-  progress?: string;
-  fromAttachedDisks?: Disk[];
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  fromBlueprintId?: string;
-  fromBundleId?: string;
-  isFromAutoSnapshot?: boolean;
-  sizeInGb?: number;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  state?: InstanceSnapshotState | undefined;
+  progress?: string | undefined;
+  fromAttachedDisks?: Disk[] | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromBundleId?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
+  sizeInGb?: number | undefined;
 }
 export interface GetInstanceSnapshotResult {
-  instanceSnapshot?: InstanceSnapshot;
+  instanceSnapshot?: InstanceSnapshot | undefined;
 }
 export interface GetInstanceSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceSnapshotList = InstanceSnapshot[];
 export interface GetInstanceSnapshotsResult {
-  instanceSnapshots?: InstanceSnapshot[];
-  nextPageToken?: string;
+  instanceSnapshots?: InstanceSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceStateRequest {
   instanceName: string;
 }
 export interface GetInstanceStateResult {
-  state?: InstanceState;
+  state?: InstanceState | undefined;
 }
 export interface GetKeyPairRequest {
   keyPairName: string;
 }
 export interface GetKeyPairResult {
-  keyPair?: KeyPair;
+  keyPair?: KeyPair | undefined;
 }
 export interface GetKeyPairsRequest {
-  pageToken?: string;
-  includeDefaultKeyPair?: boolean;
+  pageToken?: string | undefined;
+  includeDefaultKeyPair?: boolean | undefined;
 }
 export type KeyPairList = KeyPair[];
 export interface GetKeyPairsResult {
-  keyPairs?: KeyPair[];
-  nextPageToken?: string;
+  keyPairs?: KeyPair[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerRequest {
   loadBalancerName: string;
@@ -2316,14 +2389,14 @@ export type InstanceHealthReason =
   | "Instance.IpUnusable"
   | (string & {});
 export interface InstanceHealthSummary {
-  instanceName?: string;
-  instanceHealth?: InstanceHealthState;
-  instanceHealthReason?: InstanceHealthReason;
+  instanceName?: string | undefined;
+  instanceHealth?: InstanceHealthState | undefined;
+  instanceHealthReason?: InstanceHealthReason | undefined;
 }
 export type InstanceHealthSummaryList = InstanceHealthSummary[];
 export interface LoadBalancerTlsCertificateSummary {
-  name?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export type LoadBalancerTlsCertificateSummaryList = LoadBalancerTlsCertificateSummary[];
 export type LoadBalancerAttributeName =
@@ -2333,30 +2406,32 @@ export type LoadBalancerAttributeName =
   | "HttpsRedirectionEnabled"
   | "TlsPolicyName"
   | (string & {});
-export type LoadBalancerConfigurationOptions = { [key in LoadBalancerAttributeName]?: string };
+export type LoadBalancerConfigurationOptions = {
+  [key in LoadBalancerAttributeName]?: string | undefined;
+};
 export interface LoadBalancer {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  dnsName?: string;
-  state?: LoadBalancerState;
-  protocol?: LoadBalancerProtocol;
-  publicPorts?: number[];
-  healthCheckPath?: string;
-  instancePort?: number;
-  instanceHealthSummary?: InstanceHealthSummary[];
-  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[];
-  configurationOptions?: { [key: string]: string | undefined };
-  ipAddressType?: IpAddressType;
-  httpsRedirectionEnabled?: boolean;
-  tlsPolicyName?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  dnsName?: string | undefined;
+  state?: LoadBalancerState | undefined;
+  protocol?: LoadBalancerProtocol | undefined;
+  publicPorts?: number[] | undefined;
+  healthCheckPath?: string | undefined;
+  instancePort?: number | undefined;
+  instanceHealthSummary?: InstanceHealthSummary[] | undefined;
+  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[] | undefined;
+  configurationOptions?: { [key: string]: string | undefined } | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  httpsRedirectionEnabled?: boolean | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface GetLoadBalancerResult {
-  loadBalancer?: LoadBalancer;
+  loadBalancer?: LoadBalancer | undefined;
 }
 export type LoadBalancerMetricName =
   | "ClientTLSNegotiationErrorCount"
@@ -2382,16 +2457,16 @@ export interface GetLoadBalancerMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetLoadBalancerMetricDataResult {
-  metricName?: LoadBalancerMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: LoadBalancerMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetLoadBalancersRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LoadBalancerList = LoadBalancer[];
 export interface GetLoadBalancersResult {
-  loadBalancers?: LoadBalancer[];
-  nextPageToken?: string;
+  loadBalancers?: LoadBalancer[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerTlsCertificatesRequest {
   loadBalancerName: string;
@@ -2417,16 +2492,16 @@ export type LoadBalancerTlsCertificateDnsRecordCreationStateCode =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDnsRecordCreationState {
-  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode;
-  message?: string;
+  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export interface LoadBalancerTlsCertificateDomainValidationRecord {
-  name?: string;
-  type?: string;
-  value?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
-  domainName?: string;
-  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
+  domainName?: string | undefined;
+  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationRecordList =
   LoadBalancerTlsCertificateDomainValidationRecord[];
@@ -2444,14 +2519,14 @@ export type LoadBalancerTlsCertificateRenewalStatus =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDomainValidationOption {
-  domainName?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
+  domainName?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationOptionList =
   LoadBalancerTlsCertificateDomainValidationOption[];
 export interface LoadBalancerTlsCertificateRenewalSummary {
-  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus;
-  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[];
+  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus | undefined;
+  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[] | undefined;
 }
 export type LoadBalancerTlsCertificateRevocationReason =
   | "UNSPECIFIED"
@@ -2466,72 +2541,72 @@ export type LoadBalancerTlsCertificateRevocationReason =
   | "A_A_COMPROMISE"
   | (string & {});
 export interface LoadBalancerTlsCertificate {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  loadBalancerName?: string;
-  isAttached?: boolean;
-  status?: LoadBalancerTlsCertificateStatus;
-  domainName?: string;
-  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[];
-  failureReason?: LoadBalancerTlsCertificateFailureReason;
-  issuedAt?: Date;
-  issuer?: string;
-  keyAlgorithm?: string;
-  notAfter?: Date;
-  notBefore?: Date;
-  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary;
-  revocationReason?: LoadBalancerTlsCertificateRevocationReason;
-  revokedAt?: Date;
-  serial?: string;
-  signatureAlgorithm?: string;
-  subject?: string;
-  subjectAlternativeNames?: string[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  loadBalancerName?: string | undefined;
+  isAttached?: boolean | undefined;
+  status?: LoadBalancerTlsCertificateStatus | undefined;
+  domainName?: string | undefined;
+  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[] | undefined;
+  failureReason?: LoadBalancerTlsCertificateFailureReason | undefined;
+  issuedAt?: Date | undefined;
+  issuer?: string | undefined;
+  keyAlgorithm?: string | undefined;
+  notAfter?: Date | undefined;
+  notBefore?: Date | undefined;
+  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary | undefined;
+  revocationReason?: LoadBalancerTlsCertificateRevocationReason | undefined;
+  revokedAt?: Date | undefined;
+  serial?: string | undefined;
+  signatureAlgorithm?: string | undefined;
+  subject?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
 }
 export type LoadBalancerTlsCertificateList = LoadBalancerTlsCertificate[];
 export interface GetLoadBalancerTlsCertificatesResult {
-  tlsCertificates?: LoadBalancerTlsCertificate[];
+  tlsCertificates?: LoadBalancerTlsCertificate[] | undefined;
 }
 export interface GetLoadBalancerTlsPoliciesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface LoadBalancerTlsPolicy {
-  name?: string;
-  isDefault?: boolean;
-  description?: string;
-  protocols?: string[];
-  ciphers?: string[];
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  description?: string | undefined;
+  protocols?: string[] | undefined;
+  ciphers?: string[] | undefined;
 }
 export type LoadBalancerTlsPolicyList = LoadBalancerTlsPolicy[];
 export interface GetLoadBalancerTlsPoliciesResult {
-  tlsPolicies?: LoadBalancerTlsPolicy[];
-  nextPageToken?: string;
+  tlsPolicies?: LoadBalancerTlsPolicy[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationRequest {
   operationId: string;
 }
 export interface GetOperationResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface GetOperationsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsResult {
-  operations?: Operation[];
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationsForResourceRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsForResourceResult {
-  operations?: Operation[];
-  nextPageCount?: string;
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageCount?: string | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetProfileRequest {}
 export type ProfileType = "Lightsailor" | "LightsailPartner" | (string & {});
@@ -2539,174 +2614,174 @@ export type TierName = "Essential" | "Growth" | "Accelerate" | "Premier" | (stri
 export type PartnerStatus = "Active" | "Suspended" | (string & {});
 export interface PartnerInfo {
   enrolledAt: Date;
-  tierName?: TierName;
+  tierName?: TierName | undefined;
   status: PartnerStatus;
 }
 export interface GetProfileResult {
   profileType: ProfileType;
-  partner?: PartnerInfo;
+  partner?: PartnerInfo | undefined;
 }
 export interface GetRegionsRequest {
-  includeAvailabilityZones?: boolean;
-  includeRelationalDatabaseAvailabilityZones?: boolean;
+  includeAvailabilityZones?: boolean | undefined;
+  includeRelationalDatabaseAvailabilityZones?: boolean | undefined;
 }
 export interface AvailabilityZone {
-  zoneName?: string;
-  state?: string;
+  zoneName?: string | undefined;
+  state?: string | undefined;
 }
 export type AvailabilityZoneList = AvailabilityZone[];
 export interface Region {
-  continentCode?: string;
-  description?: string;
-  displayName?: string;
-  name?: RegionName;
-  availabilityZones?: AvailabilityZone[];
-  relationalDatabaseAvailabilityZones?: AvailabilityZone[];
+  continentCode?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  name?: RegionName | undefined;
+  availabilityZones?: AvailabilityZone[] | undefined;
+  relationalDatabaseAvailabilityZones?: AvailabilityZone[] | undefined;
 }
-const Region = /*@__PURE__*/ __L.at(__c177, 2) as any as S.Schema<Region>;
+const Region = /*@__PURE__*/ __L.at(__c184, 2) as any as S.Schema<Region>;
 export type RegionList = Region[];
 export interface GetRegionsResult {
-  regions?: Region[];
+  regions?: Region[] | undefined;
 }
 export interface GetRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RelationalDatabaseHardware {
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface PendingModifiedRelationalDatabaseValues {
-  masterUserPassword?: string;
-  engineVersion?: string;
-  backupRetentionEnabled?: boolean;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  engineVersion?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
 }
 export interface RelationalDatabaseEndpoint {
-  port?: number;
-  address?: string;
+  port?: number | undefined;
+  address?: string | undefined;
 }
 export interface PendingMaintenanceAction {
-  action?: string;
-  description?: string;
-  currentApplyDate?: Date;
+  action?: string | undefined;
+  description?: string | undefined;
+  currentApplyDate?: Date | undefined;
 }
 export type PendingMaintenanceActionList = PendingMaintenanceAction[];
 export interface RelationalDatabase {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  relationalDatabaseBlueprintId?: string;
-  relationalDatabaseBundleId?: string;
-  masterDatabaseName?: string;
-  hardware?: RelationalDatabaseHardware;
-  state?: string;
-  secondaryAvailabilityZone?: string;
-  backupRetentionEnabled?: boolean;
-  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues;
-  engine?: string;
-  engineVersion?: string;
-  latestRestorableTime?: Date;
-  masterUsername?: string;
-  parameterApplyStatus?: string;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  masterEndpoint?: RelationalDatabaseEndpoint;
-  pendingMaintenanceActions?: PendingMaintenanceAction[];
-  caCertificateIdentifier?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  masterDatabaseName?: string | undefined;
+  hardware?: RelationalDatabaseHardware | undefined;
+  state?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
+  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  latestRestorableTime?: Date | undefined;
+  masterUsername?: string | undefined;
+  parameterApplyStatus?: string | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  masterEndpoint?: RelationalDatabaseEndpoint | undefined;
+  pendingMaintenanceActions?: PendingMaintenanceAction[] | undefined;
+  caCertificateIdentifier?: string | undefined;
 }
 export interface GetRelationalDatabaseResult {
-  relationalDatabase?: RelationalDatabase;
+  relationalDatabase?: RelationalDatabase | undefined;
 }
 export interface GetRelationalDatabaseBlueprintsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseEngine = "mysql" | (string & {});
 export interface RelationalDatabaseBlueprint {
-  blueprintId?: string;
-  engine?: RelationalDatabaseEngine;
-  engineVersion?: string;
-  engineDescription?: string;
-  engineVersionDescription?: string;
-  isEngineDefault?: boolean;
+  blueprintId?: string | undefined;
+  engine?: RelationalDatabaseEngine | undefined;
+  engineVersion?: string | undefined;
+  engineDescription?: string | undefined;
+  engineVersionDescription?: string | undefined;
+  isEngineDefault?: boolean | undefined;
 }
 export type RelationalDatabaseBlueprintList = RelationalDatabaseBlueprint[];
 export interface GetRelationalDatabaseBlueprintsResult {
-  blueprints?: RelationalDatabaseBlueprint[];
-  nextPageToken?: string;
+  blueprints?: RelationalDatabaseBlueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseBundlesRequest {
-  pageToken?: string;
-  includeInactive?: boolean;
+  pageToken?: string | undefined;
+  includeInactive?: boolean | undefined;
 }
 export interface RelationalDatabaseBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  ramSizeInGb?: number;
-  diskSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  cpuCount?: number;
-  isEncrypted?: boolean;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  cpuCount?: number | undefined;
+  isEncrypted?: boolean | undefined;
+  isActive?: boolean | undefined;
 }
 export type RelationalDatabaseBundleList = RelationalDatabaseBundle[];
 export interface GetRelationalDatabaseBundlesResult {
-  bundles?: RelationalDatabaseBundle[];
-  nextPageToken?: string;
+  bundles?: RelationalDatabaseBundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseEventsRequest {
   relationalDatabaseName: string;
-  durationInMinutes?: number;
-  pageToken?: string;
+  durationInMinutes?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseEvent {
-  resource?: string;
-  createdAt?: Date;
-  message?: string;
-  eventCategories?: string[];
+  resource?: string | undefined;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
+  eventCategories?: string[] | undefined;
 }
 export type RelationalDatabaseEventList = RelationalDatabaseEvent[];
 export interface GetRelationalDatabaseEventsResult {
-  relationalDatabaseEvents?: RelationalDatabaseEvent[];
-  nextPageToken?: string;
+  relationalDatabaseEvents?: RelationalDatabaseEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogEventsRequest {
   relationalDatabaseName: string;
   logStreamName: string;
-  startTime?: Date;
-  endTime?: Date;
-  startFromHead?: boolean;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  startFromHead?: boolean | undefined;
+  pageToken?: string | undefined;
 }
 export interface LogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type LogEventList = LogEvent[];
 export interface GetRelationalDatabaseLogEventsResult {
-  resourceLogEvents?: LogEvent[];
-  nextBackwardToken?: string;
-  nextForwardToken?: string;
+  resourceLogEvents?: LogEvent[] | undefined;
+  nextBackwardToken?: string | undefined;
+  nextForwardToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogStreamsRequest {
   relationalDatabaseName: string;
 }
 export interface GetRelationalDatabaseLogStreamsResult {
-  logStreams?: string[];
+  logStreams?: string[] | undefined;
 }
 export type RelationalDatabasePasswordVersion = "CURRENT" | "PREVIOUS" | "PENDING" | (string & {});
 export interface GetRelationalDatabaseMasterUserPasswordRequest {
   relationalDatabaseName: string;
-  passwordVersion?: RelationalDatabasePasswordVersion;
+  passwordVersion?: RelationalDatabasePasswordVersion | undefined;
 }
 export interface GetRelationalDatabaseMasterUserPasswordResult {
-  masterUserPassword?: string | redacted.Redacted<string>;
-  createdAt?: Date;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
 }
 export type RelationalDatabaseMetricName =
   | "CPUUtilization"
@@ -2728,156 +2803,164 @@ export interface GetRelationalDatabaseMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetRelationalDatabaseMetricDataResult {
-  metricName?: RelationalDatabaseMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: RelationalDatabaseMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseParameter {
-  allowedValues?: string;
-  applyMethod?: string;
-  applyType?: string;
-  dataType?: string;
-  description?: string;
-  isModifiable?: boolean;
-  parameterName?: string;
-  parameterValue?: string;
+  allowedValues?: string | undefined;
+  applyMethod?: string | undefined;
+  applyType?: string | undefined;
+  dataType?: string | undefined;
+  description?: string | undefined;
+  isModifiable?: boolean | undefined;
+  parameterName?: string | undefined;
+  parameterValue?: string | undefined;
 }
 export type RelationalDatabaseParameterList = RelationalDatabaseParameter[];
 export interface GetRelationalDatabaseParametersResult {
-  parameters?: RelationalDatabaseParameter[];
-  nextPageToken?: string;
+  parameters?: RelationalDatabaseParameter[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabasesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseList = RelationalDatabase[];
 export interface GetRelationalDatabasesResult {
-  relationalDatabases?: RelationalDatabase[];
-  nextPageToken?: string;
+  relationalDatabases?: RelationalDatabase[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface RelationalDatabaseSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  engine?: string;
-  engineVersion?: string;
-  sizeInGb?: number;
-  state?: string;
-  fromRelationalDatabaseName?: string;
-  fromRelationalDatabaseArn?: string;
-  fromRelationalDatabaseBundleId?: string;
-  fromRelationalDatabaseBlueprintId?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  sizeInGb?: number | undefined;
+  state?: string | undefined;
+  fromRelationalDatabaseName?: string | undefined;
+  fromRelationalDatabaseArn?: string | undefined;
+  fromRelationalDatabaseBundleId?: string | undefined;
+  fromRelationalDatabaseBlueprintId?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotResult {
-  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot;
+  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot | undefined;
 }
 export interface GetRelationalDatabaseSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseSnapshotList = RelationalDatabaseSnapshot[];
 export interface GetRelationalDatabaseSnapshotsResult {
-  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[];
-  nextPageToken?: string;
+  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type SetupHistoryPageToken = string;
 export interface GetSetupHistoryRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SetupDomainName = string;
 export type SetupDomainNameList = string[];
 export type CertificateProvider = "LetsEncrypt" | (string & {});
 export interface SetupRequest {
-  instanceName?: string;
-  domainNames?: string[];
-  certificateProvider?: CertificateProvider;
+  instanceName?: string | undefined;
+  domainNames?: string[] | undefined;
+  certificateProvider?: CertificateProvider | undefined;
 }
 export interface SetupHistoryResource {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type SetupStatus = "succeeded" | "failed" | "inProgress" | (string & {});
 export interface SetupExecutionDetails {
-  command?: string;
-  dateTime?: Date;
-  name?: string;
-  status?: SetupStatus;
-  standardError?: string;
-  standardOutput?: string;
-  version?: string;
+  command?: string | undefined;
+  dateTime?: Date | undefined;
+  name?: string | undefined;
+  status?: SetupStatus | undefined;
+  standardError?: string | undefined;
+  standardOutput?: string | undefined;
+  version?: string | undefined;
 }
 export type SetupExecutionDetailsList = SetupExecutionDetails[];
 export interface SetupHistory {
-  operationId?: string;
-  request?: SetupRequest;
-  resource?: SetupHistoryResource;
-  executionDetails?: SetupExecutionDetails[];
-  status?: SetupStatus;
+  operationId?: string | undefined;
+  request?: SetupRequest | undefined;
+  resource?: SetupHistoryResource | undefined;
+  executionDetails?: SetupExecutionDetails[] | undefined;
+  status?: SetupStatus | undefined;
 }
 export type SetupHistoryList = SetupHistory[];
 export interface GetSetupHistoryResult {
-  setupHistory?: SetupHistory[];
-  nextPageToken?: string;
+  setupHistory?: SetupHistory[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetStaticIpRequest {
   staticIpName: string;
 }
 export interface StaticIp {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  ipAddress?: string;
-  attachedTo?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  ipAddress?: string | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export interface GetStaticIpResult {
-  staticIp?: StaticIp;
+  staticIp?: StaticIp | undefined;
 }
 export interface GetStaticIpsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StaticIpList = StaticIp[];
 export interface GetStaticIpsResult {
-  staticIps?: StaticIp[];
-  nextPageToken?: string;
+  staticIps?: StaticIp[] | undefined;
+  nextPageToken?: string | undefined;
+}
+export interface GetSubdomainsRequest {
+  subdomainName?: string | undefined;
+  pageToken?: string | undefined;
+}
+export interface GetSubdomainsResult {
+  subdomains?: Subdomain[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ImportKeyPairRequest {
   keyPairName: string;
   publicKeyBase64: string;
 }
 export interface ImportKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface IsVpcPeeredRequest {}
 export interface IsVpcPeeredResult {
-  isPeered?: boolean;
+  isPeered?: boolean | undefined;
 }
 export interface OpenInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface OpenInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PeerVpcRequest {}
 export interface PeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PutAlarmRequest {
   alarmName: string;
@@ -2886,15 +2969,15 @@ export interface PutAlarmRequest {
   comparisonOperator: ComparisonOperator;
   threshold: number;
   evaluationPeriods: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type PortInfoList = PortInfo[];
 export interface PutInstancePublicPortsRequest {
@@ -2902,19 +2985,19 @@ export interface PutInstancePublicPortsRequest {
   instanceName: string;
 }
 export interface PutInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface RebootInstanceRequest {
   instanceName: string;
 }
 export interface RebootInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface RebootRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RebootRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerLabel = string;
 export interface RegisterContainerImageRequest {
@@ -2923,37 +3006,37 @@ export interface RegisterContainerImageRequest {
   digest: string;
 }
 export interface RegisterContainerImageResult {
-  containerImage?: ContainerImage;
+  containerImage?: ContainerImage | undefined;
 }
 export interface ReleaseStaticIpRequest {
   staticIpName: string;
 }
 export interface ReleaseStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ResetDistributionCacheRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface ResetDistributionCacheResult {
-  status?: string;
-  createTime?: Date;
-  operation?: Operation;
+  status?: string | undefined;
+  createTime?: Date | undefined;
+  operation?: Operation | undefined;
 }
 export type ContactMethodVerificationProtocol = "Email" | (string & {});
 export interface SendContactMethodVerificationRequest {
   protocol: ContactMethodVerificationProtocol;
 }
 export interface SendContactMethodVerificationResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface SetIpAddressTypeRequest {
   resourceType: ResourceType;
   resourceName: string;
   ipAddressType: IpAddressType;
-  acceptBundleUpdate?: boolean;
+  acceptBundleUpdate?: boolean | undefined;
 }
 export interface SetIpAddressTypeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceBucketAccess = "allow" | "deny" | (string & {});
 export interface SetResourceAccessForBucketRequest {
@@ -2962,7 +3045,7 @@ export interface SetResourceAccessForBucketRequest {
   access: ResourceBucketAccess;
 }
 export interface SetResourceAccessForBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export interface SetupInstanceHttpsRequest {
@@ -2972,150 +3055,150 @@ export interface SetupInstanceHttpsRequest {
   certificateProvider: CertificateProvider;
 }
 export interface SetupInstanceHttpsResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartGUISessionRequest {
   resourceName: string;
 }
 export interface StartGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface InstanceAttributeUpdates {
-  bundleId?: string;
+  bundleId?: string | undefined;
 }
 export interface StartInstanceRequest {
   instanceName: string;
-  attributeUpdates?: InstanceAttributeUpdates;
+  attributeUpdates?: InstanceAttributeUpdates | undefined;
 }
 export interface StartInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface StartRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopGUISessionRequest {
   resourceName: string;
 }
 export interface StopGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopInstanceRequest {
   instanceName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  relationalDatabaseSnapshotName?: string;
+  relationalDatabaseSnapshotName?: string | undefined;
 }
 export interface StopRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tags: Tag[];
 }
 export interface TagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TestAlarmRequest {
   alarmName: string;
   state: AlarmState;
 }
 export interface TestAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UnpeerVpcRequest {}
 export interface UnpeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tagKeys: string[];
 }
 export interface UntagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketRequest {
   bucketName: string;
-  accessRules?: AccessRules;
-  versioning?: string;
-  readonlyAccessAccounts?: string[];
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  accessRules?: AccessRules | undefined;
+  versioning?: string | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface UpdateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketBundleRequest {
   bucketName: string;
   bundleId: string;
 }
 export interface UpdateBucketBundleResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateContainerServiceRequest {
   serviceName: string;
-  power?: ContainerServicePowerName;
-  scale?: number;
-  isDisabled?: boolean;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  power?: ContainerServicePowerName | undefined;
+  scale?: number | undefined;
+  isDisabled?: boolean | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export interface UpdateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface UpdateDistributionRequest {
   distributionName: string;
-  origin?: InputOrigin;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  isEnabled?: boolean;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  certificateName?: string;
-  useDefaultCertificate?: boolean;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
-  enableWaf?: boolean;
-  wafRules?: WafRule[];
+  origin?: InputOrigin | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  isEnabled?: boolean | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  certificateName?: string | undefined;
+  useDefaultCertificate?: boolean | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
+  enableWaf?: boolean | undefined;
+  wafRules?: WafRule[] | undefined;
 }
 export interface UpdateDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDistributionBundleRequest {
-  distributionName?: string;
-  bundleId?: string;
+  distributionName?: string | undefined;
+  bundleId?: string | undefined;
 }
 export interface UpdateDistributionBundleResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface UpdateDomainEntryResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateInstanceMetadataOptionsRequest {
   instanceName: string;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
 }
 export interface UpdateInstanceMetadataOptionsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateLoadBalancerAttributeRequest {
   loadBalancerName: string;
@@ -3123,30 +3206,40 @@ export interface UpdateLoadBalancerAttributeRequest {
   attributeValue: string;
 }
 export interface UpdateLoadBalancerAttributeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  rotateMasterUserPassword?: boolean;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  enableBackupRetention?: boolean;
-  disableBackupRetention?: boolean;
-  publiclyAccessible?: boolean;
-  applyImmediately?: boolean;
-  caCertificateIdentifier?: string;
-  relationalDatabaseBlueprintId?: string;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  rotateMasterUserPassword?: boolean | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  enableBackupRetention?: boolean | undefined;
+  disableBackupRetention?: boolean | undefined;
+  publiclyAccessible?: boolean | undefined;
+  applyImmediately?: boolean | undefined;
+  caCertificateIdentifier?: string | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
 }
 export interface UpdateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
   parameters: RelationalDatabaseParameter[];
 }
 export interface UpdateRelationalDatabaseParametersResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
+}
+export type SubdomainAssociationAction = "ASSOCIATE" | "DISASSOCIATE" | "TRANSFER" | (string & {});
+export interface UpdateSubdomainAssociationRequest {
+  subdomainName: string;
+  action: SubdomainAssociationAction;
+  targetResourceArn?: string | undefined;
+}
+export interface UpdateSubdomainAssociationResult {
+  subdomain?: Subdomain | undefined;
+  operation?: Operation | undefined;
 }
 export type AllocateStaticIpError =
   | AccessDeniedException
@@ -3167,8 +3260,8 @@ export const allocateStaticIp: API.OperationMethod<
   AllocateStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<AllocateStaticIpRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<AllocateStaticIpResult>,
+  input: __S(2896, __c181, 0) as any as S.Schema<AllocateStaticIpRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<AllocateStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3216,8 +3309,8 @@ export const attachCertificateToDistribution: API.OperationMethod<
   AttachCertificateToDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<AttachCertificateToDistributionRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<AttachCertificateToDistributionResult>,
+  input: __S(3200, __c200, 0) as any as S.Schema<AttachCertificateToDistributionRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<AttachCertificateToDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3258,7 +3351,7 @@ export const attachDisk: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AttachDiskRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<AttachDiskResult>,
+  output: __S(2928, __c183, 0) as any as S.Schema<AttachDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3302,8 +3395,8 @@ export const attachInstancesToLoadBalancer: API.OperationMethod<
   AttachInstancesToLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<AttachInstancesToLoadBalancerRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<AttachInstancesToLoadBalancerResult>,
+  input: __S(240, __c15, 0) as any as S.Schema<AttachInstancesToLoadBalancerRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<AttachInstancesToLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3350,8 +3443,8 @@ export const attachLoadBalancerTlsCertificate: API.OperationMethod<
   AttachLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>,
+  input: __S(448, __c28, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3389,7 +3482,7 @@ export const attachStaticIp: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<AttachStaticIpRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<AttachStaticIpResult>,
+  output: __S(2928, __c183, 0) as any as S.Schema<AttachStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3405,6 +3498,41 @@ export const attachStaticIp: API.OperationMethod<
   operationName: "AttachStaticIp",
   telemetry: TELEMETRY,
   span: "AttachStaticIp",
+}));
+
+export type CheckSubdomainAvailabilityError =
+  | AccessDeniedException
+  | InvalidInputException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
+/**
+ * Checks whether a Lightsail subdomain is available to create. Optionally, reserves the
+ * subdomain for your account for 15 minutes.
+ *
+ * If you don't reserve the subdomain, another account can create it before you do.
+ */
+export const checkSubdomainAvailability: API.OperationMethod<
+  CheckSubdomainAvailabilityRequest & RegionInput,
+  CheckSubdomainAvailabilityResult,
+  CheckSubdomainAvailabilityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(864, __c54, 0) as any as S.Schema<CheckSubdomainAvailabilityRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<CheckSubdomainAvailabilityResult>,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CheckSubdomainAvailability",
+  telemetry: TELEMETRY,
+  span: "CheckSubdomainAvailability",
 }));
 
 export type CloseInstancePublicPortsError =
@@ -3430,8 +3558,8 @@ export const closeInstancePublicPorts: API.OperationMethod<
   CloseInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CloseInstancePublicPortsRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<CloseInstancePublicPortsResult>,
+  input: __S(1040, __c65, 0) as any as S.Schema<CloseInstancePublicPortsRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<CloseInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3479,8 +3607,8 @@ export const copySnapshot: API.OperationMethod<
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CopySnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CopySnapshotResult>,
+  input: __S(1232, __c77, 0) as any as S.Schema<CopySnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CopySnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3519,8 +3647,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<CreateBucketResult>,
+  input: __S(1408, __c88, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<CreateBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3563,8 +3691,8 @@ export const createBucketAccessKey: API.OperationMethod<
   CreateBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<CreateBucketAccessKeyRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<CreateBucketAccessKeyResult>,
+  input: __S(1552, __c97, 0) as any as S.Schema<CreateBucketAccessKeyRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<CreateBucketAccessKeyResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3609,8 +3737,8 @@ export const createCertificate: API.OperationMethod<
   CreateCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateCertificateRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<CreateCertificateResult>,
+  input: __S(1584, __c99, 0) as any as S.Schema<CreateCertificateRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<CreateCertificateResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3651,8 +3779,8 @@ export const createCloudFormationStack: API.OperationMethod<
   CreateCloudFormationStackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1522, __c95, 2) as any as S.Schema<CreateCloudFormationStackRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateCloudFormationStackResult>,
+  input: __S(1634, __c102, 2) as any as S.Schema<CreateCloudFormationStackRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateCloudFormationStackResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3696,8 +3824,8 @@ export const createContactMethod: API.OperationMethod<
   CreateContactMethodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<CreateContactMethodRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateContactMethodResult>,
+  input: __S(1648, __c103, 0) as any as S.Schema<CreateContactMethodRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateContactMethodResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3735,8 +3863,8 @@ export const createContainerService: API.OperationMethod<
   CreateContainerServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1553, __c97, 1) as any as S.Schema<CreateContainerServiceRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<CreateContainerServiceResult>,
+  input: __S(1665, __c104, 1) as any as S.Schema<CreateContainerServiceRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<CreateContainerServiceResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3780,8 +3908,8 @@ export const createContainerServiceDeployment: API.OperationMethod<
   CreateContainerServiceDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<CreateContainerServiceDeploymentRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<CreateContainerServiceDeploymentResult>,
+  input: __S(1776, __c111, 0) as any as S.Schema<CreateContainerServiceDeploymentRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<CreateContainerServiceDeploymentResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3832,8 +3960,8 @@ export const createContainerServiceRegistryLogin: API.OperationMethod<
   CreateContainerServiceRegistryLoginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<CreateContainerServiceRegistryLoginRequest>,
-  output: __S(1682, __c105, 2) as any as S.Schema<CreateContainerServiceRegistryLoginResult>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CreateContainerServiceRegistryLoginRequest>,
+  output: __S(1794, __c112, 2) as any as S.Schema<CreateContainerServiceRegistryLoginResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3872,8 +4000,8 @@ export const createDisk: API.OperationMethod<
   CreateDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateDiskRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskResult>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CreateDiskRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3916,8 +4044,8 @@ export const createDiskFromSnapshot: API.OperationMethod<
   CreateDiskFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<CreateDiskFromSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskFromSnapshotResult>,
+  input: __S(1856, __c116, 0) as any as S.Schema<CreateDiskFromSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateDiskFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -3975,8 +4103,8 @@ export const createDiskSnapshot: API.OperationMethod<
   CreateDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<CreateDiskSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateDiskSnapshotResult>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateDiskSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4015,8 +4143,8 @@ export const createDistribution: API.OperationMethod<
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateDistributionRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<CreateDistributionResult>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateDistributionRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<CreateDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4054,8 +4182,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<CreateDomainResult>,
+  input: __S(1984, __c124, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<CreateDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4098,8 +4226,8 @@ export const createDomainEntry: API.OperationMethod<
   CreateDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<CreateDomainEntryRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<CreateDomainEntryResult>,
+  input: __S(2000, __c125, 0) as any as S.Schema<CreateDomainEntryRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<CreateDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4139,8 +4267,8 @@ export const createGUISessionAccessDetails: API.OperationMethod<
   CreateGUISessionAccessDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<CreateGUISessionAccessDetailsRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<CreateGUISessionAccessDetailsResult>,
+  input: __S(2032, __c127, 0) as any as S.Schema<CreateGUISessionAccessDetailsRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<CreateGUISessionAccessDetailsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4178,8 +4306,8 @@ export const createInstances: API.OperationMethod<
   CreateInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<CreateInstancesRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstancesResult>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateInstancesRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateInstancesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4221,8 +4349,8 @@ export const createInstancesFromSnapshot: API.OperationMethod<
   CreateInstancesFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1955, __c122, 3) as any as S.Schema<CreateInstancesFromSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstancesFromSnapshotResult>,
+  input: __S(2067, __c129, 3) as any as S.Schema<CreateInstancesFromSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateInstancesFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4263,8 +4391,8 @@ export const createInstanceSnapshot: API.OperationMethod<
   CreateInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<CreateInstanceSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateInstanceSnapshotResult>,
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateInstanceSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateInstanceSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4309,8 +4437,8 @@ export const createKeyPair: API.OperationMethod<
   CreateKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CreateKeyPairRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<CreateKeyPairResult>,
+  input: __S(2096, __c131, 0) as any as S.Schema<CreateKeyPairRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<CreateKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4356,8 +4484,8 @@ export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<CreateLoadBalancerRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateLoadBalancerResult>,
+  input: __S(2128, __c133, 0) as any as S.Schema<CreateLoadBalancerRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4400,8 +4528,8 @@ export const createLoadBalancerTlsCertificate: API.OperationMethod<
   CreateLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>,
+  input: __S(2144, __c134, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4441,8 +4569,8 @@ export const createRelationalDatabase: API.OperationMethod<
   CreateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<CreateRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseResult>,
+  input: __S(2160, __c135, 0) as any as S.Schema<CreateRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4487,8 +4615,8 @@ export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
   CreateRelationalDatabaseFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>,
+  input: __S(2176, __c136, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4529,8 +4657,8 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
   CreateRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>,
+  input: __S(2192, __c137, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4546,6 +4674,52 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
   operationName: "CreateRelationalDatabaseSnapshot",
   telemetry: TELEMETRY,
   span: "CreateRelationalDatabaseSnapshot",
+}));
+
+export type CreateSubdomainError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
+/**
+ * Creates a Lightsail subdomain, such as `mysite`, with the web address
+ * `mysite.amazonlightsail.com`. After the subdomain is created, use the
+ * `UpdateSubdomainAssociation` action to associate it with a Lightsail
+ * resource.
+ *
+ * When you create a nested subdomain, such as `blog.mysite`, and you don't
+ * already have the top-level subdomain (`mysite`), Lightsail adds the top-level
+ * subdomain to your account in the `IMPLICIT` state.
+ *
+ * You can have up to 30 subdomains in your account. Nested subdomains, subdomains in the
+ * `CREATE_FAILED` state, and deleted subdomains that other accounts can't create yet
+ * count toward this quota. Subdomains in the `IMPLICIT` state don't count toward this
+ * quota.
+ */
+export const createSubdomain: API.OperationMethod<
+  CreateSubdomainRequest & RegionInput,
+  CreateSubdomainResult,
+  CreateSubdomainError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2208, __c138, 0) as any as S.Schema<CreateSubdomainRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<CreateSubdomainResult>,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSubdomain",
+  telemetry: TELEMETRY,
+  span: "CreateSubdomain",
 }));
 
 export type DeleteAlarmError =
@@ -4571,8 +4745,8 @@ export const deleteAlarm: API.OperationMethod<
   DeleteAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<DeleteAlarmRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteAlarmResult>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteAlarmRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4607,8 +4781,8 @@ export const deleteAutoSnapshot: API.OperationMethod<
   DeleteAutoSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<DeleteAutoSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteAutoSnapshotResult>,
+  input: __S(2272, __c142, 0) as any as S.Schema<DeleteAutoSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteAutoSnapshotResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4645,8 +4819,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteBucketResult>,
+  input: __S(2288, __c143, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4684,8 +4858,8 @@ export const deleteBucketAccessKey: API.OperationMethod<
   DeleteBucketAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<DeleteBucketAccessKeyRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteBucketAccessKeyResult>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DeleteBucketAccessKeyRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteBucketAccessKeyResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4723,8 +4897,8 @@ export const deleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteCertificateResult>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteCertificateResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4763,8 +4937,8 @@ export const deleteContactMethod: API.OperationMethod<
   DeleteContactMethodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DeleteContactMethodRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteContactMethodResult>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DeleteContactMethodRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteContactMethodResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4799,8 +4973,8 @@ export const deleteContainerImage: API.OperationMethod<
   DeleteContainerImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<DeleteContainerImageRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<DeleteContainerImageResult>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeleteContainerImageRequest>,
+  output: __S(2368, __c148, 0) as any as S.Schema<DeleteContainerImageResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4833,8 +5007,8 @@ export const deleteContainerService: API.OperationMethod<
   DeleteContainerServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteContainerServiceRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<DeleteContainerServiceResult>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeleteContainerServiceRequest>,
+  output: __S(2368, __c148, 0) as any as S.Schema<DeleteContainerServiceResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4876,8 +5050,8 @@ export const deleteDisk: API.OperationMethod<
   DeleteDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DeleteDiskRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteDiskResult>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DeleteDiskRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4924,8 +5098,8 @@ export const deleteDiskSnapshot: API.OperationMethod<
   DeleteDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<DeleteDiskSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteDiskSnapshotResult>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeleteDiskSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -4960,8 +5134,8 @@ export const deleteDistribution: API.OperationMethod<
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<DeleteDistributionRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDistributionResult>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DeleteDistributionRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<DeleteDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5000,8 +5174,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDomainResult>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<DeleteDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5042,8 +5216,8 @@ export const deleteDomainEntry: API.OperationMethod<
   DeleteDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DeleteDomainEntryRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<DeleteDomainEntryResult>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DeleteDomainEntryRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<DeleteDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5084,8 +5258,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteInstanceResult>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5127,8 +5301,8 @@ export const deleteInstanceSnapshot: API.OperationMethod<
   DeleteInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DeleteInstanceSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteInstanceSnapshotResult>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DeleteInstanceSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteInstanceSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5174,8 +5348,8 @@ export const deleteKeyPair: API.OperationMethod<
   DeleteKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<DeleteKeyPairRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<DeleteKeyPairResult>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DeleteKeyPairRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<DeleteKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5219,8 +5393,8 @@ export const deleteKnownHostKeys: API.OperationMethod<
   DeleteKnownHostKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DeleteKnownHostKeysRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteKnownHostKeysResult>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DeleteKnownHostKeysRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteKnownHostKeysResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5263,8 +5437,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteLoadBalancerResult>,
+  input: __S(2544, __c159, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5305,8 +5479,8 @@ export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
   DeleteLoadBalancerTlsCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>,
+  input: __S(2560, __c160, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5347,8 +5521,8 @@ export const deleteRelationalDatabase: API.OperationMethod<
   DeleteRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<DeleteRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteRelationalDatabaseResult>,
+  input: __S(2576, __c161, 0) as any as S.Schema<DeleteRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5389,8 +5563,8 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
   DeleteRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotResult>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DeleteRelationalDatabaseSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5406,6 +5580,51 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
   operationName: "DeleteRelationalDatabaseSnapshot",
   telemetry: TELEMETRY,
   span: "DeleteRelationalDatabaseSnapshot",
+}));
+
+export type DeleteSubdomainError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
+/**
+ * Deletes a Lightsail subdomain.
+ *
+ * The subdomain must be in the `UNATTACHED` or `CREATE_FAILED`
+ * state. To delete a subdomain that's associated with a resource, first disassociate it by using
+ * the `UpdateSubdomainAssociation` action.
+ *
+ * When you delete a top-level subdomain that has nested subdomains, the nested subdomains
+ * continue to work, and the top-level subdomain changes to the `IMPLICIT`
+ * state.
+ *
+ * After you delete a subdomain that was associated with a resource, the subdomain isn't
+ * available to other accounts for at least 30 days.
+ */
+export const deleteSubdomain: API.OperationMethod<
+  DeleteSubdomainRequest & RegionInput,
+  DeleteSubdomainResult,
+  DeleteSubdomainError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2608, __c163, 0) as any as S.Schema<DeleteSubdomainRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<DeleteSubdomainResult>,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSubdomain",
+  telemetry: TELEMETRY,
+  span: "DeleteSubdomain",
 }));
 
 export type DetachCertificateFromDistributionError =
@@ -5429,8 +5648,8 @@ export const detachCertificateFromDistribution: API.OperationMethod<
   DetachCertificateFromDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<DetachCertificateFromDistributionRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<DetachCertificateFromDistributionResult>,
+  input: __S(2624, __c164, 0) as any as S.Schema<DetachCertificateFromDistributionRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<DetachCertificateFromDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5471,8 +5690,8 @@ export const detachDisk: API.OperationMethod<
   DetachDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<DetachDiskRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DetachDiskResult>,
+  input: __S(2640, __c165, 0) as any as S.Schema<DetachDiskRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DetachDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5516,8 +5735,8 @@ export const detachInstancesFromLoadBalancer: API.OperationMethod<
   DetachInstancesFromLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<DetachInstancesFromLoadBalancerRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DetachInstancesFromLoadBalancerResult>,
+  input: __S(2656, __c166, 0) as any as S.Schema<DetachInstancesFromLoadBalancerRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DetachInstancesFromLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5554,8 +5773,8 @@ export const detachStaticIp: API.OperationMethod<
   DetachStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<DetachStaticIpRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DetachStaticIpResult>,
+  input: __S(2672, __c167, 0) as any as S.Schema<DetachStaticIpRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DetachStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5591,8 +5810,8 @@ export const disableAddOn: API.OperationMethod<
   DisableAddOnError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<DisableAddOnRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<DisableAddOnResult>,
+  input: __S(2688, __c168, 0) as any as S.Schema<DisableAddOnRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<DisableAddOnResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5631,8 +5850,8 @@ export const downloadDefaultKeyPair: API.OperationMethod<
   DownloadDefaultKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<DownloadDefaultKeyPairRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<DownloadDefaultKeyPairResult>,
+  input: __S(2704, __c169, 0) as any as S.Schema<DownloadDefaultKeyPairRequest>,
+  output: __S(2705, __c169, 1) as any as S.Schema<DownloadDefaultKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5669,8 +5888,8 @@ export const enableAddOn: API.OperationMethod<
   EnableAddOnError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<EnableAddOnRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<EnableAddOnResult>,
+  input: __S(2720, __c170, 0) as any as S.Schema<EnableAddOnRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<EnableAddOnResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5720,8 +5939,8 @@ export const exportSnapshot: API.OperationMethod<
   ExportSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ExportSnapshotRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<ExportSnapshotResult>,
+  input: __S(2736, __c171, 0) as any as S.Schema<ExportSnapshotRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<ExportSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5758,8 +5977,8 @@ export const getActiveNames: API.OperationMethod<
   GetActiveNamesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetActiveNamesRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<GetActiveNamesResult>,
+  input: __S(2752, __c172, 0) as any as S.Schema<GetActiveNamesRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<GetActiveNamesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5802,8 +6021,8 @@ export const getAlarms: API.OperationMethod<
   GetAlarmsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetAlarmsRequest>,
-  output: __S(2596, __c162, 4) as any as S.Schema<GetAlarmsResult>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetAlarmsRequest>,
+  output: __S(2772, __c173, 4) as any as S.Schema<GetAlarmsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5839,8 +6058,8 @@ export const getAutoSnapshots: API.OperationMethod<
   GetAutoSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetAutoSnapshotsRequest>,
-  output: __S(2613, __c163, 5) as any as S.Schema<GetAutoSnapshotsResult>,
+  input: __S(2784, __c174, 0) as any as S.Schema<GetAutoSnapshotsRequest>,
+  output: __S(2789, __c174, 5) as any as S.Schema<GetAutoSnapshotsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5884,8 +6103,8 @@ export const getBlueprints: API.OperationMethod<
   GetBlueprintsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetBlueprintsRequest>,
-  output: __S(2627, __c164, 3) as any as S.Schema<GetBlueprintsResult>,
+  input: __S(2800, __c175, 0) as any as S.Schema<GetBlueprintsRequest>,
+  output: __S(2803, __c175, 3) as any as S.Schema<GetBlueprintsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -5924,8 +6143,8 @@ export const getBucketAccessKeys: API.OperationMethod<
   GetBucketAccessKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetBucketAccessKeysRequest>,
-  output: __S(2642, __c165, 2) as any as S.Schema<GetBucketAccessKeysResult>,
+  input: __S(2816, __c176, 0) as any as S.Schema<GetBucketAccessKeysRequest>,
+  output: __S(2818, __c176, 2) as any as S.Schema<GetBucketAccessKeysResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5963,8 +6182,8 @@ export const getBucketBundles: API.OperationMethod<
   GetBucketBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetBucketBundlesRequest>,
-  output: __S(2659, __c166, 3) as any as S.Schema<GetBucketBundlesResult>,
+  input: __S(2832, __c177, 0) as any as S.Schema<GetBucketBundlesRequest>,
+  output: __S(2835, __c177, 3) as any as S.Schema<GetBucketBundlesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6000,8 +6219,8 @@ export const getBucketMetricData: API.OperationMethod<
   GetBucketMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetBucketMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetBucketMetricDataResult>,
+  input: __S(2848, __c178, 0) as any as S.Schema<GetBucketMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetBucketMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6039,8 +6258,8 @@ export const getBuckets: API.OperationMethod<
   GetBucketsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetBucketsRequest>,
-  output: __S(2707, __c169, 3) as any as S.Schema<GetBucketsResult>,
+  input: __S(2880, __c180, 0) as any as S.Schema<GetBucketsRequest>,
+  output: __S(2883, __c180, 3) as any as S.Schema<GetBucketsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6083,8 +6302,8 @@ export const getBundles: API.OperationMethod<
   GetBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<GetBundlesRequest>,
-  output: __S(2723, __c170, 3) as any as S.Schema<GetBundlesResult>,
+  input: __S(2992, __c187, 0) as any as S.Schema<GetBundlesRequest>,
+  output: __S(2995, __c187, 3) as any as S.Schema<GetBundlesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6123,8 +6342,8 @@ export const getCertificates: API.OperationMethod<
   GetCertificatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetCertificatesRequest>,
-  output: __S(2738, __c171, 2) as any as S.Schema<GetCertificatesResult>,
+  input: __S(3008, __c188, 0) as any as S.Schema<GetCertificatesRequest>,
+  output: __S(3010, __c188, 2) as any as S.Schema<GetCertificatesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6163,8 +6382,8 @@ export const getCloudFormationStackRecords: API.OperationMethod<
   GetCloudFormationStackRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetCloudFormationStackRecordsRequest>,
-  output: __S(2757, __c172, 5) as any as S.Schema<GetCloudFormationStackRecordsResult>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetCloudFormationStackRecordsRequest>,
+  output: __S(3029, __c189, 5) as any as S.Schema<GetCloudFormationStackRecordsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6206,8 +6425,8 @@ export const getContactMethods: API.OperationMethod<
   GetContactMethodsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetContactMethodsRequest>,
-  output: __S(2883, __c180, 3) as any as S.Schema<GetContactMethodsResult>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetContactMethodsRequest>,
+  output: __S(3059, __c191, 3) as any as S.Schema<GetContactMethodsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6240,8 +6459,8 @@ export const getContainerAPIMetadata: API.OperationMethod<
   GetContainerAPIMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<GetContainerAPIMetadataRequest>,
-  output: __S(2898, __c181, 2) as any as S.Schema<GetContainerAPIMetadataResult>,
+  input: __S(3072, __c192, 0) as any as S.Schema<GetContainerAPIMetadataRequest>,
+  output: __S(3074, __c192, 2) as any as S.Schema<GetContainerAPIMetadataResult>,
   errors: [
     AccessDeniedException,
     RegionSetupInProgressException,
@@ -6277,8 +6496,8 @@ export const getContainerImages: API.OperationMethod<
   GetContainerImagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<GetContainerImagesRequest>,
-  output: __S(2914, __c182, 2) as any as S.Schema<GetContainerImagesResult>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetContainerImagesRequest>,
+  output: __S(3090, __c193, 2) as any as S.Schema<GetContainerImagesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6320,8 +6539,8 @@ export const getContainerLog: API.OperationMethod<
   GetContainerLogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetContainerLogRequest>,
-  output: __S(2945, __c184, 1) as any as S.Schema<GetContainerLogResult>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetContainerLogRequest>,
+  output: __S(3121, __c195, 1) as any as S.Schema<GetContainerLogResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6365,8 +6584,8 @@ export const getContainerServiceDeployments: API.OperationMethod<
   GetContainerServiceDeploymentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetContainerServiceDeploymentsRequest>,
-  output: __S(2978, __c186, 2) as any as S.Schema<GetContainerServiceDeploymentsResult>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetContainerServiceDeploymentsRequest>,
+  output: __S(3154, __c197, 2) as any as S.Schema<GetContainerServiceDeploymentsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6403,8 +6622,8 @@ export const getContainerServiceMetricData: API.OperationMethod<
   GetContainerServiceMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<GetContainerServiceMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetContainerServiceMetricDataResult>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetContainerServiceMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetContainerServiceMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6441,8 +6660,8 @@ export const getContainerServicePowers: API.OperationMethod<
   GetContainerServicePowersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetContainerServicePowersRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<GetContainerServicePowersResult>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetContainerServicePowersRequest>,
+  output: __S(3187, __c199, 3) as any as S.Schema<GetContainerServicePowersResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6475,8 +6694,8 @@ export const getContainerServices: API.OperationMethod<
   GetContainerServicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetContainerServicesRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<ContainerServicesListResult>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetContainerServicesRequest>,
+  output: __S(3234, __c202, 2) as any as S.Schema<ContainerServicesListResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6510,8 +6729,8 @@ export const getCostEstimate: API.OperationMethod<
   GetCostEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetCostEstimateRequest>,
-  output: __S(3048, __c190, 8) as any as S.Schema<GetCostEstimateResult>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetCostEstimateRequest>,
+  output: __S(3256, __c203, 8) as any as S.Schema<GetCostEstimateResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6546,8 +6765,8 @@ export const getDisk: API.OperationMethod<
   GetDiskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetDiskRequest>,
-  output: __S(3057, __c191, 1) as any as S.Schema<GetDiskResult>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetDiskRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<GetDiskResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6584,8 +6803,8 @@ export const getDisks: API.OperationMethod<
   GetDisksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetDisksRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<GetDisksResult>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetDisksRequest>,
+  output: __S(3297, __c206, 1) as any as S.Schema<GetDisksResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6622,8 +6841,8 @@ export const getDiskSnapshot: API.OperationMethod<
   GetDiskSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetDiskSnapshotRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<GetDiskSnapshotResult>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetDiskSnapshotRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<GetDiskSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6661,8 +6880,8 @@ export const getDiskSnapshots: API.OperationMethod<
   GetDiskSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetDiskSnapshotsRequest>,
-  output: __S(3186, __c199, 2) as any as S.Schema<GetDiskSnapshotsResult>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetDiskSnapshotsRequest>,
+  output: __S(3362, __c210, 2) as any as S.Schema<GetDiskSnapshotsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6701,8 +6920,8 @@ export const getDistributionBundles: API.OperationMethod<
   GetDistributionBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetDistributionBundlesRequest>,
-  output: __S(3203, __c200, 3) as any as S.Schema<GetDistributionBundlesResult>,
+  input: __S(3376, __c211, 0) as any as S.Schema<GetDistributionBundlesRequest>,
+  output: __S(3379, __c211, 3) as any as S.Schema<GetDistributionBundlesResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6736,8 +6955,8 @@ export const getDistributionLatestCacheReset: API.OperationMethod<
   GetDistributionLatestCacheResetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<GetDistributionLatestCacheResetRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<GetDistributionLatestCacheResetResult>,
+  input: __S(3392, __c212, 0) as any as S.Schema<GetDistributionLatestCacheResetRequest>,
+  output: __S(3393, __c212, 1) as any as S.Schema<GetDistributionLatestCacheResetResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6775,8 +6994,8 @@ export const getDistributionMetricData: API.OperationMethod<
   GetDistributionMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<GetDistributionMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetDistributionMetricDataResult>,
+  input: __S(3408, __c213, 0) as any as S.Schema<GetDistributionMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetDistributionMetricDataResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6803,6 +7022,11 @@ export type GetDistributionsError =
 /**
  * Returns information about one or more of your Amazon Lightsail content delivery network
  * (CDN) distributions.
+ *
+ * The `defaultRootObject` and `customErrorResponses` values are
+ * returned only when you specify `distributionName` to retrieve a single
+ * distribution. When you call `GetDistributions` without a distribution name to
+ * list all distributions, these two fields aren't included in the response.
  */
 export const getDistributions: API.OperationMethod<
   GetDistributionsRequest & RegionInput,
@@ -6810,8 +7034,8 @@ export const getDistributions: API.OperationMethod<
   GetDistributionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<GetDistributionsRequest>,
-  output: __S(3250, __c203, 2) as any as S.Schema<GetDistributionsResult>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetDistributionsRequest>,
+  output: __S(3426, __c214, 2) as any as S.Schema<GetDistributionsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -6846,8 +7070,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<GetDomainResult>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<GetDomainResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6884,8 +7108,8 @@ export const getDomains: API.OperationMethod<
   GetDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetDomainsRequest>,
-  output: __S(3298, __c206, 2) as any as S.Schema<GetDomainsResult>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetDomainsRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<GetDomainsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6927,8 +7151,8 @@ export const getExportSnapshotRecords: API.OperationMethod<
   GetExportSnapshotRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetExportSnapshotRecordsRequest>,
-  output: __S(3320, __c207, 8) as any as S.Schema<GetExportSnapshotRecordsResult>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetExportSnapshotRecordsRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<GetExportSnapshotRecordsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -6966,8 +7190,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<GetInstanceResult>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<GetInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7009,8 +7233,8 @@ export const getInstanceAccessDetails: API.OperationMethod<
   GetInstanceAccessDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetInstanceAccessDetailsRequest>,
-  output: __S(69, __c4, 5) as any as S.Schema<GetInstanceAccessDetailsResult>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetInstanceAccessDetailsRequest>,
+  output: __S(133, __c8, 5) as any as S.Schema<GetInstanceAccessDetailsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7052,8 +7276,8 @@ export const getInstanceMetricData: API.OperationMethod<
   GetInstanceMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetInstanceMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetInstanceMetricDataResult>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetInstanceMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetInstanceMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7091,8 +7315,8 @@ export const getInstancePortStates: API.OperationMethod<
   GetInstancePortStatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetInstancePortStatesRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<GetInstancePortStatesResult>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetInstancePortStatesRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<GetInstancePortStatesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7130,8 +7354,8 @@ export const getInstances: API.OperationMethod<
   GetInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetInstancesRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetInstancesResult>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetInstancesRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetInstancesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7168,8 +7392,8 @@ export const getInstanceSnapshot: API.OperationMethod<
   GetInstanceSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetInstanceSnapshotRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<GetInstanceSnapshotResult>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetInstanceSnapshotRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<GetInstanceSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7206,8 +7430,8 @@ export const getInstanceSnapshots: API.OperationMethod<
   GetInstanceSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetInstanceSnapshotsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GetInstanceSnapshotsResult>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetInstanceSnapshotsRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<GetInstanceSnapshotsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7244,8 +7468,8 @@ export const getInstanceState: API.OperationMethod<
   GetInstanceStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetInstanceStateRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<GetInstanceStateResult>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetInstanceStateRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetInstanceStateResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7282,8 +7506,8 @@ export const getKeyPair: API.OperationMethod<
   GetKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetKeyPairRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetKeyPairResult>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetKeyPairRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7320,8 +7544,8 @@ export const getKeyPairs: API.OperationMethod<
   GetKeyPairsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetKeyPairsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<GetKeyPairsResult>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetKeyPairsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<GetKeyPairsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7358,8 +7582,8 @@ export const getLoadBalancer: API.OperationMethod<
   GetLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetLoadBalancerRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<GetLoadBalancerResult>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetLoadBalancerRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<GetLoadBalancerResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7400,8 +7624,8 @@ export const getLoadBalancerMetricData: API.OperationMethod<
   GetLoadBalancerMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetLoadBalancerMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetLoadBalancerMetricDataResult>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetLoadBalancerMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetLoadBalancerMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7438,8 +7662,8 @@ export const getLoadBalancers: API.OperationMethod<
   GetLoadBalancersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetLoadBalancersRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<GetLoadBalancersResult>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetLoadBalancersRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<GetLoadBalancersResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7482,8 +7706,8 @@ export const getLoadBalancerTlsCertificates: API.OperationMethod<
   GetLoadBalancerTlsCertificatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetLoadBalancerTlsCertificatesRequest>,
-  output: __S(328, __c20, 8) as any as S.Schema<GetLoadBalancerTlsCertificatesResult>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetLoadBalancerTlsCertificatesRequest>,
+  output: __S(392, __c24, 8) as any as S.Schema<GetLoadBalancerTlsCertificatesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7522,8 +7746,8 @@ export const getLoadBalancerTlsPolicies: API.OperationMethod<
   GetLoadBalancerTlsPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetLoadBalancerTlsPoliciesRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<GetLoadBalancerTlsPoliciesResult>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetLoadBalancerTlsPoliciesRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<GetLoadBalancerTlsPoliciesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7559,8 +7783,8 @@ export const getOperation: API.OperationMethod<
   GetOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetOperationRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<GetOperationResult>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetOperationRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<GetOperationResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7601,8 +7825,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetOperationsResult>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<GetOperationsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7639,8 +7863,8 @@ export const getOperationsForResource: API.OperationMethod<
   GetOperationsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetOperationsForResourceRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<GetOperationsForResourceResult>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetOperationsForResourceRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<GetOperationsForResourceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7676,8 +7900,8 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetProfileRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<GetProfileResult>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetProfileRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<GetProfileResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7713,8 +7937,8 @@ export const getRegions: API.OperationMethod<
   GetRegionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetRegionsRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<GetRegionsResult>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetRegionsRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<GetRegionsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7751,8 +7975,8 @@ export const getRelationalDatabase: API.OperationMethod<
   GetRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetRelationalDatabaseRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetRelationalDatabaseResult>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetRelationalDatabaseRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<GetRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7793,8 +8017,8 @@ export const getRelationalDatabaseBlueprints: API.OperationMethod<
   GetRelationalDatabaseBlueprintsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetRelationalDatabaseBlueprintsRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<GetRelationalDatabaseBlueprintsResult>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetRelationalDatabaseBlueprintsRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<GetRelationalDatabaseBlueprintsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7835,8 +8059,8 @@ export const getRelationalDatabaseBundles: API.OperationMethod<
   GetRelationalDatabaseBundlesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetRelationalDatabaseBundlesRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<GetRelationalDatabaseBundlesResult>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetRelationalDatabaseBundlesRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<GetRelationalDatabaseBundlesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7873,8 +8097,8 @@ export const getRelationalDatabaseEvents: API.OperationMethod<
   GetRelationalDatabaseEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetRelationalDatabaseEventsRequest>,
-  output: __S(515, __c32, 3) as any as S.Schema<GetRelationalDatabaseEventsResult>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetRelationalDatabaseEventsRequest>,
+  output: __S(579, __c36, 3) as any as S.Schema<GetRelationalDatabaseEventsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7911,8 +8135,8 @@ export const getRelationalDatabaseLogEvents: API.OperationMethod<
   GetRelationalDatabaseLogEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetRelationalDatabaseLogEventsRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<GetRelationalDatabaseLogEventsResult>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetRelationalDatabaseLogEventsRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<GetRelationalDatabaseLogEventsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7949,8 +8173,8 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
   GetRelationalDatabaseLogStreamsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetRelationalDatabaseLogStreamsRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<GetRelationalDatabaseLogStreamsResult>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetRelationalDatabaseLogStreamsRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<GetRelationalDatabaseLogStreamsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -7992,8 +8216,8 @@ export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
   GetRelationalDatabaseMasterUserPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordResult>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8034,8 +8258,8 @@ export const getRelationalDatabaseMetricData: API.OperationMethod<
   GetRelationalDatabaseMetricDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetRelationalDatabaseMetricDataRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetRelationalDatabaseMetricDataResult>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetRelationalDatabaseMetricDataRequest>,
+  output: __S(2866, __c179, 2) as any as S.Schema<GetRelationalDatabaseMetricDataResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8077,8 +8301,8 @@ export const getRelationalDatabaseParameters: API.OperationMethod<
   GetRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetRelationalDatabaseParametersRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<GetRelationalDatabaseParametersResult>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetRelationalDatabaseParametersRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<GetRelationalDatabaseParametersResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8115,8 +8339,8 @@ export const getRelationalDatabases: API.OperationMethod<
   GetRelationalDatabasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetRelationalDatabasesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<GetRelationalDatabasesResult>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetRelationalDatabasesRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<GetRelationalDatabasesResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8153,8 +8377,8 @@ export const getRelationalDatabaseSnapshot: API.OperationMethod<
   GetRelationalDatabaseSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetRelationalDatabaseSnapshotRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<GetRelationalDatabaseSnapshotResult>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetRelationalDatabaseSnapshotRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<GetRelationalDatabaseSnapshotResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8191,8 +8415,8 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
   GetRelationalDatabaseSnapshotsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetRelationalDatabaseSnapshotsRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<GetRelationalDatabaseSnapshotsResult>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetRelationalDatabaseSnapshotsRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<GetRelationalDatabaseSnapshotsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8228,8 +8452,8 @@ export const getSetupHistory: API.OperationMethod<
   GetSetupHistoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetSetupHistoryRequest>,
-  output: __S(711, __c44, 7) as any as S.Schema<GetSetupHistoryResult>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetSetupHistoryRequest>,
+  output: __S(775, __c48, 7) as any as S.Schema<GetSetupHistoryResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8264,8 +8488,8 @@ export const getStaticIp: API.OperationMethod<
   GetStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetStaticIpRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<GetStaticIpResult>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetStaticIpRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8302,8 +8526,8 @@ export const getStaticIps: API.OperationMethod<
   GetStaticIpsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetStaticIpsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<GetStaticIpsResult>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetStaticIpsRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<GetStaticIpsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8319,6 +8543,44 @@ export const getStaticIps: API.OperationMethod<
   operationName: "GetStaticIps",
   telemetry: TELEMETRY,
   span: "GetStaticIps",
+}));
+
+export type GetSubdomainsError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
+/**
+ * Returns information about one or more of your Lightsail subdomains.
+ *
+ * When you don't specify a subdomain, the response lists your top-level subdomains, and
+ * each top-level subdomain includes its nested subdomains.
+ *
+ * The results are paginated. To get the next page of results, use the `pageToken`
+ * parameter.
+ */
+export const getSubdomains: API.OperationMethod<
+  GetSubdomainsRequest & RegionInput,
+  GetSubdomainsResult,
+  GetSubdomainsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c52, 0) as any as S.Schema<GetSubdomainsRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<GetSubdomainsResult>,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetSubdomains",
+  telemetry: TELEMETRY,
+  span: "GetSubdomains",
 }));
 
 export type ImportKeyPairError =
@@ -8340,8 +8602,8 @@ export const importKeyPair: API.OperationMethod<
   ImportKeyPairError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ImportKeyPairRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<ImportKeyPairResult>,
+  input: __S(848, __c53, 0) as any as S.Schema<ImportKeyPairRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<ImportKeyPairResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8378,8 +8640,8 @@ export const isVpcPeered: API.OperationMethod<
   IsVpcPeeredError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<IsVpcPeeredRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<IsVpcPeeredResult>,
+  input: __S(880, __c55, 0) as any as S.Schema<IsVpcPeeredRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<IsVpcPeeredResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8421,8 +8683,8 @@ export const openInstancePublicPorts: API.OperationMethod<
   OpenInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<OpenInstancePublicPortsRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<OpenInstancePublicPortsResult>,
+  input: __S(896, __c56, 0) as any as S.Schema<OpenInstancePublicPortsRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<OpenInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8459,8 +8721,8 @@ export const peerVpc: API.OperationMethod<
   PeerVpcError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<PeerVpcRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<PeerVpcResult>,
+  input: __S(912, __c57, 0) as any as S.Schema<PeerVpcRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<PeerVpcResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8512,8 +8774,8 @@ export const putAlarm: API.OperationMethod<
   PutAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<PutAlarmRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<PutAlarmResult>,
+  input: __S(928, __c58, 0) as any as S.Schema<PutAlarmRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<PutAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8558,8 +8820,8 @@ export const putInstancePublicPorts: API.OperationMethod<
   PutInstancePublicPortsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(881, __c55, 1) as any as S.Schema<PutInstancePublicPortsRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<PutInstancePublicPortsResult>,
+  input: __S(945, __c59, 1) as any as S.Schema<PutInstancePublicPortsRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<PutInstancePublicPortsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8600,8 +8862,8 @@ export const rebootInstance: API.OperationMethod<
   RebootInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<RebootInstanceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<RebootInstanceResult>,
+  input: __S(960, __c60, 0) as any as S.Schema<RebootInstanceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<RebootInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8642,8 +8904,8 @@ export const rebootRelationalDatabase: API.OperationMethod<
   RebootRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<RebootRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<RebootRelationalDatabaseResult>,
+  input: __S(976, __c61, 0) as any as S.Schema<RebootRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<RebootRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8683,8 +8945,8 @@ export const registerContainerImage: API.OperationMethod<
   RegisterContainerImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<RegisterContainerImageRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<RegisterContainerImageResult>,
+  input: __S(992, __c62, 0) as any as S.Schema<RegisterContainerImageRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<RegisterContainerImageResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8719,8 +8981,8 @@ export const releaseStaticIp: API.OperationMethod<
   ReleaseStaticIpError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ReleaseStaticIpRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<ReleaseStaticIpResult>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ReleaseStaticIpRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<ReleaseStaticIpResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8759,8 +9021,8 @@ export const resetDistributionCache: API.OperationMethod<
   ResetDistributionCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ResetDistributionCacheRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<ResetDistributionCacheResult>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ResetDistributionCacheRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<ResetDistributionCacheResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8807,8 +9069,8 @@ export const sendContactMethodVerification: API.OperationMethod<
   SendContactMethodVerificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SendContactMethodVerificationRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<SendContactMethodVerificationResult>,
+  input: __S(1072, __c67, 0) as any as S.Schema<SendContactMethodVerificationRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<SendContactMethodVerificationResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8848,8 +9110,8 @@ export const setIpAddressType: API.OperationMethod<
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SetIpAddressTypeRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<SetIpAddressTypeResult>,
+  input: __S(1088, __c68, 0) as any as S.Schema<SetIpAddressTypeRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<SetIpAddressTypeResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -8888,8 +9150,8 @@ export const setResourceAccessForBucket: API.OperationMethod<
   SetResourceAccessForBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SetResourceAccessForBucketRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<SetResourceAccessForBucketResult>,
+  input: __S(1104, __c69, 0) as any as S.Schema<SetResourceAccessForBucketRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<SetResourceAccessForBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8926,8 +9188,8 @@ export const setupInstanceHttps: API.OperationMethod<
   SetupInstanceHttpsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SetupInstanceHttpsRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<SetupInstanceHttpsResult>,
+  input: __S(1120, __c70, 0) as any as S.Schema<SetupInstanceHttpsRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<SetupInstanceHttpsResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -8962,8 +9224,8 @@ export const startGUISession: API.OperationMethod<
   StartGUISessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<StartGUISessionRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StartGUISessionResult>,
+  input: __S(1136, __c71, 0) as any as S.Schema<StartGUISessionRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StartGUISessionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9007,8 +9269,8 @@ export const startInstance: API.OperationMethod<
   StartInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1073, __c67, 1) as any as S.Schema<StartInstanceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StartInstanceResult>,
+  input: __S(1153, __c72, 1) as any as S.Schema<StartInstanceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StartInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9050,8 +9312,8 @@ export const startRelationalDatabase: API.OperationMethod<
   StartRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<StartRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StartRelationalDatabaseResult>,
+  input: __S(1168, __c73, 0) as any as S.Schema<StartRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StartRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9088,8 +9350,8 @@ export const stopGUISession: API.OperationMethod<
   StopGUISessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<StopGUISessionRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StopGUISessionResult>,
+  input: __S(1184, __c74, 0) as any as S.Schema<StopGUISessionRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StopGUISessionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9132,8 +9394,8 @@ export const stopInstance: API.OperationMethod<
   StopInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<StopInstanceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StopInstanceResult>,
+  input: __S(1200, __c75, 0) as any as S.Schema<StopInstanceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StopInstanceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9178,8 +9440,8 @@ export const stopRelationalDatabase: API.OperationMethod<
   StopRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<StopRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<StopRelationalDatabaseResult>,
+  input: __S(1216, __c76, 0) as any as S.Schema<StopRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<StopRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9222,8 +9484,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<TagResourceResult>,
+  input: __S(1248, __c78, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<TagResourceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9267,8 +9529,8 @@ export const testAlarm: API.OperationMethod<
   TestAlarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<TestAlarmRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<TestAlarmResult>,
+  input: __S(1264, __c79, 0) as any as S.Schema<TestAlarmRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<TestAlarmResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9304,8 +9566,8 @@ export const unpeerVpc: API.OperationMethod<
   UnpeerVpcError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UnpeerVpcRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<UnpeerVpcResult>,
+  input: __S(1280, __c80, 0) as any as S.Schema<UnpeerVpcRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<UnpeerVpcResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9347,8 +9609,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UntagResourceResult>,
+  input: __S(1296, __c81, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UntagResourceResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9386,8 +9648,8 @@ export const updateBucket: API.OperationMethod<
   UpdateBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UpdateBucketRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<UpdateBucketResult>,
+  input: __S(1312, __c82, 0) as any as S.Schema<UpdateBucketRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<UpdateBucketResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9434,8 +9696,8 @@ export const updateBucketBundle: API.OperationMethod<
   UpdateBucketBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<UpdateBucketBundleRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UpdateBucketBundleResult>,
+  input: __S(1328, __c83, 0) as any as S.Schema<UpdateBucketBundleRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateBucketBundleResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9469,8 +9731,8 @@ export const updateContainerService: API.OperationMethod<
   UpdateContainerServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UpdateContainerServiceRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<UpdateContainerServiceResult>,
+  input: __S(1344, __c84, 0) as any as S.Schema<UpdateContainerServiceRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<UpdateContainerServiceResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9505,8 +9767,8 @@ export const updateDistribution: API.OperationMethod<
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateDistributionRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<UpdateDistributionResult>,
+  input: __S(1360, __c85, 0) as any as S.Schema<UpdateDistributionRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<UpdateDistributionResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9550,8 +9812,8 @@ export const updateDistributionBundle: API.OperationMethod<
   UpdateDistributionBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<UpdateDistributionBundleRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<UpdateDistributionBundleResult>,
+  input: __S(1376, __c86, 0) as any as S.Schema<UpdateDistributionBundleRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<UpdateDistributionBundleResult>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -9590,8 +9852,8 @@ export const updateDomainEntry: API.OperationMethod<
   UpdateDomainEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<UpdateDomainEntryRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UpdateDomainEntryResult>,
+  input: __S(1392, __c87, 0) as any as S.Schema<UpdateDomainEntryRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateDomainEntryResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9633,8 +9895,8 @@ export const updateInstanceMetadataOptions: API.OperationMethod<
   UpdateInstanceMetadataOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UpdateInstanceMetadataOptionsRequest>,
-  output: __S(3104, __c194, 0) as any as S.Schema<UpdateInstanceMetadataOptionsResult>,
+  input: __S(1472, __c92, 0) as any as S.Schema<UpdateInstanceMetadataOptionsRequest>,
+  output: __S(3216, __c201, 0) as any as S.Schema<UpdateInstanceMetadataOptionsResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9676,8 +9938,8 @@ export const updateLoadBalancerAttribute: API.OperationMethod<
   UpdateLoadBalancerAttributeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UpdateLoadBalancerAttributeRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UpdateLoadBalancerAttributeResult>,
+  input: __S(1488, __c93, 0) as any as S.Schema<UpdateLoadBalancerAttributeRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateLoadBalancerAttributeResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9721,8 +9983,8 @@ export const updateRelationalDatabase: API.OperationMethod<
   UpdateRelationalDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UpdateRelationalDatabaseRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UpdateRelationalDatabaseResult>,
+  input: __S(1504, __c94, 0) as any as S.Schema<UpdateRelationalDatabaseRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateRelationalDatabaseResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9770,8 +10032,8 @@ export const updateRelationalDatabaseParameters: API.OperationMethod<
   UpdateRelationalDatabaseParametersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateRelationalDatabaseParametersRequest>,
-  output: __S(2816, __c176, 0) as any as S.Schema<UpdateRelationalDatabaseParametersResult>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateRelationalDatabaseParametersRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<UpdateRelationalDatabaseParametersResult>,
   errors: [
     AccessDeniedException,
     AccountSetupInProgressException,
@@ -9787,6 +10049,55 @@ export const updateRelationalDatabaseParameters: API.OperationMethod<
   operationName: "UpdateRelationalDatabaseParameters",
   telemetry: TELEMETRY,
   span: "UpdateRelationalDatabaseParameters",
+}));
+
+export type UpdateSubdomainAssociationError =
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | CommonErrors;
+/**
+ * Associates a Lightsail subdomain with a resource, disassociates it from a resource, or
+ * moves it from one resource to another resource.
+ *
+ * Currently, you can associate a subdomain only with a Lightsail content delivery network
+ * (CDN) distribution. A resource can be associated with only one subdomain at a time.
+ *
+ * When you associate a subdomain with a distribution, Lightsail attaches the subdomain's
+ * certificate to the distribution. You can't associate a subdomain with a distribution that uses
+ * a custom domain, which is a distribution that has a Lightsail certificate attached.
+ *
+ * You can transfer each subdomain to another resource only once in a 24-hour period.
+ *
+ * The update is asynchronous. The response returns the subdomain in the
+ * `ATTACHING`, `DETACHING`, or `TRANSFERRING` state, and an
+ * operation. To check when the update is complete, use the `GetSubdomains`
+ * action.
+ */
+export const updateSubdomainAssociation: API.OperationMethod<
+  UpdateSubdomainAssociationRequest & RegionInput,
+  UpdateSubdomainAssociationResult,
+  UpdateSubdomainAssociationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateSubdomainAssociationRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<UpdateSubdomainAssociationResult>,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateSubdomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateSubdomainAssociation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -9816,6 +10127,152 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ domainName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDomainRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ domain: S.optional(__S(34, __c2, 2)) })).annotate({
+        identifier: "GetDomainResult",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2016, __c126, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nameServersUpdateState: S.optional(__S(1600, __c100, 0)),
+          r53HostedZoneDeletionState: S.optional(__S(1600, __c100, 0)),
+        }),
+      ).annotate({ identifier: "RegisteredDomainDelegationInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          arn: S.optional(S.String),
+          supportCode: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          location: S.optional(__S(2960, __c185, 0)),
+          resourceType: S.optional(S.String),
+          tags: S.optional(__S(1441, __c90, 1)),
+          domainEntries: S.optional(__S(32, __c2, 0)),
+          registeredDomainDelegationInfo: S.optional(__S(33, __c2, 1)),
+        }),
+      ).annotate({ identifier: "Domain" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ pageToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomains" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDomainsRequest" });
+    case 1:
+      return S.Array(__S(34, __c2, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ domains: S.optional(__S(49, __c3, 1)), nextPageToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetDomainsResult" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ pageToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetExportSnapshotRecords" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetExportSnapshotRecordsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          path: S.optional(S.String),
+          sizeInGb: S.optional(S.Number),
+          isSystemDisk: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DiskInfo" });
+    case 2:
+      return S.Array(__S(65, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          fromBundleId: S.optional(S.String),
+          fromBlueprintId: S.optional(S.String),
+          fromDiskInfo: S.optional(__S(66, __c4, 2)),
+        }),
+      ).annotate({ identifier: "InstanceSnapshotInfo" });
+    case 4:
+      return S.suspend(() => S.Struct({ sizeInGb: S.optional(S.Number) })).annotate({
+        identifier: "DiskSnapshotInfo",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          name: S.optional(S.String),
+          arn: S.optional(S.String),
+          fromResourceName: S.optional(S.String),
+          fromResourceArn: S.optional(S.String),
+          instanceSnapshotInfo: S.optional(__S(67, __c4, 3)),
+          diskSnapshotInfo: S.optional(__S(68, __c4, 4)),
+        }),
+      ).annotate({ identifier: "ExportSnapshotRecordSourceInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          arn: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          location: S.optional(__S(2960, __c185, 0)),
+          resourceType: S.optional(S.String),
+          state: S.optional(S.String),
+          sourceInfo: S.optional(__S(69, __c4, 5)),
+          destinationInfo: S.optional(__S(3040, __c190, 0)),
+        }),
+      ).annotate({ identifier: "ExportSnapshotRecord" });
+    case 7:
+      return S.Array(__S(70, __c4, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          exportSnapshotRecords: S.optional(__S(71, __c4, 7)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetExportSnapshotRecordsResult" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ instanceName: S.String, includeHealthStatus: S.optional(S.Boolean) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstance" }),
@@ -9828,18 +10285,18 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ instance: S.optional(__S(41, __c2, 9)) })).annotate({
+      return S.suspend(() => S.Struct({ instance: S.optional(__S(105, __c6, 9)) })).annotate({
         identifier: "GetInstanceResult",
       });
   }
 }
-function __c2(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cpuCount: S.optional(S.Number),
-          disks: S.optional(__S(3136, __c196, 0)),
+          disks: S.optional(__S(3312, __c207, 0)),
           ramSizeInGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceHardware" });
@@ -9857,18 +10314,18 @@ function __c2(j: number): any {
           accessType: S.optional(S.String),
           commonName: S.optional(S.String),
           accessDirection: S.optional(S.String),
-          cidrs: S.optional(__S(240, __c15, 0)),
-          ipv6Cidrs: S.optional(__S(240, __c15, 0)),
-          cidrListAliases: S.optional(__S(240, __c15, 0)),
+          cidrs: S.optional(__S(256, __c16, 0)),
+          ipv6Cidrs: S.optional(__S(256, __c16, 0)),
+          cidrListAliases: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "InstancePortInfo" });
     case 3:
-      return S.Array(__S(34, __c2, 2));
+      return S.Array(__S(98, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          monthlyTransfer: S.optional(__S(33, __c2, 1)),
-          ports: S.optional(__S(35, __c2, 3)),
+          monthlyTransfer: S.optional(__S(97, __c6, 1)),
+          ports: S.optional(__S(99, __c6, 3)),
         }),
       ).annotate({ identifier: "InstanceNetworking" });
     case 5:
@@ -9890,10 +10347,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "InstanceHealthStatusDetail" });
     case 7:
-      return S.Array(__S(38, __c2, 6));
+      return S.Array(__S(102, __c6, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), details: S.optional(__S(39, __c2, 7)) }),
+        S.Struct({ status: S.optional(S.String), details: S.optional(__S(103, __c6, 7)) }),
       ).annotate({ identifier: "InstanceHealthStatus" });
     case 9:
       return S.suspend(() =>
@@ -9902,31 +10359,31 @@ function __c2(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           blueprintId: S.optional(S.String),
           blueprintName: S.optional(S.String),
           bundleId: S.optional(S.String),
-          addOns: S.optional(__S(3073, __c192, 1)),
+          addOns: S.optional(__S(3281, __c205, 1)),
           isStaticIp: S.optional(S.Boolean),
           privateIpAddress: S.optional(S.String),
           publicIpAddress: S.optional(S.String),
-          ipv6Addresses: S.optional(__S(240, __c15, 0)),
+          ipv6Addresses: S.optional(__S(256, __c16, 0)),
           ipAddressType: S.optional(S.String),
-          hardware: S.optional(__S(32, __c2, 0)),
-          networking: S.optional(__S(36, __c2, 4)),
-          state: S.optional(__S(48, __c3, 0)),
+          hardware: S.optional(__S(96, __c6, 0)),
+          networking: S.optional(__S(100, __c6, 4)),
+          state: S.optional(__S(112, __c7, 0)),
           username: S.optional(S.String),
           sshKeyName: S.optional(S.String),
-          metadataOptions: S.optional(__S(37, __c2, 5)),
-          instanceStatus: S.optional(__S(40, __c2, 8)),
-          systemStatus: S.optional(__S(40, __c2, 8)),
+          metadataOptions: S.optional(__S(101, __c6, 5)),
+          instanceStatus: S.optional(__S(104, __c6, 8)),
+          systemStatus: S.optional(__S(104, __c6, 8)),
         }),
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9934,7 +10391,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "InstanceState" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9951,7 +10408,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetInstanceAccessDetailsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ciphertext: S.optional(S.String), keyPairName: S.optional(S.String) }),
+        S.Struct({ ciphertext: S.optional(SensitiveString), keyPairName: S.optional(S.String) }),
       ).annotate({ identifier: "PasswordData" });
     case 2:
       return S.suspend(() =>
@@ -9966,30 +10423,30 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "HostKeyAttributes" });
     case 3:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(130, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           certKey: S.optional(S.String),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ipAddress: S.optional(S.String),
-          ipv6Addresses: S.optional(__S(240, __c15, 0)),
-          password: S.optional(S.String),
-          passwordData: S.optional(__S(65, __c4, 1)),
-          privateKey: S.optional(S.String),
+          ipv6Addresses: S.optional(__S(256, __c16, 0)),
+          password: S.optional(SensitiveString),
+          passwordData: S.optional(__S(129, __c8, 1)),
+          privateKey: S.optional(SensitiveString),
           protocol: S.optional(S.String),
           instanceName: S.optional(S.String),
           username: S.optional(S.String),
-          hostKeys: S.optional(__S(67, __c4, 3)),
+          hostKeys: S.optional(__S(131, __c8, 3)),
         }),
       ).annotate({ identifier: "InstanceAccessDetails" });
     case 5:
-      return S.suspend(() => S.Struct({ accessDetails: S.optional(__S(68, __c4, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ accessDetails: S.optional(__S(132, __c8, 4)) })).annotate({
         identifier: "GetInstanceAccessDetailsResult",
       });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10000,7 +10457,7 @@ function __c5(j: number): any {
           startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           unit: S.String,
-          statistics: __S(1808, __c113, 0),
+          statistics: __S(1920, __c120, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceMetricData" }),
@@ -10014,7 +10471,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetInstanceMetricDataRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10036,20 +10493,20 @@ function __c6(j: number): any {
           toPort: S.optional(S.Number),
           protocol: S.optional(S.String),
           state: S.optional(S.String),
-          cidrs: S.optional(__S(240, __c15, 0)),
-          ipv6Cidrs: S.optional(__S(240, __c15, 0)),
-          cidrListAliases: S.optional(__S(240, __c15, 0)),
+          cidrs: S.optional(__S(256, __c16, 0)),
+          ipv6Cidrs: S.optional(__S(256, __c16, 0)),
+          cidrListAliases: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "InstancePortState" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
-      return S.suspend(() => S.Struct({ portStates: S.optional(__S(98, __c6, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ portStates: S.optional(__S(162, __c10, 2)) })).annotate({
         identifier: "GetInstancePortStatesResult",
       });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10068,14 +10525,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "GetInstancesRequest" });
     case 1:
-      return S.Array(__S(41, __c2, 9));
+      return S.Array(__S(105, __c6, 9));
     case 2:
       return S.suspend(() =>
-        S.Struct({ instances: S.optional(__S(113, __c7, 1)), nextPageToken: S.optional(S.String) }),
+        S.Struct({
+          instances: S.optional(__S(177, __c11, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
       ).annotate({ identifier: "GetInstancesResult" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10092,11 +10552,11 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetInstanceSnapshotRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ instanceSnapshot: S.optional(__S(144, __c9, 0)) }),
+        S.Struct({ instanceSnapshot: S.optional(__S(208, __c13, 0)) }),
       ).annotate({ identifier: "GetInstanceSnapshotResult" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10105,12 +10565,12 @@ function __c9(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           state: S.optional(S.String),
           progress: S.optional(S.String),
-          fromAttachedDisks: S.optional(__S(3136, __c196, 0)),
+          fromAttachedDisks: S.optional(__S(3312, __c207, 0)),
           fromInstanceName: S.optional(S.String),
           fromInstanceArn: S.optional(S.String),
           fromBlueprintId: S.optional(S.String),
@@ -10121,7 +10581,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "InstanceSnapshot" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10137,17 +10597,40 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceSnapshotsRequest" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instanceSnapshots: S.optional(__S(161, __c10, 1)),
+          instanceSnapshots: S.optional(__S(225, __c14, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetInstanceSnapshotsResult" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ loadBalancerName: S.String, instanceNames: __S(256, __c16, 0) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachInstancesToLoadBalancer" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AttachInstancesToLoadBalancerRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10163,12 +10646,12 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceStateRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ state: S.optional(__S(48, __c3, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ state: S.optional(__S(112, __c7, 0)) })).annotate({
         identifier: "GetInstanceStateResult",
       });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10184,12 +10667,12 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "GetKeyPairRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ keyPair: S.optional(__S(2000, __c125, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ keyPair: S.optional(__S(2112, __c132, 0)) })).annotate({
         identifier: "GetKeyPairResult",
       });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10208,37 +10691,14 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "GetKeyPairsRequest" });
     case 1:
-      return S.Array(__S(2000, __c125, 0));
+      return S.Array(__S(2112, __c132, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ keyPairs: S.optional(__S(209, __c13, 1)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ keyPairs: S.optional(__S(305, __c19, 1)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetKeyPairsResult" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ loadBalancerName: S.String, instanceNames: __S(240, __c15, 0) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachInstancesToLoadBalancer" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AttachInstancesToLoadBalancerRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10254,12 +10714,12 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "GetLoadBalancerRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ loadBalancer: S.optional(__S(277, __c17, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ loadBalancer: S.optional(__S(341, __c21, 5)) })).annotate({
         identifier: "GetLoadBalancerResult",
       });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10270,13 +10730,13 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "InstanceHealthSummary" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(336, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), isAttached: S.optional(S.Boolean) }),
       ).annotate({ identifier: "LoadBalancerTlsCertificateSummary" });
     case 3:
-      return S.Array(__S(274, __c17, 2));
+      return S.Array(__S(338, __c21, 2));
     case 4:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 5:
@@ -10286,18 +10746,18 @@ function __c17(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           dnsName: S.optional(S.String),
           state: S.optional(S.String),
           protocol: S.optional(S.String),
-          publicPorts: S.optional(__S(1840, __c115, 0)),
+          publicPorts: S.optional(__S(1952, __c122, 0)),
           healthCheckPath: S.optional(S.String),
           instancePort: S.optional(S.Number),
-          instanceHealthSummary: S.optional(__S(273, __c17, 1)),
-          tlsCertificateSummaries: S.optional(__S(275, __c17, 3)),
-          configurationOptions: S.optional(__S(276, __c17, 4)),
+          instanceHealthSummary: S.optional(__S(337, __c21, 1)),
+          tlsCertificateSummaries: S.optional(__S(339, __c21, 3)),
+          configurationOptions: S.optional(__S(340, __c21, 4)),
           ipAddressType: S.optional(S.String),
           httpsRedirectionEnabled: S.optional(S.Boolean),
           tlsPolicyName: S.optional(S.String),
@@ -10305,7 +10765,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "LoadBalancer" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10316,7 +10776,7 @@ function __c18(j: number): any {
           startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           unit: S.String,
-          statistics: __S(1808, __c113, 0),
+          statistics: __S(1920, __c120, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetLoadBalancerMetricData" }),
@@ -10330,7 +10790,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetLoadBalancerMetricDataRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10346,17 +10806,17 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "GetLoadBalancersRequest" });
     case 1:
-      return S.Array(__S(277, __c17, 5));
+      return S.Array(__S(341, __c21, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          loadBalancers: S.optional(__S(305, __c19, 1)),
+          loadBalancers: S.optional(__S(369, __c23, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLoadBalancersResult" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10379,22 +10839,22 @@ function __c20(j: number): any {
           value: S.optional(S.String),
           validationStatus: S.optional(S.String),
           domainName: S.optional(S.String),
-          dnsRecordCreationState: S.optional(__S(1488, __c93, 0)),
+          dnsRecordCreationState: S.optional(__S(1600, __c100, 0)),
         }),
       ).annotate({ identifier: "LoadBalancerTlsCertificateDomainValidationRecord" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ domainName: S.optional(S.String), validationStatus: S.optional(S.String) }),
       ).annotate({ identifier: "LoadBalancerTlsCertificateDomainValidationOption" });
     case 4:
-      return S.Array(__S(323, __c20, 3));
+      return S.Array(__S(387, __c24, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           renewalStatus: S.optional(S.String),
-          domainValidationOptions: S.optional(__S(324, __c20, 4)),
+          domainValidationOptions: S.optional(__S(388, __c24, 4)),
         }),
       ).annotate({ identifier: "LoadBalancerTlsCertificateRenewalSummary" });
     case 6:
@@ -10404,38 +10864,38 @@ function __c20(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           loadBalancerName: S.optional(S.String),
           isAttached: S.optional(S.Boolean),
           status: S.optional(S.String),
           domainName: S.optional(S.String),
-          domainValidationRecords: S.optional(__S(322, __c20, 2)),
+          domainValidationRecords: S.optional(__S(386, __c24, 2)),
           failureReason: S.optional(S.String),
           issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           issuer: S.optional(S.String),
           keyAlgorithm: S.optional(S.String),
           notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          renewalSummary: S.optional(__S(325, __c20, 5)),
+          renewalSummary: S.optional(__S(389, __c24, 5)),
           revocationReason: S.optional(S.String),
           revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           serial: S.optional(S.String),
           signatureAlgorithm: S.optional(S.String),
           subject: S.optional(S.String),
-          subjectAlternativeNames: S.optional(__S(240, __c15, 0)),
+          subjectAlternativeNames: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "LoadBalancerTlsCertificate" });
     case 7:
-      return S.Array(__S(326, __c20, 6));
+      return S.Array(__S(390, __c24, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ tlsCertificates: S.optional(__S(327, __c20, 7)) }),
+        S.Struct({ tlsCertificates: S.optional(__S(391, __c24, 7)) }),
       ).annotate({ identifier: "GetLoadBalancerTlsCertificatesResult" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10456,22 +10916,22 @@ function __c21(j: number): any {
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
           description: S.optional(S.String),
-          protocols: S.optional(__S(240, __c15, 0)),
-          ciphers: S.optional(__S(240, __c15, 0)),
+          protocols: S.optional(__S(256, __c16, 0)),
+          ciphers: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "LoadBalancerTlsPolicy" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(401, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tlsPolicies: S.optional(__S(338, __c21, 2)),
+          tlsPolicies: S.optional(__S(402, __c25, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLoadBalancerTlsPoliciesResult" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10488,7 +10948,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetOperationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10506,13 +10966,30 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(2800, __c175, 0)),
+          operations: S.optional(__S(2912, __c182, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOperationsResult" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ loadBalancerName: S.String, certificateName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachLoadBalancerTlsCertificate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AttachLoadBalancerTlsCertificateRequest" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10530,14 +11007,14 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(2800, __c175, 0)),
+          operations: S.optional(__S(2912, __c182, 0)),
           nextPageCount: S.optional(S.String),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOperationsForResourceResult" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10562,11 +11039,11 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PartnerInfo" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ profileType: S.String, partner: S.optional(__S(401, __c25, 1)) }),
+        S.Struct({ profileType: S.String, partner: S.optional(__S(481, __c30, 1)) }),
       ).annotate({ identifier: "GetProfileResult" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10587,29 +11064,12 @@ function __c26(j: number): any {
     case 1:
       return S.Array(Region);
     case 2:
-      return S.suspend(() => S.Struct({ regions: S.optional(__S(417, __c26, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ regions: S.optional(__S(497, __c31, 1)) })).annotate({
         identifier: "GetRegionsResult",
       });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ loadBalancerName: S.String, certificateName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachLoadBalancerTlsCertificate" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AttachLoadBalancerTlsCertificateRequest" });
-  }
-}
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10626,11 +11086,11 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetRelationalDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ relationalDatabase: S.optional(__S(469, __c29, 5)) }),
+        S.Struct({ relationalDatabase: S.optional(__S(533, __c33, 5)) }),
       ).annotate({ identifier: "GetRelationalDatabaseResult" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10643,7 +11103,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          masterUserPassword: S.optional(S.String),
+          masterUserPassword: S.optional(SensitiveString),
           engineVersion: S.optional(S.String),
           backupRetentionEnabled: S.optional(S.Boolean),
         }),
@@ -10661,7 +11121,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "PendingMaintenanceAction" });
     case 4:
-      return S.Array(__S(467, __c29, 3));
+      return S.Array(__S(531, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10669,17 +11129,17 @@ function __c29(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           relationalDatabaseBlueprintId: S.optional(S.String),
           relationalDatabaseBundleId: S.optional(S.String),
           masterDatabaseName: S.optional(S.String),
-          hardware: S.optional(__S(464, __c29, 0)),
+          hardware: S.optional(__S(528, __c33, 0)),
           state: S.optional(S.String),
           secondaryAvailabilityZone: S.optional(S.String),
           backupRetentionEnabled: S.optional(S.Boolean),
-          pendingModifiedValues: S.optional(__S(465, __c29, 1)),
+          pendingModifiedValues: S.optional(__S(529, __c33, 1)),
           engine: S.optional(S.String),
           engineVersion: S.optional(S.String),
           latestRestorableTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -10688,14 +11148,14 @@ function __c29(j: number): any {
           preferredBackupWindow: S.optional(S.String),
           preferredMaintenanceWindow: S.optional(S.String),
           publiclyAccessible: S.optional(S.Boolean),
-          masterEndpoint: S.optional(__S(466, __c29, 2)),
-          pendingMaintenanceActions: S.optional(__S(468, __c29, 4)),
+          masterEndpoint: S.optional(__S(530, __c33, 2)),
+          pendingMaintenanceActions: S.optional(__S(532, __c33, 4)),
           caCertificateIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "RelationalDatabase" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10722,17 +11182,17 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "RelationalDatabaseBlueprint" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blueprints: S.optional(__S(482, __c30, 2)),
+          blueprints: S.optional(__S(546, __c34, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRelationalDatabaseBlueprintsResult" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10762,14 +11222,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "RelationalDatabaseBundle" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ bundles: S.optional(__S(498, __c31, 2)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ bundles: S.optional(__S(562, __c35, 2)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetRelationalDatabaseBundlesResult" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10794,21 +11254,21 @@ function __c32(j: number): any {
           resource: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           message: S.optional(S.String),
-          eventCategories: S.optional(__S(240, __c15, 0)),
+          eventCategories: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "RelationalDatabaseEvent" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          relationalDatabaseEvents: S.optional(__S(514, __c32, 2)),
+          relationalDatabaseEvents: S.optional(__S(578, __c36, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRelationalDatabaseEventsResult" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10833,14 +11293,14 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceLogEvents: S.optional(__S(2961, __c185, 1)),
+          resourceLogEvents: S.optional(__S(3137, __c196, 1)),
           nextBackwardToken: S.optional(S.String),
           nextForwardToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRelationalDatabaseLogEventsResult" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10856,12 +11316,12 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetRelationalDatabaseLogStreamsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ logStreams: S.optional(__S(240, __c15, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ logStreams: S.optional(__S(256, __c16, 0)) })).annotate({
         identifier: "GetRelationalDatabaseLogStreamsResult",
       });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10888,100 +11348,6 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetRelationalDatabaseMasterUserPasswordResult" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          relationalDatabaseName: S.String,
-          metricName: S.String,
-          period: S.Number,
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          unit: S.String,
-          statistics: __S(1808, __c113, 0),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabaseMetricData" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetRelationalDatabaseMetricDataRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ relationalDatabaseName: S.String, pageToken: S.optional(S.String) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabaseParameters" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetRelationalDatabaseParametersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(609, __c38, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetRelationalDatabaseParametersResult" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowedValues: S.optional(S.String),
-          applyMethod: S.optional(S.String),
-          applyType: S.optional(S.String),
-          dataType: S.optional(S.String),
-          description: S.optional(S.String),
-          isModifiable: S.optional(S.Boolean),
-          parameterName: S.optional(S.String),
-          parameterValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RelationalDatabaseParameter" });
-    case 1:
-      return S.Array(__S(608, __c38, 0));
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ pageToken: S.optional(S.String) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabases" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetRelationalDatabasesRequest" });
-    case 1:
-      return S.Array(__S(469, __c29, 5));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          relationalDatabases: S.optional(__S(625, __c39, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetRelationalDatabasesResult" });
-  }
-}
 function __c40(j: number): any {
   switch (j) {
     case 0:
@@ -11003,6 +11369,100 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          relationalDatabaseName: S.String,
+          metricName: S.String,
+          period: S.Number,
+          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          unit: S.String,
+          statistics: __S(1920, __c120, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabaseMetricData" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRelationalDatabaseMetricDataRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ relationalDatabaseName: S.String, pageToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabaseParameters" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRelationalDatabaseParametersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(689, __c43, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetRelationalDatabaseParametersResult" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowedValues: S.optional(S.String),
+          applyMethod: S.optional(S.String),
+          applyType: S.optional(S.String),
+          dataType: S.optional(S.String),
+          description: S.optional(S.String),
+          isModifiable: S.optional(S.Boolean),
+          parameterName: S.optional(S.String),
+          parameterValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RelationalDatabaseParameter" });
+    case 1:
+      return S.Array(__S(688, __c43, 0));
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ pageToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabases" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRelationalDatabasesRequest" });
+    case 1:
+      return S.Array(__S(533, __c33, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          relationalDatabases: S.optional(__S(705, __c44, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetRelationalDatabasesResult" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ relationalDatabaseSnapshotName: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabaseSnapshot" }),
@@ -11016,11 +11476,11 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetRelationalDatabaseSnapshotRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ relationalDatabaseSnapshot: S.optional(__S(672, __c42, 0)) }),
+        S.Struct({ relationalDatabaseSnapshot: S.optional(__S(736, __c46, 0)) }),
       ).annotate({ identifier: "GetRelationalDatabaseSnapshotResult" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11029,9 +11489,9 @@ function __c42(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           engine: S.optional(S.String),
           engineVersion: S.optional(S.String),
           sizeInGb: S.optional(S.Number),
@@ -11044,7 +11504,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "RelationalDatabaseSnapshot" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11060,17 +11520,17 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "GetRelationalDatabaseSnapshotsRequest" });
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(736, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          relationalDatabaseSnapshots: S.optional(__S(689, __c43, 1)),
+          relationalDatabaseSnapshots: S.optional(__S(753, __c47, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRelationalDatabaseSnapshotsResult" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11089,7 +11549,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           instanceName: S.optional(S.String),
-          domainNames: S.optional(__S(240, __c15, 0)),
+          domainNames: S.optional(__S(256, __c16, 0)),
           certificateProvider: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupRequest" });
@@ -11099,7 +11559,7 @@ function __c44(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupHistoryResource" });
@@ -11116,29 +11576,29 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "SetupExecutionDetails" });
     case 4:
-      return S.Array(__S(707, __c44, 3));
+      return S.Array(__S(771, __c48, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           operationId: S.optional(S.String),
-          request: S.optional(__S(705, __c44, 1)),
-          resource: S.optional(__S(706, __c44, 2)),
-          executionDetails: S.optional(__S(708, __c44, 4)),
+          request: S.optional(__S(769, __c48, 1)),
+          resource: S.optional(__S(770, __c48, 2)),
+          executionDetails: S.optional(__S(772, __c48, 4)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupHistory" });
     case 6:
-      return S.Array(__S(709, __c44, 5));
+      return S.Array(__S(773, __c48, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          setupHistory: S.optional(__S(710, __c44, 6)),
+          setupHistory: S.optional(__S(774, __c48, 6)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSetupHistoryResult" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11154,12 +11614,12 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "GetStaticIpRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ staticIp: S.optional(__S(736, __c46, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ staticIp: S.optional(__S(800, __c50, 0)) })).annotate({
         identifier: "GetStaticIpResult",
       });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11168,7 +11628,7 @@ function __c46(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
           ipAddress: S.optional(S.String),
           attachedTo: S.optional(S.String),
@@ -11177,7 +11637,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "StaticIp" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11193,17 +11653,41 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "GetStaticIpsRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(800, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          staticIps: S.optional(__S(753, __c47, 1)),
+          staticIps: S.optional(__S(817, __c51, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetStaticIpsResult" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ subdomainName: S.optional(S.String), pageToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetSubdomains" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSubdomainsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subdomains: S.optional(__S(2225, __c139, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetSubdomainsResult" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11220,7 +11704,32 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ImportKeyPairRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ subdomainName: S.String, reserve: S.optional(S.Boolean) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CheckSubdomainAvailability" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CheckSubdomainAvailabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          available: S.optional(S.Boolean),
+          reservationExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          subdomainName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckSubdomainAvailabilityResult" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11241,11 +11750,11 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ portInfo: __S(864, __c54, 0), instanceName: S.String }).pipe(
+        S.Struct({ portInfo: __S(1056, __c66, 0), instanceName: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/OpenInstancePublicPorts" }),
             svc,
@@ -11258,7 +11767,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "OpenInstancePublicPortsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11275,7 +11784,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PeerVpcRequest" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11288,10 +11797,10 @@ function __c52(j: number): any {
           evaluationPeriods: S.Number,
           datapointsToAlarm: S.optional(S.Number),
           treatMissingData: S.optional(S.String),
-          contactProtocols: S.optional(__S(1808, __c113, 0)),
-          notificationTriggers: S.optional(__S(1808, __c113, 0)),
+          contactProtocols: S.optional(__S(1920, __c120, 0)),
+          notificationTriggers: S.optional(__S(1920, __c120, 0)),
           notificationEnabled: S.optional(S.Boolean),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PutAlarm" }),
@@ -11305,45 +11814,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PutAlarmRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ portInfo: __S(864, __c54, 0), instanceName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CloseInstancePublicPorts" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CloseInstancePublicPortsRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fromPort: S.optional(S.Number),
-          toPort: S.optional(S.Number),
-          protocol: S.optional(S.String),
-          cidrs: S.optional(__S(240, __c15, 0)),
-          ipv6Cidrs: S.optional(__S(240, __c15, 0)),
-          cidrListAliases: S.optional(__S(240, __c15, 0)),
-        }),
-      ).annotate({ identifier: "PortInfo" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(1056, __c66, 0));
     case 1:
       return S.suspend(() =>
-        S.Struct({ portInfos: __S(880, __c55, 0), instanceName: S.String }).pipe(
+        S.Struct({ portInfos: __S(944, __c59, 0), instanceName: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PutInstancePublicPorts" }),
             svc,
@@ -11356,7 +11833,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "PutInstancePublicPortsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11373,7 +11850,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RebootInstanceRequest" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11390,7 +11867,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RebootRelationalDatabaseRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11414,11 +11891,11 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RegisterContainerImageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ containerImage: S.optional(__S(2928, __c183, 0)) }),
+        S.Struct({ containerImage: S.optional(__S(3104, __c194, 0)) }),
       ).annotate({ identifier: "RegisterContainerImageResult" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11435,7 +11912,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ReleaseStaticIpRequest" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11455,12 +11932,44 @@ function __c60(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          operation: S.optional(__S(2864, __c179, 0)),
+          operation: S.optional(__S(2976, __c186, 0)),
         }),
       ).annotate({ identifier: "ResetDistributionCacheResult" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ portInfo: __S(1056, __c66, 0), instanceName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CloseInstancePublicPorts" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CloseInstancePublicPortsRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fromPort: S.optional(S.Number),
+          toPort: S.optional(S.Number),
+          protocol: S.optional(S.String),
+          cidrs: S.optional(__S(256, __c16, 0)),
+          ipv6Cidrs: S.optional(__S(256, __c16, 0)),
+          cidrListAliases: S.optional(__S(256, __c16, 0)),
+        }),
+      ).annotate({ identifier: "PortInfo" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11477,7 +11986,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SendContactMethodVerificationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11499,7 +12008,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIpAddressTypeRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11516,14 +12025,14 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetResourceAccessForBucketRequest" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           instanceName: S.String,
           emailAddress: SensitiveString,
-          domainNames: __S(240, __c15, 0),
+          domainNames: __S(256, __c16, 0),
           certificateProvider: S.String,
         }).pipe(
           T.all(
@@ -11538,7 +12047,119 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SetupInstanceHttpsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/start-gui-session" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartGUISessionRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ bundleId: S.optional(S.String) })).annotate({
+        identifier: "InstanceAttributeUpdates",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceName: S.String,
+          attributeUpdates: S.optional(__S(1152, __c72, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartInstance" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartInstanceRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ relationalDatabaseName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartRelationalDatabase" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartRelationalDatabaseRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/stop-gui-session" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopGUISessionRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ instanceName: S.String, force: S.optional(S.Boolean) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopInstance" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopInstanceRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          relationalDatabaseName: S.String,
+          relationalDatabaseSnapshotName: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopRelationalDatabase" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopRelationalDatabaseRequest" });
+  }
+}
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11562,126 +12183,14 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CopySnapshotRequest" });
   }
 }
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/start-gui-session" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StartGUISessionRequest" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ bundleId: S.optional(S.String) })).annotate({
-        identifier: "InstanceAttributeUpdates",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instanceName: S.String,
-          attributeUpdates: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartInstance" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StartInstanceRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ relationalDatabaseName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartRelationalDatabase" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StartRelationalDatabaseRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/stop-gui-session" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StopGUISessionRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ instanceName: S.String, force: S.optional(S.Boolean) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopInstance" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StopInstanceRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          relationalDatabaseName: S.String,
-          relationalDatabaseSnapshotName: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopRelationalDatabase" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "StopRelationalDatabaseRequest" });
-  }
-}
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.String,
           resourceArn: S.optional(S.String),
-          tags: __S(1249, __c78, 1),
+          tags: __S(1441, __c90, 1),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/TagResource" }),
@@ -11695,7 +12204,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11715,7 +12224,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "TestAlarmRequest" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11732,14 +12241,14 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UnpeerVpcRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.String,
           resourceArn: S.optional(S.String),
-          tagKeys: __S(240, __c15, 0),
+          tagKeys: __S(256, __c16, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UntagResource" }),
@@ -11753,125 +12262,17 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bucketName: S.String,
-          bundleId: S.String,
-          tags: S.optional(__S(1249, __c78, 1)),
-          enableObjectVersioning: S.optional(S.Boolean),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateBucket" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateBucketRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.optional(__S(1272, __c79, 8)),
-          operations: S.optional(__S(2800, __c175, 0)),
-        }),
-      ).annotate({ identifier: "CreateBucketResult" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
-      ).annotate({ identifier: "Tag" });
-    case 1:
-      return S.Array(__S(1248, __c78, 0));
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ getObject: S.optional(S.String), allowPublicOverrides: S.optional(S.Boolean) }),
-      ).annotate({ identifier: "AccessRules" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), resourceType: S.optional(S.String) }),
-      ).annotate({ identifier: "ResourceReceivingAccess" });
-    case 2:
-      return S.Array(__S(1265, __c79, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
-      ).annotate({ identifier: "BucketState" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          destination: S.optional(S.String),
-          prefix: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BucketAccessLogConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          allowedMethods: __S(240, __c15, 0),
-          allowedOrigins: __S(240, __c15, 0),
-          allowedHeaders: S.optional(__S(240, __c15, 0)),
-          exposeHeaders: S.optional(__S(240, __c15, 0)),
-          maxAgeSeconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BucketCorsRule" });
-    case 6:
-      return S.Array(__S(1269, __c79, 5));
-    case 7:
-      return S.suspend(() => S.Struct({ rules: S.optional(__S(1270, __c79, 6)) })).annotate({
-        identifier: "BucketCorsConfig",
-      });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          resourceType: S.optional(S.String),
-          accessRules: S.optional(__S(1264, __c79, 0)),
-          arn: S.optional(S.String),
-          bundleId: S.optional(S.String),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          url: S.optional(S.String),
-          location: S.optional(__S(2848, __c178, 0)),
-          name: S.optional(S.String),
-          supportCode: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
-          objectVersioning: S.optional(S.String),
-          ableToUpdateBundle: S.optional(S.Boolean),
-          readonlyAccessAccounts: S.optional(__S(240, __c15, 0)),
-          resourcesReceivingAccess: S.optional(__S(1266, __c79, 2)),
-          state: S.optional(__S(1267, __c79, 3)),
-          accessLogConfig: S.optional(__S(1268, __c79, 4)),
-          cors: S.optional(__S(1271, __c79, 7)),
-        }),
-      ).annotate({ identifier: "Bucket" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucketName: S.String,
-          accessRules: S.optional(__S(1264, __c79, 0)),
+          accessRules: S.optional(__S(1456, __c91, 0)),
           versioning: S.optional(S.String),
-          readonlyAccessAccounts: S.optional(__S(240, __c15, 0)),
-          accessLogConfig: S.optional(__S(1268, __c79, 4)),
-          cors: S.optional(__S(1271, __c79, 7)),
+          readonlyAccessAccounts: S.optional(__S(256, __c16, 0)),
+          accessLogConfig: S.optional(__S(1460, __c91, 4)),
+          cors: S.optional(__S(1463, __c91, 7)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateBucket" }),
@@ -11885,7 +12286,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateBucketRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11902,7 +12303,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateBucketBundleRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11911,8 +12312,8 @@ function __c82(j: number): any {
           power: S.optional(S.String),
           scale: S.optional(S.Number),
           isDisabled: S.optional(S.Boolean),
-          publicDomainNames: S.optional(__S(1648, __c103, 0)),
-          privateRegistryAccess: S.optional(__S(1569, __c98, 1)),
+          publicDomainNames: S.optional(__S(1760, __c110, 0)),
+          privateRegistryAccess: S.optional(__S(1681, __c105, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/ls/api/2016-11-28/container-services/{serviceName}" }),
@@ -11926,25 +12327,25 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateContainerServiceRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           distributionName: S.String,
-          origin: S.optional(__S(1792, __c112, 0)),
-          defaultCacheBehavior: S.optional(__S(1856, __c116, 0)),
-          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
-          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
+          origin: S.optional(__S(1904, __c119, 0)),
+          defaultCacheBehavior: S.optional(__S(1968, __c123, 0)),
+          cacheBehaviorSettings: S.optional(__S(1972, __c123, 4)),
+          cacheBehaviors: S.optional(__S(1974, __c123, 6)),
           isEnabled: S.optional(S.Boolean),
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           certificateName: S.optional(S.String),
           useDefaultCertificate: S.optional(S.Boolean),
           enablePrivateOriginAccess: S.optional(S.Boolean),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1864, __c116, 8)),
+          customErrorResponses: S.optional(__S(1976, __c123, 8)),
           enableWaf: S.optional(S.Boolean),
-          wafRules: S.optional(__S(1870, __c116, 14)),
+          wafRules: S.optional(__S(1982, __c123, 14)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDistribution" }),
@@ -11958,7 +12359,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateDistributionRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11975,11 +12376,11 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateDistributionBundleRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(2016, __c126, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDomainEntry" }),
             svc,
@@ -11992,7 +12393,115 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdateDomainEntryRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucketName: S.String,
+          bundleId: S.String,
+          tags: S.optional(__S(1441, __c90, 1)),
+          enableObjectVersioning: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateBucket" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateBucketRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(__S(1464, __c91, 8)),
+          operations: S.optional(__S(2912, __c182, 0)),
+        }),
+      ).annotate({ identifier: "CreateBucketResult" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(1440, __c90, 0));
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ getObject: S.optional(S.String), allowPublicOverrides: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "AccessRules" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ name: S.optional(S.String), resourceType: S.optional(S.String) }),
+      ).annotate({ identifier: "ResourceReceivingAccess" });
+    case 2:
+      return S.Array(__S(1457, __c91, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "BucketState" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          destination: S.optional(S.String),
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BucketAccessLogConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          allowedMethods: __S(256, __c16, 0),
+          allowedOrigins: __S(256, __c16, 0),
+          allowedHeaders: S.optional(__S(256, __c16, 0)),
+          exposeHeaders: S.optional(__S(256, __c16, 0)),
+          maxAgeSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BucketCorsRule" });
+    case 6:
+      return S.Array(__S(1461, __c91, 5));
+    case 7:
+      return S.suspend(() => S.Struct({ rules: S.optional(__S(1462, __c91, 6)) })).annotate({
+        identifier: "BucketCorsConfig",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          accessRules: S.optional(__S(1456, __c91, 0)),
+          arn: S.optional(S.String),
+          bundleId: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          url: S.optional(S.String),
+          location: S.optional(__S(2960, __c185, 0)),
+          name: S.optional(S.String),
+          supportCode: S.optional(S.String),
+          tags: S.optional(__S(1441, __c90, 1)),
+          objectVersioning: S.optional(S.String),
+          ableToUpdateBundle: S.optional(S.Boolean),
+          readonlyAccessAccounts: S.optional(__S(256, __c16, 0)),
+          resourcesReceivingAccess: S.optional(__S(1458, __c91, 2)),
+          state: S.optional(__S(1459, __c91, 3)),
+          accessLogConfig: S.optional(__S(1460, __c91, 4)),
+          cors: S.optional(__S(1463, __c91, 7)),
+        }),
+      ).annotate({ identifier: "Bucket" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12015,7 +12524,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateInstanceMetadataOptionsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12036,7 +12545,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "UpdateLoadBalancerAttributeRequest" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12065,11 +12574,11 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UpdateRelationalDatabaseRequest" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ relationalDatabaseName: S.String, parameters: __S(609, __c38, 1) }).pipe(
+        S.Struct({ relationalDatabaseName: S.String, parameters: __S(689, __c43, 1) }).pipe(
           T.all(
             T.Http({
               method: "POST",
@@ -12085,7 +12594,28 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateRelationalDatabaseParametersRequest" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subdomainName: S.String,
+          action: S.String,
+          targetResourceArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateSubdomainAssociation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateSubdomainAssociationRequest" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12103,13 +12633,13 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accessKey: S.optional(__S(1457, __c91, 1)),
-          operations: S.optional(__S(2800, __c175, 0)),
+          accessKey: S.optional(__S(1569, __c98, 1)),
+          operations: S.optional(__S(2912, __c182, 0)),
         }),
       ).annotate({ identifier: "CreateBucketAccessKeyResult" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12123,23 +12653,23 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessKeyId: S.optional(SensitiveString),
-          secretAccessKey: S.optional(S.String),
+          secretAccessKey: S.optional(SensitiveString),
           status: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          lastUsed: S.optional(__S(1456, __c91, 0)),
+          lastUsed: S.optional(__S(1568, __c98, 0)),
         }),
       ).annotate({ identifier: "AccessKey" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           certificateName: S.String,
           domainName: S.String,
-          subjectAlternativeNames: S.optional(__S(240, __c15, 0)),
-          tags: S.optional(__S(1249, __c78, 1)),
+          subjectAlternativeNames: S.optional(__S(256, __c16, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateCertificate" }),
@@ -12154,13 +12684,13 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          certificate: S.optional(__S(1509, __c94, 5)),
-          operations: S.optional(__S(2800, __c175, 0)),
+          certificate: S.optional(__S(1621, __c101, 5)),
+          operations: S.optional(__S(2912, __c182, 0)),
         }),
       ).annotate({ identifier: "CreateCertificateResult" });
   }
 }
-function __c93(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12168,7 +12698,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DnsRecordCreationState" });
   }
 }
-function __c94(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12182,17 +12712,17 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          resourceRecord: S.optional(__S(1504, __c94, 0)),
-          dnsRecordCreationState: S.optional(__S(1488, __c93, 0)),
+          resourceRecord: S.optional(__S(1616, __c101, 0)),
+          dnsRecordCreationState: S.optional(__S(1600, __c100, 0)),
           validationStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainValidationRecord" });
     case 2:
-      return S.Array(__S(1505, __c94, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          domainValidationRecords: S.optional(__S(1506, __c94, 2)),
+          domainValidationRecords: S.optional(__S(1618, __c101, 2)),
           renewalStatus: S.optional(S.String),
           renewalStatusReason: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -12206,8 +12736,8 @@ function __c94(j: number): any {
           domainName: S.optional(S.String),
           status: S.optional(S.String),
           serialNumber: S.optional(S.String),
-          subjectAlternativeNames: S.optional(__S(240, __c15, 0)),
-          domainValidationRecords: S.optional(__S(1506, __c94, 2)),
+          subjectAlternativeNames: S.optional(__S(256, __c16, 0)),
+          domainValidationRecords: S.optional(__S(1618, __c101, 2)),
           requestFailureReason: S.optional(S.String),
           inUseResourceCount: S.optional(S.Number),
           keyAlgorithm: S.optional(S.String),
@@ -12217,10 +12747,10 @@ function __c94(j: number): any {
           notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           eligibleToRenew: S.optional(S.String),
-          renewalSummary: S.optional(__S(1507, __c94, 3)),
+          renewalSummary: S.optional(__S(1619, __c101, 3)),
           revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           revocationReason: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           supportCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Certificate" });
@@ -12230,13 +12760,13 @@ function __c94(j: number): any {
           certificateArn: S.optional(S.String),
           certificateName: S.optional(S.String),
           domainName: S.optional(S.String),
-          certificateDetail: S.optional(__S(1508, __c94, 4)),
-          tags: S.optional(__S(1249, __c78, 1)),
+          certificateDetail: S.optional(__S(1620, __c101, 4)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }),
       ).annotate({ identifier: "CertificateSummary" });
   }
 }
-function __c95(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12249,10 +12779,10 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "InstanceEntry" });
     case 1:
-      return S.Array(__S(1520, __c95, 0));
+      return S.Array(__S(1632, __c102, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ instances: __S(1521, __c95, 1) }).pipe(
+        S.Struct({ instances: __S(1633, __c102, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateCloudFormationStack" }),
             svc,
@@ -12265,14 +12795,14 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreateCloudFormationStackRequest" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           protocol: S.String,
           contactEndpoint: S.String,
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateContactMethod" }),
@@ -12286,13 +12816,13 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CreateContactMethodRequest" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(1634, __c102, 2)),
-          publicEndpoint: S.optional(__S(1584, __c99, 0)),
+          containers: S.optional(__S(1746, __c109, 2)),
+          publicEndpoint: S.optional(__S(1696, __c106, 0)),
         }),
       ).annotate({ identifier: "ContainerServiceDeploymentRequest" });
     case 1:
@@ -12301,10 +12831,10 @@ function __c97(j: number): any {
           serviceName: S.String,
           power: S.String,
           scale: S.Number,
-          tags: S.optional(__S(1249, __c78, 1)),
-          publicDomainNames: S.optional(__S(1648, __c103, 0)),
-          deployment: S.optional(__S(1552, __c97, 0)),
-          privateRegistryAccess: S.optional(__S(1569, __c98, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          publicDomainNames: S.optional(__S(1760, __c110, 0)),
+          deployment: S.optional(__S(1664, __c104, 0)),
+          privateRegistryAccess: S.optional(__S(1681, __c105, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/container-services" }),
@@ -12318,7 +12848,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateContainerServiceRequest" });
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ isActive: S.optional(S.Boolean) })).annotate({
@@ -12326,37 +12856,37 @@ function __c98(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ecrImagePullerRole: S.optional(__S(1568, __c98, 0)) }),
+        S.Struct({ ecrImagePullerRole: S.optional(__S(1680, __c105, 0)) }),
       ).annotate({ identifier: "PrivateRegistryAccessRequest" });
   }
 }
-function __c99(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           containerName: S.String,
           containerPort: S.Number,
-          healthCheck: S.optional(__S(1635, __c102, 3)),
+          healthCheck: S.optional(__S(1747, __c109, 3)),
         }),
       ).annotate({ identifier: "EndpointRequest" });
   }
 }
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ containerService: S.optional(__S(1651, __c103, 3)) }),
+        S.Struct({ containerService: S.optional(__S(1763, __c110, 3)) }),
       ).annotate({ identifier: "CreateContainerServiceResult" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
@@ -12364,13 +12894,13 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           image: S.optional(S.String),
-          command: S.optional(__S(240, __c15, 0)),
-          environment: S.optional(__S(1616, __c101, 0)),
-          ports: S.optional(__S(1632, __c102, 0)),
+          command: S.optional(__S(256, __c16, 0)),
+          environment: S.optional(__S(1728, __c108, 0)),
+          ports: S.optional(__S(1744, __c109, 0)),
         }),
       ).annotate({ identifier: "Container" });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1633, __c102, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1745, __c109, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12387,7 +12917,7 @@ function __c102(j: number): any {
         S.Struct({
           containerName: S.optional(S.String),
           containerPort: S.optional(S.Number),
-          healthCheck: S.optional(__S(1635, __c102, 3)),
+          healthCheck: S.optional(__S(1747, __c109, 3)),
         }),
       ).annotate({ identifier: "ContainerServiceEndpoint" });
     case 5:
@@ -12395,24 +12925,24 @@ function __c102(j: number): any {
         S.Struct({
           version: S.optional(S.Number),
           state: S.optional(S.String),
-          containers: S.optional(__S(1634, __c102, 2)),
-          publicEndpoint: S.optional(__S(1636, __c102, 4)),
+          containers: S.optional(__S(1746, __c109, 2)),
+          publicEndpoint: S.optional(__S(1748, __c109, 4)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ContainerServiceDeployment" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(240, __c15, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(256, __c16, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
         S.Struct({ isActive: S.optional(S.Boolean), principalArn: S.optional(S.String) }),
       ).annotate({ identifier: "ContainerServiceECRImagePullerRole" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ecrImagePullerRole: S.optional(__S(1649, __c103, 1)) }),
+        S.Struct({ ecrImagePullerRole: S.optional(__S(1761, __c110, 1)) }),
       ).annotate({ identifier: "PrivateRegistryAccess" });
     case 3:
       return S.suspend(() =>
@@ -12420,34 +12950,34 @@ function __c103(j: number): any {
           containerServiceName: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           power: S.optional(S.String),
           powerId: S.optional(S.String),
           state: S.optional(S.String),
-          stateDetail: S.optional(__S(1488, __c93, 0)),
+          stateDetail: S.optional(__S(1600, __c100, 0)),
           scale: S.optional(S.Number),
-          currentDeployment: S.optional(__S(1637, __c102, 5)),
-          nextDeployment: S.optional(__S(1637, __c102, 5)),
+          currentDeployment: S.optional(__S(1749, __c109, 5)),
+          nextDeployment: S.optional(__S(1749, __c109, 5)),
           isDisabled: S.optional(S.Boolean),
           principalArn: S.optional(S.String),
           privateDomainName: S.optional(S.String),
-          publicDomainNames: S.optional(__S(1648, __c103, 0)),
+          publicDomainNames: S.optional(__S(1760, __c110, 0)),
           url: S.optional(S.String),
-          privateRegistryAccess: S.optional(__S(1650, __c103, 2)),
+          privateRegistryAccess: S.optional(__S(1762, __c110, 2)),
         }),
       ).annotate({ identifier: "ContainerService" });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.HttpLabel("serviceName")),
-          containers: S.optional(__S(1634, __c102, 2)),
-          publicEndpoint: S.optional(__S(1584, __c99, 0)),
+          containers: S.optional(__S(1746, __c109, 2)),
+          publicEndpoint: S.optional(__S(1696, __c106, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -12464,7 +12994,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateContainerServiceDeploymentRequest" });
   }
 }
-function __c105(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12483,18 +13013,18 @@ function __c105(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(SensitiveString),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           registry: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerServiceRegistryLogin" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ registryLogin: S.optional(__S(1681, __c105, 1)) }),
+        S.Struct({ registryLogin: S.optional(__S(1793, __c112, 1)) }),
       ).annotate({ identifier: "CreateContainerServiceRegistryLoginResult" });
   }
 }
-function __c106(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12502,8 +13032,8 @@ function __c106(j: number): any {
           diskName: S.String,
           availabilityZone: S.String,
           sizeInGb: S.Number,
-          tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(1712, __c107, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          addOns: S.optional(__S(1824, __c114, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDisk" }),
@@ -12517,13 +13047,13 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateDiskRequest" });
   }
 }
-function __c107(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1730, __c108, 2));
+      return S.Array(__S(1842, __c115, 2));
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ snapshotTimeOfDay: S.optional(S.String) })).annotate({
@@ -12537,13 +13067,13 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           addOnType: S.String,
-          autoSnapshotAddOnRequest: S.optional(__S(1728, __c108, 0)),
-          stopInstanceOnIdleRequest: S.optional(__S(1729, __c108, 1)),
+          autoSnapshotAddOnRequest: S.optional(__S(1840, __c115, 0)),
+          stopInstanceOnIdleRequest: S.optional(__S(1841, __c115, 1)),
         }),
       ).annotate({ identifier: "AddOnRequest" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12552,8 +13082,8 @@ function __c109(j: number): any {
           diskSnapshotName: S.optional(S.String),
           availabilityZone: S.String,
           sizeInGb: S.Number,
-          tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(1712, __c107, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          addOns: S.optional(__S(1824, __c114, 0)),
           sourceDiskName: S.optional(S.String),
           restoreDate: S.optional(S.String),
           useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
@@ -12570,7 +13100,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateDiskFromSnapshotRequest" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12578,7 +13108,7 @@ function __c110(j: number): any {
           diskName: S.optional(S.String),
           diskSnapshotName: S.String,
           instanceName: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDiskSnapshot" }),
@@ -12592,26 +13122,27 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateDiskSnapshotRequest" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           distributionName: S.String,
-          origin: __S(1792, __c112, 0),
-          defaultCacheBehavior: __S(1856, __c116, 0),
-          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
-          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
+          origin: __S(1904, __c119, 0),
+          defaultCacheBehavior: __S(1968, __c123, 0),
+          cacheBehaviorSettings: S.optional(__S(1972, __c123, 4)),
+          cacheBehaviors: S.optional(__S(1974, __c123, 6)),
           bundleId: S.String,
           ipAddressType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           certificateName: S.optional(S.String),
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           enablePrivateOriginAccess: S.optional(S.Boolean),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1864, __c116, 8)),
+          customErrorResponses: S.optional(__S(1976, __c123, 8)),
           enableWaf: S.optional(S.Boolean),
-          wafRules: S.optional(__S(1870, __c116, 14)),
+          wafRules: S.optional(__S(1982, __c123, 14)),
+          subdomainName: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDistribution" }),
@@ -12626,13 +13157,13 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          distribution: S.optional(__S(1826, __c114, 2)),
-          operation: S.optional(__S(2864, __c179, 0)),
+          distribution: S.optional(__S(1939, __c121, 3)),
+          operation: S.optional(__S(2976, __c186, 0)),
         }),
       ).annotate({ identifier: "CreateDistributionResult" });
   }
 }
-function __c112(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12646,13 +13177,13 @@ function __c112(j: number): any {
       ).annotate({ identifier: "InputOrigin" });
   }
 }
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12670,47 +13201,57 @@ function __c114(j: number): any {
       return S.suspend(() =>
         S.Struct({
           isWafEnabled: S.optional(S.Boolean),
-          wafRules: S.optional(__S(1870, __c116, 14)),
+          wafRules: S.optional(__S(1982, __c123, 14)),
         }),
       ).annotate({ identifier: "WafConfig" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          state: S.String,
+          errorCode: S.optional(S.String),
+          errorDetails: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LightsailDistributionSubdomain" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          alternativeDomainNames: S.optional(__S(240, __c15, 0)),
+          alternativeDomainNames: S.optional(__S(256, __c16, 0)),
           status: S.optional(S.String),
           isEnabled: S.optional(S.Boolean),
           domainName: S.optional(S.String),
           bundleId: S.optional(S.String),
           certificateName: S.optional(S.String),
-          origin: S.optional(__S(1824, __c114, 0)),
+          origin: S.optional(__S(1936, __c121, 0)),
           originPublicDNS: S.optional(S.String),
-          defaultCacheBehavior: S.optional(__S(1856, __c116, 0)),
-          cacheBehaviorSettings: S.optional(__S(1860, __c116, 4)),
-          cacheBehaviors: S.optional(__S(1862, __c116, 6)),
+          defaultCacheBehavior: S.optional(__S(1968, __c123, 0)),
+          cacheBehaviorSettings: S.optional(__S(1972, __c123, 4)),
+          cacheBehaviors: S.optional(__S(1974, __c123, 6)),
           ableToUpdateBundle: S.optional(S.Boolean),
           ipAddressType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           viewerMinimumTlsProtocolVersion: S.optional(S.String),
           defaultRootObject: S.optional(S.String),
-          customErrorResponses: S.optional(__S(1864, __c116, 8)),
-          waf: S.optional(__S(1825, __c114, 1)),
+          customErrorResponses: S.optional(__S(1976, __c123, 8)),
+          waf: S.optional(__S(1937, __c121, 1)),
+          subdomain: S.optional(__S(1938, __c121, 2)),
         }),
       ).annotate({ identifier: "LightsailDistribution" });
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ behavior: S.optional(S.String) })).annotate({
@@ -12720,21 +13261,21 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           option: S.optional(S.String),
-          cookiesAllowList: S.optional(__S(240, __c15, 0)),
+          cookiesAllowList: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "CookieObject" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           option: S.optional(S.String),
-          headersAllowList: S.optional(__S(1808, __c113, 0)),
+          headersAllowList: S.optional(__S(1920, __c120, 0)),
         }),
       ).annotate({ identifier: "HeaderObject" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           option: S.optional(S.Boolean),
-          queryStringsAllowList: S.optional(__S(240, __c15, 0)),
+          queryStringsAllowList: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "QueryStringObject" });
     case 4:
@@ -12745,9 +13286,9 @@ function __c116(j: number): any {
           maximumTTL: S.optional(S.Number),
           allowedHTTPMethods: S.optional(S.String),
           cachedHTTPMethods: S.optional(S.String),
-          forwardedCookies: S.optional(__S(1857, __c116, 1)),
-          forwardedHeaders: S.optional(__S(1858, __c116, 2)),
-          forwardedQueryStrings: S.optional(__S(1859, __c116, 3)),
+          forwardedCookies: S.optional(__S(1969, __c123, 1)),
+          forwardedHeaders: S.optional(__S(1970, __c123, 2)),
+          forwardedQueryStrings: S.optional(__S(1971, __c123, 3)),
         }),
       ).annotate({ identifier: "CacheSettings" });
     case 5:
@@ -12755,7 +13296,7 @@ function __c116(j: number): any {
         S.Struct({ path: S.optional(S.String), behavior: S.optional(S.String) }),
       ).annotate({ identifier: "CacheBehaviorPerPath" });
     case 6:
-      return S.Array(__S(1861, __c116, 5));
+      return S.Array(__S(1973, __c123, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12766,12 +13307,12 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "DistributionCustomErrorResponse" });
     case 8:
-      return S.Array(__S(1863, __c116, 7));
+      return S.Array(__S(1975, __c123, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          successCodes: S.optional(__S(1840, __c115, 0)),
-          failureCodes: S.optional(__S(1840, __c115, 0)),
+          successCodes: S.optional(__S(1952, __c122, 0)),
+          failureCodes: S.optional(__S(1952, __c122, 0)),
         }),
       ).annotate({ identifier: "WafResponseInspection" });
     case 10:
@@ -12781,7 +13322,7 @@ function __c116(j: number): any {
           payloadType: S.optional(S.String),
           usernameField: S.optional(S.String),
           passwordField: S.optional(S.String),
-          responseInspection: S.optional(__S(1865, __c116, 9)),
+          responseInspection: S.optional(__S(1977, __c123, 9)),
         }),
       ).annotate({ identifier: "WafAtpConfig" });
     case 11:
@@ -12790,7 +13331,7 @@ function __c116(j: number): any {
           payloadType: S.optional(S.String),
           creationPath: S.optional(S.String),
           registrationPagePath: S.optional(S.String),
-          responseInspection: S.optional(__S(1865, __c116, 9)),
+          responseInspection: S.optional(__S(1977, __c123, 9)),
         }),
       ).annotate({ identifier: "WafAcfpConfig" });
     case 12:
@@ -12801,20 +13342,20 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          atpConfig: S.optional(__S(1866, __c116, 10)),
-          acfpConfig: S.optional(__S(1867, __c116, 11)),
-          botControlConfig: S.optional(__S(1868, __c116, 12)),
+          atpConfig: S.optional(__S(1978, __c123, 10)),
+          acfpConfig: S.optional(__S(1979, __c123, 11)),
+          botControlConfig: S.optional(__S(1980, __c123, 12)),
         }),
       ).annotate({ identifier: "WafRule" });
     case 14:
-      return S.Array(__S(1869, __c116, 13));
+      return S.Array(__S(1981, __c123, 13));
   }
 }
-function __c117(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, tags: S.optional(__S(1249, __c78, 1)) }).pipe(
+        S.Struct({ domainName: S.String, tags: S.optional(__S(1441, __c90, 1)) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomain" }),
             svc,
@@ -12827,11 +13368,11 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateDomainRequest" });
   }
 }
-function __c118(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(2016, __c126, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomainEntry" }),
             svc,
@@ -12844,7 +13385,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CreateDomainEntryRequest" });
   }
 }
-function __c119(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12854,12 +13395,12 @@ function __c119(j: number): any {
           target: S.optional(S.String),
           isAlias: S.optional(S.Boolean),
           type: S.optional(S.String),
-          options: S.optional(__S(1616, __c101, 0)),
+          options: S.optional(__S(1728, __c108, 0)),
         }),
       ).annotate({ identifier: "DomainEntry" });
   }
 }
-function __c120(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12883,7 +13424,7 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "Session" });
     case 2:
-      return S.Array(__S(1921, __c120, 1));
+      return S.Array(__S(2033, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12891,25 +13432,25 @@ function __c120(j: number): any {
           status: S.optional(S.String),
           percentageComplete: S.optional(S.Number),
           failureReason: S.optional(S.String),
-          sessions: S.optional(__S(1922, __c120, 2)),
+          sessions: S.optional(__S(2034, __c127, 2)),
         }),
       ).annotate({ identifier: "CreateGUISessionAccessDetailsResult" });
   }
 }
-function __c121(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceNames: __S(240, __c15, 0),
+          instanceNames: __S(256, __c16, 0),
           availabilityZone: S.String,
           customImageName: S.optional(S.String),
           blueprintId: S.String,
           bundleId: S.String,
           userData: S.optional(S.String),
           keyPairName: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(1712, __c107, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          addOns: S.optional(__S(1824, __c114, 0)),
           ipAddressType: S.optional(S.String),
         }).pipe(
           T.all(
@@ -12924,28 +13465,28 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateInstancesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ originalDiskPath: S.optional(S.String), newDiskName: S.optional(S.String) }),
       ).annotate({ identifier: "DiskMap" });
     case 1:
-      return S.Array(__S(1952, __c122, 0));
+      return S.Array(__S(2064, __c129, 0));
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1953, __c122, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2065, __c129, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceNames: __S(240, __c15, 0),
-          attachedDiskMapping: S.optional(__S(1954, __c122, 2)),
+          instanceNames: __S(256, __c16, 0),
+          attachedDiskMapping: S.optional(__S(2066, __c129, 2)),
           availabilityZone: S.String,
           instanceSnapshotName: S.optional(S.String),
           bundleId: S.String,
           userData: S.optional(S.String),
           keyPairName: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(1712, __c107, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          addOns: S.optional(__S(1824, __c114, 0)),
           ipAddressType: S.optional(S.String),
           sourceInstanceName: S.optional(S.String),
           restoreDate: S.optional(S.String),
@@ -12963,14 +13504,14 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CreateInstancesFromSnapshotRequest" });
   }
 }
-function __c123(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           instanceSnapshotName: S.String,
           instanceName: S.String,
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateInstanceSnapshot" }),
@@ -12984,11 +13525,11 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreateInstanceSnapshotRequest" });
   }
 }
-function __c124(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ keyPairName: S.String, tags: S.optional(__S(1249, __c78, 1)) }).pipe(
+        S.Struct({ keyPairName: S.String, tags: S.optional(__S(1441, __c90, 1)) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateKeyPair" }),
             svc,
@@ -13002,15 +13543,15 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyPair: S.optional(__S(2000, __c125, 0)),
+          keyPair: S.optional(__S(2112, __c132, 0)),
           publicKeyBase64: S.optional(S.String),
-          privateKeyBase64: S.optional(S.String),
-          operation: S.optional(__S(2864, __c179, 0)),
+          privateKeyBase64: S.optional(SensitiveString),
+          operation: S.optional(__S(2976, __c186, 0)),
         }),
       ).annotate({ identifier: "CreateKeyPairResult" });
   }
 }
-function __c125(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13019,15 +13560,15 @@ function __c125(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           fingerprint: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyPair" });
   }
 }
-function __c126(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13037,8 +13578,8 @@ function __c126(j: number): any {
           healthCheckPath: S.optional(S.String),
           certificateName: S.optional(S.String),
           certificateDomainName: S.optional(S.String),
-          certificateAlternativeNames: S.optional(__S(240, __c15, 0)),
-          tags: S.optional(__S(1249, __c78, 1)),
+          certificateAlternativeNames: S.optional(__S(256, __c16, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
           ipAddressType: S.optional(S.String),
           tlsPolicyName: S.optional(S.String),
         }).pipe(
@@ -13054,7 +13595,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerRequest" });
   }
 }
-function __c127(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13062,8 +13603,8 @@ function __c127(j: number): any {
           loadBalancerName: S.String,
           certificateName: S.String,
           certificateDomainName: S.String,
-          certificateAlternativeNames: S.optional(__S(240, __c15, 0)),
-          tags: S.optional(__S(1249, __c78, 1)),
+          certificateAlternativeNames: S.optional(__S(256, __c16, 0)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateLoadBalancerTlsCertificate" }),
@@ -13077,7 +13618,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerTlsCertificateRequest" });
   }
 }
-function __c128(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13092,7 +13633,7 @@ function __c128(j: number): any {
           preferredBackupWindow: S.optional(S.String),
           preferredMaintenanceWindow: S.optional(S.String),
           publiclyAccessible: S.optional(S.Boolean),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateRelationalDatabase" }),
@@ -13106,7 +13647,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseRequest" });
   }
 }
-function __c129(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13119,7 +13660,7 @@ function __c129(j: number): any {
           sourceRelationalDatabaseName: S.optional(S.String),
           restoreTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           useLatestRestorableTime: S.optional(S.Boolean),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -13136,14 +13677,14 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseFromSnapshotRequest" });
   }
 }
-function __c130(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           relationalDatabaseName: S.String,
           relationalDatabaseSnapshotName: S.String,
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateRelationalDatabaseSnapshot" }),
@@ -13157,7 +13698,72 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateRelationalDatabaseSnapshotRequest" });
   }
 }
-function __c131(j: number): any {
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ subdomainName: S.String, tags: S.optional(__S(1441, __c90, 1)) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateSubdomain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateSubdomainRequest" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          attachedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "SubdomainAttachableResource" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<Subdomain> => __S(2226, __c139, 2)).annotate({
+          identifier: "Subdomain",
+        }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          subdomainName: S.optional(S.String),
+          arn: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          depth: S.optional(S.Number),
+          state: S.optional(S.String),
+          attachedResource: S.optional(__S(2224, __c139, 0)),
+          attachingResource: S.optional(__S(2224, __c139, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          parentFqdn: S.optional(S.String),
+          children: S.optional(
+            S.suspend(() => __S(2225, __c139, 1)).annotate({ identifier: "SubdomainList" }),
+          ),
+          tags: S.optional(__S(1441, __c90, 1)),
+        }),
+      ).annotate({ identifier: "Subdomain" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subdomain: S.optional(__S(2226, __c139, 2)),
+          operation: S.optional(__S(2976, __c186, 0)),
+        }),
+      ).annotate({ identifier: "CreateSubdomainResult" });
+  }
+}
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13174,7 +13780,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteAlarmRequest" });
   }
 }
-function __c132(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13191,7 +13797,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteAutoSnapshotRequest" });
   }
 }
-function __c133(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13208,7 +13814,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c134(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13225,7 +13831,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteBucketAccessKeyRequest" });
   }
 }
-function __c135(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13242,7 +13848,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c136(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13259,7 +13865,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteContactMethodRequest" });
   }
 }
-function __c137(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13282,13 +13888,13 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteContainerImageRequest" });
   }
 }
-function __c138(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteContainerImageResult" });
   }
 }
-function __c139(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13308,7 +13914,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteContainerServiceRequest" });
   }
 }
-function __c140(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13325,7 +13931,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteDiskRequest" });
   }
 }
-function __c141(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13342,7 +13948,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "DeleteDiskSnapshotRequest" });
   }
 }
-function __c142(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13359,7 +13965,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteDistributionRequest" });
   }
 }
-function __c143(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13376,11 +13982,11 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c144(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ domainName: S.String, domainEntry: __S(1904, __c119, 0) }).pipe(
+        S.Struct({ domainName: S.String, domainEntry: __S(2016, __c126, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomainEntry" }),
             svc,
@@ -13393,7 +13999,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteDomainEntryRequest" });
   }
 }
-function __c145(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13410,7 +14016,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c146(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13427,7 +14033,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeleteInstanceSnapshotRequest" });
   }
 }
-function __c147(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13444,7 +14050,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeleteKeyPairRequest" });
   }
 }
-function __c148(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13461,7 +14067,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DeleteKnownHostKeysRequest" });
   }
 }
-function __c149(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13478,7 +14084,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerRequest" });
   }
 }
-function __c150(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13499,7 +14105,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerTlsCertificateRequest" });
   }
 }
-function __c151(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13520,7 +14126,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "DeleteRelationalDatabaseRequest" });
   }
 }
-function __c152(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13537,7 +14143,24 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DeleteRelationalDatabaseSnapshotRequest" });
   }
 }
-function __c153(j: number): any {
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ subdomainName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteSubdomain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSubdomainRequest" });
+  }
+}
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13554,7 +14177,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "DetachCertificateFromDistributionRequest" });
   }
 }
-function __c154(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13571,11 +14194,11 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DetachDiskRequest" });
   }
 }
-function __c155(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ loadBalancerName: S.String, instanceNames: __S(240, __c15, 0) }).pipe(
+        S.Struct({ loadBalancerName: S.String, instanceNames: __S(256, __c16, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DetachInstancesFromLoadBalancer" }),
             svc,
@@ -13588,7 +14211,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "DetachInstancesFromLoadBalancerRequest" });
   }
 }
-function __c156(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13605,7 +14228,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DetachStaticIpRequest" });
   }
 }
-function __c157(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13622,7 +14245,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "DisableAddOnRequest" });
   }
 }
-function __c158(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13641,17 +14264,17 @@ function __c158(j: number): any {
       return S.suspend(() =>
         S.Struct({
           publicKeyBase64: S.optional(S.String),
-          privateKeyBase64: S.optional(S.String),
+          privateKeyBase64: S.optional(SensitiveString),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DownloadDefaultKeyPairResult" });
   }
 }
-function __c159(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceName: S.String, addOnRequest: __S(1730, __c108, 2) }).pipe(
+        S.Struct({ resourceName: S.String, addOnRequest: __S(1842, __c115, 2) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/EnableAddOn" }),
             svc,
@@ -13664,7 +14287,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "EnableAddOnRequest" });
   }
 }
-function __c160(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13681,7 +14304,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ExportSnapshotRequest" });
   }
 }
-function __c161(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13699,13 +14322,13 @@ function __c161(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          activeNames: S.optional(__S(240, __c15, 0)),
+          activeNames: S.optional(__S(256, __c16, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetActiveNamesResult" });
   }
 }
-function __c162(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13738,10 +14361,10 @@ function __c162(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
           supportCode: S.optional(S.String),
-          monitoredResourceInfo: S.optional(__S(2593, __c162, 1)),
+          monitoredResourceInfo: S.optional(__S(2769, __c173, 1)),
           comparisonOperator: S.optional(S.String),
           evaluationPeriods: S.optional(S.Number),
           period: S.optional(S.Number),
@@ -13752,21 +14375,21 @@ function __c162(j: number): any {
           metricName: S.optional(S.String),
           state: S.optional(S.String),
           unit: S.optional(S.String),
-          contactProtocols: S.optional(__S(1808, __c113, 0)),
-          notificationTriggers: S.optional(__S(1808, __c113, 0)),
+          contactProtocols: S.optional(__S(1920, __c120, 0)),
+          notificationTriggers: S.optional(__S(1920, __c120, 0)),
           notificationEnabled: S.optional(S.Boolean),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }),
       ).annotate({ identifier: "Alarm" });
     case 3:
-      return S.Array(__S(2594, __c162, 2));
+      return S.Array(__S(2770, __c173, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ alarms: S.optional(__S(2595, __c162, 3)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ alarms: S.optional(__S(2771, __c173, 3)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetAlarmsResult" });
   }
 }
-function __c163(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13786,29 +14409,29 @@ function __c163(j: number): any {
         S.Struct({ path: S.optional(S.String), sizeInGb: S.optional(S.Number) }),
       ).annotate({ identifier: "AttachedDisk" });
     case 2:
-      return S.Array(__S(2609, __c163, 1));
+      return S.Array(__S(2785, __c174, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           date: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          fromAttachedDisks: S.optional(__S(2610, __c163, 2)),
+          fromAttachedDisks: S.optional(__S(2786, __c174, 2)),
         }),
       ).annotate({ identifier: "AutoSnapshotDetails" });
     case 4:
-      return S.Array(__S(2611, __c163, 3));
+      return S.Array(__S(2787, __c174, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          autoSnapshots: S.optional(__S(2612, __c163, 4)),
+          autoSnapshots: S.optional(__S(2788, __c174, 4)),
         }),
       ).annotate({ identifier: "GetAutoSnapshotsResult" });
   }
 }
-function __c164(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13846,17 +14469,17 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "Blueprint" });
     case 2:
-      return S.Array(__S(2625, __c164, 1));
+      return S.Array(__S(2801, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blueprints: S.optional(__S(2626, __c164, 2)),
+          blueprints: S.optional(__S(2802, __c175, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBlueprintsResult" });
   }
 }
-function __c165(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13872,14 +14495,14 @@ function __c165(j: number): any {
         ),
       ).annotate({ identifier: "GetBucketAccessKeysRequest" });
     case 1:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 2:
-      return S.suspend(() => S.Struct({ accessKeys: S.optional(__S(2641, __c165, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ accessKeys: S.optional(__S(2817, __c176, 1)) })).annotate({
         identifier: "GetBucketAccessKeysResult",
       });
   }
 }
-function __c166(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13906,14 +14529,14 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "BucketBundle" });
     case 2:
-      return S.Array(__S(2657, __c166, 1));
+      return S.Array(__S(2833, __c177, 1));
     case 3:
-      return S.suspend(() => S.Struct({ bundles: S.optional(__S(2658, __c166, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ bundles: S.optional(__S(2834, __c177, 2)) })).annotate({
         identifier: "GetBucketBundlesResult",
       });
   }
 }
-function __c167(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13923,7 +14546,7 @@ function __c167(j: number): any {
           startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           period: S.Number,
-          statistics: __S(1808, __c113, 0),
+          statistics: __S(1920, __c120, 0),
           unit: S.String,
         }).pipe(
           T.all(
@@ -13938,7 +14561,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetBucketMetricDataRequest" });
   }
 }
-function __c168(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13953,17 +14576,17 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "MetricDatapoint" });
     case 1:
-      return S.Array(__S(2688, __c168, 0));
+      return S.Array(__S(2864, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           metricName: S.optional(S.String),
-          metricData: S.optional(__S(2689, __c168, 1)),
+          metricData: S.optional(__S(2865, __c179, 1)),
         }),
       ).annotate({ identifier: "GetBucketMetricDataResult" });
   }
 }
-function __c169(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13984,7 +14607,7 @@ function __c169(j: number): any {
         ),
       ).annotate({ identifier: "GetBucketsRequest" });
     case 1:
-      return S.Array(__S(1272, __c79, 8));
+      return S.Array(__S(1464, __c91, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13997,14 +14620,95 @@ function __c169(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(2705, __c169, 1)),
+          buckets: S.optional(__S(2881, __c180, 1)),
           nextPageToken: S.optional(S.String),
-          accountLevelBpaSync: S.optional(__S(2706, __c169, 2)),
+          accountLevelBpaSync: S.optional(__S(2882, __c180, 2)),
         }),
       ).annotate({ identifier: "GetBucketsResult" });
   }
 }
-function __c170(j: number): any {
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ staticIpName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AllocateStaticIp" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AllocateStaticIpRequest" });
+  }
+}
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2976, __c186, 0));
+  }
+}
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ operations: S.optional(__S(2912, __c182, 0)) })).annotate({
+        identifier: "AllocateStaticIpResult",
+      });
+  }
+}
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ zoneName: S.optional(S.String), state: S.optional(S.String) }),
+      ).annotate({ identifier: "AvailabilityZone" });
+    case 1:
+      return S.Array(__S(2944, __c184, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          continentCode: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          availabilityZones: S.optional(__S(2945, __c184, 1)),
+          relationalDatabaseAvailabilityZones: S.optional(__S(2945, __c184, 1)),
+        }),
+      ).annotate({ identifier: "Region" });
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ availabilityZone: S.optional(S.String), regionName: S.optional(S.String) }),
+      ).annotate({ identifier: "ResourceLocation" });
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          location: S.optional(__S(2960, __c185, 0)),
+          isTerminal: S.optional(S.Boolean),
+          operationDetails: S.optional(S.String),
+          operationType: S.optional(S.String),
+          status: S.optional(S.String),
+          statusChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          errorCode: S.optional(S.String),
+          errorDetails: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14036,28 +14740,28 @@ function __c170(j: number): any {
           power: S.optional(S.Number),
           ramSizeInGb: S.optional(S.Number),
           transferPerMonthInGb: S.optional(S.Number),
-          supportedPlatforms: S.optional(__S(1808, __c113, 0)),
-          supportedAppCategories: S.optional(__S(1808, __c113, 0)),
+          supportedPlatforms: S.optional(__S(1920, __c120, 0)),
+          supportedAppCategories: S.optional(__S(1920, __c120, 0)),
           publicIpv4AddressCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Bundle" });
     case 2:
-      return S.Array(__S(2721, __c170, 1));
+      return S.Array(__S(2993, __c187, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bundles: S.optional(__S(2722, __c170, 2)),
+          bundles: S.optional(__S(2994, __c187, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBundlesResult" });
   }
 }
-function __c171(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificateStatuses: S.optional(__S(1808, __c113, 0)),
+          certificateStatuses: S.optional(__S(1920, __c120, 0)),
           includeCertificateDetails: S.optional(S.Boolean),
           certificateName: S.optional(S.String),
           pageToken: S.optional(S.String),
@@ -14073,17 +14777,17 @@ function __c171(j: number): any {
         ),
       ).annotate({ identifier: "GetCertificatesRequest" });
     case 1:
-      return S.Array(__S(1509, __c94, 5));
+      return S.Array(__S(1621, __c101, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(2737, __c171, 1)),
+          certificates: S.optional(__S(3009, __c188, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCertificatesResult" });
   }
 }
-function __c172(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14107,32 +14811,32 @@ function __c172(j: number): any {
         }),
       ).annotate({ identifier: "CloudFormationStackRecordSourceInfo" });
     case 2:
-      return S.Array(__S(2753, __c172, 1));
+      return S.Array(__S(3025, __c189, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
           state: S.optional(S.String),
-          sourceInfo: S.optional(__S(2754, __c172, 2)),
-          destinationInfo: S.optional(__S(2768, __c173, 0)),
+          sourceInfo: S.optional(__S(3026, __c189, 2)),
+          destinationInfo: S.optional(__S(3040, __c190, 0)),
         }),
       ).annotate({ identifier: "CloudFormationStackRecord" });
     case 4:
-      return S.Array(__S(2755, __c172, 3));
+      return S.Array(__S(3027, __c189, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cloudFormationStackRecords: S.optional(__S(2756, __c172, 4)),
+          cloudFormationStackRecords: S.optional(__S(3028, __c189, 4)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCloudFormationStackRecordsResult" });
   }
 }
-function __c173(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14140,93 +14844,12 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DestinationInfo" });
   }
 }
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ staticIpName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AllocateStaticIp" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AllocateStaticIpRequest" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2864, __c179, 0));
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ operations: S.optional(__S(2800, __c175, 0)) })).annotate({
-        identifier: "AllocateStaticIpResult",
-      });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ zoneName: S.optional(S.String), state: S.optional(S.String) }),
-      ).annotate({ identifier: "AvailabilityZone" });
-    case 1:
-      return S.Array(__S(2832, __c177, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          continentCode: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          availabilityZones: S.optional(__S(2833, __c177, 1)),
-          relationalDatabaseAvailabilityZones: S.optional(__S(2833, __c177, 1)),
-        }),
-      ).annotate({ identifier: "Region" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ availabilityZone: S.optional(S.String), regionName: S.optional(S.String) }),
-      ).annotate({ identifier: "ResourceLocation" });
-  }
-}
-function __c179(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
-          isTerminal: S.optional(S.Boolean),
-          operationDetails: S.optional(S.String),
-          operationType: S.optional(S.String),
-          status: S.optional(S.String),
-          statusChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          errorCode: S.optional(S.String),
-          errorDetails: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          protocols: S.optional(__S(1808, __c113, 0)).pipe(T.HttpQuery("protocols")),
+          protocols: S.optional(__S(1920, __c120, 0)).pipe(T.HttpQuery("protocols")),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/ls/api/2016-11-28/GetContactMethods" }),
@@ -14247,21 +14870,21 @@ function __c180(j: number): any {
           name: S.optional(S.String),
           arn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
           supportCode: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
         }),
       ).annotate({ identifier: "ContactMethod" });
     case 2:
-      return S.Array(__S(2881, __c180, 1));
+      return S.Array(__S(3057, __c191, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ contactMethods: S.optional(__S(2882, __c180, 2)) }),
+        S.Struct({ contactMethods: S.optional(__S(3058, __c191, 2)) }),
       ).annotate({ identifier: "GetContactMethodsResult" });
   }
 }
-function __c181(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14277,14 +14900,14 @@ function __c181(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerAPIMetadataRequest" });
     case 1:
-      return S.Array(__S(1616, __c101, 0));
+      return S.Array(__S(1728, __c108, 0));
     case 2:
-      return S.suspend(() => S.Struct({ metadata: S.optional(__S(2897, __c181, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ metadata: S.optional(__S(3073, __c192, 1)) })).annotate({
         identifier: "GetContainerAPIMetadataResult",
       });
   }
 }
-function __c182(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14303,14 +14926,14 @@ function __c182(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerImagesRequest" });
     case 1:
-      return S.Array(__S(2928, __c183, 0));
+      return S.Array(__S(3104, __c194, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ containerImages: S.optional(__S(2913, __c182, 1)) }),
+        S.Struct({ containerImages: S.optional(__S(3089, __c193, 1)) }),
       ).annotate({ identifier: "GetContainerImagesResult" });
   }
 }
-function __c183(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14322,17 +14945,17 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ContainerImage" });
   }
 }
-function __c184(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.HttpLabel("serviceName")),
           containerName: S.String.pipe(T.HttpLabel("containerName")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           filterPattern: S.optional(S.String).pipe(T.HttpQuery("filterPattern")),
@@ -14354,13 +14977,13 @@ function __c184(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logEvents: S.optional(__S(2961, __c185, 1)),
+          logEvents: S.optional(__S(3137, __c196, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetContainerLogResult" });
   }
 }
-function __c185(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14370,10 +14993,10 @@ function __c185(j: number): any {
         }),
       ).annotate({ identifier: "ContainerServiceLogEvent" });
     case 1:
-      return S.Array(__S(2960, __c185, 0));
+      return S.Array(__S(3136, __c196, 0));
   }
 }
-function __c186(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14392,24 +15015,28 @@ function __c186(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerServiceDeploymentsRequest" });
     case 1:
-      return S.Array(__S(1637, __c102, 5));
+      return S.Array(__S(1749, __c109, 5));
     case 2:
-      return S.suspend(() => S.Struct({ deployments: S.optional(__S(2977, __c186, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ deployments: S.optional(__S(3153, __c197, 1)) })).annotate({
         identifier: "GetContainerServiceDeploymentsResult",
       });
   }
 }
-function __c187(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.HttpLabel("serviceName")),
           metricName: S.String.pipe(T.HttpQuery("metricName")),
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
           period: S.Number.pipe(T.HttpQuery("period")),
-          statistics: __S(1808, __c113, 0).pipe(T.HttpQuery("statistics")),
+          statistics: __S(1920, __c120, 0).pipe(T.HttpQuery("statistics")),
         }).pipe(
           T.all(
             T.Http({
@@ -14426,7 +15053,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetContainerServiceMetricDataRequest" });
   }
 }
-function __c188(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14453,14 +15080,39 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "ContainerServicePower" });
     case 2:
-      return S.Array(__S(3009, __c188, 1));
+      return S.Array(__S(3185, __c199, 1));
     case 3:
-      return S.suspend(() => S.Struct({ powers: S.optional(__S(3010, __c188, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ powers: S.optional(__S(3186, __c199, 2)) })).annotate({
         identifier: "GetContainerServicePowersResult",
       });
   }
 }
-function __c189(j: number): any {
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ distributionName: S.String, certificateName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachCertificateToDistribution" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AttachCertificateToDistributionRequest" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ operation: S.optional(__S(2976, __c186, 0)) })).annotate({
+        identifier: "AttachCertificateToDistributionResult",
+      });
+  }
+}
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14476,14 +15128,14 @@ function __c189(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerServicesRequest" });
     case 1:
-      return S.Array(__S(1651, __c103, 3));
+      return S.Array(__S(1763, __c110, 3));
     case 2:
       return S.suspend(() =>
-        S.Struct({ containerServices: S.optional(__S(3025, __c189, 1)) }),
+        S.Struct({ containerServices: S.optional(__S(3233, __c202, 1)) }),
       ).annotate({ identifier: "ContainerServicesListResult" });
   }
 }
-function __c190(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14516,39 +15168,39 @@ function __c190(j: number): any {
           pricingUnit: S.optional(S.String),
           unit: S.optional(S.Number),
           currency: S.optional(S.String),
-          timePeriod: S.optional(__S(3041, __c190, 1)),
+          timePeriod: S.optional(__S(3249, __c203, 1)),
         }),
       ).annotate({ identifier: "EstimateByTime" });
     case 3:
-      return S.Array(__S(3042, __c190, 2));
+      return S.Array(__S(3250, __c203, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           usageType: S.optional(S.String),
-          resultsByTime: S.optional(__S(3043, __c190, 3)),
+          resultsByTime: S.optional(__S(3251, __c203, 3)),
         }),
       ).annotate({ identifier: "CostEstimate" });
     case 5:
-      return S.Array(__S(3044, __c190, 4));
+      return S.Array(__S(3252, __c203, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          costEstimates: S.optional(__S(3045, __c190, 5)),
+          costEstimates: S.optional(__S(3253, __c203, 5)),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ResourceBudgetEstimate" });
     case 7:
-      return S.Array(__S(3046, __c190, 6));
+      return S.Array(__S(3254, __c203, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ resourcesBudgetEstimate: S.optional(__S(3047, __c190, 7)) }),
+        S.Struct({ resourcesBudgetEstimate: S.optional(__S(3255, __c203, 7)) }),
       ).annotate({ identifier: "GetCostEstimateResult" });
   }
 }
-function __c191(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14564,12 +15216,12 @@ function __c191(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ disk: S.optional(__S(3074, __c192, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ disk: S.optional(__S(3282, __c205, 2)) })).annotate({
         identifier: "GetDiskResult",
       });
   }
 }
-function __c192(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14583,7 +15235,7 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "AddOn" });
     case 1:
-      return S.Array(__S(3072, __c192, 0));
+      return S.Array(__S(3280, __c205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14591,10 +15243,10 @@ function __c192(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
-          addOns: S.optional(__S(3073, __c192, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
+          addOns: S.optional(__S(3281, __c205, 1)),
           sizeInGb: S.optional(S.Number),
           isSystemDisk: S.optional(S.Boolean),
           iops: S.optional(S.Number),
@@ -14609,32 +15261,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "Disk" });
   }
 }
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ distributionName: S.String, certificateName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachCertificateToDistribution" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AttachCertificateToDistributionRequest" });
-  }
-}
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ operation: S.optional(__S(2864, __c179, 0)) })).annotate({
-        identifier: "AttachCertificateToDistributionResult",
-      });
-  }
-}
-function __c195(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14651,17 +15278,17 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetDisksRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ disks: S.optional(__S(3136, __c196, 0)), nextPageToken: S.optional(S.String) }),
+        S.Struct({ disks: S.optional(__S(3312, __c207, 0)), nextPageToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetDisksResult" });
   }
 }
-function __c196(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3074, __c192, 2));
+      return S.Array(__S(3282, __c205, 2));
   }
 }
-function __c197(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14677,12 +15304,12 @@ function __c197(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskSnapshotRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ diskSnapshot: S.optional(__S(3168, __c198, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ diskSnapshot: S.optional(__S(3344, __c209, 0)) })).annotate(
         { identifier: "GetDiskSnapshotResult" },
       );
   }
 }
-function __c198(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14691,9 +15318,9 @@ function __c198(j: number): any {
           arn: S.optional(S.String),
           supportCode: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
+          location: S.optional(__S(2960, __c185, 0)),
           resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
+          tags: S.optional(__S(1441, __c90, 1)),
           sizeInGb: S.optional(S.Number),
           state: S.optional(S.String),
           progress: S.optional(S.String),
@@ -14706,7 +15333,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DiskSnapshot" });
   }
 }
-function __c199(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14722,17 +15349,17 @@ function __c199(j: number): any {
         ),
       ).annotate({ identifier: "GetDiskSnapshotsRequest" });
     case 1:
-      return S.Array(__S(3168, __c198, 0));
+      return S.Array(__S(3344, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          diskSnapshots: S.optional(__S(3185, __c199, 1)),
+          diskSnapshots: S.optional(__S(3361, __c210, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDiskSnapshotsResult" });
   }
 }
-function __c200(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14758,14 +15385,14 @@ function __c200(j: number): any {
         }),
       ).annotate({ identifier: "DistributionBundle" });
     case 2:
-      return S.Array(__S(3201, __c200, 1));
+      return S.Array(__S(3377, __c211, 1));
     case 3:
-      return S.suspend(() => S.Struct({ bundles: S.optional(__S(3202, __c200, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ bundles: S.optional(__S(3378, __c211, 2)) })).annotate({
         identifier: "GetDistributionBundlesResult",
       });
   }
 }
-function __c201(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14789,7 +15416,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetDistributionLatestCacheResetResult" });
   }
 }
-function __c202(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14800,7 +15427,7 @@ function __c202(j: number): any {
           endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           period: S.Number,
           unit: S.String,
-          statistics: __S(1808, __c113, 0),
+          statistics: __S(1920, __c120, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDistributionMetricData" }),
@@ -14814,7 +15441,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetDistributionMetricDataRequest" });
   }
 }
-function __c203(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14830,163 +15457,14 @@ function __c203(j: number): any {
         ),
       ).annotate({ identifier: "GetDistributionsRequest" });
     case 1:
-      return S.Array(__S(1826, __c114, 2));
+      return S.Array(__S(1939, __c121, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          distributions: S.optional(__S(3249, __c203, 1)),
+          distributions: S.optional(__S(3425, __c214, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDistributionsResult" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ domainName: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomain" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetDomainRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({ domain: S.optional(__S(3282, __c205, 2)) })).annotate({
-        identifier: "GetDomainResult",
-      });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1904, __c119, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nameServersUpdateState: S.optional(__S(1488, __c93, 0)),
-          r53HostedZoneDeletionState: S.optional(__S(1488, __c93, 0)),
-        }),
-      ).annotate({ identifier: "RegisteredDomainDelegationInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          arn: S.optional(S.String),
-          supportCode: S.optional(S.String),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
-          resourceType: S.optional(S.String),
-          tags: S.optional(__S(1249, __c78, 1)),
-          domainEntries: S.optional(__S(3280, __c205, 0)),
-          registeredDomainDelegationInfo: S.optional(__S(3281, __c205, 1)),
-        }),
-      ).annotate({ identifier: "Domain" });
-  }
-}
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ pageToken: S.optional(S.String) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomains" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetDomainsRequest" });
-    case 1:
-      return S.Array(__S(3282, __c205, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          domains: S.optional(__S(3297, __c206, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetDomainsResult" });
-  }
-}
-function __c207(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ pageToken: S.optional(S.String) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetExportSnapshotRecords" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetExportSnapshotRecordsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          path: S.optional(S.String),
-          sizeInGb: S.optional(S.Number),
-          isSystemDisk: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DiskInfo" });
-    case 2:
-      return S.Array(__S(3313, __c207, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          fromBundleId: S.optional(S.String),
-          fromBlueprintId: S.optional(S.String),
-          fromDiskInfo: S.optional(__S(3314, __c207, 2)),
-        }),
-      ).annotate({ identifier: "InstanceSnapshotInfo" });
-    case 4:
-      return S.suspend(() => S.Struct({ sizeInGb: S.optional(S.Number) })).annotate({
-        identifier: "DiskSnapshotInfo",
-      });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          resourceType: S.optional(S.String),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          name: S.optional(S.String),
-          arn: S.optional(S.String),
-          fromResourceName: S.optional(S.String),
-          fromResourceArn: S.optional(S.String),
-          instanceSnapshotInfo: S.optional(__S(3315, __c207, 3)),
-          diskSnapshotInfo: S.optional(__S(3316, __c207, 4)),
-        }),
-      ).annotate({ identifier: "ExportSnapshotRecordSourceInfo" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          arn: S.optional(S.String),
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          location: S.optional(__S(2848, __c178, 0)),
-          resourceType: S.optional(S.String),
-          state: S.optional(S.String),
-          sourceInfo: S.optional(__S(3317, __c207, 5)),
-          destinationInfo: S.optional(__S(2768, __c173, 0)),
-        }),
-      ).annotate({ identifier: "ExportSnapshotRecord" });
-    case 7:
-      return S.Array(__S(3318, __c207, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          exportSnapshotRecords: S.optional(__S(3319, __c207, 7)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetExportSnapshotRecordsResult" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

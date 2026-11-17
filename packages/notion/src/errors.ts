@@ -37,6 +37,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -44,11 +45,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * no mapped error class.
  */
 export class UnknownNotionError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownNotionError>()("UnknownNotionError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownNotionError>()(
+    "UnknownNotionError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class NotionParseError

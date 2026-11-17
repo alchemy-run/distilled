@@ -59,11 +59,11 @@ export interface ConfirmIpLoadbalancingTerminationRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -72,11 +72,11 @@ export interface CreateIpLoadbalancingChangeContactRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateIpLoadbalancingChangeContactResponseBodyList = Array<number>;
 export type CreateIpLoadbalancingChangeContactResponse =
@@ -121,19 +121,19 @@ export type IpLoadbalancingTaskTaskZonesList = Array<string>;
 /** IP Load Balancing Operations */
 export interface IpLoadbalancingTaskTask {
   /** Operation type */
-  action?: IpLoadbalancingTaskActionEnum;
+  action?: IpLoadbalancingTaskActionEnum | undefined;
   /** Creation date of your operation */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Done date of your operation */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Id of the operation */
-  id?: number;
+  id?: number | undefined;
   /** Operation progress percentage */
-  progress?: number;
+  progress?: number | undefined;
   /** Current status of your operation */
-  status?: IpLoadbalancingTaskStatusEnum;
+  status?: IpLoadbalancingTaskStatusEnum | undefined;
   /** Zone of your Load Balancer which are updated by current Task */
-  zones?: IpLoadbalancingTaskTaskZonesList;
+  zones?: IpLoadbalancingTaskTaskZonesList | undefined;
 }
 /** Possible values for load balancing balance algorithm */
 export type IpLoadbalancingBalanceHTTPEnum =
@@ -163,23 +163,23 @@ export type IpLoadbalancingProbeTypeEnum =
 /** Probe used to determine if a backend is alive and can handle requests */
 export interface IpLoadbalancingBackendProbe {
   /** Force probe to run over a SSL layer. Defaults to false */
-  forceSsl?: boolean | null;
+  forceSsl?: boolean | null | undefined;
   /** Seconds between each probe check. Must be > 30sec. Defaults to 30 */
-  interval?: number | null;
+  interval?: number | null | undefined;
   /** Matcher to use to valide "expect". "default" uses HAProxy's default behavior for this type of check. "status" is only supported for HTTP probes */
-  match?: IpLoadbalancingProbeExpectMatchEnum | (string & {}) | null;
+  match?: IpLoadbalancingProbeExpectMatchEnum | (string & {}) | null | undefined;
   /** HTTP method to use with "http" probe. Consider using HEAD to save bandwidth when possible. Defaults to "GET" */
-  method?: IpLoadbalancingProbeMethodEnum | (string & {}) | null;
+  method?: IpLoadbalancingProbeMethodEnum | (string & {}) | null | undefined;
   /** Invert the matching operator effect */
-  negate?: boolean | null;
+  negate?: boolean | null | undefined;
   /** Server response expected when UP. Empty for "default", comma delimited list of statuses for "status", string for "contains", regex for "matches" */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Port used to probe your backend. Equal to farm port if null. Ignored for oco probe type */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe type. "tcp" if null */
-  type?: IpLoadbalancingProbeTypeEnum | (string & {}) | null;
+  type?: IpLoadbalancingProbeTypeEnum | (string & {}) | null | undefined;
   /** URL to use for HTTP probes of the form [www.example.com]/path/to/check. Protocol will be ignored. Defaults to "/" */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Possible values for HTTP backend stickiness */
 export type IpLoadbalancingStickinessHTTPEnum = "cookie" | "sourceIp";
@@ -187,38 +187,38 @@ export interface CreateIpLoadbalancingHttpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceHTTPEnum | (string & {});
+  balance?: IpLoadbalancingBalanceHTTPEnum | (string & {}) | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port attached to your farm ([1..49151]). Inherited from frontend if null */
-  port?: number;
+  port?: number | undefined;
   /** Probe used to determine if a backend is alive and can handle requests */
-  probe?: IpLoadbalancingBackendProbe;
+  probe?: IpLoadbalancingBackendProbe | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessHTTPEnum | (string & {});
+  stickiness?: IpLoadbalancingStickinessHTTPEnum | (string & {}) | undefined;
   /** Internal Load Balancer identifier of the vRack private network to attach to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Zone of your farm */
   zone: string;
 }
 /** HTTP Farm */
 export interface IpLoadbalancingBackendHttpBackendHttp {
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceHTTPEnum | null;
+  balance?: IpLoadbalancingBalanceHTTPEnum | null | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your farm */
-  farmId?: number;
+  farmId?: number | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe used to determine if a backend is alive and can handle requests. Defaults to tcp on the same port as the farm */
-  probe?: IpLoadbalancingBackendProbe | null;
+  probe?: IpLoadbalancingBackendProbe | null | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessHTTPEnum | null;
+  stickiness?: IpLoadbalancingStickinessHTTPEnum | null | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
   /** Zone of you farm */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Possible values for OnMarkedDown type */
 export type IpLoadbalancingOnMarkedDownEnum = "shutdown-sessions";
@@ -234,42 +234,42 @@ export interface CreateIpLoadbalancingHttpFarmServerRequest {
   /** Address of your server */
   address: string;
   /** Set server as backup. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string;
+  chain?: string | undefined;
   /** Set the cookie value used when 'cookie' stickiness is set in the farm. Auto generate the cookie if none provided and required. */
-  cookie?: string;
+  cookie?: string | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Enable action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {});
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | undefined;
   /** Port attached to your server ([1..49151]). Inherited from farm if null */
-  port?: number;
+  port?: number | undefined;
   /** Enable/disable probe. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {});
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | undefined;
   /** SSL ciphering. Probes will also be sent ciphered. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Enable or disable your server */
   status: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
   /** Set weight on that server [1..256]. 0 if not used in load balancing. 1 if left null. Servers with higher weight get more requests. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Available servers states */
 export interface IpLoadbalancingServerState {
   /** Layer5-7 code, if available */
-  checkCode?: string | null;
+  checkCode?: string | null | undefined;
   /** Status of last health check */
-  checkStatus?: string | null;
+  checkStatus?: string | null | undefined;
   /** Time of last health check */
-  checkTime?: string | null;
+  checkTime?: string | null | undefined;
   /** Id of your instance */
-  instanceId?: number;
+  instanceId?: number | undefined;
   /** Last health check contents or textual error */
-  lastCheckContent?: string | null;
+  lastCheckContent?: string | null | undefined;
   /** Status */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 /** Server state */
 export type IpLoadbalancingBackendHttpCustomerServerBackendHTTPServerServerStateList =
@@ -277,35 +277,37 @@ export type IpLoadbalancingBackendHttpCustomerServerBackendHTTPServerServerState
 /** HTTP Farm's Server */
 export interface IpLoadbalancingBackendHttpCustomerServerBackendHTTPServer {
   /** Address of your server */
-  address?: string;
+  address?: string | undefined;
   /** farm id */
-  backendId?: number;
+  backendId?: number | undefined;
   /** Backup state. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** Server cookie value configured for cookie stickiness */
-  cookie?: string | null;
+  cookie?: string | null | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | null;
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe state. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | null;
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | null | undefined;
   /** Id of your server */
-  serverId?: number;
+  serverId?: number | undefined;
   /** Server state */
-  serverState?: IpLoadbalancingBackendHttpCustomerServerBackendHTTPServerServerStateList;
+  serverState?:
+    | IpLoadbalancingBackendHttpCustomerServerBackendHTTPServerServerStateList
+    | undefined;
   /** SSL ciphering. Probes will also be sent ciphered. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum;
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | undefined;
   /** Weight value. Defaults to 1. 0 if not used in load balancing. Servers with higher weight get more requests. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface CreateIpLoadbalancingHttpFarmServerTransparentRequest {
   /** The internal name of your IP load balancing */
@@ -319,11 +321,11 @@ export interface CreateIpLoadbalancingHttpFarmServerTransparentRequest {
 }
 /** Server's vrack transparent ip */
 export interface IpLoadbalancingVrackTransparentIpVrackTransparentIp {
-  address?: string;
-  farmId?: number;
-  id?: number;
-  serverId?: number;
-  slotId?: number;
+  address?: string | undefined;
+  farmId?: number | undefined;
+  id?: number | undefined;
+  serverId?: number | undefined;
+  slotId?: number | undefined;
 }
 /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
 export type CreateIpLoadbalancingHttpFrontendRequestAllowedSourceList = Array<string>;
@@ -337,29 +339,29 @@ export interface CreateIpLoadbalancingHttpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: CreateIpLoadbalancingHttpFrontendRequestAllowedSourceList;
+  allowedSource?: CreateIpLoadbalancingHttpFrontendRequestAllowedSourceList | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: CreateIpLoadbalancingHttpFrontendRequestDedicatedIpfoList;
+  dedicatedIpfo?: CreateIpLoadbalancingHttpFrontendRequestDedicatedIpfoList | undefined;
   /** Default HTTP Farm of your frontend */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number;
+  defaultSslId?: number | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: CreateIpLoadbalancingHttpFrontendRequestDeniedSourceList;
+  deniedSource?: CreateIpLoadbalancingHttpFrontendRequestDeniedSourceList | undefined;
   /** Disable your frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** HTTP Strict Transport Security. Default: 'false' */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Add header to your frontend. Useful variables admitted : %ci <=> client_ip, %cp <=> client_port */
-  httpHeader?: CreateIpLoadbalancingHttpFrontendRequestHttpHeaderList;
+  httpHeader?: CreateIpLoadbalancingHttpFrontendRequestHttpHeaderList | undefined;
   /** Port(s) attached to your frontend. Supports single port (numerical value), range (2 dash-delimited increasing ports) and comma-separated list of 'single port' and/or 'range'. Each port must be in the [1;49151] range. */
   port: string;
   /** HTTP redirection (Ex : http://www.ovh.com) */
-  redirectLocation?: string;
+  redirectLocation?: string | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Zone of your frontend. Use "all" for all owned zone. */
   zone: string;
 }
@@ -374,37 +376,37 @@ export type IpLoadbalancingFrontendHttpFrontendHttpHttpHeaderList = Array<string
 /** Frontend HTTP */
 export interface IpLoadbalancingFrontendHttpFrontendHttp {
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: IpLoadbalancingFrontendHttpFrontendHttpAllowedSourceList | null;
+  allowedSource?: IpLoadbalancingFrontendHttpFrontendHttpAllowedSourceList | null | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: IpLoadbalancingFrontendHttpFrontendHttpDedicatedIpfoList | null;
+  dedicatedIpfo?: IpLoadbalancingFrontendHttpFrontendHttpDedicatedIpfoList | null | undefined;
   /** Default HTTP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number | null;
+  defaultSslId?: number | null | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: IpLoadbalancingFrontendHttpFrontendHttpDeniedSourceList | null;
+  deniedSource?: IpLoadbalancingFrontendHttpFrontendHttpDeniedSourceList | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your frontend */
-  frontendId?: number;
+  frontendId?: number | undefined;
   /** HTTP Strict Transport Security. Default: 'false' */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Add header to your frontend. Useful variables admitted : %ci <=> client_ip, %cp <=> client_port */
-  httpHeader?: IpLoadbalancingFrontendHttpFrontendHttpHttpHeaderList | null;
+  httpHeader?: IpLoadbalancingFrontendHttpFrontendHttpHttpHeaderList | null | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** HTTP redirection (Ex : http://www.ovh.com) */
-  redirectLocation?: string | null;
+  redirectLocation?: string | null | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your frontend. */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
   /** Virtual Router Identifier. 1-255 */
-  vrackVrouterId?: number | null;
+  vrackVrouterId?: number | null | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Address of the frontend in the vrack. Null to disable */
 export type CreateIpLoadbalancingHttpFrontendPrivateRequestDedicatedIpfoList = Array<string>;
@@ -414,11 +416,11 @@ export interface CreateIpLoadbalancingHttpFrontendPrivateRequest {
   /** Id of your frontend */
   frontendId: number;
   /** Address of the frontend in the vrack. Null to disable */
-  dedicatedIpfo?: CreateIpLoadbalancingHttpFrontendPrivateRequestDedicatedIpfoList;
+  dedicatedIpfo?: CreateIpLoadbalancingHttpFrontendPrivateRequestDedicatedIpfoList | undefined;
   /** Internal Load Balancer identifier of the vRack private network to attach to your frontend. Null to disable */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Virtual Router Identifier. 1-255 */
-  vrackVrouterId?: number;
+  vrackVrouterId?: number | undefined;
 }
 /** Restrict iplb access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
 export type IpLoadbalancingFrontendFrontendAllowedSourceList = Array<string>;
@@ -433,42 +435,42 @@ export type IpLoadbalancingProxyTypeEnum = "http" | "tcp";
 /** Frontend */
 export interface IpLoadbalancingFrontendFrontend {
   /** Restrict iplb access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: IpLoadbalancingFrontendFrontendAllowedSourceList | null;
+  allowedSource?: IpLoadbalancingFrontendFrontendAllowedSourceList | null | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: IpLoadbalancingFrontendFrontendDedicatedIpfoList | null;
+  dedicatedIpfo?: IpLoadbalancingFrontendFrontendDedicatedIpfoList | null | undefined;
   /** Default Backend of your frontend */
-  defaultBackendId?: number | null;
+  defaultBackendId?: number | null | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number | null;
+  defaultSslId?: number | null | undefined;
   /** Deny iplb access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: IpLoadbalancingFrontendFrontendDeniedSourceList | null;
+  deniedSource?: IpLoadbalancingFrontendFrontendDeniedSourceList | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** HTTP Strict Transport Security. Default: 'false' */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Add header to your frontend. Useful variables admitted : %ci <=> client_ip, %cp <=> client_port */
-  httpHeader?: IpLoadbalancingFrontendFrontendHttpHeaderList | null;
+  httpHeader?: IpLoadbalancingFrontendFrontendHttpHeaderList | null | undefined;
   /** Id of your frontend */
-  id?: number;
+  id?: number | undefined;
   /** Port(s) attached to your frontend */
-  port?: string;
+  port?: string | undefined;
   /** HTTP redirection (Ex : http://www.ovh.com) */
-  redirectLocation?: string | null;
+  redirectLocation?: string | null | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Type of your frontend */
-  type?: IpLoadbalancingProxyTypeEnum;
+  type?: IpLoadbalancingProxyTypeEnum | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Action triggered when all rules from route match */
 export interface IpLoadbalancingRouteHttpAction {
   /** HTTP status code for "redirect" and "reject" actions */
-  status?: number | null;
+  status?: number | null | undefined;
   /** Farm ID for "farm" action type or URL template for "redirect" action. You may use ${uri}, ${protocol}, ${host}, ${port} and ${path} variables in redirect target */
-  target?: string | null;
+  target?: string | null | undefined;
   /** Action to trigger if all the rules of this route matches */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateIpLoadbalancingHttpRouteRequest {
   /** The internal name of your IP load balancing */
@@ -476,11 +478,11 @@ export interface CreateIpLoadbalancingHttpRouteRequest {
   /** Action triggered when all rules match */
   action: IpLoadbalancingRouteHttpAction;
   /** Human readable name for your route, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number;
+  frontendId?: number | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** List of possible route rule matches */
 export type IpLoadbalancingRouteRuleMatchesEnum =
@@ -495,17 +497,17 @@ export type IpLoadbalancingRouteRuleMatchesEnum =
 /** Match rule to combine to build routes */
 export interface IpLoadbalancingRouteRule {
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/route/availableRules" for a list of available rules */
-  field?: string;
+  field?: string | undefined;
   /** Matching operator. Not all operators are available for all fields. See "/availableRules" */
-  match?: IpLoadbalancingRouteRuleMatchesEnum;
+  match?: IpLoadbalancingRouteRuleMatchesEnum | undefined;
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Id of your rule */
-  ruleId?: number;
+  ruleId?: number | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string | null;
+  subField?: string | null | undefined;
 }
 /** List of rules to match to trigger action */
 export type IpLoadbalancingRouteHttpRouteHttpRulesList = Array<IpLoadbalancingRouteRule>;
@@ -519,19 +521,19 @@ export type IpLoadbalancingRouteStatusEnum =
 /** HTTP Route */
 export interface IpLoadbalancingRouteHttpRouteHttp {
   /** Action triggered when all rules match */
-  action?: IpLoadbalancingRouteHttpAction;
+  action?: IpLoadbalancingRouteHttpAction | undefined;
   /** Human readable name for your route, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number | null;
+  frontendId?: number | null | undefined;
   /** Id of your route */
-  routeId?: number;
+  routeId?: number | undefined;
   /** List of rules to match to trigger action */
-  rules?: IpLoadbalancingRouteHttpRouteHttpRulesList;
+  rules?: IpLoadbalancingRouteHttpRouteHttpRulesList | undefined;
   /** Route status. Routes in "ok" state are ready to operate */
-  status?: IpLoadbalancingRouteStatusEnum;
+  status?: IpLoadbalancingRouteStatusEnum | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 export interface CreateIpLoadbalancingHttpRouteRuleRequest {
   /** The internal name of your IP load balancing */
@@ -539,34 +541,34 @@ export interface CreateIpLoadbalancingHttpRouteRuleRequest {
   /** Id of your route */
   routeId: number;
   /** Human readable name for your rule */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/availableRouteRules" for a list of available rules */
   field: string;
   /** Matching operator. Not all operators are available for all fields. See "/ipLoadbalancing/{serviceName}/availableRouteRules" */
   match: IpLoadbalancingRouteRuleMatchesEnum | (string & {});
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string;
+  subField?: string | undefined;
 }
 /** Rule of a route */
 export interface IpLoadbalancingRouteRuleRouteRule {
   /** Human readable name for your rule */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/availableRouteRules" for a list of available rules */
-  field?: string;
+  field?: string | undefined;
   /** Matching operator. Not all operators are available for all fields. See "/ipLoadbalancing/{serviceName}/availableRouteRules" */
-  match?: IpLoadbalancingRouteRuleMatchesEnum;
+  match?: IpLoadbalancingRouteRuleMatchesEnum | undefined;
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Id of your rule */
-  ruleId?: number;
+  ruleId?: number | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string | null;
+  subField?: string | null | undefined;
 }
 export interface CreateIpLoadbalancingLogSubscriptionRequest {
   /** The internal name of your IP load balancing */
@@ -579,9 +581,9 @@ export interface CreateIpLoadbalancingLogSubscriptionRequest {
 /** Logs subscription response for your Load Balancer */
 export interface IpLoadbalancingLogSubscriptionResponse {
   /** The operation id of the subscription creation task */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The logs account */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateIpLoadbalancingLogUrlRequest {
   /** The internal name of your IP load balancing */
@@ -592,9 +594,9 @@ export interface CreateIpLoadbalancingLogUrlRequest {
 /** URL with real time logs */
 export interface IpLoadbalancingLogUrl {
   /** Expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** URL */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateIpLoadbalancingSslRequest {
   /** The internal name of your IP load balancing */
@@ -602,9 +604,9 @@ export interface CreateIpLoadbalancingSslRequest {
   /** Certificate */
   certificate: string;
   /** Certificate chain */
-  chain?: string;
+  chain?: string | undefined;
   /** Human readable name for your ssl certificate, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Certificate key */
   key: string;
 }
@@ -615,21 +617,21 @@ export type IpLoadbalancingSslTypeEnum = "built" | "built_not_routed" | "custom"
 /** Ssl */
 export interface IpLoadbalancingSslSsl {
   /** Human readable name for your ssl certificate, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Expire date of your SSL certificate */
-  expireDate?: string;
+  expireDate?: string | undefined;
   /** Fingerprint of your SSL certificate */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Id of your SSL certificate */
-  id?: number;
+  id?: number | undefined;
   /** Subject Alternative Name of your SSL certificate */
-  san?: IpLoadbalancingSslSslSanList;
+  san?: IpLoadbalancingSslSslSanList | undefined;
   /** Serial of your SSL certificate (Deprecated, use fingerprint instead !) */
-  serial?: string;
+  serial?: string | undefined;
   /** Subject of your SSL certificate */
-  subject?: string;
+  subject?: string | undefined;
   /** Type of your SSL certificate. 'built' for SSL certificates managed by the IP Load Balancing. 'custom' for user manager certificates. */
-  type?: IpLoadbalancingSslTypeEnum | null;
+  type?: IpLoadbalancingSslTypeEnum | null | undefined;
 }
 /** Possible values for load balancing balance algorithm */
 export type IpLoadbalancingBalanceTCPEnum = "first" | "leastconn" | "roundrobin" | "source";
@@ -639,38 +641,38 @@ export interface CreateIpLoadbalancingTcpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceTCPEnum | (string & {});
+  balance?: IpLoadbalancingBalanceTCPEnum | (string & {}) | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port attached to your farm ([1..49151]). Inherited from frontend if null */
-  port?: number;
+  port?: number | undefined;
   /** Probe used to determine if a backend is alive and can handle requests */
-  probe?: IpLoadbalancingBackendProbe;
+  probe?: IpLoadbalancingBackendProbe | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessTCPEnum | (string & {});
+  stickiness?: IpLoadbalancingStickinessTCPEnum | (string & {}) | undefined;
   /** Internal Load Balancer identifier of the vRack private network to attach to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Zone of your farm */
   zone: string;
 }
 /** TCP Farm */
 export interface IpLoadbalancingBackendTcpBackendTcp {
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceTCPEnum | null;
+  balance?: IpLoadbalancingBalanceTCPEnum | null | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your farm */
-  farmId?: number;
+  farmId?: number | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe used to determine if a backend is alive and can handle requests. Defaults to tcp on the same port as the farm */
-  probe?: IpLoadbalancingBackendProbe | null;
+  probe?: IpLoadbalancingBackendProbe | null | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessTCPEnum | null;
+  stickiness?: IpLoadbalancingStickinessTCPEnum | null | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
   /** Zone of you farm */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface CreateIpLoadbalancingTcpFarmServerRequest {
   /** The internal name of your IP load balancing */
@@ -680,25 +682,25 @@ export interface CreateIpLoadbalancingTcpFarmServerRequest {
   /** Address of your server */
   address: string;
   /** Set server as backup. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string;
+  chain?: string | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Enable action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {});
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | undefined;
   /** Port attached to your server ([1..49151]). Inherited from farm if null */
-  port?: number;
+  port?: number | undefined;
   /** Enable/disable probe. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {});
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | undefined;
   /** SSL ciphering. Probes will also be sent ciphered. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Enable or disable your server */
   status: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
   /** Set weight on that server [1..256]. 0 if not used in load balancing. 1 if left null. Servers with higher weight get more requests. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Server state */
 export type IpLoadbalancingBackendTcpCustomerServerBackendTCPServerServerStateList =
@@ -706,33 +708,33 @@ export type IpLoadbalancingBackendTcpCustomerServerBackendTCPServerServerStateLi
 /** TCP Farm's Server */
 export interface IpLoadbalancingBackendTcpCustomerServerBackendTCPServer {
   /** Address of your server */
-  address?: string;
+  address?: string | undefined;
   /** Farm id */
-  backendId?: number;
+  backendId?: number | undefined;
   /** Backup state. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | null;
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe state. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | null;
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | null | undefined;
   /** Id of your server */
-  serverId?: number;
+  serverId?: number | undefined;
   /** Server state */
-  serverState?: IpLoadbalancingBackendTcpCustomerServerBackendTCPServerServerStateList;
+  serverState?: IpLoadbalancingBackendTcpCustomerServerBackendTCPServerServerStateList | undefined;
   /** SSL ciphering. Probes will also be sent ciphered */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum;
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | undefined;
   /** Weight value. Defaults to 1. 0 if not used in load balancing. Servers with higher weight get more requests. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface CreateIpLoadbalancingTcpFarmServerTransparentRequest {
   /** The internal name of your IP load balancing */
@@ -754,23 +756,23 @@ export interface CreateIpLoadbalancingTcpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: CreateIpLoadbalancingTcpFrontendRequestAllowedSourceList;
+  allowedSource?: CreateIpLoadbalancingTcpFrontendRequestAllowedSourceList | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: CreateIpLoadbalancingTcpFrontendRequestDedicatedIpfoList;
+  dedicatedIpfo?: CreateIpLoadbalancingTcpFrontendRequestDedicatedIpfoList | undefined;
   /** Default TCP Farm of your frontend */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number;
+  defaultSslId?: number | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: CreateIpLoadbalancingTcpFrontendRequestDeniedSourceList;
+  deniedSource?: CreateIpLoadbalancingTcpFrontendRequestDeniedSourceList | undefined;
   /** Disable your frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port(s) attached to your frontend. Supports single port (numerical value), range (2 dash-delimited increasing ports) and comma-separated list of 'single port' and/or 'range'. Each port must be in the [1;49151] range. */
   port: string;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Zone of your frontend. Use "all" for all owned zone. */
   zone: string;
 }
@@ -783,31 +785,31 @@ export type IpLoadbalancingFrontendTcpFrontendTcpDeniedSourceList = Array<string
 /** Frontend TCP */
 export interface IpLoadbalancingFrontendTcpFrontendTcp {
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: IpLoadbalancingFrontendTcpFrontendTcpAllowedSourceList | null;
+  allowedSource?: IpLoadbalancingFrontendTcpFrontendTcpAllowedSourceList | null | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: IpLoadbalancingFrontendTcpFrontendTcpDedicatedIpfoList | null;
+  dedicatedIpfo?: IpLoadbalancingFrontendTcpFrontendTcpDedicatedIpfoList | null | undefined;
   /** Default TCP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number | null;
+  defaultSslId?: number | null | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: IpLoadbalancingFrontendTcpFrontendTcpDeniedSourceList | null;
+  deniedSource?: IpLoadbalancingFrontendTcpFrontendTcpDeniedSourceList | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your frontend */
-  frontendId?: number;
+  frontendId?: number | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your frontend. */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
   /** Virtual Router Identifier. 1-255 */
-  vrackVrouterId?: number | null;
+  vrackVrouterId?: number | null | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Address of the frontend in the vrack. Null to disable */
 export type CreateIpLoadbalancingTcpFrontendPrivateRequestDedicatedIpfoList = Array<string>;
@@ -817,18 +819,18 @@ export interface CreateIpLoadbalancingTcpFrontendPrivateRequest {
   /** Id of your frontend */
   frontendId: number;
   /** Address of the frontend in the vrack. Null to disable */
-  dedicatedIpfo?: CreateIpLoadbalancingTcpFrontendPrivateRequestDedicatedIpfoList;
+  dedicatedIpfo?: CreateIpLoadbalancingTcpFrontendPrivateRequestDedicatedIpfoList | undefined;
   /** Internal Load Balancer identifier of the vRack private network to attach to your frontend. Null to disable */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Virtual Router Identifier. 1-255 */
-  vrackVrouterId?: number;
+  vrackVrouterId?: number | undefined;
 }
 /** Action triggered when all rules from route match */
 export interface IpLoadbalancingRouteTcpAction {
   /** Farm ID for "farm" action type, empty for others */
-  target?: string | null;
+  target?: string | null | undefined;
   /** Action to trigger if all the rules of this route matches */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateIpLoadbalancingTcpRouteRequest {
   /** The internal name of your IP load balancing */
@@ -836,30 +838,30 @@ export interface CreateIpLoadbalancingTcpRouteRequest {
   /** Action triggered when all rules match */
   action: IpLoadbalancingRouteTcpAction;
   /** Human readable name for your route, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number;
+  frontendId?: number | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** List of rules to match to trigger action */
 export type IpLoadbalancingRouteTcpRouteTcpRulesList = Array<IpLoadbalancingRouteRule>;
 /** TCP Route */
 export interface IpLoadbalancingRouteTcpRouteTcp {
   /** Action triggered when all rules match */
-  action?: IpLoadbalancingRouteTcpAction;
+  action?: IpLoadbalancingRouteTcpAction | undefined;
   /** Human readable name for your route, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number | null;
+  frontendId?: number | null | undefined;
   /** Id of your route */
-  routeId?: number;
+  routeId?: number | undefined;
   /** List of rules to match to trigger action */
-  rules?: IpLoadbalancingRouteTcpRouteTcpRulesList;
+  rules?: IpLoadbalancingRouteTcpRouteTcpRulesList | undefined;
   /** Route status. Routes in "ok" state are ready to operate */
-  status?: IpLoadbalancingRouteStatusEnum;
+  status?: IpLoadbalancingRouteStatusEnum | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 export interface CreateIpLoadbalancingTcpRouteRuleRequest {
   /** The internal name of your IP load balancing */
@@ -867,42 +869,42 @@ export interface CreateIpLoadbalancingTcpRouteRuleRequest {
   /** Id of your route */
   routeId: number;
   /** Human readable name for your rule */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/availableRouteRules" for a list of available rules */
   field: string;
   /** Matching operator. Not all operators are available for all fields. See "/ipLoadbalancing/{serviceName}/availableRouteRules" */
   match: IpLoadbalancingRouteRuleMatchesEnum | (string & {});
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string;
+  subField?: string | undefined;
 }
 export interface CreateIpLoadbalancingUdpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port attached to your farm ([1..49151]). Inherited from frontend if null */
   port: number;
   /** Internal Load Balancer identifier of the vRack private network to attach to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Zone of your farm */
   zone: string;
 }
 /** UDP Farm */
 export interface IpLoadbalancingBackendUdpBackendUdp {
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your farm */
-  farmId?: number;
+  farmId?: number | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number;
+  port?: number | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
   /** Zone of you farm */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface CreateIpLoadbalancingUdpFarmServerRequest {
   /** The internal name of your IP load balancing */
@@ -912,26 +914,26 @@ export interface CreateIpLoadbalancingUdpFarmServerRequest {
   /** Address of your server */
   address: string;
   /** Human readable name for your server, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port attached to your server ([1..49151]). Inherited from farm if null */
-  port?: number;
+  port?: number | undefined;
   /** Enable or disable your server */
   status: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
 }
 /** UDP Farm's Server */
 export interface IpLoadbalancingBackendUdpCustomerServerBackendUDPServer {
   /** Address of your server */
-  address?: string;
+  address?: string | undefined;
   /** farm id */
-  backendId?: number;
+  backendId?: number | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Id of your server */
-  serverId?: number;
+  serverId?: number | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum;
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | undefined;
 }
 /** Only attach frontend on these ip. No restriction if null */
 export type CreateIpLoadbalancingUdpFrontendRequestDedicatedIpfoList = Array<string>;
@@ -939,13 +941,13 @@ export interface CreateIpLoadbalancingUdpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: CreateIpLoadbalancingUdpFrontendRequestDedicatedIpfoList;
+  dedicatedIpfo?: CreateIpLoadbalancingUdpFrontendRequestDedicatedIpfoList | undefined;
   /** Default UDP Farm of your frontend */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Disable your frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Port(s) attached to your frontend. Supports single port (numerical value), range (2 dash-delimited increasing ports) and comma-separated list of 'single port' and/or 'range'. Each port must be in the [1;49151] range. */
   port: string;
   /** Zone of your frontend. Use "all" for all owned zone. */
@@ -956,19 +958,19 @@ export type IpLoadbalancingFrontendUdpFrontendUdpDedicatedIpfoList = Array<strin
 /** Frontend UDP */
 export interface IpLoadbalancingFrontendUdpFrontendUdp {
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: IpLoadbalancingFrontendUdpFrontendUdpDedicatedIpfoList | null;
+  dedicatedIpfo?: IpLoadbalancingFrontendUdpFrontendUdpDedicatedIpfoList | null | undefined;
   /** Default UDP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your frontend */
-  frontendId?: number;
+  frontendId?: number | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Farm Id you want to attach to that vrack network */
 export type CreateIpLoadbalancingVrackNetworkRequestFarmIdList = Array<number>;
@@ -976,37 +978,37 @@ export interface CreateIpLoadbalancingVrackNetworkRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Human readable name for your vrack network */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Farm Id you want to attach to that vrack network */
-  farmId?: CreateIpLoadbalancingVrackNetworkRequestFarmIdList;
+  farmId?: CreateIpLoadbalancingVrackNetworkRequestFarmIdList | undefined;
   /** An IP block used as a pool of IPs by this Load Balancer to connect to the servers in this private network. The block must be in the private network and reserved for the Load Balancer */
   natIp: string;
   /** IP Block of the private network in the vRack */
   subnet: string;
   /** VLAN of the private network in the vRack. 0 if the private network is not in a VLAN */
-  vlan?: number;
+  vlan?: number | undefined;
 }
 /** a list of { type => [ Farm ids ] } */
 export interface IpLoadbalancingDefinedFarm {
-  id?: number;
-  type?: string;
+  id?: number | undefined;
+  type?: string | undefined;
 }
 /** Farm Id your vrack network is attached to and their type */
 export type IpLoadbalancingVrackNetworkVrackNetworkFarmIdList = Array<IpLoadbalancingDefinedFarm>;
 /** Represents a private network in the vRack */
 export interface IpLoadbalancingVrackNetworkVrackNetwork {
   /** Human readable name for your vrack network */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Farm Id your vrack network is attached to and their type */
-  farmId?: IpLoadbalancingVrackNetworkVrackNetworkFarmIdList;
+  farmId?: IpLoadbalancingVrackNetworkVrackNetworkFarmIdList | undefined;
   /** An IP block used as a pool of IPs by this Load Balancer to connect to the servers in this private network. The block must be in the private network and reserved for the Load Balancer */
-  natIp?: string;
+  natIp?: string | undefined;
   /** IP block of the private network in the vRack */
-  subnet?: string;
+  subnet?: string | undefined;
   /** VLAN of the private network in the vRack. 0 if the private network is not in a VLAN */
-  vlan?: number;
+  vlan?: number | undefined;
   /** Internal Load Balancer identifier of the vRack private network description */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
 }
 export interface DeleteIpLoadbalancingHttpFarmRequest {
   /** The internal name of your IP load balancing */
@@ -1158,20 +1160,20 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Available additional zone to order for a Load Balancer */
 export interface IpLoadbalancingOrderableZone {
   /** The zone three letter code */
-  name?: string;
+  name?: string | undefined;
   /** The billing planCode for this zone */
-  planCode?: string;
+  planCode?: string | undefined;
 }
 /** Available additional zone for your Load Balancer */
 export type IpLoadbalancingIpWithIAMOrderableZoneList = Array<IpLoadbalancingOrderableZone>;
@@ -1190,33 +1192,33 @@ export type IpLoadbalancingIpWithIAMZoneList = Array<string>;
 /** Your IP load balancing */
 export interface IpLoadbalancingIpWithIAM {
   /** Set the name displayed in ManagerV6 for your iplb (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Your IP load balancing */
-  ipLoadbalancing?: string;
+  ipLoadbalancing?: string | undefined;
   /** The IPV4 associated to your IP load balancing */
-  ipv4?: string | null;
+  ipv4?: string | null | undefined;
   /** The IPV6 associated to your IP load balancing */
-  ipv6?: string | null;
+  ipv6?: string | null | undefined;
   /** The metrics token associated with your IP load balancing */
-  metricsToken?: string | null;
+  metricsToken?: string | null | undefined;
   /** The offer of your IP load balancing */
-  offer?: string;
+  offer?: string | undefined;
   /** Available additional zone for your Load Balancer */
-  orderableZone?: IpLoadbalancingIpWithIAMOrderableZoneList;
+  orderableZone?: IpLoadbalancingIpWithIAMOrderableZoneList | undefined;
   /** The internal name of your IP load balancing */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Modern oldest compatible clients : Firefox 27, Chrome 30, IE 11 on Windows 7, Edge, Opera 17, Safari 9, Android 5.0, and Java 8. Intermediate oldest compatible clients : Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7. Intermediate if null. */
-  sslConfiguration?: IpLoadbalancingSslConfigurationEnum | null;
+  sslConfiguration?: IpLoadbalancingSslConfigurationEnum | null | undefined;
   /** Current state of your IP */
-  state?: IpLoadbalancingIpStateEnum;
+  state?: IpLoadbalancingIpStateEnum | undefined;
   /** Vrack eligibility */
-  vrackEligibility?: boolean;
+  vrackEligibility?: boolean | undefined;
   /** Name of the vRack on which the current Load Balancer is attached to, as it is named on vRack product */
-  vrackName?: string | null;
+  vrackName?: string | null | undefined;
   /** Location where your service is */
-  zone?: IpLoadbalancingIpWithIAMZoneList;
+  zone?: IpLoadbalancingIpWithIAMZoneList | undefined;
 }
 export interface GetIpLoadbalancingHttpFarmRequest {
   /** The internal name of your IP load balancing */
@@ -1272,17 +1274,17 @@ export type IpLoadbalancingLdpKindLdpKindAdditionalReturnedFieldsList = Array<st
 /** Log kind for your Load Balancer */
 export interface IpLoadbalancingLdpKindLdpKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: IpLoadbalancingLdpKindLdpKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: IpLoadbalancingLdpKindLdpKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetIpLoadbalancingLogSubscriptionRequest {
   /** The internal name of your IP load balancing */
@@ -1293,26 +1295,26 @@ export interface GetIpLoadbalancingLogSubscriptionRequest {
 /** Logs subscription resource for your Load Balancer */
 export interface IpLoadbalancingLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription for your Load Balancer */
 export interface IpLoadbalancingLdpSubscriptionLdpSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: IpLoadbalancingLogSubscriptionResource;
+  resource?: IpLoadbalancingLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetIpLoadbalancingMetricsTokenRequest {
   /** The internal name of your IP load balancing */
@@ -1321,9 +1323,9 @@ export interface GetIpLoadbalancingMetricsTokenRequest {
 /** The metrics token of a Load Balancer */
 export interface IpLoadbalancingMetricsToken {
   /** The metrics endpoint */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The metrics token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetIpLoadbalancingQuotaRequest {
   /** The internal name of your IP load balancing */
@@ -1334,17 +1336,17 @@ export interface GetIpLoadbalancingQuotaRequest {
 /** Quota informations for current billing period for this zone */
 export interface IpLoadbalancingQuotaQuota {
   /** Quota alert value in bytes. When reached, we will send you an alert. Default : included quota with your offer */
-  alert?: number | null;
+  alert?: number | null | undefined;
   /** Included quota value with your offer, in bytes */
-  included?: number | null;
+  included?: number | null | undefined;
   /** The last time your quota was updated from your Load Balancer instance */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** The last time your quota was resetted (billed) */
-  resetDate?: string | null;
+  resetDate?: string | null | undefined;
   /** Total used quota value in bytes */
-  total?: number | null;
+  total?: number | null | undefined;
   /** Zone of your quota */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface GetIpLoadbalancingQuotaHistoryRequest {
   /** The internal name of your IP load balancing */
@@ -1355,17 +1357,17 @@ export interface GetIpLoadbalancingQuotaHistoryRequest {
 /** QuotaHistory */
 export interface IpLoadbalancingQuotaHistoryQuotaHistory {
   /** Historized date for this quota entry */
-  historizedDate?: string;
+  historizedDate?: string | undefined;
   /** Id of your quota */
-  id?: number;
+  id?: number | undefined;
   /** The last time your quota was updated from your Load Balancer instance */
-  lastUpdateDate?: string;
+  lastUpdateDate?: string | undefined;
   /** The last time your quota was resetted (billed) */
-  resetDate?: string;
+  resetDate?: string | undefined;
   /** Total used quota value in bytes */
-  total?: number;
+  total?: number | undefined;
   /** Zone of your quota */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface GetIpLoadbalancingServiceInfosRequest {
   /** The internal name of your IP load balancing */
@@ -1376,15 +1378,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1406,21 +1408,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetIpLoadbalancingSslRequest {
   /** The internal name of your IP load balancing */
@@ -1435,38 +1437,38 @@ export interface GetIpLoadbalancingStatusRequest {
 /** The statuses of a Load Balancer component */
 export interface IpLoadbalancingStatusComponentStatus {
   /** The number of component with status error */
-  error?: number;
+  error?: number | undefined;
   /** The number of component with status ok */
-  ok?: number;
+  ok?: number | undefined;
   /** The number of component with status unknown */
-  unknown?: number;
+  unknown?: number | undefined;
   /** The number of component with status warn */
-  warn?: number;
+  warn?: number | undefined;
 }
 /** The global status of a Load Balancer component */
 export interface IpLoadbalancingStatusComponent {
   /** The global status of your Load Balancer component */
-  status?: IpLoadbalancingStatusComponentStatus;
+  status?: IpLoadbalancingStatusComponentStatus | undefined;
   /** The Load Balancer total component count */
-  total?: number;
+  total?: number | undefined;
 }
 /** Possible values for a Load Balancer status */
 export type IpLoadbalancingStatusEnum = "error" | "ok" | "unknown" | "warn";
 /** The status of a Load Balancer service */
 export interface IpLoadbalancingStatusService {
   /** The status of your Load Balancer billing domain */
-  status?: IpLoadbalancingStatusEnum;
+  status?: IpLoadbalancingStatusEnum | undefined;
 }
 /** The global status of a Load Balancer */
 export interface IpLoadbalancingStatus {
   /** The Load Balancer farms status informations */
-  farms?: IpLoadbalancingStatusComponent;
+  farms?: IpLoadbalancingStatusComponent | undefined;
   /** The Load Balancer frontends status informations */
-  frontends?: IpLoadbalancingStatusComponent;
+  frontends?: IpLoadbalancingStatusComponent | undefined;
   /** The Load Balancer servers status informations */
-  servers?: IpLoadbalancingStatusComponent;
+  servers?: IpLoadbalancingStatusComponent | undefined;
   /** The Load Balancer service status informations */
-  service?: IpLoadbalancingStatusService;
+  service?: IpLoadbalancingStatusService | undefined;
 }
 export interface GetIpLoadbalancingTaskRequest {
   /** The internal name of your IP load balancing */
@@ -1550,11 +1552,11 @@ export interface GetIpLoadbalancingVrackNetworkCreationRulesRequest {
 /** Rules to create a new description of a private network in the vRack */
 export interface IpLoadbalancingVrackNetworkCreationRules {
   /** Minimum number of IPs needed to forward requests to your servers using NAT in your private network behind the current Load Balancer. Ip Block given on Load Balancer vRack network must contain at least this number of IP. */
-  minNatIps?: number;
+  minNatIps?: number | undefined;
   /** Number of remaining private network descriptions available for creation for this Load Balancer */
-  remainingNetworks?: number;
+  remainingNetworks?: number | undefined;
   /** Name of the vRack on which the current Load Balancer is attached to, as it is named on vRack product */
-  vrackName?: string;
+  vrackName?: string | undefined;
 }
 export interface GetIpLoadbalancingZoneRequest {
   /** The internal name of your IP load balancing */
@@ -1565,9 +1567,9 @@ export interface GetIpLoadbalancingZoneRequest {
 /** IP Load Balancing Zone */
 export interface IpLoadbalancingZoneZone {
   /** Name of your zone */
-  name?: string;
+  name?: string | undefined;
   /** State of your zone */
-  state?: string;
+  state?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1577,7 +1579,7 @@ export type ListIpLoadbalancingRequestIamTagsMap = {
 };
 export interface ListIpLoadbalancingRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListIpLoadbalancingRequestIamTagsMap;
+  iamTags?: ListIpLoadbalancingRequestIamTagsMap | undefined;
 }
 export type ListIpLoadbalancingResponseBodyList = Array<string>;
 export type ListIpLoadbalancingResponse = ListIpLoadbalancingResponseBodyList;
@@ -1594,17 +1596,17 @@ export type IpLoadbalancingFarmAvailableProbeNegatableMatchesList = Array<string
 /** Available farm probes options */
 export interface IpLoadbalancingFarmAvailableProbe {
   /** List of possible probe result checkers for this type of probe */
-  matches?: IpLoadbalancingFarmAvailableProbeMatchesList;
+  matches?: IpLoadbalancingFarmAvailableProbeMatchesList | undefined;
   /** List of available HTTP method, if available */
-  method?: IpLoadbalancingFarmAvailableProbeMethodList | null;
+  method?: IpLoadbalancingFarmAvailableProbeMethodList | null | undefined;
   /** List of matches operators that accept the negate option for this type of probe */
-  negatableMatches?: IpLoadbalancingFarmAvailableProbeNegatableMatchesList;
+  negatableMatches?: IpLoadbalancingFarmAvailableProbeNegatableMatchesList | undefined;
   /** True is this probe type supports a custom port */
-  port?: boolean;
+  port?: boolean | undefined;
   /** Probe protocol name. See probe "type" field in the farm probe */
-  type?: string;
+  type?: string | undefined;
   /** True is this probe type supports a URL */
-  url?: boolean;
+  url?: boolean | undefined;
 }
 export type ListIpLoadbalancingAvailableFarmProbesResponseBodyList =
   Array<IpLoadbalancingFarmAvailableProbe>;
@@ -1633,13 +1635,13 @@ export type IpLoadbalancingRouteAvailableActionStatusList = Array<number>;
 /** Available route actions options */
 export interface IpLoadbalancingRouteAvailableAction {
   /** Type of the destination for this action */
-  destination?: string | null;
+  destination?: string | null | undefined;
   /** Action name */
-  name?: string;
+  name?: string | undefined;
   /** List of available HTTP status code if applicable */
-  status?: IpLoadbalancingRouteAvailableActionStatusList | null;
+  status?: IpLoadbalancingRouteAvailableActionStatusList | null | undefined;
   /** Protocol supported by this action */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListIpLoadbalancingAvailableRouteActionsResponseBodyList =
   Array<IpLoadbalancingRouteAvailableAction>;
@@ -1656,17 +1658,17 @@ export type IpLoadbalancingRouteAvailableRuleMatchesList = Array<string>;
 /** Match rule to combine to build routes */
 export interface IpLoadbalancingRouteAvailableRule {
   /** If pattern is "enum", list of available options */
-  enum?: IpLoadbalancingRouteAvailableRuleEnumList | null;
+  enum?: IpLoadbalancingRouteAvailableRuleEnumList | null | undefined;
   /** If true, this rule needs a subfield. Typically a cookie or header name */
-  hasSubField?: boolean;
+  hasSubField?: boolean | undefined;
   /** List of match operators compatible with this rule */
-  matches?: IpLoadbalancingRouteAvailableRuleMatchesList;
+  matches?: IpLoadbalancingRouteAvailableRuleMatchesList | undefined;
   /** Rule name */
-  name?: string;
+  name?: string | undefined;
   /** Expected type for the pattern. Like "enum", "backend", "cidr", ... */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Protocol supported by this action */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListIpLoadbalancingAvailableRouteRulesResponseBodyList =
   Array<IpLoadbalancingRouteAvailableRule>;
@@ -1676,7 +1678,7 @@ export interface ListIpLoadbalancingDefinedFarmsRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** The vrack network id you want to filter on */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
 }
 export type ListIpLoadbalancingDefinedFarmsResponseBodyList = Array<IpLoadbalancingDefinedFarm>;
 export type ListIpLoadbalancingDefinedFarmsResponse =
@@ -1697,11 +1699,11 @@ export interface ListIpLoadbalancingDefinedRoutesRequest {
 /** Defined routes name, type and id. Typically used to generate autocomplete lists. */
 export interface IpLoadbalancingDefinedRoute {
   /** Human readable name for your route */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Id of your route */
-  routeId?: number;
+  routeId?: number | undefined;
   /** Protocol supported by this route */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListIpLoadbalancingDefinedRoutesResponseBodyList = Array<IpLoadbalancingDefinedRoute>;
 export type ListIpLoadbalancingDefinedRoutesResponse =
@@ -1716,9 +1718,9 @@ export interface ListIpLoadbalancingHttpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of vrackNetworkId property (=) */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingHttpFarmResponseBodyList = Array<number>;
 export type ListIpLoadbalancingHttpFarmResponse = ListIpLoadbalancingHttpFarmResponseBodyList;
@@ -1728,11 +1730,11 @@ export interface ListIpLoadbalancingHttpFarmServerRequest {
   /** Id of your farm */
   farmId: number;
   /** Filter the value of address property (=) */
-  address?: string;
+  address?: string | undefined;
   /** Filter the value of cookie property (like) */
-  cookie?: string;
+  cookie?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
 }
 export type ListIpLoadbalancingHttpFarmServerResponseBodyList = Array<number>;
 export type ListIpLoadbalancingHttpFarmServerResponse =
@@ -1745,7 +1747,7 @@ export interface ListIpLoadbalancingHttpFarmServerTransparentRequest {
   /** Id of your server */
   serverId: number;
   /** Filter the value of slotId property (=) */
-  slotId?: number;
+  slotId?: number | undefined;
 }
 export type ListIpLoadbalancingHttpFarmServerTransparentResponseBodyList = Array<number>;
 export type ListIpLoadbalancingHttpFarmServerTransparentResponse =
@@ -1754,13 +1756,13 @@ export interface ListIpLoadbalancingHttpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of defaultFarmId property (=) */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Filter the value of defaultSslId property (=) */
-  defaultSslId?: number;
+  defaultSslId?: number | undefined;
   /** Filter the value of port property (like) */
-  port?: string;
+  port?: string | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingHttpFrontendResponseBodyList = Array<number>;
 export type ListIpLoadbalancingHttpFrontendResponse =
@@ -1769,7 +1771,7 @@ export interface ListIpLoadbalancingHttpRouteRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of frontendId property (=) */
-  frontendId?: number;
+  frontendId?: number | undefined;
 }
 export type ListIpLoadbalancingHttpRouteResponseBodyList = Array<number>;
 export type ListIpLoadbalancingHttpRouteResponse = ListIpLoadbalancingHttpRouteResponseBodyList;
@@ -1792,7 +1794,7 @@ export interface ListIpLoadbalancingLogSubscriptionRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of kind property (=) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListIpLoadbalancingLogSubscriptionResponseBodyList = Array<string>;
 export type ListIpLoadbalancingLogSubscriptionResponse =
@@ -1804,8 +1806,8 @@ export interface ListIpLoadbalancingNatIpRequest {
 export type IpLoadbalancingNatIpsIpList = Array<string>;
 /** a list of {zone, nat Ip} */
 export interface IpLoadbalancingNatIps {
-  ip?: IpLoadbalancingNatIpsIpList;
-  zone?: string;
+  ip?: IpLoadbalancingNatIpsIpList | undefined;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingNatIpResponseBodyList = Array<IpLoadbalancingNatIps>;
 export type ListIpLoadbalancingNatIpResponse = ListIpLoadbalancingNatIpResponseBodyList;
@@ -1816,9 +1818,9 @@ export interface ListIpLoadbalancingPendingChangesRequest {
 /** The pending changes for a Load Balancer zone */
 export interface IpLoadbalancingPendingChanges {
   /** The number of changes waiting to be applied */
-  number?: number;
+  number?: number | undefined;
   /** The Load Balancer zone with pending changes */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingPendingChangesResponseBodyList =
   Array<IpLoadbalancingPendingChanges>;
@@ -1834,11 +1836,11 @@ export interface ListIpLoadbalancingQuotaHistoryRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of historizedDate property (>=) */
-  historizedDate_from?: string;
+  historizedDate_from?: string | undefined;
   /** Filter the value of historizedDate property (<=) */
-  historizedDate_to?: string;
+  historizedDate_to?: string | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingQuotaHistoryResponseBodyList = Array<number>;
 export type ListIpLoadbalancingQuotaHistoryResponse =
@@ -1847,13 +1849,13 @@ export interface ListIpLoadbalancingSslRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of expireDate property (<) */
-  expireDate?: string;
+  expireDate?: string | undefined;
   /** Filter the value of fingerprint property (like) */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Filter the value of serial property (like) */
-  serial?: string;
+  serial?: string | undefined;
   /** Filter the value of type property (=) */
-  type?: IpLoadbalancingSslTypeEnum | (string & {});
+  type?: IpLoadbalancingSslTypeEnum | (string & {}) | undefined;
 }
 export type ListIpLoadbalancingSslResponseBodyList = Array<number>;
 export type ListIpLoadbalancingSslResponse = ListIpLoadbalancingSslResponseBodyList;
@@ -1861,17 +1863,17 @@ export interface ListIpLoadbalancingTaskRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of action property (=) */
-  action?: IpLoadbalancingTaskActionEnum | (string & {});
+  action?: IpLoadbalancingTaskActionEnum | (string & {}) | undefined;
   /** Filter the value of creationDate property (>=) */
-  creationDate_from?: string;
+  creationDate_from?: string | undefined;
   /** Filter the value of creationDate property (<=) */
-  creationDate_to?: string;
+  creationDate_to?: string | undefined;
   /** Filter the value of doneDate property (>=) */
-  doneDate_from?: string;
+  doneDate_from?: string | undefined;
   /** Filter the value of doneDate property (<=) */
-  doneDate_to?: string;
+  doneDate_to?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: IpLoadbalancingTaskStatusEnum | (string & {});
+  status?: IpLoadbalancingTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListIpLoadbalancingTaskResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTaskResponse = ListIpLoadbalancingTaskResponseBodyList;
@@ -1879,9 +1881,9 @@ export interface ListIpLoadbalancingTcpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of vrackNetworkId property (=) */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingTcpFarmResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTcpFarmResponse = ListIpLoadbalancingTcpFarmResponseBodyList;
@@ -1891,9 +1893,9 @@ export interface ListIpLoadbalancingTcpFarmServerRequest {
   /** Id of your farm */
   farmId: number;
   /** Filter the value of address property (=) */
-  address?: string;
+  address?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
 }
 export type ListIpLoadbalancingTcpFarmServerResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTcpFarmServerResponse =
@@ -1906,7 +1908,7 @@ export interface ListIpLoadbalancingTcpFarmServerTransparentRequest {
   /** Id of your server */
   serverId: number;
   /** Filter the value of slotId property (=) */
-  slotId?: number;
+  slotId?: number | undefined;
 }
 export type ListIpLoadbalancingTcpFarmServerTransparentResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTcpFarmServerTransparentResponse =
@@ -1915,13 +1917,13 @@ export interface ListIpLoadbalancingTcpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of defaultFarmId property (=) */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Filter the value of defaultSslId property (=) */
-  defaultSslId?: number;
+  defaultSslId?: number | undefined;
   /** Filter the value of port property (like) */
-  port?: string;
+  port?: string | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingTcpFrontendResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTcpFrontendResponse = ListIpLoadbalancingTcpFrontendResponseBodyList;
@@ -1929,7 +1931,7 @@ export interface ListIpLoadbalancingTcpRouteRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of frontendId property (=) */
-  frontendId?: number;
+  frontendId?: number | undefined;
 }
 export type ListIpLoadbalancingTcpRouteResponseBodyList = Array<number>;
 export type ListIpLoadbalancingTcpRouteResponse = ListIpLoadbalancingTcpRouteResponseBodyList;
@@ -1946,9 +1948,9 @@ export interface ListIpLoadbalancingUdpFarmRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of vrackNetworkId property (=) */
-  vrackNetworkId?: number;
+  vrackNetworkId?: number | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingUdpFarmResponseBodyList = Array<number>;
 export type ListIpLoadbalancingUdpFarmResponse = ListIpLoadbalancingUdpFarmResponseBodyList;
@@ -1958,9 +1960,9 @@ export interface ListIpLoadbalancingUdpFarmServerRequest {
   /** Id of your farm */
   farmId: number;
   /** Filter the value of address property (=) */
-  address?: string;
+  address?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
 }
 export type ListIpLoadbalancingUdpFarmServerResponseBodyList = Array<number>;
 export type ListIpLoadbalancingUdpFarmServerResponse =
@@ -1969,11 +1971,11 @@ export interface ListIpLoadbalancingUdpFrontendRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of defaultFarmId property (=) */
-  defaultFarmId?: number;
+  defaultFarmId?: number | undefined;
   /** Filter the value of port property (like) */
-  port?: string;
+  port?: string | undefined;
   /** Filter the value of zone property (=) */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListIpLoadbalancingUdpFrontendResponseBodyList = Array<number>;
 export type ListIpLoadbalancingUdpFrontendResponse = ListIpLoadbalancingUdpFrontendResponseBodyList;
@@ -1981,9 +1983,9 @@ export interface ListIpLoadbalancingVrackNetworkRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Filter the value of subnet property (=) */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Filter the value of vlan property (=) */
-  vlan?: number;
+  vlan?: number | undefined;
 }
 export type ListIpLoadbalancingVrackNetworkResponseBodyList = Array<number>;
 export type ListIpLoadbalancingVrackNetworkResponse =
@@ -1999,11 +2001,11 @@ export type IpLoadbalancingVrackInformationTaskList = Array<number>;
 /** Information about vRack for your Load Balancer */
 export interface IpLoadbalancingVrackInformation {
   /** State of the vRack link to your Load Balancer */
-  state?: IpLoadbalancingVrackStateEnum;
+  state?: IpLoadbalancingVrackStateEnum | undefined;
   /** Ongoing task related to vRack installation or uninstallation on your Load Balancer */
-  task?: IpLoadbalancingVrackInformationTaskList;
+  task?: IpLoadbalancingVrackInformationTaskList | undefined;
   /** Name of the vRack on which the current Load Balancer is attached to, as it is named on vRack product */
-  vrackName?: string | null;
+  vrackName?: string | null | undefined;
 }
 export interface ListIpLoadbalancingVrackTransparentGatewaysRequest {
   /** The internal name of your IP load balancing */
@@ -2012,11 +2014,11 @@ export interface ListIpLoadbalancingVrackTransparentGatewaysRequest {
 /** Aims to help you configure needed transparent interfaces */
 export interface IpLoadbalancingVrackTransparentGateways {
   /** address */
-  address?: string;
+  address?: string | undefined;
   /** gateway */
-  gateway?: string;
+  gateway?: string | undefined;
   /** vlan */
-  vlan?: number;
+  vlan?: number | undefined;
 }
 export type ListIpLoadbalancingVrackTransparentGatewaysResponseBodyList =
   Array<IpLoadbalancingVrackTransparentGateways>;
@@ -2032,9 +2034,9 @@ export interface PutIpLoadbalancingRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Set the name displayed in ManagerV6 for your iplb (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Modern oldest compatible clients : Firefox 27, Chrome 30, IE 11 on Windows 7, Edge, Opera 17, Safari 9, Android 5.0, and Java 8. Intermediate oldest compatible clients : Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7. Intermediate if null. */
-  sslConfiguration?: IpLoadbalancingSslConfigurationEnum | (string & {}) | null;
+  sslConfiguration?: IpLoadbalancingSslConfigurationEnum | (string & {}) | null | undefined;
 }
 export interface PutIpLoadbalancingResponse {}
 export interface PutIpLoadbalancingHttpFarmRequest {
@@ -2043,17 +2045,17 @@ export interface PutIpLoadbalancingHttpFarmRequest {
   /** Id of your farm */
   farmId: number;
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceHTTPEnum | (string & {}) | null;
+  balance?: IpLoadbalancingBalanceHTTPEnum | (string & {}) | null | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe used to determine if a backend is alive and can handle requests. Defaults to tcp on the same port as the farm */
-  probe?: IpLoadbalancingBackendProbe | null;
+  probe?: IpLoadbalancingBackendProbe | null | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessHTTPEnum | (string & {}) | null;
+  stickiness?: IpLoadbalancingStickinessHTTPEnum | (string & {}) | null | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
 }
 export interface PutIpLoadbalancingHttpFarmResponse {}
 export interface PutIpLoadbalancingHttpFarmServerRequest {
@@ -2064,27 +2066,27 @@ export interface PutIpLoadbalancingHttpFarmServerRequest {
   /** Id of your server */
   serverId: number;
   /** Backup state. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** Server cookie value configured for cookie stickiness */
-  cookie?: string | null;
+  cookie?: string | null | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | null;
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe state. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | null;
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | null | undefined;
   /** SSL ciphering. Probes will also be sent ciphered. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
   /** Weight value. Defaults to 1. 0 if not used in load balancing. Servers with higher weight get more requests. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface PutIpLoadbalancingHttpFarmServerResponse {}
 /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
@@ -2101,31 +2103,31 @@ export interface PutIpLoadbalancingHttpFrontendRequest {
   /** Id of your frontend */
   frontendId: number;
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: PutIpLoadbalancingHttpFrontendRequestAllowedSourceList | null;
+  allowedSource?: PutIpLoadbalancingHttpFrontendRequestAllowedSourceList | null | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: PutIpLoadbalancingHttpFrontendRequestDedicatedIpfoList | null;
+  dedicatedIpfo?: PutIpLoadbalancingHttpFrontendRequestDedicatedIpfoList | null | undefined;
   /** Default HTTP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number | null;
+  defaultSslId?: number | null | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: PutIpLoadbalancingHttpFrontendRequestDeniedSourceList | null;
+  deniedSource?: PutIpLoadbalancingHttpFrontendRequestDeniedSourceList | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** HTTP Strict Transport Security. Default: 'false' */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Add header to your frontend. Useful variables admitted : %ci <=> client_ip, %cp <=> client_port */
-  httpHeader?: PutIpLoadbalancingHttpFrontendRequestHttpHeaderList | null;
+  httpHeader?: PutIpLoadbalancingHttpFrontendRequestHttpHeaderList | null | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** HTTP redirection (Ex : http://www.ovh.com) */
-  redirectLocation?: string | null;
+  redirectLocation?: string | null | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface PutIpLoadbalancingHttpFrontendResponse {}
 export interface PutIpLoadbalancingHttpRouteRequest {
@@ -2134,13 +2136,13 @@ export interface PutIpLoadbalancingHttpRouteRequest {
   /** Id of your route */
   routeId: number;
   /** Action triggered when all rules match */
-  action?: IpLoadbalancingRouteHttpAction;
+  action?: IpLoadbalancingRouteHttpAction | undefined;
   /** Human readable name for your route, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number | null;
+  frontendId?: number | null | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 export interface PutIpLoadbalancingHttpRouteResponse {}
 export interface PutIpLoadbalancingHttpRouteRuleRequest {
@@ -2151,17 +2153,17 @@ export interface PutIpLoadbalancingHttpRouteRuleRequest {
   /** Id of your rule */
   ruleId: number;
   /** Human readable name for your rule */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/availableRouteRules" for a list of available rules */
-  field?: string;
+  field?: string | undefined;
   /** Matching operator. Not all operators are available for all fields. See "/ipLoadbalancing/{serviceName}/availableRouteRules" */
-  match?: IpLoadbalancingRouteRuleMatchesEnum | (string & {});
+  match?: IpLoadbalancingRouteRuleMatchesEnum | (string & {}) | undefined;
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string | null;
+  subField?: string | null | undefined;
 }
 export interface PutIpLoadbalancingHttpRouteRuleResponse {}
 export interface PutIpLoadbalancingQuotaRequest {
@@ -2170,14 +2172,14 @@ export interface PutIpLoadbalancingQuotaRequest {
   /** Zone of your quota */
   zone: string;
   /** Quota alert value in bytes. When reached, we will send you an alert. Default : included quota with your offer */
-  alert?: number | null;
+  alert?: number | null | undefined;
 }
 export interface PutIpLoadbalancingQuotaResponse {}
 export interface PutIpLoadbalancingServiceInfosRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutIpLoadbalancingServiceInfosResponse {}
 export interface PutIpLoadbalancingSslRequest {
@@ -2186,7 +2188,7 @@ export interface PutIpLoadbalancingSslRequest {
   /** Id of your SSL certificate */
   id: number;
   /** Human readable name for your ssl certificate, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
 }
 export interface PutIpLoadbalancingSslResponse {}
 export interface PutIpLoadbalancingTcpFarmRequest {
@@ -2195,17 +2197,17 @@ export interface PutIpLoadbalancingTcpFarmRequest {
   /** Id of your farm */
   farmId: number;
   /** Load balancing algorithm. 'roundrobin' if null */
-  balance?: IpLoadbalancingBalanceTCPEnum | (string & {}) | null;
+  balance?: IpLoadbalancingBalanceTCPEnum | (string & {}) | null | undefined;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe used to determine if a backend is alive and can handle requests. Defaults to tcp on the same port as the farm */
-  probe?: IpLoadbalancingBackendProbe | null;
+  probe?: IpLoadbalancingBackendProbe | null | undefined;
   /** Stickiness type. No stickiness if null */
-  stickiness?: IpLoadbalancingStickinessTCPEnum | (string & {}) | null;
+  stickiness?: IpLoadbalancingStickinessTCPEnum | (string & {}) | null | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
 }
 export interface PutIpLoadbalancingTcpFarmResponse {}
 export interface PutIpLoadbalancingTcpFarmServerRequest {
@@ -2216,25 +2218,25 @@ export interface PutIpLoadbalancingTcpFarmServerRequest {
   /** Id of your server */
   serverId: number;
   /** Backup state. Default: 'false' */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Certificate chain. Allow server certificate verification (Avoid man-in-the-middle attacks) */
-  chain?: string | null;
+  chain?: string | null | undefined;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set action when backend marked down. (No action if null) */
-  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | null;
+  onMarkedDown?: IpLoadbalancingOnMarkedDownEnum | (string & {}) | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Probe state. Default: 'false' */
-  probe?: boolean;
+  probe?: boolean | undefined;
   /** Disabled if null. Send PROXY protocol header. Requires a compatible server. */
-  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | null;
+  proxyProtocolVersion?: IpLoadbalancingProxyProtocolVersionEnum | (string & {}) | null | undefined;
   /** SSL ciphering. Probes will also be sent ciphered */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
   /** Weight value. Defaults to 1. 0 if not used in load balancing. Servers with higher weight get more requests. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface PutIpLoadbalancingTcpFarmServerResponse {}
 /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
@@ -2249,25 +2251,25 @@ export interface PutIpLoadbalancingTcpFrontendRequest {
   /** Id of your frontend */
   frontendId: number;
   /** Restrict IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  allowedSource?: PutIpLoadbalancingTcpFrontendRequestAllowedSourceList | null;
+  allowedSource?: PutIpLoadbalancingTcpFrontendRequestAllowedSourceList | null | undefined;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: PutIpLoadbalancingTcpFrontendRequestDedicatedIpfoList | null;
+  dedicatedIpfo?: PutIpLoadbalancingTcpFrontendRequestDedicatedIpfoList | null | undefined;
   /** Default TCP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Default ssl served to your customer */
-  defaultSslId?: number | null;
+  defaultSslId?: number | null | undefined;
   /** Deny IP Load Balancing access to these ip block. No restriction if null. You cannot specify allowedSource and deniedSource both at the same time */
-  deniedSource?: PutIpLoadbalancingTcpFrontendRequestDeniedSourceList | null;
+  deniedSource?: PutIpLoadbalancingTcpFrontendRequestDeniedSourceList | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** SSL deciphering. Default: 'false' */
-  ssl?: boolean;
+  ssl?: boolean | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface PutIpLoadbalancingTcpFrontendResponse {}
 export interface PutIpLoadbalancingTcpRouteRequest {
@@ -2276,13 +2278,13 @@ export interface PutIpLoadbalancingTcpRouteRequest {
   /** Id of your route */
   routeId: number;
   /** Action triggered when all rules match */
-  action?: IpLoadbalancingRouteTcpAction;
+  action?: IpLoadbalancingRouteTcpAction | undefined;
   /** Human readable name for your route, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Route traffic for this frontend */
-  frontendId?: number | null;
+  frontendId?: number | null | undefined;
   /** Route priority ([0..255]). 0 if null. Highest priority routes are evaluated last. Only the first matching route will trigger an action */
-  weight?: number;
+  weight?: number | undefined;
 }
 export interface PutIpLoadbalancingTcpRouteResponse {}
 export interface PutIpLoadbalancingTcpRouteRuleRequest {
@@ -2293,17 +2295,17 @@ export interface PutIpLoadbalancingTcpRouteRuleRequest {
   /** Id of your rule */
   ruleId: number;
   /** Human readable name for your rule */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Name of the field to match like "protocol" or "host". See "/ipLoadbalancing/{serviceName}/availableRouteRules" for a list of available rules */
-  field?: string;
+  field?: string | undefined;
   /** Matching operator. Not all operators are available for all fields. See "/ipLoadbalancing/{serviceName}/availableRouteRules" */
-  match?: IpLoadbalancingRouteRuleMatchesEnum | (string & {});
+  match?: IpLoadbalancingRouteRuleMatchesEnum | (string & {}) | undefined;
   /** Invert the matching operator effect */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** Value to match against this match. Interpretation if this field depends on the match and field */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Name of sub-field, if applicable. This may be a Cookie or Header name for instance */
-  subField?: string | null;
+  subField?: string | null | undefined;
 }
 export interface PutIpLoadbalancingTcpRouteRuleResponse {}
 export interface PutIpLoadbalancingUdpFarmRequest {
@@ -2312,11 +2314,11 @@ export interface PutIpLoadbalancingUdpFarmRequest {
   /** Id of your farm */
   farmId: number;
   /** Human readable name for your backend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Port attached to your farm. Inherited from frontend if null */
-  port?: number;
+  port?: number | undefined;
   /** Internal Load Balancer identifier of the vRack private network attached to your farm, mandatory when your Load Balancer is attached to a vRack */
-  vrackNetworkId?: number | null;
+  vrackNetworkId?: number | null | undefined;
 }
 export interface PutIpLoadbalancingUdpFarmResponse {}
 export interface PutIpLoadbalancingUdpFarmServerRequest {
@@ -2327,11 +2329,11 @@ export interface PutIpLoadbalancingUdpFarmServerRequest {
   /** Id of your server */
   serverId: number;
   /** Human readable name for your server, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Port attached to your server. Inherited from farm if null */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Status attached to your server */
-  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {});
+  status?: IpLoadbalancingBackendCustomerServerStatusEnum | (string & {}) | undefined;
 }
 export interface PutIpLoadbalancingUdpFarmServerResponse {}
 /** Only attach frontend on these ip. No restriction if null */
@@ -2342,17 +2344,17 @@ export interface PutIpLoadbalancingUdpFrontendRequest {
   /** Id of your frontend */
   frontendId: number;
   /** Only attach frontend on these ip. No restriction if null */
-  dedicatedIpfo?: PutIpLoadbalancingUdpFrontendRequestDedicatedIpfoList | null;
+  dedicatedIpfo?: PutIpLoadbalancingUdpFrontendRequestDedicatedIpfoList | null | undefined;
   /** Default UDP Farm of your frontend */
-  defaultFarmId?: number | null;
+  defaultFarmId?: number | null | undefined;
   /** Disable frontend. Default: 'false' */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Human readable name for your frontend, this field is for you */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Listening port(s) on the server */
-  port?: string;
+  port?: string | undefined;
   /** Zone of you frontend */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface PutIpLoadbalancingUdpFrontendResponse {}
 export interface PutIpLoadbalancingVrackNetworkRequest {
@@ -2361,18 +2363,18 @@ export interface PutIpLoadbalancingVrackNetworkRequest {
   /** Internal Load Balancer identifier of the vRack private network description */
   vrackNetworkId: number;
   /** Human readable name for your vrack network */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** An IP block used as a pool of IPs by this Load Balancer to connect to the servers in this private network. The block must be in the private network and reserved for the Load Balancer */
-  natIp?: string;
+  natIp?: string | undefined;
   /** VLAN of the private network in the vRack. 0 if the private network is not in a VLAN */
-  vlan?: number;
+  vlan?: number | undefined;
 }
 export interface PutIpLoadbalancingVrackNetworkResponse {}
 export interface RefreshIpLoadbalancingRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
   /** The zone(s) of your iplb */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface TerminateIpLoadbalancingRequest {
   /** The internal name of your IP load balancing */

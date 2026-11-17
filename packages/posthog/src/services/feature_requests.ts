@@ -29,17 +29,17 @@ export type CreateFeatureRequestRequestProductAreaIdsList = Array<string>;
 export type FeatureRequestEvidencePayloadImageIdsList = Array<string>;
 export interface FeatureRequestEvidencePayload {
   /** Internal summary of this account's request evidence. */
-  summary?: string;
+  summary?: string | undefined;
   /** Customer quote kept with this evidence item. */
-  customer_quote?: string;
+  customer_quote?: string | undefined;
   /** Free-form name of the source where this evidence was recorded. */
   evidence_source: string;
   /** Optional HTTP or HTTPS link to the source. */
-  source_url?: string;
+  source_url?: string | undefined;
   /** Date the account made the request, or null when unknown. */
-  requested_on?: string | null;
+  requested_on?: string | null | undefined;
   /** Uploaded image IDs from this project to attach in display order. */
-  image_ids?: FeatureRequestEvidencePayloadImageIdsList;
+  image_ids?: FeatureRequestEvidencePayloadImageIdsList | undefined;
 }
 export interface CreateFeatureRequestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -47,7 +47,7 @@ export interface CreateFeatureRequestRequest {
   /** Required customer-facing request title. */
   title: string;
   /** Optional customer-facing request description in Markdown. */
-  description?: string;
+  description?: string | undefined;
   /** ID of the affected Customer Analytics account. */
   account_id: string;
   /** One or more active product area IDs. Duplicate IDs are ignored. */
@@ -55,7 +55,7 @@ export interface CreateFeatureRequestRequest {
   /** Client-generated key that makes retries return the original request instead of creating a duplicate. */
   idempotency_key: string;
   /** Optional first evidence item to create for the selected account. */
-  evidence?: FeatureRequestEvidencePayload | null;
+  evidence?: FeatureRequestEvidencePayload | null | undefined;
 }
 /** * `requested` - Requested * `planned` - Planned * `completed` - Completed * `wont_fix` - Won't fix * `duplicate` - Duplicate */
 export type FeatureRequestStatusEnum =
@@ -122,9 +122,9 @@ export interface FeatureRequestProductArea {
   /** Team-maintained product area name. */
   name: string;
   /** Position in product area selectors. Lower values appear first. */
-  display_order?: number;
+  display_order?: number | undefined;
   /** Whether editors can select this product area for new requests. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** When the product area was created. */
   created_at: string;
   /** When the product area was last updated. */
@@ -219,7 +219,7 @@ export interface FeatureRequestsAddAccountCreateRequest {
   /** Accessible account to link to this feature request. */
   account_id: string;
   /** Optional first evidence item to create for the account in the same change. */
-  evidence?: FeatureRequestEvidencePayload | null;
+  evidence?: FeatureRequestEvidencePayload | null | undefined;
 }
 /** Uploaded image IDs from this project to attach in display order. */
 export type FeatureRequestsAddEvidenceCreateRequestImageIdsList = Array<string>;
@@ -228,17 +228,17 @@ export interface FeatureRequestsAddEvidenceCreateRequest {
   project_id: string;
   id: string;
   /** Internal summary of this account's request evidence. */
-  summary?: string;
+  summary?: string | undefined;
   /** Customer quote kept with this evidence item. */
-  customer_quote?: string;
+  customer_quote?: string | undefined;
   /** Free-form name of the source where this evidence was recorded. */
   evidence_source: string;
   /** Optional HTTP or HTTPS link to the source. */
-  source_url?: string;
+  source_url?: string | undefined;
   /** Date the account made the request, or null when unknown. */
-  requested_on?: string | null;
+  requested_on?: string | null | undefined;
   /** Uploaded image IDs from this project to attach in display order. */
-  image_ids?: FeatureRequestsAddEvidenceCreateRequestImageIdsList;
+  image_ids?: FeatureRequestsAddEvidenceCreateRequestImageIdsList | undefined;
   /** Request version loaded by the editor. Stale versions return 409 Conflict. */
   expected_version: number;
   /** Active account link that owns this evidence. */
@@ -288,17 +288,17 @@ export interface FeatureRequestsUpdateEvidenceCreateRequest {
   project_id: string;
   id: string;
   /** Internal summary of this account's request evidence. */
-  summary?: string;
+  summary?: string | undefined;
   /** Customer quote kept with this evidence item. */
-  customer_quote?: string;
+  customer_quote?: string | undefined;
   /** Free-form name of the source where this evidence was recorded. */
   evidence_source: string;
   /** Optional HTTP or HTTPS link to the source. */
-  source_url?: string;
+  source_url?: string | undefined;
   /** Date the account made the request, or null when unknown. */
-  requested_on?: string | null;
+  requested_on?: string | null | undefined;
   /** Uploaded image IDs from this project to attach in display order. */
-  image_ids?: FeatureRequestsUpdateEvidenceCreateRequestImageIdsList;
+  image_ids?: FeatureRequestsUpdateEvidenceCreateRequestImageIdsList | undefined;
   /** Request version loaded by the editor. Stale versions return 409 Conflict. */
   expected_version: number;
   /** Evidence item to replace. */
@@ -351,31 +351,31 @@ export interface ListFeatureRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Accessible account IDs to include. Multiple values use OR semantics. */
-  account_ids?: ListFeatureRequestsRequestAccountIdsList;
+  account_ids?: ListFeatureRequestsRequestAccountIdsList | undefined;
   /** Whether to return active requests, archived requests, or all requests. * `active` - Active * `archived` - Archived * `all` - All */
-  archive_state?: ListFeatureRequestsRequestArchiveState | (string & {});
+  archive_state?: ListFeatureRequestsRequestArchiveState | (string & {}) | undefined;
   /** Creator user IDs to include. Multiple values use OR semantics. */
-  created_by_ids?: ListFeatureRequestsRequestCreatedByIdsList;
+  created_by_ids?: ListFeatureRequestsRequestCreatedByIdsList | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Priorities to include. Use none for requests without a priority. */
-  priorities?: ListFeatureRequestsRequestPrioritiesList;
+  priorities?: ListFeatureRequestsRequestPrioritiesList | undefined;
   /** Product area IDs to include. Multiple values use OR semantics. */
-  product_area_ids?: ListFeatureRequestsRequestProductAreaIdsList;
+  product_area_ids?: ListFeatureRequestsRequestProductAreaIdsList | undefined;
   /** Stable ordering for the result list. * `-updated_at` - Last updated: newest * `updated_at` - Last updated: oldest * `-created_at` - Date created: newest * `created_at` - Date created: oldest * `-priority` - Priority: high to low * `priority` - Priority: low to high * `title` - Title: A to Z * `-title` - Title: Z to A * `account` - Accounts: A to Z * `-account` - Accounts: Z to A * `product_area` - Product areas: A to Z * `-product_area` - Product areas: Z to A * `status` - Status: A to Z * `-status` - Status: Z to A * `created_by` - Created by: A to Z * `-created_by` - Created by: Z to A * `evidence_count` - Evidence: low to high * `-evidence_count` - Evidence: high to low */
-  request_ordering?: ListFeatureRequestsRequestRequestOrdering | (string & {});
+  request_ordering?: ListFeatureRequestsRequestRequestOrdering | (string & {}) | undefined;
   /** Case-insensitive text to find in request titles and descriptions. */
-  search?: string;
+  search?: string | undefined;
   /** Lifecycle statuses to include. Multiple values use OR semantics. */
-  statuses?: ListFeatureRequestsRequestStatusesList;
+  statuses?: ListFeatureRequestsRequestStatusesList | undefined;
 }
 export type PaginatedFeatureRequestListResultsList = Array<FeatureRequest>;
 export interface PaginatedFeatureRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedFeatureRequestListResultsList;
 }
 export interface ListFeatureRequestsHistoryRequest {
@@ -424,7 +424,7 @@ export interface FeatureRequestHistoryChangeBeforeCase5 {
   source: string;
   source_url: string;
   requested_on: string | null;
-  image_ids?: FeatureRequestHistoryChangeBeforeCase5ImageIdsList;
+  image_ids?: FeatureRequestHistoryChangeBeforeCase5ImageIdsList | undefined;
 }
 /** Value before the update, including relation snapshots. */
 export type FeatureRequestHistoryChangeBefore =
@@ -459,7 +459,7 @@ export interface FeatureRequestHistoryChangeAfterCase5 {
   source: string;
   source_url: string;
   requested_on: string | null;
-  image_ids?: FeatureRequestHistoryChangeAfterCase5ImageIdsList;
+  image_ids?: FeatureRequestHistoryChangeAfterCase5ImageIdsList | undefined;
 }
 /** Value after the update, including relation snapshots. */
 export type FeatureRequestHistoryChangeAfter =
@@ -534,19 +534,19 @@ export interface UpdateFeatureRequestRequest {
   /** Request version loaded by the editor. Stale versions return 409 Conflict. */
   expected_version: number;
   /** Updated customer-facing request title. */
-  title?: string;
+  title?: string | undefined;
   /** Updated optional customer-facing request description in Markdown. */
-  description?: string;
+  description?: string | undefined;
   /** Deprecated single affected account ID. Use account_ids. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** One or more affected account IDs. Removed accounts are unlinked without deleting their evidence. */
-  account_ids?: UpdateFeatureRequestRequestAccountIdsList;
+  account_ids?: UpdateFeatureRequestRequestAccountIdsList | undefined;
   /** One or more product area IDs. Existing inactive areas can remain linked. */
-  product_area_ids?: UpdateFeatureRequestRequestProductAreaIdsList;
+  product_area_ids?: UpdateFeatureRequestRequestProductAreaIdsList | undefined;
   /** Updated customer-facing lifecycle status. * `requested` - Requested * `planned` - Planned * `completed` - Completed * `wont_fix` - Won't fix * `duplicate` - Duplicate */
-  request_status?: FeatureRequestStatusEnum | (string & {});
+  request_status?: FeatureRequestStatusEnum | (string & {}) | undefined;
   /** Updated manual priority. Pass null to remove the priority. * `high` - High * `medium` - Medium * `low` - Low */
-  request_priority?: FeatureRequestPriorityEnum | (string & {}) | null;
+  request_priority?: FeatureRequestPriorityEnum | (string & {}) | null | undefined;
 }
 /** One or more affected account IDs. Removed accounts are unlinked without deleting their evidence. */
 export type UpdateFeatureRequestsPartialRequestAccountIdsList = Array<string>;
@@ -557,21 +557,21 @@ export interface UpdateFeatureRequestsPartialRequest {
   project_id: string;
   id: string;
   /** Request version loaded by the editor. Stale versions return 409 Conflict. */
-  expected_version?: number;
+  expected_version?: number | undefined;
   /** Updated customer-facing request title. */
-  title?: string;
+  title?: string | undefined;
   /** Updated optional customer-facing request description in Markdown. */
-  description?: string;
+  description?: string | undefined;
   /** Deprecated single affected account ID. Use account_ids. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** One or more affected account IDs. Removed accounts are unlinked without deleting their evidence. */
-  account_ids?: UpdateFeatureRequestsPartialRequestAccountIdsList;
+  account_ids?: UpdateFeatureRequestsPartialRequestAccountIdsList | undefined;
   /** One or more product area IDs. Existing inactive areas can remain linked. */
-  product_area_ids?: UpdateFeatureRequestsPartialRequestProductAreaIdsList;
+  product_area_ids?: UpdateFeatureRequestsPartialRequestProductAreaIdsList | undefined;
   /** Updated customer-facing lifecycle status. * `requested` - Requested * `planned` - Planned * `completed` - Completed * `wont_fix` - Won't fix * `duplicate` - Duplicate */
-  request_status?: FeatureRequestStatusEnum | (string & {});
+  request_status?: FeatureRequestStatusEnum | (string & {}) | undefined;
   /** Updated manual priority. Pass null to remove the priority. * `high` - High * `medium` - Medium * `low` - Low */
-  request_priority?: FeatureRequestPriorityEnum | (string & {}) | null;
+  request_priority?: FeatureRequestPriorityEnum | (string & {}) | null | undefined;
 }
 export type CreateFeatureRequestError = PosthogOpError;
 export const createFeatureRequest: API.OperationMethod<

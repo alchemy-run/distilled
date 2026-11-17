@@ -13,6 +13,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol -- hand-written.
@@ -67,7 +68,8 @@ export type SupabaseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -208,7 +210,7 @@ const decode = ({
       }
 
       // 5. Unknown Supabase error.
-      return yield* fail(new UnknownSupabaseError({ message, body }));
+      return yield* fail(new UnknownSupabaseError({ status, message, body }));
     }
 
     // 2xx: the response body IS the payload (no envelope). Wire->TS key
@@ -217,7 +219,7 @@ const decode = ({
     // Strict mode (core/response-validation) checks the mapped body against
     // the output schema, and parse errors withhold a body that can hold a
     // secret (core `validateSuccess`).
-    const body: unknown = nonJson ? text : (json ?? {});
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
     return yield* validateSuccess(
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },

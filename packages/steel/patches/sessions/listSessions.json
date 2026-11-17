@@ -1,0 +1,16 @@
+{
+  "description": "Page listSessions by cursor. The spec takes `cursorId` (\"Cursor ID for pagination\") and returns `nextCursor` (\"Cursor for the next page of results. Null if no more pages.\") beside the `sessions` array, sized by `limit`; Steel's official clients page it the same way. The converter's cursor detection does not recognise those names.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#GetSessions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursorId",
+        "outputToken": "nextCursor",
+        "items": "sessions",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

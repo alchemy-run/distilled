@@ -1,0 +1,10 @@
+{
+  "description": "POST /v1/audio/speech rejects a request without `voice` (400 `Error at \"/voice\": minimum string length is 1`), even for Qwen3 voices, whose gateway overwrites it with \"default\". Mark it required.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InferenceCreateSpeechRequest/members/voice/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

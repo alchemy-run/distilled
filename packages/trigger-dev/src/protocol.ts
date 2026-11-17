@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * TriggerDevProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type TriggerDevOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | TriggerDevParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Trigger.dev operation. */
 export type TriggerDevOpContext = Credentials | HttpClient.HttpClient;
@@ -52,12 +54,7 @@ export const TriggerDevProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     }),
-    unknownError: ({ code, message, body }) =>
-      new UnknownTriggerDevError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownTriggerDevError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new TriggerDevParseError({ body, cause }),
   },
 );

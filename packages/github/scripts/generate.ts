@@ -184,7 +184,7 @@ const mediaTypeOverloads = (model: any) => {
     const method = (accept: string, output: string) =>
       `API.OperationMethod<\n  ${ctx.inputName} & { readonly accept${accept} },\n  ${output},\n  ${ctx.opName}Error,\n  GithubOpContext\n>`;
     return {
-      typeAnnotation: `${method('?: "application/vnd.github+json"', media.json)} &\n  ${method(
+      typeAnnotation: `${method('?: "application/vnd.github+json" | undefined', media.json)} &\n  ${method(
         `: ${media.text.map((type) => JSON.stringify(type)).join(" | ")}`,
         "string",
       )}`,

@@ -1,0 +1,96 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#AcceptDataGrant/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "aws - marketplace:Subscribe: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "aws-marketplace:Subscribe": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#CreateDataGrant/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:PublishDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:PublishToDataGrant": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:StartJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#CreateJob/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:dataexchange:${Region}:${Account}:jobs/*), the call was denied live in the DataExchange Bindings suite; the grant stays on *.",
+        "resources": {
+          "dataexchange:CreateJob": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#DeleteDataGrant/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:DeleteDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:StartJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#GetDataGrant/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#GetJob/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:dataexchange:${Region}:${Account}:jobs/*), the call was denied live in the DataExchange Bindings suite; the grant stays on *.",
+        "resources": {
+          "dataexchange:GetJob": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#GetReceivedDataGrant/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#ListDataGrants/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "remove": ["dataexchange:ListDataSets"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.dataexchange#ListReceivedDataGrants/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "remove": ["dataexchange:ListDataSets"]
+      }
+    }
+  ]
+}

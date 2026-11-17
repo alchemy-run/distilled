@@ -1,0 +1,35 @@
+{
+  "description": "POST /v2/dedicated-inferences answers 422 `The selected GPU Plan <plan> is currently unavailable in this region, please try again later.` when the region has no capacity for the GPU plan. Type it as GpuPlanUnavailable so a caller can tell capacity from a bad spec; other 422s stay UnprocessableEntity.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GpuPlanUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The region has no capacity for the GPU plan right now (422 `... is currently unavailable in this region, please try again later.`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "message": {
+                "includes": "is currently unavailable in this region"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DedicatedInferencesCreate/errors",
+      "value": [
+        {
+          "target": "com.digitalocean.api#GpuPlanUnavailable"
+        }
+      ]
+    }
+  ]
+}

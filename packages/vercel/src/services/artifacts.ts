@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -48,6 +52,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -57,6 +63,8 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -65,26 +73,26 @@ export interface ArtifactExistsRequest {
   /** The artifact hash */
   hash: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ArtifactExistsResponse {}
 /** artifact hashes */
 export type ArtifactQueryRequestHashesList = Array<string>;
 export interface ArtifactQueryRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** artifact hashes */
   hashes: ArtifactQueryRequestHashesList;
 }
 export interface ArtifactQueryResponseBodyValueCase0 {
-  dirtyHash?: string;
-  sha?: string;
+  dirtyHash?: string | undefined;
+  sha?: string | undefined;
   size: number;
-  tag?: string;
+  tag?: string | undefined;
   taskDurationMs: number;
 }
 export interface ArtifactQueryResponseBodyValueCase1Error {
@@ -102,9 +110,9 @@ export type ArtifactQueryResponseBodyMap = {
 export type ArtifactQueryResponse = ArtifactQueryResponseBodyMap;
 export interface DeleteAllArtifactsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteAllArtifactsResponse {
   deletedCount: number;
@@ -113,13 +121,13 @@ export interface DownloadArtifactRequest {
   /** The artifact hash */
   hash: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The continuous integration or delivery environment where this artifact is downloaded. */
-  xArtifactClientCi?: string;
+  xArtifactClientCi?: string | undefined;
   /** 1 if the client is an interactive shell. Otherwise 0 */
-  xArtifactClientInteractive?: number;
+  xArtifactClientInteractive?: number | undefined;
 }
 export type DownloadArtifactResponse = string;
 /** One of `LOCAL` or `REMOTE`. `LOCAL` specifies that the cache event was from the user's filesystem cache. `REMOTE` specifies that the cache event is from a remote cache. */
@@ -136,26 +144,26 @@ export interface RecordEventsRequestBodyItem {
   /** The artifact hash */
   hash: string;
   /** The time taken to generate the artifact. This should be sent as a body parameter on `HIT` events. */
-  duration?: number;
+  duration?: number | undefined;
 }
 export type RecordEventsRequestBodyList = Array<RecordEventsRequestBodyItem>;
 export interface RecordEventsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The continuous integration or delivery environment where this artifact is downloaded. */
-  xArtifactClientCi?: string;
+  xArtifactClientCi?: string | undefined;
   /** 1 if the client is an interactive shell. Otherwise 0 */
-  xArtifactClientInteractive?: number;
+  xArtifactClientInteractive?: number | undefined;
   body: RecordEventsRequestBodyList;
 }
 export interface RecordEventsResponse {}
 export interface StatusRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface StatusResponseBodyCase0 {
   status: string;
@@ -164,34 +172,41 @@ export type StatusResponseBodyCase1Status = "disabled" | "enabled" | "over_limit
 export interface StatusResponseBodyCase1 {
   status: StatusResponseBodyCase1Status;
 }
-export type StatusResponseBody = StatusResponseBodyCase0 | StatusResponseBodyCase1;
+export type StatusResponseBodyCase2Status = "disabled" | "enabled" | "over_limit" | "paused";
+export interface StatusResponseBodyCase2 {
+  /** Present and `true` when the token can read artifacts but cannot upload them. */
+  readOnly?: boolean | undefined;
+  status: StatusResponseBodyCase2Status;
+}
+export type StatusResponseBody =
+  | StatusResponseBodyCase0
+  | StatusResponseBodyCase1
+  | StatusResponseBodyCase2;
 export type StatusResponse = StatusResponseBody;
 export interface UploadArtifactRequest {
   /** The artifact hash */
   hash: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The artifact size in bytes */
   contentLength: number;
   /** The time taken to generate the uploaded artifact in milliseconds. */
-  xArtifactDuration?: number;
+  xArtifactDuration?: number | undefined;
   /** The continuous integration or delivery environment where this artifact was generated. */
-  xArtifactClientCi?: string;
+  xArtifactClientCi?: string | undefined;
   /** 1 if the client is an interactive shell. Otherwise 0 */
-  xArtifactClientInteractive?: number;
+  xArtifactClientInteractive?: number | undefined;
   /** The base64 encoded tag for this artifact. The value is sent back to clients when the artifact is downloaded as the header `x-artifact-tag` */
-  xArtifactTag?: string;
+  xArtifactTag?: string | undefined;
   /** The SHA of the source control revision that generated this artifact. */
-  xArtifactSha?: string;
+  xArtifactSha?: string | undefined;
   /** A hash representing uncommitted changes in the working directory when this artifact was generated. */
-  xArtifactDirtyHash?: string;
+  xArtifactDirtyHash?: string | undefined;
 }
-/** Array of URLs where the artifact was updated */
 export type UploadArtifactResponseUrlsList = Array<string>;
 export interface UploadArtifactResponse {
-  /** Array of URLs where the artifact was updated */
   urls: UploadArtifactResponseUrlsList;
 }
 export type ArtifactExistsError =

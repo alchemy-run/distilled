@@ -1,0 +1,16 @@
+{
+  "description": "Page listQueryApiEndpoints by cursor. The operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Observed live 2026-11-12: GET .../services/{serviceId}/query-api-endpoints with limit=1 answered 200 with an empty result (request id 3e1b6260-8a1c-40c2-bfa5-3d02a39bb8a5). The multi-page traversal was captured on listApiKeys, which answers the same envelope.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.query_api_endpoints#QueryApiEndpointList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Insights notification channels: a Slack incoming-webhook URL and a webhook bearer token are credentials (anyone holding them can post as the channel); the spec marks the basic-auth password sensitive but not these. Responses report only their status (`webhook_url_status`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SlackNotificationConfig/members/webhook_url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#WebhookBearerToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

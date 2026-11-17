@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -48,6 +52,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -57,6 +63,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -66,9 +74,9 @@ export type Action = "ACTION_DENY" | "ACTION_PASS" | "ACTION_ALLOW";
 export interface Behavior {
   action: Action | (string & {});
   /** Determines whether an entry should be generated in the security ledger upon a rule hit. */
-  log?: boolean;
+  log?: boolean | undefined;
   /** Custom notification message string mapped to underlying logdata contexts. */
-  logMsg?: string;
+  logMsg?: string | undefined;
 }
 /** The operational evaluation type definition macro. */
 export type Operator =
@@ -91,7 +99,7 @@ export type Operator =
 export interface ConditionOperator {
   type: Operator | (string & {});
   /** The text or rule regex pattern arguments applied inside the operator execution loop. */
-  value?: string;
+  value?: string | undefined;
 }
 export type Transformation =
   | "TRANSFORMATION_LENGTH"
@@ -129,12 +137,12 @@ export type Variable =
 export interface ConditionVariable {
   type: Variable | (string & {});
   /** Optional key element context for map variables (e.g., matching a 'Host' header key). */
-  value?: string;
+  value?: string | undefined;
 }
 export interface Condition {
   operator: ConditionOperator;
   /** [HINT] Ordered processing adjustments applied to clean inputs before match checking. */
-  transformations?: ConditionTransformationsList;
+  transformations?: ConditionTransformationsList | undefined;
   variable: ConditionVariable;
 }
 /** [HINT] Order matters! First condition match triggers execution. */
@@ -144,7 +152,7 @@ export interface CreateCustomRule {
   /** [HINT] Order matters! First condition match triggers execution. */
   conditions: CreateCustomRuleConditionsList;
   /** A clear description explaining the threat vector or criteria addressed by this rule. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The collection of custom rule group SecLang parameters forming this execution group. */
 export type CreateCustomRuleGroupRequestRulesList = Array<CreateCustomRule>;
@@ -171,7 +179,7 @@ export interface GetBehavior {
   /** Determines whether an entry should be generated in the security ledger upon a rule hit. */
   log: boolean;
   /** Custom notification message string mapped to underlying logdata contexts. */
-  logMsg?: string;
+  logMsg?: string | undefined;
   severity: Severity;
 }
 /** [HINT] Order matters! First condition match triggers execution. */
@@ -181,7 +189,7 @@ export interface GetCustomRule {
   /** [HINT] Order matters! First condition match triggers execution. */
   conditions: GetCustomRuleConditionsList;
   /** A clear description explaining the threat vector or criteria addressed by this rule. */
-  description?: string;
+  description?: string | undefined;
   /** Backend auto-allocated unique rule ID within the valid 1-99999 threshold. */
   id: number;
 }
@@ -192,9 +200,9 @@ export type CRGUsageItemsList = Array<string>;
 /** Tracking metrics for CRG resource utilization */
 export interface CRGUsage {
   /** Number of WAF configurations actively using this rule group. */
-  count?: number;
+  count?: number | undefined;
   /** List of individual WAF configuration names that bind this rule group. */
-  items?: CRGUsageItemsList;
+  items?: CRGUsageItemsList | undefined;
 }
 /** Response payload delivering the detailed CRG configuration name and it's rule content. */
 export interface GetCustomRuleGroupResponse {
@@ -202,7 +210,7 @@ export interface GetCustomRuleGroupResponse {
   name: string;
   /** Enriched rules containing auto-generated IDs and computed severity values. */
   rules: GetCustomRuleGroupResponseRulesList;
-  usage?: CRGUsage;
+  usage?: CRGUsage | undefined;
 }
 /** Set the managed rule set type. */
 export type Type = "TYPE_OWASP_CRS";
@@ -230,7 +238,7 @@ export interface MRSRuleGroup {
   description: string;
   /** The name for the rule group. */
   groupName: string;
-  rules?: MRSRuleGroupRulesMap;
+  rules?: MRSRuleGroupRulesMap | undefined;
 }
 /** Inventory of all available Managed Rule Set groups and their current configuration. The key is the unique Group ID. */
 export type GetManagedRuleSetResponseGroupsMap = { [key: string]: MRSRuleGroup | undefined };
@@ -238,18 +246,18 @@ export type GetManagedRuleSetResponseGroupsMap = { [key: string]: MRSRuleGroup |
 export type MRSUsageItemsList = Array<string>;
 export interface MRSUsage {
   /** Number of WAFs using this Managed Rule Set. */
-  count?: number;
+  count?: number | undefined;
   /** List of WAFs that use this Managed Rule Set. */
-  items?: MRSUsageItemsList;
+  items?: MRSUsageItemsList | undefined;
 }
 /** GetManagedRuleSetResponse returns rule configuration name and it's rules. */
 export interface GetManagedRuleSetResponse {
   /** Inventory of all available Managed Rule Set groups and their current configuration. The key is the unique Group ID. */
-  groups?: GetManagedRuleSetResponseGroupsMap;
+  groups?: GetManagedRuleSetResponseGroupsMap | undefined;
   /** Managed rule set configuration name. */
   name: string;
   type: Type;
-  usage?: MRSUsage;
+  usage?: MRSUsage | undefined;
   /** Managed rule set version. */
   version: string;
 }
@@ -259,11 +267,11 @@ export interface CreateWAFRequest {
   projectId: string;
   region: string;
   /** Name of the CRG configuration for that WAF. */
-  customRuleGroupName?: string;
+  customRuleGroupName?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per WAF. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateWAFRequestLabelsMap;
+  labels?: CreateWAFRequestLabelsMap | undefined;
   /** Name of the managed rule set configuration for that WAF. */
-  managedRuleSetName?: string;
+  managedRuleSetName?: string | undefined;
   /** WAF name */
   name: string;
 }
@@ -273,7 +281,7 @@ export type GetWAFResponseLabelsMap = { [key: string]: string | undefined };
 export type WAFUsageItemListenerNamesList = Array<string>;
 export interface WAFUsageItem {
   /** The list of listener names in this Load Balancer, that are using the WAF. */
-  listenerNames?: WAFUsageItemListenerNamesList;
+  listenerNames?: WAFUsageItemListenerNamesList | undefined;
   /** The display name of the Load Balancer. */
   loadBalancerName: string;
 }
@@ -281,21 +289,21 @@ export interface WAFUsageItem {
 export type WAFUsageItemsList = Array<WAFUsageItem>;
 export interface WAFUsage {
   /** Number of listeners using this WAF configuration. */
-  count?: number;
+  count?: number | undefined;
   /** List of Application Load Balancers with their associated listeners that use this WAF configuration. */
-  items?: WAFUsageItemsList;
+  items?: WAFUsageItemsList | undefined;
 }
 /** GetWAFResponse returns detailed information about the WAF, which includes the identifying name, references to MRS/CRG and usage. */
 export interface GetWAFResponse {
   /** Name of the CRG configuration for that WAF. */
-  customRuleGroupName?: string;
+  customRuleGroupName?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per WAF. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: GetWAFResponseLabelsMap;
+  labels?: GetWAFResponseLabelsMap | undefined;
   /** Name of the managed rule set configuration for that WAF. */
-  managedRuleSetName?: string;
+  managedRuleSetName?: string | undefined;
   /** WAF name */
   name: string;
-  usage?: WAFUsage;
+  usage?: WAFUsage | undefined;
 }
 export interface DeleteCustomRuleGroupRequest {
   projectId: string;
@@ -332,23 +340,23 @@ export interface GetQuotaRequest {
 /** CRG quotas holds the limit and usage for CRG resources */
 export interface CRGConfigQuota {
   /** The maximum number of custom rule groups in this project. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of custom rule groups that are currently existing in this project. */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** MRS Config quota holds the limit and usage for Managed Rule Set configuration resources */
 export interface MRSConfigQuota {
   /** The maximum number of Managed Rule Set configurations in this project. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of Managed Rule Set configurations that are currently existing in this project. */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** WAF Config quota holds the limit and usage for Web Application Firewall configuration resources */
 export interface WAFConfigQuota {
   /** The maximum number of Web Application Firewall configurations in this project. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of Web Application Firewall configurations that are currently existing in this project. */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** Quotas holds the specific quota elements for different resources */
 export interface Quotas {
@@ -358,10 +366,10 @@ export interface Quotas {
 }
 export interface GetQuotaResponse {
   /** Project identifier */
-  projectId?: string;
+  projectId?: string | undefined;
   quotas: Quotas;
   /** Region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetWAFRequest {
   projectId: string;
@@ -372,57 +380,57 @@ export interface ListCustomRuleGroupRequest {
   projectId: string;
   region: string;
   /** page_size specifies how many rule configurations should be returned on this page. Must be a positive number <= 1000 */
-  pageSize?: string;
+  pageSize?: string | undefined;
   /** page_id is a page identifier returned by the previous response and is used to request the next page */
-  pageId?: string;
+  pageId?: string | undefined;
 }
 export type ListCustomRuleGroupResponseItemsList = Array<GetCustomRuleGroupResponse>;
 /** ListCustomRuleGroupResponse returns a list of Custom Rule Group responses. */
 export interface ListCustomRuleGroupResponse {
-  items?: ListCustomRuleGroupResponseItemsList;
+  items?: ListCustomRuleGroupResponseItemsList | undefined;
   /** Continue token from the ListCustomRuleGroupResponse with Limit option */
-  nextPageId?: string;
+  nextPageId?: string | undefined;
 }
 export interface ListManagedRuleSetsRequest {
   projectId: string;
   region: string;
   /** page_size specifies how many rule configurations should be returned on this page. Must be a positive number <= 1000 */
-  pageSize?: string;
+  pageSize?: string | undefined;
   /** page_id is a page identifier returned by the previous response and is used to request the next page */
-  pageId?: string;
+  pageId?: string | undefined;
 }
 export interface GetLimitedManagedRuleSetResponse {
   /** Managed rule set configuration name. */
   name: string;
   type: Type;
-  usage?: MRSUsage;
+  usage?: MRSUsage | undefined;
   /** Managed rule set version. */
   version: string;
 }
 export type ListManagedRuleSetResponseItemsList = Array<GetLimitedManagedRuleSetResponse>;
 /** ListManagedRuleSetResponse returns a list of rule configuration responses. */
 export interface ListManagedRuleSetResponse {
-  items?: ListManagedRuleSetResponseItemsList;
+  items?: ListManagedRuleSetResponseItemsList | undefined;
   /** Continue token from the ListManagedRuleSetResponse with Limit option */
-  nextPageId?: string;
+  nextPageId?: string | undefined;
 }
 export interface ListWAFRequest {
   projectId: string;
   region: string;
   /** page_size specifies how many WAFs should be returned on this page. Must be a positive number <= 1000 */
-  pageSize?: string;
+  pageSize?: string | undefined;
   /** page_id is a page identifier returned by the previous response and is used to request the next page */
-  pageId?: string;
+  pageId?: string | undefined;
 }
 export type ListWAFResponseItemsList = Array<GetWAFResponse>;
 /** ListWAFResponse returns a list of WAF responses. */
 export interface ListWAFResponse {
-  items?: ListWAFResponseItemsList;
+  items?: ListWAFResponseItemsList | undefined;
   /** Continue token from the ListWAFResponse with Limit option */
-  nextPageId?: string;
+  nextPageId?: string | undefined;
 }
 export interface PatchMRSRule {
-  mode?: Mode | (string & {});
+  mode?: Mode | (string & {}) | undefined;
 }
 export type PatchMRSRuleGroupRulesMap = { [key: string]: PatchMRSRule | undefined };
 export interface PatchMRSRuleGroup {
@@ -453,11 +461,11 @@ export interface UpdateWAFRequest {
   region: string;
   name: string;
   /** Name of the CRG configuration for that WAF. */
-  customRuleGroupName?: string;
+  customRuleGroupName?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per WAF. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UpdateWAFRequestLabelsMap;
+  labels?: UpdateWAFRequestLabelsMap | undefined;
   /** Name of the managed rule set configuration for that WAF. */
-  managedRuleSetName?: string;
+  managedRuleSetName?: string | undefined;
 }
 export type CreateCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
 /** Create a CRG configuration Creates a structured rule configuration using the abstract CRG. It can be referenced by any number of WAF configurations in the same project. */

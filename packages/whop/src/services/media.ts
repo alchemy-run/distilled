@@ -29,45 +29,80 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(5, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(5, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(5, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class PaymentRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(9, __c2, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error402Body | string;
+}
 
 /** Video length in seconds. Video only; defaults to 5. */
 export type GenerateMediaAssetRequestDurationSeconds = 5 | 10 | 15;
@@ -79,19 +114,19 @@ export type GenerateMediaAssetRequestResolution = "480p" | "720p" | "1080p" | "4
 export type GenerateMediaAssetRequestType = "video" | "image";
 export interface GenerateMediaAssetRequest {
   /** Account ID, prefixed `biz_`. Defaults to the account the API key belongs to. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Video length in seconds. Video only; defaults to 5. */
-  duration_seconds?: GenerateMediaAssetRequestDurationSeconds | (number & {});
+  duration_seconds?: GenerateMediaAssetRequestDurationSeconds | (number & {}) | undefined;
   /** What to generate. Up to 2,000 characters. */
   prompt: string;
   /** Optional reference image file IDs (`file_` prefixed), up to 4. For video, a single reference seeds the opening frame; multiple references guide subject and style instead. */
-  reference_media?: GenerateMediaAssetRequestReferenceMediaList;
+  reference_media?: GenerateMediaAssetRequestReferenceMediaList | undefined;
   /** Video resolution. Video only; defaults to `1080p`. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0. */
-  resolution?: GenerateMediaAssetRequestResolution | (string & {});
+  resolution?: GenerateMediaAssetRequestResolution | (string & {}) | undefined;
   /** The kind of media to generate. */
   type: GenerateMediaAssetRequestType | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface MediaAssetFile {
   /** File ID, prefixed `file_`. */
@@ -145,6 +180,34 @@ export interface GetMediaAssetRequest {
   /** Media asset ID, prefixed `media_`. */
   id: string;
 }
+export interface Error400BodyError {
+  message: string;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
+export type Error402BodyErrorType = "payment_required";
+export interface Error402BodyError {
+  /** Hosted page where the account can deposit funds before retrying. */
+  deposit_url: string;
+  message: string;
+  type: Error402BodyErrorType;
+}
+export interface Error402Body {
+  error: Error402BodyError;
+}
 export type GenerateMediaAssetError =
   | BadRequest
   | PaymentRequired
@@ -158,8 +221,8 @@ export const generateMediaAsset: API.OperationMethod<
   GenerateMediaAssetError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GenerateMediaAssetRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<MediaAsset>,
+  input: __S(12, __c3, 0) as any as S.Schema<GenerateMediaAssetRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<MediaAsset>,
   errors: [BadRequest, PaymentRequired, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -175,8 +238,8 @@ export const getMediaAsset: API.OperationMethod<
   GetMediaAssetError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetMediaAssetRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<MediaAsset>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetMediaAssetRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<MediaAsset>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -190,10 +253,63 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(4, __c1, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deposit_url: S.String,
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error402BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(8, __c2, 0),
+        }),
+      ).annotate({ identifier: "Error402Body" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String),
           duration_seconds: S.optional(S.Number),
           prompt: S.String,
-          reference_media: S.optional(__S(4, __c1, 0)),
+          reference_media: S.optional(__S(16, __c4, 0)),
           resolution: S.optional(S.String),
           type: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -201,7 +317,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GenerateMediaAssetRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -217,7 +333,7 @@ function __c1(j: number): any {
         S.Struct({
           duration_seconds: S.NullOr(S.Number),
           prompt: S.String,
-          reference_media: __S(4, __c1, 0),
+          reference_media: __S(16, __c4, 0),
           resolution: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "MediaAssetGeneration" });
@@ -229,8 +345,8 @@ function __c1(j: number): any {
           created_at: S.String,
           currency: S.String,
           error_message: S.NullOr(S.String),
-          file: S.NullOr(__S(5, __c1, 1)),
-          generation: __S(6, __c1, 2),
+          file: S.NullOr(__S(17, __c4, 1)),
+          generation: __S(18, __c4, 2),
           id: S.String,
           media_type: S.String,
           source: S.String,
@@ -239,7 +355,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "MediaAsset" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

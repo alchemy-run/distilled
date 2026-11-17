@@ -48,29 +48,34 @@ export interface AddEntityDataAnnotationRequest {
   /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
   annotationDetails: AddEntityDataAnnotationRequestAnnotationDetailsMap;
   /** Optional description of the annotation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
 export type DataAnnotationAnnotationDetailsMap = { [key: string]: string | undefined };
 /** A single data annotation on an entity */
 export interface DataAnnotation {
   /** Auto-assigned identifier for the annotation */
-  annotationId?: string;
+  annotationId?: string | undefined;
   /** Timestamp when the annotation was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
   annotationDetails: DataAnnotationAnnotationDetailsMap;
   /** Optional description of the annotation */
-  description?: string;
+  description?: string | undefined;
 }
-/** Supported kinds of authentication settings as discriminator */
-export type AuthenticationKind = "ManagedIdentity";
-/** Authentication setting properties */
-export interface AuthenticationSettingPropertiesInput {
+/** Kind of the authentication setting */
+export type ManagedIdentityAuthenticationSettingPropertiesInputAuthenticationKind =
+  "ManagedIdentity";
+/** Authentication setting properties for Azure Managed Identity */
+export interface ManagedIdentityAuthenticationSettingPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Kind of the authentication setting */
-  authenticationKind: AuthenticationKind | (string & {});
+  authenticationKind:
+    | ManagedIdentityAuthenticationSettingPropertiesInputAuthenticationKind
+    | (string & {});
+  /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */
+  managedIdentityName: string;
 }
 export interface AuthenticationSettingsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82,7 +87,7 @@ export interface AuthenticationSettingsCreateOrUpdateRequest {
   /** Name of the authentication setting. Must be unique within a health model. */
   authenticationSettingName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingPropertiesInput;
+  properties?: ManagedIdentityAuthenticationSettingPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -91,17 +96,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Health Model provisioning states */
 export type HealthModelProvisioningState =
@@ -110,30 +115,34 @@ export type HealthModelProvisioningState =
   | "Canceled"
   | "Creating"
   | "Deleting";
-/** Authentication setting properties */
-export interface AuthenticationSettingProperties {
+/** Kind of the authentication setting */
+export type ManagedIdentityAuthenticationSettingPropertiesAuthenticationKind = "ManagedIdentity";
+/** Authentication setting properties for Azure Managed Identity */
+export interface ManagedIdentityAuthenticationSettingProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Kind of the authentication setting */
-  authenticationKind: AuthenticationKind;
+  authenticationKind: ManagedIdentityAuthenticationSettingPropertiesAuthenticationKind;
+  /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */
+  managedIdentityName: string;
 }
 export interface AuthenticationSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateHealthModelRequestTagsMap = { [key: string]: string | undefined };
@@ -155,7 +164,7 @@ export type CreateHealthModelRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateHealthModelRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateHealthModelRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateHealthModelRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -165,27 +174,27 @@ export interface CreateHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Resource tags. */
-  tags?: CreateHealthModelRequestTagsMap;
+  tags?: CreateHealthModelRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HealthModelPropertiesInput;
+  properties?: HealthModelPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateHealthModelRequestIdentity;
+  identity?: CreateHealthModelRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateHealthModelResponseTagsMap = { [key: string]: string | undefined };
 /** HealthModel properties */
 export interface HealthModelProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateHealthModelResponseIdentityUserAssignedIdentitiesMap = {
@@ -194,34 +203,34 @@ export type CreateHealthModelResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateHealthModelResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateHealthModelResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateHealthModelResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateHealthModelResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateHealthModelResponseTagsMap;
+  tags?: CreateHealthModelResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HealthModelProperties;
+  properties?: HealthModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateHealthModelResponseIdentity;
+  identity?: CreateHealthModelResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAuthenticationSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -235,9 +244,9 @@ export interface DeleteAuthenticationSettingsRequest {
 }
 export interface DeleteAuthenticationSettingsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDiscoveryRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -251,9 +260,9 @@ export interface DeleteDiscoveryRuleRequest {
 }
 export interface DeleteDiscoveryRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEntityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -267,9 +276,9 @@ export interface DeleteEntityRequest {
 }
 export interface DeleteEntityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -281,9 +290,9 @@ export interface DeleteHealthModelRequest {
 }
 export interface DeleteHealthModelResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRelationshipRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -297,9 +306,9 @@ export interface DeleteRelationshipRequest {
 }
 export interface DeleteRelationshipResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSignalDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -313,27 +322,42 @@ export interface DeleteSignalDefinitionRequest {
 }
 export interface DeleteSignalDefinitionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Discovery rule relationship discovery behavior */
 export type DiscoveryRuleRelationshipDiscoveryBehavior = "Enabled" | "Disabled";
 /** Discovery rule recommended signal behavior */
 export type DiscoveryRuleRecommendedSignalsBehavior = "Enabled" | "Disabled";
-/** Discovery rule specification kind discriminator */
-export type DiscoveryRuleKind = "ResourceGraphQuery" | "ApplicationInsightsTopology";
-/** Base model for discovery rule specifications */
-export interface DiscoveryRuleSpecification {
+/** Kind of the discovery rule specification */
+export type ApplicationInsightsTopologySpecificationKind = "ApplicationInsightsTopology";
+/** Discovery rule specification for an Application Insights topology query */
+export interface ApplicationInsightsTopologySpecification {
   /** Kind of the discovery rule specification */
-  kind: DiscoveryRuleKind | (string & {});
+  kind: ApplicationInsightsTopologySpecificationKind;
+  /** Application Insights resource ID */
+  applicationInsightsResourceId: string;
 }
+/** Kind of the discovery rule specification */
+export type ResourceGraphQuerySpecificationKind = "ResourceGraphQuery";
+/** Discovery rule specification for an Azure Resource Graph query */
+export interface ResourceGraphQuerySpecification {
+  /** Kind of the discovery rule specification */
+  kind: ResourceGraphQuerySpecificationKind;
+  /** Azure Resource Graph query text in KQL syntax. The query must return at least a column named 'id' which contains the resource ID of the discovered resources. */
+  resourceGraphQuery: string;
+}
+/** Base model for discovery rule specifications */
+export type DiscoveryRuleSpecification =
+  | ApplicationInsightsTopologySpecification
+  | ResourceGraphQuerySpecification;
 /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
 export type DiscoveryRulePropertiesInputAddResourceHealthSignal = "Enabled" | "Disabled";
 /** Discovery rule properties */
 export interface DiscoveryRulePropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
   authenticationSetting: string;
   /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
@@ -343,7 +367,10 @@ export interface DiscoveryRulePropertiesInput {
   /** Specification of the discovery rule defining how entities are discovered. */
   specification: DiscoveryRuleSpecification;
   /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
-  addResourceHealthSignal?: DiscoveryRulePropertiesInputAddResourceHealthSignal | (string & {});
+  addResourceHealthSignal?:
+    | DiscoveryRulePropertiesInputAddResourceHealthSignal
+    | (string & {})
+    | undefined;
 }
 export interface DiscoveryRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -355,7 +382,7 @@ export interface DiscoveryRulesCreateOrUpdateRequest {
   /** Name of the discovery rule. Must be unique within a health model. */
   discoveryRuleName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DiscoveryRulePropertiesInput;
+  properties?: DiscoveryRulePropertiesInput | undefined;
 }
 /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
 export type DiscoveryRulePropertiesAddResourceHealthSignal = "Enabled" | "Disabled";
@@ -366,14 +393,14 @@ export interface DiscoveryError {
   /** Error message */
   message: string;
   /** Additional context information, like resource IDs or query details */
-  context?: DiscoveryErrorContextList;
+  context?: DiscoveryErrorContextList | undefined;
 }
 /** Discovery rule properties */
 export interface DiscoveryRuleProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
   authenticationSetting: string;
   /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
@@ -383,27 +410,27 @@ export interface DiscoveryRuleProperties {
   /** Specification of the discovery rule defining how entities are discovered. */
   specification: DiscoveryRuleSpecification;
   /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
-  addResourceHealthSignal?: DiscoveryRulePropertiesAddResourceHealthSignal;
+  addResourceHealthSignal?: DiscoveryRulePropertiesAddResourceHealthSignal | undefined;
   /** Error details if the last discovery operation failed. */
-  error?: DiscoveryError;
+  error?: DiscoveryError | undefined;
   /** Name of the entity which represents the discovery rule. Note: It might take a few minutes after creating the discovery rule until the entity is created. */
-  entityName?: string;
+  entityName?: string | undefined;
 }
 export interface DiscoveryRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiscoveryRuleProperties;
+  properties?: DiscoveryRuleProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Visual position of the entity */
 export interface EntityCoordinates {
@@ -417,18 +444,14 @@ export interface IconDefinition {
   /** Name of the built-in icon, or 'Custom' to use customData */
   iconName: string;
   /** Custom data. Base64-encoded SVG data. If set, this overrides the built-in icon. */
-  customData?: string;
+  customData?: string | undefined;
 }
 /** Impact of the entity in health state propagation */
 export type EntityPropertiesInputImpact = "Standard" | "Limited" | "Suppressed";
 /** Optional set of tags (key-value pairs) */
 export type EntityPropertiesInputTagsMap = { [key: string]: string | undefined };
-/** Supported signal kinds as discriminator */
-export type SignalKind =
-  | "AzureResourceMetric"
-  | "LogAnalyticsQuery"
-  | "PrometheusMetricsQuery"
-  | "External";
+/** Kind of the signal instance */
+export type AzureResourceSignalInputSignalKind = "AzureResourceMetric";
 /** Metric aggregation type */
 export type MetricAggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
@@ -456,43 +479,43 @@ export interface ThresholdRuleV2 {
   /** Operator how to compare the signal value with the threshold */
   operator: SignalOperator | (string & {});
   /** Threshold value */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Sensitivity level for dynamic threshold detection. Only applicable when operator is Dynamic. */
-  sensitivity?: DynamicThresholdSensitivity | (string & {});
+  sensitivity?: DynamicThresholdSensitivity | (string & {}) | undefined;
 }
 /** Evaluation rule for a signal definition */
 export interface EvaluationRule {
   /** Degraded rule with static threshold. */
-  degradedRule?: ThresholdRuleV2;
+  degradedRule?: ThresholdRuleV2 | undefined;
   /** Unhealthy rule with static threshold. */
   unhealthyRule: ThresholdRuleV2;
 }
 /** An Azure Resource Metric signal instance assigned to an entity. */
 export interface AzureResourceSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: AzureResourceSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Metric namespace */
-  metricNamespace?: string;
+  metricNamespace?: string | undefined;
   /** Name of the metric */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Type of aggregation to apply to the metric */
-  aggregationType?: MetricAggregationType | (string & {});
+  aggregationType?: MetricAggregationType | (string & {}) | undefined;
   /** Optional: Dimension filter to apply to the dimension. */
-  dimensionFilter?: string;
+  dimensionFilter?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: AzureResourceSignalInputRefreshInterval | (string & {});
+  refreshInterval?: AzureResourceSignalInputRefreshInterval | (string & {}) | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this group. */
 export type AzureResourceSignalsInputSignalsList = Array<AzureResourceSignalInput>;
@@ -501,7 +524,7 @@ export type AzureResourceHealthSignalInputEnabled = "Enabled" | "Disabled";
 /** Azure resource health signal configuration */
 export interface AzureResourceHealthSignalInput {
   /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health. Defaults to Enabled. */
-  enabled?: AzureResourceHealthSignalInputEnabled | (string & {});
+  enabled?: AzureResourceHealthSignalInputEnabled | (string & {}) | undefined;
 }
 /** A grouping of Azure resource signals */
 export interface AzureResourceSignalsInput {
@@ -510,12 +533,14 @@ export interface AzureResourceSignalsInput {
   /** Azure resource ID */
   azureResourceId: string;
   /** Azure resource kind (e.g., 'functionapp'). Populated by the UI for icon rendering. Can be null if not populated. */
-  azureResourceKind?: string;
+  azureResourceKind?: string | undefined;
   /** Signals assigned to this group. */
-  signals?: AzureResourceSignalsInputSignalsList;
+  signals?: AzureResourceSignalsInputSignalsList | undefined;
   /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
-  resourceHealth?: AzureResourceHealthSignalInput;
+  resourceHealth?: AzureResourceHealthSignalInput | undefined;
 }
+/** Kind of the signal instance */
+export type LogAnalyticsSignalInputSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type LogAnalyticsSignalInputRefreshInterval =
   | "PT1M"
@@ -528,25 +553,25 @@ export type LogAnalyticsSignalInputRefreshInterval =
 /** A Log Analytics Query signal instance assigned to an entity. */
 export interface LogAnalyticsSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: LogAnalyticsSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Query text in KQL syntax */
-  queryText?: string;
+  queryText?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
-  valueColumnName?: string;
+  valueColumnName?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: LogAnalyticsSignalInputRefreshInterval | (string & {});
+  refreshInterval?: LogAnalyticsSignalInputRefreshInterval | (string & {}) | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this group. */
 export type LogAnalyticsSignalsInputSignalsList = Array<LogAnalyticsSignalInput>;
@@ -557,8 +582,10 @@ export interface LogAnalyticsSignalsInput {
   /** Log Analytics workspace resource ID. */
   logAnalyticsWorkspaceResourceId: string;
   /** Signals assigned to this group. */
-  signals?: LogAnalyticsSignalsInputSignalsList;
+  signals?: LogAnalyticsSignalsInputSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type PrometheusMetricsSignalInputSignalKind = "PrometheusMetricsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type PrometheusMetricsSignalInputRefreshInterval =
   | "PT1M"
@@ -571,23 +598,23 @@ export type PrometheusMetricsSignalInputRefreshInterval =
 /** A Prometheus Metrics Query signal instance assigned to an entity. */
 export interface PrometheusMetricsSignalInput {
   /** Kind of the signal instance */
-  signalKind: SignalKind | (string & {});
+  signalKind: PrometheusMetricsSignalInputSignalKind | (string & {});
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Query text in PromQL syntax */
-  queryText?: string;
+  queryText?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: PrometheusMetricsSignalInputRefreshInterval | (string & {});
+  refreshInterval?: PrometheusMetricsSignalInputRefreshInterval | (string & {}) | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this signal group. */
 export type AzureMonitorWorkspaceSignalsInputSignalsList = Array<PrometheusMetricsSignalInput>;
@@ -598,7 +625,7 @@ export interface AzureMonitorWorkspaceSignalsInput {
   /** Azure Monitor workspace resource ID. */
   azureMonitorWorkspaceResourceId: string;
   /** Signals assigned to this signal group. */
-  signals?: AzureMonitorWorkspaceSignalsInputSignalsList;
+  signals?: AzureMonitorWorkspaceSignalsInputSignalsList | undefined;
 }
 /** Aggregation type for child dependencies. */
 export type DependenciesSignalGroupV2AggregationType =
@@ -613,24 +640,24 @@ export interface DependenciesSignalGroupV2 {
   /** Aggregation type for child dependencies. */
   aggregationType: DependenciesSignalGroupV2AggregationType | (string & {});
   /** Degraded threshold for aggregation. For MinHealthy: parent is degraded when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is degraded when not-healthy count/percentage reaches or exceeds this value. Optional -- if not set, there is no degraded state (transitions directly from Healthy to Unhealthy). */
-  degradedThreshold?: number;
+  degradedThreshold?: number | undefined;
   /** Unhealthy threshold for aggregation. For MinHealthy: parent is unhealthy when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is unhealthy when not-healthy count/percentage reaches or exceeds this value. Required when aggregationType is MinHealthy or MaxNotHealthy. */
-  unhealthyThreshold?: number;
+  unhealthyThreshold?: number | undefined;
   /** Unit type for the aggregation thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy. */
-  unit?: AggregationUnit | (string & {});
+  unit?: AggregationUnit | (string & {}) | undefined;
   /** If true, children with Unknown health state are excluded from aggregation calculations. Defaults to true. */
-  ignoreUnknown?: boolean;
+  ignoreUnknown?: boolean | undefined;
 }
 /** Contains various signal groups that can be assigned to an entity */
 export interface SignalGroupsInput {
   /** Azure Resource Signal Group */
-  azureResource?: AzureResourceSignalsInput;
+  azureResource?: AzureResourceSignalsInput | undefined;
   /** Log Analytics Signal Group */
-  azureLogAnalytics?: LogAnalyticsSignalsInput;
+  azureLogAnalytics?: LogAnalyticsSignalsInput | undefined;
   /** Azure Monitor Workspace Signal Group */
-  azureMonitorWorkspace?: AzureMonitorWorkspaceSignalsInput;
+  azureMonitorWorkspace?: AzureMonitorWorkspaceSignalsInput | undefined;
   /** Settings for dependency signals to control how the health state of child entities influences the health state of the parent entity. */
-  dependencies?: DependenciesSignalGroupV2;
+  dependencies?: DependenciesSignalGroupV2 | undefined;
 }
 /** Aggregation strategy applied across the members of this group. */
 export type SignalAggregationGroupInputAggregationType =
@@ -645,19 +672,19 @@ export interface SignalAggregationGroupInput {
   /** Name of the aggregation group. Unique within the entity. */
   name: string;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Aggregation strategy applied across the members of this group. */
-  aggregationType?: SignalAggregationGroupInputAggregationType | (string & {});
+  aggregationType?: SignalAggregationGroupInputAggregationType | (string & {}) | undefined;
   /** Names of signals on this entity which are members of the group. Members are matched by name; references to signals that do not currently exist on the entity are accepted (typically for pre-declared external signals) and surfaced via 'unresolvedMembers'. A signal may be listed in multiple groups; no duplicates within this list. */
   members: SignalAggregationGroupInputMembersList;
   /** Degraded threshold for threshold-bearing strategies (MinHealthy, MaxNotHealthy). For MinHealthy: group is degraded when the healthy member count/percentage falls to or below this value. For MaxNotHealthy: group is degraded when the not-healthy member count/percentage reaches or exceeds this value. Optional -- if not set, the group transitions directly between Healthy and Unhealthy. MUST NOT be set when aggregationType is WorstOf or BestOf. */
-  degradedThreshold?: number;
+  degradedThreshold?: number | undefined;
   /** Unhealthy threshold for threshold-bearing strategies. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
-  unhealthyThreshold?: number;
+  unhealthyThreshold?: number | undefined;
   /** Unit type for the thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
-  unit?: AggregationUnit | (string & {});
+  unit?: AggregationUnit | (string & {}) | undefined;
   /** If true (default), members reporting Unknown are excluded from the aggregation. For MinHealthy and MaxNotHealthy this flag affects the denominator/count and is meaningful. For WorstOf and BestOf the flag has no observable effect: under WorstOf, Unknown=0 is the lowest severity and can never beat any non-Unknown member in a Max() so filtering it changes nothing observable; under BestOf, Unknown is unconditionally excluded by the strategy itself irrespective of the flag. The flag is retained on the contract for vocabulary symmetry across all four strategies. */
-  ignoreUnknown?: boolean;
+  ignoreUnknown?: boolean | undefined;
 }
 /** Logical aggregation groups over the signals on this entity. Overlap is allowed: the same signal may appear in more than one group's members. Each group is evaluated independently according to its strategy, and a shared signal can contribute to multiple group states and related per-group telemetry. Group states contribute alongside any ungrouped signals and the dependency-aggregated child health to the entity's overall worst-of composite. */
 export type EntityPropertiesInputSignalAggregationGroupsList = Array<SignalAggregationGroupInput>;
@@ -670,37 +697,37 @@ export interface AlertConfiguration {
   /** The severity of triggered alert. */
   severity: AlertSeverity | (string & {});
   /** The alert rule description. */
-  description?: string;
+  description?: string | undefined;
   /** Optional list of action group resource IDs to be notified when the alert is triggered. */
-  actionGroupIds?: AlertConfigurationActionGroupIdsList;
+  actionGroupIds?: AlertConfigurationActionGroupIdsList | undefined;
 }
 /** Alert configuration for an entity */
 export interface EntityAlerts {
   /** Alert to be triggered on state change to unhealthy */
-  unhealthy?: AlertConfiguration;
+  unhealthy?: AlertConfiguration | undefined;
   /** Alert to be triggered on state change to degraded */
-  degraded?: AlertConfiguration;
+  degraded?: AlertConfiguration | undefined;
 }
 /** Properties which are common across all kinds of entities */
 export interface EntityPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Positioning of the entity on the model canvas */
-  canvasPosition?: EntityCoordinates;
+  canvasPosition?: EntityCoordinates | undefined;
   /** Visual icon definition. If not set, a default icon is used. */
-  icon?: IconDefinition;
+  icon?: IconDefinition | undefined;
   /** Health objective as a percentage of time the entity should be healthy. */
-  healthObjective?: number;
+  healthObjective?: number | undefined;
   /** Impact of the entity in health state propagation */
-  impact?: EntityPropertiesInputImpact | (string & {});
+  impact?: EntityPropertiesInputImpact | (string & {}) | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: EntityPropertiesInputTagsMap;
+  tags?: EntityPropertiesInputTagsMap | undefined;
   /** Signal groups which are assigned to this entity */
-  signalGroups?: SignalGroupsInput;
+  signalGroups?: SignalGroupsInput | undefined;
   /** Logical aggregation groups over the signals on this entity. Overlap is allowed: the same signal may appear in more than one group's members. Each group is evaluated independently according to its strategy, and a shared signal can contribute to multiple group states and related per-group telemetry. Group states contribute alongside any ungrouped signals and the dependency-aggregated child health to the entity's overall worst-of composite. */
-  signalAggregationGroups?: EntityPropertiesInputSignalAggregationGroupsList;
+  signalAggregationGroups?: EntityPropertiesInputSignalAggregationGroupsList | undefined;
   /** Alert configuration for this entity */
-  alerts?: EntityAlerts;
+  alerts?: EntityAlerts | undefined;
 }
 export interface EntitiesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -712,26 +739,28 @@ export interface EntitiesCreateOrUpdateRequest {
   /** Name of the entity. Must be unique within a health model. */
   entityName: string;
   /** The resource-specific properties for this resource. */
-  properties?: EntityPropertiesInput;
+  properties?: EntityPropertiesInput | undefined;
 }
 /** Impact of the entity in health state propagation */
 export type EntityPropertiesImpact = "Standard" | "Limited" | "Suppressed";
 /** Optional set of tags (key-value pairs) */
 export type EntityPropertiesTagsMap = { [key: string]: string | undefined };
+/** Kind of the signal instance */
+export type AzureResourceSignalSignalKind = "AzureResourceMetric";
 /** Health state of an entity */
 export type HealthState = "Healthy" | "Degraded" | "Unhealthy" | "Unknown";
 /** Status of a signal */
 export interface SignalStatus {
   /** Health state of this signal */
-  healthState?: HealthState;
+  healthState?: HealthState | undefined;
   /** Reported value of the signal */
-  value?: number;
+  value?: number | undefined;
   /** Timestamp when the value was reported */
-  reportedAt?: string;
+  reportedAt?: string | undefined;
   /** Error message if the signal status cannot be retrieved */
-  error?: string;
+  error?: string | undefined;
   /** Additional context as provided by the submitter */
-  additionalContext?: string;
+  additionalContext?: string | undefined;
 }
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type AzureResourceSignalRefreshInterval =
@@ -745,31 +774,31 @@ export type AzureResourceSignalRefreshInterval =
 /** An Azure Resource Metric signal instance assigned to an entity. */
 export interface AzureResourceSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: AzureResourceSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Current status of the signal. */
-  status?: SignalStatus;
+  status?: SignalStatus | undefined;
   /** Metric namespace */
-  metricNamespace?: string;
+  metricNamespace?: string | undefined;
   /** Name of the metric */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Type of aggregation to apply to the metric */
-  aggregationType?: MetricAggregationType;
+  aggregationType?: MetricAggregationType | undefined;
   /** Optional: Dimension filter to apply to the dimension. */
-  dimensionFilter?: string;
+  dimensionFilter?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: AzureResourceSignalRefreshInterval;
+  refreshInterval?: AzureResourceSignalRefreshInterval | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this group. */
 export type AzureResourceSignalsSignalsList = Array<AzureResourceSignal>;
@@ -786,38 +815,38 @@ export type ResourceHealthReasonChronicity = "Persistent" | "Transient";
 /** Status of an Azure Resource Health signal, including availability information reported by Azure Resource Health. */
 export interface AzureResourceHealthSignalStatus {
   /** Health state of this signal */
-  healthState?: HealthState;
+  healthState?: HealthState | undefined;
   /** Reported value of the signal */
-  value?: number;
+  value?: number | undefined;
   /** Timestamp when the value was reported */
-  reportedAt?: string;
+  reportedAt?: string | undefined;
   /** Error message if the signal status cannot be retrieved */
-  error?: string;
+  error?: string | undefined;
   /** Additional context as provided by the submitter */
-  additionalContext?: string;
+  additionalContext?: string | undefined;
   /** Availability state of the Azure resource as reported by Azure Resource Health. */
-  availabilityState?: ResourceHealthAvailabilityState;
+  availabilityState?: ResourceHealthAvailabilityState | undefined;
   /** Whether the status changing event was planned or unplanned. */
-  category?: ResourceHealthCategory;
+  category?: ResourceHealthCategory | undefined;
   /** Detailed status of the Azure resource as reported by Azure Resource Health. */
-  detailedStatus?: string;
+  detailedStatus?: string | undefined;
   /** Human-readable summary of the current availability state from Azure Resource Health. */
-  summary?: string;
+  summary?: string | undefined;
   /** Reason type for the current availability state (e.g. 'Unplanned', 'Planned', 'UserInitiated'). */
-  reasonType?: ResourceHealthReasonType;
+  reasonType?: ResourceHealthReasonType | undefined;
   /** Whether the current availability state is 'Persistent' or 'Transient'. */
-  reasonChronicity?: ResourceHealthReasonChronicity;
+  reasonChronicity?: ResourceHealthReasonChronicity | undefined;
   /** Timestamp when Azure Resource Health observed the current availability state. */
-  availabilityReportedTime?: string;
+  availabilityReportedTime?: string | undefined;
 }
 /** Azure resource health signal configuration */
 export interface AzureResourceHealthSignal {
   /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health. Defaults to Enabled. */
-  enabled?: AzureResourceHealthSignalEnabled;
+  enabled?: AzureResourceHealthSignalEnabled | undefined;
   /** The unique name of the Azure resource health signal. System assigned. */
-  signalName?: string;
+  signalName?: string | undefined;
   /** Current status of the Azure resource health signal. */
-  status?: AzureResourceHealthSignalStatus;
+  status?: AzureResourceHealthSignalStatus | undefined;
 }
 /** A grouping of Azure resource signals */
 export interface AzureResourceSignals {
@@ -826,12 +855,14 @@ export interface AzureResourceSignals {
   /** Azure resource ID */
   azureResourceId: string;
   /** Azure resource kind (e.g., 'functionapp'). Populated by the UI for icon rendering. Can be null if not populated. */
-  azureResourceKind?: string;
+  azureResourceKind?: string | undefined;
   /** Signals assigned to this group. */
-  signals?: AzureResourceSignalsSignalsList;
+  signals?: AzureResourceSignalsSignalsList | undefined;
   /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
-  resourceHealth?: AzureResourceHealthSignal;
+  resourceHealth?: AzureResourceHealthSignal | undefined;
 }
+/** Kind of the signal instance */
+export type LogAnalyticsSignalSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type LogAnalyticsSignalRefreshInterval =
   | "PT1M"
@@ -844,27 +875,27 @@ export type LogAnalyticsSignalRefreshInterval =
 /** A Log Analytics Query signal instance assigned to an entity. */
 export interface LogAnalyticsSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: LogAnalyticsSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Current status of the signal. */
-  status?: SignalStatus;
+  status?: SignalStatus | undefined;
   /** Query text in KQL syntax */
-  queryText?: string;
+  queryText?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
-  valueColumnName?: string;
+  valueColumnName?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: LogAnalyticsSignalRefreshInterval;
+  refreshInterval?: LogAnalyticsSignalRefreshInterval | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this group. */
 export type LogAnalyticsSignalsSignalsList = Array<LogAnalyticsSignal>;
@@ -875,8 +906,10 @@ export interface LogAnalyticsSignals {
   /** Log Analytics workspace resource ID. */
   logAnalyticsWorkspaceResourceId: string;
   /** Signals assigned to this group. */
-  signals?: LogAnalyticsSignalsSignalsList;
+  signals?: LogAnalyticsSignalsSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type PrometheusMetricsSignalSignalKind = "PrometheusMetricsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type PrometheusMetricsSignalRefreshInterval =
   | "PT1M"
@@ -889,25 +922,25 @@ export type PrometheusMetricsSignalRefreshInterval =
 /** A Prometheus Metrics Query signal instance assigned to an entity. */
 export interface PrometheusMetricsSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: PrometheusMetricsSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Current status of the signal. */
-  status?: SignalStatus;
+  status?: SignalStatus | undefined;
   /** Query text in PromQL syntax */
-  queryText?: string;
+  queryText?: string | undefined;
   /** Time range of signal. ISO duration format like PT10M. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: PrometheusMetricsSignalRefreshInterval;
+  refreshInterval?: PrometheusMetricsSignalRefreshInterval | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this signal group. */
 export type AzureMonitorWorkspaceSignalsSignalsList = Array<PrometheusMetricsSignal>;
@@ -918,40 +951,42 @@ export interface AzureMonitorWorkspaceSignals {
   /** Azure Monitor workspace resource ID. */
   azureMonitorWorkspaceResourceId: string;
   /** Signals assigned to this signal group. */
-  signals?: AzureMonitorWorkspaceSignalsSignalsList;
+  signals?: AzureMonitorWorkspaceSignalsSignalsList | undefined;
 }
+/** Kind of the signal instance */
+export type ExternalSignalSignalKind = "External";
 /** An externally submitted signal instance assigned to an entity. */
 export interface ExternalSignal {
   /** Kind of the signal instance */
-  signalKind: SignalKind;
+  signalKind: ExternalSignalSignalKind;
   /** Unique name of the signal within the entity. */
   name: string;
   /** Optional reference to a signal definition that provides default values. */
-  signalDefinitionName?: string;
+  signalDefinitionName?: string | undefined;
   /** Current status of the signal. */
-  status?: SignalStatus;
+  status?: SignalStatus | undefined;
   /** Evaluation rules for the external signal as submitted. */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals assigned to this signal group. */
 export type ExternalSignalGroupSignalsList = Array<ExternalSignal>;
 /** A grouping of externally submitted signals. */
 export interface ExternalSignalGroup {
   /** Signals assigned to this signal group. */
-  signals?: ExternalSignalGroupSignalsList;
+  signals?: ExternalSignalGroupSignalsList | undefined;
 }
 /** Contains various signal groups that can be assigned to an entity */
 export interface SignalGroups {
   /** Azure Resource Signal Group */
-  azureResource?: AzureResourceSignals;
+  azureResource?: AzureResourceSignals | undefined;
   /** Log Analytics Signal Group */
-  azureLogAnalytics?: LogAnalyticsSignals;
+  azureLogAnalytics?: LogAnalyticsSignals | undefined;
   /** Azure Monitor Workspace Signal Group */
-  azureMonitorWorkspace?: AzureMonitorWorkspaceSignals;
+  azureMonitorWorkspace?: AzureMonitorWorkspaceSignals | undefined;
   /** Settings for dependency signals to control how the health state of child entities influences the health state of the parent entity. */
-  dependencies?: DependenciesSignalGroupV2;
+  dependencies?: DependenciesSignalGroupV2 | undefined;
   /** List of signals which have been externally submitted for this entity. */
-  external?: ExternalSignalGroup;
+  external?: ExternalSignalGroup | undefined;
 }
 /** Aggregation strategy applied across the members of this group. */
 export type SignalAggregationGroupAggregationType =
@@ -968,68 +1003,68 @@ export interface SignalAggregationGroup {
   /** Name of the aggregation group. Unique within the entity. */
   name: string;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Aggregation strategy applied across the members of this group. */
-  aggregationType?: SignalAggregationGroupAggregationType;
+  aggregationType?: SignalAggregationGroupAggregationType | undefined;
   /** Names of signals on this entity which are members of the group. Members are matched by name; references to signals that do not currently exist on the entity are accepted (typically for pre-declared external signals) and surfaced via 'unresolvedMembers'. A signal may be listed in multiple groups; no duplicates within this list. */
   members: SignalAggregationGroupMembersList;
   /** Degraded threshold for threshold-bearing strategies (MinHealthy, MaxNotHealthy). For MinHealthy: group is degraded when the healthy member count/percentage falls to or below this value. For MaxNotHealthy: group is degraded when the not-healthy member count/percentage reaches or exceeds this value. Optional -- if not set, the group transitions directly between Healthy and Unhealthy. MUST NOT be set when aggregationType is WorstOf or BestOf. */
-  degradedThreshold?: number;
+  degradedThreshold?: number | undefined;
   /** Unhealthy threshold for threshold-bearing strategies. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
-  unhealthyThreshold?: number;
+  unhealthyThreshold?: number | undefined;
   /** Unit type for the thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
-  unit?: AggregationUnit;
+  unit?: AggregationUnit | undefined;
   /** If true (default), members reporting Unknown are excluded from the aggregation. For MinHealthy and MaxNotHealthy this flag affects the denominator/count and is meaningful. For WorstOf and BestOf the flag has no observable effect: under WorstOf, Unknown=0 is the lowest severity and can never beat any non-Unknown member in a Max() so filtering it changes nothing observable; under BestOf, Unknown is unconditionally excluded by the strategy itself irrespective of the flag. The flag is retained on the contract for vocabulary symmetry across all four strategies. */
-  ignoreUnknown?: boolean;
+  ignoreUnknown?: boolean | undefined;
   /** Computed aggregated health state of the group as of the last entity evaluation. Unknown if no resolvable members or all members filtered out. */
-  aggregatedHealthState?: HealthState;
+  aggregatedHealthState?: HealthState | undefined;
   /** Members listed in 'members' that do not currently resolve to a signal on this entity at the time of the last entity evaluation. Treated as Unknown during aggregation. Empty/omitted when every member resolves. */
-  unresolvedMembers?: SignalAggregationGroupUnresolvedMembersList;
+  unresolvedMembers?: SignalAggregationGroupUnresolvedMembersList | undefined;
 }
 /** Logical aggregation groups over the signals on this entity. Overlap is allowed: the same signal may appear in more than one group's members. Each group is evaluated independently according to its strategy, and a shared signal can contribute to multiple group states and related per-group telemetry. Group states contribute alongside any ungrouped signals and the dependency-aggregated child health to the entity's overall worst-of composite. */
 export type EntityPropertiesSignalAggregationGroupsList = Array<SignalAggregationGroup>;
 /** Properties which are common across all kinds of entities */
 export interface EntityProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Positioning of the entity on the model canvas */
-  canvasPosition?: EntityCoordinates;
+  canvasPosition?: EntityCoordinates | undefined;
   /** Visual icon definition. If not set, a default icon is used. */
-  icon?: IconDefinition;
+  icon?: IconDefinition | undefined;
   /** Health objective as a percentage of time the entity should be healthy. */
-  healthObjective?: number;
+  healthObjective?: number | undefined;
   /** Impact of the entity in health state propagation */
-  impact?: EntityPropertiesImpact;
+  impact?: EntityPropertiesImpact | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: EntityPropertiesTagsMap;
+  tags?: EntityPropertiesTagsMap | undefined;
   /** Signal groups which are assigned to this entity */
-  signalGroups?: SignalGroups;
+  signalGroups?: SignalGroups | undefined;
   /** Logical aggregation groups over the signals on this entity. Overlap is allowed: the same signal may appear in more than one group's members. Each group is evaluated independently according to its strategy, and a shared signal can contribute to multiple group states and related per-group telemetry. Group states contribute alongside any ungrouped signals and the dependency-aggregated child health to the entity's overall worst-of composite. */
-  signalAggregationGroups?: EntityPropertiesSignalAggregationGroupsList;
+  signalAggregationGroups?: EntityPropertiesSignalAggregationGroupsList | undefined;
   /** Discovered by which discovery rule. If set, the entity cannot be deleted manually. */
-  discoveredBy?: string;
+  discoveredBy?: string | undefined;
   /** Health state of this entity */
-  healthState?: HealthState;
+  healthState?: HealthState | undefined;
   /** Alert configuration for this entity */
-  alerts?: EntityAlerts;
+  alerts?: EntityAlerts | undefined;
 }
 export interface EntitiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EntityProperties;
+  properties?: EntityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Evaluation rules for the health report */
 export type HealthReportEvaluationRule = EvaluationRule;
@@ -1047,13 +1082,13 @@ export interface EntitiesIngestHealthReportRequest {
   /** Health state to report for the signal */
   healthState: HealthState | (string & {});
   /** Reported value of the signal */
-  value?: number;
+  value?: number | undefined;
   /** Evaluation rules that were used to determine the reported health state */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
   /** Number of minutes until the health report expires. Defaults to 60 (1 hour) if not specified. */
-  expiresInMinutes?: number;
+  expiresInMinutes?: number | undefined;
   /** Optional additional context or description for the health report */
-  additionalContext?: string;
+  additionalContext?: string | undefined;
 }
 export interface EntitiesIngestHealthReportResponse {}
 export interface GetAuthenticationSettingsRequest {
@@ -1068,15 +1103,15 @@ export interface GetAuthenticationSettingsRequest {
 }
 export interface GetAuthenticationSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
 }
 export interface GetDiscoveryRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1090,15 +1125,15 @@ export interface GetDiscoveryRuleRequest {
 }
 export interface GetDiscoveryRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiscoveryRuleProperties;
+  properties?: DiscoveryRuleProperties | undefined;
 }
 export interface GetEntityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1112,15 +1147,15 @@ export interface GetEntityRequest {
 }
 export interface GetEntityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EntityProperties;
+  properties?: EntityProperties | undefined;
 }
 export interface GetEntityDataAnnotationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1132,13 +1167,13 @@ export interface GetEntityDataAnnotationsRequest {
   /** Name of the entity. Must be unique within a health model. */
   entityName: string;
   /** Start of UTC time range. Defaults to 24 hours ago if not specified. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End of UTC time range. Defaults to now if not specified. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Maximum number of annotations to return per page. Defaults to 100. */
-  top?: number;
+  top?: number | undefined;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 /** List of data annotations */
 export type GetDataAnnotationsResponseAnnotationsList = Array<DataAnnotation>;
@@ -1149,7 +1184,7 @@ export interface GetDataAnnotationsResponse {
   /** List of data annotations */
   annotations: GetDataAnnotationsResponseAnnotationsList;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 export interface GetEntityHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1161,13 +1196,13 @@ export interface GetEntityHistoryRequest {
   /** Name of the entity. Must be unique within a health model. */
   entityName: string;
   /** Start time for the history query. Defaults to 24 hours ago if not specified. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End time for the history query. Defaults to now if not specified. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Maximum number of health state transitions to return per page. Defaults to 1000. */
-  top?: number;
+  top?: number | undefined;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 /** A health state transition record */
 export interface HealthStateTransition {
@@ -1178,7 +1213,7 @@ export interface HealthStateTransition {
   /** Timestamp when the transition occurred */
   occurredAt: string;
   /** Reason of the transition */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** List of health state transitions */
 export type EntityHistoryResponseHistoryList = Array<HealthStateTransition>;
@@ -1189,7 +1224,7 @@ export interface EntityHistoryResponse {
   /** List of health state transitions */
   history: EntityHistoryResponseHistoryList;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 export interface GetEntitySignalHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1203,24 +1238,24 @@ export interface GetEntitySignalHistoryRequest {
   /** Name of the signal to get history for */
   signalName: string;
   /** Start time for the history query. Defaults to 24 hours ago if not specified. */
-  startAt?: string;
+  startAt?: string | undefined;
   /** End time for the history query. Defaults to now if not specified. */
-  endAt?: string;
+  endAt?: string | undefined;
   /** Maximum number of data points to return per page. Defaults to 1000. */
-  top?: number;
+  top?: number | undefined;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 /** A data point in the signal time series */
 export interface SignalHistoryDataPoint {
   /** Timestamp of the data point */
   occurredAt: string;
   /** Signal value at this point in time */
-  value?: number;
+  value?: number | undefined;
   /** Health state at this point in time */
   healthState: HealthState;
   /** Additional context as provided by the submitter */
-  additionalContext?: string;
+  additionalContext?: string | undefined;
 }
 /** Signal history data points */
 export type SignalHistoryResponseHistoryList = Array<SignalHistoryDataPoint>;
@@ -1233,7 +1268,7 @@ export interface SignalHistoryResponse {
   /** Signal history data points */
   history: SignalHistoryResponseHistoryList;
   /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
-  nextMarker?: string;
+  nextMarker?: string | undefined;
 }
 export interface GetEntitySignalRecommendationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1249,34 +1284,91 @@ export interface GetEntitySignalRecommendationsRequest {
 export type SignalConfigurationApplicableResourceTypesList = Array<string>;
 /** Refresh interval in ISO duration format */
 export type RefreshInterval = "PT1M" | "PT5M" | "PT10M" | "PT15M" | "PT30M" | "PT1H" | "PT2H";
-/** Supported signal recommendation kinds. */
-export type SignalRecommendationKind =
-  | "AzureResourceMetric"
-  | "LogAnalyticsQuery"
-  | "PrometheusMetricsQuery";
-/** Kind-specific signal recommendation configuration. */
-export interface SignalRecommendationConfiguration {
+/** Kind of the recommended signal. */
+export type AzureResourceMetricRecommendationConfigurationSignalKind = "AzureResourceMetric";
+/** Azure Resource Metric recommendation configuration. */
+export interface AzureResourceMetricRecommendationConfiguration {
   /** Kind of the recommended signal. */
-  signalKind: SignalRecommendationKind;
+  signalKind: AzureResourceMetricRecommendationConfigurationSignalKind;
+  /** Metric namespace. */
+  metricNamespace: string;
+  /** Name of the metric. */
+  metricName: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType: MetricAggregationType;
+  /** Time range of the metric in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string | undefined;
 }
+/** Kind of the recommended signal. */
+export type LogAnalyticsQueryRecommendationConfigurationSignalKind = "LogAnalyticsQuery";
+/** Log Analytics tables required by the query. */
+export type LogAnalyticsQueryRecommendationConfigurationRequiredTablesList = Array<string>;
+/** Diagnostic setting categories required to populate the query's tables. */
+export type LogAnalyticsQueryRecommendationConfigurationRequiredDiagnosticSettingCategoriesList =
+  Array<string>;
+/** Log Analytics Query recommendation configuration. */
+export interface LogAnalyticsQueryRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: LogAnalyticsQueryRecommendationConfigurationSignalKind;
+  /** Query text in KQL syntax. Supported entity template variables, such as `{{entity.azureResourceId}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the numeric result column to evaluate against the thresholds. */
+  valueColumnName?: string | undefined;
+  /** Log Analytics tables required by the query. */
+  requiredTables?: LogAnalyticsQueryRecommendationConfigurationRequiredTablesList | undefined;
+  /** Diagnostic setting categories required to populate the query's tables. */
+  requiredDiagnosticSettingCategories?:
+    | LogAnalyticsQueryRecommendationConfigurationRequiredDiagnosticSettingCategoriesList
+    | undefined;
+}
+/** Kind of the recommended signal. */
+export type PrometheusMetricsRecommendationConfigurationSignalKind = "PrometheusMetricsQuery";
+/** Prometheus metrics required by the query. */
+export type PrometheusMetricsRecommendationConfigurationRequiredMetricsList = Array<string>;
+/** Prometheus scrape targets required to populate the query's metrics. */
+export type PrometheusMetricsRecommendationConfigurationRequiredScrapeTargetsList = Array<string>;
+/** Prometheus Metrics Query recommendation configuration. */
+export interface PrometheusMetricsRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: PrometheusMetricsRecommendationConfigurationSignalKind;
+  /** Query text in PromQL syntax. Supported entity template variables, such as `{{entity.name}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string | undefined;
+  /** Prometheus metrics required by the query. */
+  requiredMetrics?: PrometheusMetricsRecommendationConfigurationRequiredMetricsList | undefined;
+  /** Prometheus scrape targets required to populate the query's metrics. */
+  requiredScrapeTargets?:
+    | PrometheusMetricsRecommendationConfigurationRequiredScrapeTargetsList
+    | undefined;
+}
+/** Kind-specific signal recommendation configuration. */
+export type SignalRecommendationConfiguration =
+  | AzureResourceMetricRecommendationConfiguration
+  | LogAnalyticsQueryRecommendationConfiguration
+  | PrometheusMetricsRecommendationConfiguration;
 /** A signal configuration for an Azure resource type */
 export interface SignalConfiguration {
   /** Unique identifier of the recommended signal configuration. */
   signalId: string;
   /** Display name of the recommended signal configuration. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the recommended signal configuration. */
-  description?: string;
+  description?: string | undefined;
   /** Azure resource types to which the recommended signal configuration applies. */
-  applicableResourceTypes?: SignalConfigurationApplicableResourceTypesList;
+  applicableResourceTypes?: SignalConfigurationApplicableResourceTypesList | undefined;
   /** Interval in which the recommended signal is evaluated. */
-  refreshInterval?: RefreshInterval;
+  refreshInterval?: RefreshInterval | undefined;
   /** Unit of the recommended signal result (e.g. Bytes, MilliSeconds, Percent, Count). */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Kind-specific settings for the recommended signal. */
   configuration: SignalRecommendationConfiguration;
   /** Evaluation rules with recommended thresholds. */
-  evaluationRules?: EvaluationRule;
+  evaluationRules?: EvaluationRule | undefined;
 }
 /** Signals that are broadly recommended to be enabled by default for health models monitoring an Entity of this resource type. Each entry is a complete signal configuration (metric, aggregation, thresholds) ready to be added to a health model. Independent of `recommendedConfigurations` -- not paired by index. */
 export type GetSignalRecommendationsResponseRecommendedSignalsList = Array<SignalConfiguration>;
@@ -1307,30 +1399,30 @@ export type GetHealthModelResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetHealthModelResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetHealthModelResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetHealthModelResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetHealthModelResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetHealthModelResponseTagsMap;
+  tags?: GetHealthModelResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HealthModelProperties;
+  properties?: HealthModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetHealthModelResponseIdentity;
+  identity?: GetHealthModelResponseIdentity | undefined;
 }
 export interface GetRelationshipRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1347,29 +1439,29 @@ export type RelationshipPropertiesTagsMap = { [key: string]: string | undefined 
 /** Relationship properties */
 export interface RelationshipProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name of the parent entity */
   parentEntityName: string;
   /** Resource name of the child entity */
   childEntityName: string;
   /** Optional set of tags (key-value pairs) */
-  tags?: RelationshipPropertiesTagsMap;
+  tags?: RelationshipPropertiesTagsMap | undefined;
   /** Discovered by which discovery rule. If set, the relationship cannot be deleted manually. */
-  discoveredBy?: string;
+  discoveredBy?: string | undefined;
 }
 export interface GetRelationshipResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RelationshipProperties;
+  properties?: RelationshipProperties | undefined;
 }
 export interface GetSignalDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1381,6 +1473,8 @@ export interface GetSignalDefinitionRequest {
   /** Name of the signal definition. Must be unique within a health model. */
   signalDefinitionName: string;
 }
+/** Kind of the signal definition */
+export type LogAnalyticsQuerySignalDefinitionPropertiesSignalKind = "LogAnalyticsQuery";
 /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
 export type SignalDefinitionPropertiesRefreshInterval =
   | "PT1M"
@@ -1391,35 +1485,106 @@ export type SignalDefinitionPropertiesRefreshInterval =
   | "PT1H"
   | "PT2H";
 /** Optional set of tags (key-value pairs) */
-export type SignalDefinitionPropertiesTagsMap = { [key: string]: string | undefined };
-/** SignalDefinition properties */
-export interface SignalDefinitionProperties {
+export type LogAnalyticsQuerySignalDefinitionPropertiesTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Log Analytics Query Signal Definition properties */
+export interface LogAnalyticsQuerySignalDefinitionProperties {
   /** The status of the last operation. */
-  provisioningState?: HealthModelProvisioningState;
+  provisioningState?: HealthModelProvisioningState | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Kind of the signal definition */
-  signalKind: SignalKind;
+  signalKind: LogAnalyticsQuerySignalDefinitionPropertiesSignalKind;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: SignalDefinitionPropertiesRefreshInterval;
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: SignalDefinitionPropertiesTagsMap;
+  tags?: LogAnalyticsQuerySignalDefinitionPropertiesTagsMap | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Query text in KQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string | undefined;
 }
+/** Kind of the signal definition */
+export type PrometheusMetricsSignalDefinitionPropertiesSignalKind = "PrometheusMetricsQuery";
+/** Optional set of tags (key-value pairs) */
+export type PrometheusMetricsSignalDefinitionPropertiesTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Prometheus Metrics Signal Definition properties */
+export interface PrometheusMetricsSignalDefinitionProperties {
+  /** The status of the last operation. */
+  provisioningState?: HealthModelProvisioningState | undefined;
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: PrometheusMetricsSignalDefinitionPropertiesSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: PrometheusMetricsSignalDefinitionPropertiesTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Query text in PromQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string | undefined;
+}
+/** Kind of the signal definition */
+export type ResourceMetricSignalDefinitionPropertiesSignalKind = "AzureResourceMetric";
+/** Optional set of tags (key-value pairs) */
+export type ResourceMetricSignalDefinitionPropertiesTagsMap = { [key: string]: string | undefined };
+/** Azure Resource Metric Signal Definition properties */
+export interface ResourceMetricSignalDefinitionProperties {
+  /** The status of the last operation. */
+  provisioningState?: HealthModelProvisioningState | undefined;
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: ResourceMetricSignalDefinitionPropertiesSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: ResourceMetricSignalDefinitionPropertiesTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Metric namespace */
+  metricNamespace: string;
+  /** Name of the metric */
+  metricName: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType: MetricAggregationType;
+  /** Optional: Dimension filter to apply to the dimension. */
+  dimensionFilter?: string | undefined;
+}
+/** SignalDefinition properties */
+export type SignalDefinitionProperties =
+  | LogAnalyticsQuerySignalDefinitionProperties
+  | PrometheusMetricsSignalDefinitionProperties
+  | ResourceMetricSignalDefinitionProperties;
 export interface GetSignalDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SignalDefinitionProperties;
+  properties?: SignalDefinitionProperties | undefined;
 }
 export interface ListAuthenticationSettingsByHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1432,15 +1597,15 @@ export interface ListAuthenticationSettingsByHealthModelRequest {
 /** An authentication setting in a health model */
 export interface AuthenticationSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AuthenticationSettingProperties;
+  properties?: ManagedIdentityAuthenticationSettingProperties | undefined;
 }
 /** The AuthenticationSetting items on this page */
 export type AuthenticationSettingListResultValueList = Array<AuthenticationSetting>;
@@ -1449,7 +1614,7 @@ export interface AuthenticationSettingListResult {
   /** The AuthenticationSetting items on this page */
   value: AuthenticationSettingListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiscoveryRuleByHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1459,20 +1624,20 @@ export interface ListDiscoveryRuleByHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** A discovery rule which automatically finds entities and relationships in a health model based on an Azure Resource Graph query */
 export interface DiscoveryRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiscoveryRuleProperties;
+  properties?: DiscoveryRuleProperties | undefined;
 }
 /** The DiscoveryRule items on this page */
 export type DiscoveryRuleListResultValueList = Array<DiscoveryRule>;
@@ -1481,7 +1646,7 @@ export interface DiscoveryRuleListResult {
   /** The DiscoveryRule items on this page */
   value: DiscoveryRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEntityByHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1491,20 +1656,20 @@ export interface ListEntityByHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** An entity (aka node) of a health model */
 export interface Entity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EntityProperties;
+  properties?: EntityProperties | undefined;
 }
 /** The Entity items on this page */
 export type EntityListResultValueList = Array<Entity>;
@@ -1513,7 +1678,7 @@ export interface EntityListResult {
   /** The Entity items on this page */
   value: EntityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHealthModelByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1530,31 +1695,31 @@ export type HealthModelIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface HealthModelIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: HealthModelIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: HealthModelIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** A HealthModel resource */
 export interface HealthModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HealthModelTagsMap;
+  tags?: HealthModelTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HealthModelProperties;
+  properties?: HealthModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: HealthModelIdentity;
+  identity?: HealthModelIdentity | undefined;
 }
 /** The HealthModel items on this page */
 export type HealthModelListResultValueList = Array<HealthModel>;
@@ -1563,7 +1728,7 @@ export interface HealthModelListResult {
   /** The HealthModel items on this page */
   value: HealthModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHealthModelBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1573,13 +1738,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1588,23 +1753,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRelationshipByHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1614,20 +1779,20 @@ export interface ListRelationshipByHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** A relationship (aka edge) between two entities in a health model */
 export interface Relationship {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RelationshipProperties;
+  properties?: RelationshipProperties | undefined;
 }
 /** The Relationship items on this page */
 export type RelationshipListResultValueList = Array<Relationship>;
@@ -1636,7 +1801,7 @@ export interface RelationshipListResult {
   /** The Relationship items on this page */
   value: RelationshipListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalDefinitionByHealthModelRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1646,20 +1811,20 @@ export interface ListSignalDefinitionByHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** A signal definition in a health model */
 export interface SignalDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SignalDefinitionProperties;
+  properties?: SignalDefinitionProperties | undefined;
 }
 /** The SignalDefinition items on this page */
 export type SignalDefinitionListResultValueList = Array<SignalDefinition>;
@@ -1668,20 +1833,20 @@ export interface SignalDefinitionListResult {
   /** The SignalDefinition items on this page */
   value: SignalDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Optional set of tags (key-value pairs) */
 export type RelationshipPropertiesInputTagsMap = { [key: string]: string | undefined };
 /** Relationship properties */
 export interface RelationshipPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name of the parent entity */
   parentEntityName: string;
   /** Resource name of the child entity */
   childEntityName: string;
   /** Optional set of tags (key-value pairs) */
-  tags?: RelationshipPropertiesInputTagsMap;
+  tags?: RelationshipPropertiesInputTagsMap | undefined;
 }
 export interface RelationshipsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1693,50 +1858,112 @@ export interface RelationshipsCreateOrUpdateRequest {
   /** Name of the relationship. Must be unique within a health model. For example, a concatenation of parentEntityName and childEntityName can be used as the name. */
   relationshipName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RelationshipPropertiesInput;
+  properties?: RelationshipPropertiesInput | undefined;
 }
 export interface RelationshipsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RelationshipProperties;
+  properties?: RelationshipProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
-/** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-export type SignalDefinitionPropertiesInputRefreshInterval =
-  | "PT1M"
-  | "PT5M"
-  | "PT10M"
-  | "PT15M"
-  | "PT30M"
-  | "PT1H"
-  | "PT2H";
+/** Kind of the signal definition */
+export type LogAnalyticsQuerySignalDefinitionPropertiesInputSignalKind = "LogAnalyticsQuery";
 /** Optional set of tags (key-value pairs) */
-export type SignalDefinitionPropertiesInputTagsMap = { [key: string]: string | undefined };
-/** SignalDefinition properties */
-export interface SignalDefinitionPropertiesInput {
+export type LogAnalyticsQuerySignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Log Analytics Query Signal Definition properties */
+export interface LogAnalyticsQuerySignalDefinitionPropertiesInput {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Kind of the signal definition */
-  signalKind: SignalKind | (string & {});
+  signalKind: LogAnalyticsQuerySignalDefinitionPropertiesInputSignalKind;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
-  refreshInterval?: SignalDefinitionPropertiesInputRefreshInterval | (string & {});
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
   /** Optional set of tags (key-value pairs) */
-  tags?: SignalDefinitionPropertiesInputTagsMap;
+  tags?: LogAnalyticsQuerySignalDefinitionPropertiesInputTagsMap | undefined;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
-  dataUnit?: string;
+  dataUnit?: string | undefined;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
+  /** Query text in KQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string | undefined;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string | undefined;
 }
+/** Kind of the signal definition */
+export type PrometheusMetricsSignalDefinitionPropertiesInputSignalKind = "PrometheusMetricsQuery";
+/** Optional set of tags (key-value pairs) */
+export type PrometheusMetricsSignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Prometheus Metrics Signal Definition properties */
+export interface PrometheusMetricsSignalDefinitionPropertiesInput {
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: PrometheusMetricsSignalDefinitionPropertiesInputSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: PrometheusMetricsSignalDefinitionPropertiesInputTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Query text in PromQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string | undefined;
+}
+/** Kind of the signal definition */
+export type ResourceMetricSignalDefinitionPropertiesInputSignalKind = "AzureResourceMetric";
+/** Optional set of tags (key-value pairs) */
+export type ResourceMetricSignalDefinitionPropertiesInputTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Azure Resource Metric Signal Definition properties */
+export interface ResourceMetricSignalDefinitionPropertiesInput {
+  /** Display name */
+  displayName?: string | undefined;
+  /** Kind of the signal definition */
+  signalKind: ResourceMetricSignalDefinitionPropertiesInputSignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: SignalDefinitionPropertiesRefreshInterval | (string & {}) | undefined;
+  /** Optional set of tags (key-value pairs) */
+  tags?: ResourceMetricSignalDefinitionPropertiesInputTagsMap | undefined;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string | undefined;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+  /** Metric namespace */
+  metricNamespace: string;
+  /** Name of the metric */
+  metricName: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType: MetricAggregationType | (string & {});
+  /** Optional: Dimension filter to apply to the dimension. */
+  dimensionFilter?: string | undefined;
+}
+/** SignalDefinition properties */
+export type SignalDefinitionPropertiesInput =
+  | LogAnalyticsQuerySignalDefinitionPropertiesInput
+  | PrometheusMetricsSignalDefinitionPropertiesInput
+  | ResourceMetricSignalDefinitionPropertiesInput;
 export interface SignalDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1747,23 +1974,23 @@ export interface SignalDefinitionsCreateOrUpdateRequest {
   /** Name of the signal definition. Must be unique within a health model. */
   signalDefinitionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SignalDefinitionPropertiesInput;
+  properties?: SignalDefinitionPropertiesInput | undefined;
 }
 export interface SignalDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SignalDefinitionProperties;
+  properties?: SignalDefinitionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateHealthModelRequestIdentityUserAssignedIdentitiesMap = {
@@ -1773,7 +2000,7 @@ export type UpdateHealthModelRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateHealthModelRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateHealthModelRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateHealthModelRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type UpdateHealthModelRequestTagsMap = { [key: string]: string | undefined };
@@ -1785,9 +2012,9 @@ export interface UpdateHealthModelRequest {
   /** Name of health model resource */
   healthModelName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateHealthModelRequestIdentity;
+  identity?: UpdateHealthModelRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateHealthModelRequestTagsMap;
+  tags?: UpdateHealthModelRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateHealthModelResponseTagsMap = { [key: string]: string | undefined };
@@ -1798,34 +2025,34 @@ export type UpdateHealthModelResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateHealthModelResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateHealthModelResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateHealthModelResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateHealthModelResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateHealthModelResponseTagsMap;
+  tags?: UpdateHealthModelResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HealthModelProperties;
+  properties?: HealthModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateHealthModelResponseIdentity;
+  identity?: UpdateHealthModelResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddEntityDataAnnotationError = AzureOpError;
 /** Add a data annotation to an entity */
@@ -2142,7 +2369,7 @@ export const GetEntitySignalRecommendations: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetEntitySignalRecommendationsRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<GetSignalRecommendationsResponse>,
+  output: __S(615, __c19, 7) as any as S.Schema<GetSignalRecommendationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2362,8 +2589,8 @@ export const SignalDefinitionsCreateOrUpdate: API.OperationMethod<
   SignalDefinitionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c44, 1) as any as S.Schema<SignalDefinitionsCreateOrUpdateRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<SignalDefinitionsCreateOrUpdateResponse>,
+  input: __S(1412, __c44, 4) as any as S.Schema<SignalDefinitionsCreateOrUpdateRequest>,
+  output: __S(1413, __c44, 5) as any as S.Schema<SignalDefinitionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2437,8 +2664,9 @@ function __c3(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.String,
         }),
-      ).annotate({ identifier: "AuthenticationSettingPropertiesInput" });
+      ).annotate({ identifier: "ManagedIdentityAuthenticationSettingPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2478,8 +2706,9 @@ function __c4(j: number): any {
           provisioningState: S.optional(S.String),
           displayName: S.optional(S.String),
           authenticationKind: S.String,
+          managedIdentityName: S.String,
         }),
-      ).annotate({ identifier: "AuthenticationSettingProperties" });
+      ).annotate({ identifier: "ManagedIdentityAuthenticationSettingProperties" });
   }
 }
 function __c5(j: number): any {
@@ -2981,7 +3210,7 @@ function __c13(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1698, __c53, 2)),
+          properties: S.optional(__S(1700, __c53, 4)),
         }),
       ).annotate({ identifier: "GetDiscoveryRuleResponse" });
   }
@@ -3164,9 +3393,37 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           signalKind: S.String,
+          metricNamespace: S.String,
+          metricName: S.String,
+          aggregationType: S.String,
+          timeGrain: S.String,
+          dimensionFilter: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalRecommendationConfiguration" });
+      ).annotate({ identifier: "AzureResourceMetricRecommendationConfiguration" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          signalKind: S.String,
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
+          requiredTables: S.optional(__S(1664, __c52, 0)),
+          requiredDiagnosticSettingCategories: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "LogAnalyticsQueryRecommendationConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          signalKind: S.String,
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          requiredMetrics: S.optional(__S(1664, __c52, 0)),
+          requiredScrapeTargets: S.optional(__S(1664, __c52, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsRecommendationConfiguration" });
+    case 4:
+      return S.Union([__S(609, __c19, 1), __S(610, __c19, 2), __S(611, __c19, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           signalId: S.String,
@@ -3175,17 +3432,17 @@ function __c19(j: number): any {
           applicableResourceTypes: S.optional(__S(1664, __c52, 0)),
           refreshInterval: S.optional(S.String),
           dataUnit: S.optional(S.String),
-          configuration: __S(609, __c19, 1),
+          configuration: __S(612, __c19, 4),
           evaluationRules: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "SignalConfiguration" });
-    case 3:
-      return S.Array(__S(610, __c19, 2));
-    case 4:
+    case 6:
+      return S.Array(__S(613, __c19, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          recommendedSignals: __S(611, __c19, 3),
-          recommendedConfigurations: __S(611, __c19, 3),
+          recommendedSignals: __S(614, __c19, 6),
+          recommendedConfigurations: __S(614, __c19, 6),
         }),
       ).annotate({ identifier: "GetSignalRecommendationsResponse" });
   }
@@ -3389,7 +3646,7 @@ function __c30(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(995, __c31, 3)),
         }),
       ).annotate({ identifier: "GetSignalDefinitionResponse" });
   }
@@ -3406,8 +3663,44 @@ function __c31(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalDefinitionProperties" });
+      ).annotate({ identifier: "LogAnalyticsQuerySignalDefinitionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsSignalDefinitionProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.String,
+          metricName: S.String,
+          timeGrain: S.String,
+          aggregationType: S.String,
+          dimensionFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceMetricSignalDefinitionProperties" });
+    case 3:
+      return S.Union([__S(992, __c31, 0), __S(993, __c31, 1), __S(994, __c31, 2)]);
   }
 }
 function __c32(j: number): any {
@@ -3729,16 +4022,50 @@ function __c44(j: number): any {
           tags: S.optional(__S(64, __c2, 0)),
           dataUnit: S.optional(S.String),
           evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+          valueColumnName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalDefinitionPropertiesInput" });
+      ).annotate({ identifier: "LogAnalyticsQuerySignalDefinitionPropertiesInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          queryText: S.String,
+          timeGrain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusMetricsSignalDefinitionPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          signalKind: S.String,
+          refreshInterval: S.optional(S.String),
+          tags: S.optional(__S(64, __c2, 0)),
+          dataUnit: S.optional(S.String),
+          evaluationRules: __S(225, __c7, 1),
+          metricNamespace: S.String,
+          metricName: S.String,
+          timeGrain: S.String,
+          aggregationType: S.String,
+          dimensionFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceMetricSignalDefinitionPropertiesInput" });
+    case 3:
+      return S.Union([__S(1408, __c44, 0), __S(1409, __c44, 1), __S(1410, __c44, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           healthModelName: S.String.pipe(T.Label()),
           signalDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1411, __c44, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3748,14 +4075,14 @@ function __c44(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SignalDefinitionsCreateOrUpdateRequest" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(995, __c31, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3906,7 +4233,7 @@ function __c51(j: number): any {
           authenticationSetting: S.String,
           discoverRelationships: S.String,
           addRecommendedSignals: S.String,
-          specification: __S(1696, __c53, 0),
+          specification: __S(1698, __c53, 2),
           addResourceHealthSignal: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryRulePropertiesInput" });
@@ -3934,7 +4261,7 @@ function __c51(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(1698, __c53, 2)),
+          properties: S.optional(__S(1700, __c53, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3953,16 +4280,26 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
+          applicationInsightsResourceId: S.String,
         }),
-      ).annotate({ identifier: "DiscoveryRuleSpecification" });
+      ).annotate({ identifier: "ApplicationInsightsTopologySpecification" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          resourceGraphQuery: S.String,
+        }),
+      ).annotate({ identifier: "ResourceGraphQuerySpecification" });
+    case 2:
+      return S.Union([__S(1696, __c53, 0), __S(1697, __c53, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
           context: S.optional(__S(1664, __c52, 0)),
         }),
       ).annotate({ identifier: "DiscoveryError" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
@@ -3970,9 +4307,9 @@ function __c53(j: number): any {
           authenticationSetting: S.String,
           discoverRelationships: S.String,
           addRecommendedSignals: S.String,
-          specification: __S(1696, __c53, 0),
+          specification: __S(1698, __c53, 2),
           addResourceHealthSignal: S.optional(S.String),
-          error: S.optional(__S(1697, __c53, 1)),
+          error: S.optional(__S(1699, __c53, 3)),
           entityName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryRuleProperties" });

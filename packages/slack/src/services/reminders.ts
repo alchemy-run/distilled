@@ -30,11 +30,11 @@ export interface AddReminderRequest {
   /** Can also take a type of integer. When this reminder should happen: the Unix timestamp (up to five years from now), the number of seconds until the reminder (if within 24 hours), or a natural language description (Ex. "in 15 minutes," or "every Thursday") */
   time: string;
   /** No longer supported - reminders cannot be set for other users. Previously, was the user who would receive the reminder. */
-  user?: string;
+  user?: string | undefined;
   /** Encoded team id, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Specify the repeating behavior of a reminder. Available options: `daily`, `weekly`, `monthly`, or `yearly`. If `weekly`, may further specify the days of the week. */
-  recurrence?: unknown;
+  recurrence?: unknown | undefined;
 }
 export interface AddReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -45,7 +45,7 @@ export interface CompleteReminderRequest {
   /** The ID of the reminder to be marked as complete */
   reminder: string;
   /** Encoded team id, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface CompleteReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -55,7 +55,7 @@ export interface DeleteReminderRequest {
   /** The ID of the reminder */
   reminder: string;
   /** Encoded team id, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface DeleteReminderResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -63,19 +63,19 @@ export interface DeleteReminderResponse {
 }
 export interface ListRemindersRequest {
   /** Encoded team id, required if org token is passed */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListRemindersResponseRemindersList = Array<unknown>;
 export interface ListRemindersResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  reminders?: ListRemindersResponseRemindersList;
+  reminders?: ListRemindersResponseRemindersList | undefined;
 }
 export interface RemindersInfoRequest {
   /** The ID of the reminder */
   reminder: string;
   /** Encoded team id, required if org token is passed */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface RemindersInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */

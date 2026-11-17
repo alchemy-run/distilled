@@ -1,0 +1,83 @@
+{
+  "description": "Harness Runtime: config, template, trigger and session reads and creates always return their object (live: `{ config: { id, name, manifest, content_hash, ... } }`), and a trigger always has its id, name, kind and status. A trigger's Slack incoming-webhook URL is a credential (the spec says it is stored encrypted and never returned) and is now sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AgentConfigResponse/members/config/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CreateTemplateResponse/members/template/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GetTemplateResponse/members/template/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#CreateTriggerResponse/members/trigger/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GetTriggerResponse/members/trigger/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DefinitionsCreateSessionResponse/members/session/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Trigger/members/trigger_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Trigger/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Trigger/members/kind/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Trigger/members/status/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SlackOutputWrite/members/webhook_url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DefinitionsSession/members/session_id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

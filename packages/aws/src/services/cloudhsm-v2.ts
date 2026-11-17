@@ -144,23 +144,23 @@ export type TagList = Tag[];
 export interface CopyBackupToRegionRequest {
   DestinationRegion: string;
   BackupId: string;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export type ClusterId = string;
 export interface DestinationBackup {
-  CreateTimestamp?: Date;
-  SourceRegion?: string;
-  SourceBackup?: string;
-  SourceCluster?: string;
+  CreateTimestamp?: Date | undefined;
+  SourceRegion?: string | undefined;
+  SourceBackup?: string | undefined;
+  SourceCluster?: string | undefined;
 }
 export interface CopyBackupToRegionResponse {
-  DestinationBackup?: DestinationBackup;
+  DestinationBackup?: DestinationBackup | undefined;
 }
 export type BackupRetentionType = "DAYS" | (string & {});
 export type BackupRetentionValue = string;
 export interface BackupRetentionPolicy {
-  Type?: BackupRetentionType;
-  Value?: string;
+  Type?: BackupRetentionType | undefined;
+  Value?: string | undefined;
 }
 export type HsmType = string;
 export type BackupArn = string;
@@ -169,13 +169,13 @@ export type SubnetIds = string[];
 export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
 export type ClusterMode = "FIPS" | "NON_FIPS" | (string & {});
 export interface CreateClusterRequest {
-  BackupRetentionPolicy?: BackupRetentionPolicy;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
   HsmType: string;
-  SourceBackupId?: string;
+  SourceBackupId?: string | undefined;
   SubnetIds: string[];
-  NetworkType?: NetworkType;
-  TagList?: Tag[];
-  Mode?: ClusterMode;
+  NetworkType?: NetworkType | undefined;
+  TagList?: Tag[] | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export type BackupPolicy = "DEFAULT" | (string & {});
 export type ExternalAz = string;
@@ -191,16 +191,16 @@ export type HsmState =
   | "DELETED"
   | (string & {});
 export interface Hsm {
-  AvailabilityZone?: string;
-  ClusterId?: string;
-  SubnetId?: string;
-  EniId?: string;
-  EniIp?: string;
-  EniIpV6?: string;
+  AvailabilityZone?: string | undefined;
+  ClusterId?: string | undefined;
+  SubnetId?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
+  EniIpV6?: string | undefined;
   HsmId: string;
-  HsmType?: string;
-  State?: HsmState;
-  StateMessage?: string;
+  HsmType?: string | undefined;
+  State?: HsmState | undefined;
+  StateMessage?: string | undefined;
 }
 export type Hsms = Hsm[];
 export type PreCoPassword = string;
@@ -223,42 +223,42 @@ export type ExternalSubnetMapping = { [key: string]: string | undefined };
 export type VpcId = string;
 export type Cert = string;
 export interface Certificates {
-  ClusterCsr?: string;
-  HsmCertificate?: string;
-  AwsHardwareCertificate?: string;
-  ManufacturerHardwareCertificate?: string;
-  ClusterCertificate?: string;
+  ClusterCsr?: string | undefined;
+  HsmCertificate?: string | undefined;
+  AwsHardwareCertificate?: string | undefined;
+  ManufacturerHardwareCertificate?: string | undefined;
+  ClusterCertificate?: string | undefined;
 }
 export interface Cluster {
-  BackupPolicy?: BackupPolicy;
-  BackupRetentionPolicy?: BackupRetentionPolicy;
-  ClusterId?: string;
-  CreateTimestamp?: Date;
-  Hsms?: Hsm[];
-  HsmType?: string;
-  HsmTypeRollbackExpiration?: Date;
-  PreCoPassword?: string;
-  SecurityGroup?: string;
-  SourceBackupId?: string;
-  State?: ClusterState;
-  StateMessage?: string;
-  SubnetMapping?: { [key: string]: string | undefined };
-  VpcId?: string;
-  NetworkType?: NetworkType;
-  Certificates?: Certificates;
-  TagList?: Tag[];
-  Mode?: ClusterMode;
+  BackupPolicy?: BackupPolicy | undefined;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
+  ClusterId?: string | undefined;
+  CreateTimestamp?: Date | undefined;
+  Hsms?: Hsm[] | undefined;
+  HsmType?: string | undefined;
+  HsmTypeRollbackExpiration?: Date | undefined;
+  PreCoPassword?: string | undefined;
+  SecurityGroup?: string | undefined;
+  SourceBackupId?: string | undefined;
+  State?: ClusterState | undefined;
+  StateMessage?: string | undefined;
+  SubnetMapping?: { [key: string]: string | undefined } | undefined;
+  VpcId?: string | undefined;
+  NetworkType?: NetworkType | undefined;
+  Certificates?: Certificates | undefined;
+  TagList?: Tag[] | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateHsmRequest {
   ClusterId: string;
   AvailabilityZone: string;
-  IpAddress?: string;
+  IpAddress?: string | undefined;
 }
 export interface CreateHsmResponse {
-  Hsm?: Hsm;
+  Hsm?: Hsm | undefined;
 }
 export interface DeleteBackupRequest {
   BackupId: string;
@@ -271,46 +271,46 @@ export type BackupState =
   | (string & {});
 export interface Backup {
   BackupId: string;
-  BackupArn?: string;
-  BackupState?: BackupState;
-  ClusterId?: string;
-  CreateTimestamp?: Date;
-  CopyTimestamp?: Date;
-  NeverExpires?: boolean;
-  SourceRegion?: string;
-  SourceBackup?: string;
-  SourceCluster?: string;
-  DeleteTimestamp?: Date;
-  TagList?: Tag[];
-  HsmType?: string;
-  Mode?: ClusterMode;
+  BackupArn?: string | undefined;
+  BackupState?: BackupState | undefined;
+  ClusterId?: string | undefined;
+  CreateTimestamp?: Date | undefined;
+  CopyTimestamp?: Date | undefined;
+  NeverExpires?: boolean | undefined;
+  SourceRegion?: string | undefined;
+  SourceBackup?: string | undefined;
+  SourceCluster?: string | undefined;
+  DeleteTimestamp?: Date | undefined;
+  TagList?: Tag[] | undefined;
+  HsmType?: string | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export interface DeleteBackupResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterId: string;
 }
 export interface DeleteClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteHsmRequest {
   ClusterId: string;
-  HsmId?: string;
-  EniId?: string;
-  EniIp?: string;
+  HsmId?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
 }
 export interface DeleteHsmResponse {
-  HsmId?: string;
+  HsmId?: string | undefined;
 }
 export type CloudHsmArn = string;
 export interface DeleteResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type ResourcePolicy = string;
 export interface DeleteResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export type NextToken = string;
 export type BackupsMaxSize = number;
@@ -318,33 +318,33 @@ export type Field = string;
 export type Strings = string[];
 export type Filters = { [key: string]: string[] | undefined };
 export interface DescribeBackupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: { [key: string]: string[] | undefined };
-  Shared?: boolean;
-  SortAscending?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  Shared?: boolean | undefined;
+  SortAscending?: boolean | undefined;
 }
 export type Backups = Backup[];
 export interface DescribeBackupsResponse {
-  Backups?: Backup[];
-  NextToken?: string;
+  Backups?: Backup[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ClustersMaxSize = number;
 export interface DescribeClustersRequest {
-  Filters?: { [key: string]: string[] | undefined };
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Clusters = Cluster[];
 export interface DescribeClustersResponse {
-  Clusters?: Cluster[];
-  NextToken?: string;
+  Clusters?: Cluster[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface InitializeClusterRequest {
   ClusterId: string;
@@ -352,48 +352,48 @@ export interface InitializeClusterRequest {
   TrustAnchor: string;
 }
 export interface InitializeClusterResponse {
-  State?: ClusterState;
-  StateMessage?: string;
+  State?: ClusterState | undefined;
+  StateMessage?: string | undefined;
 }
 export type ResourceId = string;
 export type MaxSize = number;
 export interface ListTagsRequest {
   ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTagsResponse {
   TagList: Tag[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ModifyBackupAttributesRequest {
   BackupId: string;
   NeverExpires: boolean;
 }
 export interface ModifyBackupAttributesResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface ModifyClusterRequest {
-  HsmType?: string;
-  BackupRetentionPolicy?: BackupRetentionPolicy;
+  HsmType?: string | undefined;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
   ClusterId: string;
 }
 export interface ModifyClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface PutResourcePolicyRequest {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface RestoreBackupRequest {
   BackupId: string;
 }
 export interface RestoreBackupResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface TagResourceRequest {
   ResourceId: string;

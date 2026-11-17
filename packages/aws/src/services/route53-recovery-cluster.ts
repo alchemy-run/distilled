@@ -116,7 +116,7 @@ export class EndpointTemporarilyUnavailableException
     "EndpointTemporarilyUnavailableException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
@@ -127,7 +127,7 @@ export class InternalServerException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -160,7 +160,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -188,35 +188,35 @@ export type RoutingControlName = string;
 export interface GetRoutingControlStateResponse {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
-  RoutingControlName?: string;
+  RoutingControlName?: string | undefined;
 }
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListRoutingControlsRequest {
-  ControlPanelArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ControlPanelArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ControlPanelName = string;
 export type Owner = string;
 export interface RoutingControl {
-  ControlPanelArn?: string;
-  ControlPanelName?: string;
-  RoutingControlArn?: string;
-  RoutingControlName?: string;
-  RoutingControlState?: RoutingControlState;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  ControlPanelName?: string | undefined;
+  RoutingControlArn?: string | undefined;
+  RoutingControlName?: string | undefined;
+  RoutingControlState?: RoutingControlState | undefined;
+  Owner?: string | undefined;
 }
 export type RoutingControls = RoutingControl[];
 export interface ListRoutingControlsResponse {
   RoutingControls: RoutingControl[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Arns = string[];
 export interface UpdateRoutingControlStateRequest {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
-  SafetyRulesToOverride?: string[];
+  SafetyRulesToOverride?: string[] | undefined;
 }
 export interface UpdateRoutingControlStateResponse {}
 export interface UpdateRoutingControlStateEntry {
@@ -226,7 +226,7 @@ export interface UpdateRoutingControlStateEntry {
 export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
 export interface UpdateRoutingControlStatesRequest {
   UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
-  SafetyRulesToOverride?: string[];
+  SafetyRulesToOverride?: string[] | undefined;
 }
 export interface UpdateRoutingControlStatesResponse {}
 export type RetryAfterSeconds = number;

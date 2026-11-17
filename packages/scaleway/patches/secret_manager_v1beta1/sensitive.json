@@ -1,0 +1,15 @@
+{
+  "description": "Secret Manager's secret payloads carry no sensitive mark: `data` is the base64 secret value itself, sent by CreateSecretVersion and answered by AccessSecretVersion / AccessSecretVersionByPath (https://www.scaleway.com/en/developers/api/secret-manager/). The name `data` is too generic for the name-based sensitive patterns, so it is marked here.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.secret_manager_v1beta1#AccessSecretVersionResponse/members/data/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.secret_manager_v1beta1#CreateSecretVersionRequest/members/data/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

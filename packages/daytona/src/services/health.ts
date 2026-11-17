@@ -38,10 +38,10 @@ export type HealthControllerCheck200ResponseDetailsMap = {
   [key: string]: HealthControllerCheck200ResponseInfoValue | undefined;
 };
 export interface HealthControllerCheck200Response {
-  status?: string;
-  info?: HealthControllerCheck200ResponseInfoMap | null;
-  error?: HealthControllerCheck200ResponseErrorMap | null;
-  details?: HealthControllerCheck200ResponseDetailsMap;
+  status?: string | undefined;
+  info?: HealthControllerCheck200ResponseInfoMap | null | undefined;
+  error?: HealthControllerCheck200ResponseErrorMap | null | undefined;
+  details?: HealthControllerCheck200ResponseDetailsMap | undefined;
 }
 export interface HealthControllerLiveRequest {}
 export interface HealthControllerLiveResponse {}

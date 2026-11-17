@@ -30,6 +30,8 @@ export class WarmPoolAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<WarmPoolAlreadyExists>()("WarmPoolAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -39,6 +41,8 @@ export class WarmPoolNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<WarmPoolNotFound>()("WarmPoolNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -48,19 +52,21 @@ export class WarmPoolsUnavailable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<WarmPoolsUnavailable>()("WarmPoolsUnavailable", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { matches: "^Cannot (GET|POST|PATCH|DELETE) /api/warm-pools" } }],
   ) {}
 
 export interface CreateWarmPoolRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The snapshot (id or name) to keep warm sandboxes for. A pool only serves sandbox creates that use this snapshot with the default OS user and no custom env, volumes or secrets. */
   snapshot: string;
   /** Number of warm sandboxes to keep ready (capped by the organization quota) */
   pool: number;
   /** Target region for the warm pool. Defaults to the organization default region. */
-  target?: string;
+  target?: string | undefined;
 }
 export type WarmPoolEnvMap = { [key: string]: string | undefined };
 export interface WarmPool {
@@ -77,7 +83,7 @@ export interface WarmPool {
   disk: number;
   osUser: string;
   env: WarmPoolEnvMap;
-  errorReason?: string | null;
+  errorReason?: string | null | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -85,12 +91,12 @@ export interface DeleteWarmPoolRequest {
   /** Warm pool ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteWarmPoolResponse {}
 export interface ListWarmPoolsRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListWarmPoolsResponseBodyList = Array<WarmPool>;
 export type ListWarmPoolsResponse = ListWarmPoolsResponseBodyList;
@@ -98,7 +104,7 @@ export interface UpdateWarmPoolRequest {
   /** Warm pool ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** New desired number of warm sandboxes (0 drains the pool) */
   pool: number;
 }

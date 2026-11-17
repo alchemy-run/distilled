@@ -36,7 +36,7 @@ const TELEMETRY = {
 /** Reference to another resource. */
 export interface AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** list of network fabric controllers. */
 export type AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsList =
@@ -51,11 +51,13 @@ export interface AddArtifactStoreNetworkFabricControllerEndPointsRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** list of network fabric controllers. */
-  networkFabricControllerIds?: AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsList;
+  networkFabricControllerIds?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsList
+    | undefined;
 }
 export interface AddArtifactStoreNetworkFabricControllerEndPointsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Reference to another resource. */
 export type ApproveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsItem =
@@ -73,11 +75,13 @@ export interface ApproveArtifactStorePrivateEndPointsRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** list of private endpoints. */
-  manualPrivateEndPointConnections?: ApproveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsList;
+  manualPrivateEndPointConnections?:
+    | ApproveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsList
+    | undefined;
 }
 export interface ApproveArtifactStorePrivateEndPointsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactManifestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -86,18 +90,18 @@ export type ArtifactType = "Unknown" | "OCIArtifact" | "VhdImageFile" | "ArmTemp
 /** Manifest artifact properties. */
 export interface ManifestArtifactFormat {
   /** The artifact name */
-  artifactName?: string;
+  artifactName?: string | undefined;
   /** The artifact type. */
-  artifactType?: ArtifactType | (string & {});
+  artifactType?: ArtifactType | (string & {}) | undefined;
   /** The artifact version. */
-  artifactVersion?: string;
+  artifactVersion?: string | undefined;
 }
 /** The artifacts list. */
 export type ArtifactManifestPropertiesFormatInputArtifactsList = Array<ManifestArtifactFormat>;
 /** Artifact manifest properties. */
 export interface ArtifactManifestPropertiesFormatInput {
   /** The artifacts list. */
-  artifacts?: ArtifactManifestPropertiesFormatInputArtifactsList;
+  artifacts?: ArtifactManifestPropertiesFormatInputArtifactsList | undefined;
 }
 export interface ArtifactManifestsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -111,11 +115,11 @@ export interface ArtifactManifestsCreateOrUpdateRequest {
   /** The name of the artifact manifest. */
   artifactManifestName: string;
   /** Resource tags. */
-  tags?: ArtifactManifestsCreateOrUpdateRequestTagsMap;
+  tags?: ArtifactManifestsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Artifact manifest properties. */
-  properties?: ArtifactManifestPropertiesFormatInput;
+  properties?: ArtifactManifestPropertiesFormatInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -124,17 +128,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactManifestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -161,27 +165,27 @@ export type ArtifactManifestPropertiesFormatArtifactsList = Array<ManifestArtifa
 /** Artifact manifest properties. */
 export interface ArtifactManifestPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: ArtifactManifestPropertiesFormatProvisioningState;
+  provisioningState?: ArtifactManifestPropertiesFormatProvisioningState | undefined;
   /** The artifact manifest state. */
-  artifactManifestState?: ArtifactManifestState;
+  artifactManifestState?: ArtifactManifestState | undefined;
   /** The artifacts list. */
-  artifacts?: ArtifactManifestPropertiesFormatArtifactsList;
+  artifacts?: ArtifactManifestPropertiesFormatArtifactsList | undefined;
 }
 export interface ArtifactManifestsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ArtifactManifestsCreateOrUpdateResponseTagsMap;
+  tags?: ArtifactManifestsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Artifact manifest properties. */
-  properties?: ArtifactManifestPropertiesFormat;
+  properties?: ArtifactManifestPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type ArtifactStoresCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -198,21 +202,27 @@ export type ArtifactStorePropertiesFormatInputBackingResourcePublicNetworkAccess
 export type ArtifactStorePropertiesFormatInputReplicationStrategy = "Unknown" | "SingleReplication";
 export interface ArtifactStorePropertiesFormatInputManagedResourceGroupConfiguration {
   /** The managed resource group name. */
-  name?: string;
+  name?: string | undefined;
   /** The managed resource group location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Artifact store properties. */
 export interface ArtifactStorePropertiesFormatInput {
   /** The artifact store type. */
-  storeType?: ArtifactStorePropertiesFormatInputStoreType | (string & {});
+  storeType?: ArtifactStorePropertiesFormatInputStoreType | (string & {}) | undefined;
   /** The backing resource network access type. */
   backingResourcePublicNetworkAccess?:
     | ArtifactStorePropertiesFormatInputBackingResourcePublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The replication strategy. */
-  replicationStrategy?: ArtifactStorePropertiesFormatInputReplicationStrategy | (string & {});
-  managedResourceGroupConfiguration?: ArtifactStorePropertiesFormatInputManagedResourceGroupConfiguration;
+  replicationStrategy?:
+    | ArtifactStorePropertiesFormatInputReplicationStrategy
+    | (string & {})
+    | undefined;
+  managedResourceGroupConfiguration?:
+    | ArtifactStorePropertiesFormatInputManagedResourceGroupConfiguration
+    | undefined;
 }
 export interface ArtifactStoresCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -224,11 +234,11 @@ export interface ArtifactStoresCreateOrUpdateRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** Resource tags. */
-  tags?: ArtifactStoresCreateOrUpdateRequestTagsMap;
+  tags?: ArtifactStoresCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ArtifactStores properties. */
-  properties?: ArtifactStorePropertiesFormatInput;
+  properties?: ArtifactStorePropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type ArtifactStoresCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -258,32 +268,36 @@ export type ArtifactStorePropertiesFormatManagedResourceGroupConfiguration =
 /** Artifact store properties. */
 export interface ArtifactStorePropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: ArtifactStorePropertiesFormatProvisioningState;
+  provisioningState?: ArtifactStorePropertiesFormatProvisioningState | undefined;
   /** The artifact store type. */
-  storeType?: ArtifactStorePropertiesFormatStoreType;
+  storeType?: ArtifactStorePropertiesFormatStoreType | undefined;
   /** The backing resource network access type. */
-  backingResourcePublicNetworkAccess?: ArtifactStorePropertiesFormatBackingResourcePublicNetworkAccess;
+  backingResourcePublicNetworkAccess?:
+    | ArtifactStorePropertiesFormatBackingResourcePublicNetworkAccess
+    | undefined;
   /** The replication strategy. */
-  replicationStrategy?: ArtifactStorePropertiesFormatReplicationStrategy;
-  managedResourceGroupConfiguration?: ArtifactStorePropertiesFormatInputManagedResourceGroupConfiguration;
+  replicationStrategy?: ArtifactStorePropertiesFormatReplicationStrategy | undefined;
+  managedResourceGroupConfiguration?:
+    | ArtifactStorePropertiesFormatInputManagedResourceGroupConfiguration
+    | undefined;
   /** The created storage resource id */
-  storageResourceId?: string;
+  storageResourceId?: string | undefined;
 }
 export interface ArtifactStoresCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ArtifactStoresCreateOrUpdateResponseTagsMap;
+  tags?: ArtifactStoresCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ArtifactStores properties. */
-  properties?: ArtifactStorePropertiesFormat;
+  properties?: ArtifactStorePropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupSchemasCreateOrUpdateRequestTagsMap = {
@@ -292,9 +306,9 @@ export type ConfigurationGroupSchemasCreateOrUpdateRequestTagsMap = {
 /** Configuration group schema properties. */
 export interface ConfigurationGroupSchemaPropertiesFormatInput {
   /** Description of what schema can contain. */
-  description?: string;
+  description?: string | undefined;
   /** Name and value pairs that define the configuration value. It can be a well formed escaped JSON string. */
-  schemaDefinition?: string;
+  schemaDefinition?: string | undefined;
 }
 export interface ConfigurationGroupSchemasCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -306,11 +320,11 @@ export interface ConfigurationGroupSchemasCreateOrUpdateRequest {
   /** The name of the configuration group schema. */
   configurationGroupSchemaName: string;
   /** Resource tags. */
-  tags?: ConfigurationGroupSchemasCreateOrUpdateRequestTagsMap;
+  tags?: ConfigurationGroupSchemasCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Configuration group schema properties. */
-  properties?: ConfigurationGroupSchemaPropertiesFormatInput;
+  properties?: ConfigurationGroupSchemaPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupSchemasCreateOrUpdateResponseTagsMap = {
@@ -331,60 +345,88 @@ export type ConfigurationGroupSchemaVersionState = "Unknown" | "Preview" | "Acti
 /** Configuration group schema properties. */
 export interface ConfigurationGroupSchemaPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: ConfigurationGroupSchemaPropertiesFormatProvisioningState;
+  provisioningState?: ConfigurationGroupSchemaPropertiesFormatProvisioningState | undefined;
   /** The configuration group schema version state. */
-  versionState?: ConfigurationGroupSchemaVersionState;
+  versionState?: ConfigurationGroupSchemaVersionState | undefined;
   /** Description of what schema can contain. */
-  description?: string;
+  description?: string | undefined;
   /** Name and value pairs that define the configuration value. It can be a well formed escaped JSON string. */
-  schemaDefinition?: string;
+  schemaDefinition?: string | undefined;
 }
 export interface ConfigurationGroupSchemasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationGroupSchemasCreateOrUpdateResponseTagsMap;
+  tags?: ConfigurationGroupSchemasCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Configuration group schema properties. */
-  properties?: ConfigurationGroupSchemaPropertiesFormat;
+  properties?: ConfigurationGroupSchemaPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupValuesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
 /** Publisher Scope. */
-export type ConfigurationGroupValuePropertiesFormatInputPublisherScope = "Unknown" | "Private";
+export type ConfigurationGroupValuePropertiesFormatPublisherScope = "Unknown" | "Private";
 /** The resource reference arm id type. */
 export type IdType = "Unknown" | "Open" | "Secret";
 /** The azure resource reference which is used for deployment. */
-export interface ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference {
+export interface ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference {
   /** The resource reference arm id type. */
   idType: IdType | (string & {});
   /** ARM resource id of the referenced resource. */
-  id?: string;
+  id?: string | undefined;
 }
-/** The secret type which indicates if secret or not. */
-export type ConfigurationGroupValueConfigurationType = "Unknown" | "Secret" | "Open";
-/** Hybrid configuration group value properties. */
-export interface ConfigurationGroupValuePropertiesFormatInput {
+/** The value which indicates if configuration values are secrets */
+export type ConfigurationValueWithSecretsInputConfigurationType = "Secret";
+/** The ConfigurationValue with secrets. */
+export interface ConfigurationValueWithSecretsInput {
   /** Publisher Scope. */
-  publisherScope?: ConfigurationGroupValuePropertiesFormatInputPublisherScope | (string & {});
+  publisherScope?:
+    | ConfigurationGroupValuePropertiesFormatPublisherScope
+    | (string & {})
+    | undefined;
   /** The azure resource reference which is used for deployment. */
-  configurationGroupSchemaResourceReference?: ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference;
+  configurationGroupSchemaResourceReference?:
+    | ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference
+    | undefined;
   /** The value which indicates if configuration values are secrets */
-  configurationType: ConfigurationGroupValueConfigurationType | (string & {});
-  /** Configuration values as a JSON string (`configurationType: Open`). */
-  configurationValue?: string;
-  /** Secret configuration values as a JSON string (`configurationType: Secret`). */
-  secretConfigurationValue?: string | Redacted.Redacted<string>;
+  configurationType: ConfigurationValueWithSecretsInputConfigurationType;
+  /** Name and value pairs that define the configuration value secrets. It can be a well formed escaped JSON string. */
+  secretConfigurationValue?: string | Redacted.Redacted<string> | undefined;
 }
+/** The azure resource reference which is used for deployment. */
+export type ConfigurationValueWithoutSecretsInputConfigurationGroupSchemaResourceReference =
+  ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference;
+/** The value which indicates if configuration values are secrets */
+export type ConfigurationValueWithoutSecretsInputConfigurationType = "Open";
+/** The ConfigurationValue with no secrets. */
+export interface ConfigurationValueWithoutSecretsInput {
+  /** Publisher Scope. */
+  publisherScope?:
+    | ConfigurationGroupValuePropertiesFormatPublisherScope
+    | (string & {})
+    | undefined;
+  /** The azure resource reference which is used for deployment. */
+  configurationGroupSchemaResourceReference?:
+    | ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference
+    | undefined;
+  /** The value which indicates if configuration values are secrets */
+  configurationType: ConfigurationValueWithoutSecretsInputConfigurationType;
+  /** Name and value pairs that define the configuration value. It can be a well formed escaped JSON string. */
+  configurationValue?: string | undefined;
+}
+/** Hybrid configuration group value properties. */
+export type ConfigurationGroupValuePropertiesFormatInput =
+  | ConfigurationValueWithSecretsInput
+  | ConfigurationValueWithoutSecretsInput;
 export interface ConfigurationGroupValuesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -393,11 +435,11 @@ export interface ConfigurationGroupValuesCreateOrUpdateRequest {
   /** The name of the configuration group value. */
   configurationGroupValueName: string;
   /** Resource tags. */
-  tags?: ConfigurationGroupValuesCreateOrUpdateRequestTagsMap;
+  tags?: ConfigurationGroupValuesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid configuration group value properties. */
-  properties?: ConfigurationGroupValuePropertiesFormatInput;
+  properties?: ConfigurationGroupValuePropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type ConfigurationGroupValuesCreateOrUpdateResponseTagsMap = {
@@ -413,49 +455,81 @@ export type ConfigurationGroupValuePropertiesFormatProvisioningState =
   | "Canceled"
   | "Deleted"
   | "Converging";
-/** Publisher Scope. */
-export type ConfigurationGroupValuePropertiesFormatPublisherScope = "Unknown" | "Private";
 /** The azure resource reference which is used for deployment. */
-export interface ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference {
+export interface ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference {
   /** The resource reference arm id type. */
   idType: IdType;
   /** ARM resource id of the referenced resource. */
-  id?: string;
+  id?: string | undefined;
+}
+/** The value which indicates if configuration values are secrets */
+export type ConfigurationValueWithSecretsConfigurationType = "Secret";
+/** The ConfigurationValue with secrets. */
+export interface ConfigurationValueWithSecrets {
+  /** The current provisioning state. */
+  provisioningState?: ConfigurationGroupValuePropertiesFormatProvisioningState | undefined;
+  /** The publisher name for the configuration group schema. */
+  publisherName?: string | undefined;
+  /** Publisher Scope. */
+  publisherScope?: ConfigurationGroupValuePropertiesFormatPublisherScope | undefined;
+  /** The configuration group schema name. */
+  configurationGroupSchemaName?: string | undefined;
+  /** The location of the configuration group schema offering. */
+  configurationGroupSchemaOfferingLocation?: string | undefined;
+  /** The azure resource reference which is used for deployment. */
+  configurationGroupSchemaResourceReference?:
+    | ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference
+    | undefined;
+  /** The value which indicates if configuration values are secrets */
+  configurationType: ConfigurationValueWithSecretsConfigurationType;
+  /** Name and value pairs that define the configuration value secrets. It can be a well formed escaped JSON string. */
+  secretConfigurationValue?: string | Redacted.Redacted<string> | undefined;
+}
+/** The azure resource reference which is used for deployment. */
+export type ConfigurationValueWithoutSecretsConfigurationGroupSchemaResourceReference =
+  ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference;
+/** The value which indicates if configuration values are secrets */
+export type ConfigurationValueWithoutSecretsConfigurationType = "Open";
+/** The ConfigurationValue with no secrets. */
+export interface ConfigurationValueWithoutSecrets {
+  /** The current provisioning state. */
+  provisioningState?: ConfigurationGroupValuePropertiesFormatProvisioningState | undefined;
+  /** The publisher name for the configuration group schema. */
+  publisherName?: string | undefined;
+  /** Publisher Scope. */
+  publisherScope?: ConfigurationGroupValuePropertiesFormatPublisherScope | undefined;
+  /** The configuration group schema name. */
+  configurationGroupSchemaName?: string | undefined;
+  /** The location of the configuration group schema offering. */
+  configurationGroupSchemaOfferingLocation?: string | undefined;
+  /** The azure resource reference which is used for deployment. */
+  configurationGroupSchemaResourceReference?:
+    | ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference
+    | undefined;
+  /** The value which indicates if configuration values are secrets */
+  configurationType: ConfigurationValueWithoutSecretsConfigurationType;
+  /** Name and value pairs that define the configuration value. It can be a well formed escaped JSON string. */
+  configurationValue?: string | undefined;
 }
 /** Hybrid configuration group value properties. */
-export interface ConfigurationGroupValuePropertiesFormat {
-  /** The current provisioning state. */
-  provisioningState?: ConfigurationGroupValuePropertiesFormatProvisioningState;
-  /** The publisher name for the configuration group schema. */
-  publisherName?: string;
-  /** Publisher Scope. */
-  publisherScope?: ConfigurationGroupValuePropertiesFormatPublisherScope;
-  /** The configuration group schema name. */
-  configurationGroupSchemaName?: string;
-  /** The location of the configuration group schema offering. */
-  configurationGroupSchemaOfferingLocation?: string;
-  /** The azure resource reference which is used for deployment. */
-  configurationGroupSchemaResourceReference?: ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference;
-  /** The value which indicates if configuration values are secrets */
-  configurationType: ConfigurationGroupValueConfigurationType;
-  /** Configuration values as a JSON string (`configurationType: Open`). */
-  configurationValue?: string;
-}
+export type ConfigurationGroupValuePropertiesFormat =
+  | ConfigurationValueWithSecrets
+  | ConfigurationValueWithoutSecrets;
 export interface ConfigurationGroupValuesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationGroupValuesCreateOrUpdateResponseTagsMap;
+  tags?: ConfigurationGroupValuesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid configuration group value properties. */
-  properties?: ConfigurationGroupValuePropertiesFormat;
+  properties?: ConfigurationGroupValuePropertiesFormat | undefined;
 }
 export interface DeleteArtifactManifestRequest {
   /** The ID of the target subscription. */
@@ -471,7 +545,7 @@ export interface DeleteArtifactManifestRequest {
 }
 export interface DeleteArtifactManifestResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteArtifactStoreRequest {
   /** The ID of the target subscription. */
@@ -485,7 +559,7 @@ export interface DeleteArtifactStoreRequest {
 }
 export interface DeleteArtifactStoreResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Reference to another resource. */
 export type DeleteArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem =
@@ -503,11 +577,13 @@ export interface DeleteArtifactStoreNetworkFabricControllerEndPointsRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** list of network fabric controllers. */
-  networkFabricControllerIds?: DeleteArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsList;
+  networkFabricControllerIds?:
+    | DeleteArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsList
+    | undefined;
 }
 export interface DeleteArtifactStoreNetworkFabricControllerEndPointsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteConfigurationGroupSchemaRequest {
   /** The ID of the target subscription. */
@@ -521,7 +597,7 @@ export interface DeleteConfigurationGroupSchemaRequest {
 }
 export interface DeleteConfigurationGroupSchemaResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteConfigurationGroupValueRequest {
   /** The ID of the target subscription. */
@@ -533,7 +609,7 @@ export interface DeleteConfigurationGroupValueRequest {
 }
 export interface DeleteConfigurationGroupValueResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkFunctionRequest {
   /** The ID of the target subscription. */
@@ -545,7 +621,7 @@ export interface DeleteNetworkFunctionRequest {
 }
 export interface DeleteNetworkFunctionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkFunctionDefinitionGroupRequest {
   /** The ID of the target subscription. */
@@ -559,7 +635,7 @@ export interface DeleteNetworkFunctionDefinitionGroupRequest {
 }
 export interface DeleteNetworkFunctionDefinitionGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkFunctionDefinitionVersionRequest {
   /** The ID of the target subscription. */
@@ -575,7 +651,7 @@ export interface DeleteNetworkFunctionDefinitionVersionRequest {
 }
 export interface DeleteNetworkFunctionDefinitionVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkServiceDesignGroupRequest {
   /** The ID of the target subscription. */
@@ -589,7 +665,7 @@ export interface DeleteNetworkServiceDesignGroupRequest {
 }
 export interface DeleteNetworkServiceDesignGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNetworkServiceDesignVersionRequest {
   /** The ID of the target subscription. */
@@ -605,7 +681,7 @@ export interface DeleteNetworkServiceDesignVersionRequest {
 }
 export interface DeleteNetworkServiceDesignVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePublisherRequest {
   /** The ID of the target subscription. */
@@ -617,7 +693,7 @@ export interface DeletePublisherRequest {
 }
 export interface DeletePublisherResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSiteRequest {
   /** The ID of the target subscription. */
@@ -629,7 +705,7 @@ export interface DeleteSiteRequest {
 }
 export interface DeleteSiteResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSiteNetworkServiceRequest {
   /** The ID of the target subscription. */
@@ -641,7 +717,7 @@ export interface DeleteSiteNetworkServiceRequest {
 }
 export interface DeleteSiteNetworkServiceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The http method of the request. */
 export type RequestMetadataHttpMethod = "Unknown" | "Post" | "Put" | "Get" | "Patch" | "Delete";
@@ -654,7 +730,7 @@ export interface RequestMetadata {
   /** The serialized body of the request. */
   serializedBody: string;
   /** The api version of the request. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 export interface ExecuteNetworkFunctionRequestRequest {
   /** The ID of the target subscription. */
@@ -670,7 +746,7 @@ export interface ExecuteNetworkFunctionRequestRequest {
 }
 export interface ExecuteNetworkFunctionRequestResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetArtifactManifestRequest {
   /** The ID of the target subscription. */
@@ -688,19 +764,19 @@ export interface GetArtifactManifestRequest {
 export type GetArtifactManifestResponseTagsMap = { [key: string]: string | undefined };
 export interface GetArtifactManifestResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetArtifactManifestResponseTagsMap;
+  tags?: GetArtifactManifestResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Artifact manifest properties. */
-  properties?: ArtifactManifestPropertiesFormat;
+  properties?: ArtifactManifestPropertiesFormat | undefined;
 }
 export interface GetArtifactStoreRequest {
   /** The ID of the target subscription. */
@@ -716,19 +792,19 @@ export interface GetArtifactStoreRequest {
 export type GetArtifactStoreResponseTagsMap = { [key: string]: string | undefined };
 export interface GetArtifactStoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetArtifactStoreResponseTagsMap;
+  tags?: GetArtifactStoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ArtifactStores properties. */
-  properties?: ArtifactStorePropertiesFormat;
+  properties?: ArtifactStorePropertiesFormat | undefined;
 }
 export interface GetComponentRequest {
   /** The ID of the target subscription. */
@@ -769,19 +845,19 @@ export type Status =
 /** Helm Deployment status properties. */
 export interface Deployment {
   /** The name of the deployment. */
-  name?: string;
+  name?: string | undefined;
   /** The namespace of the deployment. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Desired number of pods */
-  desired?: number;
+  desired?: number | undefined;
   /** Number of ready pods. */
-  ready?: number;
+  ready?: number | undefined;
   /** Number of upto date pods. */
-  upToDate?: number;
+  upToDate?: number | undefined;
   /** Number of available pods. */
-  available?: number;
+  available?: number | undefined;
   /** Creation Time of deployment. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 /** Deployments that are related to component resource. */
 export type ResourcesDeploymentsList = Array<Deployment>;
@@ -799,130 +875,130 @@ export type PodEventType = "Normal" | "Warning";
 /** Pod Event properties. */
 export interface PodEvent {
   /** The type of pod event. */
-  type?: PodEventType;
+  type?: PodEventType | undefined;
   /** Event reason. */
-  reason?: string;
+  reason?: string | undefined;
   /** Event message. */
-  message?: string;
+  message?: string | undefined;
   /** Event Last seen. */
-  lastSeenTime?: string;
+  lastSeenTime?: string | undefined;
 }
 /** Last 5 Pod events. */
 export type PodEventsList = Array<PodEvent>;
 /** Helm Pod status properties. */
 export interface Pod {
   /** The name of the Pod. */
-  name?: string;
+  name?: string | undefined;
   /** The namespace of the Pod. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Desired number of containers */
-  desired?: number;
+  desired?: number | undefined;
   /** Number of ready containers. */
-  ready?: number;
+  ready?: number | undefined;
   /** The status of a pod. */
-  status?: PodStatus;
+  status?: PodStatus | undefined;
   /** Creation Time of Pod. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Last 5 Pod events. */
-  events?: PodEventsList;
+  events?: PodEventsList | undefined;
 }
 /** Pods related to component resource. */
 export type ResourcesPodsList = Array<Pod>;
 /** Helm ReplicaSet status properties. */
 export interface ReplicaSet {
   /** The name of the replicaSet. */
-  name?: string;
+  name?: string | undefined;
   /** The namespace of the replicaSet. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Desired number of pods */
-  desired?: number;
+  desired?: number | undefined;
   /** Number of ready pods. */
-  ready?: number;
+  ready?: number | undefined;
   /** Number of current pods. */
-  current?: number;
+  current?: number | undefined;
   /** Creation Time of replicaSet. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 /** Replica sets related to component resource. */
 export type ResourcesReplicaSetsList = Array<ReplicaSet>;
 /** Helm StatefulSet status properties. */
 export interface StatefulSet {
   /** The name of the statefulset. */
-  name?: string;
+  name?: string | undefined;
   /** The namespace of the statefulset. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Desired number of pods */
-  desired?: number;
+  desired?: number | undefined;
   /** Number of ready pods. */
-  ready?: number;
+  ready?: number | undefined;
   /** Creation Time of statefulset. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 /** Stateful sets related to component resource. */
 export type ResourcesStatefulSetsList = Array<StatefulSet>;
 /** Helm DaemonSet status properties. */
 export interface DaemonSet {
   /** The name of the daemonSet. */
-  name?: string;
+  name?: string | undefined;
   /** The namespace of the daemonSet. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Desired number of pods */
-  desired?: number;
+  desired?: number | undefined;
   /** Current number of pods */
-  current?: number;
+  current?: number | undefined;
   /** Number of Ready pods */
-  ready?: number;
+  ready?: number | undefined;
   /** Number of upto date pods */
-  upToDate?: number;
+  upToDate?: number | undefined;
   /** Number of available pods. */
-  available?: number;
+  available?: number | undefined;
   /** Creation Time of daemonSet. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 /** Daemonsets related to component resource. */
 export type ResourcesDaemonSetsList = Array<DaemonSet>;
 /** The resources of the network function component. */
 export interface Resources {
   /** Deployments that are related to component resource. */
-  deployments?: ResourcesDeploymentsList;
+  deployments?: ResourcesDeploymentsList | undefined;
   /** Pods related to component resource. */
-  pods?: ResourcesPodsList;
+  pods?: ResourcesPodsList | undefined;
   /** Replica sets related to component resource. */
-  replicaSets?: ResourcesReplicaSetsList;
+  replicaSets?: ResourcesReplicaSetsList | undefined;
   /** Stateful sets related to component resource. */
-  statefulSets?: ResourcesStatefulSetsList;
+  statefulSets?: ResourcesStatefulSetsList | undefined;
   /** Daemonsets related to component resource. */
-  daemonSets?: ResourcesDaemonSetsList;
+  daemonSets?: ResourcesDaemonSetsList | undefined;
 }
 /** The deployment status properties of the network function component. */
 export interface DeploymentStatusProperties {
   /** The status of the component resource. */
-  status?: Status;
+  status?: Status | undefined;
   /** The resource related to the component resource. */
-  resources?: Resources;
+  resources?: Resources | undefined;
   /** The next expected update of deployment status. */
-  nextExpectedUpdateAt?: string;
+  nextExpectedUpdateAt?: string | undefined;
 }
 /** The component properties of the network function. */
 export interface ComponentProperties {
   /** The current provisioning state. */
-  provisioningState?: ComponentPropertiesProvisioningState;
+  provisioningState?: ComponentPropertiesProvisioningState | undefined;
   /** The JSON-serialized deployment profile of the component resource. */
-  deploymentProfile?: string;
+  deploymentProfile?: string | undefined;
   /** The deployment status of the component resource. */
-  deploymentStatus?: DeploymentStatusProperties;
+  deploymentStatus?: DeploymentStatusProperties | undefined;
 }
 export interface GetComponentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The component properties. */
-  properties?: ComponentProperties;
+  properties?: ComponentProperties | undefined;
 }
 export interface GetConfigurationGroupSchemaRequest {
   /** The ID of the target subscription. */
@@ -938,19 +1014,19 @@ export interface GetConfigurationGroupSchemaRequest {
 export type GetConfigurationGroupSchemaResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConfigurationGroupSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationGroupSchemaResponseTagsMap;
+  tags?: GetConfigurationGroupSchemaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Configuration group schema properties. */
-  properties?: ConfigurationGroupSchemaPropertiesFormat;
+  properties?: ConfigurationGroupSchemaPropertiesFormat | undefined;
 }
 export interface GetConfigurationGroupValueRequest {
   /** The ID of the target subscription. */
@@ -964,19 +1040,19 @@ export interface GetConfigurationGroupValueRequest {
 export type GetConfigurationGroupValueResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConfigurationGroupValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationGroupValueResponseTagsMap;
+  tags?: GetConfigurationGroupValueResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid configuration group value properties. */
-  properties?: ConfigurationGroupValuePropertiesFormat;
+  properties?: ConfigurationGroupValuePropertiesFormat | undefined;
 }
 export interface GetNetworkFunctionRequest {
   /** The ID of the target subscription. */
@@ -1001,47 +1077,91 @@ export type NetworkFunctionPropertiesFormatProvisioningState =
 /** Publisher Scope. */
 export type NetworkFunctionPropertiesFormatPublisherScope = "Unknown" | "Private";
 /** The azure resource reference which is used for deployment. */
-export type NetworkFunctionPropertiesFormatNetworkFunctionDefinitionVersionResourceReference =
-  ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference;
+export type NetworkFunctionValueWithSecretsNetworkFunctionDefinitionVersionResourceReference =
+  ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference;
 /** The NFVI type. */
 export type NetworkFunctionPropertiesFormatNfviType =
   | "Unknown"
   | "AzureArcKubernetes"
   | "AzureCore"
   | "AzureOperatorNexus";
-/** The secret type which indicates if secret or not. */
-export type NetworkFunctionConfigurationType = "Unknown" | "Secret" | "Open";
+/** The value which indicates if NF values are secrets */
+export type NetworkFunctionValueWithSecretsConfigurationType = "Secret";
 /** The role configuration override values from the user. */
-export type NetworkFunctionPropertiesFormatRoleOverrideValuesList = Array<string>;
-/** Network function properties. */
-export interface NetworkFunctionPropertiesFormat {
+export type NetworkFunctionValueWithSecretsRoleOverrideValuesList = Array<string>;
+/** NetworkFunction with secrets. */
+export interface NetworkFunctionValueWithSecrets {
   /** The current provisioning state. */
-  provisioningState?: NetworkFunctionPropertiesFormatProvisioningState;
+  provisioningState?: NetworkFunctionPropertiesFormatProvisioningState | undefined;
   /** The publisher name for the network function. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** Publisher Scope. */
-  publisherScope?: NetworkFunctionPropertiesFormatPublisherScope;
+  publisherScope?: NetworkFunctionPropertiesFormatPublisherScope | undefined;
   /** The network function definition group name for the network function. */
-  networkFunctionDefinitionGroupName?: string;
+  networkFunctionDefinitionGroupName?: string | undefined;
   /** The network function definition version for the network function. */
-  networkFunctionDefinitionVersion?: string;
+  networkFunctionDefinitionVersion?: string | undefined;
   /** The location of the network function definition offering. */
-  networkFunctionDefinitionOfferingLocation?: string;
+  networkFunctionDefinitionOfferingLocation?: string | undefined;
   /** The azure resource reference which is used for deployment. */
-  networkFunctionDefinitionVersionResourceReference?: ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference;
+  networkFunctionDefinitionVersionResourceReference?:
+    | ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference
+    | undefined;
   /** The NFVI type. */
-  nfviType?: NetworkFunctionPropertiesFormatNfviType;
+  nfviType?: NetworkFunctionPropertiesFormatNfviType | undefined;
   /** The nfviId for the network function. */
-  nfviId?: string;
+  nfviId?: string | undefined;
   /** Indicates if software updates are allowed during deployment. */
-  allowSoftwareUpdate?: boolean;
+  allowSoftwareUpdate?: boolean | undefined;
   /** The value which indicates if NF values are secrets */
-  configurationType: NetworkFunctionConfigurationType;
+  configurationType: NetworkFunctionValueWithSecretsConfigurationType;
   /** The role configuration override values from the user. */
-  roleOverrideValues?: NetworkFunctionPropertiesFormatRoleOverrideValuesList;
-  /** Deployment values as a JSON string (`configurationType: Open`). */
-  deploymentValues?: string;
+  roleOverrideValues?: NetworkFunctionValueWithSecretsRoleOverrideValuesList | undefined;
+  /** The JSON-serialized secret deployment values from the user. This contains secrets like passwords,keys etc */
+  secretDeploymentValues?: string | Redacted.Redacted<string> | undefined;
 }
+/** The azure resource reference which is used for deployment. */
+export type NetworkFunctionValueWithoutSecretsNetworkFunctionDefinitionVersionResourceReference =
+  ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference;
+/** The value which indicates if NF values are secrets */
+export type NetworkFunctionValueWithoutSecretsConfigurationType = "Open";
+/** The role configuration override values from the user. */
+export type NetworkFunctionValueWithoutSecretsRoleOverrideValuesList = Array<string>;
+/** NetworkFunction with no secrets. */
+export interface NetworkFunctionValueWithoutSecrets {
+  /** The current provisioning state. */
+  provisioningState?: NetworkFunctionPropertiesFormatProvisioningState | undefined;
+  /** The publisher name for the network function. */
+  publisherName?: string | undefined;
+  /** Publisher Scope. */
+  publisherScope?: NetworkFunctionPropertiesFormatPublisherScope | undefined;
+  /** The network function definition group name for the network function. */
+  networkFunctionDefinitionGroupName?: string | undefined;
+  /** The network function definition version for the network function. */
+  networkFunctionDefinitionVersion?: string | undefined;
+  /** The location of the network function definition offering. */
+  networkFunctionDefinitionOfferingLocation?: string | undefined;
+  /** The azure resource reference which is used for deployment. */
+  networkFunctionDefinitionVersionResourceReference?:
+    | ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference
+    | undefined;
+  /** The NFVI type. */
+  nfviType?: NetworkFunctionPropertiesFormatNfviType | undefined;
+  /** The nfviId for the network function. */
+  nfviId?: string | undefined;
+  /** Indicates if software updates are allowed during deployment. */
+  allowSoftwareUpdate?: boolean | undefined;
+  /** The value which indicates if NF values are secrets */
+  configurationType: NetworkFunctionValueWithoutSecretsConfigurationType;
+  /** The role configuration override values from the user. */
+  roleOverrideValues?: NetworkFunctionValueWithoutSecretsRoleOverrideValuesList | undefined;
+  /** The JSON-serialized deployment values from the user. */
+  deploymentValues?: string | undefined;
+}
+/** Network function properties. */
+export type NetworkFunctionPropertiesFormat =
+  | NetworkFunctionValueWithSecrets
+  | NetworkFunctionValueWithoutSecrets;
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
   | "None"
@@ -1051,40 +1171,40 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetNetworkFunctionResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface GetNetworkFunctionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkFunctionResponseTagsMap;
+  tags?: GetNetworkFunctionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function properties. */
-  properties?: NetworkFunctionPropertiesFormat;
+  properties?: NetworkFunctionPropertiesFormat | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 export interface GetNetworkFunctionDefinitionGroupRequest {
   /** The ID of the target subscription. */
@@ -1113,25 +1233,25 @@ export type NetworkFunctionDefinitionGroupPropertiesFormatProvisioningState =
 /** Network function definition group properties. */
 export interface NetworkFunctionDefinitionGroupPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: NetworkFunctionDefinitionGroupPropertiesFormatProvisioningState;
+  provisioningState?: NetworkFunctionDefinitionGroupPropertiesFormatProvisioningState | undefined;
   /** The network function definition group description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetNetworkFunctionDefinitionGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkFunctionDefinitionGroupResponseTagsMap;
+  tags?: GetNetworkFunctionDefinitionGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition group properties. */
-  properties?: NetworkFunctionDefinitionGroupPropertiesFormat;
+  properties?: NetworkFunctionDefinitionGroupPropertiesFormat | undefined;
 }
 export interface GetNetworkFunctionDefinitionVersionRequest {
   /** The ID of the target subscription. */
@@ -1168,40 +1288,401 @@ export type VersionState =
   | "Active"
   | "Deprecated";
 /** The network function type. */
-export type NetworkFunctionDefinitionVersionPropertiesFormatNetworkFunctionType =
-  | "Unknown"
-  | "VirtualNetworkFunction"
-  | "ContainerizedNetworkFunction";
-/** Network function definition version properties. */
-export interface NetworkFunctionDefinitionVersionPropertiesFormat {
-  /** The current provisioning state. */
-  provisioningState?: NetworkFunctionDefinitionVersionPropertiesFormatProvisioningState;
-  /** The network function definition version state. */
-  versionState?: VersionState;
-  /** The network function definition version description. */
-  description?: string;
-  /** The deployment parameters of the network function definition version. */
-  deployParameters?: string;
-  /** The network function type. */
-  networkFunctionType: NetworkFunctionDefinitionVersionPropertiesFormatNetworkFunctionType;
-  /** Network function template (polymorphic on `nfviType`). */
-  networkFunctionTemplate?: unknown;
+export type ContainerizedNetworkFunctionDefinitionVersionNetworkFunctionType =
+  "ContainerizedNetworkFunction";
+/** The network function type. */
+export type AzureArcKubernetesNetworkFunctionTemplateNfviType = "AzureArcKubernetes";
+/** Application installation operation dependency. */
+export type DependsOnProfileInstallDependsOnList = Array<string>;
+/** Application deletion operation dependency. */
+export type DependsOnProfileUninstallDependsOnList = Array<string>;
+/** Application update operation dependency. */
+export type DependsOnProfileUpdateDependsOnList = Array<string>;
+/** Depends on profile definition. */
+export interface DependsOnProfile {
+  /** Application installation operation dependency. */
+  installDependsOn?: DependsOnProfileInstallDependsOnList | undefined;
+  /** Application deletion operation dependency. */
+  uninstallDependsOn?: DependsOnProfileUninstallDependsOnList | undefined;
+  /** Application update operation dependency. */
+  updateDependsOn?: DependsOnProfileUpdateDependsOnList | undefined;
 }
+/** The artifact type. */
+export type AzureArcKubernetesHelmApplicationArtifactType = "HelmPackage";
+/** Reference to another resource. */
+export type ReferencedResource =
+  AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+/** The registry values path list. */
+export type HelmArtifactProfileRegistryValuesPathsList = Array<string>;
+/** The image pull secrets values path list. */
+export type HelmArtifactProfileImagePullSecretsValuesPathsList = Array<string>;
+/** Helm artifact profile. */
+export interface HelmArtifactProfile {
+  /** Helm package name. */
+  helmPackageName?: string | undefined;
+  /** Helm package version range. */
+  helmPackageVersionRange?: string | undefined;
+  /** The registry values path list. */
+  registryValuesPaths?: HelmArtifactProfileRegistryValuesPathsList | undefined;
+  /** The image pull secrets values path list. */
+  imagePullSecretsValuesPaths?: HelmArtifactProfileImagePullSecretsValuesPathsList | undefined;
+}
+/** Azure arc kubernetes artifact profile properties. */
+export interface AzureArcKubernetesArtifactProfile {
+  /** The reference to artifact store. */
+  artifactStore?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+  /** Helm artifact profile. */
+  helmArtifactProfile?: HelmArtifactProfile | undefined;
+}
+/** The application enablement. */
+export type AzureArcKubernetesDeployMappingRuleProfileApplicationEnablement =
+  | "Unknown"
+  | "Enabled"
+  | "Disabled";
+/** The helm deployment install options */
+export interface HelmInstallOptions {
+  /** The helm deployment atomic options */
+  atomic?: string | undefined;
+  /** The helm deployment wait options */
+  wait?: string | undefined;
+  /** The helm deployment timeout options */
+  timeout?: string | undefined;
+}
+/** The helm deployment install options */
+export type HelmUpgradeOptions = HelmInstallOptions;
+/** The helm deployment options */
+export interface HelmMappingRuleProfileOptions {
+  /** The helm deployment install options */
+  installOptions?: HelmInstallOptions | undefined;
+  /** The helm deployment upgrade options */
+  upgradeOptions?: HelmInstallOptions | undefined;
+}
+/** Helm mapping rule profile */
+export interface HelmMappingRuleProfile {
+  /** Helm release namespace. */
+  releaseNamespace?: string | undefined;
+  /** Helm release name. */
+  releaseName?: string | undefined;
+  /** Helm package version. */
+  helmPackageVersion?: string | undefined;
+  /** Helm release values. */
+  values?: string | undefined;
+  /** The helm deployment options */
+  options?: HelmMappingRuleProfileOptions | undefined;
+}
+/** Azure arc kubernetes deploy mapping rule profile. */
+export interface AzureArcKubernetesDeployMappingRuleProfile {
+  /** The application enablement. */
+  applicationEnablement?:
+    | AzureArcKubernetesDeployMappingRuleProfileApplicationEnablement
+    | (string & {})
+    | undefined;
+  /** The helm mapping rule profile. */
+  helmMappingRuleProfile?: HelmMappingRuleProfile | undefined;
+}
+/** Azure arc kubernetes helm application configurations. */
+export interface AzureArcKubernetesHelmApplication {
+  /** The name of the network function application. */
+  name?: string | undefined;
+  /** Depends on profile definition. */
+  dependsOnProfile?: DependsOnProfile | undefined;
+  /** The artifact type. */
+  artifactType: AzureArcKubernetesHelmApplicationArtifactType | (string & {});
+  /** Azure arc kubernetes artifact profile. */
+  artifactProfile?: AzureArcKubernetesArtifactProfile | undefined;
+  /** Deploy mapping rule profile. */
+  deployParametersMappingRuleProfile?: AzureArcKubernetesDeployMappingRuleProfile | undefined;
+}
+/** Network function applications. */
+export type AzureArcKubernetesNetworkFunctionTemplateNetworkFunctionApplicationsList =
+  Array<AzureArcKubernetesHelmApplication>;
+/** Azure Arc kubernetes network function template. */
+export interface AzureArcKubernetesNetworkFunctionTemplate {
+  /** The network function type. */
+  nfviType: AzureArcKubernetesNetworkFunctionTemplateNfviType | (string & {});
+  /** Network function applications. */
+  networkFunctionApplications?:
+    | AzureArcKubernetesNetworkFunctionTemplateNetworkFunctionApplicationsList
+    | undefined;
+}
+/** Containerized network function network function definition version properties. */
+export interface ContainerizedNetworkFunctionDefinitionVersion {
+  /** The current provisioning state. */
+  provisioningState?: NetworkFunctionDefinitionVersionPropertiesFormatProvisioningState | undefined;
+  /** The network function definition version state. */
+  versionState?: VersionState | undefined;
+  /** The network function definition version description. */
+  description?: string | undefined;
+  /** The deployment parameters of the network function definition version. */
+  deployParameters?: string | undefined;
+  /** The network function type. */
+  networkFunctionType: ContainerizedNetworkFunctionDefinitionVersionNetworkFunctionType;
+  /** Containerized network function template. */
+  networkFunctionTemplate?: AzureArcKubernetesNetworkFunctionTemplate | undefined;
+}
+/** The network function type. */
+export type VirtualNetworkFunctionNetworkFunctionDefinitionVersionNetworkFunctionType =
+  "VirtualNetworkFunction";
+/** The network function type. */
+export type AzureCoreNetworkFunctionTemplateNfviType = "AzureCore";
+/** The artifact type. */
+export type AzureCoreNetworkFunctionVhdApplicationArtifactType = "VhdImageFile";
+/** Vhd artifact profile. */
+export interface VhdImageArtifactProfile {
+  /** Vhd name. */
+  vhdName?: string | undefined;
+  /** Vhd version. */
+  vhdVersion?: string | undefined;
+}
+/** Azure vhd artifact profile properties. */
+export interface AzureCoreVhdImageArtifactProfile {
+  /** The reference to artifact store. */
+  artifactStore?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+  /** Vhd artifact profile. */
+  vhdArtifactProfile?: VhdImageArtifactProfile | undefined;
+}
+/** The application enablement. */
+export type AzureCoreVhdImageDeployMappingRuleProfileApplicationEnablement =
+  | "Unknown"
+  | "Enabled"
+  | "Disabled";
+/** Vhd mapping rule profile */
+export interface VhdImageMappingRuleProfile {
+  /** List of values. */
+  userConfiguration?: string | undefined;
+}
+/** Azure vhd deploy mapping rule profile. */
+export interface AzureCoreVhdImageDeployMappingRuleProfile {
+  /** The application enablement. */
+  applicationEnablement?:
+    | AzureCoreVhdImageDeployMappingRuleProfileApplicationEnablement
+    | (string & {})
+    | undefined;
+  /** The vhd mapping rule profile. */
+  vhdImageMappingRuleProfile?: VhdImageMappingRuleProfile | undefined;
+}
+/** Azure core network function vhd application definition. */
+export interface AzureCoreNetworkFunctionVhdApplication {
+  /** The name of the network function application. */
+  name?: string | undefined;
+  /** Depends on profile definition. */
+  dependsOnProfile?: DependsOnProfile | undefined;
+  /** The artifact type. */
+  artifactType: AzureCoreNetworkFunctionVhdApplicationArtifactType;
+  /** Azure vhd image artifact profile. */
+  artifactProfile?: AzureCoreVhdImageArtifactProfile | undefined;
+  /** Deploy mapping rule profile. */
+  deployParametersMappingRuleProfile?: AzureCoreVhdImageDeployMappingRuleProfile | undefined;
+}
+/** The artifact type. */
+export type AzureCoreNetworkFunctionArmTemplateApplicationArtifactType = "ArmTemplate";
+/** Template artifact profile. */
+export interface ArmTemplateArtifactProfile {
+  /** Template name. */
+  templateName?: string | undefined;
+  /** Template version. */
+  templateVersion?: string | undefined;
+}
+/** Azure template artifact profile properties. */
+export interface AzureCoreArmTemplateArtifactProfile {
+  /** The reference to artifact store. */
+  artifactStore?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+  /** Template artifact profile. */
+  templateArtifactProfile?: ArmTemplateArtifactProfile | undefined;
+}
+/** The application enablement. */
+export type AzureCoreArmTemplateDeployMappingRuleProfileApplicationEnablement =
+  | "Unknown"
+  | "Enabled"
+  | "Disabled";
+/** Template mapping rule profile */
+export interface ArmTemplateMappingRuleProfile {
+  /** List of template parameters. */
+  templateParameters?: string | undefined;
+}
+/** Azure template deploy mapping rule profile. */
+export interface AzureCoreArmTemplateDeployMappingRuleProfile {
+  /** The application enablement. */
+  applicationEnablement?:
+    | AzureCoreArmTemplateDeployMappingRuleProfileApplicationEnablement
+    | (string & {})
+    | undefined;
+  /** The template mapping rule profile. */
+  templateMappingRuleProfile?: ArmTemplateMappingRuleProfile | undefined;
+}
+/** Azure core network function Template application definition. */
+export interface AzureCoreNetworkFunctionArmTemplateApplication {
+  /** The name of the network function application. */
+  name?: string | undefined;
+  /** Depends on profile definition. */
+  dependsOnProfile?: DependsOnProfile | undefined;
+  /** The artifact type. */
+  artifactType: AzureCoreNetworkFunctionArmTemplateApplicationArtifactType;
+  /** Azure template artifact profile. */
+  artifactProfile?: AzureCoreArmTemplateArtifactProfile | undefined;
+  /** Deploy mapping rule profile. */
+  deployParametersMappingRuleProfile?: AzureCoreArmTemplateDeployMappingRuleProfile | undefined;
+}
+/** Azure virtual network function application definition. */
+export type AzureCoreNetworkFunctionApplication =
+  | AzureCoreNetworkFunctionVhdApplication
+  | AzureCoreNetworkFunctionArmTemplateApplication;
+/** Network function applications. */
+export type AzureCoreNetworkFunctionTemplateNetworkFunctionApplicationsList =
+  Array<AzureCoreNetworkFunctionApplication>;
+/** Azure virtual network function template. */
+export interface AzureCoreNetworkFunctionTemplate {
+  /** The network function type. */
+  nfviType: AzureCoreNetworkFunctionTemplateNfviType;
+  /** Network function applications. */
+  networkFunctionApplications?:
+    | AzureCoreNetworkFunctionTemplateNetworkFunctionApplicationsList
+    | undefined;
+}
+/** The network function type. */
+export type AzureOperatorNexusNetworkFunctionTemplateNfviType = "AzureOperatorNexus";
+/** The artifact type. */
+export type AzureOperatorNexusNetworkFunctionImageApplicationArtifactType = "ImageFile";
+/** Image artifact profile. */
+export interface ImageArtifactProfile {
+  /** Image name. */
+  imageName?: string | undefined;
+  /** Image version. */
+  imageVersion?: string | undefined;
+}
+/** Azure Operator Distributed Services image artifact profile properties. */
+export interface AzureOperatorNexusImageArtifactProfile {
+  /** The reference to artifact store. */
+  artifactStore?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+  /** Image artifact profile. */
+  imageArtifactProfile?: ImageArtifactProfile | undefined;
+}
+/** The application enablement. */
+export type AzureOperatorNexusImageDeployMappingRuleProfileApplicationEnablement =
+  | "Unknown"
+  | "Enabled"
+  | "Disabled";
+/** Image mapping rule profile */
+export type ImageMappingRuleProfile = VhdImageMappingRuleProfile;
+/** Azure Operator Distributed Services image deploy mapping rule profile. */
+export interface AzureOperatorNexusImageDeployMappingRuleProfile {
+  /** The application enablement. */
+  applicationEnablement?:
+    | AzureOperatorNexusImageDeployMappingRuleProfileApplicationEnablement
+    | (string & {})
+    | undefined;
+  /** The vhd mapping rule profile. */
+  imageMappingRuleProfile?: VhdImageMappingRuleProfile | undefined;
+}
+/** Azure Operator Distributed Services network function image application definition. */
+export interface AzureOperatorNexusNetworkFunctionImageApplication {
+  /** The name of the network function application. */
+  name?: string | undefined;
+  /** Depends on profile definition. */
+  dependsOnProfile?: DependsOnProfile | undefined;
+  /** The artifact type. */
+  artifactType: AzureOperatorNexusNetworkFunctionImageApplicationArtifactType;
+  /** Azure Operator Distributed Services image artifact profile. */
+  artifactProfile?: AzureOperatorNexusImageArtifactProfile | undefined;
+  /** Deploy mapping rule profile. */
+  deployParametersMappingRuleProfile?: AzureOperatorNexusImageDeployMappingRuleProfile | undefined;
+}
+/** The artifact type. */
+export type AzureOperatorNexusNetworkFunctionArmTemplateApplicationArtifactType = "ArmTemplate";
+/** Azure Operator Distributed Services vhd artifact profile properties. */
+export type AzureOperatorNexusArmTemplateArtifactProfile = AzureCoreArmTemplateArtifactProfile;
+/** The application enablement. */
+export type AzureOperatorNexusArmTemplateDeployMappingRuleProfileApplicationEnablement =
+  | "Unknown"
+  | "Enabled"
+  | "Disabled";
+/** Azure Operator Distributed Services template deploy mapping rule profile. */
+export interface AzureOperatorNexusArmTemplateDeployMappingRuleProfile {
+  /** The application enablement. */
+  applicationEnablement?:
+    | AzureOperatorNexusArmTemplateDeployMappingRuleProfileApplicationEnablement
+    | (string & {})
+    | undefined;
+  /** The template mapping rule profile. */
+  templateMappingRuleProfile?: ArmTemplateMappingRuleProfile | undefined;
+}
+/** Azure Operator Distributed Services network function Template application definition. */
+export interface AzureOperatorNexusNetworkFunctionArmTemplateApplication {
+  /** The name of the network function application. */
+  name?: string | undefined;
+  /** Depends on profile definition. */
+  dependsOnProfile?: DependsOnProfile | undefined;
+  /** The artifact type. */
+  artifactType: AzureOperatorNexusNetworkFunctionArmTemplateApplicationArtifactType;
+  /** Azure Operator Distributed Services Template artifact profile. */
+  artifactProfile?: AzureCoreArmTemplateArtifactProfile | undefined;
+  /** Deploy mapping rule profile. */
+  deployParametersMappingRuleProfile?:
+    | AzureOperatorNexusArmTemplateDeployMappingRuleProfile
+    | undefined;
+}
+/** Azure Operator Distributed Services network function application definition. */
+export type AzureOperatorNexusNetworkFunctionApplication =
+  | AzureOperatorNexusNetworkFunctionImageApplication
+  | AzureOperatorNexusNetworkFunctionArmTemplateApplication;
+/** Network function applications. */
+export type AzureOperatorNexusNetworkFunctionTemplateNetworkFunctionApplicationsList =
+  Array<AzureOperatorNexusNetworkFunctionApplication>;
+/** Azure Operator Distributed Services network function template. */
+export interface AzureOperatorNexusNetworkFunctionTemplate {
+  /** The network function type. */
+  nfviType: AzureOperatorNexusNetworkFunctionTemplateNfviType;
+  /** Network function applications. */
+  networkFunctionApplications?:
+    | AzureOperatorNexusNetworkFunctionTemplateNetworkFunctionApplicationsList
+    | undefined;
+}
+/** Virtual network function template. */
+export type VirtualNetworkFunctionTemplate =
+  | AzureCoreNetworkFunctionTemplate
+  | AzureOperatorNexusNetworkFunctionTemplate;
+/** Virtual network function network function definition version properties. */
+export interface VirtualNetworkFunctionNetworkFunctionDefinitionVersion {
+  /** The current provisioning state. */
+  provisioningState?: NetworkFunctionDefinitionVersionPropertiesFormatProvisioningState | undefined;
+  /** The network function definition version state. */
+  versionState?: VersionState | undefined;
+  /** The network function definition version description. */
+  description?: string | undefined;
+  /** The deployment parameters of the network function definition version. */
+  deployParameters?: string | undefined;
+  /** The network function type. */
+  networkFunctionType: VirtualNetworkFunctionNetworkFunctionDefinitionVersionNetworkFunctionType;
+  /** Virtual network function template. */
+  networkFunctionTemplate?: VirtualNetworkFunctionTemplate | undefined;
+}
+/** Network function definition version properties. */
+export type NetworkFunctionDefinitionVersionPropertiesFormat =
+  | ContainerizedNetworkFunctionDefinitionVersion
+  | VirtualNetworkFunctionNetworkFunctionDefinitionVersion;
 export interface GetNetworkFunctionDefinitionVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkFunctionDefinitionVersionResponseTagsMap;
+  tags?: GetNetworkFunctionDefinitionVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition version properties. */
-  properties?: NetworkFunctionDefinitionVersionPropertiesFormat;
+  properties?: NetworkFunctionDefinitionVersionPropertiesFormat | undefined;
 }
 export interface GetNetworkServiceDesignGroupRequest {
   /** The ID of the target subscription. */
@@ -1228,25 +1709,25 @@ export type NetworkServiceDesignGroupPropertiesFormatProvisioningState =
 /** network service design group properties. */
 export interface NetworkServiceDesignGroupPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: NetworkServiceDesignGroupPropertiesFormatProvisioningState;
+  provisioningState?: NetworkServiceDesignGroupPropertiesFormatProvisioningState | undefined;
   /** The network service design group description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetNetworkServiceDesignGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkServiceDesignGroupResponseTagsMap;
+  tags?: GetNetworkServiceDesignGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design group properties. */
-  properties?: NetworkServiceDesignGroupPropertiesFormat;
+  properties?: NetworkServiceDesignGroupPropertiesFormat | undefined;
 }
 export interface GetNetworkServiceDesignVersionRequest {
   /** The ID of the target subscription. */
@@ -1286,75 +1767,159 @@ export type NetworkServiceDesignVersionPropertiesFormatConfigurationGroupSchemaR
 /** The nfvi details. */
 export interface NfviDetails {
   /** The nfvi name. */
-  name?: string;
+  name?: string | undefined;
   /** The nfvi type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The nfvis from the site. */
 export type NetworkServiceDesignVersionPropertiesFormatNfvisFromSiteMap = {
   [key: string]: NfviDetails | undefined;
 };
 /** The resource element template type. */
-export type Type = "Unknown" | "ArmResourceDefinition" | "NetworkFunctionDefinition";
+export type ArmResourceDefinitionResourceElementTemplateDetailsType = "ArmResourceDefinition";
 /** Application installation operation dependency. */
-export type ResourceElementTemplateDependsOnProfileInstallDependsOnList = Array<string>;
+export type ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileInstallDependsOnList =
+  Array<string>;
 /** Application deletion operation dependency. */
-export type ResourceElementTemplateDependsOnProfileUninstallDependsOnList = Array<string>;
+export type ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileUninstallDependsOnList =
+  Array<string>;
 /** Application update operation dependency. */
-export type ResourceElementTemplateDependsOnProfileUpdateDependsOnList = Array<string>;
+export type ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileUpdateDependsOnList =
+  Array<string>;
 /** Depends on profile definition. */
-export interface ResourceElementTemplateDependsOnProfile {
+export interface ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfile {
   /** Application installation operation dependency. */
-  installDependsOn?: ResourceElementTemplateDependsOnProfileInstallDependsOnList;
+  installDependsOn?:
+    | ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileInstallDependsOnList
+    | undefined;
   /** Application deletion operation dependency. */
-  uninstallDependsOn?: ResourceElementTemplateDependsOnProfileUninstallDependsOnList;
+  uninstallDependsOn?:
+    | ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileUninstallDependsOnList
+    | undefined;
   /** Application update operation dependency. */
-  updateDependsOn?: ResourceElementTemplateDependsOnProfileUpdateDependsOnList;
+  updateDependsOn?:
+    | ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfileUpdateDependsOnList
+    | undefined;
+}
+/** The template type. */
+export type TemplateType = "Unknown" | "ArmTemplate";
+/** Reference to another resource. */
+export type NSDArtifactProfileArtifactStoreReference =
+  AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+/** Artifact profile properties. */
+export interface NSDArtifactProfile {
+  /** Reference to another resource. */
+  artifactStoreReference?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+  /** Artifact name. */
+  artifactName?: string | undefined;
+  /** Artifact version. */
+  artifactVersion?: string | undefined;
+}
+/** The arm template RE. */
+export interface ArmResourceDefinitionResourceElementTemplate {
+  /** The template type. */
+  templateType?: TemplateType | (string & {}) | undefined;
+  /** Name and value pairs that define the parameter values. It can be a well formed escaped JSON string. */
+  parameterValues?: string | undefined;
+  /** Artifact profile properties. */
+  artifactProfile?: NSDArtifactProfile | undefined;
+}
+/** The arm resource definition resource element template details. */
+export interface ArmResourceDefinitionResourceElementTemplateDetails {
+  /** Name of the resource element template. */
+  name?: string | undefined;
+  /** The resource element template type. */
+  type: ArmResourceDefinitionResourceElementTemplateDetailsType;
+  /** Depends on profile definition. */
+  dependsOnProfile?:
+    | ArmResourceDefinitionResourceElementTemplateDetailsDependsOnProfile
+    | undefined;
+  /** The resource element template type. */
+  configuration?: ArmResourceDefinitionResourceElementTemplate | undefined;
+}
+/** The resource element template type. */
+export type NetworkFunctionDefinitionResourceElementTemplateDetailsType =
+  "NetworkFunctionDefinition";
+/** Application installation operation dependency. */
+export type NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileInstallDependsOnList =
+  Array<string>;
+/** Application deletion operation dependency. */
+export type NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileUninstallDependsOnList =
+  Array<string>;
+/** Application update operation dependency. */
+export type NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileUpdateDependsOnList =
+  Array<string>;
+/** Depends on profile definition. */
+export interface NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfile {
+  /** Application installation operation dependency. */
+  installDependsOn?:
+    | NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileInstallDependsOnList
+    | undefined;
+  /** Application deletion operation dependency. */
+  uninstallDependsOn?:
+    | NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileUninstallDependsOnList
+    | undefined;
+  /** Application update operation dependency. */
+  updateDependsOn?:
+    | NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfileUpdateDependsOnList
+    | undefined;
+}
+/** The network function definition resource element template details. */
+export interface NetworkFunctionDefinitionResourceElementTemplateDetails {
+  /** Name of the resource element template. */
+  name?: string | undefined;
+  /** The resource element template type. */
+  type: NetworkFunctionDefinitionResourceElementTemplateDetailsType;
+  /** Depends on profile definition. */
+  dependsOnProfile?:
+    | NetworkFunctionDefinitionResourceElementTemplateDetailsDependsOnProfile
+    | undefined;
+  /** The resource element template type. */
+  configuration?: ArmResourceDefinitionResourceElementTemplate | undefined;
 }
 /** The resource element template object. */
-export interface ResourceElementTemplate {
-  /** Name of the resource element template. */
-  name?: string;
-  /** The resource element template type. */
-  type: Type | (string & {});
-  /** Depends on profile definition. */
-  dependsOnProfile?: ResourceElementTemplateDependsOnProfile;
-  /** Type-specific template configuration (polymorphic on `type`). */
-  configuration?: unknown;
-}
+export type ResourceElementTemplate =
+  | ArmResourceDefinitionResourceElementTemplateDetails
+  | NetworkFunctionDefinitionResourceElementTemplateDetails;
 /** List of resource element template */
 export type NetworkServiceDesignVersionPropertiesFormatResourceElementTemplatesList =
   Array<ResourceElementTemplate>;
 /** network service design version properties. */
 export interface NetworkServiceDesignVersionPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: NetworkServiceDesignVersionPropertiesFormatProvisioningState;
+  provisioningState?: NetworkServiceDesignVersionPropertiesFormatProvisioningState | undefined;
   /** The network service design version state. */
-  versionState?: NSDVersionState;
+  versionState?: NSDVersionState | undefined;
   /** The network service design version description. */
-  description?: string;
+  description?: string | undefined;
   /** The configuration schemas to used to define the values. */
-  configurationGroupSchemaReferences?: NetworkServiceDesignVersionPropertiesFormatConfigurationGroupSchemaReferencesMap;
+  configurationGroupSchemaReferences?:
+    | NetworkServiceDesignVersionPropertiesFormatConfigurationGroupSchemaReferencesMap
+    | undefined;
   /** The nfvis from the site. */
-  nfvisFromSite?: NetworkServiceDesignVersionPropertiesFormatNfvisFromSiteMap;
+  nfvisFromSite?: NetworkServiceDesignVersionPropertiesFormatNfvisFromSiteMap | undefined;
   /** List of resource element template */
-  resourceElementTemplates?: NetworkServiceDesignVersionPropertiesFormatResourceElementTemplatesList;
+  resourceElementTemplates?:
+    | NetworkServiceDesignVersionPropertiesFormatResourceElementTemplatesList
+    | undefined;
 }
 export interface GetNetworkServiceDesignVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkServiceDesignVersionResponseTagsMap;
+  tags?: GetNetworkServiceDesignVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design version properties. */
-  properties?: NetworkServiceDesignVersionPropertiesFormat;
+  properties?: NetworkServiceDesignVersionPropertiesFormat | undefined;
 }
 export interface GetProxyArtifactRequest {
   /** The ID of the target subscription. */
@@ -1379,24 +1944,24 @@ export type ProxyArtifactOverviewPropertiesValueArtifactType =
 export type ArtifactState = "Unknown" | "Preview" | "Active" | "Deprecated";
 export interface ProxyArtifactOverviewPropertiesValue {
   /** The artifact type. */
-  artifactType?: ProxyArtifactOverviewPropertiesValueArtifactType;
+  artifactType?: ProxyArtifactOverviewPropertiesValueArtifactType | undefined;
   /** The artifact version. */
-  artifactVersion?: string;
+  artifactVersion?: string | undefined;
   /** The artifact state */
-  artifactState?: ArtifactState;
+  artifactState?: ArtifactState | undefined;
 }
 /** The proxy artifact overview. */
 export interface ProxyArtifactVersionsListOverview {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Proxy Artifact overview properties. */
-  properties?: ProxyArtifactOverviewPropertiesValue;
+  properties?: ProxyArtifactOverviewPropertiesValue | undefined;
 }
 /** A list of available proxy artifacts. */
 export type ProxyArtifactVersionsOverviewListResultValueList =
@@ -1404,9 +1969,9 @@ export type ProxyArtifactVersionsOverviewListResultValueList =
 /** The proxy artifact list result. */
 export interface ProxyArtifactVersionsOverviewListResult {
   /** A list of available proxy artifacts. */
-  value?: ProxyArtifactVersionsOverviewListResultValueList;
+  value?: ProxyArtifactVersionsOverviewListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetPublisherRequest {
   /** The ID of the target subscription. */
@@ -1433,29 +1998,29 @@ export type PublisherPropertiesFormatScope = "Unknown" | "Private";
 /** publisher properties. */
 export interface PublisherPropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: PublisherPropertiesFormatProvisioningState;
+  provisioningState?: PublisherPropertiesFormatProvisioningState | undefined;
   /** Publisher Scope. */
-  scope?: PublisherPropertiesFormatScope;
+  scope?: PublisherPropertiesFormatScope | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetPublisherResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface GetPublisherResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPublisherResponseTagsMap;
+  tags?: GetPublisherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Publisher properties. */
-  properties?: PublisherPropertiesFormat;
+  properties?: PublisherPropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 export interface GetSiteRequest {
   /** The ID of the target subscription. */
@@ -1478,18 +2043,53 @@ export type SitePropertiesFormatProvisioningState =
   | "Deleted"
   | "Converging";
 /** The NFVI type. */
-export type NFVIsNfviType = "Unknown" | "AzureArcKubernetes" | "AzureCore" | "AzureOperatorNexus";
-/** The NFVI object. */
-export interface NFVIs {
+export type AzureCoreNFVIDetailsNfviType = "AzureCore";
+/** The Azure Core NFVI detail. */
+export interface AzureCoreNFVIDetails {
   /** Name of the nfvi. */
-  name?: string;
+  name?: string | undefined;
   /** The NFVI type. */
-  nfviType: NFVIsNfviType | (string & {});
-  /** Location of the Azure core NFVI (`AzureCore` only). */
-  location?: string;
-  /** Reference `{ id }` to the custom location (`AzureArcKubernetes` / `AzureOperatorNexus`). */
-  customLocationReference?: unknown;
+  nfviType: AzureCoreNFVIDetailsNfviType;
+  /** Location of the Azure core. */
+  location?: string | undefined;
 }
+/** The NFVI type. */
+export type AzureArcK8sClusterNFVIDetailsNfviType = "AzureArcKubernetes";
+/** Reference to another resource. */
+export type AzureArcK8sClusterNFVIDetailsCustomLocationReference =
+  AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+/** The AzureArcK8sCluster NFVI detail. */
+export interface AzureArcK8sClusterNFVIDetails {
+  /** Name of the nfvi. */
+  name?: string | undefined;
+  /** The NFVI type. */
+  nfviType: AzureArcK8sClusterNFVIDetailsNfviType;
+  /** Reference to another resource. */
+  customLocationReference?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+}
+/** The NFVI type. */
+export type AzureOperatorNexusClusterNFVIDetailsNfviType = "AzureOperatorNexus";
+/** Reference to another resource. */
+export type AzureOperatorNexusClusterNFVIDetailsCustomLocationReference =
+  AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+/** The AzureOperatorNexusCluster NFVI detail. */
+export interface AzureOperatorNexusClusterNFVIDetails {
+  /** Name of the nfvi. */
+  name?: string | undefined;
+  /** The NFVI type. */
+  nfviType: AzureOperatorNexusClusterNFVIDetailsNfviType;
+  /** Reference to another resource. */
+  customLocationReference?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
+}
+/** The NFVI object. */
+export type NFVIs =
+  | AzureCoreNFVIDetails
+  | AzureArcK8sClusterNFVIDetails
+  | AzureOperatorNexusClusterNFVIDetails;
 /** List of NFVIs */
 export type SitePropertiesFormatNfvisList = Array<NFVIs>;
 /** Reference to another resource. */
@@ -1501,27 +2101,27 @@ export type SitePropertiesFormatSiteNetworkServiceReferencesList =
 /** Site properties. */
 export interface SitePropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: SitePropertiesFormatProvisioningState;
+  provisioningState?: SitePropertiesFormatProvisioningState | undefined;
   /** List of NFVIs */
-  nfvis?: SitePropertiesFormatNfvisList;
+  nfvis?: SitePropertiesFormatNfvisList | undefined;
   /** The list of site network services on the site. */
-  siteNetworkServiceReferences?: SitePropertiesFormatSiteNetworkServiceReferencesList;
+  siteNetworkServiceReferences?: SitePropertiesFormatSiteNetworkServiceReferencesList | undefined;
 }
 export interface GetSiteResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSiteResponseTagsMap;
+  tags?: GetSiteResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site properties. */
-  properties?: SitePropertiesFormat;
+  properties?: SitePropertiesFormat | undefined;
 }
 export interface GetSiteNetworkServiceRequest {
   /** The ID of the target subscription. */
@@ -1546,9 +2146,9 @@ export type SiteNetworkServicePropertiesFormatProvisioningState =
 /** Managed resource group configuration. */
 export interface SiteNetworkServicePropertiesFormatManagedResourceGroupConfiguration {
   /** Managed resource group name. */
-  name?: string;
+  name?: string | undefined;
   /** Managed resource group location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Reference to another resource. */
 export type SiteNetworkServicePropertiesFormatSiteReference =
@@ -1557,7 +2157,7 @@ export type SiteNetworkServicePropertiesFormatSiteReference =
 export type SiteNetworkServicePropertiesFormatPublisherScope = "Unknown" | "Private";
 /** The azure resource reference which is used for deployment. */
 export type SiteNetworkServicePropertiesFormatNetworkServiceDesignVersionResourceReference =
-  ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference;
+  ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference;
 /** Reference to another resource. */
 export type SiteNetworkServicePropertiesFormatDesiredStateConfigurationGroupValueReferencesValue =
   AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
@@ -1579,29 +2179,39 @@ export type SiteNetworkServicePropertiesFormatLastStateConfigurationGroupValueRe
 /** Site network service properties. */
 export interface SiteNetworkServicePropertiesFormat {
   /** The current provisioning state. */
-  provisioningState?: SiteNetworkServicePropertiesFormatProvisioningState;
+  provisioningState?: SiteNetworkServicePropertiesFormatProvisioningState | undefined;
   /** Managed resource group configuration. */
-  managedResourceGroupConfiguration?: SiteNetworkServicePropertiesFormatManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?:
+    | SiteNetworkServicePropertiesFormatManagedResourceGroupConfiguration
+    | undefined;
   /** Reference to another resource. */
-  siteReference?: AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+  siteReference?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
   /** The publisher name for the site network service. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** Publisher Scope. */
-  publisherScope?: SiteNetworkServicePropertiesFormatPublisherScope;
+  publisherScope?: SiteNetworkServicePropertiesFormatPublisherScope | undefined;
   /** The network service design group name for the site network service. */
-  networkServiceDesignGroupName?: string;
+  networkServiceDesignGroupName?: string | undefined;
   /** The network service design version for the site network service. */
-  networkServiceDesignVersionName?: string;
+  networkServiceDesignVersionName?: string | undefined;
   /** The location of the network service design offering. */
-  networkServiceDesignVersionOfferingLocation?: string;
+  networkServiceDesignVersionOfferingLocation?: string | undefined;
   /** The azure resource reference which is used for deployment. */
-  networkServiceDesignVersionResourceReference?: ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference;
+  networkServiceDesignVersionResourceReference?:
+    | ConfigurationValueWithSecretsConfigurationGroupSchemaResourceReference
+    | undefined;
   /** The goal state of the site network service resource. This has references to the configuration group value objects that describe the desired state of the site network service. */
-  desiredStateConfigurationGroupValueReferences?: SiteNetworkServicePropertiesFormatDesiredStateConfigurationGroupValueReferencesMap;
+  desiredStateConfigurationGroupValueReferences?:
+    | SiteNetworkServicePropertiesFormatDesiredStateConfigurationGroupValueReferencesMap
+    | undefined;
   /** The network service design version for the site network service. */
-  lastStateNetworkServiceDesignVersionName?: string;
+  lastStateNetworkServiceDesignVersionName?: string | undefined;
   /** The last state of the site network service resource. */
-  lastStateConfigurationGroupValueReferences?: SiteNetworkServicePropertiesFormatLastStateConfigurationGroupValueReferencesMap;
+  lastStateConfigurationGroupValueReferences?:
+    | SiteNetworkServicePropertiesFormatLastStateConfigurationGroupValueReferencesMap
+    | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetSiteNetworkServiceResponseIdentity = GetNetworkFunctionResponseIdentity;
@@ -1614,27 +2224,27 @@ export interface Sku {
   /** Name of this Sku */
   name: SkuName;
   /** The SKU tier based on the SKU name. */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
 }
 export interface GetSiteNetworkServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSiteNetworkServiceResponseTagsMap;
+  tags?: GetSiteNetworkServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site network service properties. */
-  properties?: SiteNetworkServicePropertiesFormat;
+  properties?: SiteNetworkServicePropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
   /** Sku of the site network service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface ListArtifactManifestByArtifactStoreRequest {
   /** The ID of the target subscription. */
@@ -1651,28 +2261,28 @@ export type ArtifactManifestTagsMap = { [key: string]: string | undefined };
 /** Artifact manifest properties. */
 export interface ArtifactManifest {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ArtifactManifestTagsMap;
+  tags?: ArtifactManifestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Artifact manifest properties. */
-  properties?: ArtifactManifestPropertiesFormat;
+  properties?: ArtifactManifestPropertiesFormat | undefined;
 }
 /** A list of artifact manifests. */
 export type ArtifactManifestListResultValueList = Array<ArtifactManifest>;
 /** A list of artifact manifests. */
 export interface ArtifactManifestListResult {
   /** A list of artifact manifests. */
-  value?: ArtifactManifestListResultValueList;
+  value?: ArtifactManifestListResultValueList | undefined;
   /** The URI to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListArtifactManifestCredentialRequest {
   /** The ID of the target subscription. */
@@ -1691,14 +2301,15 @@ export type ListArtifactManifestCredentialResponseCredentialType =
   | "Unknown"
   | "AzureContainerRegistryScopedToken"
   | "AzureStorageAccountToken";
+export type ArtifactManifestRepositoryList = Array<string>;
 /** A storage container push credential (`AzureStorageAccountToken`). */
 export interface ArtifactManifestContainerCredential {
   /** The storage container name. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** The container SAS URI. */
-  containerSasUri?: string | Redacted.Redacted<string>;
+  containerSasUri?: string | Redacted.Redacted<string> | undefined;
   /** The UTC time when the container SAS expires. */
-  expiry?: string;
+  expiry?: string | undefined;
 }
 /** Storage container push credentials. */
 export type ArtifactManifestContainerCredentialList = Array<ArtifactManifestContainerCredential>;
@@ -1706,19 +2317,19 @@ export interface ListArtifactManifestCredentialResponse {
   /** The credential type. */
   credentialType: ListArtifactManifestCredentialResponseCredentialType;
   /** The username of the ACR scoped token (`AzureContainerRegistryScopedToken`). */
-  username?: string;
+  username?: string | undefined;
   /** The ACR scoped token password (`AzureContainerRegistryScopedToken`). */
-  acrToken?: string | Redacted.Redacted<string>;
+  acrToken?: string | Redacted.Redacted<string> | undefined;
   /** The ACR login server URL (`AzureContainerRegistryScopedToken`). */
-  acrServerUrl?: string;
+  acrServerUrl?: string | undefined;
   /** The repositories the token may push to (`AzureContainerRegistryScopedToken`). */
-  repositories?: NetworkFunctionPropertiesFormatRoleOverrideValuesList;
+  repositories?: ArtifactManifestRepositoryList | undefined;
   /** The UTC time when the credential expires. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The container SAS credentials (`AzureStorageAccountToken`). */
-  containerCredentials?: ArtifactManifestContainerCredentialList;
+  containerCredentials?: ArtifactManifestContainerCredentialList | undefined;
   /** The storage account ARM ID (`AzureStorageAccountToken`). */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
 }
 export interface ListArtifactStoreByPublisherRequest {
   /** The ID of the target subscription. */
@@ -1733,28 +2344,28 @@ export type ArtifactStoreTagsMap = { [key: string]: string | undefined };
 /** Artifact store properties. */
 export interface ArtifactStore {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ArtifactStoreTagsMap;
+  tags?: ArtifactStoreTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ArtifactStores properties. */
-  properties?: ArtifactStorePropertiesFormat;
+  properties?: ArtifactStorePropertiesFormat | undefined;
 }
 /** A list of artifact stores. */
 export type ArtifactStoreListResultValueList = Array<ArtifactStore>;
 /** A list of artifact stores. */
 export interface ArtifactStoreListResult {
   /** A list of artifact stores. */
-  value?: ArtifactStoreListResultValueList;
+  value?: ArtifactStoreListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListArtifactStoreNetworkFabricControllerPrivateEndPointsRequest {
   /** The ID of the target subscription. */
@@ -1775,7 +2386,9 @@ export type ArtifactStoreNetworkFabricControllerEndPointsNetworkFabricController
 /** List of network fabric controller ids. */
 export interface ArtifactStoreNetworkFabricControllerEndPoints {
   /** list of network fabric controllers. */
-  networkFabricControllerIds?: ArtifactStoreNetworkFabricControllerEndPointsNetworkFabricControllerIdsList;
+  networkFabricControllerIds?:
+    | ArtifactStoreNetworkFabricControllerEndPointsNetworkFabricControllerIdsList
+    | undefined;
 }
 /** A list of network fabric controllers. */
 export type ArtifactStoreNetworkFabricControllerEndPointsListValueList =
@@ -1783,11 +2396,11 @@ export type ArtifactStoreNetworkFabricControllerEndPointsListValueList =
 /** List of manual private endpoints. */
 export interface ArtifactStoreNetworkFabricControllerEndPointsList {
   /** A list of network fabric controllers. */
-  value?: ArtifactStoreNetworkFabricControllerEndPointsListValueList;
+  value?: ArtifactStoreNetworkFabricControllerEndPointsListValueList | undefined;
   /** The URI to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListArtifactStorePrivateEndPointsRequest {
   /** The ID of the target subscription. */
@@ -1808,7 +2421,9 @@ export type ArtifactStorePrivateEndPointsFormatManualPrivateEndPointConnectionsL
 /** List of manual private endpoints. */
 export interface ArtifactStorePrivateEndPointsFormat {
   /** list of private endpoints. */
-  manualPrivateEndPointConnections?: ArtifactStorePrivateEndPointsFormatManualPrivateEndPointConnectionsList;
+  manualPrivateEndPointConnections?:
+    | ArtifactStorePrivateEndPointsFormatManualPrivateEndPointConnectionsList
+    | undefined;
 }
 /** A list of private endpoints. */
 export type ArtifactStorePrivateEndPointsListResultValueList =
@@ -1816,11 +2431,11 @@ export type ArtifactStorePrivateEndPointsListResultValueList =
 /** List of manual private endpoints. */
 export interface ArtifactStorePrivateEndPointsListResult {
   /** A list of private endpoints. */
-  value?: ArtifactStorePrivateEndPointsListResultValueList;
+  value?: ArtifactStorePrivateEndPointsListResultValueList | undefined;
   /** The URI to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListComponentByNetworkFunctionRequest {
   /** The ID of the target subscription. */
@@ -1833,24 +2448,24 @@ export interface ListComponentByNetworkFunctionRequest {
 /** The component sub resource. */
 export interface Component {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The component properties. */
-  properties?: ComponentProperties;
+  properties?: ComponentProperties | undefined;
 }
 /** A list of component resources in a networkFunction. */
 export type ComponentListResultValueList = Array<Component>;
 /** Response for list component API service call. */
 export interface ComponentListResult {
   /** A list of component resources in a networkFunction. */
-  value?: ComponentListResultValueList;
+  value?: ComponentListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationGroupSchemaByPublisherRequest {
   /** The ID of the target subscription. */
@@ -1865,28 +2480,28 @@ export type ConfigurationGroupSchemaTagsMap = { [key: string]: string | undefine
 /** Configuration group schema resource. */
 export interface ConfigurationGroupSchema {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationGroupSchemaTagsMap;
+  tags?: ConfigurationGroupSchemaTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Configuration group schema properties. */
-  properties?: ConfigurationGroupSchemaPropertiesFormat;
+  properties?: ConfigurationGroupSchemaPropertiesFormat | undefined;
 }
 /** A list of configuration group schema. */
 export type ConfigurationGroupSchemaListResultValueList = Array<ConfigurationGroupSchema>;
 /** A list of configuration group schema resources. */
 export interface ConfigurationGroupSchemaListResult {
   /** A list of configuration group schema. */
-  value?: ConfigurationGroupSchemaListResultValueList;
+  value?: ConfigurationGroupSchemaListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationGroupValueByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1899,28 +2514,28 @@ export type ConfigurationGroupValueTagsMap = { [key: string]: string | undefined
 /** Hybrid configuration group value resource. */
 export interface ConfigurationGroupValue {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationGroupValueTagsMap;
+  tags?: ConfigurationGroupValueTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid configuration group value properties. */
-  properties?: ConfigurationGroupValuePropertiesFormat;
+  properties?: ConfigurationGroupValuePropertiesFormat | undefined;
 }
 /** A list of hybrid configurationGroups. */
 export type ConfigurationGroupValueListResultValueList = Array<ConfigurationGroupValue>;
 /** Response for hybrid configurationGroups API service call. */
 export interface ConfigurationGroupValueListResult {
   /** A list of hybrid configurationGroups. */
-  value?: ConfigurationGroupValueListResultValueList;
+  value?: ConfigurationGroupValueListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationGroupValueBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1939,32 +2554,32 @@ export type NetworkFunctionIdentity = GetNetworkFunctionResponseIdentity;
 /** Network function resource response. */
 export interface NetworkFunction {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionTagsMap;
+  tags?: NetworkFunctionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function properties. */
-  properties?: NetworkFunctionPropertiesFormat;
+  properties?: NetworkFunctionPropertiesFormat | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** A list of network function resources in a subscription or resource group. */
 export type NetworkFunctionListResultValueList = Array<NetworkFunction>;
 /** Response for network function API service call. */
 export interface NetworkFunctionListResult {
   /** A list of network function resources in a subscription or resource group. */
-  value?: NetworkFunctionListResultValueList;
+  value?: NetworkFunctionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1983,19 +2598,19 @@ export type NetworkFunctionDefinitionGroupTagsMap = { [key: string]: string | un
 /** Network function definition group resource. */
 export interface NetworkFunctionDefinitionGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionGroupTagsMap;
+  tags?: NetworkFunctionDefinitionGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition group properties. */
-  properties?: NetworkFunctionDefinitionGroupPropertiesFormat;
+  properties?: NetworkFunctionDefinitionGroupPropertiesFormat | undefined;
 }
 /** A list of network function definition group. */
 export type NetworkFunctionDefinitionGroupListResultValueList =
@@ -2003,9 +2618,9 @@ export type NetworkFunctionDefinitionGroupListResultValueList =
 /** A list of network function definition group resources. */
 export interface NetworkFunctionDefinitionGroupListResult {
   /** A list of network function definition group. */
-  value?: NetworkFunctionDefinitionGroupListResultValueList;
+  value?: NetworkFunctionDefinitionGroupListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupRequest {
   /** The ID of the target subscription. */
@@ -2022,19 +2637,19 @@ export type NetworkFunctionDefinitionVersionTagsMap = { [key: string]: string | 
 /** Network function definition version. */
 export interface NetworkFunctionDefinitionVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionVersionTagsMap;
+  tags?: NetworkFunctionDefinitionVersionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition version properties. */
-  properties?: NetworkFunctionDefinitionVersionPropertiesFormat;
+  properties?: NetworkFunctionDefinitionVersionPropertiesFormat | undefined;
 }
 /** A list of network function definition versions. */
 export type NetworkFunctionDefinitionVersionListResultValueList =
@@ -2042,9 +2657,9 @@ export type NetworkFunctionDefinitionVersionListResultValueList =
 /** A list of network function definition versions. */
 export interface NetworkFunctionDefinitionVersionListResult {
   /** A list of network function definition versions. */
-  value?: NetworkFunctionDefinitionVersionListResultValueList;
+  value?: NetworkFunctionDefinitionVersionListResultValueList | undefined;
   /** The URI to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkServiceDesignGroupByPublisherRequest {
   /** The ID of the target subscription. */
@@ -2059,28 +2674,28 @@ export type NetworkServiceDesignGroupTagsMap = { [key: string]: string | undefin
 /** network service design group resource. */
 export interface NetworkServiceDesignGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkServiceDesignGroupTagsMap;
+  tags?: NetworkServiceDesignGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design group properties. */
-  properties?: NetworkServiceDesignGroupPropertiesFormat;
+  properties?: NetworkServiceDesignGroupPropertiesFormat | undefined;
 }
 /** A list of network service design group. */
 export type NetworkServiceDesignGroupListResultValueList = Array<NetworkServiceDesignGroup>;
 /** A list of network service design group resources. */
 export interface NetworkServiceDesignGroupListResult {
   /** A list of network service design group. */
-  value?: NetworkServiceDesignGroupListResultValueList;
+  value?: NetworkServiceDesignGroupListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkServiceDesignVersionByNetworkServiceDesignGroupRequest {
   /** The ID of the target subscription. */
@@ -2097,40 +2712,40 @@ export type NetworkServiceDesignVersionTagsMap = { [key: string]: string | undef
 /** network service design version. */
 export interface NetworkServiceDesignVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkServiceDesignVersionTagsMap;
+  tags?: NetworkServiceDesignVersionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design version properties. */
-  properties?: NetworkServiceDesignVersionPropertiesFormat;
+  properties?: NetworkServiceDesignVersionPropertiesFormat | undefined;
 }
 /** A list of network service design versions. */
 export type NetworkServiceDesignVersionListResultValueList = Array<NetworkServiceDesignVersion>;
 /** A list of network service design versions. */
 export interface NetworkServiceDesignVersionListResult {
   /** A list of network service design versions. */
-  value?: NetworkServiceDesignVersionListResultValueList;
+  value?: NetworkServiceDesignVersionListResultValueList | undefined;
   /** The URI to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2139,23 +2754,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProxyArtifactRequest {
   /** The ID of the target subscription. */
@@ -2170,22 +2785,22 @@ export interface ListProxyArtifactRequest {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** A list of available proxy artifacts. */
 export type ProxyArtifactOverviewListResultValueList = Array<Resource>;
 /** The proxy artifact list result. */
 export interface ProxyArtifactOverviewListResult {
   /** A list of available proxy artifacts. */
-  value?: ProxyArtifactOverviewListResultValueList;
+  value?: ProxyArtifactOverviewListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublisherByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2200,30 +2815,30 @@ export type PublisherIdentity = GetNetworkFunctionResponseIdentity;
 /** publisher resource. */
 export interface Publisher {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PublisherTagsMap;
+  tags?: PublisherTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Publisher properties. */
-  properties?: PublisherPropertiesFormat;
+  properties?: PublisherPropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** A list of publishers. */
 export type PublisherListResultValueList = Array<Publisher>;
 /** A list of publishers. */
 export interface PublisherListResult {
   /** A list of publishers. */
-  value?: PublisherListResultValueList;
+  value?: PublisherListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublisherBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2240,28 +2855,28 @@ export type SiteTagsMap = { [key: string]: string | undefined };
 /** Site resource. */
 export interface Site {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SiteTagsMap;
+  tags?: SiteTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site properties. */
-  properties?: SitePropertiesFormat;
+  properties?: SitePropertiesFormat | undefined;
 }
 /** A list of sites in a resource group. */
 export type SiteListResultValueList = Array<Site>;
 /** Response for sites API service call. */
 export interface SiteListResult {
   /** A list of sites in a resource group. */
-  value?: SiteListResultValueList;
+  value?: SiteListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSiteBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2280,32 +2895,32 @@ export type SiteNetworkServiceIdentity = GetNetworkFunctionResponseIdentity;
 /** Site network service resource. */
 export interface SiteNetworkService {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SiteNetworkServiceTagsMap;
+  tags?: SiteNetworkServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site network service properties. */
-  properties?: SiteNetworkServicePropertiesFormat;
+  properties?: SiteNetworkServicePropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
   /** Sku of the site network service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** A list of site network services in a resource group. */
 export type SiteNetworkServiceListResultValueList = Array<SiteNetworkService>;
 /** Response for site network services API service call. */
 export interface SiteNetworkServiceListResult {
   /** A list of site network services in a resource group. */
-  value?: SiteNetworkServiceListResultValueList;
+  value?: SiteNetworkServiceListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSiteNetworkServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2318,7 +2933,7 @@ export type NetworkFunctionDefinitionGroupsCreateOrUpdateRequestTagsMap = {
 /** Network function definition group properties. */
 export interface NetworkFunctionDefinitionGroupPropertiesFormatInput {
   /** The network function definition group description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface NetworkFunctionDefinitionGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2330,11 +2945,11 @@ export interface NetworkFunctionDefinitionGroupsCreateOrUpdateRequest {
   /** The name of the network function definition group. */
   networkFunctionDefinitionGroupName: string;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionGroupsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkFunctionDefinitionGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition group properties. */
-  properties?: NetworkFunctionDefinitionGroupPropertiesFormatInput;
+  properties?: NetworkFunctionDefinitionGroupPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionGroupsCreateOrUpdateResponseTagsMap = {
@@ -2342,42 +2957,56 @@ export type NetworkFunctionDefinitionGroupsCreateOrUpdateResponseTagsMap = {
 };
 export interface NetworkFunctionDefinitionGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionGroupsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkFunctionDefinitionGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition group properties. */
-  properties?: NetworkFunctionDefinitionGroupPropertiesFormat;
+  properties?: NetworkFunctionDefinitionGroupPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionVersionsCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
 /** The network function type. */
-export type NetworkFunctionDefinitionVersionPropertiesFormatInputNetworkFunctionType =
-  | "Unknown"
-  | "VirtualNetworkFunction"
-  | "ContainerizedNetworkFunction";
-/** Network function definition version properties. */
-export interface NetworkFunctionDefinitionVersionPropertiesFormatInput {
+export type ContainerizedNetworkFunctionDefinitionVersionInputNetworkFunctionType =
+  "ContainerizedNetworkFunction";
+/** Containerized network function network function definition version properties. */
+export interface ContainerizedNetworkFunctionDefinitionVersionInput {
   /** The network function definition version description. */
-  description?: string;
+  description?: string | undefined;
   /** The deployment parameters of the network function definition version. */
-  deployParameters?: string;
+  deployParameters?: string | undefined;
   /** The network function type. */
-  networkFunctionType:
-    | NetworkFunctionDefinitionVersionPropertiesFormatInputNetworkFunctionType
-    | (string & {});
-  /** Network function template (polymorphic on `nfviType`). */
-  networkFunctionTemplate?: unknown;
+  networkFunctionType: ContainerizedNetworkFunctionDefinitionVersionInputNetworkFunctionType;
+  /** Containerized network function template. */
+  networkFunctionTemplate?: AzureArcKubernetesNetworkFunctionTemplate | undefined;
 }
+/** The network function type. */
+export type VirtualNetworkFunctionNetworkFunctionDefinitionVersionInputNetworkFunctionType =
+  "VirtualNetworkFunction";
+/** Virtual network function network function definition version properties. */
+export interface VirtualNetworkFunctionNetworkFunctionDefinitionVersionInput {
+  /** The network function definition version description. */
+  description?: string | undefined;
+  /** The deployment parameters of the network function definition version. */
+  deployParameters?: string | undefined;
+  /** The network function type. */
+  networkFunctionType: VirtualNetworkFunctionNetworkFunctionDefinitionVersionInputNetworkFunctionType;
+  /** Virtual network function template. */
+  networkFunctionTemplate?: VirtualNetworkFunctionTemplate | undefined;
+}
+/** Network function definition version properties. */
+export type NetworkFunctionDefinitionVersionPropertiesFormatInput =
+  | ContainerizedNetworkFunctionDefinitionVersionInput
+  | VirtualNetworkFunctionNetworkFunctionDefinitionVersionInput;
 export interface NetworkFunctionDefinitionVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2390,11 +3019,11 @@ export interface NetworkFunctionDefinitionVersionsCreateOrUpdateRequest {
   /** The name of the network function definition version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkFunctionDefinitionVersionName: string;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionVersionsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkFunctionDefinitionVersionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition version properties. */
-  properties?: NetworkFunctionDefinitionVersionPropertiesFormatInput;
+  properties?: NetworkFunctionDefinitionVersionPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionDefinitionVersionsCreateOrUpdateResponseTagsMap = {
@@ -2402,64 +3031,98 @@ export type NetworkFunctionDefinitionVersionsCreateOrUpdateResponseTagsMap = {
 };
 export interface NetworkFunctionDefinitionVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionDefinitionVersionsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkFunctionDefinitionVersionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition version properties. */
-  properties?: NetworkFunctionDefinitionVersionPropertiesFormat;
+  properties?: NetworkFunctionDefinitionVersionPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
-/** Publisher Scope. */
-export type NetworkFunctionPropertiesFormatInputPublisherScope = "Unknown" | "Private";
 /** The azure resource reference which is used for deployment. */
-export type NetworkFunctionPropertiesFormatInputNetworkFunctionDefinitionVersionResourceReference =
-  ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference;
-/** The NFVI type. */
-export type NetworkFunctionPropertiesFormatInputNfviType =
-  | "Unknown"
-  | "AzureArcKubernetes"
-  | "AzureCore"
-  | "AzureOperatorNexus";
+export type NetworkFunctionValueWithSecretsInputNetworkFunctionDefinitionVersionResourceReference =
+  ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference;
+/** The value which indicates if NF values are secrets */
+export type NetworkFunctionValueWithSecretsInputConfigurationType = "Secret";
 /** The role configuration override values from the user. */
-export type NetworkFunctionPropertiesFormatInputRoleOverrideValuesList = Array<string>;
-/** Network function properties. */
-export interface NetworkFunctionPropertiesFormatInput {
+export type NetworkFunctionValueWithSecretsInputRoleOverrideValuesList = Array<string>;
+/** NetworkFunction with secrets. */
+export interface NetworkFunctionValueWithSecretsInput {
   /** The publisher name for the network function. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** Publisher Scope. */
-  publisherScope?: NetworkFunctionPropertiesFormatInputPublisherScope | (string & {});
+  publisherScope?: NetworkFunctionPropertiesFormatPublisherScope | (string & {}) | undefined;
   /** The network function definition group name for the network function. */
-  networkFunctionDefinitionGroupName?: string;
+  networkFunctionDefinitionGroupName?: string | undefined;
   /** The network function definition version for the network function. */
-  networkFunctionDefinitionVersion?: string;
+  networkFunctionDefinitionVersion?: string | undefined;
   /** The location of the network function definition offering. */
-  networkFunctionDefinitionOfferingLocation?: string;
+  networkFunctionDefinitionOfferingLocation?: string | undefined;
   /** The azure resource reference which is used for deployment. */
-  networkFunctionDefinitionVersionResourceReference?: ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference;
+  networkFunctionDefinitionVersionResourceReference?:
+    | ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference
+    | undefined;
   /** The NFVI type. */
-  nfviType?: NetworkFunctionPropertiesFormatInputNfviType | (string & {});
+  nfviType?: NetworkFunctionPropertiesFormatNfviType | (string & {}) | undefined;
   /** The nfviId for the network function. */
-  nfviId?: string;
+  nfviId?: string | undefined;
   /** Indicates if software updates are allowed during deployment. */
-  allowSoftwareUpdate?: boolean;
+  allowSoftwareUpdate?: boolean | undefined;
   /** The value which indicates if NF values are secrets */
-  configurationType: NetworkFunctionConfigurationType | (string & {});
+  configurationType: NetworkFunctionValueWithSecretsInputConfigurationType;
   /** The role configuration override values from the user. */
-  roleOverrideValues?: NetworkFunctionPropertiesFormatInputRoleOverrideValuesList;
-  /** Deployment values as a JSON string (`configurationType: Open`). */
-  deploymentValues?: string;
-  /** Secret deployment values as a JSON string (`configurationType: Secret`). */
-  secretDeploymentValues?: string | Redacted.Redacted<string>;
+  roleOverrideValues?: NetworkFunctionValueWithSecretsInputRoleOverrideValuesList | undefined;
+  /** The JSON-serialized secret deployment values from the user. This contains secrets like passwords,keys etc */
+  secretDeploymentValues?: string | Redacted.Redacted<string> | undefined;
 }
+/** The azure resource reference which is used for deployment. */
+export type NetworkFunctionValueWithoutSecretsInputNetworkFunctionDefinitionVersionResourceReference =
+  ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference;
+/** The value which indicates if NF values are secrets */
+export type NetworkFunctionValueWithoutSecretsInputConfigurationType = "Open";
+/** The role configuration override values from the user. */
+export type NetworkFunctionValueWithoutSecretsInputRoleOverrideValuesList = Array<string>;
+/** NetworkFunction with no secrets. */
+export interface NetworkFunctionValueWithoutSecretsInput {
+  /** The publisher name for the network function. */
+  publisherName?: string | undefined;
+  /** Publisher Scope. */
+  publisherScope?: NetworkFunctionPropertiesFormatPublisherScope | (string & {}) | undefined;
+  /** The network function definition group name for the network function. */
+  networkFunctionDefinitionGroupName?: string | undefined;
+  /** The network function definition version for the network function. */
+  networkFunctionDefinitionVersion?: string | undefined;
+  /** The location of the network function definition offering. */
+  networkFunctionDefinitionOfferingLocation?: string | undefined;
+  /** The azure resource reference which is used for deployment. */
+  networkFunctionDefinitionVersionResourceReference?:
+    | ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference
+    | undefined;
+  /** The NFVI type. */
+  nfviType?: NetworkFunctionPropertiesFormatNfviType | (string & {}) | undefined;
+  /** The nfviId for the network function. */
+  nfviId?: string | undefined;
+  /** Indicates if software updates are allowed during deployment. */
+  allowSoftwareUpdate?: boolean | undefined;
+  /** The value which indicates if NF values are secrets */
+  configurationType: NetworkFunctionValueWithoutSecretsInputConfigurationType;
+  /** The role configuration override values from the user. */
+  roleOverrideValues?: NetworkFunctionValueWithoutSecretsInputRoleOverrideValuesList | undefined;
+  /** The JSON-serialized deployment values from the user. */
+  deploymentValues?: string | undefined;
+}
+/** Network function properties. */
+export type NetworkFunctionPropertiesFormatInput =
+  | NetworkFunctionValueWithSecretsInput
+  | NetworkFunctionValueWithoutSecretsInput;
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
@@ -2467,7 +3130,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface NetworkFunctionsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface NetworkFunctionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2477,15 +3140,15 @@ export interface NetworkFunctionsCreateOrUpdateRequest {
   /** Resource name for the network function resource. */
   networkFunctionName: string;
   /** Resource tags. */
-  tags?: NetworkFunctionsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkFunctionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function properties. */
-  properties?: NetworkFunctionPropertiesFormatInput;
+  properties?: NetworkFunctionPropertiesFormatInput | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity;
+  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type NetworkFunctionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2493,23 +3156,23 @@ export type NetworkFunctionsCreateOrUpdateResponseTagsMap = { [key: string]: str
 export type NetworkFunctionsCreateOrUpdateResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface NetworkFunctionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFunctionsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkFunctionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function properties. */
-  properties?: NetworkFunctionPropertiesFormat;
+  properties?: NetworkFunctionPropertiesFormat | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignGroupsCreateOrUpdateRequestTagsMap = {
@@ -2518,7 +3181,7 @@ export type NetworkServiceDesignGroupsCreateOrUpdateRequestTagsMap = {
 /** network service design group properties. */
 export interface NetworkServiceDesignGroupPropertiesFormatInput {
   /** The network service design group description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface NetworkServiceDesignGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2530,11 +3193,11 @@ export interface NetworkServiceDesignGroupsCreateOrUpdateRequest {
   /** The name of the network service design group. */
   networkServiceDesignGroupName: string;
   /** Resource tags. */
-  tags?: NetworkServiceDesignGroupsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkServiceDesignGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design group properties. */
-  properties?: NetworkServiceDesignGroupPropertiesFormatInput;
+  properties?: NetworkServiceDesignGroupPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignGroupsCreateOrUpdateResponseTagsMap = {
@@ -2542,19 +3205,19 @@ export type NetworkServiceDesignGroupsCreateOrUpdateResponseTagsMap = {
 };
 export interface NetworkServiceDesignGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkServiceDesignGroupsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkServiceDesignGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design group properties. */
-  properties?: NetworkServiceDesignGroupPropertiesFormat;
+  properties?: NetworkServiceDesignGroupPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignVersionsCreateOrUpdateRequestTagsMap = {
@@ -2580,13 +3243,17 @@ export type NetworkServiceDesignVersionPropertiesFormatInputResourceElementTempl
 /** network service design version properties. */
 export interface NetworkServiceDesignVersionPropertiesFormatInput {
   /** The network service design version description. */
-  description?: string;
+  description?: string | undefined;
   /** The configuration schemas to used to define the values. */
-  configurationGroupSchemaReferences?: NetworkServiceDesignVersionPropertiesFormatInputConfigurationGroupSchemaReferencesMap;
+  configurationGroupSchemaReferences?:
+    | NetworkServiceDesignVersionPropertiesFormatInputConfigurationGroupSchemaReferencesMap
+    | undefined;
   /** The nfvis from the site. */
-  nfvisFromSite?: NetworkServiceDesignVersionPropertiesFormatInputNfvisFromSiteMap;
+  nfvisFromSite?: NetworkServiceDesignVersionPropertiesFormatInputNfvisFromSiteMap | undefined;
   /** List of resource element template */
-  resourceElementTemplates?: NetworkServiceDesignVersionPropertiesFormatInputResourceElementTemplatesList;
+  resourceElementTemplates?:
+    | NetworkServiceDesignVersionPropertiesFormatInputResourceElementTemplatesList
+    | undefined;
 }
 export interface NetworkServiceDesignVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2600,11 +3267,11 @@ export interface NetworkServiceDesignVersionsCreateOrUpdateRequest {
   /** The name of the network service design version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkServiceDesignVersionName: string;
   /** Resource tags. */
-  tags?: NetworkServiceDesignVersionsCreateOrUpdateRequestTagsMap;
+  tags?: NetworkServiceDesignVersionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design version properties. */
-  properties?: NetworkServiceDesignVersionPropertiesFormatInput;
+  properties?: NetworkServiceDesignVersionPropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type NetworkServiceDesignVersionsCreateOrUpdateResponseTagsMap = {
@@ -2612,19 +3279,19 @@ export type NetworkServiceDesignVersionsCreateOrUpdateResponseTagsMap = {
 };
 export interface NetworkServiceDesignVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkServiceDesignVersionsCreateOrUpdateResponseTagsMap;
+  tags?: NetworkServiceDesignVersionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design version properties. */
-  properties?: NetworkServiceDesignVersionPropertiesFormat;
+  properties?: NetworkServiceDesignVersionPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type PublishersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2633,7 +3300,7 @@ export type PublisherPropertiesFormatInputScope = "Unknown" | "Private";
 /** publisher properties. */
 export interface PublisherPropertiesFormatInput {
   /** Publisher Scope. */
-  scope?: PublisherPropertiesFormatInputScope | (string & {});
+  scope?: PublisherPropertiesFormatInputScope | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PublishersCreateOrUpdateRequestIdentity = NetworkFunctionsCreateOrUpdateRequestIdentity;
@@ -2645,13 +3312,13 @@ export interface PublishersCreateOrUpdateRequest {
   /** The name of the publisher. */
   publisherName: string;
   /** Resource tags. */
-  tags?: PublishersCreateOrUpdateRequestTagsMap;
+  tags?: PublishersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Publisher properties. */
-  properties?: PublisherPropertiesFormatInput;
+  properties?: PublisherPropertiesFormatInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity;
+  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type PublishersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2659,21 +3326,21 @@ export type PublishersCreateOrUpdateResponseTagsMap = { [key: string]: string | 
 export type PublishersCreateOrUpdateResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface PublishersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PublishersCreateOrUpdateResponseTagsMap;
+  tags?: PublishersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Publisher properties. */
-  properties?: PublisherPropertiesFormat;
+  properties?: PublisherPropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** Reference to another resource. */
 export type RemoveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsItem =
@@ -2691,11 +3358,13 @@ export interface RemoveArtifactStorePrivateEndPointsRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** list of private endpoints. */
-  manualPrivateEndPointConnections?: RemoveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsList;
+  manualPrivateEndPointConnections?:
+    | RemoveArtifactStorePrivateEndPointsRequestManualPrivateEndPointConnectionsList
+    | undefined;
 }
 export interface RemoveArtifactStorePrivateEndPointsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type SiteNetworkServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2709,7 +3378,7 @@ export type SiteNetworkServicePropertiesFormatInputSiteReference =
 export type SiteNetworkServicePropertiesFormatInputPublisherScope = "Unknown" | "Private";
 /** The azure resource reference which is used for deployment. */
 export type SiteNetworkServicePropertiesFormatInputNetworkServiceDesignVersionResourceReference =
-  ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference;
+  ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference;
 /** Reference to another resource. */
 export type SiteNetworkServicePropertiesFormatInputDesiredStateConfigurationGroupValueReferencesValue =
   AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
@@ -2723,15 +3392,26 @@ export type SiteNetworkServicePropertiesFormatInputDesiredStateConfigurationGrou
 /** Site network service properties. */
 export interface SiteNetworkServicePropertiesFormatInput {
   /** Managed resource group configuration. */
-  managedResourceGroupConfiguration?: SiteNetworkServicePropertiesFormatManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?:
+    | SiteNetworkServicePropertiesFormatManagedResourceGroupConfiguration
+    | undefined;
   /** Reference to another resource. */
-  siteReference?: AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem;
+  siteReference?:
+    | AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem
+    | undefined;
   /** Publisher Scope. */
-  publisherScope?: SiteNetworkServicePropertiesFormatInputPublisherScope | (string & {});
+  publisherScope?:
+    | SiteNetworkServicePropertiesFormatInputPublisherScope
+    | (string & {})
+    | undefined;
   /** The azure resource reference which is used for deployment. */
-  networkServiceDesignVersionResourceReference?: ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference;
+  networkServiceDesignVersionResourceReference?:
+    | ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference
+    | undefined;
   /** The goal state of the site network service resource. This has references to the configuration group value objects that describe the desired state of the site network service. */
-  desiredStateConfigurationGroupValueReferences?: SiteNetworkServicePropertiesFormatInputDesiredStateConfigurationGroupValueReferencesMap;
+  desiredStateConfigurationGroupValueReferences?:
+    | SiteNetworkServicePropertiesFormatInputDesiredStateConfigurationGroupValueReferencesMap
+    | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type SiteNetworkServicesCreateOrUpdateRequestIdentity =
@@ -2751,15 +3431,15 @@ export interface SiteNetworkServicesCreateOrUpdateRequest {
   /** The name of the site network service. */
   siteNetworkServiceName: string;
   /** Resource tags. */
-  tags?: SiteNetworkServicesCreateOrUpdateRequestTagsMap;
+  tags?: SiteNetworkServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site network service properties. */
-  properties?: SiteNetworkServicePropertiesFormatInput;
+  properties?: SiteNetworkServicePropertiesFormatInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity;
+  identity?: NetworkFunctionsCreateOrUpdateRequestIdentity | undefined;
   /** Sku of the site network service. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
 }
 /** Resource tags. */
 export type SiteNetworkServicesCreateOrUpdateResponseTagsMap = {
@@ -2769,23 +3449,23 @@ export type SiteNetworkServicesCreateOrUpdateResponseTagsMap = {
 export type SiteNetworkServicesCreateOrUpdateResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface SiteNetworkServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SiteNetworkServicesCreateOrUpdateResponseTagsMap;
+  tags?: SiteNetworkServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site network service properties. */
-  properties?: SiteNetworkServicePropertiesFormat;
+  properties?: SiteNetworkServicePropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
   /** Sku of the site network service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type SitesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2794,7 +3474,7 @@ export type SitePropertiesFormatInputNfvisList = Array<NFVIs>;
 /** Site properties. */
 export interface SitePropertiesFormatInput {
   /** List of NFVIs */
-  nfvis?: SitePropertiesFormatInputNfvisList;
+  nfvis?: SitePropertiesFormatInputNfvisList | undefined;
 }
 export interface SitesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2804,29 +3484,29 @@ export interface SitesCreateOrUpdateRequest {
   /** The name of the network service site. */
   siteName: string;
   /** Resource tags. */
-  tags?: SitesCreateOrUpdateRequestTagsMap;
+  tags?: SitesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site properties. */
-  properties?: SitePropertiesFormatInput;
+  properties?: SitePropertiesFormatInput | undefined;
 }
 /** Resource tags. */
 export type SitesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SitesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SitesCreateOrUpdateResponseTagsMap;
+  tags?: SitesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site properties. */
-  properties?: SitePropertiesFormat;
+  properties?: SitePropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type UpdateArtifactManifestRequestTagsMap = { [key: string]: string | undefined };
@@ -2842,25 +3522,25 @@ export interface UpdateArtifactManifestRequest {
   /** The name of the artifact manifest. */
   artifactManifestName: string;
   /** Resource tags. */
-  tags?: UpdateArtifactManifestRequestTagsMap;
+  tags?: UpdateArtifactManifestRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateArtifactManifestResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateArtifactManifestResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateArtifactManifestResponseTagsMap;
+  tags?: UpdateArtifactManifestResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Artifact manifest properties. */
-  properties?: ArtifactManifestPropertiesFormat;
+  properties?: ArtifactManifestPropertiesFormat | undefined;
 }
 export interface UpdateArtifactManifestStateRequest {
   /** The ID of the target subscription. */
@@ -2874,14 +3554,14 @@ export interface UpdateArtifactManifestStateRequest {
   /** The name of the artifact manifest. */
   artifactManifestName: string;
   /** The artifact manifest state. */
-  artifactManifestState?: ArtifactManifestState | (string & {});
+  artifactManifestState?: ArtifactManifestState | (string & {}) | undefined;
 }
 /** The artifact manifest updating request payload. Only the 'Uploaded' state is allowed for updates. Other states are used for internal state transitioning. */
 export interface ArtifactManifestUpdateState {
   /** The artifact manifest state. */
-  artifactManifestState?: ArtifactManifestState;
+  artifactManifestState?: ArtifactManifestState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateArtifactStoreRequestTagsMap = { [key: string]: string | undefined };
@@ -2895,25 +3575,25 @@ export interface UpdateArtifactStoreRequest {
   /** The name of the artifact store. */
   artifactStoreName: string;
   /** Resource tags. */
-  tags?: UpdateArtifactStoreRequestTagsMap;
+  tags?: UpdateArtifactStoreRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateArtifactStoreResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateArtifactStoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateArtifactStoreResponseTagsMap;
+  tags?: UpdateArtifactStoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ArtifactStores properties. */
-  properties?: ArtifactStorePropertiesFormat;
+  properties?: ArtifactStorePropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationGroupSchemaRequestTagsMap = { [key: string]: string | undefined };
@@ -2927,25 +3607,25 @@ export interface UpdateConfigurationGroupSchemaRequest {
   /** The name of the configuration group schema. */
   configurationGroupSchemaName: string;
   /** Resource tags. */
-  tags?: UpdateConfigurationGroupSchemaRequestTagsMap;
+  tags?: UpdateConfigurationGroupSchemaRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationGroupSchemaResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConfigurationGroupSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigurationGroupSchemaResponseTagsMap;
+  tags?: UpdateConfigurationGroupSchemaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Configuration group schema properties. */
-  properties?: ConfigurationGroupSchemaPropertiesFormat;
+  properties?: ConfigurationGroupSchemaPropertiesFormat | undefined;
 }
 export interface UpdateConfigurationGroupSchemaStateRequest {
   /** The ID of the target subscription. */
@@ -2957,14 +3637,14 @@ export interface UpdateConfigurationGroupSchemaStateRequest {
   /** The name of the configuration group schema. */
   configurationGroupSchemaName: string;
   /** The configuration group schema state. */
-  versionState?: ConfigurationGroupSchemaVersionState | (string & {});
+  versionState?: ConfigurationGroupSchemaVersionState | (string & {}) | undefined;
 }
 /** Publisher configuration group schema update request definition. */
 export interface ConfigurationGroupSchemaVersionUpdateState {
   /** The configuration group schema state. */
-  versionState?: ConfigurationGroupSchemaVersionState;
+  versionState?: ConfigurationGroupSchemaVersionState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationGroupValueTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -2976,7 +3656,7 @@ export interface UpdateConfigurationGroupValueTagsRequest {
   /** The name of the configuration group value. */
   configurationGroupValueName: string;
   /** Resource tags. */
-  tags?: UpdateConfigurationGroupValueTagsRequestTagsMap;
+  tags?: UpdateConfigurationGroupValueTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationGroupValueTagsResponseTagsMap = {
@@ -2984,19 +3664,19 @@ export type UpdateConfigurationGroupValueTagsResponseTagsMap = {
 };
 export interface UpdateConfigurationGroupValueTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigurationGroupValueTagsResponseTagsMap;
+  tags?: UpdateConfigurationGroupValueTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid configuration group value properties. */
-  properties?: ConfigurationGroupValuePropertiesFormat;
+  properties?: ConfigurationGroupValuePropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionDefinitionGroupRequestTagsMap = {
@@ -3012,7 +3692,7 @@ export interface UpdateNetworkFunctionDefinitionGroupRequest {
   /** The name of the network function definition group. */
   networkFunctionDefinitionGroupName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionDefinitionGroupRequestTagsMap;
+  tags?: UpdateNetworkFunctionDefinitionGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionDefinitionGroupResponseTagsMap = {
@@ -3020,19 +3700,19 @@ export type UpdateNetworkFunctionDefinitionGroupResponseTagsMap = {
 };
 export interface UpdateNetworkFunctionDefinitionGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionDefinitionGroupResponseTagsMap;
+  tags?: UpdateNetworkFunctionDefinitionGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition group properties. */
-  properties?: NetworkFunctionDefinitionGroupPropertiesFormat;
+  properties?: NetworkFunctionDefinitionGroupPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionDefinitionVersionRequestTagsMap = {
@@ -3050,7 +3730,7 @@ export interface UpdateNetworkFunctionDefinitionVersionRequest {
   /** The name of the network function definition version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkFunctionDefinitionVersionName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionDefinitionVersionRequestTagsMap;
+  tags?: UpdateNetworkFunctionDefinitionVersionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionDefinitionVersionResponseTagsMap = {
@@ -3058,19 +3738,19 @@ export type UpdateNetworkFunctionDefinitionVersionResponseTagsMap = {
 };
 export interface UpdateNetworkFunctionDefinitionVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionDefinitionVersionResponseTagsMap;
+  tags?: UpdateNetworkFunctionDefinitionVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function definition version properties. */
-  properties?: NetworkFunctionDefinitionVersionPropertiesFormat;
+  properties?: NetworkFunctionDefinitionVersionPropertiesFormat | undefined;
 }
 export interface UpdateNetworkFunctionDefinitionVersionStateRequest {
   /** The ID of the target subscription. */
@@ -3084,14 +3764,14 @@ export interface UpdateNetworkFunctionDefinitionVersionStateRequest {
   /** The name of the network function definition version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkFunctionDefinitionVersionName: string;
   /** The network function definition version state. Only the 'Active' and 'Deprecated' states are allowed for updates. Other states are used for internal state transitioning. */
-  versionState?: VersionState | (string & {});
+  versionState?: VersionState | (string & {}) | undefined;
 }
 /** Publisher network function definition version update request definition. */
 export interface NetworkFunctionDefinitionVersionUpdateState {
   /** The network function definition version state. Only the 'Active' and 'Deprecated' states are allowed for updates. Other states are used for internal state transitioning. */
-  versionState?: VersionState;
+  versionState?: VersionState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -3103,7 +3783,7 @@ export interface UpdateNetworkFunctionTagsRequest {
   /** Resource name for the network function resource. */
   networkFunctionName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionTagsRequestTagsMap;
+  tags?: UpdateNetworkFunctionTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFunctionTagsResponseTagsMap = { [key: string]: string | undefined };
@@ -3111,23 +3791,23 @@ export type UpdateNetworkFunctionTagsResponseTagsMap = { [key: string]: string |
 export type UpdateNetworkFunctionTagsResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface UpdateNetworkFunctionTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkFunctionTagsResponseTagsMap;
+  tags?: UpdateNetworkFunctionTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network function properties. */
-  properties?: NetworkFunctionPropertiesFormat;
+  properties?: NetworkFunctionPropertiesFormat | undefined;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkServiceDesignGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -3141,25 +3821,25 @@ export interface UpdateNetworkServiceDesignGroupRequest {
   /** The name of the network service design group. */
   networkServiceDesignGroupName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkServiceDesignGroupRequestTagsMap;
+  tags?: UpdateNetworkServiceDesignGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkServiceDesignGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNetworkServiceDesignGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkServiceDesignGroupResponseTagsMap;
+  tags?: UpdateNetworkServiceDesignGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design group properties. */
-  properties?: NetworkServiceDesignGroupPropertiesFormat;
+  properties?: NetworkServiceDesignGroupPropertiesFormat | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkServiceDesignVersionRequestTagsMap = { [key: string]: string | undefined };
@@ -3175,7 +3855,7 @@ export interface UpdateNetworkServiceDesignVersionRequest {
   /** The name of the network service design version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkServiceDesignVersionName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkServiceDesignVersionRequestTagsMap;
+  tags?: UpdateNetworkServiceDesignVersionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkServiceDesignVersionResponseTagsMap = {
@@ -3183,19 +3863,19 @@ export type UpdateNetworkServiceDesignVersionResponseTagsMap = {
 };
 export interface UpdateNetworkServiceDesignVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkServiceDesignVersionResponseTagsMap;
+  tags?: UpdateNetworkServiceDesignVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** network service design version properties. */
-  properties?: NetworkServiceDesignVersionPropertiesFormat;
+  properties?: NetworkServiceDesignVersionPropertiesFormat | undefined;
 }
 export interface UpdateNetworkServiceDesignVersionStateRequest {
   /** The ID of the target subscription. */
@@ -3209,19 +3889,19 @@ export interface UpdateNetworkServiceDesignVersionStateRequest {
   /** The name of the network service design version. The name should conform to the SemVer 2.0.0 specification: https://semver.org/spec/v2.0.0.html. */
   networkServiceDesignVersionName: string;
   /** The network service design version state. */
-  versionState?: NSDVersionState | (string & {});
+  versionState?: NSDVersionState | (string & {}) | undefined;
 }
 /** Publisher network service design version update request definition. */
 export interface NetworkServiceDesignVersionUpdateState {
   /** The network service design version state. */
-  versionState?: NSDVersionState;
+  versionState?: NSDVersionState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The artifact update state properties. */
 export interface ArtifactChangeStateProperties {
   /** The artifact state */
-  artifactState?: ArtifactState | (string & {});
+  artifactState?: ArtifactState | (string & {}) | undefined;
 }
 export interface UpdateProxyArtifactStateRequest {
   /** The ID of the target subscription. */
@@ -3237,21 +3917,21 @@ export interface UpdateProxyArtifactStateRequest {
   /** The name of the artifact. */
   artifactName: string;
   /** Artifact update state properties. */
-  properties?: ArtifactChangeStateProperties;
+  properties?: ArtifactChangeStateProperties | undefined;
 }
 export interface UpdateProxyArtifactStateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Proxy Artifact overview properties. */
-  properties?: ProxyArtifactOverviewPropertiesValue;
+  properties?: ProxyArtifactOverviewPropertiesValue | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdatePublisherRequestTagsMap = { [key: string]: string | undefined };
@@ -3263,7 +3943,7 @@ export interface UpdatePublisherRequest {
   /** The name of the publisher. */
   publisherName: string;
   /** Resource tags. */
-  tags?: UpdatePublisherRequestTagsMap;
+  tags?: UpdatePublisherRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePublisherResponseTagsMap = { [key: string]: string | undefined };
@@ -3271,21 +3951,21 @@ export type UpdatePublisherResponseTagsMap = { [key: string]: string | undefined
 export type UpdatePublisherResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface UpdatePublisherResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePublisherResponseTagsMap;
+  tags?: UpdatePublisherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Publisher properties. */
-  properties?: PublisherPropertiesFormat;
+  properties?: PublisherPropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateSiteNetworkServiceTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -3297,7 +3977,7 @@ export interface UpdateSiteNetworkServiceTagsRequest {
   /** The name of the site network service. */
   siteNetworkServiceName: string;
   /** Resource tags. */
-  tags?: UpdateSiteNetworkServiceTagsRequestTagsMap;
+  tags?: UpdateSiteNetworkServiceTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSiteNetworkServiceTagsResponseTagsMap = { [key: string]: string | undefined };
@@ -3305,23 +3985,23 @@ export type UpdateSiteNetworkServiceTagsResponseTagsMap = { [key: string]: strin
 export type UpdateSiteNetworkServiceTagsResponseIdentity = GetNetworkFunctionResponseIdentity;
 export interface UpdateSiteNetworkServiceTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSiteNetworkServiceTagsResponseTagsMap;
+  tags?: UpdateSiteNetworkServiceTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site network service properties. */
-  properties?: SiteNetworkServicePropertiesFormat;
+  properties?: SiteNetworkServicePropertiesFormat | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNetworkFunctionResponseIdentity;
+  identity?: GetNetworkFunctionResponseIdentity | undefined;
   /** Sku of the site network service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateSiteTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -3333,25 +4013,25 @@ export interface UpdateSiteTagsRequest {
   /** The name of the network service site. */
   siteName: string;
   /** Resource tags. */
-  tags?: UpdateSiteTagsRequestTagsMap;
+  tags?: UpdateSiteTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSiteTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSiteTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSiteTagsResponseTagsMap;
+  tags?: UpdateSiteTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Site properties. */
-  properties?: SitePropertiesFormat;
+  properties?: SitePropertiesFormat | undefined;
 }
 export type AddArtifactStoreNetworkFabricControllerEndPointsError = AzureOpError;
 /** Add network fabric controllers to artifact stores */
@@ -3367,7 +4047,7 @@ export const AddArtifactStoreNetworkFabricControllerEndPoints: API.OperationMeth
     0,
   ) as any as S.Schema<AddArtifactStoreNetworkFabricControllerEndPointsRequest>,
   output: __S(
-    16,
+    32,
     __c1,
     0,
   ) as any as S.Schema<AddArtifactStoreNetworkFabricControllerEndPointsResponse>,
@@ -3386,8 +4066,8 @@ export const ApproveArtifactStorePrivateEndPoints: API.OperationMethod<
   ApproveArtifactStorePrivateEndPointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ApproveArtifactStorePrivateEndPointsRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<ApproveArtifactStorePrivateEndPointsResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ApproveArtifactStorePrivateEndPointsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ApproveArtifactStorePrivateEndPointsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3403,8 +4083,8 @@ export const ArtifactManifestsCreateOrUpdate: API.OperationMethod<
   ArtifactManifestsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c15, 1) as any as S.Schema<ArtifactManifestsCreateOrUpdateRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<ArtifactManifestsCreateOrUpdateResponse>,
+  input: __S(481, __c15, 1) as any as S.Schema<ArtifactManifestsCreateOrUpdateRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<ArtifactManifestsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3420,8 +4100,8 @@ export const ArtifactStoresCreateOrUpdate: API.OperationMethod<
   ArtifactStoresCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(593, __c37, 1) as any as S.Schema<ArtifactStoresCreateOrUpdateRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ArtifactStoresCreateOrUpdateResponse>,
+  input: __S(1249, __c39, 1) as any as S.Schema<ArtifactStoresCreateOrUpdateRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<ArtifactStoresCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3437,8 +4117,8 @@ export const ConfigurationGroupSchemasCreateOrUpdate: API.OperationMethod<
   ConfigurationGroupSchemasCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c54, 1) as any as S.Schema<ConfigurationGroupSchemasCreateOrUpdateRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<ConfigurationGroupSchemasCreateOrUpdateResponse>,
+  input: __S(1793, __c56, 1) as any as S.Schema<ConfigurationGroupSchemasCreateOrUpdateRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<ConfigurationGroupSchemasCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3454,8 +4134,8 @@ export const ConfigurationGroupValuesCreateOrUpdate: API.OperationMethod<
   ConfigurationGroupValuesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1105, __c69, 1) as any as S.Schema<ConfigurationGroupValuesCreateOrUpdateRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<ConfigurationGroupValuesCreateOrUpdateResponse>,
+  input: __S(2275, __c71, 3) as any as S.Schema<ConfigurationGroupValuesCreateOrUpdateRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ConfigurationGroupValuesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3471,8 +4151,8 @@ export const DeleteArtifactManifest: API.OperationMethod<
   DeleteArtifactManifestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteArtifactManifestRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteArtifactManifestResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<DeleteArtifactManifestRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteArtifactManifestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3488,8 +4168,8 @@ export const DeleteArtifactStore: API.OperationMethod<
   DeleteArtifactStoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeleteArtifactStoreRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteArtifactStoreResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteArtifactStoreRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteArtifactStoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3506,12 +4186,12 @@ export const DeleteArtifactStoreNetworkFabricControllerEndPoints: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c110,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<DeleteArtifactStoreNetworkFabricControllerEndPointsRequest>,
   output: __S(
-    16,
+    32,
     __c1,
     0,
   ) as any as S.Schema<DeleteArtifactStoreNetworkFabricControllerEndPointsResponse>,
@@ -3530,8 +4210,8 @@ export const DeleteConfigurationGroupSchema: API.OperationMethod<
   DeleteConfigurationGroupSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DeleteConfigurationGroupSchemaRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteConfigurationGroupSchemaResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteConfigurationGroupSchemaRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteConfigurationGroupSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3547,8 +4227,8 @@ export const DeleteConfigurationGroupValue: API.OperationMethod<
   DeleteConfigurationGroupValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteConfigurationGroupValueRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteConfigurationGroupValueResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteConfigurationGroupValueRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteConfigurationGroupValueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3564,8 +4244,8 @@ export const DeleteNetworkFunction: API.OperationMethod<
   DeleteNetworkFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteNetworkFunctionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteNetworkFunctionResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteNetworkFunctionRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNetworkFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3581,8 +4261,8 @@ export const DeleteNetworkFunctionDefinitionGroup: API.OperationMethod<
   DeleteNetworkFunctionDefinitionGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3598,8 +4278,8 @@ export const DeleteNetworkFunctionDefinitionVersion: API.OperationMethod<
   DeleteNetworkFunctionDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3615,8 +4295,8 @@ export const DeleteNetworkServiceDesignGroup: API.OperationMethod<
   DeleteNetworkServiceDesignGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteNetworkServiceDesignGroupRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteNetworkServiceDesignGroupResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteNetworkServiceDesignGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNetworkServiceDesignGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3632,8 +4312,8 @@ export const DeleteNetworkServiceDesignVersion: API.OperationMethod<
   DeleteNetworkServiceDesignVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteNetworkServiceDesignVersionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteNetworkServiceDesignVersionResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteNetworkServiceDesignVersionRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNetworkServiceDesignVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3649,8 +4329,8 @@ export const DeletePublisher: API.OperationMethod<
   DeletePublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeletePublisherRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeletePublisherResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeletePublisherRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeletePublisherResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3666,8 +4346,8 @@ export const DeleteSite: API.OperationMethod<
   DeleteSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteSiteRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteSiteResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteSiteRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3683,8 +4363,8 @@ export const DeleteSiteNetworkService: API.OperationMethod<
   DeleteSiteNetworkServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteSiteNetworkServiceRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeleteSiteNetworkServiceResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteSiteNetworkServiceRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteNetworkServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3700,8 +4380,8 @@ export const ExecuteNetworkFunctionRequest: API.OperationMethod<
   ExecuteNetworkFunctionRequestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c14, 1) as any as S.Schema<ExecuteNetworkFunctionRequestRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<ExecuteNetworkFunctionRequestResponse>,
+  input: __S(449, __c14, 1) as any as S.Schema<ExecuteNetworkFunctionRequestRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ExecuteNetworkFunctionRequestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3717,8 +4397,8 @@ export const GetArtifactManifest: API.OperationMethod<
   GetArtifactManifestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetArtifactManifestRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<GetArtifactManifestResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetArtifactManifestRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<GetArtifactManifestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3734,8 +4414,8 @@ export const GetArtifactStore: API.OperationMethod<
   GetArtifactStoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetArtifactStoreRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<GetArtifactStoreResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetArtifactStoreRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<GetArtifactStoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3751,8 +4431,8 @@ export const GetComponent: API.OperationMethod<
   GetComponentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetComponentRequest>,
-  output: __S(367, __c22, 15) as any as S.Schema<GetComponentResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetComponentRequest>,
+  output: __S(719, __c22, 15) as any as S.Schema<GetComponentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3768,8 +4448,8 @@ export const GetConfigurationGroupSchema: API.OperationMethod<
   GetConfigurationGroupSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetConfigurationGroupSchemaRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<GetConfigurationGroupSchemaResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetConfigurationGroupSchemaRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<GetConfigurationGroupSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3785,8 +4465,8 @@ export const GetConfigurationGroupValue: API.OperationMethod<
   GetConfigurationGroupValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetConfigurationGroupValueRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<GetConfigurationGroupValueResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetConfigurationGroupValueRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<GetConfigurationGroupValueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3802,8 +4482,8 @@ export const GetNetworkFunction: API.OperationMethod<
   GetNetworkFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetNetworkFunctionRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetNetworkFunctionResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetNetworkFunctionRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<GetNetworkFunctionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3819,8 +4499,8 @@ export const GetNetworkFunctionDefinitionGroup: API.OperationMethod<
   GetNetworkFunctionDefinitionGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetNetworkFunctionDefinitionGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<GetNetworkFunctionDefinitionGroupResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetNetworkFunctionDefinitionGroupRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<GetNetworkFunctionDefinitionGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3836,8 +4516,8 @@ export const GetNetworkFunctionDefinitionVersion: API.OperationMethod<
   GetNetworkFunctionDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetNetworkFunctionDefinitionVersionRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<GetNetworkFunctionDefinitionVersionResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetNetworkFunctionDefinitionVersionRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<GetNetworkFunctionDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3853,8 +4533,8 @@ export const GetNetworkServiceDesignGroup: API.OperationMethod<
   GetNetworkServiceDesignGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetNetworkServiceDesignGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<GetNetworkServiceDesignGroupResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetNetworkServiceDesignGroupRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<GetNetworkServiceDesignGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3870,8 +4550,8 @@ export const GetNetworkServiceDesignVersion: API.OperationMethod<
   GetNetworkServiceDesignVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetNetworkServiceDesignVersionRequest>,
-  output: __S(582, __c36, 6) as any as S.Schema<GetNetworkServiceDesignVersionResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetNetworkServiceDesignVersionRequest>,
+  output: __S(1224, __c38, 8) as any as S.Schema<GetNetworkServiceDesignVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3887,8 +4567,8 @@ export const GetProxyArtifact: API.OperationMethod<
   GetProxyArtifactError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetProxyArtifactRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<ProxyArtifactVersionsOverviewListResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetProxyArtifactRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<ProxyArtifactVersionsOverviewListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3904,8 +4584,8 @@ export const GetPublisher: API.OperationMethod<
   GetPublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetPublisherRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<GetPublisherResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetPublisherRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<GetPublisherResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3921,8 +4601,8 @@ export const GetSite: API.OperationMethod<
   GetSiteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetSiteRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<GetSiteResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetSiteRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<GetSiteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3938,8 +4618,8 @@ export const GetSiteNetworkService: API.OperationMethod<
   GetSiteNetworkServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetSiteNetworkServiceRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<GetSiteNetworkServiceResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetSiteNetworkServiceRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<GetSiteNetworkServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3955,8 +4635,8 @@ export const ListArtifactManifestByArtifactStore: API.OperationMethod<
   ListArtifactManifestByArtifactStoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListArtifactManifestByArtifactStoreRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<ArtifactManifestListResult>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListArtifactManifestByArtifactStoreRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ArtifactManifestListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3972,8 +4652,8 @@ export const ListArtifactManifestCredential: API.OperationMethod<
   ListArtifactManifestCredentialError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListArtifactManifestCredentialRequest>,
-  output: __S(787, __c49, 3) as any as S.Schema<ListArtifactManifestCredentialResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListArtifactManifestCredentialRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<ListArtifactManifestCredentialResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3989,8 +4669,8 @@ export const ListArtifactStoreByPublisher: API.OperationMethod<
   ListArtifactStoreByPublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListArtifactStoreByPublisherRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<ArtifactStoreListResult>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListArtifactStoreByPublisherRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ArtifactStoreListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4007,11 +4687,11 @@ export const ListArtifactStoreNetworkFabricControllerPrivateEndPoints: API.Opera
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    816,
-    __c51,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<ListArtifactStoreNetworkFabricControllerPrivateEndPointsRequest>,
-  output: __S(819, __c51, 3) as any as S.Schema<ArtifactStoreNetworkFabricControllerEndPointsList>,
+  output: __S(1699, __c53, 3) as any as S.Schema<ArtifactStoreNetworkFabricControllerEndPointsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4027,8 +4707,8 @@ export const ListArtifactStorePrivateEndPoints: API.OperationMethod<
   ListArtifactStorePrivateEndPointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListArtifactStorePrivateEndPointsRequest>,
-  output: __S(835, __c52, 3) as any as S.Schema<ArtifactStorePrivateEndPointsListResult>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListArtifactStorePrivateEndPointsRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<ArtifactStorePrivateEndPointsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4044,8 +4724,8 @@ export const ListComponentByNetworkFunction: API.OperationMethod<
   ListComponentByNetworkFunctionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListComponentByNetworkFunctionRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<ComponentListResult>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListComponentByNetworkFunctionRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ComponentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4061,8 +4741,8 @@ export const ListConfigurationGroupSchemaByPublisher: API.OperationMethod<
   ListConfigurationGroupSchemaByPublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListConfigurationGroupSchemaByPublisherRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<ConfigurationGroupSchemaListResult>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListConfigurationGroupSchemaByPublisherRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ConfigurationGroupSchemaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4078,8 +4758,8 @@ export const ListConfigurationGroupValueByResourceGroup: API.OperationMethod<
   ListConfigurationGroupValueByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListConfigurationGroupValueByResourceGroupRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListConfigurationGroupValueByResourceGroupRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4095,8 +4775,8 @@ export const ListConfigurationGroupValueBySubscription: API.OperationMethod<
   ListConfigurationGroupValueBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListConfigurationGroupValueBySubscriptionRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListConfigurationGroupValueBySubscriptionRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ConfigurationGroupValueListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4112,8 +4792,8 @@ export const ListNetworkFunctionByResourceGroup: API.OperationMethod<
   ListNetworkFunctionByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListNetworkFunctionByResourceGroupRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<NetworkFunctionListResult>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListNetworkFunctionByResourceGroupRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<NetworkFunctionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4129,8 +4809,8 @@ export const ListNetworkFunctionBySubscription: API.OperationMethod<
   ListNetworkFunctionBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListNetworkFunctionBySubscriptionRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<NetworkFunctionListResult>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListNetworkFunctionBySubscriptionRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<NetworkFunctionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4147,11 +4827,11 @@ export const ListNetworkFunctionDefinitionGroupByPublisher: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1008,
-    __c63,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<ListNetworkFunctionDefinitionGroupByPublisherRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<NetworkFunctionDefinitionGroupListResult>,
+  output: __S(2113, __c66, 1) as any as S.Schema<NetworkFunctionDefinitionGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4169,11 +4849,11 @@ export const ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGrou
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1040,
-    __c65,
+    2144,
+    __c67,
     0,
   ) as any as S.Schema<ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<NetworkFunctionDefinitionVersionListResult>,
+  output: __S(2146, __c67, 2) as any as S.Schema<NetworkFunctionDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4189,8 +4869,8 @@ export const ListNetworkServiceDesignGroupByPublisher: API.OperationMethod<
   ListNetworkServiceDesignGroupByPublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListNetworkServiceDesignGroupByPublisherRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<NetworkServiceDesignGroupListResult>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListNetworkServiceDesignGroupByPublisherRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<NetworkServiceDesignGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4207,11 +4887,11 @@ export const ListNetworkServiceDesignVersionByNetworkServiceDesignGroup: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1072,
-    __c67,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<ListNetworkServiceDesignVersionByNetworkServiceDesignGroupRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<NetworkServiceDesignVersionListResult>,
+  output: __S(2210, __c69, 2) as any as S.Schema<NetworkServiceDesignVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4227,8 +4907,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1092, __c68, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2244, __c70, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4244,8 +4924,8 @@ export const ListProxyArtifact: API.OperationMethod<
   ListProxyArtifactError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListProxyArtifactRequest>,
-  output: __S(1155, __c72, 3) as any as S.Schema<ProxyArtifactOverviewListResult>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListProxyArtifactRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ProxyArtifactOverviewListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4261,8 +4941,8 @@ export const ListPublisherByResourceGroup: API.OperationMethod<
   ListPublisherByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListPublisherByResourceGroupRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<PublisherListResult>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListPublisherByResourceGroupRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<PublisherListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4278,8 +4958,8 @@ export const ListPublisherBySubscription: API.OperationMethod<
   ListPublisherBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListPublisherBySubscriptionRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<PublisherListResult>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListPublisherBySubscriptionRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<PublisherListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4295,8 +4975,8 @@ export const ListSiteByResourceGroup: API.OperationMethod<
   ListSiteByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<SiteListResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4312,8 +4992,8 @@ export const ListSiteBySubscription: API.OperationMethod<
   ListSiteBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListSiteBySubscriptionRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<SiteListResult>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListSiteBySubscriptionRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4329,8 +5009,8 @@ export const ListSiteNetworkServiceByResourceGroup: API.OperationMethod<
   ListSiteNetworkServiceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListSiteNetworkServiceByResourceGroupRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<SiteNetworkServiceListResult>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListSiteNetworkServiceByResourceGroupRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<SiteNetworkServiceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4346,8 +5026,8 @@ export const ListSiteNetworkServiceBySubscription: API.OperationMethod<
   ListSiteNetworkServiceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListSiteNetworkServiceBySubscriptionRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<SiteNetworkServiceListResult>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListSiteNetworkServiceBySubscriptionRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<SiteNetworkServiceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4364,12 +5044,12 @@ export const NetworkFunctionDefinitionGroupsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c82,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<NetworkFunctionDefinitionGroupsCreateOrUpdateRequest>,
   output: __S(
-    481,
+    961,
     __c30,
     1,
   ) as any as S.Schema<NetworkFunctionDefinitionGroupsCreateOrUpdateResponse>,
@@ -4389,13 +5069,13 @@ export const NetworkFunctionDefinitionVersionsCreateOrUpdate: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1345,
-    __c84,
-    1,
+    2755,
+    __c86,
+    3,
   ) as any as S.Schema<NetworkFunctionDefinitionVersionsCreateOrUpdateRequest>,
   output: __S(
-    513,
-    __c32,
+    1089,
+    __c34,
     1,
   ) as any as S.Schema<NetworkFunctionDefinitionVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -4413,8 +5093,8 @@ export const NetworkFunctionsCreateOrUpdate: API.OperationMethod<
   NetworkFunctionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1361, __c85, 1) as any as S.Schema<NetworkFunctionsCreateOrUpdateRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<NetworkFunctionsCreateOrUpdateResponse>,
+  input: __S(2787, __c87, 3) as any as S.Schema<NetworkFunctionsCreateOrUpdateRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<NetworkFunctionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4430,8 +5110,8 @@ export const NetworkServiceDesignGroupsCreateOrUpdate: API.OperationMethod<
   NetworkServiceDesignGroupsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<NetworkServiceDesignGroupsCreateOrUpdateRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<NetworkServiceDesignGroupsCreateOrUpdateResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<NetworkServiceDesignGroupsCreateOrUpdateRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<NetworkServiceDesignGroupsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4447,8 +5127,12 @@ export const NetworkServiceDesignVersionsCreateOrUpdate: API.OperationMethod<
   NetworkServiceDesignVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1425, __c89, 1) as any as S.Schema<NetworkServiceDesignVersionsCreateOrUpdateRequest>,
-  output: __S(582, __c36, 6) as any as S.Schema<NetworkServiceDesignVersionsCreateOrUpdateResponse>,
+  input: __S(2913, __c91, 1) as any as S.Schema<NetworkServiceDesignVersionsCreateOrUpdateRequest>,
+  output: __S(
+    1224,
+    __c38,
+    8,
+  ) as any as S.Schema<NetworkServiceDesignVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4464,8 +5148,8 @@ export const PublishersCreateOrUpdate: API.OperationMethod<
   PublishersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c90, 1) as any as S.Schema<PublishersCreateOrUpdateRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<PublishersCreateOrUpdateResponse>,
+  input: __S(2945, __c92, 1) as any as S.Schema<PublishersCreateOrUpdateRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<PublishersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4481,8 +5165,8 @@ export const RemoveArtifactStorePrivateEndPoints: API.OperationMethod<
   RemoveArtifactStorePrivateEndPointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<RemoveArtifactStorePrivateEndPointsRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<RemoveArtifactStorePrivateEndPointsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<RemoveArtifactStorePrivateEndPointsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<RemoveArtifactStorePrivateEndPointsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4498,8 +5182,8 @@ export const SiteNetworkServicesCreateOrUpdate: API.OperationMethod<
   SiteNetworkServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1474, __c92, 2) as any as S.Schema<SiteNetworkServicesCreateOrUpdateRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<SiteNetworkServicesCreateOrUpdateResponse>,
+  input: __S(3010, __c94, 2) as any as S.Schema<SiteNetworkServicesCreateOrUpdateRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<SiteNetworkServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4515,8 +5199,8 @@ export const SitesCreateOrUpdate: API.OperationMethod<
   SitesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1489, __c93, 1) as any as S.Schema<SitesCreateOrUpdateRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<SitesCreateOrUpdateResponse>,
+  input: __S(3041, __c95, 1) as any as S.Schema<SitesCreateOrUpdateRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<SitesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4532,8 +5216,8 @@ export const UpdateArtifactManifest: API.OperationMethod<
   UpdateArtifactManifestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UpdateArtifactManifestRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<UpdateArtifactManifestResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<UpdateArtifactManifestRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<UpdateArtifactManifestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4549,8 +5233,8 @@ export const UpdateArtifactManifestState: API.OperationMethod<
   UpdateArtifactManifestStateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UpdateArtifactManifestStateRequest>,
-  output: __S(1521, __c95, 1) as any as S.Schema<ArtifactManifestUpdateState>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateArtifactManifestStateRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<ArtifactManifestUpdateState>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4566,8 +5250,8 @@ export const UpdateArtifactStore: API.OperationMethod<
   UpdateArtifactStoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<UpdateArtifactStoreRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<UpdateArtifactStoreResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateArtifactStoreRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<UpdateArtifactStoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4583,8 +5267,8 @@ export const UpdateConfigurationGroupSchema: API.OperationMethod<
   UpdateConfigurationGroupSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UpdateConfigurationGroupSchemaRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<UpdateConfigurationGroupSchemaResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateConfigurationGroupSchemaRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<UpdateConfigurationGroupSchemaResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4600,8 +5284,8 @@ export const UpdateConfigurationGroupSchemaState: API.OperationMethod<
   UpdateConfigurationGroupSchemaStateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<UpdateConfigurationGroupSchemaStateRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<ConfigurationGroupSchemaVersionUpdateState>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdateConfigurationGroupSchemaStateRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ConfigurationGroupSchemaVersionUpdateState>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4617,8 +5301,8 @@ export const UpdateConfigurationGroupValueTags: API.OperationMethod<
   UpdateConfigurationGroupValueTagsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdateConfigurationGroupValueTagsRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<UpdateConfigurationGroupValueTagsResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<UpdateConfigurationGroupValueTagsRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<UpdateConfigurationGroupValueTagsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4634,8 +5318,8 @@ export const UpdateNetworkFunctionDefinitionGroup: API.OperationMethod<
   UpdateNetworkFunctionDefinitionGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<UpdateNetworkFunctionDefinitionGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<UpdateNetworkFunctionDefinitionGroupResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<UpdateNetworkFunctionDefinitionGroupRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<UpdateNetworkFunctionDefinitionGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4651,8 +5335,8 @@ export const UpdateNetworkFunctionDefinitionVersion: API.OperationMethod<
   UpdateNetworkFunctionDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<UpdateNetworkFunctionDefinitionVersionRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<UpdateNetworkFunctionDefinitionVersionResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateNetworkFunctionDefinitionVersionRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<UpdateNetworkFunctionDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4669,11 +5353,11 @@ export const UpdateNetworkFunctionDefinitionVersionState: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c104,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<UpdateNetworkFunctionDefinitionVersionStateRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<NetworkFunctionDefinitionVersionUpdateState>,
+  output: __S(3264, __c102, 0) as any as S.Schema<NetworkFunctionDefinitionVersionUpdateState>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4689,8 +5373,8 @@ export const UpdateNetworkFunctionTags: API.OperationMethod<
   UpdateNetworkFunctionTagsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<UpdateNetworkFunctionTagsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<UpdateNetworkFunctionTagsResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateNetworkFunctionTagsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<UpdateNetworkFunctionTagsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4706,8 +5390,8 @@ export const UpdateNetworkServiceDesignGroup: API.OperationMethod<
   UpdateNetworkServiceDesignGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UpdateNetworkServiceDesignGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<UpdateNetworkServiceDesignGroupResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateNetworkServiceDesignGroupRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<UpdateNetworkServiceDesignGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4723,8 +5407,8 @@ export const UpdateNetworkServiceDesignVersion: API.OperationMethod<
   UpdateNetworkServiceDesignVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<UpdateNetworkServiceDesignVersionRequest>,
-  output: __S(582, __c36, 6) as any as S.Schema<UpdateNetworkServiceDesignVersionResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateNetworkServiceDesignVersionRequest>,
+  output: __S(1224, __c38, 8) as any as S.Schema<UpdateNetworkServiceDesignVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4740,8 +5424,8 @@ export const UpdateNetworkServiceDesignVersionState: API.OperationMethod<
   UpdateNetworkServiceDesignVersionStateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UpdateNetworkServiceDesignVersionStateRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<NetworkServiceDesignVersionUpdateState>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateNetworkServiceDesignVersionStateRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<NetworkServiceDesignVersionUpdateState>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4757,8 +5441,8 @@ export const UpdateProxyArtifactState: API.OperationMethod<
   UpdateProxyArtifactStateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1745, __c109, 1) as any as S.Schema<UpdateProxyArtifactStateRequest>,
-  output: __S(1746, __c109, 2) as any as S.Schema<UpdateProxyArtifactStateResponse>,
+  input: __S(3553, __c111, 1) as any as S.Schema<UpdateProxyArtifactStateRequest>,
+  output: __S(3554, __c111, 2) as any as S.Schema<UpdateProxyArtifactStateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4774,8 +5458,8 @@ export const UpdatePublisher: API.OperationMethod<
   UpdatePublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdatePublisherRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<UpdatePublisherResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdatePublisherRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<UpdatePublisherResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4791,8 +5475,8 @@ export const UpdateSiteNetworkServiceTags: API.OperationMethod<
   UpdateSiteNetworkServiceTagsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateSiteNetworkServiceTagsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<UpdateSiteNetworkServiceTagsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateSiteNetworkServiceTagsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<UpdateSiteNetworkServiceTagsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4808,8 +5492,8 @@ export const UpdateSiteTags: API.OperationMethod<
   UpdateSiteTagsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateSiteTagsRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<UpdateSiteTagsResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdateSiteTagsRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<UpdateSiteTagsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4827,7 +5511,7 @@ function __c0(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          networkFabricControllerIds: S.optional(__S(48, __c3, 0)),
+          networkFabricControllerIds: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4865,7 +5549,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(64, __c2, 0));
   }
 }
 function __c4(j: number): any {
@@ -4877,7 +5561,7 @@ function __c4(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          manualPrivateEndPointConnections: S.optional(__S(48, __c3, 0)),
+          manualPrivateEndPointConnections: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5084,7 +5768,7 @@ function __c14(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           networkFunctionName: S.String.pipe(T.Label()),
           serviceEndpoint: S.String,
-          requestMetadata: __S(224, __c14, 0),
+          requestMetadata: __S(448, __c14, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5101,7 +5785,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(257, __c16, 1)),
+          artifacts: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ArtifactManifestPropertiesFormatInput" });
     case 1:
@@ -5112,9 +5796,9 @@ function __c15(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
           artifactManifestName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(240, __c15, 0)),
+          properties: S.optional(__S(480, __c15, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5137,13 +5821,13 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ManifestArtifactFormat" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           artifactManifestState: S.optional(S.String),
-          artifacts: S.optional(__S(257, __c16, 1)),
+          artifacts: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ArtifactManifestPropertiesFormat" });
     case 3:
@@ -5152,10 +5836,10 @@ function __c16(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(258, __c16, 2)),
+          properties: S.optional(__S(514, __c16, 2)),
         }),
       ).annotate({ identifier: "ArtifactManifestsCreateOrUpdateResponse" });
   }
@@ -5257,7 +5941,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "Deployment" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5268,7 +5952,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PodEvent" });
     case 3:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(706, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5278,11 +5962,11 @@ function __c22(j: number): any {
           ready: S.optional(S.Number),
           status: S.optional(S.String),
           creationTime: S.optional(S.String),
-          events: S.optional(__S(355, __c22, 3)),
+          events: S.optional(__S(707, __c22, 3)),
         }),
       ).annotate({ identifier: "Pod" });
     case 5:
-      return S.Array(__S(356, __c22, 4));
+      return S.Array(__S(708, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5295,7 +5979,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ReplicaSet" });
     case 7:
-      return S.Array(__S(358, __c22, 6));
+      return S.Array(__S(710, __c22, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5307,7 +5991,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "StatefulSet" });
     case 9:
-      return S.Array(__S(360, __c22, 8));
+      return S.Array(__S(712, __c22, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -5322,22 +6006,22 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "DaemonSet" });
     case 11:
-      return S.Array(__S(362, __c22, 10));
+      return S.Array(__S(714, __c22, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          deployments: S.optional(__S(353, __c22, 1)),
-          pods: S.optional(__S(357, __c22, 5)),
-          replicaSets: S.optional(__S(359, __c22, 7)),
-          statefulSets: S.optional(__S(361, __c22, 9)),
-          daemonSets: S.optional(__S(363, __c22, 11)),
+          deployments: S.optional(__S(705, __c22, 1)),
+          pods: S.optional(__S(709, __c22, 5)),
+          replicaSets: S.optional(__S(711, __c22, 7)),
+          statefulSets: S.optional(__S(713, __c22, 9)),
+          daemonSets: S.optional(__S(715, __c22, 11)),
         }),
       ).annotate({ identifier: "Resources" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          resources: S.optional(__S(364, __c22, 12)),
+          resources: S.optional(__S(716, __c22, 12)),
           nextExpectedUpdateAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStatusProperties" });
@@ -5346,7 +6030,7 @@ function __c22(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           deploymentProfile: S.optional(S.String),
-          deploymentStatus: S.optional(__S(365, __c22, 13)),
+          deploymentStatus: S.optional(__S(717, __c22, 13)),
         }),
       ).annotate({ identifier: "ComponentProperties" });
     case 15:
@@ -5355,8 +6039,8 @@ function __c22(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          properties: S.optional(__S(366, __c22, 14)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          properties: S.optional(__S(718, __c22, 14)),
         }),
       ).annotate({ identifier: "GetComponentResponse" });
   }
@@ -5435,14 +6119,14 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 1:
-      return S.Record(S.String, __S(432, __c27, 0));
+      return S.Record(S.String, __S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(S.NullOr(__S(433, __c27, 1))),
+          userAssignedIdentities: S.optional(S.NullOr(__S(865, __c27, 1))),
         }),
       ).annotate({ identifier: "GetNetworkFunctionResponseIdentity" });
   }
@@ -5458,27 +6142,47 @@ function __c28(j: number): any {
           networkFunctionDefinitionGroupName: S.optional(S.String),
           networkFunctionDefinitionVersion: S.optional(S.String),
           networkFunctionDefinitionOfferingLocation: S.optional(S.String),
-          networkFunctionDefinitionVersionResourceReference: S.optional(__S(1120, __c70, 0)),
+          networkFunctionDefinitionVersionResourceReference: S.optional(__S(2304, __c72, 0)),
           nfviType: S.optional(S.String),
           nfviId: S.optional(S.String),
           allowSoftwareUpdate: S.optional(S.Boolean),
           configurationType: S.String,
-          roleOverrideValues: S.optional(__S(416, __c26, 0)),
+          roleOverrideValues: S.optional(__S(832, __c26, 0)),
+          secretDeploymentValues: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "NetworkFunctionValueWithSecrets" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          publisherScope: S.optional(S.String),
+          networkFunctionDefinitionGroupName: S.optional(S.String),
+          networkFunctionDefinitionVersion: S.optional(S.String),
+          networkFunctionDefinitionOfferingLocation: S.optional(S.String),
+          networkFunctionDefinitionVersionResourceReference: S.optional(__S(2304, __c72, 0)),
+          nfviType: S.optional(S.String),
+          nfviId: S.optional(S.String),
+          allowSoftwareUpdate: S.optional(S.Boolean),
+          configurationType: S.String,
+          roleOverrideValues: S.optional(__S(832, __c26, 0)),
           deploymentValues: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkFunctionPropertiesFormat" });
-    case 1:
+      ).annotate({ identifier: "NetworkFunctionValueWithoutSecrets" });
+    case 2:
+      return S.Union([__S(896, __c28, 0), __S(897, __c28, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(448, __c28, 0)),
+          properties: S.optional(__S(898, __c28, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(434, __c27, 2)),
+          identity: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "GetNetworkFunctionResponse" });
   }
@@ -5518,10 +6222,10 @@ function __c30(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(480, __c30, 0)),
+          properties: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "GetNetworkFunctionDefinitionGroupResponse" });
   }
@@ -5552,29 +6256,254 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          installDependsOn: S.optional(__S(832, __c26, 0)),
+          uninstallDependsOn: S.optional(__S(832, __c26, 0)),
+          updateDependsOn: S.optional(__S(832, __c26, 0)),
+        }),
+      ).annotate({ identifier: "DependsOnProfile" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          helmPackageName: S.optional(S.String),
+          helmPackageVersionRange: S.optional(S.String),
+          registryValuesPaths: S.optional(__S(832, __c26, 0)),
+          imagePullSecretsValuesPaths: S.optional(__S(832, __c26, 0)),
+        }),
+      ).annotate({ identifier: "HelmArtifactProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          artifactStore: S.optional(__S(64, __c2, 0)),
+          helmArtifactProfile: S.optional(__S(1056, __c33, 0)),
+        }),
+      ).annotate({ identifier: "AzureArcKubernetesArtifactProfile" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          atomic: S.optional(S.String),
+          wait: S.optional(S.String),
+          timeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HelmInstallOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          installOptions: S.optional(__S(1058, __c33, 2)),
+          upgradeOptions: S.optional(__S(1058, __c33, 2)),
+        }),
+      ).annotate({ identifier: "HelmMappingRuleProfileOptions" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          releaseNamespace: S.optional(S.String),
+          releaseName: S.optional(S.String),
+          helmPackageVersion: S.optional(S.String),
+          values: S.optional(S.String),
+          options: S.optional(__S(1059, __c33, 3)),
+        }),
+      ).annotate({ identifier: "HelmMappingRuleProfile" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          applicationEnablement: S.optional(S.String),
+          helmMappingRuleProfile: S.optional(__S(1060, __c33, 4)),
+        }),
+      ).annotate({ identifier: "AzureArcKubernetesDeployMappingRuleProfile" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          dependsOnProfile: S.optional(__S(1024, __c32, 0)),
+          artifactType: S.String,
+          artifactProfile: S.optional(__S(1057, __c33, 1)),
+          deployParametersMappingRuleProfile: S.optional(__S(1061, __c33, 5)),
+        }),
+      ).annotate({ identifier: "AzureArcKubernetesHelmApplication" });
+    case 7:
+      return S.Array(__S(1062, __c33, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          nfviType: S.String,
+          networkFunctionApplications: S.optional(__S(1063, __c33, 7)),
+        }),
+      ).annotate({ identifier: "AzureArcKubernetesNetworkFunctionTemplate" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
           versionState: S.optional(S.String),
           description: S.optional(S.String),
           deployParameters: S.optional(S.String),
           networkFunctionType: S.String,
-          networkFunctionTemplate: S.optional(S.Unknown),
+          networkFunctionTemplate: S.optional(__S(1064, __c33, 8)),
         }),
-      ).annotate({ identifier: "NetworkFunctionDefinitionVersionPropertiesFormat" });
+      ).annotate({ identifier: "ContainerizedNetworkFunctionDefinitionVersion" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          vhdName: S.optional(S.String),
+          vhdVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VhdImageArtifactProfile" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          artifactStore: S.optional(__S(64, __c2, 0)),
+          vhdArtifactProfile: S.optional(__S(1066, __c33, 10)),
+        }),
+      ).annotate({ identifier: "AzureCoreVhdImageArtifactProfile" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          userConfiguration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VhdImageMappingRuleProfile" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          applicationEnablement: S.optional(S.String),
+          vhdImageMappingRuleProfile: S.optional(__S(1068, __c33, 12)),
+        }),
+      ).annotate({ identifier: "AzureCoreVhdImageDeployMappingRuleProfile" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          dependsOnProfile: S.optional(__S(1024, __c32, 0)),
+          artifactType: S.String,
+          artifactProfile: S.optional(__S(1067, __c33, 11)),
+          deployParametersMappingRuleProfile: S.optional(__S(1069, __c33, 13)),
+        }),
+      ).annotate({ identifier: "AzureCoreNetworkFunctionVhdApplication" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          templateName: S.optional(S.String),
+          templateVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ArmTemplateArtifactProfile" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          artifactStore: S.optional(__S(64, __c2, 0)),
+          templateArtifactProfile: S.optional(__S(1071, __c33, 15)),
+        }),
+      ).annotate({ identifier: "AzureCoreArmTemplateArtifactProfile" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          templateParameters: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ArmTemplateMappingRuleProfile" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          applicationEnablement: S.optional(S.String),
+          templateMappingRuleProfile: S.optional(__S(1073, __c33, 17)),
+        }),
+      ).annotate({ identifier: "AzureCoreArmTemplateDeployMappingRuleProfile" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          dependsOnProfile: S.optional(__S(1024, __c32, 0)),
+          artifactType: S.String,
+          artifactProfile: S.optional(__S(1072, __c33, 16)),
+          deployParametersMappingRuleProfile: S.optional(__S(1074, __c33, 18)),
+        }),
+      ).annotate({ identifier: "AzureCoreNetworkFunctionArmTemplateApplication" });
+    case 20:
+      return S.Union([__S(1070, __c33, 14), __S(1075, __c33, 19)]);
+    case 21:
+      return S.Array(__S(1076, __c33, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          nfviType: S.String,
+          networkFunctionApplications: S.optional(__S(1077, __c33, 21)),
+        }),
+      ).annotate({ identifier: "AzureCoreNetworkFunctionTemplate" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          imageName: S.optional(S.String),
+          imageVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImageArtifactProfile" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          artifactStore: S.optional(__S(64, __c2, 0)),
+          imageArtifactProfile: S.optional(__S(1079, __c33, 23)),
+        }),
+      ).annotate({ identifier: "AzureOperatorNexusImageArtifactProfile" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          applicationEnablement: S.optional(S.String),
+          imageMappingRuleProfile: S.optional(__S(1068, __c33, 12)),
+        }),
+      ).annotate({ identifier: "AzureOperatorNexusImageDeployMappingRuleProfile" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          dependsOnProfile: S.optional(__S(1024, __c32, 0)),
+          artifactType: S.String,
+          artifactProfile: S.optional(__S(1080, __c33, 24)),
+          deployParametersMappingRuleProfile: S.optional(__S(1081, __c33, 25)),
+        }),
+      ).annotate({ identifier: "AzureOperatorNexusNetworkFunctionImageApplication" });
+    case 27:
+      return S.Union([__S(1082, __c33, 26), __S(1075, __c33, 19)]);
+    case 28:
+      return S.Array(__S(1083, __c33, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          nfviType: S.String,
+          networkFunctionApplications: S.optional(__S(1084, __c33, 28)),
+        }),
+      ).annotate({ identifier: "AzureOperatorNexusNetworkFunctionTemplate" });
+    case 30:
+      return S.Union([__S(1078, __c33, 22), __S(1085, __c33, 29)]);
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          versionState: S.optional(S.String),
+          description: S.optional(S.String),
+          deployParameters: S.optional(S.String),
+          networkFunctionType: S.String,
+          networkFunctionTemplate: S.optional(__S(1086, __c33, 30)),
+        }),
+      ).annotate({ identifier: "VirtualNetworkFunctionNetworkFunctionDefinitionVersion" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([__S(1065, __c33, 9), __S(1087, __c33, 31)]);
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(512, __c32, 0)),
+          properties: S.optional(__S(1088, __c34, 0)),
         }),
       ).annotate({ identifier: "GetNetworkFunctionDefinitionVersionResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5594,7 +6523,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetNetworkServiceDesignGroupRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5615,13 +6544,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetNetworkServiceDesignVersionRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(32, __c2, 0));
+      return S.Record(S.String, __S(64, __c2, 0));
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5631,52 +6560,62 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "NfviDetails" });
     case 1:
-      return S.Record(S.String, __S(576, __c36, 0));
+      return S.Record(S.String, __S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          installDependsOn: S.optional(__S(416, __c26, 0)),
-          uninstallDependsOn: S.optional(__S(416, __c26, 0)),
-          updateDependsOn: S.optional(__S(416, __c26, 0)),
+          artifactStoreReference: S.optional(__S(64, __c2, 0)),
+          artifactName: S.optional(S.String),
+          artifactVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceElementTemplateDependsOnProfile" });
+      ).annotate({ identifier: "NSDArtifactProfile" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          templateType: S.optional(S.String),
+          parameterValues: S.optional(S.String),
+          artifactProfile: S.optional(__S(1218, __c38, 2)),
+        }),
+      ).annotate({ identifier: "ArmResourceDefinitionResourceElementTemplate" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.String,
-          dependsOnProfile: S.optional(__S(578, __c36, 2)),
-          configuration: S.optional(S.Unknown),
+          dependsOnProfile: S.optional(__S(1024, __c32, 0)),
+          configuration: S.optional(__S(1219, __c38, 3)),
         }),
-      ).annotate({ identifier: "ResourceElementTemplate" });
-    case 4:
-      return S.Array(__S(579, __c36, 3));
+      ).annotate({ identifier: "ArmResourceDefinitionResourceElementTemplateDetails" });
     case 5:
+      return S.Union([__S(1220, __c38, 4), __S(1220, __c38, 4)]);
+    case 6:
+      return S.Array(__S(1221, __c38, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           versionState: S.optional(S.String),
           description: S.optional(S.String),
-          configurationGroupSchemaReferences: S.optional(__S(560, __c35, 0)),
-          nfvisFromSite: S.optional(__S(577, __c36, 1)),
-          resourceElementTemplates: S.optional(__S(580, __c36, 4)),
+          configurationGroupSchemaReferences: S.optional(__S(1184, __c37, 0)),
+          nfvisFromSite: S.optional(__S(1217, __c38, 1)),
+          resourceElementTemplates: S.optional(__S(1222, __c38, 6)),
         }),
       ).annotate({ identifier: "NetworkServiceDesignVersionPropertiesFormat" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(581, __c36, 5)),
+          properties: S.optional(__S(1223, __c38, 7)),
         }),
       ).annotate({ identifier: "GetNetworkServiceDesignVersionResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5684,7 +6623,7 @@ function __c37(j: number): any {
           storeType: S.optional(S.String),
           backingResourcePublicNetworkAccess: S.optional(S.String),
           replicationStrategy: S.optional(S.String),
-          managedResourceGroupConfiguration: S.optional(__S(608, __c38, 0)),
+          managedResourceGroupConfiguration: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "ArtifactStorePropertiesFormatInput" });
     case 1:
@@ -5694,9 +6633,9 @@ function __c37(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(592, __c37, 0)),
+          properties: S.optional(__S(1248, __c39, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5708,7 +6647,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ArtifactStoresCreateOrUpdateRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5721,7 +6660,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5730,7 +6669,7 @@ function __c39(j: number): any {
           storeType: S.optional(S.String),
           backingResourcePublicNetworkAccess: S.optional(S.String),
           replicationStrategy: S.optional(S.String),
-          managedResourceGroupConfiguration: S.optional(__S(608, __c38, 0)),
+          managedResourceGroupConfiguration: S.optional(__S(1280, __c40, 0)),
           storageResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactStorePropertiesFormat" });
@@ -5740,15 +6679,15 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(624, __c39, 0)),
+          properties: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "ArtifactStoresCreateOrUpdateResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5773,22 +6712,22 @@ function __c40(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          properties: S.optional(__S(656, __c41, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          properties: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "ProxyArtifactVersionsListOverview" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(642, __c40, 2)),
+          value: S.optional(__S(1346, __c42, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProxyArtifactVersionsOverviewListResult" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5800,7 +6739,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ProxyArtifactOverviewPropertiesValue" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5819,7 +6758,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetPublisherRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5834,16 +6773,16 @@ function __c43(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(688, __c43, 0)),
-          identity: S.optional(__S(434, __c27, 2)),
+          properties: S.optional(__S(1440, __c45, 0)),
+          identity: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "GetPublisherResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5862,7 +6801,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetSiteRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5870,34 +6809,43 @@ function __c45(j: number): any {
           name: S.optional(S.String),
           nfviType: S.String,
           location: S.optional(S.String),
-          customLocationReference: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "NFVIs" });
+      ).annotate({ identifier: "AzureCoreNFVIDetails" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          nfviType: S.String,
+          customLocationReference: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "AzureArcK8sClusterNFVIDetails" });
     case 2:
+      return S.Union([__S(1504, __c47, 0), __S(1505, __c47, 1), __S(1505, __c47, 1)]);
+    case 3:
+      return S.Array(__S(1506, __c47, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          nfvis: S.optional(__S(721, __c45, 1)),
-          siteNetworkServiceReferences: S.optional(__S(48, __c3, 0)),
+          nfvis: S.optional(__S(1507, __c47, 3)),
+          siteNetworkServiceReferences: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "SitePropertiesFormat" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(722, __c45, 2)),
+          properties: S.optional(__S(1508, __c47, 4)),
         }),
       ).annotate({ identifier: "GetSiteResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5916,23 +6864,23 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetSiteNetworkServiceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          managedResourceGroupConfiguration: S.optional(__S(608, __c38, 0)),
-          siteReference: S.optional(__S(32, __c2, 0)),
+          managedResourceGroupConfiguration: S.optional(__S(1280, __c40, 0)),
+          siteReference: S.optional(__S(64, __c2, 0)),
           publisherName: S.optional(S.String),
           publisherScope: S.optional(S.String),
           networkServiceDesignGroupName: S.optional(S.String),
           networkServiceDesignVersionName: S.optional(S.String),
           networkServiceDesignVersionOfferingLocation: S.optional(S.String),
-          networkServiceDesignVersionResourceReference: S.optional(__S(1120, __c70, 0)),
-          desiredStateConfigurationGroupValueReferences: S.optional(__S(560, __c35, 0)),
+          networkServiceDesignVersionResourceReference: S.optional(__S(2304, __c72, 0)),
+          desiredStateConfigurationGroupValueReferences: S.optional(__S(1184, __c37, 0)),
           lastStateNetworkServiceDesignVersionName: S.optional(S.String),
-          lastStateConfigurationGroupValueReferences: S.optional(__S(560, __c35, 0)),
+          lastStateConfigurationGroupValueReferences: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "SiteNetworkServicePropertiesFormat" });
     case 1:
@@ -5948,17 +6896,17 @@ function __c47(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(752, __c47, 0)),
-          identity: S.optional(__S(434, __c27, 2)),
-          sku: S.optional(__S(753, __c47, 1)),
+          properties: S.optional(__S(1568, __c49, 0)),
+          identity: S.optional(__S(866, __c27, 2)),
+          sku: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "GetSiteNetworkServiceResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5977,17 +6925,17 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListArtifactManifestByArtifactStoreRequest" });
     case 1:
-      return S.Array(__S(259, __c16, 3));
+      return S.Array(__S(515, __c16, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(769, __c48, 1)),
+          value: S.optional(__S(1601, __c50, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactManifestListResult" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6015,7 +6963,7 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "ArtifactManifestContainerCredential" });
     case 2:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6023,15 +6971,15 @@ function __c49(j: number): any {
           username: S.optional(S.String),
           acrToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           acrServerUrl: S.optional(S.String),
-          repositories: S.optional(__S(416, __c26, 0)),
+          repositories: S.optional(__S(832, __c26, 0)),
           expiry: S.optional(S.String),
-          containerCredentials: S.optional(__S(786, __c49, 2)),
+          containerCredentials: S.optional(__S(1634, __c51, 2)),
           storageAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListArtifactManifestCredentialResponse" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6049,17 +6997,17 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListArtifactStoreByPublisherRequest" });
     case 1:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(801, __c50, 1)),
+          value: S.optional(__S(1665, __c52, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactStoreListResult" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6080,22 +7028,22 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          networkFabricControllerIds: S.optional(__S(48, __c3, 0)),
+          networkFabricControllerIds: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "ArtifactStoreNetworkFabricControllerEndPoints" });
     case 2:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(818, __c51, 2)),
+          value: S.optional(__S(1698, __c53, 2)),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "ArtifactStoreNetworkFabricControllerEndPointsList" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6116,22 +7064,22 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          manualPrivateEndPointConnections: S.optional(__S(48, __c3, 0)),
+          manualPrivateEndPointConnections: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "ArtifactStorePrivateEndPointsFormat" });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(834, __c52, 2)),
+          value: S.optional(__S(1730, __c54, 2)),
           nextLink: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "ArtifactStorePrivateEndPointsListResult" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6149,17 +7097,17 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListComponentByNetworkFunctionRequest" });
     case 1:
-      return S.Array(__S(367, __c22, 15));
+      return S.Array(__S(719, __c22, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(849, __c53, 1)),
+          value: S.optional(__S(1761, __c55, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComponentListResult" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6175,9 +7123,9 @@ function __c54(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           configurationGroupSchemaName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6189,7 +7137,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ConfigurationGroupSchemasCreateOrUpdateRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6206,15 +7154,15 @@ function __c55(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(880, __c55, 0)),
+          properties: S.optional(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "ConfigurationGroupSchemasCreateOrUpdateResponse" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6232,17 +7180,17 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListConfigurationGroupSchemaByPublisherRequest" });
     case 1:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(897, __c56, 1)),
+          value: S.optional(__S(1857, __c58, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationGroupSchemaListResult" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6260,20 +7208,20 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListConfigurationGroupValueByResourceGroupRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(2339, __c73, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(928, __c58, 0)),
+          value: S.optional(__S(1920, __c60, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationGroupValueListResult" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6290,7 +7238,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListConfigurationGroupValueBySubscriptionRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6308,20 +7256,20 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListNetworkFunctionByResourceGroupRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(899, __c28, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(976, __c61, 0)),
+          value: S.optional(__S(2016, __c63, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionListResult" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6338,7 +7286,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ListNetworkFunctionBySubscriptionRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6357,20 +7305,20 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ListNetworkFunctionDefinitionGroupByPublisherRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(961, __c30, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1024, __c64, 0)),
+          value: S.optional(__S(2112, __c66, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionDefinitionGroupListResult" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6391,17 +7339,17 @@ function __c65(j: number): any {
         identifier: "ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupRequest",
       });
     case 1:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1041, __c65, 1)),
+          value: S.optional(__S(2145, __c67, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkFunctionDefinitionVersionListResult" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6420,7 +7368,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListNetworkServiceDesignGroupByPublisherRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6441,17 +7389,17 @@ function __c67(j: number): any {
         identifier: "ListNetworkServiceDesignVersionByNetworkServiceDesignGroupRequest",
       });
     case 1:
-      return S.Array(__S(582, __c36, 6));
+      return S.Array(__S(1224, __c38, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1073, __c67, 1)),
+          value: S.optional(__S(2209, __c69, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkServiceDesignVersionListResult" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6478,43 +7426,53 @@ function __c68(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(1089, __c68, 1)),
+          display: S.optional(__S(2241, __c70, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1090, __c68, 2));
+      return S.Array(__S(2242, __c70, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1091, __c68, 3)),
+          value: S.optional(__S(2243, __c70, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           publisherScope: S.optional(S.String),
-          configurationGroupSchemaResourceReference: S.optional(__S(1120, __c70, 0)),
+          configurationGroupSchemaResourceReference: S.optional(__S(2304, __c72, 0)),
           configurationType: S.String,
-          configurationValue: S.optional(S.String),
           secretConfigurationValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "ConfigurationGroupValuePropertiesFormatInput" });
+      ).annotate({ identifier: "ConfigurationValueWithSecretsInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          publisherScope: S.optional(S.String),
+          configurationGroupSchemaResourceReference: S.optional(__S(2304, __c72, 0)),
+          configurationType: S.String,
+          configurationValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigurationValueWithoutSecretsInput" });
+    case 2:
+      return S.Union([__S(2272, __c71, 0), __S(2273, __c71, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configurationGroupValueName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1104, __c69, 0)),
+          properties: S.optional(__S(2274, __c71, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6526,7 +7484,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ConfigurationGroupValuesCreateOrUpdateRequest" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6535,12 +7493,11 @@ function __c70(j: number): any {
           id: S.optional(S.String),
         }),
       ).annotate({
-        identifier:
-          "ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference",
+        identifier: "ConfigurationValueWithSecretsInputConfigurationGroupSchemaResourceReference",
       });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6550,26 +7507,41 @@ function __c71(j: number): any {
           publisherScope: S.optional(S.String),
           configurationGroupSchemaName: S.optional(S.String),
           configurationGroupSchemaOfferingLocation: S.optional(S.String),
-          configurationGroupSchemaResourceReference: S.optional(__S(1120, __c70, 0)),
+          configurationGroupSchemaResourceReference: S.optional(__S(2304, __c72, 0)),
+          configurationType: S.String,
+          secretConfigurationValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ConfigurationValueWithSecrets" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          publisherScope: S.optional(S.String),
+          configurationGroupSchemaName: S.optional(S.String),
+          configurationGroupSchemaOfferingLocation: S.optional(S.String),
+          configurationGroupSchemaResourceReference: S.optional(__S(2304, __c72, 0)),
           configurationType: S.String,
           configurationValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConfigurationGroupValuePropertiesFormat" });
-    case 1:
+      ).annotate({ identifier: "ConfigurationValueWithoutSecrets" });
+    case 2:
+      return S.Union([__S(2336, __c73, 0), __S(2337, __c73, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          tags: S.optional(__S(288, __c18, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1136, __c71, 0)),
+          properties: S.optional(__S(2338, __c73, 2)),
         }),
       ).annotate({ identifier: "ConfigurationGroupValuesCreateOrUpdateResponse" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6593,21 +7565,21 @@ function __c72(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "Resource" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1154, __c72, 2)),
+          value: S.optional(__S(2370, __c74, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProxyArtifactOverviewListResult" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6625,20 +7597,20 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ListPublisherByResourceGroupRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(689, __c43, 1));
+      return S.Array(__S(1441, __c45, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1184, __c74, 0)),
+          value: S.optional(__S(2432, __c76, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublisherListResult" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6655,7 +7627,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListPublisherBySubscriptionRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6673,20 +7645,20 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ListSiteByResourceGroupRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(723, __c45, 3));
+      return S.Array(__S(1509, __c47, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1232, __c77, 0)),
+          value: S.optional(__S(2528, __c79, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteListResult" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6703,7 +7675,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ListSiteBySubscriptionRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6721,20 +7693,20 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ListSiteNetworkServiceByResourceGroupRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(754, __c47, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1280, __c80, 0)),
+          value: S.optional(__S(2624, __c82, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteNetworkServiceListResult" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6751,7 +7723,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ListSiteNetworkServiceBySubscriptionRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6760,9 +7732,9 @@ function __c82(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkFunctionDefinitionGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1328, __c83, 0)),
+          properties: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6774,7 +7746,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "NetworkFunctionDefinitionGroupsCreateOrUpdateRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6784,7 +7756,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "NetworkFunctionDefinitionGroupPropertiesFormatInput" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6792,10 +7764,21 @@ function __c84(j: number): any {
           description: S.optional(S.String),
           deployParameters: S.optional(S.String),
           networkFunctionType: S.String,
-          networkFunctionTemplate: S.optional(S.Unknown),
+          networkFunctionTemplate: S.optional(__S(1064, __c33, 8)),
         }),
-      ).annotate({ identifier: "NetworkFunctionDefinitionVersionPropertiesFormatInput" });
+      ).annotate({ identifier: "ContainerizedNetworkFunctionDefinitionVersionInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          deployParameters: S.optional(S.String),
+          networkFunctionType: S.String,
+          networkFunctionTemplate: S.optional(__S(1086, __c33, 30)),
+        }),
+      ).annotate({ identifier: "VirtualNetworkFunctionNetworkFunctionDefinitionVersionInput" });
+    case 2:
+      return S.Union([__S(2752, __c86, 0), __S(2753, __c86, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -6803,9 +7786,9 @@ function __c84(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           networkFunctionDefinitionGroupName: S.String.pipe(T.Label()),
           networkFunctionDefinitionVersionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1344, __c84, 0)),
+          properties: S.optional(__S(2754, __c86, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6817,7 +7800,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "NetworkFunctionDefinitionVersionsCreateOrUpdateRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6827,27 +7810,45 @@ function __c85(j: number): any {
           networkFunctionDefinitionGroupName: S.optional(S.String),
           networkFunctionDefinitionVersion: S.optional(S.String),
           networkFunctionDefinitionOfferingLocation: S.optional(S.String),
-          networkFunctionDefinitionVersionResourceReference: S.optional(__S(1120, __c70, 0)),
+          networkFunctionDefinitionVersionResourceReference: S.optional(__S(2304, __c72, 0)),
           nfviType: S.optional(S.String),
           nfviId: S.optional(S.String),
           allowSoftwareUpdate: S.optional(S.Boolean),
           configurationType: S.String,
-          roleOverrideValues: S.optional(__S(416, __c26, 0)),
-          deploymentValues: S.optional(S.String),
+          roleOverrideValues: S.optional(__S(832, __c26, 0)),
           secretDeploymentValues: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "NetworkFunctionPropertiesFormatInput" });
+      ).annotate({ identifier: "NetworkFunctionValueWithSecretsInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          publisherName: S.optional(S.String),
+          publisherScope: S.optional(S.String),
+          networkFunctionDefinitionGroupName: S.optional(S.String),
+          networkFunctionDefinitionVersion: S.optional(S.String),
+          networkFunctionDefinitionOfferingLocation: S.optional(S.String),
+          networkFunctionDefinitionVersionResourceReference: S.optional(__S(2304, __c72, 0)),
+          nfviType: S.optional(S.String),
+          nfviId: S.optional(S.String),
+          allowSoftwareUpdate: S.optional(S.Boolean),
+          configurationType: S.String,
+          roleOverrideValues: S.optional(__S(832, __c26, 0)),
+          deploymentValues: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFunctionValueWithoutSecretsInput" });
+    case 2:
+      return S.Union([__S(2784, __c87, 0), __S(2785, __c87, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           networkFunctionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1360, __c85, 0)),
+          properties: S.optional(__S(2786, __c87, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(1378, __c86, 2)),
+          identity: S.optional(__S(2818, __c88, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6859,22 +7860,22 @@ function __c85(j: number): any {
       ).annotate({ identifier: "NetworkFunctionsCreateOrUpdateRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
     case 1:
-      return S.Record(S.String, __S(1376, __c86, 0));
+      return S.Record(S.String, __S(2816, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(S.NullOr(__S(1377, __c86, 1))),
+          userAssignedIdentities: S.optional(S.NullOr(__S(2817, __c88, 1))),
         }),
       ).annotate({ identifier: "NetworkFunctionsCreateOrUpdateRequestIdentity" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6895,7 +7896,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteArtifactManifestRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6904,9 +7905,9 @@ function __c88(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkServiceDesignGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1328, __c83, 0)),
+          properties: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6918,15 +7919,15 @@ function __c88(j: number): any {
       ).annotate({ identifier: "NetworkServiceDesignGroupsCreateOrUpdateRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          configurationGroupSchemaReferences: S.optional(__S(560, __c35, 0)),
-          nfvisFromSite: S.optional(__S(577, __c36, 1)),
-          resourceElementTemplates: S.optional(__S(580, __c36, 4)),
+          configurationGroupSchemaReferences: S.optional(__S(1184, __c37, 0)),
+          nfvisFromSite: S.optional(__S(1217, __c38, 1)),
+          resourceElementTemplates: S.optional(__S(1222, __c38, 6)),
         }),
       ).annotate({ identifier: "NetworkServiceDesignVersionPropertiesFormatInput" });
     case 1:
@@ -6937,9 +7938,9 @@ function __c89(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           networkServiceDesignGroupName: S.String.pipe(T.Label()),
           networkServiceDesignVersionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1424, __c89, 0)),
+          properties: S.optional(__S(2912, __c91, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6951,7 +7952,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "NetworkServiceDesignVersionsCreateOrUpdateRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6965,10 +7966,10 @@ function __c90(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1440, __c90, 0)),
-          identity: S.optional(__S(1378, __c86, 2)),
+          properties: S.optional(__S(2944, __c92, 0)),
+          identity: S.optional(__S(2818, __c88, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6980,7 +7981,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "PublishersCreateOrUpdateRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6989,7 +7990,7 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          manualPrivateEndPointConnections: S.optional(__S(48, __c3, 0)),
+          manualPrivateEndPointConnections: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7001,16 +8002,16 @@ function __c91(j: number): any {
       ).annotate({ identifier: "RemoveArtifactStorePrivateEndPointsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          managedResourceGroupConfiguration: S.optional(__S(608, __c38, 0)),
-          siteReference: S.optional(__S(32, __c2, 0)),
+          managedResourceGroupConfiguration: S.optional(__S(1280, __c40, 0)),
+          siteReference: S.optional(__S(64, __c2, 0)),
           publisherScope: S.optional(S.String),
-          networkServiceDesignVersionResourceReference: S.optional(__S(1120, __c70, 0)),
-          desiredStateConfigurationGroupValueReferences: S.optional(__S(560, __c35, 0)),
+          networkServiceDesignVersionResourceReference: S.optional(__S(2304, __c72, 0)),
+          desiredStateConfigurationGroupValueReferences: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "SiteNetworkServicePropertiesFormatInput" });
     case 1:
@@ -7025,11 +8026,11 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteNetworkServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1472, __c92, 0)),
-          identity: S.optional(__S(1378, __c86, 2)),
-          sku: S.optional(__S(1473, __c92, 1)),
+          properties: S.optional(__S(3008, __c94, 0)),
+          identity: S.optional(__S(2818, __c88, 2)),
+          sku: S.optional(__S(3009, __c94, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7041,12 +8042,12 @@ function __c92(j: number): any {
       ).annotate({ identifier: "SiteNetworkServicesCreateOrUpdateRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nfvis: S.optional(__S(721, __c45, 1)),
+          nfvis: S.optional(__S(1507, __c47, 3)),
         }),
       ).annotate({ identifier: "SitePropertiesFormatInput" });
     case 1:
@@ -7055,9 +8056,9 @@ function __c93(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
           location: S.String,
-          properties: S.optional(__S(1488, __c93, 0)),
+          properties: S.optional(__S(3040, __c95, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7069,7 +8070,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "SitesCreateOrUpdateRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7079,7 +8080,7 @@ function __c94(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
           artifactManifestName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7091,7 +8092,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateArtifactManifestRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7120,7 +8121,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ArtifactManifestUpdateState" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7129,7 +8130,7 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7141,7 +8142,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateArtifactStoreRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7150,7 +8151,7 @@ function __c97(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           configurationGroupSchemaName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7162,7 +8163,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationGroupSchemaRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7182,7 +8183,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteArtifactStoreRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7203,7 +8204,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationGroupSchemaStateRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7214,7 +8215,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ConfigurationGroupSchemaVersionUpdateState" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7222,7 +8223,7 @@ function __c101(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configurationGroupValueName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7234,7 +8235,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationGroupValueTagsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7243,7 +8244,7 @@ function __c102(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkFunctionDefinitionGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7255,7 +8256,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateNetworkFunctionDefinitionGroupRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7265,7 +8266,7 @@ function __c103(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           networkFunctionDefinitionGroupName: S.String.pipe(T.Label()),
           networkFunctionDefinitionVersionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7277,7 +8278,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateNetworkFunctionDefinitionVersionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7299,7 +8300,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateNetworkFunctionDefinitionVersionStateRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7307,7 +8308,7 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           networkFunctionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7319,7 +8320,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UpdateNetworkFunctionTagsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7328,7 +8329,7 @@ function __c106(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           networkServiceDesignGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7340,7 +8341,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateNetworkServiceDesignGroupRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7350,7 +8351,7 @@ function __c107(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           networkServiceDesignGroupName: S.String.pipe(T.Label()),
           networkServiceDesignVersionName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7362,7 +8363,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateNetworkServiceDesignVersionRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7384,7 +8385,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateNetworkServiceDesignVersionStateRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7401,7 +8402,7 @@ function __c109(j: number): any {
           artifactStoreName: S.String.pipe(T.Label()),
           artifactVersionName: S.String.pipe(T.Label()),
           artifactName: S.String.pipe(T.Query()),
-          properties: S.optional(__S(1744, __c109, 0)),
+          properties: S.optional(__S(3552, __c111, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7417,14 +8418,14 @@ function __c109(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(272, __c17, 0)),
-          properties: S.optional(__S(656, __c41, 0)),
+          systemData: S.optional(__S(544, __c17, 0)),
+          properties: S.optional(__S(1376, __c43, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateProxyArtifactStateResponse" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7433,7 +8434,7 @@ function __c110(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           artifactStoreName: S.String.pipe(T.Label()),
-          networkFabricControllerIds: S.optional(__S(48, __c3, 0)),
+          networkFabricControllerIds: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7445,7 +8446,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DeleteArtifactStoreNetworkFabricControllerEndPointsRequest" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7453,7 +8454,7 @@ function __c111(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7465,7 +8466,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdatePublisherRequest" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7473,7 +8474,7 @@ function __c112(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteNetworkServiceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7485,7 +8486,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateSiteNetworkServiceTagsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7493,7 +8494,7 @@ function __c113(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           siteName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7505,7 +8506,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateSiteTagsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

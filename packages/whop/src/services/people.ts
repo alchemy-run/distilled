@@ -30,39 +30,53 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface GetPersonRequest {
   /** The person ID, user ID, email address, or phone number to look up. */
   id: string;
   /** Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export type GetPersonResponseAudienceIdsList = Array<string>;
 export type GetPersonResponseCustomEventNamesList = Array<string>;
 export interface GetPersonResponseDevice {
-  browser?: string | null;
-  device?: string | null;
-  os?: string | null;
+  browser?: string | null | undefined;
+  device?: string | null | undefined;
+  os?: string | null | undefined;
 }
 /** Every linked email, primary first. */
 export type GetPersonResponseEmailsList = Array<string>;
 export type GetPersonResponseEventNamesList = Array<string>;
 export interface GetPersonResponseFirstSourceAd {
   id: string;
-  name?: string | null;
-  thumbnail_url?: string | null;
+  name?: string | null | undefined;
+  thumbnail_url?: string | null | undefined;
 }
 export type GetPersonResponseFirstSourceAdGroup = GetPersonResponseFirstSourceAd;
 export type GetPersonResponseFirstSourceCampaign = GetPersonResponseFirstSourceAd;
@@ -74,14 +88,14 @@ export type GetPersonResponseFirstSourceType =
   | "utm";
 /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
 export interface GetPersonResponseFirstSource {
-  ad?: GetPersonResponseFirstSourceAd | null;
-  ad_group?: GetPersonResponseFirstSourceAd | null;
-  campaign?: GetPersonResponseFirstSourceAd | null;
-  domain?: string | null;
-  occurred_at?: string | null;
-  platform?: string | null;
+  ad?: GetPersonResponseFirstSourceAd | null | undefined;
+  ad_group?: GetPersonResponseFirstSourceAd | null | undefined;
+  campaign?: GetPersonResponseFirstSourceAd | null | undefined;
+  domain?: string | null | undefined;
+  occurred_at?: string | null | undefined;
+  platform?: string | null | undefined;
   type: GetPersonResponseFirstSourceType;
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
 }
 export type GetPersonResponseLastSourceAd = GetPersonResponseFirstSourceAd;
 export type GetPersonResponseLastSourceAdGroup = GetPersonResponseFirstSourceAd;
@@ -94,26 +108,26 @@ export type GetPersonResponseLastSourceType =
   | "utm";
 /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
 export interface GetPersonResponseLastSource {
-  ad?: GetPersonResponseFirstSourceAd | null;
-  ad_group?: GetPersonResponseFirstSourceAd | null;
-  campaign?: GetPersonResponseFirstSourceAd | null;
-  domain?: string | null;
-  occurred_at?: string | null;
-  platform?: string | null;
+  ad?: GetPersonResponseFirstSourceAd | null | undefined;
+  ad_group?: GetPersonResponseFirstSourceAd | null | undefined;
+  campaign?: GetPersonResponseFirstSourceAd | null | undefined;
+  domain?: string | null | undefined;
+  occurred_at?: string | null | undefined;
+  platform?: string | null | undefined;
   type: GetPersonResponseLastSourceType;
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
 }
 export interface GetPersonResponseLocation {
-  city?: string | null;
-  continent?: string | null;
-  country?: string | null;
+  city?: string | null | undefined;
+  continent?: string | null | undefined;
+  country?: string | null | undefined;
 }
 /** The user's member record at this account, when they are a member of it. */
 export interface GetPersonResponseMember {
   id: string;
-  joined_at?: string | null;
-  status?: string | null;
-  usd_total_spend?: number;
+  joined_at?: string | null | undefined;
+  status?: string | null | undefined;
+  usd_total_spend?: number | undefined;
 }
 /** Every name the person's linked identities carried, primary first. */
 export type GetPersonResponseNamesList = Array<string>;
@@ -137,14 +151,14 @@ export type GetPersonResponseSourcesItemType =
   | "utm";
 /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
 export interface GetPersonResponseSourcesItem {
-  ad?: GetPersonResponseFirstSourceAd | null;
-  ad_group?: GetPersonResponseFirstSourceAd | null;
-  campaign?: GetPersonResponseFirstSourceAd | null;
-  domain?: string | null;
-  occurred_at?: string | null;
-  platform?: string | null;
+  ad?: GetPersonResponseFirstSourceAd | null | undefined;
+  ad_group?: GetPersonResponseFirstSourceAd | null | undefined;
+  campaign?: GetPersonResponseFirstSourceAd | null | undefined;
+  domain?: string | null | undefined;
+  occurred_at?: string | null | undefined;
+  platform?: string | null | undefined;
   type: GetPersonResponseSourcesItemType;
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
 }
 /** Every distinct acquisition signal the person ever carried, ad entities hydrated. */
 export type GetPersonResponseSourcesList = Array<GetPersonResponseSourcesItem>;
@@ -169,70 +183,70 @@ export type GetPersonResponseUsageTimezoneItem = GetPersonResponseUsageBrowserIt
 export type GetPersonResponseUsageTimezoneList = Array<GetPersonResponseUsageBrowserItem>;
 /** Exact usage breakdowns for the person's browser traffic (distinct events per value). */
 export interface GetPersonResponseUsage {
-  browser?: GetPersonResponseUsageBrowserList;
-  city?: GetPersonResponseUsageCityList;
-  country?: GetPersonResponseUsageCountryList;
-  device?: GetPersonResponseUsageDeviceList;
-  ip?: GetPersonResponseUsageIpList;
-  os?: GetPersonResponseUsageOsList;
-  referrer?: GetPersonResponseUsageReferrerList;
-  timezone?: GetPersonResponseUsageTimezoneList;
+  browser?: GetPersonResponseUsageBrowserList | undefined;
+  city?: GetPersonResponseUsageCityList | undefined;
+  country?: GetPersonResponseUsageCountryList | undefined;
+  device?: GetPersonResponseUsageDeviceList | undefined;
+  ip?: GetPersonResponseUsageIpList | undefined;
+  os?: GetPersonResponseUsageOsList | undefined;
+  referrer?: GetPersonResponseUsageReferrerList | undefined;
+  timezone?: GetPersonResponseUsageTimezoneList | undefined;
 }
 /** The person's primary whop user, when one of their identities is a whop account. */
 export interface GetPersonResponseUser {
   id: string;
-  name?: string | null;
-  profile_pic_url?: string | null;
+  name?: string | null | undefined;
+  profile_pic_url?: string | null | undefined;
   username: string;
 }
 /** Every linked whop account, the most used one first. */
 export type GetPersonResponseUserIdsList = Array<string>;
 export interface GetPersonResponse {
   account_id: string;
-  aov?: number;
-  audience_ids?: GetPersonResponseAudienceIdsList;
-  custom_event_names?: GetPersonResponseCustomEventNamesList;
-  device?: GetPersonResponseDevice;
+  aov?: number | undefined;
+  audience_ids?: GetPersonResponseAudienceIdsList | undefined;
+  custom_event_names?: GetPersonResponseCustomEventNamesList | undefined;
+  device?: GetPersonResponseDevice | undefined;
   /** The email from the person's most recent event that carried one. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Every linked email, primary first. */
-  emails?: GetPersonResponseEmailsList;
+  emails?: GetPersonResponseEmailsList | undefined;
   event_count: number;
-  event_names?: GetPersonResponseEventNamesList;
-  first_purchase_at?: string | null;
+  event_names?: GetPersonResponseEventNamesList | undefined;
+  first_purchase_at?: string | null | undefined;
   first_seen_at: string;
   /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
-  first_source?: GetPersonResponseFirstSource | null;
+  first_source?: GetPersonResponseFirstSource | null | undefined;
   id: string;
-  last_ip?: string | null;
-  last_purchase_at?: string | null;
+  last_ip?: string | null | undefined;
+  last_purchase_at?: string | null | undefined;
   last_seen_at: string;
   /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
-  last_source?: GetPersonResponseLastSource | null;
-  location?: GetPersonResponseLocation;
-  ltv?: number;
+  last_source?: GetPersonResponseLastSource | null | undefined;
+  location?: GetPersonResponseLocation | undefined;
+  ltv?: number | undefined;
   /** The user's member record at this account, when they are a member of it. */
-  member?: GetPersonResponseMember | null;
+  member?: GetPersonResponseMember | null | undefined;
   /** The name from the person's most recent event that carried one. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Every name the person's linked identities carried, primary first. */
-  names?: GetPersonResponseNamesList;
+  names?: GetPersonResponseNamesList | undefined;
   /** The phone from the person's most recent event that carried one. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Every linked phone, primary first. */
-  phones?: GetPersonResponsePhonesList;
+  phones?: GetPersonResponsePhonesList | undefined;
   purchase_count: number;
-  purchases?: GetPersonResponsePurchasesList;
-  roles?: GetPersonResponseRolesList;
+  purchases?: GetPersonResponsePurchasesList | undefined;
+  roles?: GetPersonResponseRolesList | undefined;
   /** Every distinct acquisition signal the person ever carried, ad entities hydrated. */
-  sources?: GetPersonResponseSourcesList;
-  timezone?: string | null;
+  sources?: GetPersonResponseSourcesList | undefined;
+  timezone?: string | null | undefined;
   /** Exact usage breakdowns for the person's browser traffic (distinct events per value). */
-  usage?: GetPersonResponseUsage;
+  usage?: GetPersonResponseUsage | undefined;
   /** The person's primary whop user, when one of their identities is a whop account. */
-  user?: GetPersonResponseUser | null;
+  user?: GetPersonResponseUser | null | undefined;
   /** Every linked whop account, the most used one first. */
-  user_ids?: GetPersonResponseUserIdsList;
+  user_ids?: GetPersonResponseUserIdsList | undefined;
 }
 export type ListPeopleRequestSourceList = Array<string>;
 export type ListPeopleRequestAttributionModel = "last_touch" | "first_touch";
@@ -251,95 +265,95 @@ export type ListPeopleRequestOrder =
 export type ListPeopleRequestDirection = "asc" | "desc";
 export interface ListPeopleRequest {
   /** Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Search people by name, email, phone, or whop user ID (case-insensitive substring match). */
-  query?: string;
+  query?: string | undefined;
   /** Only include people acquired from any of these sources -- canonical paths (whop:<campaign>:<group>:<ad>, ext:<platform>:..., referrer:<domain>, direct, other), exact or with a trailing :* prefix. The same vocabulary the events / people metrics use. */
-  source?: ListPeopleRequestSourceList;
+  source?: ListPeopleRequestSourceList | undefined;
   /** Attribution model the source filter matches against (defaults to last_touch). */
-  attribution_model?: ListPeopleRequestAttributionModel | (string & {});
+  attribution_model?: ListPeopleRequestAttributionModel | (string & {}) | undefined;
   /** Only include people who fired any of these events, e.g. payment.completed or page.checkout.view. */
-  event_name?: ListPeopleRequestEventNameList;
+  event_name?: ListPeopleRequestEventNameList | undefined;
   /** Only include people who fired this custom pixel event. */
-  custom_event?: string;
+  custom_event?: string | undefined;
   /** Match activity within a rolling number of days. Cannot be combined with event_from/event_to. */
-  event_within_days?: number;
+  event_within_days?: number | undefined;
   /** Inclusive activity-window start. Alias for event_from. */
-  from?: string;
+  from?: string | undefined;
   /** Inclusive activity-window end. Alias for event_to. */
-  to?: string;
+  to?: string | undefined;
   /** The inclusive start of the matching activity window. */
-  event_from?: string;
+  event_from?: string | undefined;
   /** The inclusive end of the matching activity window, for both stats drilldowns and saved audiences. */
-  event_to?: string;
+  event_to?: string | undefined;
   /** Only include people in this audience. An audience that keeps itself up to date resolves to the People filters that define it, so this always reflects who matches now; uploaded lists and point-in-time snapshots match their recorded members. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Only include the person linked to this whop user ID. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only include the person linked to this email address. */
-  email?: string;
+  email?: string | undefined;
   /** Only include the person linked to this phone number. */
-  phone?: string;
+  phone?: string | undefined;
   /** Only include people with activity from this ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** true for customers only, false for people who have never purchased. */
-  has_purchased?: boolean;
+  has_purchased?: boolean | undefined;
   /** true for people who have an email address or phone number -- the ones an ad platform can match. */
-  contactable?: boolean;
+  contactable?: boolean | undefined;
   /** Only include people first seen within this many days, as a rolling window. */
-  first_seen_within_days?: number;
+  first_seen_within_days?: number | undefined;
   /** Only include people last seen within this many days, as a rolling window. */
-  last_seen_within_days?: number;
+  last_seen_within_days?: number | undefined;
   /** Only include people first seen at or after this ISO 8601 timestamp. */
-  first_seen_after?: string;
+  first_seen_after?: string | undefined;
   /** Only include people first seen before this ISO 8601 timestamp. */
-  first_seen_before?: string;
+  first_seen_before?: string | undefined;
   /** Only include people last seen at or after this ISO 8601 timestamp. */
-  last_seen_after?: string;
+  last_seen_after?: string | undefined;
   /** Only include people last seen before this ISO 8601 timestamp. */
-  last_seen_before?: string;
+  last_seen_before?: string | undefined;
   /** Select people whose lifetime ltv is greater than this value. LTV and AOV are in USD. */
-  ltv_gt?: number;
+  ltv_gt?: number | undefined;
   /** Select people whose lifetime ltv is at least this value. LTV and AOV are in USD. */
-  ltv_gte?: number;
+  ltv_gte?: number | undefined;
   /** Select people whose lifetime ltv is less than this value. LTV and AOV are in USD. */
-  ltv_lt?: number;
+  ltv_lt?: number | undefined;
   /** Select people whose lifetime ltv is at most this value. LTV and AOV are in USD. */
-  ltv_lte?: number;
+  ltv_lte?: number | undefined;
   /** Select people whose lifetime aov is greater than this value. LTV and AOV are in USD. */
-  aov_gt?: number;
+  aov_gt?: number | undefined;
   /** Select people whose lifetime aov is at least this value. LTV and AOV are in USD. */
-  aov_gte?: number;
+  aov_gte?: number | undefined;
   /** Select people whose lifetime aov is less than this value. LTV and AOV are in USD. */
-  aov_lt?: number;
+  aov_lt?: number | undefined;
   /** Select people whose lifetime aov is at most this value. LTV and AOV are in USD. */
-  aov_lte?: number;
+  aov_lte?: number | undefined;
   /** Select people whose lifetime purchase_count is greater than this value. LTV and AOV are in USD. */
-  purchase_count_gt?: number;
+  purchase_count_gt?: number | undefined;
   /** Select people whose lifetime purchase_count is at least this value. LTV and AOV are in USD. */
-  purchase_count_gte?: number;
+  purchase_count_gte?: number | undefined;
   /** Select people whose lifetime purchase_count is less than this value. LTV and AOV are in USD. */
-  purchase_count_lt?: number;
+  purchase_count_lt?: number | undefined;
   /** Select people whose lifetime purchase_count is at most this value. LTV and AOV are in USD. */
-  purchase_count_lte?: number;
+  purchase_count_lte?: number | undefined;
   /** Select people whose lifetime event_count is greater than this value. LTV and AOV are in USD. */
-  event_count_gt?: number;
+  event_count_gt?: number | undefined;
   /** Select people whose lifetime event_count is at least this value. LTV and AOV are in USD. */
-  event_count_gte?: number;
+  event_count_gte?: number | undefined;
   /** Select people whose lifetime event_count is less than this value. LTV and AOV are in USD. */
-  event_count_lt?: number;
+  event_count_lt?: number | undefined;
   /** Select people whose lifetime event_count is at most this value. LTV and AOV are in USD. */
-  event_count_lte?: number;
+  event_count_lte?: number | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** Column to sort by. Defaults to last_seen_at. */
-  order?: ListPeopleRequestOrder | (string & {});
+  order?: ListPeopleRequestOrder | (string & {}) | undefined;
   /** Sort direction. Defaults to desc. */
-  direction?: ListPeopleRequestDirection | (string & {});
+  direction?: ListPeopleRequestDirection | (string & {}) | undefined;
 }
 export type ListPeopleResponseDataItemDevice = GetPersonResponseDevice;
 export type ListPeopleResponseDataItemFirstSourceAd = GetPersonResponseFirstSourceAd;
@@ -353,14 +367,14 @@ export type ListPeopleResponseDataItemFirstSourceType =
   | "utm";
 /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
 export interface ListPeopleResponseDataItemFirstSource {
-  ad?: GetPersonResponseFirstSourceAd | null;
-  ad_group?: GetPersonResponseFirstSourceAd | null;
-  campaign?: GetPersonResponseFirstSourceAd | null;
-  domain?: string | null;
-  occurred_at?: string | null;
-  platform?: string | null;
+  ad?: GetPersonResponseFirstSourceAd | null | undefined;
+  ad_group?: GetPersonResponseFirstSourceAd | null | undefined;
+  campaign?: GetPersonResponseFirstSourceAd | null | undefined;
+  domain?: string | null | undefined;
+  occurred_at?: string | null | undefined;
+  platform?: string | null | undefined;
   type: ListPeopleResponseDataItemFirstSourceType;
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
 }
 export type ListPeopleResponseDataItemLastSourceAd = GetPersonResponseFirstSourceAd;
 export type ListPeopleResponseDataItemLastSourceAdGroup = GetPersonResponseFirstSourceAd;
@@ -373,14 +387,14 @@ export type ListPeopleResponseDataItemLastSourceType =
   | "utm";
 /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
 export interface ListPeopleResponseDataItemLastSource {
-  ad?: GetPersonResponseFirstSourceAd | null;
-  ad_group?: GetPersonResponseFirstSourceAd | null;
-  campaign?: GetPersonResponseFirstSourceAd | null;
-  domain?: string | null;
-  occurred_at?: string | null;
-  platform?: string | null;
+  ad?: GetPersonResponseFirstSourceAd | null | undefined;
+  ad_group?: GetPersonResponseFirstSourceAd | null | undefined;
+  campaign?: GetPersonResponseFirstSourceAd | null | undefined;
+  domain?: string | null | undefined;
+  occurred_at?: string | null | undefined;
+  platform?: string | null | undefined;
   type: ListPeopleResponseDataItemLastSourceType;
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
 }
 export type ListPeopleResponseDataItemLocation = GetPersonResponseLocation;
 /** The user's member record at this account, when they are a member of it. */
@@ -389,45 +403,56 @@ export type ListPeopleResponseDataItemMember = GetPersonResponseMember;
 export type ListPeopleResponseDataItemUser = GetPersonResponseUser;
 export interface ListPeopleResponseDataItem {
   account_id: string;
-  aov?: number;
-  device?: GetPersonResponseDevice;
+  aov?: number | undefined;
+  device?: GetPersonResponseDevice | undefined;
   /** The email from the person's most recent event that carried one. */
-  email?: string | null;
+  email?: string | null | undefined;
   event_count: number;
-  first_purchase_at?: string | null;
+  first_purchase_at?: string | null | undefined;
   first_seen_at: string;
   /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
-  first_source?: ListPeopleResponseDataItemFirstSource | null;
+  first_source?: ListPeopleResponseDataItemFirstSource | null | undefined;
   id: string;
-  last_ip?: string | null;
-  last_purchase_at?: string | null;
+  last_ip?: string | null | undefined;
+  last_purchase_at?: string | null | undefined;
   last_seen_at: string;
   /** Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site. */
-  last_source?: ListPeopleResponseDataItemLastSource | null;
-  location?: GetPersonResponseLocation;
-  ltv?: number;
+  last_source?: ListPeopleResponseDataItemLastSource | null | undefined;
+  location?: GetPersonResponseLocation | undefined;
+  ltv?: number | undefined;
   /** The user's member record at this account, when they are a member of it. */
-  member?: GetPersonResponseMember | null;
+  member?: GetPersonResponseMember | null | undefined;
   /** The name from the person's most recent event that carried one. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The phone from the person's most recent event that carried one. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   purchase_count: number;
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** The person's primary whop user, when one of their identities is a whop account. */
-  user?: GetPersonResponseUser | null;
+  user?: GetPersonResponseUser | null | undefined;
 }
 export type ListPeopleResponseDataList = Array<ListPeopleResponseDataItem>;
 export interface ListPeopleResponsePageInfo {
-  end_cursor?: string | null;
+  end_cursor?: string | null | undefined;
   has_next_page: boolean;
   has_previous_page: boolean;
-  start_cursor?: string | null;
+  start_cursor?: string | null | undefined;
 }
 export interface ListPeopleResponse {
   data: ListPeopleResponseDataList;
   page_info: ListPeopleResponsePageInfo;
-  total_count?: number;
+  total_count?: number | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type GetPersonError = NotFound | WhopOpError;
 /** Retrieve Person Retrieves one person for an account. The identifier can be a person ID (prefixed `prsn_`), a user ID (prefixed `user_`), an email address, or a phone number -- merged people resolve to the surviving profile. */
@@ -437,8 +462,8 @@ export const getPerson: API.OperationMethod<
   GetPersonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPersonRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<GetPersonResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetPersonRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<GetPersonResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -456,8 +481,8 @@ export const listPeople: API.PaginatedOperationMethod<
   ListPeopleResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListPeopleRequest>,
-    output: __S(20, __c2, 4) as any as S.Schema<ListPeopleResponse>,
+    input: __S(24, __c3, 0) as any as S.Schema<ListPeopleRequest>,
+    output: __S(28, __c3, 4) as any as S.Schema<ListPeopleResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -481,6 +506,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/people/{id}", code: 200 })),
@@ -494,9 +537,9 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonResponsePurchasesItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -505,18 +548,18 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonResponseUsageBrowserItem" });
     case 5:
-      return S.Array(__S(4, __c0, 4));
+      return S.Array(__S(12, __c1, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          browser: S.optional(__S(5, __c0, 5)),
-          city: S.optional(__S(5, __c0, 5)),
-          country: S.optional(__S(5, __c0, 5)),
-          device: S.optional(__S(5, __c0, 5)),
-          ip: S.optional(__S(5, __c0, 5)),
-          os: S.optional(__S(5, __c0, 5)),
-          referrer: S.optional(__S(5, __c0, 5)),
-          timezone: S.optional(__S(5, __c0, 5)),
+          browser: S.optional(__S(13, __c1, 5)),
+          city: S.optional(__S(13, __c1, 5)),
+          country: S.optional(__S(13, __c1, 5)),
+          device: S.optional(__S(13, __c1, 5)),
+          ip: S.optional(__S(13, __c1, 5)),
+          os: S.optional(__S(13, __c1, 5)),
+          referrer: S.optional(__S(13, __c1, 5)),
+          timezone: S.optional(__S(13, __c1, 5)),
         }),
       ).annotate({ identifier: "GetPersonResponseUsage" });
     case 7:
@@ -524,41 +567,41 @@ function __c0(j: number): any {
         S.Struct({
           account_id: S.String,
           aov: S.optional(S.Number),
-          audience_ids: S.optional(__S(8, __c1, 0)),
-          custom_event_names: S.optional(__S(8, __c1, 0)),
-          device: S.optional(__S(9, __c1, 1)),
+          audience_ids: S.optional(__S(16, __c2, 0)),
+          custom_event_names: S.optional(__S(16, __c2, 0)),
+          device: S.optional(__S(17, __c2, 1)),
           email: S.optional(S.NullOr(S.String)),
-          emails: S.optional(__S(8, __c1, 0)),
+          emails: S.optional(__S(16, __c2, 0)),
           event_count: S.Number,
-          event_names: S.optional(__S(8, __c1, 0)),
+          event_names: S.optional(__S(16, __c2, 0)),
           first_purchase_at: S.optional(S.NullOr(S.String)),
           first_seen_at: S.String,
-          first_source: S.optional(S.NullOr(__S(11, __c1, 3))),
+          first_source: S.optional(S.NullOr(__S(19, __c2, 3))),
           id: S.String,
           last_ip: S.optional(S.NullOr(S.String)),
           last_purchase_at: S.optional(S.NullOr(S.String)),
           last_seen_at: S.String,
-          last_source: S.optional(S.NullOr(__S(11, __c1, 3))),
-          location: S.optional(__S(12, __c1, 4)),
+          last_source: S.optional(S.NullOr(__S(19, __c2, 3))),
+          location: S.optional(__S(20, __c2, 4)),
           ltv: S.optional(S.Number),
-          member: S.optional(S.NullOr(__S(13, __c1, 5))),
+          member: S.optional(S.NullOr(__S(21, __c2, 5))),
           name: S.optional(S.NullOr(S.String)),
-          names: S.optional(__S(8, __c1, 0)),
+          names: S.optional(__S(16, __c2, 0)),
           phone: S.optional(S.NullOr(S.String)),
-          phones: S.optional(__S(8, __c1, 0)),
+          phones: S.optional(__S(16, __c2, 0)),
           purchase_count: S.Number,
-          purchases: S.optional(__S(2, __c0, 2)),
-          roles: S.optional(__S(8, __c1, 0)),
-          sources: S.optional(__S(3, __c0, 3)),
+          purchases: S.optional(__S(10, __c1, 2)),
+          roles: S.optional(__S(16, __c2, 0)),
+          sources: S.optional(__S(11, __c1, 3)),
           timezone: S.optional(S.NullOr(S.String)),
-          usage: S.optional(__S(6, __c0, 6)),
-          user: S.optional(S.NullOr(__S(14, __c1, 6))),
-          user_ids: S.optional(__S(8, __c1, 0)),
+          usage: S.optional(__S(14, __c1, 6)),
+          user: S.optional(S.NullOr(__S(22, __c2, 6))),
+          user_ids: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "GetPersonResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -581,9 +624,9 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ad: S.optional(S.NullOr(__S(10, __c1, 2))),
-          ad_group: S.optional(S.NullOr(__S(10, __c1, 2))),
-          campaign: S.optional(S.NullOr(__S(10, __c1, 2))),
+          ad: S.optional(S.NullOr(__S(18, __c2, 2))),
+          ad_group: S.optional(S.NullOr(__S(18, __c2, 2))),
+          campaign: S.optional(S.NullOr(__S(18, __c2, 2))),
           domain: S.optional(S.NullOr(S.String)),
           occurred_at: S.optional(S.NullOr(S.String)),
           platform: S.optional(S.NullOr(S.String)),
@@ -619,16 +662,16 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetPersonResponseUser" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          source: S.optional(__S(8, __c1, 0).pipe(T.Query())),
+          source: S.optional(__S(16, __c2, 0).pipe(T.Query())),
           attribution_model: S.optional(S.String.pipe(T.Query())),
-          event_name: S.optional(__S(8, __c1, 0).pipe(T.Query())),
+          event_name: S.optional(__S(16, __c2, 0).pipe(T.Query())),
           custom_event: S.optional(S.String.pipe(T.Query())),
           event_within_days: S.optional(S.Number.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
@@ -676,29 +719,29 @@ function __c2(j: number): any {
         S.Struct({
           account_id: S.String,
           aov: S.optional(S.Number),
-          device: S.optional(__S(9, __c1, 1)),
+          device: S.optional(__S(17, __c2, 1)),
           email: S.optional(S.NullOr(S.String)),
           event_count: S.Number,
           first_purchase_at: S.optional(S.NullOr(S.String)),
           first_seen_at: S.String,
-          first_source: S.optional(S.NullOr(__S(11, __c1, 3))),
+          first_source: S.optional(S.NullOr(__S(19, __c2, 3))),
           id: S.String,
           last_ip: S.optional(S.NullOr(S.String)),
           last_purchase_at: S.optional(S.NullOr(S.String)),
           last_seen_at: S.String,
-          last_source: S.optional(S.NullOr(__S(11, __c1, 3))),
-          location: S.optional(__S(12, __c1, 4)),
+          last_source: S.optional(S.NullOr(__S(19, __c2, 3))),
+          location: S.optional(__S(20, __c2, 4)),
           ltv: S.optional(S.Number),
-          member: S.optional(S.NullOr(__S(13, __c1, 5))),
+          member: S.optional(S.NullOr(__S(21, __c2, 5))),
           name: S.optional(S.NullOr(S.String)),
           phone: S.optional(S.NullOr(S.String)),
           purchase_count: S.Number,
           timezone: S.optional(S.NullOr(S.String)),
-          user: S.optional(S.NullOr(__S(14, __c1, 6))),
+          user: S.optional(S.NullOr(__S(22, __c2, 6))),
         }),
       ).annotate({ identifier: "ListPeopleResponseDataItem" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -711,8 +754,8 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(18, __c2, 2),
-          page_info: __S(19, __c2, 3),
+          data: __S(26, __c3, 2),
+          page_info: __S(27, __c3, 3),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListPeopleResponse" });

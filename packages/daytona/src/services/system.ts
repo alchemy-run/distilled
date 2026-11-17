@@ -25,16 +25,16 @@ const TELEMETRY = {
 
 export interface GetSystemMetricsRequest {}
 export interface SystemMetrics {
-  cpuCount?: number;
-  cpuUsedPct?: number;
-  diskFree?: number;
-  diskTotal?: number;
-  diskUsed?: number;
-  memCache?: number;
-  memTotal?: number;
-  memUsed?: number;
-  timestamp?: string;
-  timestampUnix?: number;
+  cpuCount?: number | undefined;
+  cpuUsedPct?: number | undefined;
+  diskFree?: number | undefined;
+  diskTotal?: number | undefined;
+  diskUsed?: number | undefined;
+  memCache?: number | undefined;
+  memTotal?: number | undefined;
+  memUsed?: number | undefined;
+  timestamp?: string | undefined;
+  timestampUnix?: number | undefined;
 }
 export type GetSystemMetricsError = DaytonaOpError;
 /** Get sandbox resource metrics Latest CPU/memory/disk usage snapshot for the sandbox. cpuUsedPct is the average CPU usage as a percentage of the CPU limit over the last sample window (0 until the first sample completes). Byte fields are in bytes. */

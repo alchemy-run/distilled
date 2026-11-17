@@ -26,18 +26,18 @@ const TELEMETRY = {
 export interface CreateCustomerJourneyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  insight?: number;
-  name?: string;
-  description?: string | null;
+  insight?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface CustomerJourney {
-  id?: string;
-  insight?: number;
-  name?: string;
-  description?: string | null;
-  created_at?: string;
-  created_by?: number | null;
-  updated_at?: string | null;
+  id?: string | undefined;
+  insight?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  created_at?: string | undefined;
+  created_by?: number | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface CustomerJourneysDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -54,32 +54,32 @@ export interface ListCustomerJourneysRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCustomerJourneyListResultsList = Array<CustomerJourney>;
 export interface PaginatedCustomerJourneyList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedCustomerJourneyListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedCustomerJourneyListResultsList | undefined;
 }
 export interface UpdateCustomerJourneyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  insight?: number;
-  name?: string;
-  description?: string | null;
+  insight?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface UpdateCustomerJourneysPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  insight?: number;
-  name?: string;
-  description?: string | null;
+  insight?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
 }
 export type CreateCustomerJourneyError = PosthogOpError;
 export const createCustomerJourney: API.OperationMethod<

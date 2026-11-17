@@ -1,35 +1,40 @@
 #!/usr/bin/env node
 /**
- * Mirrors Clerk's Backend API OpenAPI spec into ../specs/.
+ * Mirrors Clerk's Backend and Platform API OpenAPI specs into ../specs/.
  *
- * Only the one file the distilled clerk generator reads is downloaded,
+ * Only the two descriptions needed by the distilled Clerk SDK are downloaded,
  * straight from raw.githubusercontent.com — the upstream repository is
- * never cloned, so the mirror stays exactly as large as the spec itself.
+ * never cloned. Both files come from one resolved upstream commit.
  *
- * Clerk publishes dated Backend API snapshots under `bapi/` in
- * clerk/openapi-specs. This script pins the latest dated version and
- * writes it as deterministic JSON.
+ * Keep the Backend API's dated snapshot unchanged while tracking the
+ * Platform API's beta description. Both are written as deterministic JSON.
  *
  * Usage:
  *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
+ *   ../specs/platform.json
  */
 
 import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "clerk/openapi-specs";
-/** Branch (or tag/commit) to mirror. */
+/** Upstream branch to mirror. */
 const REF = "main";
-/** Dated Backend API snapshot within {@link REPO}. */
-const SPEC_PATH = "bapi/2026-05-12.yml";
+/** Official descriptions and their stable mirror filenames. */
+const SPECS = [
+  { path: "bapi/2026-05-12.yml", output: "openapi.json" },
+  { path: "platform/beta.yml", output: "platform.json" },
+];
 
 const SPECS_DIR = "../specs";
-const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
+const USER_AGENT = "distilled.cloud-clerk-spec-mirror";
 
 mkdirSync(SPECS_DIR, { recursive: true });
 
@@ -38,41 +43,62 @@ mkdirSync(SPECS_DIR, { recursive: true });
  * individually so paths containing characters like `(` survive the round
  * trip while the separators do not.
  */
-const rawUrl = (path: string) =>
-  `https://raw.githubusercontent.com/${REPO}/${REF}/${path
+const rawUrl = (path: string, sha: string) =>
+  `https://raw.githubusercontent.com/${REPO}/${sha}/${path
     .split("/")
     .map(encodeURIComponent)
     .join("/")}`;
 
-async function main() {
-  const url = rawUrl(SPEC_PATH);
-  console.log(`Fetching ${url}...`);
-
+async function get(url: string, accept: string): Promise<Response> {
   const response = await fetch(url, {
-    headers: {
-      accept: "application/yaml, text/yaml, application/json, text/plain",
-      "user-agent": "distilled.cloud-clerk-spec-mirror",
-    },
+    headers: { accept, "user-agent": USER_AGENT },
+    signal: AbortSignal.timeout(30_000),
   });
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
+  return response;
+}
 
-  const text = await response.text();
-  const spec = YAML.parse(text) as Record<string, unknown>;
-
-  // Fail here rather than three steps later in the generator: a login page or
-  // a gutted response is still parseable YAML, but it is not an OpenAPI document.
-  if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
+async function main() {
+  // Resolve the branch without consuming GitHub's unauthenticated API quota.
+  const { stdout } = await promisify(execFile)(
+    "git",
+    ["ls-remote", `https://github.com/${REPO}.git`, `refs/heads/${REF}`],
+    { timeout: 30_000 },
+  );
+  const sha = stdout.trim().split("\t")[0];
+  if (sha === undefined || !/^[a-f0-9]{40}$/.test(sha)) {
+    throw new Error(`Failed to resolve ${REPO}@${REF} to a commit`);
   }
+  console.log(`${REPO} @ ${sha}`);
 
-  console.log(`Writing ${OUTPUT_PATH}...`);
-  // 2-space indent + trailing newline so a whitespace-only change upstream
-  // produces no diff. YAML dates stringify as ISO strings, which is stable.
-  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  for (const { path, output } of SPECS) {
+    const url = rawUrl(path, sha);
+    console.log(`Fetching ${url}...`);
+    const response = await get(url, "application/yaml, text/yaml, application/json, text/plain");
+    const spec = YAML.parse(await response.text()) as Record<string, unknown>;
 
-  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
+    // A login page or a gutted response may parse as YAML, but is not OpenAPI.
+    if (
+      spec === null ||
+      typeof spec !== "object" ||
+      typeof spec.openapi !== "string" ||
+      spec.paths === null ||
+      typeof spec.paths !== "object" ||
+      Array.isArray(spec.paths)
+    ) {
+      throw new Error(
+        `${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`,
+      );
+    }
+
+    const outputPath = `${SPECS_DIR}/${output}`;
+    console.log(`Writing ${outputPath}...`);
+    // 2-space indent + trailing newline prevents whitespace-only upstream diffs.
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths).length} paths`);
+  }
 }
 
 main().catch((err) => {

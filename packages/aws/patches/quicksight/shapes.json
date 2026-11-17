@@ -1,0 +1,45 @@
+{
+  "description": "QuickSight: Members the API always returns (required); members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#CredentialPair/members/Password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#WebProxyCredentials/members/WebProxyPassword/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#AssetBundleImportJobDataSourceCredentialPair/members/Password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#DataSource/members/DataSourceId/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#DataSource/members/Arn/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#DataSource/members/Name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#DataSource/members/Type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#DataSource/members/Status/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

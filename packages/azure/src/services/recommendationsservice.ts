@@ -42,11 +42,11 @@ export type EndpointAuthenticationPrincipalType = "Application" | "User";
 /** Service endpoints authentication details. */
 export interface EndpointAuthentication {
   /** AAD tenant ID. */
-  aadTenantID?: string;
+  aadTenantID?: string | undefined;
   /** AAD principal ID. */
-  principalID?: string;
+  principalID?: string | undefined;
   /** AAD principal type. */
-  principalType?: EndpointAuthenticationPrincipalType | (string & {});
+  principalType?: EndpointAuthenticationPrincipalType | (string & {}) | undefined;
 }
 /** The list of service endpoints authentication details. */
 export type EndpointAuthenticationsList = Array<EndpointAuthentication>;
@@ -63,26 +63,26 @@ export interface CorsRule {
   /** The origin domains that are permitted to make a request against the service via CORS. */
   allowedOrigins: CorsRuleAllowedOriginsList;
   /** The methods (HTTP request verbs) that the origin domain may use for a CORS request. */
-  allowedMethods?: CorsRuleAllowedMethodsList;
+  allowedMethods?: CorsRuleAllowedMethodsList | undefined;
   /** The request headers that the origin domain may specify on the CORS request. */
-  allowedHeaders?: CorsRuleAllowedHeadersList;
+  allowedHeaders?: CorsRuleAllowedHeadersList | undefined;
   /** The response headers to expose to CORS clients. */
-  exposedHeaders?: CorsRuleExposedHeadersList;
+  exposedHeaders?: CorsRuleExposedHeadersList | undefined;
   /** The number of seconds that the client/browser should cache a preflight response. */
-  maxAgeInSeconds?: number;
+  maxAgeInSeconds?: number | undefined;
 }
 /** The list of CORS details. */
 export type CorsRuleList = Array<CorsRule>;
 /** Account resource properties. */
 export interface AccountsCreateOrUpdateRequestProperties {
   /** Account configuration. This can only be set at RecommendationsService Account creation. */
-  configuration?: AccountsCreateOrUpdateRequestPropertiesConfiguration | (string & {});
+  configuration?: AccountsCreateOrUpdateRequestPropertiesConfiguration | (string & {}) | undefined;
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -92,11 +92,11 @@ export interface AccountsCreateOrUpdateRequest {
   /** The name of the RecommendationsService Account resource. */
   accountName: string;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Account resource properties. */
-  properties?: AccountsCreateOrUpdateRequestProperties;
+  properties?: AccountsCreateOrUpdateRequestProperties | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -105,15 +105,15 @@ export type AccountsCreateOrUpdateResponsePropertiesConfiguration = "Free" | "Ca
 /** Account resource properties. */
 export interface AccountsCreateOrUpdateResponseProperties {
   /** Account configuration. This can only be set at RecommendationsService Account creation. */
-  configuration?: AccountsCreateOrUpdateResponsePropertiesConfiguration;
+  configuration?: AccountsCreateOrUpdateResponsePropertiesConfiguration | undefined;
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type AccountsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -130,51 +130,51 @@ export type AccountsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AccountsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AccountsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: AccountsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: AccountsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Account resource properties. */
-  properties?: AccountsCreateOrUpdateResponseProperties;
+  properties?: AccountsCreateOrUpdateResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountsCreateOrUpdateResponseSystemData;
+  systemData?: AccountsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface CheckAccountNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckAccountNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckAccountNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckAccountNameAvailabilityResponseReason;
+  reason?: CheckAccountNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. */
@@ -222,15 +222,15 @@ export type GetAccountResponsePropertiesConfiguration = "Free" | "Capacity";
 /** Account resource properties. */
 export interface GetAccountResponseProperties {
   /** Account configuration. This can only be set at RecommendationsService Account creation. */
-  configuration?: GetAccountResponsePropertiesConfiguration;
+  configuration?: GetAccountResponsePropertiesConfiguration | undefined;
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetAccountResponseSystemDataCreatedByType =
@@ -247,33 +247,33 @@ export type GetAccountResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetAccountResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetAccountResponseSystemDataCreatedByType;
+  createdByType?: GetAccountResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetAccountResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetAccountResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Account resource properties. */
-  properties?: GetAccountResponseProperties;
+  properties?: GetAccountResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetAccountResponseSystemData;
+  systemData?: GetAccountResponseSystemData | undefined;
 }
 export interface GetAccountStatusRequest {
   /** The ID of the target subscription. */
@@ -286,27 +286,27 @@ export interface GetAccountStatusRequest {
 /** Stage status. */
 export interface StageStatus {
   /** The stage name. */
-  stage?: string;
+  stage?: string | undefined;
   /** The status of the stage. */
-  status?: string;
+  status?: string | undefined;
   /** The time of the status. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Scope stage statuses. */
 export type ScopeStatusesStatusesList = Array<StageStatus>;
 /** Scope statuses. */
 export interface ScopeStatuses {
   /** The scope that the statuses refers to. */
-  scope?: string;
+  scope?: string | undefined;
   /** Scope stage statuses. */
-  statuses?: ScopeStatusesStatusesList;
+  statuses?: ScopeStatusesStatusesList | undefined;
 }
 /** The list of scopes statuses. */
 export type AccountStatusScopesStatusesList = Array<ScopeStatuses>;
 /** Account status. */
 export interface AccountStatus {
   /** The list of scopes statuses. */
-  scopesStatuses?: AccountStatusScopesStatusesList;
+  scopesStatuses?: AccountStatusScopesStatusesList | undefined;
 }
 export interface GetModelingRequest {
   /** The ID of the target subscription. */
@@ -329,20 +329,20 @@ export type GetModelingResponsePropertiesSize = "Small" | "Medium" | "Large";
 /** The configuration to raw CDM data to be used as Modeling resource input. */
 export interface ModelingInputData {
   /** Connection string to raw input data. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Modeling resource properties. */
 export interface GetModelingResponseProperties {
   /** Modeling features controls the set of supported scenarios\models being computed. This can only be set at Modeling creation. */
-  features?: GetModelingResponsePropertiesFeatures;
+  features?: GetModelingResponsePropertiesFeatures | undefined;
   /** Modeling frequency controls the modeling compute frequency. */
-  frequency?: GetModelingResponsePropertiesFrequency;
+  frequency?: GetModelingResponsePropertiesFrequency | undefined;
   /** Modeling size controls the maximum supported input data size. */
-  size?: GetModelingResponsePropertiesSize;
+  size?: GetModelingResponsePropertiesSize | undefined;
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetModelingResponseSystemDataCreatedByType =
@@ -359,33 +359,33 @@ export type GetModelingResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetModelingResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetModelingResponseSystemDataCreatedByType;
+  createdByType?: GetModelingResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetModelingResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetModelingResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetModelingResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetModelingResponseTagsMap;
+  tags?: GetModelingResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Modeling resource properties. */
-  properties?: GetModelingResponseProperties;
+  properties?: GetModelingResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetModelingResponseSystemData;
+  systemData?: GetModelingResponseSystemData | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The name of Azure region. */
@@ -400,69 +400,69 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Custom operation properties, populated only for a successful operation. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetServiceEndpointRequest {
   /** The ID of the target subscription. */
@@ -479,13 +479,13 @@ export type GetServiceEndpointResponseTagsMap = { [key: string]: string | undefi
 /** ServiceEndpoint resource properties. */
 export interface GetServiceEndpointResponseProperties {
   /** ServiceEndpoint pre-allocated capacity controls the maximum requests-per-second allowed for that endpoint. Only applicable when Account configuration is Capacity. */
-  preAllocatedCapacity?: number;
+  preAllocatedCapacity?: number | undefined;
   /** The paired location that will be used by this ServiceEndpoint. */
-  pairedLocation?: string;
+  pairedLocation?: string | undefined;
   /** The URL where the ServiceEndpoint API is accessible at. */
-  url?: string;
+  url?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetServiceEndpointResponseSystemDataCreatedByType =
@@ -502,33 +502,33 @@ export type GetServiceEndpointResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetServiceEndpointResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetServiceEndpointResponseSystemDataCreatedByType;
+  createdByType?: GetServiceEndpointResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetServiceEndpointResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetServiceEndpointResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetServiceEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetServiceEndpointResponseTagsMap;
+  tags?: GetServiceEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ServiceEndpoint resource properties. */
-  properties?: GetServiceEndpointResponseProperties;
+  properties?: GetServiceEndpointResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetServiceEndpointResponseSystemData;
+  systemData?: GetServiceEndpointResponseSystemData | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -543,15 +543,15 @@ export type AccountResourcePropertiesConfiguration = "Free" | "Capacity";
 /** Account resource properties. */
 export interface AccountResourceProperties {
   /** Account configuration. This can only be set at RecommendationsService Account creation. */
-  configuration?: AccountResourcePropertiesConfiguration;
+  configuration?: AccountResourcePropertiesConfiguration | undefined;
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type AccountResourceSystemDataCreatedByType =
@@ -568,43 +568,43 @@ export type AccountResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AccountResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AccountResourceSystemDataCreatedByType;
+  createdByType?: AccountResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: AccountResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Account resource details. */
 export interface AccountResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AccountResourceTagsMap;
+  tags?: AccountResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Account resource properties. */
-  properties?: AccountResourceProperties;
+  properties?: AccountResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountResourceSystemData;
+  systemData?: AccountResourceSystemData | undefined;
 }
 /** The list of RecommendationsService Account resources. */
 export type AccountResourceListValueList = Array<AccountResource>;
 /** The list of RecommendationsService Account resources. */
 export interface AccountResourceList {
   /** The link used to get the next page of RecommendationsService Account resources list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RecommendationsService Account resources. */
-  value?: AccountResourceListValueList;
+  value?: AccountResourceListValueList | undefined;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -629,15 +629,15 @@ export type ModelingResourcePropertiesSize = "Small" | "Medium" | "Large";
 /** Modeling resource properties. */
 export interface ModelingResourceProperties {
   /** Modeling features controls the set of supported scenarios\models being computed. This can only be set at Modeling creation. */
-  features?: ModelingResourcePropertiesFeatures;
+  features?: ModelingResourcePropertiesFeatures | undefined;
   /** Modeling frequency controls the modeling compute frequency. */
-  frequency?: ModelingResourcePropertiesFrequency;
+  frequency?: ModelingResourcePropertiesFrequency | undefined;
   /** Modeling size controls the maximum supported input data size. */
-  size?: ModelingResourcePropertiesSize;
+  size?: ModelingResourcePropertiesSize | undefined;
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ModelingResourceSystemDataCreatedByType =
@@ -654,55 +654,55 @@ export type ModelingResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ModelingResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ModelingResourceSystemDataCreatedByType;
+  createdByType?: ModelingResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ModelingResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: ModelingResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Modeling resource details. */
 export interface ModelingResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ModelingResourceTagsMap;
+  tags?: ModelingResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Modeling resource properties. */
-  properties?: ModelingResourceProperties;
+  properties?: ModelingResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ModelingResourceSystemData;
+  systemData?: ModelingResourceSystemData | undefined;
 }
 /** The list of Modeling resources. */
 export type ModelingResourceListValueList = Array<ModelingResource>;
 /** The list of Modeling resources. */
 export interface ModelingResourceList {
   /** The link used to get the next page of Modeling resources list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of Modeling resources. */
-  value?: ModelingResourceListValueList;
+  value?: ModelingResourceListValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -711,23 +711,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceEndpointByAccountResourceRequest {
   /** The ID of the target subscription. */
@@ -756,43 +756,43 @@ export type ServiceEndpointResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ServiceEndpointResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ServiceEndpointResourceSystemDataCreatedByType;
+  createdByType?: ServiceEndpointResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServiceEndpointResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: ServiceEndpointResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** ServiceEndpoint resource details. */
 export interface ServiceEndpointResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ServiceEndpointResourceTagsMap;
+  tags?: ServiceEndpointResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ServiceEndpoint resource properties. */
-  properties?: GetServiceEndpointResponseProperties;
+  properties?: GetServiceEndpointResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServiceEndpointResourceSystemData;
+  systemData?: ServiceEndpointResourceSystemData | undefined;
 }
 /** The list of ServiceEndpoint resources. */
 export type ServiceEndpointResourceListValueList = Array<ServiceEndpointResource>;
 /** The list of ServiceEndpoint resources. */
 export interface ServiceEndpointResourceList {
   /** The link used to get the next page of ServiceEndpoint resources list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of ServiceEndpoint resources. */
-  value?: ServiceEndpointResourceListValueList;
+  value?: ServiceEndpointResourceListValueList | undefined;
 }
 /** Resource tags. */
 export type ModelingCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -805,13 +805,13 @@ export type ModelingCreateOrUpdateRequestPropertiesSize = "Small" | "Medium" | "
 /** Modeling resource properties. */
 export interface ModelingCreateOrUpdateRequestProperties {
   /** Modeling features controls the set of supported scenarios\models being computed. This can only be set at Modeling creation. */
-  features?: ModelingCreateOrUpdateRequestPropertiesFeatures | (string & {});
+  features?: ModelingCreateOrUpdateRequestPropertiesFeatures | (string & {}) | undefined;
   /** Modeling frequency controls the modeling compute frequency. */
-  frequency?: ModelingCreateOrUpdateRequestPropertiesFrequency | (string & {});
+  frequency?: ModelingCreateOrUpdateRequestPropertiesFrequency | (string & {}) | undefined;
   /** Modeling size controls the maximum supported input data size. */
-  size?: ModelingCreateOrUpdateRequestPropertiesSize | (string & {});
+  size?: ModelingCreateOrUpdateRequestPropertiesSize | (string & {}) | undefined;
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
 }
 export interface ModelingCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -823,11 +823,11 @@ export interface ModelingCreateOrUpdateRequest {
   /** The name of the Modeling resource. */
   modelingName: string;
   /** Resource tags. */
-  tags?: ModelingCreateOrUpdateRequestTagsMap;
+  tags?: ModelingCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Modeling resource properties. */
-  properties?: ModelingCreateOrUpdateRequestProperties;
+  properties?: ModelingCreateOrUpdateRequestProperties | undefined;
 }
 /** Resource tags. */
 export type ModelingCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -840,15 +840,15 @@ export type ModelingCreateOrUpdateResponsePropertiesSize = "Small" | "Medium" | 
 /** Modeling resource properties. */
 export interface ModelingCreateOrUpdateResponseProperties {
   /** Modeling features controls the set of supported scenarios\models being computed. This can only be set at Modeling creation. */
-  features?: ModelingCreateOrUpdateResponsePropertiesFeatures;
+  features?: ModelingCreateOrUpdateResponsePropertiesFeatures | undefined;
   /** Modeling frequency controls the modeling compute frequency. */
-  frequency?: ModelingCreateOrUpdateResponsePropertiesFrequency;
+  frequency?: ModelingCreateOrUpdateResponsePropertiesFrequency | undefined;
   /** Modeling size controls the maximum supported input data size. */
-  size?: ModelingCreateOrUpdateResponsePropertiesSize;
+  size?: ModelingCreateOrUpdateResponsePropertiesSize | undefined;
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ModelingCreateOrUpdateResponseSystemDataCreatedByType =
@@ -865,40 +865,40 @@ export type ModelingCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ModelingCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ModelingCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ModelingCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ModelingCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ModelingCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ModelingCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ModelingCreateOrUpdateResponseTagsMap;
+  tags?: ModelingCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Modeling resource properties. */
-  properties?: ModelingCreateOrUpdateResponseProperties;
+  properties?: ModelingCreateOrUpdateResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ModelingCreateOrUpdateResponseSystemData;
+  systemData?: ModelingCreateOrUpdateResponseSystemData | undefined;
 }
 /** Resource tags. */
 export type ServiceEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** ServiceEndpoint resource properties. */
 export interface ServiceEndpointsCreateOrUpdateRequestProperties {
   /** ServiceEndpoint pre-allocated capacity controls the maximum requests-per-second allowed for that endpoint. Only applicable when Account configuration is Capacity. */
-  preAllocatedCapacity?: number;
+  preAllocatedCapacity?: number | undefined;
 }
 export interface ServiceEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -910,11 +910,11 @@ export interface ServiceEndpointsCreateOrUpdateRequest {
   /** The name of the ServiceEndpoint resource. */
   serviceEndpointName: string;
   /** Resource tags. */
-  tags?: ServiceEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: ServiceEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ServiceEndpoint resource properties. */
-  properties?: ServiceEndpointsCreateOrUpdateRequestProperties;
+  properties?: ServiceEndpointsCreateOrUpdateRequestProperties | undefined;
 }
 /** Resource tags. */
 export type ServiceEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -935,44 +935,46 @@ export type ServiceEndpointsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ServiceEndpointsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ServiceEndpointsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ServiceEndpointsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServiceEndpointsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ServiceEndpointsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ServiceEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ServiceEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: ServiceEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ServiceEndpoint resource properties. */
-  properties?: GetServiceEndpointResponseProperties;
+  properties?: GetServiceEndpointResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServiceEndpointsCreateOrUpdateResponseSystemData;
+  systemData?: ServiceEndpointsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Resource tags. */
 export type Tags = { [key: string]: string | undefined };
 /** Account resource patch properties. */
 export interface UpdateAccountRequestProperties {
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
 }
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. */
@@ -982,9 +984,9 @@ export interface UpdateAccountRequest {
   /** The name of the RecommendationsService Account resource. */
   accountName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** Account resource patch properties. */
-  properties?: UpdateAccountRequestProperties;
+  properties?: UpdateAccountRequestProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -993,15 +995,15 @@ export type UpdateAccountResponsePropertiesConfiguration = "Free" | "Capacity";
 /** Account resource properties. */
 export interface UpdateAccountResponseProperties {
   /** Account configuration. This can only be set at RecommendationsService Account creation. */
-  configuration?: UpdateAccountResponsePropertiesConfiguration;
+  configuration?: UpdateAccountResponsePropertiesConfiguration | undefined;
   /** The list of service endpoints authentication details. */
-  endpointAuthentications?: EndpointAuthenticationsList;
+  endpointAuthentications?: EndpointAuthenticationsList | undefined;
   /** The list of CORS details. */
-  cors?: CorsRuleList;
+  cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string;
+  reportsConnectionString?: string | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateAccountResponseSystemDataCreatedByType =
@@ -1018,38 +1020,38 @@ export type UpdateAccountResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateAccountResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateAccountResponseSystemDataCreatedByType;
+  createdByType?: UpdateAccountResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateAccountResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateAccountResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Account resource properties. */
-  properties?: UpdateAccountResponseProperties;
+  properties?: UpdateAccountResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateAccountResponseSystemData;
+  systemData?: UpdateAccountResponseSystemData | undefined;
 }
 /** Modeling resource properties to update. */
 export interface UpdateModelingRequestProperties {
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
 }
 export interface UpdateModelingRequest {
   /** The ID of the target subscription. */
@@ -1061,9 +1063,9 @@ export interface UpdateModelingRequest {
   /** The name of the Modeling resource. */
   modelingName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** Modeling resource properties to update. */
-  properties?: UpdateModelingRequestProperties;
+  properties?: UpdateModelingRequestProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateModelingResponseTagsMap = { [key: string]: string | undefined };
@@ -1076,15 +1078,15 @@ export type UpdateModelingResponsePropertiesSize = "Small" | "Medium" | "Large";
 /** Modeling resource properties. */
 export interface UpdateModelingResponseProperties {
   /** Modeling features controls the set of supported scenarios\models being computed. This can only be set at Modeling creation. */
-  features?: UpdateModelingResponsePropertiesFeatures;
+  features?: UpdateModelingResponsePropertiesFeatures | undefined;
   /** Modeling frequency controls the modeling compute frequency. */
-  frequency?: UpdateModelingResponsePropertiesFrequency;
+  frequency?: UpdateModelingResponsePropertiesFrequency | undefined;
   /** Modeling size controls the maximum supported input data size. */
-  size?: UpdateModelingResponsePropertiesSize;
+  size?: UpdateModelingResponsePropertiesSize | undefined;
   /** The configuration to raw CDM data to be used as Modeling resource input. */
-  inputData?: ModelingInputData;
+  inputData?: ModelingInputData | undefined;
   /** The resource provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateModelingResponseSystemDataCreatedByType =
@@ -1101,33 +1103,33 @@ export type UpdateModelingResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateModelingResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateModelingResponseSystemDataCreatedByType;
+  createdByType?: UpdateModelingResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateModelingResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateModelingResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateModelingResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateModelingResponseTagsMap;
+  tags?: UpdateModelingResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Modeling resource properties. */
-  properties?: UpdateModelingResponseProperties;
+  properties?: UpdateModelingResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateModelingResponseSystemData;
+  systemData?: UpdateModelingResponseSystemData | undefined;
 }
 export interface UpdateServiceEndpointRequest {
   /** The ID of the target subscription. */
@@ -1139,7 +1141,7 @@ export interface UpdateServiceEndpointRequest {
   /** The name of the ServiceEndpoint resource. */
   serviceEndpointName: string;
   /** Resource tags. */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -1160,33 +1162,33 @@ export type UpdateServiceEndpointResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateServiceEndpointResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateServiceEndpointResponseSystemDataCreatedByType;
+  createdByType?: UpdateServiceEndpointResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateServiceEndpointResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateServiceEndpointResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateServiceEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceEndpointResponseTagsMap;
+  tags?: UpdateServiceEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ServiceEndpoint resource properties. */
-  properties?: GetServiceEndpointResponseProperties;
+  properties?: GetServiceEndpointResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateServiceEndpointResponseSystemData;
+  systemData?: UpdateServiceEndpointResponseSystemData | undefined;
 }
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Creates or updates RecommendationsService Account resource. */

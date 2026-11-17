@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface CurlGetAuthTokenRequest {
-  url?: string;
+  url?: string | undefined;
 }
 export interface CurlGetAuthTokenResponse {
   token: string;

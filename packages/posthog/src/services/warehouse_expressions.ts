@@ -27,7 +27,7 @@ export interface CreateWarehouseExpressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether this expression has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the expression field is added to, for example events. */
   table_name: string;
   /** Name of the virtual field the expression is exposed as. Letters, numbers, underscores and $ only, starting with a letter, underscore or $. Must not clash with an existing field on the table. */
@@ -35,7 +35,7 @@ export interface CreateWarehouseExpressionRequest {
   /** HogQL expression evaluated in the context of the table, for example properties.$browser or lower(email). */
   expression: string;
   /** ExternalDataSource id to scope the expression to that connection's direct-query database. Null applies it to the default warehouse database. */
-  connection_id?: string | null;
+  connection_id?: string | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -52,20 +52,20 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface DataWarehouseExpression {
   id: string;
   /** Whether this expression has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   created_by: UserBasic;
   created_at: string;
   /** Name of the table the expression field is added to, for example events. */
@@ -75,7 +75,7 @@ export interface DataWarehouseExpression {
   /** HogQL expression evaluated in the context of the table, for example properties.$browser or lower(email). */
   expression: string;
   /** ExternalDataSource id to scope the expression to that connection's direct-query database. Null applies it to the default warehouse database. */
-  connection_id?: string | null;
+  connection_id?: string | null | undefined;
 }
 export interface GetWarehouseExpressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -87,17 +87,17 @@ export interface ListWarehouseExpressionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedDataWarehouseExpressionListResultsList = Array<DataWarehouseExpression>;
 export interface PaginatedDataWarehouseExpressionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataWarehouseExpressionListResultsList;
 }
 export interface UpdateWarehouseExpressionRequest {
@@ -106,7 +106,7 @@ export interface UpdateWarehouseExpressionRequest {
   /** A UUID string identifying this data warehouse expression. */
   id: string;
   /** Whether this expression has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the expression field is added to, for example events. */
   table_name: string;
   /** Name of the virtual field the expression is exposed as. Letters, numbers, underscores and $ only, starting with a letter, underscore or $. Must not clash with an existing field on the table. */
@@ -114,7 +114,7 @@ export interface UpdateWarehouseExpressionRequest {
   /** HogQL expression evaluated in the context of the table, for example properties.$browser or lower(email). */
   expression: string;
   /** ExternalDataSource id to scope the expression to that connection's direct-query database. Null applies it to the default warehouse database. */
-  connection_id?: string | null;
+  connection_id?: string | null | undefined;
 }
 export interface UpdateWarehouseExpressionsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -122,15 +122,15 @@ export interface UpdateWarehouseExpressionsPartialRequest {
   /** A UUID string identifying this data warehouse expression. */
   id: string;
   /** Whether this expression has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the expression field is added to, for example events. */
-  table_name?: string;
+  table_name?: string | undefined;
   /** Name of the virtual field the expression is exposed as. Letters, numbers, underscores and $ only, starting with a letter, underscore or $. Must not clash with an existing field on the table. */
-  field_name?: string;
+  field_name?: string | undefined;
   /** HogQL expression evaluated in the context of the table, for example properties.$browser or lower(email). */
-  expression?: string;
+  expression?: string | undefined;
   /** ExternalDataSource id to scope the expression to that connection's direct-query database. Null applies it to the default warehouse database. */
-  connection_id?: string | null;
+  connection_id?: string | null | undefined;
 }
 export interface WarehouseExpressionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

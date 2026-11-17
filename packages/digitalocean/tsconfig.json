@@ -7,8 +7,10 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@distilled.cloud/s3/Credentials": ["../s3/src/credentials.ts"],
+      "@distilled.cloud/s3/Endpoint": ["../s3/src/endpoint.ts"]
     }
   },
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../s3" }]
 }

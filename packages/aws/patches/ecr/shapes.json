@@ -1,0 +1,10 @@
+{
+  "description": "ECR: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#AuthorizationData/members/authorizationToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

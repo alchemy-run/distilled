@@ -38,16 +38,16 @@ export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | und
 /** The storage services details */
 export interface StorageServicesForPutRequest {
   /** The storage services resource id */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The user assigned identity to be used to grant permissions */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The openAi services details */
 export interface OpenAiServicesForPutRequest {
   /** The openAi services resource id */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The user assigned identity to be used to grant permissions */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Whether or not public network access is allowed for the account. */
 export type AccountPropertiesForPutRequestInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -58,23 +58,23 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 /** The private endpoint connection resource. */
 export interface AccountPropertiesForPutRequestInputPrivateEndpointConnectionsItem {
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** List of private endpoint connections associated with the account. */
 export type AccountPropertiesForPutRequestInputPrivateEndpointConnectionsList =
@@ -82,15 +82,20 @@ export type AccountPropertiesForPutRequestInputPrivateEndpointConnectionsList =
 /** Azure Video Indexer account properties */
 export interface AccountPropertiesForPutRequestInput {
   /** The account's data-plane ID. This can be set only when connecting an existing classic account */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The storage services details */
-  storageServices?: StorageServicesForPutRequest;
+  storageServices?: StorageServicesForPutRequest | undefined;
   /** The openAi services details */
-  openAiServices?: OpenAiServicesForPutRequest;
+  openAiServices?: OpenAiServicesForPutRequest | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: AccountPropertiesForPutRequestInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | AccountPropertiesForPutRequestInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: AccountPropertiesForPutRequestInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | AccountPropertiesForPutRequestInputPrivateEndpointConnectionsList
+    | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -105,7 +110,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: PrivateEndpointInput 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccountsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -115,13 +120,13 @@ export interface AccountsCreateOrUpdateRequest {
   /** The name of the Azure Video Indexer account. */
   accountName: string;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** List of account properties */
-  properties?: AccountPropertiesForPutRequestInput;
+  properties?: AccountPropertiesForPutRequestInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateRequestIdentity;
+  identity?: AccountsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -130,17 +135,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -151,7 +156,7 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -162,26 +167,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface AccountPropertiesForPutRequestPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections associated with the account. */
 export type AccountPropertiesForPutRequestPrivateEndpointConnectionsList =
@@ -197,61 +202,63 @@ export type AccountPropertiesForPutRequestProvisioningState =
 /** Azure Video Indexer account properties */
 export interface AccountPropertiesForPutRequest {
   /** The account's tenant id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The account's data-plane ID. This can be set only when connecting an existing classic account */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The account's name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The storage services details */
-  storageServices?: StorageServicesForPutRequest;
+  storageServices?: StorageServicesForPutRequest | undefined;
   /** The openAi services details */
-  openAiServices?: OpenAiServicesForPutRequest;
+  openAiServices?: OpenAiServicesForPutRequest | undefined;
   /** An integer representing the total seconds that have been indexed on the account */
-  totalSecondsIndexed?: number;
+  totalSecondsIndexed?: number | undefined;
   /** An integer representing the total minutes that have been indexed on the account */
-  totalMinutesIndexed?: number;
+  totalMinutesIndexed?: number | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: AccountPropertiesForPutRequestPublicNetworkAccess;
+  publicNetworkAccess?: AccountPropertiesForPutRequestPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: AccountPropertiesForPutRequestPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | AccountPropertiesForPutRequestPrivateEndpointConnectionsList
+    | undefined;
   /** Gets the status of the account at the time the operation was called. */
-  provisioningState?: AccountPropertiesForPutRequestProvisioningState;
+  provisioningState?: AccountPropertiesForPutRequestProvisioningState | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccountsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** List of account properties */
-  properties?: AccountPropertiesForPutRequest;
+  properties?: AccountPropertiesForPutRequest | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The type of resource, Microsoft.VideoIndexer/accounts */
 export type CheckAccountNameAvailabilityRequestType = "Microsoft.VideoIndexer/accounts";
@@ -268,11 +275,11 @@ export type CheckNameAvailabilityResultReason = "AlreadyExists";
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Gets the reason that a Video Indexer account name could not be used. The Reason element is only returned if NameAvailable is false. */
-  reason?: CheckNameAvailabilityResultReason;
+  reason?: CheckNameAvailabilityResultReason | undefined;
   /** Gets an error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -295,9 +302,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The requested permission */
 export type GenerateAccessTokenRequestPermissionType = "Contributor" | "Reader";
@@ -315,14 +322,14 @@ export interface GenerateAccessTokenRequest {
   /** The requested media type */
   scope: GenerateAccessTokenRequestScope | (string & {});
   /** The video ID */
-  videoId?: string;
+  videoId?: string | undefined;
   /** The project ID */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Azure Video Indexer access token. */
 export interface AccessToken {
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The requested permission */
 export type GenerateExtensionAccessTokenRequestPermissionType = "Contributor" | "Reader";
@@ -342,9 +349,9 @@ export interface GenerateExtensionAccessTokenRequest {
   /** The extension's resource ID */
   extensionId: string;
   /** The video ID */
-  videoId?: string;
+  videoId?: string | undefined;
   /** Lifetime of the access token (in seconds). Default value: 3600 (1 hour), Max value: 43200 (12 hours). Setting this value is enabled for tokens in 'Video' scope. */
-  tokenLifetimeInSeconds?: number;
+  tokenLifetimeInSeconds?: number | undefined;
 }
 /** The requested media type */
 export type GenerateExtensionRestrictedViewerAccessTokenRequestScope =
@@ -363,9 +370,9 @@ export interface GenerateExtensionRestrictedViewerAccessTokenRequest {
   /** The extension's resource ID */
   extensionId: string;
   /** The video ID */
-  videoId?: string;
+  videoId?: string | undefined;
   /** Lifetime of the access token (in seconds). Default value: 3600 (1 hour), Max value: 43200 (12 hours). Setting this value is enabled for tokens in 'Video' scope. */
-  tokenLifetimeInSeconds?: number;
+  tokenLifetimeInSeconds?: number | undefined;
 }
 /** The requested media type */
 export type GenerateRestrictedViewerAccessTokenRequestScope = "Video" | "Account" | "Project";
@@ -379,9 +386,9 @@ export interface GenerateRestrictedViewerAccessTokenRequest {
   /** The requested media type */
   scope: GenerateRestrictedViewerAccessTokenRequestScope | (string & {});
   /** The video ID */
-  videoId?: string;
+  videoId?: string | undefined;
   /** The project ID */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export interface GetAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -397,21 +404,21 @@ export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export type GetAccountResponseIdentity = AccountsCreateOrUpdateResponseIdentity;
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** List of account properties */
-  properties?: AccountPropertiesForPutRequest;
+  properties?: AccountPropertiesForPutRequest | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -425,15 +432,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -452,23 +459,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -483,30 +490,30 @@ export type AccountIdentity = AccountsCreateOrUpdateResponseIdentity;
 /** An Azure Video Indexer account. */
 export interface Account {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** List of account properties */
-  properties?: AccountPropertiesForPutRequest;
+  properties?: AccountPropertiesForPutRequest | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
 }
 /** List of accounts and their properties. */
 export type AccountListValueList = Array<Account>;
 /** The list operation response, that contains the data pools and their properties. */
 export interface AccountList {
   /** List of accounts and their properties. */
-  value?: AccountListValueList;
+  value?: AccountListValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -516,35 +523,35 @@ export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation detail payload */
 export interface Operation {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Indicates the action type. */
-  actionType?: string;
+  actionType?: string | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** List of operations supported by the Resource Provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Available operations of the service. */
 export interface OperationListResult {
   /** List of operations supported by the Resource Provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -562,9 +569,9 @@ export type ListPrivateEndpointConnectionByAccountResponseValueList =
   Array<AccountPropertiesForPutRequestPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionByAccountResponse {
   /** Array of private endpoint connections. */
-  value?: ListPrivateEndpointConnectionByAccountResponseValueList;
+  value?: ListPrivateEndpointConnectionByAccountResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -577,23 +584,23 @@ export interface ListPrivateLinkResourceByAccountRequest {
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByAccountResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByAccountResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByAccountResponseValueList;
+  value?: ListPrivateLinkResourceByAccountResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -605,26 +612,26 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Resource tags */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
 /** The storage services details */
 export interface StorageServicesForPatchRequest {
   /** The user assigned identity to be used to grant permissions */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The openAi services details */
 export type OpenAiServicesForPatchRequest = OpenAiServicesForPutRequest;
@@ -639,13 +646,18 @@ export type AccountPropertiesForPatchRequestInputPrivateEndpointConnectionsList 
 /** Azure Video Indexer account properties */
 export interface AccountPropertiesForPatchRequestInput {
   /** The storage services details */
-  storageServices?: StorageServicesForPatchRequest;
+  storageServices?: StorageServicesForPatchRequest | undefined;
   /** The openAi services details */
-  openAiServices?: OpenAiServicesForPutRequest;
+  openAiServices?: OpenAiServicesForPutRequest | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: AccountPropertiesForPatchRequestInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | AccountPropertiesForPatchRequestInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: AccountPropertiesForPatchRequestInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | AccountPropertiesForPatchRequestInputPrivateEndpointConnectionsList
+    | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateAccountRequestIdentity = AccountsCreateOrUpdateRequestIdentity;
@@ -657,11 +669,11 @@ export interface UpdateAccountRequest {
   /** The name of the Azure Video Indexer account. */
   accountName: string;
   /** Resource tags */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** List of account properties */
-  properties?: AccountPropertiesForPatchRequestInput;
+  properties?: AccountPropertiesForPatchRequestInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateRequestIdentity;
+  identity?: AccountsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -669,21 +681,21 @@ export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateAccountResponseIdentity = AccountsCreateOrUpdateResponseIdentity;
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** List of account properties */
-  properties?: AccountPropertiesForPutRequest;
+  properties?: AccountPropertiesForPutRequest | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
 }
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Creates or updates an Azure Video Indexer account. */

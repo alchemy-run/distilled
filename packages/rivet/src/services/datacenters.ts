@@ -29,18 +29,51 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
+
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface ListDatacentersRequest {}
 export interface Datacenter {
@@ -51,7 +84,22 @@ export type DatacentersListResponseDatacentersList = Array<Datacenter>;
 export interface DatacentersListResponse {
   datacenters: DatacentersListResponseDatacentersList;
 }
-export type ListDatacentersError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+/** A structured error. The response also carries an `x-rivet-error: <group>.<code>` header. */
+export interface ErrorResponse {
+  /** Error group, for example `actor`. */
+  group: string;
+  /** Error code within the group, for example `not_found`. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  /** Extra details. Only present on some errors raised while authenticating or authorizing the request. */
+  metadata?: unknown | undefined;
+}
+export type ListDatacentersError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Lists the datacenters of the deployment. This version serves a single datacenter named `default`. */
 export const listDatacenters: API.OperationMethod<
   ListDatacentersRequest,
@@ -59,9 +107,9 @@ export const listDatacenters: API.OperationMethod<
   ListDatacentersError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListDatacentersRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<DatacentersListResponse>,
-  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  input: __S(4, __c1, 0) as any as S.Schema<ListDatacentersRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<DatacentersListResponse>,
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -70,6 +118,19 @@ export const listDatacenters: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group: S.String,
+          code: S.String,
+          message: S.String,
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -82,11 +143,11 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "Datacenter" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          datacenters: __S(2, __c0, 2),
+          datacenters: __S(6, __c1, 2),
         }),
       ).annotate({ identifier: "DatacentersListResponse" });
   }

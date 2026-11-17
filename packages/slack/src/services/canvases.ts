@@ -26,11 +26,11 @@ const TELEMETRY = {
 
 export interface CreateCanvaseRequest {
   /** Title of the newly created canvas */
-  title?: string;
+  title?: string | undefined;
   /** Structure describing the type and value of the content to create. The markdown content is limited to 1 MiB (1,048,576 characters). */
-  document_content?: unknown;
+  document_content?: unknown | undefined;
   /** Channel ID of the channel the canvas will be tabbed in. This is a required field for free teams. */
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export interface CreateCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -39,16 +39,16 @@ export interface CreateCanvaseResponse {
   canvas_id: string;
 }
 /** List of channels you wish to update access for */
-export type DeleteAccessRequestChannelIdsList = Array<string>;
+export type DeleteAccessRequestChannelIdsList = Array<unknown>;
 /** List of users you wish to update access for */
 export type DeleteAccessRequestUserIdsList = Array<string>;
 export interface DeleteAccessRequest {
   /** Encoded ID of the canvas */
   canvas_id: string;
   /** List of channels you wish to update access for */
-  channel_ids?: DeleteAccessRequestChannelIdsList;
+  channel_ids?: DeleteAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for */
-  user_ids?: DeleteAccessRequestUserIdsList;
+  user_ids?: DeleteAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated */
 export type DeleteAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -58,9 +58,9 @@ export interface DeleteAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated */
-  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated */
-  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export interface DeleteCanvaseRequest {
   /** Encoded ID of the canvas */
@@ -88,7 +88,7 @@ export interface GetContentRequest {
   /** Encoded ID of the canvas */
   canvas_id: string;
   /** Format in which to return the canvas content. Defaults to markdown. */
-  content_type?: GetContentRequestContentType | (string & {});
+  content_type?: GetContentRequestContentType | (string & {}) | undefined;
 }
 export interface GetContentResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -107,7 +107,7 @@ export type LookupSectionResponseSectionsItemChildSectionIdsList = Array<string>
 export interface LookupSectionResponseSectionsItem {
   id: string;
   /** IDs of child sections within a layout container (blockquote, callout, flexbox, or table). */
-  child_section_ids?: LookupSectionResponseSectionsItemChildSectionIdsList;
+  child_section_ids?: LookupSectionResponseSectionsItemChildSectionIdsList | undefined;
 }
 /** Sections in the canvas that match the provided criteria */
 export type LookupSectionResponseSectionsList = Array<LookupSectionResponseSectionsItem>;
@@ -118,7 +118,7 @@ export interface LookupSectionResponse {
   sections: LookupSectionResponseSectionsList;
 }
 /** List of channels you wish to update access for. Can only be used if user_ids is not provided. */
-export type SetAccessRequestChannelIdsList = Array<string>;
+export type SetAccessRequestChannelIdsList = Array<unknown>;
 /** List of users you wish to update access for. Can only be used if channel_ids is not provided. */
 export type SetAccessRequestUserIdsList = Array<string>;
 export interface SetAccessRequest {
@@ -127,9 +127,9 @@ export interface SetAccessRequest {
   /** Desired level of access */
   access_level: string;
   /** List of channels you wish to update access for. Can only be used if user_ids is not provided. */
-  channel_ids?: SetAccessRequestChannelIdsList;
+  channel_ids?: SetAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for. Can only be used if channel_ids is not provided. */
-  user_ids?: SetAccessRequestUserIdsList;
+  user_ids?: SetAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated */
 export type SetAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -139,9 +139,9 @@ export interface SetAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated */
-  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated */
-  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export type CreateCanvaseError = SlackOpError;
 /** Create canvas for a user Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `canvas_creation_failed` -- Canvas was unable to be created. - `free_team_canvas_tab_already_exists` -- Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` -- Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */
@@ -169,7 +169,7 @@ export const deleteAccess: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteAccessRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<DeleteAccessResponse>,
+  output: __S(16, __c4, 0) as any as S.Schema<DeleteAccessResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -178,15 +178,15 @@ export const deleteAccess: API.OperationMethod<
 }));
 
 export type DeleteCanvaseError = SlackOpError;
-/** Deletes a canvas Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_deleting_disabled` -- This functionality is disabled. - `canvas_not_found` -- The canvas does not exist, or is not visible to the calling user. - `restricted_action` -- User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/canvases.delete */
+/** Deletes a canvas Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_deleting_disabled` -- This functionality is disabled. - `canvas_not_found` -- The canvas does not exist, or is not visible to the calling user. - `restricted_action` -- User does not have permission to perform this action. - `use_skills_api` -- When the Skills API is enabled for the caller, skill canvases must be deleted with slackbot.skills.delete using a user OAuth token with skills:write. Pass the canvas ID as skill_id. The success response remains ok: true. The skill and its canvas have not been deleted. See https://docs.slack.dev/reference/methods/canvases.delete */
 export const deleteCanvase: API.OperationMethod<
   DeleteCanvaseRequest,
   DeleteCanvaseResponse,
   DeleteCanvaseError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteCanvaseRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<DeleteCanvaseResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DeleteCanvaseRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<DeleteCanvaseResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -195,15 +195,15 @@ export const deleteCanvase: API.OperationMethod<
 }));
 
 export type EditCanvaseError = SlackOpError;
-/** Update an existing canvas Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_not_found` -- The canvas you wish to apply changes to is not available. - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `free_teams_cannot_edit_standalone_canvases` -- Free teams cannot edit standalone canvases - `restricted_action` -- User does not have permission to perform this action. - `canvas_editing_failed` -- The changes to the canvas failed to be applied. - `canvas_editing_locked` -- Another edit to this canvas is currently in progress. Please retry after a short delay. - `canvas_too_large` -- The canvas is too large to apply the requested changes. Reduce the size of the canvas or the edit and try again. See https://docs.slack.dev/reference/methods/canvases.edit */
+/** Update an existing canvas Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_not_found` -- The canvas you wish to apply changes to is not available. - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `free_teams_cannot_edit_standalone_canvases` -- Free teams cannot edit standalone canvases - `restricted_action` -- User does not have permission to perform this action. - `canvas_editing_failed` -- The changes to the canvas failed to be applied. - `canvas_editing_locked` -- Another edit to this canvas is currently in progress. Please retry after a short delay. - `canvas_too_large` -- The canvas is too large to apply the requested changes. Reduce the size of the canvas or the edit and try again. - `use_skills_api` -- When the Skills API is enabled for the caller, skill canvases must be updated with slackbot.skills.update using a user OAuth token with skills:write. Pass the canvas ID as skill_id. The instructions input replaces the whole document; section edits are not supported. The response contains a skill object. No changes were made. See https://docs.slack.dev/reference/methods/canvases.edit */
 export const editCanvase: API.OperationMethod<
   EditCanvaseRequest,
   EditCanvaseResponse,
   EditCanvaseError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c6, 1) as any as S.Schema<EditCanvaseRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<EditCanvaseResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<EditCanvaseRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<EditCanvaseResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -212,15 +212,15 @@ export const editCanvase: API.OperationMethod<
 }));
 
 export type GetContentError = SlackOpError;
-/** Get the content of a canvas as markdown (default) or HTML. Required scopes -- bot: `canvases:read`; user: `canvases:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `canvas_not_found` -- The canvas does not exist, or is not visible to the calling user. See https://docs.slack.dev/reference/methods/canvases.getContent */
+/** Get the content of a canvas as markdown (default) or HTML. Required scopes -- bot: `canvases:read`; user: `canvases:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `canvas_not_found` -- The canvas does not exist, or is not visible to the calling user. - `internal_error` -- The server could not complete your operation(s) without encountering an error, likely due to a transient issue on our end. It's possible some aspect of the operation succeeded before the error was raised. See https://docs.slack.dev/reference/methods/canvases.getContent */
 export const getContent: API.OperationMethod<
   GetContentRequest,
   GetContentResponse,
   GetContentError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetContentRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<GetContentResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetContentRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<GetContentResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -236,8 +236,8 @@ export const lookupSection: API.OperationMethod<
   LookupSectionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<LookupSectionRequest>,
-  output: __S(35, __c8, 3) as any as S.Schema<LookupSectionResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<LookupSectionRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<LookupSectionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -253,8 +253,8 @@ export const setAccess: API.OperationMethod<
   SetAccessError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<SetAccessRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<SetAccessResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<SetAccessRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<SetAccessResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -289,7 +289,7 @@ function __c1(j: number): any {
         S.Struct({
           canvas_id: S.String,
           channel_ids: S.optional(__S(8, __c2, 0)),
-          user_ids: S.optional(__S(8, __c2, 0)),
+          user_ids: S.optional(__S(12, __c3, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.access.delete", code: 200 })),
       ).annotate({ identifier: "DeleteAccessRequest" });
   }
@@ -297,22 +297,28 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(S.Unknown);
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          failed_to_update_channel_ids: S.optional(__S(8, __c2, 0)),
-          failed_to_update_user_ids: S.optional(__S(8, __c2, 0)),
+          failed_to_update_channel_ids: S.optional(__S(12, __c3, 0)),
+          failed_to_update_user_ids: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "DeleteAccessResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -322,7 +328,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteCanvaseRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -332,20 +338,18 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteCanvaseResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           canvas_id: S.String,
-          changes: __S(24, __c6, 0),
+          changes: __S(8, __c2, 0),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.edit", code: 200 })),
       ).annotate({ identifier: "EditCanvaseRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -363,7 +367,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetContentResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -376,21 +380,21 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          child_section_ids: S.optional(__S(8, __c2, 0)),
+          child_section_ids: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "LookupSectionResponseSectionsItem" });
     case 2:
-      return S.Array(__S(33, __c8, 1));
+      return S.Array(__S(37, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          sections: __S(34, __c8, 2),
+          sections: __S(38, __c9, 2),
         }),
       ).annotate({ identifier: "LookupSectionResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -398,7 +402,7 @@ function __c9(j: number): any {
           canvas_id: S.String,
           access_level: S.String,
           channel_ids: S.optional(__S(8, __c2, 0)),
-          user_ids: S.optional(__S(8, __c2, 0)),
+          user_ids: S.optional(__S(12, __c3, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.access.set", code: 200 })),
       ).annotate({ identifier: "SetAccessRequest" });
   }

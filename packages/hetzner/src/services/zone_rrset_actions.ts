@@ -47,7 +47,7 @@ export interface AddZoneRrsetRecordsRequestRecordsItem {
   /** Value of the record. For details about accepted values, see the [DNS record types documentation](https://docs.hetzner.com/networking/dns/record-types/overview/). */
   value: string;
   /** Comment of the record. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Records to add to the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. */
 export type AddZoneRrsetRecordsRequestRecordsList = Array<AddZoneRrsetRecordsRequestRecordsItem>;
@@ -57,7 +57,7 @@ export interface AddZoneRrsetRecordsRequest {
   rr_name: string;
   rr_type: AddZoneRrsetRecordsRequestRrType | (string & {});
   /** Time To Live (TTL) of the [RRSet](#tag/zone-rrsets). If not set, the [Zone's](#tag/zones) Default TTL is used. If set, and the RRSet being updated already has a TTL, the values must be the same. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Records to add to the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. */
   records: AddZoneRrsetRecordsRequestRecordsList;
 }

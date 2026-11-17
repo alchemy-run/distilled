@@ -32,37 +32,58 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export interface CreateDbaasLogChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDbaasLogChangeContactResponseBodyList = Array<number>;
 export type CreateDbaasLogChangeContactResponse = CreateDbaasLogChangeContactResponseBodyList;
@@ -89,37 +110,37 @@ export type DbaasLogsOperationStateEnum =
 /** Asynchronous operation */
 export interface DbaasLogsOperation {
   /** Alias used */
-  aliasId?: string | null;
+  aliasId?: string | null | undefined;
   /** Operation creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Dashboard used */
-  dashboardId?: string | null;
+  dashboardId?: string | null | undefined;
   /** Encryption key used */
-  encryptionKeyId?: string | null;
+  encryptionKeyId?: string | null | undefined;
   /** Index used */
-  indexId?: string | null;
+  indexId?: string | null | undefined;
   /** Input used */
-  inputId?: string | null;
+  inputId?: string | null | undefined;
   /** Operation ID */
-  operationId?: string;
+  operationId?: string | undefined;
   /** OpenSearch Dashboards used */
-  osdId?: string | null;
+  osdId?: string | null | undefined;
   /** Role used */
-  roleId?: string | null;
+  roleId?: string | null | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Operation status */
-  state?: DbaasLogsOperationStateEnum;
+  state?: DbaasLogsOperationStateEnum | undefined;
   /** Stream used */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** Subscription used */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** Metrics tenant used */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** Token used */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** Operation last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 /** IP blocks */
 export type CreateDbaasLogInputRequestAllowedNetworksList = Array<string>;
@@ -127,23 +148,23 @@ export interface CreateDbaasLogInputRequest {
   /** Service name */
   serviceName: string;
   /** IP blocks */
-  allowedNetworks?: CreateDbaasLogInputRequestAllowedNetworksList | null;
+  allowedNetworks?: CreateDbaasLogInputRequestAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Engine ID */
   engineId: string;
   /** Exposed port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Stream ID */
   streamId: string;
   /** Title */
@@ -170,9 +191,9 @@ export interface CreateDbaasLogInputLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
@@ -192,35 +213,42 @@ export interface CreateDbaasLogOutputGraylogStreamRequest {
   /** Service name */
   serviceName: string;
   /** Cold storage compression */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | (string & {}) | null;
+  coldStorageCompression?:
+    | DbaasLogsStreamColdStorageCompressionEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Cold storage archive content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null | undefined;
   /** Cold storage enabled */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Cold storage notify enabled */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention time */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Description */
   description: string;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: CreateDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null;
+  encryptionKeysIds?:
+    | CreateDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList
+    | null
+    | undefined;
   /** ES indexing enabled */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** Parent stream ID */
-  parentStreamId?: string | null;
+  parentStreamId?: string | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Retention ID */
-  retentionId?: string | null;
+  retentionId?: string | null | undefined;
   /** Title */
   title: string;
   /** Web Socket enabled */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 /** Possible values for StreamAlertConditionConditionTypeEnum */
 export type DbaasLogsStreamAlertConditionConditionTypeEnum =
@@ -244,27 +272,31 @@ export interface CreateDbaasLogOutputGraylogStreamAlertRequest {
   /** Backlog */
   backlog: number;
   /** Condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | (string & {}) | null;
+  constraintType?:
+    | DbaasLogsStreamAlertConditionConstraintTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Field */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period */
   grace: number;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications enabled */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold type */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null | undefined;
   /** Time */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Title */
   title: string;
   /** Value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface CreateDbaasLogOutputGraylogStreamArchiveUrlRequest {
   /** Service name */
@@ -277,9 +309,9 @@ export interface CreateDbaasLogOutputGraylogStreamArchiveUrlRequest {
 /** Stream archive url */
 export interface DbaasLogsArchiveUrl {
   /** Temporary URL expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary URL to get archive */
-  url?: string;
+  url?: string | undefined;
 }
 /** Possible values for StreamRuleOperatorEnum */
 export type DbaasLogsStreamRuleOperatorEnum =
@@ -295,7 +327,7 @@ export interface CreateDbaasLogOutputGraylogStreamRuleRequest {
   /** Field name */
   field: string;
   /** Invert condition */
-  isInverted?: boolean | null;
+  isInverted?: boolean | null | undefined;
   /** Field operator */
   operator: DbaasLogsStreamRuleOperatorEnum | (string & {});
   /** Field value */
@@ -307,7 +339,7 @@ export interface CreateDbaasLogOutputMetricTenantRequest {
   /** Metric tenant description */
   description: string;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
   retentionId: string;
   /** Metric tenant title */
@@ -341,11 +373,11 @@ export interface CreateDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
   serviceName: string;
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Number of shard */
-  nbShard?: number | null;
+  nbShard?: number | null | undefined;
   /** Suffix */
   suffix: string;
 }
@@ -369,7 +401,7 @@ export interface CreateDbaasLogRoleMemberRequest {
   /** Role ID */
   roleId: string;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Username */
   username: string;
 }
@@ -391,7 +423,7 @@ export interface CreateDbaasLogRolePermissionDashboardRequest {
   /** Dashboard ID */
   dashboardId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionIndexRequest {
   /** Service name */
@@ -401,7 +433,7 @@ export interface CreateDbaasLogRolePermissionIndexRequest {
   /** Index ID */
   indexId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionOsdRequest {
   /** Service name */
@@ -411,7 +443,7 @@ export interface CreateDbaasLogRolePermissionOsdRequest {
   /** Osd ID */
   osdId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionStreamRequest {
   /** Service name */
@@ -425,7 +457,7 @@ export interface CreateDbaasLogTokenRequest {
   /** Service name */
   serviceName: string;
   /** Cluster ID */
-  clusterId?: string | null;
+  clusterId?: string | null | undefined;
   /** Token name */
   name: string;
 }
@@ -567,7 +599,7 @@ export interface DuplicateDbaasLogsOutputGraylogDashboardRequest {
   /** Description */
   description: string;
   /** Stream ID */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** Title */
   title: string;
 }
@@ -580,13 +612,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Possible values for ServicePlanEnum */
 export type DbaasLogsServicePlanEnum = "ENTERPRISE" | "STANDARD";
@@ -595,25 +627,25 @@ export type DbaasLogsServiceStateEnum = "DISABLED" | "ENABLED" | "INIT" | "TO_CO
 /** Service */
 export interface DbaasLogsServiceWithIAM {
   /** Service creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Service custom name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** If set, can perform extra action on cluster */
-  isClusterOwner?: boolean;
+  isClusterOwner?: boolean | undefined;
   /** Is IAM enabled for this service? */
-  isIamEnabled?: boolean;
+  isIamEnabled?: boolean | undefined;
   /** Service plan */
-  plan?: DbaasLogsServicePlanEnum;
+  plan?: DbaasLogsServicePlanEnum | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Service state */
-  state?: DbaasLogsServiceStateEnum;
+  state?: DbaasLogsServiceStateEnum | undefined;
   /** Service last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Username on DBaaS Logs */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetDbaasLogClusterRequest {
   /** Service name */
@@ -642,31 +674,31 @@ export type DbaasLogsClusterRegionEnum = "BHS" | "GRA" | "P-19" | "RBX" | "SBG";
 /** Cluster */
 export interface DbaasLogsCluster {
   /** Allowed networks for ARCHIVE flow type */
-  archiveAllowedNetworks?: DbaasLogsClusterArchiveAllowedNetworksList;
+  archiveAllowedNetworks?: DbaasLogsClusterArchiveAllowedNetworksList | undefined;
   /** Certification level of the given cluster */
-  certificationLevel?: DbaasLogsCertificationLevelEnum;
+  certificationLevel?: DbaasLogsCertificationLevelEnum | undefined;
   /** Cluster ID */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Cluster type */
-  clusterType?: DbaasLogsClusterClusterTypeEnum;
+  clusterType?: DbaasLogsClusterClusterTypeEnum | undefined;
   /** PEM for dedicated inputs */
-  dedicatedInputPEM?: string;
+  dedicatedInputPEM?: string | undefined;
   /** Retention ID used by default when none is given on new stream */
-  defaultRetentionId?: string;
+  defaultRetentionId?: string | undefined;
   /** Allowed networks for DIRECT_INPUT flow type */
-  directInputAllowedNetworks?: DbaasLogsClusterDirectInputAllowedNetworksList;
+  directInputAllowedNetworks?: DbaasLogsClusterDirectInputAllowedNetworksList | undefined;
   /** PEM for direct inputs */
-  directInputPEM?: string;
+  directInputPEM?: string | undefined;
   /** Hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** All content generated by given service will be placed on this cluster */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Allow given service to perform advanced operations on cluster */
-  isUnlocked?: boolean;
+  isUnlocked?: boolean | undefined;
   /** Allowed networks for QUERY flow type */
-  queryAllowedNetworks?: DbaasLogsClusterQueryAllowedNetworksList;
+  queryAllowedNetworks?: DbaasLogsClusterQueryAllowedNetworksList | undefined;
   /** Data center localization */
-  region?: DbaasLogsClusterRegionEnum;
+  region?: DbaasLogsClusterRegionEnum | undefined;
 }
 export interface GetDbaasLogClusterRetentionRequest {
   /** Service name */
@@ -681,13 +713,13 @@ export type DbaasLogsRetentionTypeEnum = "LOGS_COLD_STORAGE" | "LOGS_INDEXING" |
 /** Cluster retention */
 export interface DbaasLogsClusterRetention {
   /** Indexed duration expressed in ISO-8601 format */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** Indicates if a new stream can use it */
-  isSupported?: boolean;
+  isSupported?: boolean | undefined;
   /** Retention ID */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** Retention type */
-  retentionType?: DbaasLogsRetentionTypeEnum;
+  retentionType?: DbaasLogsRetentionTypeEnum | undefined;
 }
 export interface GetDbaasLogEncryptionKeyRequest {
   /** Service name */
@@ -700,23 +732,23 @@ export type DbaasLogsEncryptionKeyAlgorithmEnum = "ECC25519" | "RSA4096";
 /** Encryption key */
 export interface DbaasLogsEncryptionKey {
   /** Encryption Key algorithm */
-  algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum;
+  algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum | undefined;
   /** Encryption Key content */
   content: string;
   /** Encryption Key creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Encryption Key ID */
-  encryptionKeyId?: string;
+  encryptionKeyId?: string | undefined;
   /** Encryption Key fingerprint */
   fingerprint: string;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Number of archives encrypted with this Encryption Key */
-  nbArchive?: number | null;
+  nbArchive?: number | null | undefined;
   /** Encryption Key title */
   title: string;
   /** Encryption Key user ID */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface GetDbaasLogInputRequest {
   /** Service name */
@@ -731,43 +763,43 @@ export type DbaasLogsInputStatusEnum = "INIT" | "PENDING" | "PROCESSING" | "RUNN
 /** Input */
 export interface DbaasLogsInput {
   /** IP blocks */
-  allowedNetworks?: DbaasLogsInputAllowedNetworksList | null;
+  allowedNetworks?: DbaasLogsInputAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Input creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Input description */
-  description?: string;
+  description?: string | undefined;
   /** Input engine ID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Input ID */
-  inputId?: string;
+  inputId?: string | undefined;
   /** Indicate if input need to be restarted */
-  isRestartRequired?: boolean;
+  isRestartRequired?: boolean | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** Input IP address */
-  publicAddress?: string;
+  publicAddress?: string | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Input SSL certificate */
-  sslCertificate?: string;
+  sslCertificate?: string | undefined;
   /** init: configuration required, pending: ready to start, running: available */
-  status?: DbaasLogsInputStatusEnum;
+  status?: DbaasLogsInputStatusEnum | undefined;
   /** Associated Graylog stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Input title */
-  title?: string;
+  title?: string | undefined;
   /** Input last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogInputConfigtestResultRequest {
   /** Service name */
@@ -778,13 +810,13 @@ export interface GetDbaasLogInputConfigtestResultRequest {
 /** Config test results */
 export interface DbaasLogsTestResult {
   /** Whether the given configuration pass the syntax test */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Standard error */
-  stderr?: string | null;
+  stderr?: string | null | undefined;
   /** Standard output */
-  stdout?: string | null;
+  stdout?: string | null | undefined;
   /** Last config test update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogInputConfigurationFlowggerRequest {
   /** Service name */
@@ -799,9 +831,9 @@ export type DbaasLogsFlowggerConfigurationLogFramingEnum = "CAPNP" | "LINE" | "N
 /** Flowgger configuration */
 export interface DbaasLogsFlowggerConfiguration {
   /** Type of format to decode */
-  logFormat?: DbaasLogsFlowggerConfigurationLogFormatEnum;
+  logFormat?: DbaasLogsFlowggerConfigurationLogFormatEnum | undefined;
   /** Indicates how messages are delimited */
-  logFraming?: DbaasLogsFlowggerConfigurationLogFramingEnum;
+  logFraming?: DbaasLogsFlowggerConfigurationLogFramingEnum | undefined;
 }
 export interface GetDbaasLogInputConfigurationLogstashRequest {
   /** Service name */
@@ -812,11 +844,11 @@ export interface GetDbaasLogInputConfigurationLogstashRequest {
 /** Logstash configuration */
 export interface DbaasLogsLogstashConfiguration {
   /** The filter section of logstash.conf */
-  filterSection?: string | null;
+  filterSection?: string | null | undefined;
   /** The filter section of logstash.conf */
-  inputSection?: string;
+  inputSection?: string | undefined;
   /** The list of customs Grok patterns */
-  patternSection?: string | null;
+  patternSection?: string | null | undefined;
 }
 export interface GetDbaasLogInputEngineRequest {
   /** Service name */
@@ -829,13 +861,13 @@ export type DbaasLogsEngineNameEnum = "FLOWGGER" | "LOGSTASH" | "TEST";
 /** Input engine */
 export interface DbaasLogsEngine {
   /** Input engine ID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Indicates if engine will soon not be supported */
-  isDeprecated?: boolean;
+  isDeprecated?: boolean | undefined;
   /** Software name */
-  name?: DbaasLogsEngineNameEnum;
+  name?: DbaasLogsEngineNameEnum | undefined;
   /** Software version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetDbaasLogInputEngineHelperRequest {
   /** Service name */
@@ -853,24 +885,24 @@ export type DbaasLogsHelperSectionNameEnum =
 /** Helper section */
 export interface DbaasLogsHelperSection {
   /** Section content */
-  content?: string;
+  content?: string | undefined;
   /** Section name */
-  name?: DbaasLogsHelperSectionNameEnum;
+  name?: DbaasLogsHelperSectionNameEnum | undefined;
 }
 /** Helper sections */
 export type DbaasLogsHelperSectionsList = Array<DbaasLogsHelperSection>;
 /** Helper */
 export interface DbaasLogsHelper {
   /** Helper description */
-  description?: string;
+  description?: string | undefined;
   /** Input engine UUID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Helper UUID */
-  helperId?: string;
+  helperId?: string | undefined;
   /** Helper sections */
-  sections?: DbaasLogsHelperSectionsList;
+  sections?: DbaasLogsHelperSectionsList | undefined;
   /** Helper title */
-  title?: string;
+  title?: string | undefined;
 }
 export interface GetDbaasLogMetricsRequest {
   /** Service name */
@@ -879,9 +911,9 @@ export interface GetDbaasLogMetricsRequest {
 /** Metrics access */
 export interface DbaasLogsServiceMetric {
   /** Metrics server url */
-  host?: string;
+  host?: string | undefined;
   /** Metrics credentials */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetDbaasLogOperationRequest {
   /** Service name */
@@ -898,17 +930,17 @@ export interface GetDbaasLogOutputGraylogDashboardRequest {
 /** Graylog dashboard */
 export interface DbaasLogsDashboard {
   /** Dashboard creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Dashboard ID */
-  dashboardId?: string;
+  dashboardId?: string | undefined;
   /** Dashboard description */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Dashboard description */
-  title?: string;
+  title?: string | undefined;
   /** Dashboard last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamRequest {
   /** Service name */
@@ -921,55 +953,55 @@ export type DbaasLogsStreamEncryptionKeysIdsList = Array<string>;
 /** Graylog stream */
 export interface DbaasLogsStream {
   /** Indicates if the current user can create alert on the stream */
-  canAlert?: boolean;
+  canAlert?: boolean | undefined;
   /** Cluster ID */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Cold storage compression method */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | null;
+  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | null | undefined;
   /** ColdStorage content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | null | undefined;
   /** Is Cold storage enabled? */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Notify on new Cold storage archive */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention in year */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Stream creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Stream description */
-  description?: string;
+  description?: string | undefined;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: DbaasLogsStreamEncryptionKeysIdsList | null;
+  encryptionKeysIds?: DbaasLogsStreamEncryptionKeysIdsList | null | undefined;
   /** Indexing current size (in bytes) */
-  indexingCurrentSize?: number | null;
+  indexingCurrentSize?: number | null | undefined;
   /** Enable ES indexing */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Number of alert condition */
-  nbAlertCondition?: number;
+  nbAlertCondition?: number | undefined;
   /** Number of coldstored archives */
-  nbArchive?: number;
+  nbArchive?: number | undefined;
   /** Number of subscriptions targeting this stream */
-  nbSubscription?: number;
+  nbSubscription?: number | undefined;
   /** Parent stream ID */
-  parentStreamId?: string | null;
+  parentStreamId?: string | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Retention ID */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** Stream ID */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Stream description */
-  title?: string;
+  title?: string | undefined;
   /** Stream last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Enable Websocket */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamAlertRequest {
   /** Service name */
@@ -982,31 +1014,31 @@ export interface GetDbaasLogOutputGraylogStreamAlertRequest {
 /** Alert condition */
 export interface DbaasLogsStreamAlertCondition {
   /** Stream alert condition ID */
-  alertId?: string;
+  alertId?: string | undefined;
   /** Backlog size */
-  backlog?: number;
+  backlog?: number | undefined;
   /** Alert condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | null;
+  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | null | undefined;
   /** Field name */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period in minutes */
-  grace?: number;
+  grace?: number | undefined;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold condition */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | null | undefined;
   /** Time lapse in minutes */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Condition label */
-  title?: string;
+  title?: string | undefined;
   /** Field value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamArchiveRequest {
   /** Service name */
@@ -1021,21 +1053,21 @@ export type DbaasLogsArchiveRetrievalStateEnum = "sealed" | "unsealed" | "unseal
 /** Stream archive */
 export interface DbaasLogsArchive {
   /** Archive ID */
-  archiveId?: string;
+  archiveId?: string | undefined;
   /** Create date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Filename */
-  filename?: string;
+  filename?: string | undefined;
   /** MD5 checksum */
-  md5?: string;
+  md5?: string | undefined;
   /** Retrieval delay */
-  retrievalDelay?: number;
+  retrievalDelay?: number | undefined;
   /** Retrieval state */
-  retrievalState?: DbaasLogsArchiveRetrievalStateEnum;
+  retrievalState?: DbaasLogsArchiveRetrievalStateEnum | undefined;
   /** sha256 checksum */
-  sha256?: string;
+  sha256?: string | undefined;
   /** File size in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamRuleRequest {
   /** Service name */
@@ -1048,15 +1080,15 @@ export interface GetDbaasLogOutputGraylogStreamRuleRequest {
 /** Stream rule */
 export interface DbaasLogsStreamRule {
   /** Field name */
-  field?: string;
+  field?: string | undefined;
   /** Invert condition */
-  isInverted?: boolean | null;
+  isInverted?: boolean | null | undefined;
   /** Field operator */
-  operator?: DbaasLogsStreamRuleOperatorEnum | null;
+  operator?: DbaasLogsStreamRuleOperatorEnum | null | undefined;
   /** Stream rule ID */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Field value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamSubscriptionRequest {
   /** Service name */
@@ -1069,26 +1101,26 @@ export interface GetDbaasLogOutputGraylogStreamSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetDbaasLogOutputMetricTenantRequest {
   /** Service name */
@@ -1101,21 +1133,21 @@ export type DbaasLogsDeliveryStatusEnum = "DELETING" | "DELIVERING" | "READY" | 
 /** Metric Tenant */
 export interface DbaasLogsMetricTenant {
   /** Metric tenant creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Status of the delivering process */
-  deliveryStatus?: DbaasLogsDeliveryStatusEnum;
+  deliveryStatus?: DbaasLogsDeliveryStatusEnum | undefined;
   /** Metric tenant description */
-  description?: string;
+  description?: string | undefined;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** The Id of the metric tenant */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Metric tenant title */
-  title?: string;
+  title?: string | undefined;
   /** Metric tenant last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputMetricTenantSubscriptionRequest {
   /** Service name */
@@ -1128,19 +1160,19 @@ export interface GetDbaasLogOutputMetricTenantSubscriptionRequest {
 /** Metrics subscription */
 export interface DbaasLogsMetricSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Metric kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the metrics come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination /dbaas/logs service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Id of the destination metric tenant */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetDbaasLogOutputOpensearchAliasRequest {
   /** Service name */
@@ -1151,21 +1183,21 @@ export interface GetDbaasLogOutputOpensearchAliasRequest {
 /** Alias */
 export interface DbaasLogsAlias {
   /** Alias ID */
-  aliasId?: string;
+  aliasId?: string | undefined;
   /** Input creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Alias description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Alias name */
-  name?: string;
+  name?: string | undefined;
   /** Number of indices linked */
-  nbIndex?: number;
+  nbIndex?: number | undefined;
   /** Number of streams linked */
-  nbStream?: number;
+  nbStream?: number | undefined;
   /** Input last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
@@ -1176,25 +1208,25 @@ export interface GetDbaasLogOutputOpensearchIndexRequest {
 /** Index */
 export interface DbaasLogsIndex {
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Index creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current index size (in bytes) */
-  currentSize?: number | null;
+  currentSize?: number | null | undefined;
   /** Index description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Index ID */
-  indexId?: string;
+  indexId?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Maximum index size (in bytes) */
-  maxSize?: number;
+  maxSize?: number | undefined;
   /** Index name */
-  name?: string;
+  name?: string | undefined;
   /** Number of shard */
-  nbShard?: number | null;
+  nbShard?: number | null | undefined;
   /** Index last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputOpensearchOsdRequest {
   /** Service name */
@@ -1205,19 +1237,19 @@ export interface GetDbaasLogOutputOpensearchOsdRequest {
 /** OpenSearch Dashboards instance */
 export interface DbaasLogsOsd {
   /** OpenSearch Dashboards creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Status of the delivering process */
-  deliveryStatus?: DbaasLogsDeliveryStatusEnum;
+  deliveryStatus?: DbaasLogsDeliveryStatusEnum | undefined;
   /** OpenSearch Dashboards description */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** OpenSearch Dashboards name */
-  name?: string;
+  name?: string | undefined;
   /** OpenSearch Dashboards ID */
-  osdId?: string;
+  osdId?: string | undefined;
   /** OpenSearch Dashboards last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogRoleRequest {
   /** Service name */
@@ -1228,19 +1260,19 @@ export interface GetDbaasLogRoleRequest {
 /** Role */
 export interface DbaasLogsRole {
   /** Role creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Role description */
-  description?: string;
+  description?: string | undefined;
   /** Role name */
-  name?: string;
+  name?: string | undefined;
   /** Number of members */
-  nbMember?: number;
+  nbMember?: number | undefined;
   /** Number of permissions */
-  nbPermission?: number;
+  nbPermission?: number | undefined;
   /** Role ID */
-  roleId?: string;
+  roleId?: string | undefined;
   /** Role last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogRoleMemberRequest {
   /** Service name */
@@ -1253,11 +1285,11 @@ export interface GetDbaasLogRoleMemberRequest {
 /** Member */
 export interface DbaasLogsMember {
   /** Membership creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Username on DBaaS Logs */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetDbaasLogRolePermissionRequest {
   /** Service name */
@@ -1270,19 +1302,19 @@ export interface GetDbaasLogRolePermissionRequest {
 /** Role permission */
 export interface DbaasLogsPermission {
   /** Associated Elasticsearch alias */
-  aliasId?: string | null;
+  aliasId?: string | null | undefined;
   /** Associated Graylog dashboard */
-  dashboardId?: string | null;
+  dashboardId?: string | null | undefined;
   /** Associated Elasticsearch index */
-  indexId?: string | null;
+  indexId?: string | null | undefined;
   /** Associated OpenSearch Dashboards instance */
-  osdId?: string | null;
+  osdId?: string | null | undefined;
   /** Permission ID */
-  permissionId?: string;
+  permissionId?: string | undefined;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | null | undefined;
   /** Associated Graylog stream */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
 }
 export interface GetDbaasLogServiceInfosRequest {
   /** Service name */
@@ -1293,15 +1325,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1323,21 +1355,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDbaasLogTokenRequest {
   /** Service name */
@@ -1348,23 +1380,23 @@ export interface GetDbaasLogTokenRequest {
 /** Token */
 export interface DbaasLogsToken {
   /** Cluster ID */
-  clusterId?: string | null;
+  clusterId?: string | null | undefined;
   /** Token creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Token name */
-  name?: string;
+  name?: string | undefined;
   /** Token ID */
-  tokenId?: string;
+  tokenId?: string | undefined;
   /** Token last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Token value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListDbaasLogClusterRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogClusterResponseBodyList = Array<string>;
 export type ListDbaasLogClusterResponse = ListDbaasLogClusterResponseBodyList;
@@ -1380,7 +1412,7 @@ export interface ListDbaasLogEncryptionKeyRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogEncryptionKeyResponseBodyList = Array<string>;
 export type ListDbaasLogEncryptionKeyResponse = ListDbaasLogEncryptionKeyResponseBodyList;
@@ -1388,7 +1420,7 @@ export interface ListDbaasLogInputRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogInputResponseBodyList = Array<string>;
 export type ListDbaasLogInputResponse = ListDbaasLogInputResponseBodyList;
@@ -1403,9 +1435,9 @@ export type DbaasLogsInputActionTypeEnum = "DESTROY" | "END" | "LOG" | "RESTART"
 /** Action on input */
 export interface DbaasLogsInputAction {
   /** Indicates if action is allowed */
-  isAllowed?: boolean;
+  isAllowed?: boolean | undefined;
   /** Action type */
-  type?: DbaasLogsInputActionTypeEnum;
+  type?: DbaasLogsInputActionTypeEnum | undefined;
 }
 export type ListDbaasLogInputActionResponseBodyList = Array<DbaasLogsInputAction>;
 export type ListDbaasLogInputActionResponse = ListDbaasLogInputActionResponseBodyList;
@@ -1463,9 +1495,9 @@ export type DbaasLogsUrlTypeEnum =
 /** Web address */
 export interface DbaasLogsUrl {
   /** Web URI */
-  address?: string;
+  address?: string | undefined;
   /** Service type */
-  type?: DbaasLogsUrlTypeEnum;
+  type?: DbaasLogsUrlTypeEnum | undefined;
 }
 export type ListDbaasLogInputUrlResponseBodyList = Array<DbaasLogsUrl>;
 export type ListDbaasLogInputUrlResponse = ListDbaasLogInputUrlResponseBodyList;
@@ -1479,7 +1511,7 @@ export interface ListDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogDashboardResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogDashboardResponse =
@@ -1497,7 +1529,7 @@ export interface ListDbaasLogOutputGraylogStreamRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogStreamResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogStreamResponse =
@@ -1546,9 +1578,9 @@ export interface ListDbaasLogOutputGraylogStreamSubscriptionRequest {
   /** Stream ID */
   streamId: string;
   /** Filter by resource name (like) */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Filter by resource type (like) */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogStreamSubscriptionResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogStreamSubscriptionResponse =
@@ -1574,9 +1606,9 @@ export interface ListDbaasLogOutputMetricTenantSubscriptionRequest {
   /** Tenant ID */
   tenantId: string;
   /** Filter by resource name (like) */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Filter by resource type (like) */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListDbaasLogOutputMetricTenantSubscriptionResponseBodyList = Array<string>;
 export type ListDbaasLogOutputMetricTenantSubscriptionResponse =
@@ -1594,7 +1626,7 @@ export interface ListDbaasLogOutputOpensearchAliasRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogOutputOpensearchAliasResponseBodyList = Array<string>;
 export type ListDbaasLogOutputOpensearchAliasResponse =
@@ -1630,7 +1662,7 @@ export interface ListDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogOutputOpensearchIndexResponseBodyList = Array<string>;
 export type ListDbaasLogOutputOpensearchIndexResponse =
@@ -1664,7 +1696,7 @@ export interface ListDbaasLogRoleRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogRoleResponseBodyList = Array<string>;
 export type ListDbaasLogRoleResponse = ListDbaasLogRoleResponseBodyList;
@@ -1692,7 +1724,7 @@ export type ListDbaasLogsRequestIamTagsMap = {
 };
 export interface ListDbaasLogsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListDbaasLogsRequestIamTagsMap;
+  iamTags?: ListDbaasLogsRequestIamTagsMap | undefined;
 }
 export type ListDbaasLogsResponseBodyList = Array<string>;
 export type ListDbaasLogsResponse = ListDbaasLogsResponseBodyList;
@@ -1700,7 +1732,7 @@ export interface ListDbaasLogTokenRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogTokenResponseBodyList = Array<string>;
 export type ListDbaasLogTokenResponse = ListDbaasLogTokenResponseBodyList;
@@ -1714,9 +1746,9 @@ export interface PutDbaasLogRequest {
   /** Service name */
   serviceName: string;
   /** Service custom name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Enable IAM for this service */
-  enableIam?: boolean | null;
+  enableIam?: boolean | null | undefined;
 }
 /** Allowed networks for ARCHIVE flow type */
 export type PutDbaasLogClusterRequestArchiveAllowedNetworksList = Array<string>;
@@ -1730,11 +1762,14 @@ export interface PutDbaasLogClusterRequest {
   /** Cluster ID */
   clusterId: string;
   /** Allowed networks for ARCHIVE flow type */
-  archiveAllowedNetworks?: PutDbaasLogClusterRequestArchiveAllowedNetworksList | null;
+  archiveAllowedNetworks?: PutDbaasLogClusterRequestArchiveAllowedNetworksList | null | undefined;
   /** Allowed networks for DIRECT_INPUT flow type */
-  directInputAllowedNetworks?: PutDbaasLogClusterRequestDirectInputAllowedNetworksList | null;
+  directInputAllowedNetworks?:
+    | PutDbaasLogClusterRequestDirectInputAllowedNetworksList
+    | null
+    | undefined;
   /** Allowed networks for QUERY flow type */
-  queryAllowedNetworks?: PutDbaasLogClusterRequestQueryAllowedNetworksList | null;
+  queryAllowedNetworks?: PutDbaasLogClusterRequestQueryAllowedNetworksList | null | undefined;
 }
 /** IP blocks */
 export type PutDbaasLogInputRequestAllowedNetworksList = Array<string>;
@@ -1744,23 +1779,23 @@ export interface PutDbaasLogInputRequest {
   /** Input ID */
   inputId: string;
   /** IP blocks */
-  allowedNetworks?: PutDbaasLogInputRequestAllowedNetworksList | null;
+  allowedNetworks?: PutDbaasLogInputRequestAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Engine ID */
   engineId: string;
   /** Exposed port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Stream ID */
   streamId: string;
   /** Title */
@@ -1782,11 +1817,11 @@ export interface PutDbaasLogInputConfigurationLogstashRequest {
   /** Input ID */
   inputId: string;
   /** Filter section */
-  filterSection?: string | null;
+  filterSection?: string | null | undefined;
   /** Input section */
   inputSection: string;
   /** Pattern section */
-  patternSection?: string | null;
+  patternSection?: string | null | undefined;
 }
 export interface PutDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
@@ -1806,31 +1841,35 @@ export interface PutDbaasLogOutputGraylogStreamRequest {
   /** Stream ID */
   streamId: string;
   /** Cold storage compression */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | (string & {}) | null;
+  coldStorageCompression?:
+    | DbaasLogsStreamColdStorageCompressionEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Cold storage content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null | undefined;
   /** Cold storage enabled */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Cold storage notify enabled */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention time */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Description */
   description: string;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: PutDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null;
+  encryptionKeysIds?: PutDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null | undefined;
   /** ES indexing enabled */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Title */
   title: string;
   /** Web socket enabled */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 export interface PutDbaasLogOutputGraylogStreamAlertRequest {
   /** Service name */
@@ -1842,27 +1881,31 @@ export interface PutDbaasLogOutputGraylogStreamAlertRequest {
   /** Backlog */
   backlog: number;
   /** Condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | (string & {}) | null;
+  constraintType?:
+    | DbaasLogsStreamAlertConditionConstraintTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Field */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period */
   grace: number;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications enabled */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold type */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null | undefined;
   /** Time */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Title */
   title: string;
   /** Value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutDbaasLogOutputMetricTenantRequest {
   /** Service name */
@@ -1872,7 +1915,7 @@ export interface PutDbaasLogOutputMetricTenantRequest {
   /** Metric tenant description */
   description: string;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
   retentionId: string;
   /** Metric tenant title */
@@ -1892,7 +1935,7 @@ export interface PutDbaasLogOutputOpensearchIndexRequest {
   /** Index ID */
   indexId: string;
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Description */
   description: string;
 }
@@ -1922,13 +1965,13 @@ export interface PutDbaasLogRoleMemberRequest {
   /** Username */
   username: string;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
 }
 export interface PutDbaasLogServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDbaasLogServiceInfosResponse {}
 export interface RestartDbaasLogsInputRequest {
@@ -1943,6 +1986,13 @@ export interface StartDbaasLogsInputRequest {
   /** Input ID */
   inputId: string;
 }
+/** Common error model */
+export interface Error404Body {
+  /** Class of the error */
+  class?: string | undefined;
+  /** Error message */
+  message?: string | undefined;
+}
 export type CreateDbaasLogChangeContactError = OvhOpError;
 /** Launch a contact change procedure */
 export const createDbaasLogChangeContact: API.OperationMethod<
@@ -1951,8 +2001,8 @@ export const createDbaasLogChangeContact: API.OperationMethod<
   CreateDbaasLogChangeContactError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c49, 0) as any as S.Schema<CreateDbaasLogChangeContactRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<CreateDbaasLogChangeContactResponse>,
+  input: __S(200, __c50, 0) as any as S.Schema<CreateDbaasLogChangeContactRequest>,
+  output: __S(201, __c50, 1) as any as S.Schema<CreateDbaasLogChangeContactResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -1968,8 +2018,8 @@ export const createDbaasLogEncryptionKey: API.OperationMethod<
   CreateDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(244, __c61, 0) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(248, __c62, 0) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -1985,8 +2035,8 @@ export const createDbaasLogInput: API.OperationMethod<
   CreateDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(292, __c73, 0) as any as S.Schema<CreateDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(296, __c74, 0) as any as S.Schema<CreateDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2002,8 +2052,8 @@ export const createDbaasLogInputConfigtest: API.OperationMethod<
   CreateDbaasLogInputConfigtestError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(340, __c85, 0) as any as S.Schema<CreateDbaasLogInputConfigtestRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(344, __c86, 0) as any as S.Schema<CreateDbaasLogInputConfigtestRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2019,8 +2069,8 @@ export const createDbaasLogInputEnd: API.OperationMethod<
   CreateDbaasLogInputEndError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(388, __c97, 0) as any as S.Schema<CreateDbaasLogInputEndRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(392, __c98, 0) as any as S.Schema<CreateDbaasLogInputEndRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2036,8 +2086,8 @@ export const createDbaasLogInputLogUrl: API.OperationMethod<
   CreateDbaasLogInputLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c110, 0) as any as S.Schema<CreateDbaasLogInputLogUrlRequest>,
-  output: __S(444, __c111, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  input: __S(444, __c111, 0) as any as S.Schema<CreateDbaasLogInputLogUrlRequest>,
+  output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2053,8 +2103,8 @@ export const createDbaasLogOutputGraylogDashboard: API.OperationMethod<
   CreateDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(492, __c123, 0) as any as S.Schema<CreateDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(496, __c124, 0) as any as S.Schema<CreateDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2070,8 +2120,8 @@ export const createDbaasLogOutputGraylogStream: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2091,8 +2141,8 @@ export const createDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(52, __c13, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2108,8 +2158,8 @@ export const createDbaasLogOutputGraylogStreamArchiveUrl: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamArchiveUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamArchiveUrlRequest>,
-  output: __S(444, __c111, 0) as any as S.Schema<DbaasLogsArchiveUrl>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamArchiveUrlRequest>,
+  output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsArchiveUrl>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2129,8 +2179,8 @@ export const createDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(132, __c33, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2146,8 +2196,8 @@ export const createDbaasLogOutputMetricTenant: API.OperationMethod<
   CreateDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(136, __c34, 0) as any as S.Schema<CreateDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2163,8 +2213,8 @@ export const createDbaasLogOutputOpensearchAlias: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(140, __c35, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2184,8 +2234,8 @@ export const createDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(144, __c36, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2201,8 +2251,8 @@ export const createDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(148, __c37, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2218,8 +2268,8 @@ export const createDbaasLogOutputOpensearchIndex: API.OperationMethod<
   CreateDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(152, __c38, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2235,8 +2285,8 @@ export const createDbaasLogOutputOpensearchOsd: API.OperationMethod<
   CreateDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c38, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(156, __c39, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2252,8 +2302,8 @@ export const createDbaasLogRole: API.OperationMethod<
   CreateDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<CreateDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(160, __c40, 0) as any as S.Schema<CreateDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2269,8 +2319,8 @@ export const createDbaasLogRoleMember: API.OperationMethod<
   CreateDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<CreateDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(164, __c41, 0) as any as S.Schema<CreateDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2286,8 +2336,8 @@ export const createDbaasLogRolePermissionAlias: API.OperationMethod<
   CreateDbaasLogRolePermissionAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<CreateDbaasLogRolePermissionAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(168, __c42, 0) as any as S.Schema<CreateDbaasLogRolePermissionAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2307,8 +2357,8 @@ export const createDbaasLogRolePermissionDashboard: API.OperationMethod<
   CreateDbaasLogRolePermissionDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(172, __c43, 0) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2324,8 +2374,8 @@ export const createDbaasLogRolePermissionIndex: API.OperationMethod<
   CreateDbaasLogRolePermissionIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(176, __c44, 0) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2341,8 +2391,8 @@ export const createDbaasLogRolePermissionOsd: API.OperationMethod<
   CreateDbaasLogRolePermissionOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<CreateDbaasLogRolePermissionOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(180, __c45, 0) as any as S.Schema<CreateDbaasLogRolePermissionOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2358,8 +2408,8 @@ export const createDbaasLogRolePermissionStream: API.OperationMethod<
   CreateDbaasLogRolePermissionStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(180, __c45, 0) as any as S.Schema<CreateDbaasLogRolePermissionStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(184, __c46, 0) as any as S.Schema<CreateDbaasLogRolePermissionStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2375,8 +2425,8 @@ export const createDbaasLogToken: API.OperationMethod<
   CreateDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c46, 0) as any as S.Schema<CreateDbaasLogTokenRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(188, __c47, 0) as any as S.Schema<CreateDbaasLogTokenRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2392,8 +2442,8 @@ export const createDbaasLogUserChangePassword: API.OperationMethod<
   CreateDbaasLogUserChangePasswordError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<CreateDbaasLogUserChangePasswordRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(192, __c48, 0) as any as S.Schema<CreateDbaasLogUserChangePasswordRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2409,8 +2459,8 @@ export const deleteDbaasLogEncryptionKey: API.OperationMethod<
   DeleteDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c48, 0) as any as S.Schema<DeleteDbaasLogEncryptionKeyRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(196, __c49, 0) as any as S.Schema<DeleteDbaasLogEncryptionKeyRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2426,8 +2476,8 @@ export const deleteDbaasLogInput: API.OperationMethod<
   DeleteDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(204, __c51, 0) as any as S.Schema<DeleteDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(208, __c52, 0) as any as S.Schema<DeleteDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2443,8 +2493,8 @@ export const deleteDbaasLogOutputGraylogDashboard: API.OperationMethod<
   DeleteDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(212, __c53, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2460,8 +2510,8 @@ export const deleteDbaasLogOutputGraylogStream: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(212, __c53, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(216, __c54, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2477,8 +2527,8 @@ export const deleteDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(220, __c55, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2544,8 @@ export const deleteDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(224, __c56, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2512,11 +2562,11 @@ export const deleteDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c56,
+    228,
+    __c57,
     0,
   ) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamSubscriptionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2532,8 +2582,8 @@ export const deleteDbaasLogOutputMetricTenant: API.OperationMethod<
   DeleteDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(232, __c58, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2549,8 +2599,8 @@ export const deleteDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   DeleteDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c58, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantSubscriptionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(236, __c59, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantSubscriptionRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2566,8 +2616,8 @@ export const deleteDbaasLogOutputOpensearchAlias: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(236, __c59, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(240, __c60, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2633,8 @@ export const deleteDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c60, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(244, __c61, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2600,8 +2650,8 @@ export const deleteDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(252, __c63, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(256, __c64, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2617,8 +2667,8 @@ export const deleteDbaasLogOutputOpensearchIndex: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c64, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(260, __c65, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2634,8 +2684,8 @@ export const deleteDbaasLogOutputOpensearchOsd: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(260, __c65, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(264, __c66, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2651,8 +2701,8 @@ export const deleteDbaasLogRole: API.OperationMethod<
   DeleteDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c66, 0) as any as S.Schema<DeleteDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(268, __c67, 0) as any as S.Schema<DeleteDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2668,8 +2718,8 @@ export const deleteDbaasLogRoleMember: API.OperationMethod<
   DeleteDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(268, __c67, 0) as any as S.Schema<DeleteDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(272, __c68, 0) as any as S.Schema<DeleteDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2685,8 +2735,8 @@ export const deleteDbaasLogRolePermission: API.OperationMethod<
   DeleteDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c68, 0) as any as S.Schema<DeleteDbaasLogRolePermissionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(276, __c69, 0) as any as S.Schema<DeleteDbaasLogRolePermissionRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2702,8 +2752,8 @@ export const deleteDbaasLogToken: API.OperationMethod<
   DeleteDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(276, __c69, 0) as any as S.Schema<DeleteDbaasLogTokenRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(280, __c70, 0) as any as S.Schema<DeleteDbaasLogTokenRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2723,8 +2773,8 @@ export const duplicateDbaasLogsOutputGraylogDashboard: API.OperationMethod<
   DuplicateDbaasLogsOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c70, 0) as any as S.Schema<DuplicateDbaasLogsOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(284, __c71, 0) as any as S.Schema<DuplicateDbaasLogsOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2740,8 +2790,8 @@ export const getDbaasLog: API.OperationMethod<
   GetDbaasLogError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(284, __c71, 0) as any as S.Schema<GetDbaasLogRequest>,
-  output: __S(287, __c71, 3) as any as S.Schema<DbaasLogsServiceWithIAM>,
+  input: __S(288, __c72, 0) as any as S.Schema<GetDbaasLogRequest>,
+  output: __S(291, __c72, 3) as any as S.Schema<DbaasLogsServiceWithIAM>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2757,8 +2807,8 @@ export const getDbaasLogCluster: API.OperationMethod<
   GetDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c72, 0) as any as S.Schema<GetDbaasLogClusterRequest>,
-  output: __S(289, __c72, 1) as any as S.Schema<DbaasLogsCluster>,
+  input: __S(292, __c73, 0) as any as S.Schema<GetDbaasLogClusterRequest>,
+  output: __S(293, __c73, 1) as any as S.Schema<DbaasLogsCluster>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2774,8 +2824,8 @@ export const getDbaasLogClusterRetention: API.OperationMethod<
   GetDbaasLogClusterRetentionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(300, __c75, 0) as any as S.Schema<GetDbaasLogClusterRetentionRequest>,
-  output: __S(301, __c75, 1) as any as S.Schema<DbaasLogsClusterRetention>,
+  input: __S(304, __c76, 0) as any as S.Schema<GetDbaasLogClusterRetentionRequest>,
+  output: __S(305, __c76, 1) as any as S.Schema<DbaasLogsClusterRetention>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2791,8 +2841,8 @@ export const getDbaasLogEncryptionKey: API.OperationMethod<
   GetDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c76, 0) as any as S.Schema<GetDbaasLogEncryptionKeyRequest>,
-  output: __S(305, __c76, 1) as any as S.Schema<DbaasLogsEncryptionKey>,
+  input: __S(308, __c77, 0) as any as S.Schema<GetDbaasLogEncryptionKeyRequest>,
+  output: __S(309, __c77, 1) as any as S.Schema<DbaasLogsEncryptionKey>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2808,8 +2858,8 @@ export const getDbaasLogInput: API.OperationMethod<
   GetDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(308, __c77, 0) as any as S.Schema<GetDbaasLogInputRequest>,
-  output: __S(309, __c77, 1) as any as S.Schema<DbaasLogsInput>,
+  input: __S(312, __c78, 0) as any as S.Schema<GetDbaasLogInputRequest>,
+  output: __S(313, __c78, 1) as any as S.Schema<DbaasLogsInput>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2825,8 +2875,8 @@ export const getDbaasLogInputConfigtestResult: API.OperationMethod<
   GetDbaasLogInputConfigtestResultError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c78, 0) as any as S.Schema<GetDbaasLogInputConfigtestResultRequest>,
-  output: __S(313, __c78, 1) as any as S.Schema<DbaasLogsTestResult>,
+  input: __S(316, __c79, 0) as any as S.Schema<GetDbaasLogInputConfigtestResultRequest>,
+  output: __S(317, __c79, 1) as any as S.Schema<DbaasLogsTestResult>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2842,8 +2892,8 @@ export const getDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   GetDbaasLogInputConfigurationFlowggerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(316, __c79, 0) as any as S.Schema<GetDbaasLogInputConfigurationFlowggerRequest>,
-  output: __S(317, __c79, 1) as any as S.Schema<DbaasLogsFlowggerConfiguration>,
+  input: __S(320, __c80, 0) as any as S.Schema<GetDbaasLogInputConfigurationFlowggerRequest>,
+  output: __S(321, __c80, 1) as any as S.Schema<DbaasLogsFlowggerConfiguration>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2859,8 +2909,8 @@ export const getDbaasLogInputConfigurationLogstash: API.OperationMethod<
   GetDbaasLogInputConfigurationLogstashError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c80, 0) as any as S.Schema<GetDbaasLogInputConfigurationLogstashRequest>,
-  output: __S(321, __c80, 1) as any as S.Schema<DbaasLogsLogstashConfiguration>,
+  input: __S(324, __c81, 0) as any as S.Schema<GetDbaasLogInputConfigurationLogstashRequest>,
+  output: __S(325, __c81, 1) as any as S.Schema<DbaasLogsLogstashConfiguration>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2876,8 +2926,8 @@ export const getDbaasLogInputEngine: API.OperationMethod<
   GetDbaasLogInputEngineError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(324, __c81, 0) as any as S.Schema<GetDbaasLogInputEngineRequest>,
-  output: __S(325, __c81, 1) as any as S.Schema<DbaasLogsEngine>,
+  input: __S(328, __c82, 0) as any as S.Schema<GetDbaasLogInputEngineRequest>,
+  output: __S(329, __c82, 1) as any as S.Schema<DbaasLogsEngine>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2893,8 +2943,8 @@ export const getDbaasLogInputEngineHelper: API.OperationMethod<
   GetDbaasLogInputEngineHelperError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c82, 0) as any as S.Schema<GetDbaasLogInputEngineHelperRequest>,
-  output: __S(331, __c82, 3) as any as S.Schema<DbaasLogsHelper>,
+  input: __S(332, __c83, 0) as any as S.Schema<GetDbaasLogInputEngineHelperRequest>,
+  output: __S(335, __c83, 3) as any as S.Schema<DbaasLogsHelper>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2910,8 +2960,8 @@ export const getDbaasLogMetrics: API.OperationMethod<
   GetDbaasLogMetricsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(332, __c83, 0) as any as S.Schema<GetDbaasLogMetricsRequest>,
-  output: __S(333, __c83, 1) as any as S.Schema<DbaasLogsServiceMetric>,
+  input: __S(336, __c84, 0) as any as S.Schema<GetDbaasLogMetricsRequest>,
+  output: __S(337, __c84, 1) as any as S.Schema<DbaasLogsServiceMetric>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2927,8 +2977,8 @@ export const getDbaasLogOperation: API.OperationMethod<
   GetDbaasLogOperationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c84, 0) as any as S.Schema<GetDbaasLogOperationRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(340, __c85, 0) as any as S.Schema<GetDbaasLogOperationRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2944,8 +2994,8 @@ export const getDbaasLogOutputGraylogDashboard: API.OperationMethod<
   GetDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c86, 0) as any as S.Schema<GetDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(345, __c86, 1) as any as S.Schema<DbaasLogsDashboard>,
+  input: __S(348, __c87, 0) as any as S.Schema<GetDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(349, __c87, 1) as any as S.Schema<DbaasLogsDashboard>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2961,8 +3011,8 @@ export const getDbaasLogOutputGraylogStream: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(348, __c87, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRequest>,
-  output: __S(349, __c87, 1) as any as S.Schema<DbaasLogsStream>,
+  input: __S(352, __c88, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRequest>,
+  output: __S(353, __c88, 1) as any as S.Schema<DbaasLogsStream>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2978,8 +3028,8 @@ export const getDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c88, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(353, __c88, 1) as any as S.Schema<DbaasLogsStreamAlertCondition>,
+  input: __S(356, __c89, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(357, __c89, 1) as any as S.Schema<DbaasLogsStreamAlertCondition>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2995,8 +3045,8 @@ export const getDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamArchiveError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c89, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamArchiveRequest>,
-  output: __S(357, __c89, 1) as any as S.Schema<DbaasLogsArchive>,
+  input: __S(360, __c90, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamArchiveRequest>,
+  output: __S(361, __c90, 1) as any as S.Schema<DbaasLogsArchive>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3012,8 +3062,8 @@ export const getDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c90, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(361, __c90, 1) as any as S.Schema<DbaasLogsStreamRule>,
+  input: __S(364, __c91, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(365, __c91, 1) as any as S.Schema<DbaasLogsStreamRule>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3029,8 +3079,8 @@ export const getDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(364, __c91, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamSubscriptionRequest>,
-  output: __S(365, __c91, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  input: __S(368, __c92, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamSubscriptionRequest>,
+  output: __S(369, __c92, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3046,8 +3096,8 @@ export const getDbaasLogOutputMetricTenant: API.OperationMethod<
   GetDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(372, __c93, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantRequest>,
-  output: __S(373, __c93, 1) as any as S.Schema<DbaasLogsMetricTenant>,
+  input: __S(376, __c94, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantRequest>,
+  output: __S(377, __c94, 1) as any as S.Schema<DbaasLogsMetricTenant>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3063,8 +3113,8 @@ export const getDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   GetDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c94, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantSubscriptionRequest>,
-  output: __S(377, __c94, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
+  input: __S(380, __c95, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantSubscriptionRequest>,
+  output: __S(381, __c95, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3080,8 +3130,8 @@ export const getDbaasLogOutputOpensearchAlias: API.OperationMethod<
   GetDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(380, __c95, 0) as any as S.Schema<GetDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(381, __c95, 1) as any as S.Schema<DbaasLogsAlias>,
+  input: __S(384, __c96, 0) as any as S.Schema<GetDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(385, __c96, 1) as any as S.Schema<DbaasLogsAlias>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3097,8 +3147,8 @@ export const getDbaasLogOutputOpensearchIndex: API.OperationMethod<
   GetDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c96, 0) as any as S.Schema<GetDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(385, __c96, 1) as any as S.Schema<DbaasLogsIndex>,
+  input: __S(388, __c97, 0) as any as S.Schema<GetDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(389, __c97, 1) as any as S.Schema<DbaasLogsIndex>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3114,8 +3164,8 @@ export const getDbaasLogOutputOpensearchOsd: API.OperationMethod<
   GetDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c98, 0) as any as S.Schema<GetDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(393, __c98, 1) as any as S.Schema<DbaasLogsOsd>,
+  input: __S(396, __c99, 0) as any as S.Schema<GetDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(397, __c99, 1) as any as S.Schema<DbaasLogsOsd>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3131,8 +3181,8 @@ export const getDbaasLogRole: API.OperationMethod<
   GetDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(396, __c99, 0) as any as S.Schema<GetDbaasLogRoleRequest>,
-  output: __S(397, __c99, 1) as any as S.Schema<DbaasLogsRole>,
+  input: __S(400, __c100, 0) as any as S.Schema<GetDbaasLogRoleRequest>,
+  output: __S(401, __c100, 1) as any as S.Schema<DbaasLogsRole>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3148,8 +3198,8 @@ export const getDbaasLogRoleMember: API.OperationMethod<
   GetDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c100, 0) as any as S.Schema<GetDbaasLogRoleMemberRequest>,
-  output: __S(401, __c100, 1) as any as S.Schema<DbaasLogsMember>,
+  input: __S(404, __c101, 0) as any as S.Schema<GetDbaasLogRoleMemberRequest>,
+  output: __S(405, __c101, 1) as any as S.Schema<DbaasLogsMember>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3165,8 +3215,8 @@ export const getDbaasLogRolePermission: API.OperationMethod<
   GetDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(404, __c101, 0) as any as S.Schema<GetDbaasLogRolePermissionRequest>,
-  output: __S(405, __c101, 1) as any as S.Schema<DbaasLogsPermission>,
+  input: __S(408, __c102, 0) as any as S.Schema<GetDbaasLogRolePermissionRequest>,
+  output: __S(409, __c102, 1) as any as S.Schema<DbaasLogsPermission>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3182,8 +3232,8 @@ export const getDbaasLogServiceInfos: API.OperationMethod<
   GetDbaasLogServiceInfosError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c102, 0) as any as S.Schema<GetDbaasLogServiceInfosRequest>,
-  output: __S(409, __c102, 1) as any as S.Schema<ServicesService>,
+  input: __S(412, __c103, 0) as any as S.Schema<GetDbaasLogServiceInfosRequest>,
+  output: __S(413, __c103, 1) as any as S.Schema<ServicesService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3199,8 +3249,8 @@ export const getDbaasLogToken: API.OperationMethod<
   GetDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c104, 0) as any as S.Schema<GetDbaasLogTokenRequest>,
-  output: __S(417, __c104, 1) as any as S.Schema<DbaasLogsToken>,
+  input: __S(420, __c105, 0) as any as S.Schema<GetDbaasLogTokenRequest>,
+  output: __S(421, __c105, 1) as any as S.Schema<DbaasLogsToken>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3216,8 +3266,8 @@ export const listDbaasLogCluster: API.OperationMethod<
   ListDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(420, __c105, 0) as any as S.Schema<ListDbaasLogClusterRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterResponse>,
+  input: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3233,8 +3283,8 @@ export const listDbaasLogClusterRetention: API.OperationMethod<
   ListDbaasLogClusterRetentionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterRetentionRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterRetentionResponse>,
+  input: __S(432, __c108, 0) as any as S.Schema<ListDbaasLogClusterRetentionRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterRetentionResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3250,8 +3300,8 @@ export const listDbaasLogEncryptionKey: API.OperationMethod<
   ListDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c108, 0) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogEncryptionKeyResponse>,
+  input: __S(436, __c109, 0) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogEncryptionKeyResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3267,8 +3317,8 @@ export const listDbaasLogInput: API.OperationMethod<
   ListDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(436, __c109, 0) as any as S.Schema<ListDbaasLogInputRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputResponse>,
+  input: __S(440, __c110, 0) as any as S.Schema<ListDbaasLogInputRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3284,8 +3334,8 @@ export const listDbaasLogInputAction: API.OperationMethod<
   ListDbaasLogInputActionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c112, 0) as any as S.Schema<ListDbaasLogInputActionRequest>,
-  output: __S(451, __c112, 3) as any as S.Schema<ListDbaasLogInputActionResponse>,
+  input: __S(452, __c113, 0) as any as S.Schema<ListDbaasLogInputActionRequest>,
+  output: __S(455, __c113, 3) as any as S.Schema<ListDbaasLogInputActionResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3301,8 +3351,8 @@ export const listDbaasLogInputEngine: API.OperationMethod<
   ListDbaasLogInputEngineError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(452, __c113, 0) as any as S.Schema<ListDbaasLogInputEngineRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputEngineResponse>,
+  input: __S(456, __c114, 0) as any as S.Schema<ListDbaasLogInputEngineRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3318,8 +3368,8 @@ export const listDbaasLogInputEngineHelper: API.OperationMethod<
   ListDbaasLogInputEngineHelperError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c114, 0) as any as S.Schema<ListDbaasLogInputEngineHelperRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputEngineHelperResponse>,
+  input: __S(460, __c115, 0) as any as S.Schema<ListDbaasLogInputEngineHelperRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineHelperResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3335,8 +3385,8 @@ export const listDbaasLogInputUrl: API.OperationMethod<
   ListDbaasLogInputUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(460, __c115, 0) as any as S.Schema<ListDbaasLogInputUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogInputUrlResponse>,
+  input: __S(464, __c116, 0) as any as S.Schema<ListDbaasLogInputUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogInputUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3352,8 +3402,8 @@ export const listDbaasLogOperation: API.OperationMethod<
   ListDbaasLogOperationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(468, __c117, 0) as any as S.Schema<ListDbaasLogOperationRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOperationResponse>,
+  input: __S(472, __c118, 0) as any as S.Schema<ListDbaasLogOperationRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOperationResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3369,8 +3419,8 @@ export const listDbaasLogOutputGraylogDashboard: API.OperationMethod<
   ListDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c118, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardResponse>,
+  input: __S(476, __c119, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3386,8 +3436,8 @@ export const listDbaasLogOutputGraylogDashboardUrl: API.OperationMethod<
   ListDbaasLogOutputGraylogDashboardUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(476, __c119, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlResponse>,
+  input: __S(480, __c120, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3403,8 +3453,8 @@ export const listDbaasLogOutputGraylogStream: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c120, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamResponse>,
+  input: __S(484, __c121, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3420,8 +3470,8 @@ export const listDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(484, __c121, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertResponse>,
+  input: __S(488, __c122, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3437,8 +3487,8 @@ export const listDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamArchiveError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c122, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveResponse>,
+  input: __S(492, __c123, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3455,13 +3505,13 @@ export const listDbaasLogOutputGraylogStreamArchiveEncryptionKey: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c124,
+    500,
+    __c125,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3479,8 +3529,8 @@ export const listDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(500, __c125, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleResponse>,
+  input: __S(504, __c126, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3496,10 +3546,10 @@ export const listDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c126, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionRequest>,
+  input: __S(508, __c127, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3517,8 +3567,8 @@ export const listDbaasLogOutputGraylogStreamUrl: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(508, __c127, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlResponse>,
+  input: __S(512, __c128, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3534,8 +3584,8 @@ export const listDbaasLogOutputMetricTenant: API.OperationMethod<
   ListDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c128, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantResponse>,
+  input: __S(516, __c129, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3551,10 +3601,10 @@ export const listDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   ListDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(516, __c129, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionRequest>,
+  input: __S(520, __c130, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3572,8 +3622,8 @@ export const listDbaasLogOutputMetricTenantUrl: API.OperationMethod<
   ListDbaasLogOutputMetricTenantUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c130, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlResponse>,
+  input: __S(524, __c131, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3589,8 +3639,8 @@ export const listDbaasLogOutputOpensearchAlias: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(524, __c131, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasResponse>,
+  input: __S(528, __c132, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3606,8 +3656,8 @@ export const listDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c132, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexResponse>,
+  input: __S(532, __c133, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3623,8 +3673,8 @@ export const listDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(532, __c133, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamResponse>,
+  input: __S(536, __c134, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3640,8 +3690,8 @@ export const listDbaasLogOutputOpensearchAliasUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3657,8 +3707,8 @@ export const listDbaasLogOutputOpensearchIndex: API.OperationMethod<
   ListDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3674,8 +3724,8 @@ export const listDbaasLogOutputOpensearchIndexUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchIndexUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3691,8 +3741,8 @@ export const listDbaasLogOutputOpensearchOsd: API.OperationMethod<
   ListDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3708,8 +3758,8 @@ export const listDbaasLogOutputOpensearchOsdUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchOsdUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3725,8 +3775,8 @@ export const listDbaasLogRole: API.OperationMethod<
   ListDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListDbaasLogRoleRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRoleResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListDbaasLogRoleRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3742,8 +3792,8 @@ export const listDbaasLogRoleMember: API.OperationMethod<
   ListDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListDbaasLogRoleMemberRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRoleMemberResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListDbaasLogRoleMemberRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleMemberResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3759,8 +3809,8 @@ export const listDbaasLogRolePermission: API.OperationMethod<
   ListDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListDbaasLogRolePermissionRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRolePermissionResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListDbaasLogRolePermissionRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRolePermissionResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3776,8 +3826,8 @@ export const listDbaasLogs: API.OperationMethod<
   ListDbaasLogsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38, __c9, 2) as any as S.Schema<ListDbaasLogsRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogsResponse>,
+  input: __S(42, __c10, 2) as any as S.Schema<ListDbaasLogsRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogsResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3793,8 +3843,8 @@ export const listDbaasLogToken: API.OperationMethod<
   ListDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListDbaasLogTokenRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogTokenResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListDbaasLogTokenRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogTokenResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3810,8 +3860,8 @@ export const listDbaasLogUrl: API.OperationMethod<
   ListDbaasLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ListDbaasLogUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogUrlResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListDbaasLogUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3827,8 +3877,8 @@ export const putDbaasLog: API.OperationMethod<
   PutDbaasLogError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<PutDbaasLogRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(60, __c15, 0) as any as S.Schema<PutDbaasLogRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3844,8 +3894,8 @@ export const putDbaasLogCluster: API.OperationMethod<
   PutDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<PutDbaasLogClusterRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(64, __c16, 0) as any as S.Schema<PutDbaasLogClusterRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3861,8 +3911,8 @@ export const putDbaasLogInput: API.OperationMethod<
   PutDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<PutDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(68, __c17, 0) as any as S.Schema<PutDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3878,8 +3928,8 @@ export const putDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   PutDbaasLogInputConfigurationFlowggerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<PutDbaasLogInputConfigurationFlowggerRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(72, __c18, 0) as any as S.Schema<PutDbaasLogInputConfigurationFlowggerRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3895,8 +3945,8 @@ export const putDbaasLogInputConfigurationLogstash: API.OperationMethod<
   PutDbaasLogInputConfigurationLogstashError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<PutDbaasLogInputConfigurationLogstashRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(76, __c19, 0) as any as S.Schema<PutDbaasLogInputConfigurationLogstashRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3912,8 +3962,8 @@ export const putDbaasLogOutputGraylogDashboard: API.OperationMethod<
   PutDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<PutDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(80, __c20, 0) as any as S.Schema<PutDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3929,8 +3979,8 @@ export const putDbaasLogOutputGraylogStream: API.OperationMethod<
   PutDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(84, __c21, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3946,8 +3996,8 @@ export const putDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   PutDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(88, __c22, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3963,8 +4013,8 @@ export const putDbaasLogOutputMetricTenant: API.OperationMethod<
   PutDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<PutDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(92, __c23, 0) as any as S.Schema<PutDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3980,8 +4030,8 @@ export const putDbaasLogOutputOpensearchAlias: API.OperationMethod<
   PutDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<PutDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(100, __c25, 0) as any as S.Schema<PutDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3997,8 +4047,8 @@ export const putDbaasLogOutputOpensearchIndex: API.OperationMethod<
   PutDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<PutDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(104, __c26, 0) as any as S.Schema<PutDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4014,8 +4064,8 @@ export const putDbaasLogOutputOpensearchOsd: API.OperationMethod<
   PutDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<PutDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(108, __c27, 0) as any as S.Schema<PutDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4031,8 +4081,8 @@ export const putDbaasLogRole: API.OperationMethod<
   PutDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<PutDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(112, __c28, 0) as any as S.Schema<PutDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4048,8 +4098,8 @@ export const putDbaasLogRoleMember: API.OperationMethod<
   PutDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<PutDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(116, __c29, 0) as any as S.Schema<PutDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4065,8 +4115,8 @@ export const putDbaasLogServiceInfos: API.OperationMethod<
   PutDbaasLogServiceInfosError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<PutDbaasLogServiceInfosRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<PutDbaasLogServiceInfosResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<PutDbaasLogServiceInfosRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<PutDbaasLogServiceInfosResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4082,8 +4132,8 @@ export const restartDbaasLogsInput: API.OperationMethod<
   RestartDbaasLogsInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<RestartDbaasLogsInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(124, __c31, 0) as any as S.Schema<RestartDbaasLogsInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4099,8 +4149,8 @@ export const startDbaasLogsInput: API.OperationMethod<
   StartDbaasLogsInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<StartDbaasLogsInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(128, __c32, 0) as any as S.Schema<StartDbaasLogsInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4114,6 +4164,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          class: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error404Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           serviceName: S.String.pipe(T.Label()),
           coldStorageCompression: S.optional(S.NullOr(S.String)),
           coldStorageContent: S.optional(S.NullOr(S.String)),
@@ -4121,7 +4182,7 @@ function __c0(j: number): any {
           coldStorageNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           description: S.String,
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
           indexingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
@@ -4140,7 +4201,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4157,7 +4218,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasUrlRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4174,7 +4235,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4191,7 +4252,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchIndexUrlRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4207,7 +4268,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4224,7 +4285,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchOsdUrlRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4235,7 +4296,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRoleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4252,7 +4313,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRoleMemberRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4269,27 +4330,27 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRolePermissionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(44, __c11, 0));
     case 1:
-      return S.Record(S.String, __S(36, __c9, 0));
+      return S.Record(S.String, __S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(37, __c9, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(41, __c10, 1).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs", code: 200 })),
       ).annotate({ identifier: "ListDbaasLogsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "IamResourceTagFilterInput" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4300,7 +4361,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListDbaasLogTokenRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4329,7 +4390,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4339,7 +4400,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListDbaasLogUrlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4351,16 +4412,16 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          archiveAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
-          directInputAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
-          queryAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          archiveAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
+          directInputAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
+          queryAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4371,14 +4432,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PutDbaasLogClusterRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           inputId: S.String.pipe(T.Label()),
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           description: S.String,
           engineId: S.String,
@@ -4395,7 +4456,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4414,7 +4475,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputConfigurationFlowggerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4434,7 +4495,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputConfigurationLogstashRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4453,7 +4514,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4466,7 +4527,7 @@ function __c20(j: number): any {
           coldStorageNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           description: S.String,
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
           indexingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
@@ -4483,7 +4544,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4513,7 +4574,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4534,7 +4595,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4552,7 +4613,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamArchiveUrlRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4570,7 +4631,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4589,7 +4650,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,7 +4668,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4622,7 +4683,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRoleRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4641,20 +4702,20 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRoleMemberRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          renew: S.optional(S.NullOr(__S(412, __c103, 0))),
+          renew: S.optional(S.NullOr(__S(416, __c104, 0))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/serviceInfos", code: 200 }),
         ),
       ).annotate({ identifier: "PutDbaasLogServiceInfosRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4671,7 +4732,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RestartDbaasLogsInputRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4688,7 +4749,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "StartDbaasLogsInputRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4709,7 +4770,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4729,7 +4790,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4747,7 +4808,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4765,7 +4826,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4783,7 +4844,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasStreamRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4803,7 +4864,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4820,7 +4881,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4832,7 +4893,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRoleRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4851,7 +4912,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRoleMemberRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4869,7 +4930,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionAliasRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4888,7 +4949,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionDashboardRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4907,7 +4968,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionIndexRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4926,7 +4987,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionOsdRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4944,7 +5005,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionStreamRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4956,7 +5017,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogTokenRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4973,7 +5034,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogUserChangePasswordRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4990,7 +5051,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5004,18 +5065,18 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "CreateDbaasLogChangeContactRequest" });
     case 1:
-      return S.suspend(() => __S(200, __c50, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(204, __c51, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateDbaasLogChangeContactResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5028,7 +5089,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogInputRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5045,7 +5106,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5062,7 +5123,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5080,7 +5141,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5098,7 +5159,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5116,7 +5177,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamSubscriptionRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5133,7 +5194,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5151,7 +5212,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputMetricTenantSubscriptionRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5168,7 +5229,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5186,7 +5247,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5201,7 +5262,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5226,7 +5287,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DbaasLogsOperation" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5244,7 +5305,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasStreamRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5261,7 +5322,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5278,7 +5339,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5291,7 +5352,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRoleRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5309,7 +5370,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRoleMemberRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5327,7 +5388,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRolePermissionRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5340,7 +5401,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogTokenRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5360,7 +5421,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DuplicateDbaasLogsOutputGraylogDashboardRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5375,7 +5436,7 @@ function __c71(j: number): any {
         S.Struct({
           displayName: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(285, __c71, 1))),
+          tags: S.optional(S.NullOr(__S(289, __c72, 1))),
           urn: S.optional(S.String),
         }),
       ).annotate({ identifier: "IamResourceMetadata" });
@@ -5384,7 +5445,7 @@ function __c71(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           displayName: S.optional(S.NullOr(S.String)),
-          iam: S.optional(S.NullOr(__S(286, __c71, 2))),
+          iam: S.optional(S.NullOr(__S(290, __c72, 2))),
           isClusterOwner: S.optional(S.Boolean),
           isIamEnabled: S.optional(S.Boolean),
           plan: S.optional(S.String),
@@ -5396,7 +5457,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DbaasLogsServiceWithIAM" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5414,30 +5475,30 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          archiveAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          archiveAllowedNetworks: S.optional(__S(300, __c75, 0)),
           certificationLevel: S.optional(S.String),
           clusterId: S.optional(S.String),
           clusterType: S.optional(S.String),
           dedicatedInputPEM: S.optional(S.String),
           defaultRetentionId: S.optional(S.String),
-          directInputAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          directInputAllowedNetworks: S.optional(__S(300, __c75, 0)),
           directInputPEM: S.optional(S.String),
           hostname: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
           isUnlocked: S.optional(S.Boolean),
-          queryAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          queryAllowedNetworks: S.optional(__S(300, __c75, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbaasLogsCluster" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           description: S.String,
           engineId: S.String,
@@ -5452,13 +5513,13 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,7 +5546,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DbaasLogsClusterRetention" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5516,7 +5577,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DbaasLogsEncryptionKey" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5530,7 +5591,7 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
@@ -5553,7 +5614,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DbaasLogsInput" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5579,7 +5640,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DbaasLogsTestResult" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5603,7 +5664,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DbaasLogsFlowggerConfiguration" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5628,7 +5689,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogstashConfiguration" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5654,7 +5715,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DbaasLogsEngine" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5678,20 +5739,20 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsHelperSection" });
     case 2:
-      return S.Array(__S(329, __c82, 1));
+      return S.Array(__S(333, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           engineId: S.optional(S.String),
           helperId: S.optional(S.String),
-          sections: S.optional(__S(330, __c82, 2)),
+          sections: S.optional(__S(334, __c83, 2)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbaasLogsHelper" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5708,7 +5769,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DbaasLogsServiceMetric" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5725,7 +5786,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetDbaasLogOperationRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5742,7 +5803,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputConfigtestRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5770,7 +5831,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DbaasLogsDashboard" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5797,7 +5858,7 @@ function __c87(j: number): any {
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingCurrentSize: S.optional(S.NullOr(S.Number)),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
@@ -5817,7 +5878,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DbaasLogsStream" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5853,7 +5914,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DbaasLogsStreamAlertCondition" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5884,7 +5945,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DbaasLogsArchive" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5912,7 +5973,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DbaasLogsStreamRule" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5933,7 +5994,7 @@ function __c91(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(368, __c92, 0)),
+          resource: S.optional(__S(372, __c93, 0)),
           serviceName: S.optional(S.String),
           streamId: S.optional(S.String),
           subscriptionId: S.optional(S.String),
@@ -5942,7 +6003,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscription" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5953,7 +6014,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscriptionResource" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5983,7 +6044,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DbaasLogsMetricTenant" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6004,7 +6065,7 @@ function __c94(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(368, __c92, 0)),
+          resource: S.optional(__S(372, __c93, 0)),
           serviceName: S.optional(S.String),
           subscriptionId: S.optional(S.String),
           tenantId: S.optional(S.String),
@@ -6013,7 +6074,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DbaasLogsMetricSubscription" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6043,7 +6104,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DbaasLogsAlias" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6075,7 +6136,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DbaasLogsIndex" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6092,7 +6153,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputEndRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6121,7 +6182,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DbaasLogsOsd" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6146,7 +6207,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DbaasLogsRole" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6172,7 +6233,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DbaasLogsMember" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6202,7 +6263,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DbaasLogsPermission" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,8 +6284,8 @@ function __c102(j: number): any {
           domain: S.optional(S.String),
           engagedUpTo: S.optional(S.NullOr(S.String)),
           expiration: S.optional(S.String),
-          possibleRenewPeriod: S.optional(S.NullOr(__S(200, __c50, 0))),
-          renew: S.optional(S.NullOr(__S(412, __c103, 0))),
+          possibleRenewPeriod: S.optional(S.NullOr(__S(204, __c51, 0))),
+          renew: S.optional(S.NullOr(__S(416, __c104, 0))),
           renewalType: S.optional(S.String),
           serviceId: S.optional(S.Number),
           status: S.optional(S.String),
@@ -6232,7 +6293,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ServicesService" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6246,7 +6307,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ServiceRenewType" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6270,7 +6331,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DbaasLogsToken" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6281,15 +6342,15 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListDbaasLogClusterRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(296, __c74, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(300, __c75, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogClusterResponse",
       });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6306,7 +6367,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListDbaasLogClusterRetentionRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6319,7 +6380,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,7 +6391,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6347,7 +6408,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputLogUrlRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6358,7 +6419,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DbaasLogsTemporaryLogsLink" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6381,14 +6442,14 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsInputAction" });
     case 2:
-      return S.Array(__S(449, __c112, 1));
+      return S.Array(__S(453, __c113, 1));
     case 3:
-      return S.suspend(() => __S(450, __c112, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(454, __c113, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogInputActionResponse",
       });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6400,7 +6461,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputEngineRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6417,7 +6478,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputEngineHelperRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6434,7 +6495,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputUrlRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6444,14 +6505,14 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsUrl" });
     case 1:
-      return S.Array(__S(464, __c116, 0));
+      return S.Array(__S(468, __c117, 0));
     case 2:
-      return S.suspend(() => __S(465, __c116, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(469, __c117, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogInputUrlResponse",
       });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6461,7 +6522,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOperationRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6478,7 +6539,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6495,7 +6556,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogDashboardUrlRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6512,7 +6573,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6529,7 +6590,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6546,7 +6607,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamArchiveRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6564,7 +6625,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6582,7 +6643,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6599,7 +6660,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6618,7 +6679,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamSubscriptionRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6635,7 +6696,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamUrlRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6651,7 +6712,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6670,7 +6731,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantSubscriptionRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6687,7 +6748,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantUrlRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6704,7 +6765,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6721,7 +6782,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

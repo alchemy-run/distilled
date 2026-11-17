@@ -1,0 +1,41 @@
+{
+  "description": "The spec types the index and create request body as a bare `type: object` (the document), which the OpenAPI converter turns into no body member, so the operations could not send a document. Add a required `document` payload member sent as the whole JSON body. A document field never collides with the operations' own path and query members (`index`, `id`, `refresh`, `version`, ...). Source: the requestBodies.index and requestBodies.create entries of the official spec (\"The document\"), and https://docs.opensearch.org/latest/api-reference/document-apis/index-document/.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Index0Request/members/document",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The document to index, sent as the whole request body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Index1Request/members/document",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The document to index, sent as the whole request body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Create0Request/members/document",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The document to index, sent as the whole request body."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Allow an empty Webhook.providerType, which the spec documents as empty for a generic endpoint but leaves out of the enum.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#WebhookProviderType/members/VALUE",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": ""
+        }
+      }
+    }
+  ]
+}

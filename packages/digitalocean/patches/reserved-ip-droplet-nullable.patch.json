@@ -1,0 +1,27 @@
+{
+  "description": "A reserved IP's (and reserved IPv6's) `droplet` is `anyOf: [{ nullable object }, droplet]`: the full droplet when the IP is assigned, `null` when it is not. The converter turns the null case into a Document member, so the SDK types it `unknown | Droplet`. Point the member at Droplet and mark it nullable, so consumers read `droplet?.id` without a cast.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#ReservedIp/members/droplet/target",
+      "value": "com.digitalocean.api#Droplet"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIp/members/droplet/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#ReservedIpv6/members/droplet/target",
+      "value": "com.digitalocean.api#Droplet"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIpv6/members/droplet/traits",
+      "value": {
+        "com.distilled.openapi#nullable": {}
+      }
+    }
+  ]
+}

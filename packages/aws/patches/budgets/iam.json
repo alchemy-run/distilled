@@ -1,0 +1,21 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.budgets#AWSBudgetServiceGateway/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Legacy billing permission; AWS replaced it with service-specific actions in the 2023 billing permissions migration.",
+        "remove": ["aws-portal:ViewBilling"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.budgets#ExecuteBudgetAction/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "aws - portal:ModifyBilling: Legacy billing permission; AWS replaced it with service-specific actions in the 2023 billing permissions migration.",
+        "remove": ["aws-portal:ModifyBilling"]
+      }
+    }
+  ]
+}

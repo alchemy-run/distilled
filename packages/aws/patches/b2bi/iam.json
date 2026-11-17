@@ -1,0 +1,37 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.b2bi#CreateStarterMappingTemplate/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "`outputSampleLocation` is written through the caller's session (forward-access), so the S3 write grant rides along.",
+        "add": ["s3:PutObject"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.b2bi#GenerateMapping/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "GenerateMapping invokes Amazon Bedrock through the caller's session (verified live: \"Access denied when invoking Bedrock's InvokeModel API\" without the grant).",
+        "add": ["bedrock:InvokeModel"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.b2bi#TestConversion/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "`target.outputSampleFile` is read through the caller's session (forward-access), so the S3 read grants ride along.",
+        "add": ["s3:GetObject", "s3:GetObjectAttributes"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.b2bi#TestParsing/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "B2BI reads `inputFile` through the caller's session (verified live: \"Access denied when getting object attributes from s3://…\" without the S3 grants), so the documented companion permissions are granted alongside.",
+        "add": ["s3:GetObject", "s3:GetObjectAttributes"]
+      }
+    }
+  ]
+}

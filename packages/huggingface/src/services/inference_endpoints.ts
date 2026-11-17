@@ -32,12 +32,12 @@ export interface CheckEndpointAccessRequest {
   namespace: string;
   endpoint: string;
   perms: CheckEndpointAccessRequestPerms | (string & {});
-  own?: string;
-  is_creator?: string;
-  creator_id?: string;
-  incur_cost?: string;
-  resource_group_id?: string;
-  repo_id?: string;
+  own?: string | undefined;
+  is_creator?: string | undefined;
+  creator_id?: string | undefined;
+  incur_cost?: string | undefined;
+  resource_group_id?: string | undefined;
+  repo_id?: string | undefined;
 }
 export interface CheckEndpointAccessResponseNamespace {
   id: string;
@@ -46,30 +46,30 @@ export interface CheckEndpointAccessResponseNamespace {
 export interface CheckEndpointAccessResponseUser {
   id: string;
   name: string;
-  hasHfLevelAccess?: boolean;
+  hasHfLevelAccess?: boolean | undefined;
 }
 export interface CheckEndpointAccessResponse {
   namespace: CheckEndpointAccessResponseNamespace;
   user: CheckEndpointAccessResponseUser;
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
 }
 export type CheckNamespaceAccessRequestPerms = "read" | "write" | "infer";
 export interface CheckNamespaceAccessRequest {
   namespace: string;
   perms: CheckNamespaceAccessRequestPerms | (string & {});
-  own?: string;
-  is_creator?: string;
-  creator_id?: string;
-  incur_cost?: string;
-  resource_group_id?: string;
-  repo_id?: string;
+  own?: string | undefined;
+  is_creator?: string | undefined;
+  creator_id?: string | undefined;
+  incur_cost?: string | undefined;
+  resource_group_id?: string | undefined;
+  repo_id?: string | undefined;
 }
 export type CheckNamespaceAccessResponseNamespace = CheckEndpointAccessResponseNamespace;
 export type CheckNamespaceAccessResponseUser = CheckEndpointAccessResponseUser;
 export interface CheckNamespaceAccessResponse {
   namespace: CheckEndpointAccessResponseNamespace;
   user: CheckEndpointAccessResponseUser;
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
 }
 export type CheckEndpointAccessError = HuggingFaceOpError;
 /** Check access Check if the user has access to the inference endpoint */

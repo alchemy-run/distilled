@@ -31,62 +31,90 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Arbitrary key/value metadata to store on the account. */
 export type CreateAccountRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface CreateAccountRequest {
   /** A saved partner referral link code for this new business account. An existing primary user referral takes priority. Used with user tokens creating top-level accounts. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** The blueprint App ID, prefixed `app_`. Creates a hosted website for the account and queues its deployment asynchronously; the Account response does not report deployment completion. */
-  blueprint_id?: string | null;
+  blueprint_id?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 country code where the account's business is located (e.g. `US`). Defaults to the parent account's country for connected accounts. */
-  country?: string;
+  country?: string | undefined;
   /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** The email address of the account owner. Required when creating a connected account. */
-  email?: string;
+  email?: string | undefined;
   /** Arbitrary key/value metadata to store on the account. */
-  metadata?: CreateAccountRequestMetadataMap;
+  metadata?: CreateAccountRequestMetadataMap | undefined;
   /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
-  orchestration_enabled?: boolean;
+  orchestration_enabled?: boolean | undefined;
   /** Whether Whop sends transactional emails to customers on behalf of the connected account. */
-  send_customer_emails?: boolean;
+  send_customer_emails?: boolean | undefined;
   /** The display name of the account. Defaults to `metadata.external_id` or the owner's email when omitted. */
-  title?: string;
+  title?: string | undefined;
   /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountBalanceSettlement {
   /** Amount expected that day, in native units, as a decimal string. */
@@ -144,20 +172,20 @@ export interface File {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: FileUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -246,17 +274,18 @@ export type AccountCompanyFormationDocumentsList = Array<AccountCompanyFormation
 export type AccountCompanyFormationSignatureRequestStatus = "pending" | "unknown";
 export interface AccountCompanyFormationSignatureRequest {
   /** When the signing URL expires, as an ISO 8601 timestamp. Present only when the signing URL is included. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** `pending` when a signing session is ready for the founder; `unknown` when the signature state could not be determined. */
   status: AccountCompanyFormationSignatureRequestStatus;
   /** Hosted signing URL where the founder completes the form. Present while `status` is `pending` and the caller has `incorporation:write`. Omitted from webhooks. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface AccountCompanyFormationSignatures {
   /** Signature state for IRS Form 8821, the tax information authorization. Present only while the form still needs the founder's action. */
-  form8821?: AccountCompanyFormationSignatureRequest;
+  form8821?: AccountCompanyFormationSignatureRequest | undefined;
   /** Signature state for IRS Form SS-4, the EIN application. Present only while the form still needs the founder's action. */
-  ss4?: AccountCompanyFormationSignatureRequest;
+  ss4?: AccountCompanyFormationSignatureRequest | undefined;
+  [key: string]: unknown;
 }
 export type AccountCompanyFormationStatus =
   | "draft"
@@ -265,16 +294,17 @@ export type AccountCompanyFormationStatus =
   | "rejected"
   | "completed";
 export interface AccountCompanyFormation {
-  documents?: AccountCompanyFormationDocumentsList;
+  documents?: AccountCompanyFormationDocumentsList | undefined;
   /** Whether the company's EIN has been issued by the IRS. Present once `status` leaves `draft`. */
-  ein_registered?: boolean;
+  ein_registered?: boolean | undefined;
   /** Registered company name including the entity ending, for example `Acme, LLC`. Present once `status` leaves `draft`. */
-  legal_name?: string | null;
+  legal_name?: string | null | undefined;
   /** IRS forms still awaiting a founder's signature, each with a hosted signing URL. Present once `status` leaves `draft`; empty when nothing needs signing. */
-  signatures?: AccountCompanyFormationSignatures;
+  signatures?: AccountCompanyFormationSignatures | undefined;
   /** Whether the state formation filing is complete. Present once `status` leaves `draft`. */
-  state_registered?: boolean;
-  status?: AccountCompanyFormationStatus;
+  state_registered?: boolean | undefined;
+  status?: AccountCompanyFormationStatus | undefined;
+  [key: string]: unknown;
 }
 /** Public account home page preferences. */
 export type AccountHomePreferencesItem = "hide_member_count" | "hide_members_card";
@@ -307,7 +337,7 @@ export interface AccountParentFeesValue {
 export type AccountParentFeesMap = { [key: string]: AccountParentFeesValue | undefined };
 export interface AccountParent {
   /** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
-  fees?: AccountParentFeesMap;
+  fees?: AccountParentFeesMap | undefined;
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account logo image URL. */
@@ -948,7 +978,7 @@ export interface Account {
   /** Parent account for connected accounts, or `null` for standalone accounts. */
   parent_account: AccountParent | null;
   /** The account's active first-tier partner. Present on retrieve responses; null when no active first-tier partner is attributed to the account. Omitted from other responses. */
-  partner?: AccountPartner | null;
+  partner?: AccountPartner | null | undefined;
   /** Payment health controls currently applied to the account. Computed only on `retrieve` and `me` for callers with `company:balance:read` scope; `null` otherwise. */
   payment_controls: AccountPaymentControls | null;
   /** The account's privacy policy document, or `null` if they have not published one. */
@@ -962,7 +992,7 @@ export interface Account {
   required_actions: AccountRequiredActionsList | null;
   /** The account's return policy document, or `null` if they have not published one. */
   return_policy: File | null;
-  rewards?: AccountRewardsList;
+  rewards?: AccountRewardsList | undefined;
   /** Account public route identifier. */
   route: string;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
@@ -1033,7 +1063,7 @@ export interface FormCompanyRequestBusinessAddress {
   /** First line of the street address. */
   line1: string;
   /** Second line of the street address. */
-  line2?: string;
+  line2?: string | undefined;
   /** Postal or ZIP code. */
   postal_code: string;
   /** State or region code, for example `CA`. */
@@ -1124,20 +1154,20 @@ export interface FormCompanyRequestFoundersItem {
   /** Founder's personal address. */
   address: FormCompanyRequestBusinessAddress;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   email: string;
   first_name: string;
   /** Marks the responsible party for the filing. Exactly one founder must be primary. */
   is_primary: boolean;
   last_name: string;
   /** The founder's ownership share: greater than `0`, at most `100`. Shares across founders must total `100`. Required when `entity_type` is `llc`; ignored for C-Corps. */
-  ownership_percentage?: number;
+  ownership_percentage?: number | undefined;
   /** Phone number in E.164 format, for example `+12125550100`. */
   phone: string;
   /** Officer roles held by the member -- one member can hold several. Required (at least one role) for every member when `entity_type` is `c_corp`; ignored for LLCs. Across all members every role must be covered; `president`, `secretary` and `treasurer` may each be held by only one member, while `director` may repeat. */
-  roles?: FormCompanyRequestFoundersItemRolesList;
+  roles?: FormCompanyRequestFoundersItemRolesList | undefined;
   /** The founder's US Social Security Number. Leave empty if the founder is not a US resident. Non-US founders can request expedited EIN processing via the `expedite_ein` option. */
-  ssn?: string;
+  ssn?: string | undefined;
 }
 /** The company's founders. Exactly one must be marked `is_primary` -- the responsible party for the filing. */
 export type FormCompanyRequestFoundersList = Array<FormCompanyRequestFoundersItem>;
@@ -1152,21 +1182,21 @@ export interface FormCompanyRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Company mailing address. Required unless `use_registered_agent` is `true`. */
-  business_address?: FormCompanyRequestBusinessAddress;
+  business_address?: FormCompanyRequestBusinessAddress | undefined;
   /** Legal name for the new company. */
   business_name: string;
   /** Business phone number in E.164 format, for example `+12125550100`. Required unless `use_registered_agent` is `true`. */
-  business_phone?: string;
+  business_phone?: string | undefined;
   /** High-level business category, from the Whop business taxonomy. Valid values are listed on [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary). */
   business_type: string;
   /** Company website URL. */
-  business_website?: string;
+  business_website?: string | undefined;
   /** Legal entity ending appended to `business_name`. LLC formations accept `LLC`, `L.L.C`, `L.L.C.` or `Limited Liability Company` and default to `LLC`; C-Corp formations accept `Inc`, `Inc.`, `Incorporated`, `Corp.`, `Corporation`, `C Corp`, `C Corporation`, `CCorp` or `Company` and default to `Inc.`. Unrecognized values fall back to the default for the entity type. */
-  entity_suffix?: FormCompanyRequestEntitySuffix | (string & {});
+  entity_suffix?: FormCompanyRequestEntitySuffix | (string & {}) | undefined;
   /** Legal entity type to form. Defaults to `llc`. */
-  entity_type?: FormCompanyRequestEntityType | (string & {});
+  entity_type?: FormCompanyRequestEntityType | (string & {}) | undefined;
   /** Request expedited EIN processing for an additional fee. Available only when no founder supplies an SSN. */
-  expedite_ein?: boolean;
+  expedite_ein?: boolean | undefined;
   /** Two-letter code of the US state (or `DC`) to form the company in. We recommend `WY` because Wyoming formations are completed the same day. */
   formation_state: FormCompanyRequestFormationState | (string & {});
   /** The company's founders. Exactly one must be marked `is_primary` -- the responsible party for the filing. */
@@ -1176,11 +1206,11 @@ export interface FormCompanyRequest {
   /** Specific industry vertical, from the Whop business taxonomy. Valid values are listed on [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary). */
   industry_type: string;
   /** Authorized share structure. Required when `entity_type` is `c_corp`; ignored for LLCs. */
-  share_structure?: FormCompanyRequestShareStructure;
+  share_structure?: FormCompanyRequestShareStructure | undefined;
   /** Use the registered agent's address as the company address instead of `business_address`. */
-  use_registered_agent?: boolean;
+  use_registered_agent?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface FormCompanyResponse {
   /** Checkout session ID, prefixed `ch_`. */
@@ -1196,7 +1226,7 @@ export interface GetAccountRequest {
   /** Account ID, prefixed `biz_`, its public route, or `me` for the account associated with the current API key. */
   id: string;
   /** Also retrieve live trading state under `trading`. Requires crypto_wallet:trade:read, crypto_wallet:trade, or crypto_wallet:manage permission and an Ethereum wallet; null otherwise. Provider failures return 503. */
-  include_trading?: boolean;
+  include_trading?: boolean | undefined;
 }
 export interface GetAccountFeesRequest {
   /** Account ID, prefixed `biz_`. */
@@ -1466,19 +1496,19 @@ export type GetAccountPreferencesResponseAdsCertificationsList =
 export type GetAccountPreferencesResponseAdsPaymentMethodsBackupType = "platform_balance" | "card";
 export interface GetAccountPreferencesResponseAdsPaymentMethodsBackup {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: GetAccountPreferencesResponseAdsPaymentMethodsBackupType;
 }
@@ -1486,19 +1516,19 @@ export interface GetAccountPreferencesResponseAdsPaymentMethodsBackup {
 export type GetAccountPreferencesResponseAdsPaymentMethodsPrimaryType = "platform_balance" | "card";
 export interface GetAccountPreferencesResponseAdsPaymentMethodsPrimary {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: GetAccountPreferencesResponseAdsPaymentMethodsPrimaryType;
 }
@@ -1623,31 +1653,31 @@ export type ListAccountsRequestDirection = "asc" | "desc";
 export type ListAccountsRequestStatus = "active" | "suspended";
 export interface ListAccountsRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort accounts by. `volume` requires `stats:read` on the parent account. */
-  order?: ListAccountsRequestOrder | (string & {});
+  order?: ListAccountsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListAccountsRequestDirection | (string & {});
+  direction?: ListAccountsRequestDirection | (string & {}) | undefined;
   /** Return only accounts with this status: `active` (includes accounts that have not entered payments review) or `suspended`. */
-  status?: ListAccountsRequestStatus | (string & {});
+  status?: ListAccountsRequestStatus | (string & {}) | undefined;
   /** Free-text filter on account title or ID. `%` and `_` match literally. */
-  query?: string;
+  query?: string | undefined;
   /** Return only accounts created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Return only accounts created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Return only accounts whose lifetime USD volume is at least this value. Requires `stats:read` on the parent account. */
-  volume_min?: number;
+  volume_min?: number | undefined;
   /** Return only accounts whose lifetime USD volume is at most this value. Requires `stats:read` on the parent account. */
-  volume_max?: number;
+  volume_max?: number | undefined;
   /** For platforms: the parent account ID whose direct connected accounts to return. Requires `payout:account:read` on the parent account. */
-  parent_account_id?: string;
+  parent_account_id?: string | undefined;
 }
 export type ListAccountsResponseDataList = Array<Account>;
 export interface ListAccountsResponsePageInfo {
@@ -1664,7 +1694,7 @@ export interface RetryAccountAdsPaymentRequest {
   /** The account ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface RetryAccountAdsPaymentResponse {
   /** The account whose ads payments will be retried. */
@@ -1676,19 +1706,19 @@ export interface SuspendAccountRequest {
   /** Connected account ID, prefixed `biz_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferAccountOwnershipRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** If true, the current owner is credited as the account's Whop partner, earning partner commission on its sales. Requires the current owner to already be an enrolled Whop partner. Skipped if the account already has an active partner. */
-  as_partner?: boolean;
+  as_partner?: boolean | undefined;
   /** The user to transfer ownership to: a user ID (`user_*`) or an email address. An email address with no Whop account yet is sent an invite to create one. */
   identifier: string;
   /** A note from the partner, shown as a quote in the invite email and signed with their name. Requires `as_partner`; sending it on an ordinary transfer is a 400. Omit it and the email sends without a note. */
-  message?: string;
+  message?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferAccountOwnershipResponse {
   success: boolean;
@@ -1696,22 +1726,23 @@ export interface TransferAccountOwnershipResponse {
 /** Account banner image, used as the cover photo when creating a Whop-managed Facebook page. Image files up to 10 MB, except `image/gif`. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
 export interface UpdateAccountRequestBannerImage {
   /** ID of a file from [Create File](/api-reference/files/create-file), prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
+  [key: string]: unknown;
 }
 /** Account business address used to calculate tax. A complete address in a supported country is required when `tax_remitted_by` is `self`. */
 export interface UpdateAccountRequestBusinessAddress {
   /** City name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string;
+  country?: string | undefined;
   /** First line of the street address. */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, for example `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 /** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
 export type UpdateAccountRequestCancellationPolicy = UpdateAccountRequestBannerImage;
@@ -1778,13 +1809,17 @@ export type UpdateAccountRequestStorePageConfigProfileVariant = "personal" | "bu
 /** Account store page display configuration. */
 export interface UpdateAccountRequestStorePageConfig {
   /** Accent color used on the account store page. */
-  accent_color?: UpdateAccountRequestStorePageConfigAccentColor | (string & {}) | null;
+  accent_color?: UpdateAccountRequestStorePageConfigAccentColor | (string & {}) | null | undefined;
   /** Layout used on the account store page. */
-  layout?: UpdateAccountRequestStorePageConfigLayout | (string & {}) | null;
+  layout?: UpdateAccountRequestStorePageConfigLayout | (string & {}) | null | undefined;
   /** Profile presentation used on the account store page. */
-  profile_variant?: UpdateAccountRequestStorePageConfigProfileVariant | (string & {}) | null;
+  profile_variant?:
+    | UpdateAccountRequestStorePageConfigProfileVariant
+    | (string & {})
+    | null
+    | undefined;
   /** Whether the account store page shows a Whop affiliate link. */
-  whop_affiliate_link?: boolean;
+  whop_affiliate_link?: boolean | undefined;
 }
 export type UpdateAccountRequestTaxCollectionEnabledStatesItem =
   | "AL"
@@ -1978,105 +2013,109 @@ export interface UpdateAccountRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Whether prospective affiliates must submit an application before promoting this account. */
-  affiliate_application_required?: boolean;
+  affiliate_application_required?: boolean | undefined;
   /** Guidelines shown to affiliates promoting this account. */
-  affiliate_instructions?: string | null;
+  affiliate_instructions?: string | null | undefined;
   /** Account banner image, used as the cover photo when creating a Whop-managed Facebook page. Image files up to 10 MB, except `image/gif`. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  banner_image?: UpdateAccountRequestBannerImage | null;
+  banner_image?: UpdateAccountRequestBannerImage | null | undefined;
   /** Account business address used to calculate tax. A complete address in a supported country is required when `tax_remitted_by` is `self`. */
-  business_address?: UpdateAccountRequestBusinessAddress;
+  business_address?: UpdateAccountRequestBusinessAddress | undefined;
   /** The legal business name used with the account's tax address. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  business_type?: string | null;
+  business_type?: string | null | undefined;
   /** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  cancellation_policy?: UpdateAccountRequestBannerImage | null;
+  cancellation_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** Whether checkout shows a VAT/tax ID field for buyers to optionally enter. Does not require a VAT ID to purchase. */
-  collect_vat_id?: boolean;
+  collect_vat_id?: boolean | undefined;
   /** Country where the account is located. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Account promotional description. When creating a Whop-managed Facebook page, it is truncated to 155 characters and used as the About text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** The account's end-user license agreement document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  eula?: UpdateAccountRequestBannerImage | null;
+  eula?: UpdateAccountRequestBannerImage | null | undefined;
   /** The ID of the product to feature for affiliates. Pass `null` to clear. */
-  featured_affiliate_product_id?: string | null;
+  featured_affiliate_product_id?: string | null | undefined;
   /** Public account home page preferences. */
-  home_preferences?: UpdateAccountRequestHomePreferencesList;
+  home_preferences?: UpdateAccountRequestHomePreferencesList | undefined;
   /** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_group?: string | null;
+  industry_group?: string | null | undefined;
   /** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_type?: string | null;
+  industry_type?: string | null | undefined;
   /** Prefix used for account invoices. */
-  invoice_prefix?: string | null;
+  invoice_prefix?: string | null | undefined;
   /** Account logo, used as the profile picture when creating a Whop-managed Facebook page. Image files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  logo?: UpdateAccountRequestBannerImage | null;
+  logo?: UpdateAccountRequestBannerImage | null | undefined;
   /** Arbitrary key/value metadata to store on the account. */
-  metadata?: UpdateAccountRequestMetadataMap;
+  metadata?: UpdateAccountRequestMetadataMap | undefined;
   /** The type of onboarding the account has completed. */
-  onboarding_type?: UpdateAccountRequestOnboardingType | (string & {}) | null;
+  onboarding_type?: UpdateAccountRequestOnboardingType | (string & {}) | null | undefined;
   /** Open Graph preview media used when the account is shared. Image and video files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  opengraph_image?: UpdateAccountRequestBannerImage | null;
+  opengraph_image?: UpdateAccountRequestBannerImage | null | undefined;
   /** The account Open Graph image variant. */
-  opengraph_image_variant?: UpdateAccountRequestOpengraphImageVariant | (string & {}) | null;
+  opengraph_image_variant?:
+    | UpdateAccountRequestOpengraphImageVariant
+    | (string & {})
+    | null
+    | undefined;
   /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
-  orchestration_enabled?: boolean;
+  orchestration_enabled?: boolean | undefined;
   /** The description of the business type when business_type is other. */
-  other_business_description?: string | null;
+  other_business_description?: string | null | undefined;
   /** The description of the industry type when industry_type is other. */
-  other_industry_description?: string | null;
+  other_industry_description?: string | null | undefined;
   /** The account's privacy policy document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  privacy_policy?: UpdateAccountRequestBannerImage | null;
+  privacy_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** ID of the tax classification code applied by default to the account's products. See the available [product categories](https://docs.numeral.com/essentials/product-categories). */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** Whether the account requires authorized users to have two-factor authentication enabled. */
-  require_2fa?: boolean;
+  require_2fa?: boolean | undefined;
   /** The account's return and refund policy document. Attached to new disputes as the refund policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  return_policy?: UpdateAccountRequestBannerImage | null;
+  return_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** The unique URL slug for the account. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
-  send_customer_emails?: boolean;
+  send_customer_emails?: boolean | undefined;
   /** The account's shipping policy document. Sent with physical-goods dispute evidence. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  shipping_policy?: UpdateAccountRequestBannerImage | null;
+  shipping_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** Whether the account appears in joined whops on other accounts. */
-  show_joined_whops?: boolean;
+  show_joined_whops?: boolean | undefined;
   /** Whether reviews are displayed on direct-to-consumer product pages. */
-  show_reviews_dtc?: boolean;
+  show_reviews_dtc?: boolean | undefined;
   /** Whether the account shows users in the user directory. */
-  show_user_directory?: boolean;
+  show_user_directory?: boolean | undefined;
   /** The full list of social links to display for the account. */
-  social_links?: UpdateAccountRequestSocialLinksList;
+  social_links?: UpdateAccountRequestSocialLinksList | undefined;
   /** Account store page display configuration. */
-  store_page_config?: UpdateAccountRequestStorePageConfig | null;
+  store_page_config?: UpdateAccountRequestStorePageConfig | null | undefined;
   /** The target audience for this account. */
-  target_audience?: string | null;
+  target_audience?: string | null | undefined;
   /** US state codes (50 states plus `DC`) where the account collects tax. Replaces the full set on update. Only settable when `tax_remitted_by` is `self`. */
-  tax_collection_enabled_states?: UpdateAccountRequestTaxCollectionEnabledStatesList;
+  tax_collection_enabled_states?: UpdateAccountRequestTaxCollectionEnabledStatesList | undefined;
   /** Account tax/VAT registrations to add or update. When `tax_remitted_by` is `self`, tax is calculated and collected only in the countries where the account holds a registration. */
-  tax_identifiers?: UpdateAccountRequestTaxIdentifiersList;
+  tax_identifiers?: UpdateAccountRequestTaxIdentifiersList | undefined;
   /** Determines whether Whop or the account calculates and remits tax. The account must provide a supported-country business address when it self-remits. */
-  tax_remitted_by?: UpdateAccountRequestTaxRemittedBy | (string & {});
+  tax_remitted_by?: UpdateAccountRequestTaxRemittedBy | (string & {}) | undefined;
   /** Determines whether tax is included in the listed price or added at checkout. */
-  tax_type?: UpdateAccountRequestTaxType | (string & {});
+  tax_type?: UpdateAccountRequestTaxType | (string & {}) | undefined;
   /** The account's terms of service document. Attached to new disputes as the cancellation policy evidence when no cancellation policy is set. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  terms_of_service?: UpdateAccountRequestBannerImage | null;
+  terms_of_service?: UpdateAccountRequestBannerImage | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
-  three_ds_level?: UpdateAccountRequestThreeDsLevel | (string & {}) | null;
+  three_ds_level?: UpdateAccountRequestThreeDsLevel | (string & {}) | null | undefined;
   /** The display name of the account. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the account uses its logo as the fallback Open Graph image. */
-  use_logo_as_opengraph_image_fallback?: boolean;
+  use_logo_as_opengraph_image_fallback?: boolean | undefined;
   /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. Pass `null` to clear the website; existing social links are left unchanged. */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 export interface UpdateAccountFeesRequestBankDepositRegionsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
 }
 /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
 export type UpdateAccountFeesRequestBankDepositRegionsMap = {
@@ -2085,11 +2124,11 @@ export type UpdateAccountFeesRequestBankDepositRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBankDeposit {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBankDepositRegionsMap;
+  regions?: UpdateAccountFeesRequestBankDepositRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestBillingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2100,11 +2139,11 @@ export type UpdateAccountFeesRequestBillingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBilling {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBillingRegionsMap;
+  regions?: UpdateAccountFeesRequestBillingRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestBuyerRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2115,11 +2154,11 @@ export type UpdateAccountFeesRequestBuyerRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBuyer {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBuyerRegionsMap;
+  regions?: UpdateAccountFeesRequestBuyerRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestCardProcessingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2130,18 +2169,18 @@ export type UpdateAccountFeesRequestCardProcessingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestCardProcessing {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestCardProcessingRegionsMap;
+  regions?: UpdateAccountFeesRequestCardProcessingRegionsMap | undefined;
 }
 /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
 export interface UpdateAccountFeesRequestChildMarkupsCardSpend {
   /** The amount the platform adds per event, in US dollars. */
-  fixed?: number;
+  fixed?: number | undefined;
   /** The percentage of the transaction the platform adds, where `2` means 2%. */
-  percentage?: number;
+  percentage?: number | undefined;
 }
 /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
 export type UpdateAccountFeesRequestChildMarkupsCryptoSwaps =
@@ -2169,26 +2208,26 @@ export type UpdateAccountFeesRequestChildMarkupsTransfers =
 /** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
 export interface UpdateAccountFeesRequestChildMarkups {
   /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
-  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
-  deposits?: UpdateAccountFeesRequestChildMarkupsDepositsMap;
+  deposits?: UpdateAccountFeesRequestChildMarkupsDepositsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on withdrawals, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestChildMarkupsPayoutsMap;
+  payouts?: UpdateAccountFeesRequestChildMarkupsPayoutsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
 }
 /** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
 export interface UpdateAccountFeesRequestCoveredPayoutFees {
-  all?: boolean;
-  bank_wire?: boolean;
-  crypto?: boolean;
-  digital_wallet?: boolean;
-  next_day_bank?: boolean;
-  rtp?: boolean;
+  all?: boolean | undefined;
+  bank_wire?: boolean | undefined;
+  crypto?: boolean | undefined;
+  digital_wallet?: boolean | undefined;
+  next_day_bank?: boolean | undefined;
+  rtp?: boolean | undefined;
 }
 export type UpdateAccountFeesRequestCrossBorderRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2199,11 +2238,11 @@ export type UpdateAccountFeesRequestCrossBorderRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestCrossBorder {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestCrossBorderRegionsMap;
+  regions?: UpdateAccountFeesRequestCrossBorderRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2214,11 +2253,11 @@ export type UpdateAccountFeesRequestDisputeRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDispute {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2229,11 +2268,11 @@ export type UpdateAccountFeesRequestDisputeAlertRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlert {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2244,11 +2283,11 @@ export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertCdrn {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2259,11 +2298,11 @@ export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertEthoca {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertRdrRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2274,11 +2313,11 @@ export type UpdateAccountFeesRequestDisputeAlertRdrRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertRdr {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertRdrRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertRdrRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeRepresentmentRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2289,11 +2328,11 @@ export type UpdateAccountFeesRequestDisputeRepresentmentRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeRepresentment {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeRepresentmentRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeRepresentmentRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestForeignExchangeRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2304,11 +2343,11 @@ export type UpdateAccountFeesRequestForeignExchangeRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestForeignExchange {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestForeignExchangeRegionsMap;
+  regions?: UpdateAccountFeesRequestForeignExchangeRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestFraudScreeningRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2319,11 +2358,11 @@ export type UpdateAccountFeesRequestFraudScreeningRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestFraudScreening {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestFraudScreeningRegionsMap;
+  regions?: UpdateAccountFeesRequestFraudScreeningRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestHighRiskRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2334,11 +2373,11 @@ export type UpdateAccountFeesRequestHighRiskRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestHighRisk {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestHighRiskRegionsMap;
+  regions?: UpdateAccountFeesRequestHighRiskRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestMarketplaceRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2349,11 +2388,11 @@ export type UpdateAccountFeesRequestMarketplaceRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestMarketplace {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestMarketplaceRegionsMap;
+  regions?: UpdateAccountFeesRequestMarketplaceRegionsMap | undefined;
 }
 /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
 export type UpdateAccountFeesRequestMarkupsCardSpend =
@@ -2383,17 +2422,17 @@ export type UpdateAccountFeesRequestMarkupsTransfers =
 /** Markups on this connected account, set by the platform it is connected to. */
 export interface UpdateAccountFeesRequestMarkups {
   /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
-  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
-  deposits?: UpdateAccountFeesRequestMarkupsDepositsMap;
+  deposits?: UpdateAccountFeesRequestMarkupsDepositsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on withdrawals, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestMarkupsPayoutsMap;
+  payouts?: UpdateAccountFeesRequestMarkupsPayoutsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
 }
 export type UpdateAccountFeesRequestOrchestrationRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2404,11 +2443,11 @@ export type UpdateAccountFeesRequestOrchestrationRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestOrchestration {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestOrchestrationRegionsMap;
+  regions?: UpdateAccountFeesRequestOrchestrationRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPaymentMethodsValueRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2419,11 +2458,11 @@ export type UpdateAccountFeesRequestPaymentMethodsValueRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPaymentMethodsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPaymentMethodsValueRegionsMap;
+  regions?: UpdateAccountFeesRequestPaymentMethodsValueRegionsMap | undefined;
 }
 /** Changes to non-card payment method fees, keyed by payment method type. */
 export type UpdateAccountFeesRequestPaymentMethodsMap = {
@@ -2438,11 +2477,11 @@ export type UpdateAccountFeesRequestPayoutsValueRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPayoutsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPayoutsValueRegionsMap;
+  regions?: UpdateAccountFeesRequestPayoutsValueRegionsMap | undefined;
 }
 /** Changes to withdrawal fees, keyed by payout method. */
 export type UpdateAccountFeesRequestPayoutsMap = {
@@ -2457,11 +2496,11 @@ export type UpdateAccountFeesRequestPendingAutoTopupRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPendingAutoTopup {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPendingAutoTopupRegionsMap;
+  regions?: UpdateAccountFeesRequestPendingAutoTopupRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPlatformProcessingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2472,11 +2511,11 @@ export type UpdateAccountFeesRequestPlatformProcessingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPlatformProcessing {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPlatformProcessingRegionsMap;
+  regions?: UpdateAccountFeesRequestPlatformProcessingRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPoolPayoutRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2487,11 +2526,11 @@ export type UpdateAccountFeesRequestPoolPayoutRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPoolPayout {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPoolPayoutRegionsMap;
+  regions?: UpdateAccountFeesRequestPoolPayoutRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestRevshareRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2502,11 +2541,11 @@ export type UpdateAccountFeesRequestRevshareRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestRevshare {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestRevshareRegionsMap;
+  regions?: UpdateAccountFeesRequestRevshareRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTaxCalculationRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2517,11 +2556,11 @@ export type UpdateAccountFeesRequestTaxCalculationRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTaxCalculation {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTaxCalculationRegionsMap;
+  regions?: UpdateAccountFeesRequestTaxCalculationRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTaxServiceRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2532,11 +2571,11 @@ export type UpdateAccountFeesRequestTaxServiceRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTaxService {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTaxServiceRegionsMap;
+  regions?: UpdateAccountFeesRequestTaxServiceRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestThreeDsRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2547,11 +2586,11 @@ export type UpdateAccountFeesRequestThreeDsRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestThreeDs {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestThreeDsRegionsMap;
+  regions?: UpdateAccountFeesRequestThreeDsRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTransfersRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2562,75 +2601,75 @@ export type UpdateAccountFeesRequestTransfersRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTransfers {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTransfersRegionsMap;
+  regions?: UpdateAccountFeesRequestTransfersRegionsMap | undefined;
 }
 export interface UpdateAccountFeesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  bank_deposit?: UpdateAccountFeesRequestBankDeposit;
+  bank_deposit?: UpdateAccountFeesRequestBankDeposit | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  billing?: UpdateAccountFeesRequestBilling;
+  billing?: UpdateAccountFeesRequestBilling | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  buyer?: UpdateAccountFeesRequestBuyer;
+  buyer?: UpdateAccountFeesRequestBuyer | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  card_processing?: UpdateAccountFeesRequestCardProcessing;
+  card_processing?: UpdateAccountFeesRequestCardProcessing | undefined;
   /** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
-  child_markups?: UpdateAccountFeesRequestChildMarkups;
+  child_markups?: UpdateAccountFeesRequestChildMarkups | undefined;
   /** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
-  covered_payout_fees?: UpdateAccountFeesRequestCoveredPayoutFees;
+  covered_payout_fees?: UpdateAccountFeesRequestCoveredPayoutFees | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  cross_border?: UpdateAccountFeesRequestCrossBorder;
+  cross_border?: UpdateAccountFeesRequestCrossBorder | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute?: UpdateAccountFeesRequestDispute;
+  dispute?: UpdateAccountFeesRequestDispute | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert?: UpdateAccountFeesRequestDisputeAlert;
+  dispute_alert?: UpdateAccountFeesRequestDisputeAlert | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_cdrn?: UpdateAccountFeesRequestDisputeAlertCdrn;
+  dispute_alert_cdrn?: UpdateAccountFeesRequestDisputeAlertCdrn | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_ethoca?: UpdateAccountFeesRequestDisputeAlertEthoca;
+  dispute_alert_ethoca?: UpdateAccountFeesRequestDisputeAlertEthoca | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_rdr?: UpdateAccountFeesRequestDisputeAlertRdr;
+  dispute_alert_rdr?: UpdateAccountFeesRequestDisputeAlertRdr | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_representment?: UpdateAccountFeesRequestDisputeRepresentment;
+  dispute_representment?: UpdateAccountFeesRequestDisputeRepresentment | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  foreign_exchange?: UpdateAccountFeesRequestForeignExchange;
+  foreign_exchange?: UpdateAccountFeesRequestForeignExchange | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  fraud_screening?: UpdateAccountFeesRequestFraudScreening;
+  fraud_screening?: UpdateAccountFeesRequestFraudScreening | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  high_risk?: UpdateAccountFeesRequestHighRisk;
+  high_risk?: UpdateAccountFeesRequestHighRisk | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  marketplace?: UpdateAccountFeesRequestMarketplace;
+  marketplace?: UpdateAccountFeesRequestMarketplace | undefined;
   /** Markups on this connected account, set by the platform it is connected to. */
-  markups?: UpdateAccountFeesRequestMarkups;
+  markups?: UpdateAccountFeesRequestMarkups | undefined;
   /** Why the fees are changing, recorded with the change. Required when a Whop Verified Partner edits the fee schedule; ignored for markups. */
-  notes?: string;
+  notes?: string | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  orchestration?: UpdateAccountFeesRequestOrchestration;
+  orchestration?: UpdateAccountFeesRequestOrchestration | undefined;
   /** Changes to non-card payment method fees, keyed by payment method type. */
-  payment_methods?: UpdateAccountFeesRequestPaymentMethodsMap;
+  payment_methods?: UpdateAccountFeesRequestPaymentMethodsMap | undefined;
   /** Changes to withdrawal fees, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestPayoutsMap;
+  payouts?: UpdateAccountFeesRequestPayoutsMap | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  pending_auto_topup?: UpdateAccountFeesRequestPendingAutoTopup;
+  pending_auto_topup?: UpdateAccountFeesRequestPendingAutoTopup | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  platform_processing?: UpdateAccountFeesRequestPlatformProcessing;
+  platform_processing?: UpdateAccountFeesRequestPlatformProcessing | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  pool_payout?: UpdateAccountFeesRequestPoolPayout;
+  pool_payout?: UpdateAccountFeesRequestPoolPayout | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  revshare?: UpdateAccountFeesRequestRevshare;
+  revshare?: UpdateAccountFeesRequestRevshare | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  tax_calculation?: UpdateAccountFeesRequestTaxCalculation;
+  tax_calculation?: UpdateAccountFeesRequestTaxCalculation | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  tax_service?: UpdateAccountFeesRequestTaxService;
+  tax_service?: UpdateAccountFeesRequestTaxService | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  three_ds?: UpdateAccountFeesRequestThreeDs;
+  three_ds?: UpdateAccountFeesRequestThreeDs | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  transfers?: UpdateAccountFeesRequestTransfers;
+  transfers?: UpdateAccountFeesRequestTransfers | undefined;
 }
 /** Must be `pending_information`. */
 export type UpdateAccountPreferencesRequestAdsCertificationsValueStatus = "pending_information";
@@ -2649,7 +2688,7 @@ export type UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType =
 /** Optional second method charged if the primary fails. Any pairing is allowed (two cards, card+balance, balance+card); omit it to run on a single method. Must differ from the primary. */
 export interface UpdateAccountPreferencesRequestAdsPaymentMethodsBackup {
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. Optional for `platform_balance` -- defaults to the account's default Whop balance. Required for `card`. */
-  id?: string;
+  id?: string | undefined;
   /** The funding source kind. */
   type: UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType | (string & {});
 }
@@ -2659,22 +2698,22 @@ export type UpdateAccountPreferencesRequestAdsPaymentMethodsPrimaryType =
   | "card";
 export interface UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary {
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. Optional for `platform_balance` -- defaults to the account's default Whop balance. Required for `card`. */
-  id?: string;
+  id?: string | undefined;
   /** The funding source kind. */
   type: UpdateAccountPreferencesRequestAdsPaymentMethodsPrimaryType | (string & {});
 }
 /** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
 export interface UpdateAccountPreferencesRequestAdsPaymentMethods {
   /** Optional second method charged if the primary fails. Any pairing is allowed (two cards, card+balance, balance+card); omit it to run on a single method. Must differ from the primary. */
-  backup?: UpdateAccountPreferencesRequestAdsPaymentMethodsBackup;
+  backup?: UpdateAccountPreferencesRequestAdsPaymentMethodsBackup | undefined;
   primary: UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary;
 }
 /** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against -- either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
 export interface UpdateAccountPreferencesRequestAdsTripleWhaleIntegration {
   /** A Triple Whale Data-In API key with the `Ads: Write` scope, validated against Triple Whale before it is stored. Pass `null` to disconnect. Connecting for the first time backfills the account's existing ad spend. Required unless you are only changing `shop_domain` on an already connected integration, in which case the stored key is reused. */
-  api_key?: string | Redacted.Redacted<string> | null;
+  api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** The exact shop domain configured in Triple Whale's Settings -> Store (for Shopify this is the `.myshopify.com` domain; for a custom sales platform it's whatever domain Triple Whale assigned when the shop was set up there). A leading `https://` and trailing `/` are stripped, and what remains must be a bare hostname with no path or spaces. Validated against Triple Whale -- the API key must have access to it -- before it is stored. Changing it on a connected integration backfills the account's ad spend onto the new shop. Omit to fall back to a connected Shopify store's domain; there is no way to clear a stored value, only to overwrite it with a new domain. */
-  shop_domain?: string;
+  shop_domain?: string | undefined;
 }
 /** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
 export type UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey =
@@ -2687,29 +2726,33 @@ export interface UpdateAccountPreferencesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Opens an advertising certification application. Keyed by certification type (`prescription_drug_ads`); set the entry's `status` to `pending_information` to start, then answer the requested fields via `PATCH /verifications/{id}`. Only one application per type can be open at a time; every other status is set by Whop's review. Requires the `ad_campaign:create` scope on your API key. */
-  ads_certifications?: UpdateAccountPreferencesRequestAdsCertificationsMap;
+  ads_certifications?: UpdateAccountPreferencesRequestAdsCertificationsMap | undefined;
   /** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
-  ads_payment_methods?: UpdateAccountPreferencesRequestAdsPaymentMethods;
+  ads_payment_methods?: UpdateAccountPreferencesRequestAdsPaymentMethods | undefined;
   /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. Requires the `ad_campaign:create` scope on your API key. */
-  ads_reporting_currency?: string;
+  ads_reporting_currency?: string | undefined;
   /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Cannot be cleared once set -- pass a new value to change it. Requires the `ad_campaign:create` scope on your API key. */
-  ads_scheduling_timezone?: string;
+  ads_scheduling_timezone?: string | undefined;
   /** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against -- either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
-  ads_triple_whale_integration?: UpdateAccountPreferencesRequestAdsTripleWhaleIntegration;
+  ads_triple_whale_integration?:
+    | UpdateAccountPreferencesRequestAdsTripleWhaleIntegration
+    | undefined;
   /** Whether incoming funds are automatically moved to the account's cards balance. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
-  cards_auto_top_up?: boolean;
+  cards_auto_top_up?: boolean | undefined;
   /** Whether Whop Card notifications reach this account's team. Set it to `false` to stop every card email and push notification for the account -- application status, verification and action-required alerts, card-ready alerts, declines, large charges, and cashback summaries. Cardholder onboarding invitations still send, because they carry the only link an invited cardholder can onboard with. Requesting a card is rejected while notifications are off, since the request reaches nobody. Cards on personal accounts are unaffected. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
-  cards_notifications?: boolean;
+  cards_notifications?: boolean | undefined;
   /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. Requires the `payment:dispute` scope on your API key. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
   economic_intelligence_duration_key?:
     | UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. Requires company:manage_checkout permission. */
   subscription_failure_behavior?:
     | UpdateAccountPreferencesRequestSubscriptionFailureBehavior
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Where the account's ads services agreement stands. */
 export type UpdateAccountPreferencesResponseAdsAgreementStatus =
@@ -2776,19 +2819,19 @@ export type UpdateAccountPreferencesResponseAdsPaymentMethodsBackupType =
   | "card";
 export interface UpdateAccountPreferencesResponseAdsPaymentMethodsBackup {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: UpdateAccountPreferencesResponseAdsPaymentMethodsBackupType;
 }
@@ -2798,19 +2841,19 @@ export type UpdateAccountPreferencesResponseAdsPaymentMethodsPrimaryType =
   | "card";
 export interface UpdateAccountPreferencesResponseAdsPaymentMethodsPrimary {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: UpdateAccountPreferencesResponseAdsPaymentMethodsPrimaryType;
 }
@@ -2889,6 +2932,17 @@ export interface UpdateAccountPreferencesResponse {
   /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
   subscription_failure_behavior: UpdateAccountPreferencesResponseSubscriptionFailureBehavior;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAccountError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Account Creates an account. User tokens create business accounts; Account API keys create connected accounts. Tax fields (`tax_remitted_by`, `tax_type`, `product_tax_code_id`, `business_address`, `tax_identifiers`) are configured with Update Account, not at creation. */
 export const createAccount: API.OperationMethod<
@@ -2897,8 +2951,8 @@ export const createAccount: API.OperationMethod<
   CreateAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2914,8 +2968,8 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<DeleteAccountResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<DeleteAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2931,8 +2985,8 @@ export const formCompany: API.OperationMethod<
   FormCompanyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(548, __c17, 4) as any as S.Schema<FormCompanyRequest>,
-  output: __S(549, __c17, 5) as any as S.Schema<FormCompanyResponse>,
+  input: __S(580, __c18, 4) as any as S.Schema<FormCompanyRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<FormCompanyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2948,8 +3002,8 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2965,8 +3019,8 @@ export const getAccountFees: API.OperationMethod<
   GetAccountFeesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAccountFeesRequest>,
-  output: __S(649, __c20, 9) as any as S.Schema<AccountFees>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetAccountFeesRequest>,
+  output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2982,8 +3036,8 @@ export const getAccountPreferences: API.OperationMethod<
   GetAccountPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetAccountPreferencesRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<GetAccountPreferencesResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetAccountPreferencesRequest>,
+  output: __S(744, __c23, 8) as any as S.Schema<GetAccountPreferencesResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2999,8 +3053,8 @@ export const listAccountReserves: API.OperationMethod<
   ListAccountReservesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListAccountReservesRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<ListAccountReservesResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ListAccountReservesRequest>,
+  output: __S(37, __c1, 5) as any as S.Schema<ListAccountReservesResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3018,8 +3072,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   Account
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c1, 0) as any as S.Schema<ListAccountsRequest>,
-    output: __S(35, __c1, 3) as any as S.Schema<ListAccountsResponse>,
+    input: __S(64, __c2, 0) as any as S.Schema<ListAccountsRequest>,
+    output: __S(67, __c2, 3) as any as S.Schema<ListAccountsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -3050,8 +3104,8 @@ export const retryAccountAdsPayment: API.OperationMethod<
   RetryAccountAdsPaymentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<RetryAccountAdsPaymentRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<RetryAccountAdsPaymentResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<RetryAccountAdsPaymentRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<RetryAccountAdsPaymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3067,8 +3121,8 @@ export const suspendAccount: API.OperationMethod<
   SuspendAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SuspendAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(128, __c4, 0) as any as S.Schema<SuspendAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3084,8 +3138,8 @@ export const transferAccountOwnership: API.OperationMethod<
   TransferAccountOwnershipError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<TransferAccountOwnershipRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<TransferAccountOwnershipResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<TransferAccountOwnershipRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<TransferAccountOwnershipResponse>,
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3101,8 +3155,8 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(166, __c5, 6) as any as S.Schema<UpdateAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(198, __c6, 6) as any as S.Schema<UpdateAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3118,8 +3172,8 @@ export const updateAccountFees: API.OperationMethod<
   UpdateAccountFeesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c6, 8) as any as S.Schema<UpdateAccountFeesRequest>,
-  output: __S(649, __c20, 9) as any as S.Schema<AccountFees>,
+  input: __S(232, __c7, 8) as any as S.Schema<UpdateAccountFeesRequest>,
+  output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3140,8 +3194,8 @@ export const updateAccountPreferences: API.OperationMethod<
   UpdateAccountPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(229, __c7, 5) as any as S.Schema<UpdateAccountPreferencesRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<UpdateAccountPreferencesResponse>,
+  input: __S(261, __c8, 5) as any as S.Schema<UpdateAccountPreferencesRequest>,
+  output: __S(744, __c23, 8) as any as S.Schema<UpdateAccountPreferencesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3151,6 +3205,24 @@ export const updateAccountPreferences: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3168,27 +3240,27 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "AccountReserveType" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           amount: S.String,
-          by_type: __S(2, __c0, 2),
+          by_type: __S(34, __c1, 2),
           currency: S.String,
-          unlocks_by_date: __S(353, __c11, 1),
+          unlocks_by_date: __S(385, __c12, 1),
         }),
       ).annotate({ identifier: "AccountReserve" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(35, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4, __c0, 4),
+          data: __S(36, __c1, 4),
         }),
       ).annotate({ identifier: "ListAccountReservesResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3209,7 +3281,7 @@ function __c1(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(433, __c13, 17));
+      return S.Array(__S(465, __c14, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3222,13 +3294,13 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(33, __c1, 1),
-          page_info: __S(34, __c1, 2),
+          data: __S(65, __c2, 1),
+          page_info: __S(66, __c2, 2),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3246,7 +3318,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RetryAccountAdsPaymentResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3257,7 +3329,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SuspendAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3277,13 +3349,16 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TransferAccountOwnershipResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UpdateAccountRequestBannerImage" });
     case 1:
       return S.suspend(() =>
@@ -3297,7 +3372,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountRequestBusinessAddress" });
     case 2:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3315,54 +3390,54 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountRequestTaxIdentifiersItem" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(196, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           affiliate_application_required: S.optional(S.Boolean),
           affiliate_instructions: S.optional(S.NullOr(S.String)),
-          banner_image: S.optional(S.NullOr(__S(160, __c5, 0))),
-          business_address: S.optional(__S(161, __c5, 1)),
+          banner_image: S.optional(S.NullOr(__S(192, __c6, 0))),
+          business_address: S.optional(__S(193, __c6, 1)),
           business_name: S.optional(S.NullOr(S.String)),
           business_type: S.optional(S.NullOr(S.String)),
-          cancellation_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          cancellation_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           collect_vat_id: S.optional(S.Boolean),
           country: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           dispute_fighter_enabled: S.optional(S.Boolean),
-          eula: S.optional(S.NullOr(__S(160, __c5, 0))),
+          eula: S.optional(S.NullOr(__S(192, __c6, 0))),
           featured_affiliate_product_id: S.optional(S.NullOr(S.String)),
-          home_preferences: S.optional(__S(320, __c10, 0)),
+          home_preferences: S.optional(__S(352, __c11, 0)),
           industry_group: S.optional(S.NullOr(S.String)),
           industry_type: S.optional(S.NullOr(S.String)),
           invoice_prefix: S.optional(S.NullOr(S.String)),
-          logo: S.optional(S.NullOr(__S(160, __c5, 0))),
-          metadata: S.optional(__S(288, __c9, 0)),
+          logo: S.optional(S.NullOr(__S(192, __c6, 0))),
+          metadata: S.optional(__S(320, __c10, 0)),
           onboarding_type: S.optional(S.NullOr(S.String)),
-          opengraph_image: S.optional(S.NullOr(__S(160, __c5, 0))),
+          opengraph_image: S.optional(S.NullOr(__S(192, __c6, 0))),
           opengraph_image_variant: S.optional(S.NullOr(S.String)),
           orchestration_enabled: S.optional(S.Boolean),
           other_business_description: S.optional(S.NullOr(S.String)),
           other_industry_description: S.optional(S.NullOr(S.String)),
-          privacy_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          privacy_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           product_tax_code_id: S.optional(S.NullOr(S.String)),
           require_2fa: S.optional(S.Boolean),
-          return_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          return_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           route: S.optional(S.NullOr(S.String)),
           send_customer_emails: S.optional(S.Boolean),
-          shipping_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          shipping_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           show_joined_whops: S.optional(S.Boolean),
           show_reviews_dtc: S.optional(S.Boolean),
           show_user_directory: S.optional(S.Boolean),
-          social_links: S.optional(__S(162, __c5, 2)),
-          store_page_config: S.optional(S.NullOr(__S(163, __c5, 3))),
+          social_links: S.optional(__S(194, __c6, 2)),
+          store_page_config: S.optional(S.NullOr(__S(195, __c6, 3))),
           target_audience: S.optional(S.NullOr(S.String)),
-          tax_collection_enabled_states: S.optional(__S(320, __c10, 0)),
-          tax_identifiers: S.optional(__S(165, __c5, 5)),
+          tax_collection_enabled_states: S.optional(__S(352, __c11, 0)),
+          tax_identifiers: S.optional(__S(197, __c6, 5)),
           tax_remitted_by: S.optional(S.String),
           tax_type: S.optional(S.String),
-          terms_of_service: S.optional(S.NullOr(__S(160, __c5, 0))),
+          terms_of_service: S.optional(S.NullOr(__S(192, __c6, 0))),
           three_ds_level: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           use_logo_as_opengraph_image_fallback: S.optional(S.Boolean),
@@ -3371,7 +3446,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateAccountRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3381,13 +3456,13 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestBankDepositRegionsValue" });
     case 1:
-      return S.Record(S.String, __S(192, __c6, 0));
+      return S.Record(S.String, __S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fixed: S.optional(S.NullOr(S.Number)),
           percentage: S.optional(S.NullOr(S.Number)),
-          regions: S.optional(__S(193, __c6, 1)),
+          regions: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestBankDeposit" });
     case 3:
@@ -3398,16 +3473,16 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestChildMarkupsCardSpend" });
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(195, __c6, 3)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(227, __c7, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          card_spend: S.optional(S.NullOr(__S(195, __c6, 3))),
-          crypto_swaps: S.optional(S.NullOr(__S(195, __c6, 3))),
-          deposits: S.optional(__S(196, __c6, 4)),
-          payments: S.optional(S.NullOr(__S(195, __c6, 3))),
-          payouts: S.optional(__S(196, __c6, 4)),
-          transfers: S.optional(S.NullOr(__S(195, __c6, 3))),
+          card_spend: S.optional(S.NullOr(__S(227, __c7, 3))),
+          crypto_swaps: S.optional(S.NullOr(__S(227, __c7, 3))),
+          deposits: S.optional(__S(228, __c7, 4)),
+          payments: S.optional(S.NullOr(__S(227, __c7, 3))),
+          payouts: S.optional(__S(228, __c7, 4)),
+          transfers: S.optional(S.NullOr(__S(227, __c7, 3))),
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestChildMarkups" });
     case 6:
@@ -3422,46 +3497,46 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestCoveredPayoutFees" });
     case 7:
-      return S.Record(S.String, __S(194, __c6, 2));
+      return S.Record(S.String, __S(226, __c7, 2));
     case 8:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String.pipe(T.Label()),
-          bank_deposit: S.optional(__S(194, __c6, 2)),
-          billing: S.optional(__S(194, __c6, 2)),
-          buyer: S.optional(__S(194, __c6, 2)),
-          card_processing: S.optional(__S(194, __c6, 2)),
-          child_markups: S.optional(__S(197, __c6, 5)),
-          covered_payout_fees: S.optional(__S(198, __c6, 6)),
-          cross_border: S.optional(__S(194, __c6, 2)),
-          dispute: S.optional(__S(194, __c6, 2)),
-          dispute_alert: S.optional(__S(194, __c6, 2)),
-          dispute_alert_cdrn: S.optional(__S(194, __c6, 2)),
-          dispute_alert_ethoca: S.optional(__S(194, __c6, 2)),
-          dispute_alert_rdr: S.optional(__S(194, __c6, 2)),
-          dispute_representment: S.optional(__S(194, __c6, 2)),
-          foreign_exchange: S.optional(__S(194, __c6, 2)),
-          fraud_screening: S.optional(__S(194, __c6, 2)),
-          high_risk: S.optional(__S(194, __c6, 2)),
-          marketplace: S.optional(__S(194, __c6, 2)),
-          markups: S.optional(__S(197, __c6, 5)),
+          bank_deposit: S.optional(__S(226, __c7, 2)),
+          billing: S.optional(__S(226, __c7, 2)),
+          buyer: S.optional(__S(226, __c7, 2)),
+          card_processing: S.optional(__S(226, __c7, 2)),
+          child_markups: S.optional(__S(229, __c7, 5)),
+          covered_payout_fees: S.optional(__S(230, __c7, 6)),
+          cross_border: S.optional(__S(226, __c7, 2)),
+          dispute: S.optional(__S(226, __c7, 2)),
+          dispute_alert: S.optional(__S(226, __c7, 2)),
+          dispute_alert_cdrn: S.optional(__S(226, __c7, 2)),
+          dispute_alert_ethoca: S.optional(__S(226, __c7, 2)),
+          dispute_alert_rdr: S.optional(__S(226, __c7, 2)),
+          dispute_representment: S.optional(__S(226, __c7, 2)),
+          foreign_exchange: S.optional(__S(226, __c7, 2)),
+          fraud_screening: S.optional(__S(226, __c7, 2)),
+          high_risk: S.optional(__S(226, __c7, 2)),
+          marketplace: S.optional(__S(226, __c7, 2)),
+          markups: S.optional(__S(229, __c7, 5)),
           notes: S.optional(S.String),
-          orchestration: S.optional(__S(194, __c6, 2)),
-          payment_methods: S.optional(__S(199, __c6, 7)),
-          payouts: S.optional(__S(199, __c6, 7)),
-          pending_auto_topup: S.optional(__S(194, __c6, 2)),
-          platform_processing: S.optional(__S(194, __c6, 2)),
-          pool_payout: S.optional(__S(194, __c6, 2)),
-          revshare: S.optional(__S(194, __c6, 2)),
-          tax_calculation: S.optional(__S(194, __c6, 2)),
-          tax_service: S.optional(__S(194, __c6, 2)),
-          three_ds: S.optional(__S(194, __c6, 2)),
-          transfers: S.optional(__S(194, __c6, 2)),
+          orchestration: S.optional(__S(226, __c7, 2)),
+          payment_methods: S.optional(__S(231, __c7, 7)),
+          payouts: S.optional(__S(231, __c7, 7)),
+          pending_auto_topup: S.optional(__S(226, __c7, 2)),
+          platform_processing: S.optional(__S(226, __c7, 2)),
+          pool_payout: S.optional(__S(226, __c7, 2)),
+          revshare: S.optional(__S(226, __c7, 2)),
+          tax_calculation: S.optional(__S(226, __c7, 2)),
+          tax_service: S.optional(__S(226, __c7, 2)),
+          three_ds: S.optional(__S(226, __c7, 2)),
+          transfers: S.optional(__S(226, __c7, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/fees", code: 200 })),
       ).annotate({ identifier: "UpdateAccountFeesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3470,7 +3545,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountPreferencesRequestAdsCertificationsValue" });
     case 1:
-      return S.Record(S.String, __S(224, __c7, 0));
+      return S.Record(S.String, __S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3481,8 +3556,8 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backup: S.optional(__S(226, __c7, 2)),
-          primary: __S(226, __c7, 2),
+          backup: S.optional(__S(258, __c8, 2)),
+          primary: __S(258, __c8, 2),
         }),
       ).annotate({ identifier: "UpdateAccountPreferencesRequestAdsPaymentMethods" });
     case 4:
@@ -3496,11 +3571,11 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String.pipe(T.Label()),
-          ads_certifications: S.optional(__S(225, __c7, 1)),
-          ads_payment_methods: S.optional(__S(227, __c7, 3)),
+          ads_certifications: S.optional(__S(257, __c8, 1)),
+          ads_payment_methods: S.optional(__S(259, __c8, 3)),
           ads_reporting_currency: S.optional(S.String),
           ads_scheduling_timezone: S.optional(S.String),
-          ads_triple_whale_integration: S.optional(__S(228, __c7, 4)),
+          ads_triple_whale_integration: S.optional(__S(260, __c8, 4)),
           cards_auto_top_up: S.optional(S.Boolean),
           cards_notifications: S.optional(S.Boolean),
           dispute_fighter_enabled: S.optional(S.Boolean),
@@ -3510,7 +3585,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateAccountPreferencesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3520,7 +3595,7 @@ function __c8(j: number): any {
           country: S.optional(S.String),
           dispute_fighter_enabled: S.optional(S.Boolean),
           email: S.optional(S.String),
-          metadata: S.optional(__S(288, __c9, 0)),
+          metadata: S.optional(__S(320, __c10, 0)),
           orchestration_enabled: S.optional(S.Boolean),
           send_customer_emails: S.optional(S.Boolean),
           title: S.optional(S.String),
@@ -3530,19 +3605,19 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAccountRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3552,10 +3627,10 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "AccountBalanceSettlement" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(384, __c12, 0));
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3563,7 +3638,7 @@ function __c12(j: number): any {
           available: S.String,
           in_transit: S.String,
           pending: S.String,
-          pending_settlements: __S(353, __c11, 1),
+          pending_settlements: __S(385, __c12, 1),
           reserve: S.String,
         }),
       ).annotate({ identifier: "AccountBalanceBreakdown" });
@@ -3571,7 +3646,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           balance: S.String,
-          breakdown: __S(384, __c12, 0),
+          breakdown: __S(416, __c13, 0),
           icon_url: S.NullOr(S.String),
           name: S.String,
           price_usd: S.NullOr(S.Number),
@@ -3580,7 +3655,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountBalanceToken" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3589,7 +3664,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FileMultipartUrl" });
     case 4:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3599,7 +3674,7 @@ function __c12(j: number): any {
           id: S.String,
           multipart_chunk_size: S.optional(S.NullOr(S.Number)),
           multipart_upload_id: S.optional(S.NullOr(S.String)),
-          multipart_upload_urls: S.optional(S.NullOr(__S(388, __c12, 4))),
+          multipart_upload_urls: S.optional(S.NullOr(__S(420, __c13, 4))),
           object: S.String,
           size: S.NullOr(S.Number),
           upload_headers: S.optional(S.Unknown),
@@ -3643,7 +3718,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountCompanyFormationDocument" });
     case 9:
-      return S.Array(__S(392, __c12, 8));
+      return S.Array(__S(424, __c13, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -3654,21 +3729,27 @@ function __c12(j: number): any {
       ).annotate({ identifier: "AccountCompanyFormationSignatureRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          form8821: S.optional(__S(394, __c12, 10)),
-          ss4: S.optional(__S(394, __c12, 10)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            form8821: S.optional(__S(426, __c13, 10)),
+            ss4: S.optional(__S(426, __c13, 10)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "AccountCompanyFormationSignatures" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          documents: S.optional(__S(393, __c12, 9)),
-          ein_registered: S.optional(S.Boolean),
-          legal_name: S.optional(S.NullOr(S.String)),
-          signatures: S.optional(__S(395, __c12, 11)),
-          state_registered: S.optional(S.Boolean),
-          status: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            documents: S.optional(__S(425, __c13, 9)),
+            ein_registered: S.optional(S.Boolean),
+            legal_name: S.optional(S.NullOr(S.String)),
+            signatures: S.optional(__S(427, __c13, 11)),
+            state_registered: S.optional(S.Boolean),
+            status: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "AccountCompanyFormation" });
     case 13:
       return S.suspend(() =>
@@ -3681,7 +3762,7 @@ function __c12(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(397, __c12, 13),
+          profile_picture: __S(429, __c13, 13),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -3693,11 +3774,11 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountParentFeesValue" });
     case 16:
-      return S.Record(S.String, __S(399, __c12, 15));
+      return S.Record(S.String, __S(431, __c13, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          fees: S.optional(__S(400, __c12, 16)),
+          fees: S.optional(__S(432, __c13, 16)),
           id: S.String,
           logo_url: S.NullOr(S.String),
           route: S.String,
@@ -3710,7 +3791,7 @@ function __c12(j: number): any {
           email: S.NullOr(S.String),
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(397, __c12, 13),
+          profile_picture: __S(429, __c13, 13),
           username: S.String,
           whop_partner_verified_at: S.NullOr(S.String),
         }),
@@ -3749,25 +3830,25 @@ function __c12(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          dispute_alert_auto_refund: __S(403, __c12, 19),
+          dispute_alert_auto_refund: __S(435, __c13, 19),
           dispute_alert_fee_usd: S.NullOr(S.Number),
           enforce_3ds: S.Boolean,
           financing_disabled: S.Boolean,
           high_risk_processing_fee_percentage: S.Number,
           pending_auto_topup_fee_percentage: S.Number,
           pending_balance_delay_days: S.Number,
-          reserve: __S(404, __c12, 20),
-          resolution_center_auto_refund: __S(405, __c12, 21),
-          restricted_payment_methods: __S(320, __c10, 0),
+          reserve: __S(436, __c13, 20),
+          resolution_center_auto_refund: __S(437, __c13, 21),
+          restricted_payment_methods: __S(352, __c11, 0),
           undated_pending_reason: S.NullOr(S.String),
-          withdrawal_schedule: __S(406, __c12, 22),
+          withdrawal_schedule: __S(438, __c13, 22),
         }),
       ).annotate({ identifier: "AccountPaymentControls" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          blocked_capabilities: __S(480, __c15, 0),
+          blocked_capabilities: __S(512, __c16, 0),
           cta: S.String,
           cta_label: S.String,
           description: S.String,
@@ -3779,12 +3860,12 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountRecommendedAction" });
     case 25:
-      return S.Array(__S(408, __c12, 24));
+      return S.Array(__S(440, __c13, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          blocked_capabilities: __S(480, __c15, 0),
+          blocked_capabilities: __S(512, __c16, 0),
           cta: S.NullOr(S.String),
           cta_label: S.String,
           description: S.String,
@@ -3794,20 +3875,20 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountRequiredAction" });
     case 27:
-      return S.Array(__S(410, __c12, 26));
+      return S.Array(__S(442, __c13, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          qualification_amount: __S(448, __c14, 0),
-          qualification_progress: __S(448, __c14, 0),
+          qualification_amount: __S(480, __c15, 0),
+          qualification_progress: __S(480, __c15, 0),
           qualification_type: S.String,
-          reward_amount: __S(448, __c14, 0),
+          reward_amount: __S(480, __c15, 0),
           status: S.String,
         }),
       ).annotate({ identifier: "AccountPartnerReward" });
     case 29:
-      return S.Array(__S(412, __c12, 28));
+      return S.Array(__S(444, __c13, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -3818,10 +3899,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountSocialLink" });
     case 31:
-      return S.Array(__S(414, __c12, 30));
+      return S.Array(__S(446, __c13, 30));
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3841,15 +3922,15 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "AccountTaxIdentifier" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          account_value: __S(448, __c14, 0),
-          total_margin_used: __S(448, __c14, 0),
-          total_position_notional: __S(448, __c14, 0),
-          total_raw_usd: __S(448, __c14, 0),
-          withdrawable: __S(448, __c14, 0),
+          account_value: __S(480, __c15, 0),
+          total_margin_used: __S(480, __c15, 0),
+          total_position_notional: __S(480, __c15, 0),
+          total_raw_usd: __S(480, __c15, 0),
+          withdrawable: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "TradingMarginSummary" });
     case 4:
@@ -3860,14 +3941,14 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TradingWebsocketSubscription" });
     case 5:
-      return S.Array(__S(420, __c13, 4));
+      return S.Array(__S(452, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           address: S.String,
           builder_fee_bps: S.NullOr(S.String),
-          margin_summary: __S(419, __c13, 3),
-          websocket_subscriptions: __S(421, __c13, 5),
+          margin_summary: __S(451, __c14, 3),
+          websocket_subscriptions: __S(453, __c14, 5),
           websocket_url: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidAccount" });
@@ -3875,7 +3956,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reduce_only: S.NullOr(S.Boolean),
-          trigger_price: S.NullOr(__S(448, __c14, 0)),
+          trigger_price: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "TradingHyperliquidOrder" });
     case 8:
@@ -3883,13 +3964,13 @@ function __c13(j: number): any {
         S.Struct({
           client_order_id: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(423, __c13, 7)),
+          hyperliquid: S.NullOr(__S(455, __c14, 7)),
           id: S.String,
           market: S.String,
           object: S.String,
           order_type: S.String,
           original_size: S.NullOr(S.String),
-          price: __S(448, __c14, 0),
+          price: __S(480, __c15, 0),
           provider_order_id: S.NullOr(S.String),
           side: S.String,
           size: S.String,
@@ -3899,13 +3980,13 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TradingOrder" });
     case 9:
-      return S.Array(__S(424, __c13, 8));
+      return S.Array(__S(456, __c14, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          all_time: S.NullOr(__S(448, __c14, 0)),
-          since_change: S.NullOr(__S(448, __c14, 0)),
-          since_open: S.NullOr(__S(448, __c14, 0)),
+          all_time: S.NullOr(__S(480, __c15, 0)),
+          since_change: S.NullOr(__S(480, __c15, 0)),
+          since_open: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "TradingCumulativeFunding" });
     case 11:
@@ -3918,38 +3999,38 @@ function __c13(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          cumulative_funding: __S(426, __c13, 10),
-          leverage: __S(427, __c13, 11),
-          liquidation_price: S.NullOr(__S(448, __c14, 0)),
-          margin_used: __S(448, __c14, 0),
+          cumulative_funding: __S(458, __c14, 10),
+          leverage: __S(459, __c14, 11),
+          liquidation_price: S.NullOr(__S(480, __c15, 0)),
+          margin_used: __S(480, __c15, 0),
           return_on_equity: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidPosition" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          entry_price: S.NullOr(__S(448, __c14, 0)),
-          hyperliquid: S.NullOr(__S(428, __c13, 12)),
+          entry_price: S.NullOr(__S(480, __c15, 0)),
+          hyperliquid: S.NullOr(__S(460, __c14, 12)),
           id: S.String,
           market: S.String,
           object: S.String,
-          position_value: __S(448, __c14, 0),
+          position_value: __S(480, __c15, 0),
           side: S.String,
           size: S.String,
-          unrealized_pnl: __S(448, __c14, 0),
+          unrealized_pnl: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "TradingPosition" });
     case 14:
-      return S.Array(__S(429, __c13, 13));
+      return S.Array(__S(461, __c14, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(422, __c13, 6)),
+          hyperliquid: S.NullOr(__S(454, __c14, 6)),
           id: S.String,
           object: S.String,
-          open_orders: __S(425, __c13, 9),
-          positions: __S(430, __c13, 14),
+          open_orders: __S(457, __c14, 9),
+          positions: __S(462, __c14, 14),
           provider: S.String,
           user_id: S.NullOr(S.String),
         }),
@@ -3965,25 +4046,25 @@ function __c13(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(386, __c12, 2),
+          balances: __S(418, __c13, 2),
           banner_image_url: S.NullOr(S.String),
           business_address: S.NullOr(S.Unknown),
           business_name: S.NullOr(S.String),
           business_type: S.NullOr(S.String),
           can_transfer_pending_balance_to_children: S.Boolean,
-          cancellation_policy: S.NullOr(__S(389, __c12, 5)),
-          capabilities: S.NullOr(__S(390, __c12, 6)),
-          cards: S.NullOr(__S(391, __c12, 7)),
+          cancellation_policy: S.NullOr(__S(421, __c13, 5)),
+          capabilities: S.NullOr(__S(422, __c13, 6)),
+          cards: S.NullOr(__S(423, __c13, 7)),
           collect_vat_id: S.Boolean,
-          company_formation: __S(396, __c12, 12),
+          company_formation: __S(428, __c13, 12),
           country: S.NullOr(S.String),
           created_at: S.String,
           description: S.NullOr(S.String),
           dispute_fighter_enabled: S.Boolean,
           economic_intelligence: S.Boolean,
           email: S.NullOr(S.String),
-          eula: S.NullOr(__S(389, __c12, 5)),
-          home_preferences: __S(320, __c10, 0),
+          eula: S.NullOr(__S(421, __c13, 5)),
+          home_preferences: __S(352, __c11, 0),
           id: S.String,
           industry_group: S.NullOr(S.String),
           industry_type: S.NullOr(S.String),
@@ -3996,49 +4077,49 @@ function __c13(j: number): any {
           orchestration_enabled: S.Boolean,
           other_business_description: S.NullOr(S.String),
           other_industry_description: S.NullOr(S.String),
-          owner: __S(398, __c12, 14),
-          parent_account: S.NullOr(__S(401, __c12, 17)),
-          partner: S.optional(S.NullOr(__S(402, __c12, 18))),
-          payment_controls: S.NullOr(__S(407, __c12, 23)),
-          privacy_policy: S.NullOr(__S(389, __c12, 5)),
+          owner: __S(430, __c13, 14),
+          parent_account: S.NullOr(__S(433, __c13, 17)),
+          partner: S.optional(S.NullOr(__S(434, __c13, 18))),
+          payment_controls: S.NullOr(__S(439, __c13, 23)),
+          privacy_policy: S.NullOr(__S(421, __c13, 5)),
           product_tax_code: S.NullOr(S.Unknown),
-          recommended_actions: S.NullOr(__S(409, __c12, 25)),
+          recommended_actions: S.NullOr(__S(441, __c13, 25)),
           require_2fa: S.Boolean,
-          required_actions: S.NullOr(__S(411, __c12, 27)),
-          return_policy: S.NullOr(__S(389, __c12, 5)),
-          rewards: S.optional(__S(413, __c12, 29)),
+          required_actions: S.NullOr(__S(443, __c13, 27)),
+          return_policy: S.NullOr(__S(421, __c13, 5)),
+          rewards: S.optional(__S(445, __c13, 29)),
           route: S.String,
           send_customer_emails: S.Boolean,
-          shipping_policy: S.NullOr(__S(389, __c12, 5)),
+          shipping_policy: S.NullOr(__S(421, __c13, 5)),
           show_joined_whops: S.Boolean,
           show_reviews_dtc: S.Boolean,
           show_user_directory: S.Boolean,
-          social_links: __S(415, __c12, 31),
+          social_links: __S(447, __c13, 31),
           stablecoin_rails: S.Boolean,
           status: S.NullOr(S.String),
           status_reason: S.NullOr(S.String),
-          store_page_config: __S(416, __c13, 0),
+          store_page_config: __S(448, __c14, 0),
           target_audience: S.NullOr(S.String),
-          tax_collection_enabled_states: __S(480, __c15, 0),
-          tax_identifiers: __S(418, __c13, 2),
+          tax_collection_enabled_states: __S(512, __c16, 0),
+          tax_identifiers: __S(450, __c14, 2),
           tax_remitted_by: S.NullOr(S.String),
           tax_type: S.NullOr(S.String),
-          terms_of_service: S.NullOr(__S(389, __c12, 5)),
+          terms_of_service: S.NullOr(__S(421, __c13, 5)),
           three_ds_level: S.NullOr(S.String),
           title: S.String,
           total_earned_usd: S.NullOr(S.Number),
           total_usd: S.NullOr(S.String),
-          trading: S.NullOr(__S(431, __c13, 15)),
+          trading: S.NullOr(__S(463, __c14, 15)),
           use_logo_as_opengraph_image_fallback: S.Boolean,
           verification: S.Unknown,
           volume_usd: S.NullOr(S.Number),
-          wallet: S.NullOr(__S(432, __c13, 16)),
+          wallet: S.NullOr(__S(464, __c14, 16)),
           website: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4051,13 +4132,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +4155,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteAccountResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4090,7 +4171,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: __S(544, __c17, 0),
+          address: __S(576, __c18, 0),
           date_of_birth: S.optional(S.String),
           email: S.String,
           first_name: S.String,
@@ -4098,12 +4179,12 @@ function __c17(j: number): any {
           last_name: S.String,
           ownership_percentage: S.optional(S.Number),
           phone: S.String,
-          roles: S.optional(__S(320, __c10, 0)),
+          roles: S.optional(__S(352, __c11, 0)),
           ssn: S.optional(S.String),
         }),
       ).annotate({ identifier: "FormCompanyRequestFoundersItem" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4115,7 +4196,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          business_address: S.optional(__S(544, __c17, 0)),
+          business_address: S.optional(__S(576, __c18, 0)),
           business_name: S.String,
           business_phone: S.optional(S.String),
           business_type: S.String,
@@ -4124,10 +4205,10 @@ function __c17(j: number): any {
           entity_type: S.optional(S.String),
           expedite_ein: S.optional(S.Boolean),
           formation_state: S.String,
-          founders: __S(546, __c17, 2),
+          founders: __S(578, __c18, 2),
           industry_group: S.String,
           industry_type: S.String,
-          share_structure: S.optional(__S(547, __c17, 3)),
+          share_structure: S.optional(__S(579, __c18, 3)),
           use_registered_agent: S.optional(S.Boolean),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/form_company", code: 200 })),
@@ -4143,7 +4224,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "FormCompanyResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4154,7 +4235,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4164,43 +4245,43 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetAccountFeesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fixed: S.NullOr(__S(448, __c14, 0)),
+          fixed: S.NullOr(__S(480, __c15, 0)),
           percentage: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "AccountFeeRate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          default: __S(640, __c20, 0),
-          fixed: S.NullOr(__S(448, __c14, 0)),
-          maximum: S.NullOr(__S(640, __c20, 0)),
-          minimum: S.NullOr(__S(640, __c20, 0)),
+          default: __S(672, __c21, 0),
+          fixed: S.NullOr(__S(480, __c15, 0)),
+          maximum: S.NullOr(__S(672, __c21, 0)),
+          minimum: S.NullOr(__S(672, __c21, 0)),
           percentage: S.NullOr(S.Number),
-          reset: __S(640, __c20, 0),
+          reset: __S(672, __c21, 0),
           source: S.String,
         }),
       ).annotate({ identifier: "AccountFeeRegionalRate" });
     case 2:
-      return S.Record(S.String, __S(641, __c20, 1));
+      return S.Record(S.String, __S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           adjustable: S.Boolean,
           category: S.String,
-          default: __S(640, __c20, 0),
+          default: __S(672, __c21, 0),
           ends_at: S.NullOr(S.String),
-          fixed: S.NullOr(__S(448, __c14, 0)),
-          maximum: S.NullOr(__S(640, __c20, 0)),
-          minimum: S.NullOr(__S(640, __c20, 0)),
+          fixed: S.NullOr(__S(480, __c15, 0)),
+          maximum: S.NullOr(__S(672, __c21, 0)),
+          minimum: S.NullOr(__S(672, __c21, 0)),
           percentage: S.NullOr(S.Number),
           region: S.NullOr(S.String),
-          regions: __S(642, __c20, 2),
-          reset: __S(640, __c20, 0),
+          regions: __S(674, __c21, 2),
+          reset: __S(672, __c21, 0),
           source: S.String,
           unadjustable_reason: S.NullOr(S.String),
         }),
@@ -4209,25 +4290,25 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adjustable: S.Boolean,
-          default: __S(640, __c20, 0),
-          fixed: __S(448, __c14, 0),
-          maximum: __S(640, __c20, 0),
+          default: __S(672, __c21, 0),
+          fixed: __S(480, __c15, 0),
+          maximum: __S(672, __c21, 0),
           percentage: S.Number,
           source: S.String,
           unadjustable_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AccountFeeMarkup" });
     case 5:
-      return S.Record(S.String, __S(644, __c20, 4));
+      return S.Record(S.String, __S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          card_spend: __S(644, __c20, 4),
-          crypto_swaps: __S(644, __c20, 4),
-          deposits: __S(645, __c20, 5),
-          payments: __S(644, __c20, 4),
-          payouts: __S(645, __c20, 5),
-          transfers: __S(644, __c20, 4),
+          card_spend: __S(676, __c21, 4),
+          crypto_swaps: __S(676, __c21, 4),
+          deposits: __S(677, __c21, 5),
+          payments: __S(676, __c21, 4),
+          payouts: __S(677, __c21, 5),
+          transfers: __S(676, __c21, 4),
         }),
       ).annotate({ identifier: "AccountFeeMarkups" });
     case 7:
@@ -4242,46 +4323,46 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "AccountCoveredPayoutFees" });
     case 8:
-      return S.Record(S.String, __S(643, __c20, 3));
+      return S.Record(S.String, __S(675, __c21, 3));
     case 9:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          bank_deposit: __S(643, __c20, 3),
-          billing: __S(643, __c20, 3),
-          buyer: __S(643, __c20, 3),
-          card_processing: __S(643, __c20, 3),
-          child_markups: S.NullOr(__S(646, __c20, 6)),
-          covered_payout_fees: __S(647, __c20, 7),
-          cross_border: __S(643, __c20, 3),
-          dispute: __S(643, __c20, 3),
-          dispute_alert: __S(643, __c20, 3),
-          dispute_alert_cdrn: __S(643, __c20, 3),
-          dispute_alert_ethoca: __S(643, __c20, 3),
-          dispute_alert_rdr: __S(643, __c20, 3),
-          dispute_representment: __S(643, __c20, 3),
-          foreign_exchange: __S(643, __c20, 3),
-          fraud_screening: __S(643, __c20, 3),
-          high_risk: __S(643, __c20, 3),
-          marketplace: __S(643, __c20, 3),
-          markups: S.NullOr(__S(646, __c20, 6)),
-          orchestration: __S(643, __c20, 3),
+          bank_deposit: __S(675, __c21, 3),
+          billing: __S(675, __c21, 3),
+          buyer: __S(675, __c21, 3),
+          card_processing: __S(675, __c21, 3),
+          child_markups: S.NullOr(__S(678, __c21, 6)),
+          covered_payout_fees: __S(679, __c21, 7),
+          cross_border: __S(675, __c21, 3),
+          dispute: __S(675, __c21, 3),
+          dispute_alert: __S(675, __c21, 3),
+          dispute_alert_cdrn: __S(675, __c21, 3),
+          dispute_alert_ethoca: __S(675, __c21, 3),
+          dispute_alert_rdr: __S(675, __c21, 3),
+          dispute_representment: __S(675, __c21, 3),
+          foreign_exchange: __S(675, __c21, 3),
+          fraud_screening: __S(675, __c21, 3),
+          high_risk: __S(675, __c21, 3),
+          marketplace: __S(675, __c21, 3),
+          markups: S.NullOr(__S(678, __c21, 6)),
+          orchestration: __S(675, __c21, 3),
           parent_account_id: S.NullOr(S.String),
-          payment_methods: __S(648, __c20, 8),
-          payouts: __S(648, __c20, 8),
-          pending_auto_topup: __S(643, __c20, 3),
-          platform_processing: __S(643, __c20, 3),
-          pool_payout: __S(643, __c20, 3),
-          revshare: __S(643, __c20, 3),
-          tax_calculation: __S(643, __c20, 3),
-          tax_service: __S(643, __c20, 3),
-          three_ds: __S(643, __c20, 3),
-          transfers: __S(643, __c20, 3),
+          payment_methods: __S(680, __c21, 8),
+          payouts: __S(680, __c21, 8),
+          pending_auto_topup: __S(675, __c21, 3),
+          platform_processing: __S(675, __c21, 3),
+          pool_payout: __S(675, __c21, 3),
+          revshare: __S(675, __c21, 3),
+          tax_calculation: __S(675, __c21, 3),
+          tax_service: __S(675, __c21, 3),
+          three_ds: __S(675, __c21, 3),
+          transfers: __S(675, __c21, 3),
         }),
       ).annotate({ identifier: "AccountFees" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4291,7 +4372,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAccountPreferencesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4305,11 +4386,11 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approved_countries: __S(480, __c15, 0),
+          approved_countries: __S(512, __c16, 0),
           business_name: S.NullOr(S.String),
           business_type: S.NullOr(S.String),
           certification_type: S.String,
-          countries: __S(480, __c15, 0),
+          countries: __S(512, __c16, 0),
           denial_reason: S.NullOr(S.String),
           request_id: S.NullOr(S.String),
           status: S.String,
@@ -4317,7 +4398,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseAdsCertificationsItem" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4334,8 +4415,8 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backup: S.NullOr(__S(707, __c22, 3)),
-          primary: S.NullOr(__S(707, __c22, 3)),
+          backup: S.NullOr(__S(739, __c23, 3)),
+          primary: S.NullOr(__S(739, __c23, 3)),
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseAdsPaymentMethods" });
     case 5:
@@ -4357,23 +4438,23 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseEconomicIntelligenceOffersItem" });
     case 7:
-      return S.Array(__S(710, __c22, 6));
+      return S.Array(__S(742, __c23, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ads_agreement: __S(704, __c22, 0),
-          ads_certifications: __S(706, __c22, 2),
-          ads_payment_methods: S.NullOr(__S(708, __c22, 4)),
+          ads_agreement: __S(736, __c23, 0),
+          ads_certifications: __S(738, __c23, 2),
+          ads_payment_methods: S.NullOr(__S(740, __c23, 4)),
           ads_reporting_currency: S.String,
           ads_scheduling_timezone: S.String,
-          ads_triple_whale_integration: __S(709, __c22, 5),
+          ads_triple_whale_integration: __S(741, __c23, 5),
           cards_auto_top_up: S.Boolean,
           cards_notifications: S.Boolean,
           dispute_fighter_enabled: S.Boolean,
           economic_intelligence: S.Boolean,
           economic_intelligence_ends_at: S.NullOr(S.String),
           economic_intelligence_fee_percentage: S.NullOr(S.Number),
-          economic_intelligence_offers: S.NullOr(__S(711, __c22, 7)),
+          economic_intelligence_offers: S.NullOr(__S(743, __c23, 7)),
           subscription_failure_behavior: S.String,
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponse" });

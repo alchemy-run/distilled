@@ -311,10 +311,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreateStaticCohortForFlagCreateRequest/members/key/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.feature_flags#DependentFlag/members/id/traits/smithy.api#required"
     },
     {

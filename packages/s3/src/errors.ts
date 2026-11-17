@@ -1,5 +1,7 @@
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { UnknownErrorFields } from "@distilled.cloud/core/unknown-error";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials.ts";
@@ -35,10 +37,11 @@ export class IncompleteSignature
     message: ErrorMessage,
   }).pipe(Category.withAuthError) {}
 
+/** AWS retries every 500, 502, 503 and 504 (Retry Behavior 2.1). */
 export class InternalFailure
   extends /*@__PURE__*/ S.TaggedError<InternalFailure>()("InternalFailure", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class MalformedHttpRequestException
   extends /*@__PURE__*/ S.TaggedError<MalformedHttpRequestException>()(
@@ -72,15 +75,16 @@ export class RequestExpired
     message: ErrorMessage,
   }).pipe(Category.withBadRequestError, Category.withTimeoutError) {}
 
+/** A transient error code in the AWS SDKs' retry rules. */
 export class RequestTimeoutException
   extends /*@__PURE__*/ S.TaggedError<RequestTimeoutException>()("RequestTimeoutException", {
     message: ErrorMessage,
-  }).pipe(Category.withTimeoutError) {}
+  }).pipe(Category.withTimeoutError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class ServiceUnavailable
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()("ServiceUnavailable", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
@@ -118,10 +122,14 @@ export class OperationAborted
     message: ErrorMessage,
   }).pipe(Category.withAbortedError) {}
 
+/**
+ * An error the operation does not declare. `code` is the wire error code
+ * (e.g. "DryRunOperation"), `body` the parsed error body, `status` the
+ * HTTP status.
+ */
 export class UnknownAwsError
   extends /*@__PURE__*/ S.TaggedError<UnknownAwsError>()("UnknownAwsError", {
-    errorTag: S.String,
-    errorData: S.Any,
+    ...UnknownErrorFields,
     /** The AWS service SDK ID (e.g., "S3", "DynamoDB") */
     service: /*@__PURE__*/ S.optional(S.String),
     /** The operation name (e.g., "createBucket", "putObject") */
@@ -161,12 +169,12 @@ export class TransientFetchError
   extends /*@__PURE__*/ S.TaggedError<TransientFetchError>()("TransientFetchError", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     cause: S.Any,
-  }).pipe(Category.withNetworkError) {}
+  }).pipe(Category.withNetworkError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class InternalError
   extends /*@__PURE__*/ S.TaggedError<InternalError>()("InternalError", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * The endpoint rules reject the call's parameters (e.g. a region that is not
@@ -248,6 +256,7 @@ export type CommonErrors =
   | UnknownAwsError
   | ParseError
   | InvalidInput
+  | SdkError
   | CommonAwsError
   | EndpointError
   | NoMatchingRuleError

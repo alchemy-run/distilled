@@ -26,9 +26,9 @@ const TELEMETRY = {
 
 export interface ConnectRtmRequest {
   /** Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/apis/web-api/user-presence-and-status#batching). */
-  batch_presence_aware?: boolean;
+  batch_presence_aware?: boolean | undefined;
   /** Only deliver presence events when requested by subscription. See [presence subscriptions](/apis/web-api/user-presence-and-status#subscriptions). */
-  presence_sub?: boolean;
+  presence_sub?: boolean | undefined;
 }
 export interface ConnectRtmResponseSelf {
   id: string;
@@ -38,8 +38,8 @@ export interface ConnectRtmResponseTeam {
   domain: string;
   id: string;
   name: string;
-  enterprise_id?: string;
-  enterprise_name?: string;
+  enterprise_id?: string | undefined;
+  enterprise_name?: string | undefined;
 }
 export interface ConnectRtmResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -50,19 +50,19 @@ export interface ConnectRtmResponse {
 }
 export interface StartRtmRequest {
   /** Return timestamp only for latest message object of each channel (improves performance). */
-  simple_latest?: boolean;
+  simple_latest?: boolean | undefined;
   /** Skip unread counts for each channel (improves performance). */
-  no_unreads?: boolean;
+  no_unreads?: boolean | undefined;
   /** Returns MPIMs to the client in the API response. */
-  mpim_aware?: boolean;
+  mpim_aware?: boolean | undefined;
   /** Only deliver presence events when requested by subscription. See [presence subscriptions](/apis/web-api/user-presence-and-status#subscriptions). */
-  presence_sub?: boolean;
+  presence_sub?: boolean | undefined;
   /** Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/apis/web-api/user-presence-and-status#batching). */
-  batch_presence_aware?: boolean;
+  batch_presence_aware?: boolean | undefined;
   /** Exclude latest timestamps for channels, groups, mpims, and ims. Automatically sets `no_unreads` to `1` */
-  no_latest?: boolean;
+  no_latest?: boolean | undefined;
   /** Set this to `true` to receive the locale for users and channels. Defaults to `false` */
-  include_locale?: boolean;
+  include_locale?: boolean | undefined;
 }
 export type StartRtmResponseSelf = ConnectRtmResponseSelf;
 export type StartRtmResponseTeam = ConnectRtmResponseTeam;

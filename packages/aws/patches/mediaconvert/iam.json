@@ -1,0 +1,29 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediaconvert#GetJob/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the MediaConvert Bindings suite calls it successfully without it.",
+        "remove": ["mediaconvert:ListJobs"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediaconvert#GetJobsQueryResults/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Not in AWS's reference; the MediaConvert Bindings suite calls the operation successfully with it.",
+        "actions": ["mediaconvert:GetJobsQueryResults"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.mediaconvert#StartJobsQuery/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Not in AWS's reference; the MediaConvert Bindings suite calls the operation successfully with it.",
+        "actions": ["mediaconvert:CreateJobsQuery", "mediaconvert:StartJobsQuery"]
+      }
+    }
+  ]
+}

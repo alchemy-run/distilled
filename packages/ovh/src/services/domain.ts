@@ -32,9 +32,9 @@ export interface ApproveDomainOutgoingTransferRequest {
   /** Service name */
   serviceName: string;
   /** Approve type for outgoing transfer */
-  approveType?: DomainApproveTypeEnum | (string & {});
+  approveType?: DomainApproveTypeEnum | (string & {}) | undefined;
   /** Token given by email to validate identity */
-  ident?: string;
+  ident?: string | undefined;
 }
 export interface ApproveDomainOutgoingTransferResponse {}
 export interface CancelDomainTaskRequest {
@@ -354,164 +354,164 @@ export type NichandleGenderEnum = "female" | "male";
 /** Details about your OVH identifier */
 export interface NichandleNichandleInput {
   /** Address of nichandle */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Area of nichandle */
-  area?: string | null;
+  area?: string | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** City of nichandle */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Complementary Address */
-  complementaryAddress?: string | null;
+  complementaryAddress?: string | null | undefined;
   /** Corporation type */
-  corporationType?: string | null;
+  corporationType?: string | null | undefined;
   /** Customer country */
-  country?: NichandleCountryEnum | (string & {});
+  country?: NichandleCountryEnum | (string & {}) | undefined;
   /** Display name shown instead of the organisation name. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Italian SDI */
-  italianSDI?: string | null;
+  italianSDI?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Customer legal form */
-  legalform?: NichandleLegalFormEnum | (string & {});
+  legalform?: NichandleLegalFormEnum | (string & {}) | undefined;
   /** Customer name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Name of organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
-  phoneCountry?: NichandleCountryEnum | (string & {}) | null;
+  phone?: string | null | undefined;
+  phoneCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Type of phone(mobile, landline) */
-  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null;
+  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null | undefined;
   /** Customer purpose of purchase */
-  purposeOfPurchase?: string | null;
+  purposeOfPurchase?: string | null | undefined;
   /** Gender */
-  sex?: NichandleGenderEnum | (string & {}) | null;
+  sex?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** Spare email */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Zipcode */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 /** The extra data contain additional rule data fields */
 export interface DomainConfigurationRulesRuleExtraData {
   /** Whether you accept the domain specific conditions or not */
-  acceptCondition?: boolean | null;
+  acceptCondition?: boolean | null | undefined;
   /** The auth info code for the domain */
-  authInfo?: string | null;
+  authInfo?: string | null | undefined;
 }
 /** Missing description */
 export interface DomainContactAddress {
   /** City */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Country */
-  country?: NichandleCountryEnum | (string & {}) | null;
+  country?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Address line 1 */
-  line1?: string | null;
+  line1?: string | null | undefined;
   /** Address line 2 */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Address line 3 */
-  line3?: string | null;
+  line3?: string | null | undefined;
   /** Others details */
-  otherDetails?: string | null;
+  otherDetails?: string | null | undefined;
   /** Province */
-  province?: string | null;
+  province?: string | null | undefined;
   /** Zip code */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 /** A contact contains the personal data of a user */
 export interface DomainContactInput {
   /** Country of lawyer accreditation */
-  accreditationCountry?: NichandleCountryEnum | (string & {}) | null;
+  accreditationCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Lawyer accreditation number */
-  accreditationId?: string | null;
+  accreditationId?: string | null | undefined;
   /** Organism of lawyer accreditation */
-  accreditationOrganism?: string | null;
+  accreditationOrganism?: string | null | undefined;
   /** Year of lawyer accreditation */
-  accreditationYear?: number | null;
+  accreditationYear?: number | null | undefined;
   /** The address of the contact */
-  address?: DomainContactAddress | null;
+  address?: DomainContactAddress | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | (string & {}) | null;
+  birthCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Enterprise identifier */
-  enterpriseId?: string | null;
+  enterpriseId?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | (string & {}) | null;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** INSEE identifier */
-  insee?: string | null;
+  insee?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Last name */
-  lastName?: string | null;
-  legalForm?: NichandleLegalFormEnum | (string & {}) | null;
+  lastName?: string | null | undefined;
+  legalForm?: NichandleLegalFormEnum | (string & {}) | null | undefined;
   /** category of legalForm */
-  legalFormCategory?: string | null;
+  legalFormCategory?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | (string & {}) | null;
+  nationality?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** To whom is the organisation accountable */
-  organisationAccountable?: string | null;
+  organisationAccountable?: string | null | undefined;
   /** What is the source of funding */
-  organisationFunding?: string | null;
+  organisationFunding?: string | null | undefined;
   /** Explain the source of funding if organisationFunding is other */
-  organisationFundingOther?: string | null;
+  organisationFundingOther?: string | null | undefined;
   /** Name of organisation */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Role of your organisation */
-  organisationRole?: string | null;
+  organisationRole?: string | null | undefined;
   /** Explain the role of your organisation if organisationRole is other */
-  organisationRoleOther?: string | null;
+  organisationRoleOther?: string | null | undefined;
   /** Status of the staff */
-  organisationStaffStatus?: string | null;
+  organisationStaffStatus?: string | null | undefined;
   /** Explain the status of the staff if organisationStaffStatus is other */
-  organisationStaffStatusOther?: string | null;
+  organisationStaffStatusOther?: string | null | undefined;
   /** type of organisation */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Explain the type of organisation if organisationType is other */
-  organisationTypeOther?: string | null;
+  organisationTypeOther?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Type of registrant document */
-  registrantDocumentType?: string | null;
+  registrantDocumentType?: string | null | undefined;
   /** Explain the type of registrant document if registrantDocumentType is other */
-  registrantDocumentTypeOther?: string | null;
+  registrantDocumentTypeOther?: string | null | undefined;
   /** The role in the organisation */
-  roleInOrganisation?: string | null;
+  roleInOrganisation?: string | null | undefined;
   /** Trademark related to the contact */
-  trademarkId?: string | null;
+  trademarkId?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Website */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 export interface CheckDomainConfigurationRuleRequest {
   /** Depending on the action, the applied rule will change (transfer vs create) */
@@ -519,13 +519,13 @@ export interface CheckDomainConfigurationRuleRequest {
   /** The domain to check the rule data for */
   domain: string;
   /** The admin contact data */
-  adminAccount?: NichandleNichandleInput | null;
+  adminAccount?: NichandleNichandleInput | null | undefined;
   /** The extra data of the rule */
-  extras?: DomainConfigurationRulesRuleExtraData | null;
+  extras?: DomainConfigurationRulesRuleExtraData | null | undefined;
   /** The owner contact data */
-  owner?: DomainContactInput | null;
+  owner?: DomainContactInput | null | undefined;
   /** The tech contact data */
-  techAccount?: NichandleNichandleInput | null;
+  techAccount?: NichandleNichandleInput | null | undefined;
 }
 export interface CheckDomainConfigurationRuleResponse {}
 /** All future uses you can provide for a service termination */
@@ -555,193 +555,193 @@ export interface ConfirmDomainZoneTerminationRequest {
   /** Zone name */
   zoneName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** Commentary about your future use */
-  commentaryFutureUse?: string;
+  commentaryFutureUse?: string | undefined;
   /** Commentary about your reason for termination request */
-  commentaryReason?: string;
+  commentaryReason?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
 export type ConfirmDomainZoneTerminationResponse = string;
 export interface CreateContactRequest {
   /** Country of lawyer accreditation */
-  accreditationCountry?: NichandleCountryEnum | (string & {}) | null;
+  accreditationCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Lawyer accreditation number */
-  accreditationId?: string | null;
+  accreditationId?: string | null | undefined;
   /** Organism of lawyer accreditation */
-  accreditationOrganism?: string | null;
+  accreditationOrganism?: string | null | undefined;
   /** Year of lawyer accreditation */
-  accreditationYear?: number | null;
+  accreditationYear?: number | null | undefined;
   /** The address of the contact */
-  address?: DomainContactAddress | null;
+  address?: DomainContactAddress | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | (string & {}) | null;
+  birthCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Enterprise identifier */
-  enterpriseId?: string | null;
+  enterpriseId?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | (string & {}) | null;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** INSEE identifier */
-  insee?: string | null;
+  insee?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Last name */
-  lastName?: string | null;
-  legalForm?: NichandleLegalFormEnum | (string & {}) | null;
+  lastName?: string | null | undefined;
+  legalForm?: NichandleLegalFormEnum | (string & {}) | null | undefined;
   /** category of legalForm */
-  legalFormCategory?: string | null;
+  legalFormCategory?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | (string & {}) | null;
+  nationality?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** To whom is the organisation accountable */
-  organisationAccountable?: string | null;
+  organisationAccountable?: string | null | undefined;
   /** What is the source of funding */
-  organisationFunding?: string | null;
+  organisationFunding?: string | null | undefined;
   /** Explain the source of funding if organisationFunding is other */
-  organisationFundingOther?: string | null;
+  organisationFundingOther?: string | null | undefined;
   /** Name of organisation */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Role of your organisation */
-  organisationRole?: string | null;
+  organisationRole?: string | null | undefined;
   /** Explain the role of your organisation if organisationRole is other */
-  organisationRoleOther?: string | null;
+  organisationRoleOther?: string | null | undefined;
   /** Status of the staff */
-  organisationStaffStatus?: string | null;
+  organisationStaffStatus?: string | null | undefined;
   /** Explain the status of the staff if organisationStaffStatus is other */
-  organisationStaffStatusOther?: string | null;
+  organisationStaffStatusOther?: string | null | undefined;
   /** type of organisation */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Explain the type of organisation if organisationType is other */
-  organisationTypeOther?: string | null;
+  organisationTypeOther?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Type of registrant document */
-  registrantDocumentType?: string | null;
+  registrantDocumentType?: string | null | undefined;
   /** Explain the type of registrant document if registrantDocumentType is other */
-  registrantDocumentTypeOther?: string | null;
+  registrantDocumentTypeOther?: string | null | undefined;
   /** The role in the organisation */
-  roleInOrganisation?: string | null;
+  roleInOrganisation?: string | null | undefined;
   /** Trademark related to the contact */
-  trademarkId?: string | null;
+  trademarkId?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Website */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 /** A contact contains the personal data of a user */
 export interface DomainContact {
   /** Country of lawyer accreditation */
-  accreditationCountry?: NichandleCountryEnum | null;
+  accreditationCountry?: NichandleCountryEnum | null | undefined;
   /** Lawyer accreditation number */
-  accreditationId?: string | null;
+  accreditationId?: string | null | undefined;
   /** Organism of lawyer accreditation */
-  accreditationOrganism?: string | null;
+  accreditationOrganism?: string | null | undefined;
   /** Year of lawyer accreditation */
-  accreditationYear?: number | null;
+  accreditationYear?: number | null | undefined;
   /** The address of the contact */
-  address?: DomainContactAddress | null;
+  address?: DomainContactAddress | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | null;
+  birthCountry?: NichandleCountryEnum | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Enterprise identifier */
-  enterpriseId?: string | null;
+  enterpriseId?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | null;
+  gender?: NichandleGenderEnum | null | undefined;
   /** Unique identifier */
-  id?: number;
+  id?: number | undefined;
   /** INSEE identifier */
-  insee?: string | null;
+  insee?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | null;
+  language?: NichandleLanguageEnum | null | undefined;
   /** Last name */
-  lastName?: string | null;
-  legalForm?: NichandleLegalFormEnum | null;
+  lastName?: string | null | undefined;
+  legalForm?: NichandleLegalFormEnum | null | undefined;
   /** category of legalForm */
-  legalFormCategory?: string | null;
+  legalFormCategory?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | null;
+  nationality?: NichandleCountryEnum | null | undefined;
   /** To whom is the organisation accountable */
-  organisationAccountable?: string | null;
+  organisationAccountable?: string | null | undefined;
   /** What is the source of funding */
-  organisationFunding?: string | null;
+  organisationFunding?: string | null | undefined;
   /** Explain the source of funding if organisationFunding is other */
-  organisationFundingOther?: string | null;
+  organisationFundingOther?: string | null | undefined;
   /** Name of organisation */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Role of your organisation */
-  organisationRole?: string | null;
+  organisationRole?: string | null | undefined;
   /** Explain the role of your organisation if organisationRole is other */
-  organisationRoleOther?: string | null;
+  organisationRoleOther?: string | null | undefined;
   /** Status of the staff */
-  organisationStaffStatus?: string | null;
+  organisationStaffStatus?: string | null | undefined;
   /** Explain the status of the staff if organisationStaffStatus is other */
-  organisationStaffStatusOther?: string | null;
+  organisationStaffStatusOther?: string | null | undefined;
   /** type of organisation */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Explain the type of organisation if organisationType is other */
-  organisationTypeOther?: string | null;
+  organisationTypeOther?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Type of registrant document */
-  registrantDocumentType?: string | null;
+  registrantDocumentType?: string | null | undefined;
   /** Explain the type of registrant document if registrantDocumentType is other */
-  registrantDocumentTypeOther?: string | null;
+  registrantDocumentTypeOther?: string | null | undefined;
   /** The role in the organisation */
-  roleInOrganisation?: string | null;
+  roleInOrganisation?: string | null | undefined;
   /** Trademark related to the contact */
-  trademarkId?: string | null;
+  trademarkId?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Website */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 export interface CreateDomainChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDomainChangeContactResponseBodyList = Array<number>;
 export type CreateDomainChangeContactResponse = CreateDomainChangeContactResponseBodyList;
@@ -752,26 +752,26 @@ export interface CreateDomainDataSmdRequest {
 /** Representation of a protected label */
 export interface DomainDataSmdSmdLabel {
   /** Label that is protected */
-  label?: string;
+  label?: string | undefined;
   /** Trademark associated to the protected label */
-  trademark?: string;
+  trademark?: string | undefined;
 }
 /** List of the labels that are protect with that SMD file */
 export type DomainDataSmdSmdProtectedLabelsList = Array<DomainDataSmdSmdLabel>;
 /** Representation of a SMD file */
 export interface DomainDataSmdSmd {
   /** SMD file content */
-  data?: string;
+  data?: string | undefined;
   /** UUID of SMD file */
-  id?: string;
+  id?: string | undefined;
   /** Date when information about SMD file aren't valid anymore */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** Date before when information about SMD file aren't valid yet */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** List of the labels that are protect with that SMD file */
-  protectedLabels?: DomainDataSmdSmdProtectedLabelsList;
+  protectedLabels?: DomainDataSmdSmdProtectedLabelsList | undefined;
   /** TMCH Internal identifier */
-  smdId?: string;
+  smdId?: string | undefined;
 }
 /** DNSSEC Algorithm 3: DSA 5: RSASHA1 6: DSA-NSEC3-SHA1 7: RSASHA1-NSEC3-SHA1 8: RSASHA256 10: RSASHA512 12: ECC-GOST 13: ECDSAP256SHA256 14: ECDSAP384SHA384 15: ED25519 16: ED448 */
 export type DnssecKeyAlgorithmEnum = 3 | 5 | 6 | 7 | 8 | 10 | 12 | 13 | 14 | 15 | 16;
@@ -780,13 +780,13 @@ export type DnssecKeyFlagEnum = 256 | 257;
 /** Domain's DNSSEC Key */
 export interface DnssecKeyInput {
   /** Algorithm number of the DNSSEC key */
-  algorithm?: DnssecKeyAlgorithmEnum | (number & {});
+  algorithm?: DnssecKeyAlgorithmEnum | (number & {}) | undefined;
   /** Flag of the DNSSEC key */
-  flags?: DnssecKeyFlagEnum | (number & {});
+  flags?: DnssecKeyFlagEnum | (number & {}) | undefined;
   /** Public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Tag of the DNSSEC key */
-  tag?: number;
+  tag?: number | undefined;
 }
 /** New Keys */
 export type CreateDomainDsRecordRequestKeysList = Array<DnssecKeyInput>;
@@ -809,31 +809,31 @@ export type DomainOperationTypeEnum = "alldom" | "domain";
 /** Tasks associated to domain */
 export interface DomainTask {
   /** Can accelerate the task */
-  canAccelerate?: boolean;
+  canAccelerate?: boolean | undefined;
   /** Can cancel the task */
-  canCancel?: boolean;
+  canCancel?: boolean | undefined;
   /** Can relaunch the task */
-  canRelaunch?: boolean;
+  canRelaunch?: boolean | undefined;
   /** Comment about the task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Creation date of the task */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Domain of the task */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Done date of the task */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function of the task */
-  function?: string;
+  function?: string | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Last update date of the task */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Status of the task */
-  status?: DomainOperationStatusEnum;
+  status?: DomainOperationStatusEnum | undefined;
   /** Todo date of the task */
-  todoDate?: string;
+  todoDate?: string | undefined;
   /** type of the task */
-  type?: DomainOperationTypeEnum;
+  type?: DomainOperationTypeEnum | undefined;
 }
 /** IP addresses of the glue record */
 export type CreateDomainGlueRecordRequestIpsList = Array<string>;
@@ -848,9 +848,9 @@ export interface CreateDomainGlueRecordRequest {
 /** Name server input data */
 export interface DomainNameServerNameServerInput {
   /** Host */
-  host?: string;
+  host?: string | undefined;
   /** IP address */
-  ip?: string | null;
+  ip?: string | null | undefined;
 }
 /** Name servers to create */
 export type CreateDomainNameServerRequestNameServerList = Array<DomainNameServerNameServerInput>;
@@ -863,16 +863,16 @@ export interface CreateDomainNameServerRequest {
 /** Owner contact reference for a domain order: an OVH contact resource, not a NIC handle. */
 export interface DomainOrderContactOwner {
   /** Numeric identifier of the OVH contact resource (e.g. obtained from /me/contact). Distinct from a NIC handle such as xxxxx-ovh. */
-  id?: number | null;
+  id?: number | null | undefined;
 }
 /** Admin, tech and owner contacts for a domain order. admin and tech are OVH NIC handles (e.g. xxxxx-ovh); owner is an OVH contact resource referenced by its numeric id (see /me/contact), not a NIC handle. Billing is forced to the customer code by the server and is not exposed. */
 export interface DomainOrderContacts {
   /** Administrative contact, given as an OVH NIC handle (e.g. xxxxx-ovh). Defaults to the calling customer's NIC if omitted. */
-  admin?: string | null;
+  admin?: string | null | undefined;
   /** Owner contact of the domain. Unlike admin/tech which are NIC handles, the owner is an OVH contact resource referenced by its numeric id. */
-  owner?: DomainOrderContactOwner | null;
+  owner?: DomainOrderContactOwner | null | undefined;
   /** Technical contact, given as an OVH NIC handle (e.g. xxxxx-ovh). Defaults to the admin contact if omitted. */
-  tech?: string | null;
+  tech?: string | null | undefined;
 }
 /** List of DNS servers (hostnames) to set on the domain. Optional: if omitted, OVHcloud's recommended DNS servers for the domain are used. */
 export type CreateDomainOrderRequestDnsList = Array<string>;
@@ -905,38 +905,38 @@ export type CreateDomainOrderRequestPromoCodesList = Array<string>;
 /** DNS zone options for a domain order */
 export interface DomainOrderZoneOptions {
   /** Enable Anycast on the DNS zone. Applied only when a new zone is created (create=true and no existing zone); ignored otherwise. */
-  anycast?: boolean | null;
+  anycast?: boolean | null | undefined;
   /** Whether to create the DNS zone along with the domain. Defaults to true if omitted. */
-  create?: boolean | null;
+  create?: boolean | null | undefined;
   /** Enable DNSSEC on the DNS zone. Applied only when a new zone is created (create=true and no existing zone); ignored otherwise. */
-  dnssec?: boolean | null;
+  dnssec?: boolean | null | undefined;
 }
 export interface CreateDomainOrderRequest {
   /** If true, simulate the order and return the pricing without actually placing it. Default to false. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Admin, tech and owner contacts */
-  contacts?: DomainOrderContacts | null;
+  contacts?: DomainOrderContacts | null | undefined;
   /** List of DNS servers (hostnames) to set on the domain. Optional: if omitted, OVHcloud's recommended DNS servers for the domain are used. */
-  dns?: CreateDomainOrderRequestDnsList | null;
+  dns?: CreateDomainOrderRequestDnsList | null | undefined;
   /** Fully-qualified domain name to order, including the extension (e.g. example.com) */
   domain: string;
   /** Order duration in ISO-8601 format, whole years only (e.g. P1Y). Allowed values depend on the extension's registry configuration; an unsupported duration is rejected. Defaults to P1Y if omitted. */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** Price the customer acknowledged before placing the order. Required for aftermarket or premium domains, optional otherwise. Its value/currency must equal the retail price quoted for this domain (e.g. via a dryRun order); a mismatch rejects the order. */
-  priceAcknowledge?: DomainOrderPriceAcknowledge | null;
+  priceAcknowledge?: DomainOrderPriceAcknowledge | null | undefined;
   /** Promotion codes to apply. Optional. */
-  promoCodes?: CreateDomainOrderRequestPromoCodesList | null;
+  promoCodes?: CreateDomainOrderRequestPromoCodesList | null | undefined;
   /** Acknowledgment that the customer waives the legal retractation period. Must be set to true to place the order. */
-  waiveRetractationPeriod?: boolean | null;
+  waiveRetractationPeriod?: boolean | null | undefined;
   /** DNS zone options */
-  zone?: DomainOrderZoneOptions | null;
+  zone?: DomainOrderZoneOptions | null | undefined;
 }
 /** A contract (terms) the customer subscribes to when placing a domain order */
 export interface DomainOrderContract {
   /** Name of the contract (e.g. registration terms, general conditions of service) */
-  name?: string;
+  name?: string | undefined;
   /** URL to the contract terms document (PDF) */
-  url?: string;
+  url?: string | undefined;
 }
 /** Legal contracts (terms, as PDFs) the customer subscribes to with this order */
 export type DomainOrderOrderResponseContractsList = Array<DomainOrderContract>;
@@ -945,45 +945,45 @@ export type DomainOrderOrderResponseDnsList = Array<string>;
 /** Price with its currency and textual representation as returned by domain/order */
 export interface DomainOrderPrice {
   /** Currency code */
-  currencyCode?: OrderCurrencyCodeEnum;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
   /** Human-readable price with currency, e.g. "6.08 EUR" */
-  text?: string;
+  text?: string | undefined;
   /** The effective price as a number, e.g. 6.08 */
-  value?: number;
+  value?: number | undefined;
 }
 /** Pricing breakdown with and without tax */
 export interface DomainOrderPricing {
   /** Price excluding tax before any promotion */
-  basePriceWithoutTax?: DomainOrderPrice;
+  basePriceWithoutTax?: DomainOrderPrice | undefined;
   /** Total reduction applied by promotions, as a positive amount (0 if none) */
-  discount?: DomainOrderPrice;
+  discount?: DomainOrderPrice | undefined;
   /** Final price including tax, after any reduction */
-  finalPriceWithTax?: DomainOrderPrice;
+  finalPriceWithTax?: DomainOrderPrice | undefined;
   /** Final price excluding tax, after any reduction */
-  finalPriceWithoutTax?: DomainOrderPrice;
+  finalPriceWithoutTax?: DomainOrderPrice | undefined;
   /** Tax amount on the final price */
-  tax?: DomainOrderPrice;
+  tax?: DomainOrderPrice | undefined;
 }
 /** Response returned after placing a domain order */
 export interface DomainOrderOrderResponse {
   /** Contacts attached to the order */
-  contacts?: DomainOrderContacts | null;
+  contacts?: DomainOrderContacts | null | undefined;
   /** Legal contracts (terms, as PDFs) the customer subscribes to with this order */
-  contracts?: DomainOrderOrderResponseContractsList | null;
+  contracts?: DomainOrderOrderResponseContractsList | null | undefined;
   /** DNS servers set on the domain */
-  dns?: DomainOrderOrderResponseDnsList | null;
+  dns?: DomainOrderOrderResponseDnsList | null | undefined;
   /** Ordered domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Order duration in ISO-8601 format, whole years only (e.g. P1Y) */
-  duration?: string;
+  duration?: string | undefined;
   /** Identifier of the created order, used with url to finalize and pay it */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Pricing breakdown of the order */
-  pricing?: DomainOrderPricing;
+  pricing?: DomainOrderPricing | undefined;
   /** Payment/finalization URL where the customer completes and pays the order */
-  url?: string | null;
+  url?: string | null | undefined;
   /** DNS zone options applied to the order */
-  zone?: DomainOrderZoneOptions | null;
+  zone?: DomainOrderZoneOptions | null | undefined;
 }
 export interface CreateDomainTaskAccelerateRequest {
   /** Service name */
@@ -1009,11 +1009,11 @@ export interface CreateDomainZoneChangeContactRequest {
   /** Zone name */
   zoneName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDomainZoneChangeContactResponseBodyList = Array<number>;
 export type CreateDomainZoneChangeContactResponse = CreateDomainZoneChangeContactResponseBodyList;
@@ -1044,32 +1044,32 @@ export interface CreateDynDnsLoginRequest {
 /** DNS zone dynHost login */
 export interface DomainZoneDynHostLogin {
   /** Login name */
-  login?: string;
+  login?: string | undefined;
   /** Login sub-domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
   /** Login zone */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface CreateDynDnsRecordRequest {
   /** Zone name */
   zoneName: string;
   /** Record IP */
-  ip?: string;
+  ip?: string | undefined;
   /** Record sub-domain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
 }
 /** DNS zone dynHost record */
 export interface DomainZoneDynHostRecord {
   /** Record ID */
-  id?: number;
+  id?: number | undefined;
   /** Record IP */
-  ip?: string;
+  ip?: string | undefined;
   /** Record sub-domain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Record TTL (Time to Live) */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Record zone */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Resource record name */
 export type DomainZoneRecordTypeEnum =
@@ -1098,25 +1098,25 @@ export interface CreateRecordRequest {
   zoneName: string;
   fieldType: DomainZoneRecordTypeEnum | (string & {});
   /** Record subDomain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Target of the record */
   target: string;
   /** TTL of the record */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 /** DNS zone history */
 export interface DomainZoneRecord {
-  fieldType?: DomainZoneRecordTypeEnum;
+  fieldType?: DomainZoneRecordTypeEnum | undefined;
   /** Id of the record */
-  id?: number;
+  id?: number | undefined;
   /** Record subDomain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Target of the record */
-  target?: string;
+  target?: string | undefined;
   /** TTL of the record */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Resource record zone */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Redirection type: - visible -> Redirection by http code 302 - visiblePermanent -> Redirection by http code 301 - invisible -> Redirection by html frame */
 export type DomainZoneRedirectionTypeEnum = "invisible" | "visible" | "visiblePermanent";
@@ -1124,34 +1124,34 @@ export interface CreateRedirectionRequest {
   /** Zone name */
   zoneName: string;
   /** Description for the invisible redirection */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Keywords for the invisible redirection */
-  keywords?: string | null;
+  keywords?: string | null | undefined;
   /** Subdomain to redirect */
-  subDomain?: string;
+  subDomain?: string | undefined;
   /** Target of the redirection */
   target: string;
   /** Title for the invisible redirection */
-  title?: string | null;
+  title?: string | null | undefined;
   type: DomainZoneRedirectionTypeEnum | (string & {});
 }
 /** DNS zone redirections */
 export interface DomainZoneRedirection {
   /** Description for the invisible redirection */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Id of the redirection */
-  id?: number;
+  id?: number | undefined;
   /** Keywords for the invisible redirection */
-  keywords?: string | null;
+  keywords?: string | null | undefined;
   /** Subdomain to redirect */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Target of the redirection */
-  target?: string;
+  target?: string | undefined;
   /** Title for the invisible redirection */
-  title?: string | null;
-  type?: DomainZoneRedirectionTypeEnum;
+  title?: string | null | undefined;
+  type?: DomainZoneRedirectionTypeEnum | undefined;
   /** Redirection zone */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface DeleteDomainDataSmdRequest {
   /** Smd ID */
@@ -1229,29 +1229,29 @@ export interface EditDomainRequest {
   /** Service name */
   serviceName: string;
   /** Name servers type */
-  nameServerType?: DomainNameServerNameServerTypeEnum | (string & {});
+  nameServerType?: DomainNameServerNameServerTypeEnum | (string & {}) | undefined;
   /** Current transfer lock status of the domain name */
-  transferLockStatus?: DomainLockStatusEnum | (string & {});
+  transferLockStatus?: DomainLockStatusEnum | (string & {}) | undefined;
 }
 /** A contact summary contains the personal data of a user */
 export interface DomainContactSummary {
   /** Unique contact identifier (contact data can be edited via /me/contact/<ID>) */
-  id?: string;
+  id?: string | undefined;
 }
 /** Domain dnssec state */
 export type DomainDnssecStateEnum = "disabled" | "enabled" | "not_supported";
 /** Name server configuration */
 export interface DomainNameServerNameServer {
   /** ID of the name server */
-  id?: number;
+  id?: number | undefined;
   /** IPv4 adress of the name server */
-  ipv4?: string | null;
+  ipv4?: string | null | undefined;
   /** IPv6 adress of the name server */
-  ipv6?: string | null;
+  ipv6?: string | null | undefined;
   /** Name of the name server */
-  nameServer?: string;
+  nameServer?: string | undefined;
   /** Type of the name server */
-  nameServerType?: DomainNameServerNameServerTypeEnum;
+  nameServerType?: DomainNameServerNameServerTypeEnum | undefined;
 }
 /** Name servers list */
 export type DomainDomainServiceNameServersList = Array<DomainNameServerNameServer>;
@@ -1262,9 +1262,9 @@ export type DomainParentServiceTypeEnum = "/allDom";
 /** Parent service */
 export interface DomainParentService {
   /** Name of the parent service */
-  name?: string;
+  name?: string | undefined;
   /** Type of the parent service */
-  type?: DomainParentServiceTypeEnum;
+  type?: DomainParentServiceTypeEnum | undefined;
 }
 /** Domain renewal state */
 export type DomainRenewalStateEnum =
@@ -1294,53 +1294,53 @@ export type DomainSuspensionStateEnum = "not_suspended" | "suspended";
 /** General information about a domain name service */
 export interface DomainDomainService {
   /** Administrative contact data */
-  contactAdmin?: DomainContactSummary;
+  contactAdmin?: DomainContactSummary | undefined;
   /** Billing contact data */
-  contactBilling?: DomainContactSummary;
+  contactBilling?: DomainContactSummary | undefined;
   /** Owner (registrant) contact data */
-  contactOwner?: DomainContactSummary;
+  contactOwner?: DomainContactSummary | undefined;
   /** Technical contact data */
-  contactTech?: DomainContactSummary;
+  contactTech?: DomainContactSummary | undefined;
   /** Current DNSSEC state of the domain name */
-  dnssecState?: DomainDnssecStateEnum;
+  dnssecState?: DomainDnssecStateEnum | undefined;
   /** Whether DNSSEC is activated for this domain name */
-  dnssecSupported?: boolean;
+  dnssecSupported?: boolean | undefined;
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Date when the domain name will expire, if not renewed */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Whether the registry supports IPv6 glue records */
-  glueRecordIpv6Supported?: boolean;
+  glueRecordIpv6Supported?: boolean | undefined;
   /** Whether the registry supports multi-ip glue records */
-  glueRecordMultiIpSupported?: boolean;
+  glueRecordMultiIpSupported?: boolean | undefined;
   /** Whether the registry supports hosts as independent entities */
-  hostSupported?: boolean;
+  hostSupported?: boolean | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Name servers type */
-  nameServerType?: DomainNameServerNameServerTypeEnum;
+  nameServerType?: DomainNameServerNameServerTypeEnum | undefined;
   /** Name servers list */
-  nameServers?: DomainDomainServiceNameServersList;
+  nameServers?: DomainDomainServiceNameServersList | undefined;
   /** Offer associated with the domain name */
-  offer?: DomainOfferEnum;
+  offer?: DomainOfferEnum | undefined;
   /** Whether Whois data obfuscation is supported for this domain name */
-  owoSupported?: boolean;
+  owoSupported?: boolean | undefined;
   /** Parent service */
-  parentService?: DomainParentService | null;
+  parentService?: DomainParentService | null | undefined;
   /** Date when the domain name should be renewed (relevant if renewalState is automatic_renew) */
-  renewalDate?: string;
+  renewalDate?: string | undefined;
   /** Current renewal state of the domain name */
-  renewalState?: DomainRenewalStateEnum;
+  renewalState?: DomainRenewalStateEnum | undefined;
   /** Technical service identifier */
-  serviceId?: number;
+  serviceId?: number | undefined;
   /** Current state of the domain name */
-  state?: DomainDomainStateEnum;
+  state?: DomainDomainStateEnum | undefined;
   /** Current suspension state of the domain name */
-  suspensionState?: DomainSuspensionStateEnum;
+  suspensionState?: DomainSuspensionStateEnum | undefined;
   /** Current transfer lock status of the domain name */
-  transferLockStatus?: DomainLockStatusEnum;
+  transferLockStatus?: DomainLockStatusEnum | undefined;
   /** Owner (registrant) contact ID (contact data can be edited via /me/contact/<ID>) */
-  whoisOwner?: string;
+  whoisOwner?: string | undefined;
 }
 export interface EditDynDnsLoginRequest {
   /** Zone name */
@@ -1348,7 +1348,7 @@ export interface EditDynDnsLoginRequest {
   /** Login */
   login: string;
   /** Login sub-domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export interface EditDynDnsLoginResponse {}
 export interface EditDynDnsRecordRequest {
@@ -1357,9 +1357,9 @@ export interface EditDynDnsRecordRequest {
   /** Id */
   id: number;
   /** Record IP */
-  ip?: string;
+  ip?: string | undefined;
   /** Record sub-domain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
 }
 export interface EditDynDnsRecordResponse {}
 export interface EditRecordRequest {
@@ -1368,11 +1368,11 @@ export interface EditRecordRequest {
   /** Id */
   id: number;
   /** Record subdomain */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Target of the record */
-  target?: string;
+  target?: string | undefined;
   /** TTL of the record */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export interface EditRecordResponse {}
 export interface EditRedirectionRequest {
@@ -1381,14 +1381,14 @@ export interface EditRedirectionRequest {
   /** Id */
   id: number;
   /** Description for the invisible redirection */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Keywords for the invisible redirection */
-  keywords?: string | null;
+  keywords?: string | null | undefined;
   /** Target of the redirection */
-  target?: string;
+  target?: string | undefined;
   /** Title for the invisible redirection */
-  title?: string | null;
-  type?: DomainZoneRedirectionTypeEnum | (string & {});
+  title?: string | null | undefined;
+  type?: DomainZoneRedirectionTypeEnum | (string & {}) | undefined;
 }
 export interface EditRedirectionResponse {}
 export interface EnableDNSSECRequest {
@@ -1416,7 +1416,7 @@ export type DomainDnssecStatusEnum =
 /** DNS zone DNSSEC */
 export interface DomainZoneDnssec {
   /** DNSSEC Status */
-  status?: DomainDnssecStatusEnum;
+  status?: DomainDnssecStatusEnum | undefined;
 }
 export interface GetDomainRequest {
   /** Service name */
@@ -1429,70 +1429,70 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource state */
-  state?: IamResourceMetadataStateEnum | null;
+  state?: IamResourceMetadataStateEnum | null | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Name servers list */
 export type DomainDomainServiceWithIAMNameServersList = Array<DomainNameServerNameServer>;
 /** General information about a domain name service */
 export interface DomainDomainServiceWithIAM {
   /** Administrative contact data */
-  contactAdmin?: DomainContactSummary;
+  contactAdmin?: DomainContactSummary | undefined;
   /** Billing contact data */
-  contactBilling?: DomainContactSummary;
+  contactBilling?: DomainContactSummary | undefined;
   /** Owner (registrant) contact data */
-  contactOwner?: DomainContactSummary;
+  contactOwner?: DomainContactSummary | undefined;
   /** Technical contact data */
-  contactTech?: DomainContactSummary;
+  contactTech?: DomainContactSummary | undefined;
   /** Current DNSSEC state of the domain name */
-  dnssecState?: DomainDnssecStateEnum;
+  dnssecState?: DomainDnssecStateEnum | undefined;
   /** Whether DNSSEC is activated for this domain name */
-  dnssecSupported?: boolean;
+  dnssecSupported?: boolean | undefined;
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Date when the domain name will expire, if not renewed */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Whether the registry supports IPv6 glue records */
-  glueRecordIpv6Supported?: boolean;
+  glueRecordIpv6Supported?: boolean | undefined;
   /** Whether the registry supports multi-ip glue records */
-  glueRecordMultiIpSupported?: boolean;
+  glueRecordMultiIpSupported?: boolean | undefined;
   /** Whether the registry supports hosts as independent entities */
-  hostSupported?: boolean;
+  hostSupported?: boolean | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Name servers type */
-  nameServerType?: DomainNameServerNameServerTypeEnum;
+  nameServerType?: DomainNameServerNameServerTypeEnum | undefined;
   /** Name servers list */
-  nameServers?: DomainDomainServiceWithIAMNameServersList;
+  nameServers?: DomainDomainServiceWithIAMNameServersList | undefined;
   /** Offer associated with the domain name */
-  offer?: DomainOfferEnum;
+  offer?: DomainOfferEnum | undefined;
   /** Whether Whois data obfuscation is supported for this domain name */
-  owoSupported?: boolean;
+  owoSupported?: boolean | undefined;
   /** Parent service */
-  parentService?: DomainParentService | null;
+  parentService?: DomainParentService | null | undefined;
   /** Date when the domain name should be renewed (relevant if renewalState is automatic_renew) */
-  renewalDate?: string;
+  renewalDate?: string | undefined;
   /** Current renewal state of the domain name */
-  renewalState?: DomainRenewalStateEnum;
+  renewalState?: DomainRenewalStateEnum | undefined;
   /** Technical service identifier */
-  serviceId?: number;
+  serviceId?: number | undefined;
   /** Current state of the domain name */
-  state?: DomainDomainStateEnum;
+  state?: DomainDomainStateEnum | undefined;
   /** Current suspension state of the domain name */
-  suspensionState?: DomainSuspensionStateEnum;
+  suspensionState?: DomainSuspensionStateEnum | undefined;
   /** Current transfer lock status of the domain name */
-  transferLockStatus?: DomainLockStatusEnum;
+  transferLockStatus?: DomainLockStatusEnum | undefined;
   /** Owner (registrant) contact ID (contact data can be edited via /me/contact/<ID>) */
-  whoisOwner?: string;
+  whoisOwner?: string | undefined;
 }
 export interface GetDomainAuthInfoRequest {
   /** Service name */
@@ -1517,17 +1517,17 @@ export type DomainConfigurationsCustomFieldsIsForList = Array<DomainIsForEnum>;
 /** Representation of the domain custom fields */
 export interface DomainConfigurationsCustomFields {
   /** Domain name audience */
-  audience?: string | null;
+  audience?: string | null | undefined;
   /** Auth Info */
-  authInfo?: string | null;
+  authInfo?: string | null | undefined;
   /** Purposes of the domain */
-  isFor?: DomainConfigurationsCustomFieldsIsForList | null;
+  isFor?: DomainConfigurationsCustomFieldsIsForList | null | undefined;
   /** Domain name other purpose */
-  otherPurpose?: string | null;
+  otherPurpose?: string | null | undefined;
   /** Reason of the purchase of this domain */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Represented company */
-  represent?: string | null;
+  represent?: string | null | undefined;
 }
 export interface GetDomainConfigurationRuleRequest {
   /** Depending on the action, the applied rule will change (transfer vs create) */
@@ -1576,15 +1576,15 @@ export type DomainConfigurationRulesConstraintValuesList = Array<string>;
 /** A configuration rule defines validation to launch when executing an action on a domain (create, trade...). Depending on the extension, the rule may be different */
 export interface DomainConfigurationRulesConstraint {
   /** Whether this constraint is applied or not */
-  conditions?: DomainConfigurationRulesRule | null;
+  conditions?: DomainConfigurationRulesRule | null | undefined;
   /** The context on which the constraint applies */
-  contexts?: DomainConfigurationRulesConstraintContextsList | null;
+  contexts?: DomainConfigurationRulesConstraintContextsList | null | undefined;
   /** The operator of the constraint */
-  operator?: DomainConfigurationRulesOperatorEnum | null;
+  operator?: DomainConfigurationRulesOperatorEnum | null | undefined;
   /** The value to match against */
-  value?: string | null;
+  value?: string | null | undefined;
   /** The values to match against */
-  values?: DomainConfigurationRulesConstraintValuesList | null;
+  values?: DomainConfigurationRulesConstraintValuesList | null | undefined;
 }
 /** The constraints of the rule */
 export type DomainConfigurationRulesRuleConstraintsList = Array<DomainConfigurationRulesConstraint>;
@@ -1606,25 +1606,25 @@ export type DomainConfigurationRulesTypeEnum =
 /** A configuration rule defines validation to launch when executing an action on a domain (create, trade...). Depending on the extension, the rule may be different */
 export interface DomainConfigurationRulesRule {
   /** An "and" operator on multiple rules */
-  and?: DomainConfigurationRulesRuleAndList | null;
+  and?: DomainConfigurationRulesRuleAndList | null | undefined;
   /** Whether this rule is applied or not */
-  conditions?: DomainConfigurationRulesRule | null;
+  conditions?: DomainConfigurationRulesRule | null | undefined;
   /** The constraints of the rule */
-  constraints?: DomainConfigurationRulesRuleConstraintsList | null;
+  constraints?: DomainConfigurationRulesRuleConstraintsList | null | undefined;
   /** The context on which the rule applies */
-  contexts?: DomainConfigurationRulesRuleContextsList | null;
+  contexts?: DomainConfigurationRulesRuleContextsList | null | undefined;
   /** The description of the rule */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The fields with specific rules */
-  fields?: DomainConfigurationRulesRule | null;
+  fields?: DomainConfigurationRulesRule | null | undefined;
   /** The label of the rule */
-  label?: string | null;
+  label?: string | null | undefined;
   /** An "or" operator on multiple rules */
-  or?: DomainConfigurationRulesRuleOrList | null;
+  or?: DomainConfigurationRulesRuleOrList | null | undefined;
   /** The default value used for the rule */
-  placeholder?: string | null;
+  placeholder?: string | null | undefined;
   /** The type of the object the rule applies on */
-  type?: DomainConfigurationRulesTypeEnum | null;
+  type?: DomainConfigurationRulesTypeEnum | null | undefined;
 }
 export interface GetDomainDataClaimNoticeRequest {
   /** Domain name */
@@ -1633,9 +1633,9 @@ export interface GetDomainDataClaimNoticeRequest {
 /** Definition of a trademark claim notice classification */
 export interface DomainDataClaimNoticeClassification {
   /** Summary of the classification */
-  description?: string;
+  description?: string | undefined;
   /** Code of the classification */
-  number?: string;
+  number?: string | undefined;
 }
 /** Classifications where trademark claim notice apply */
 export type DomainDataClaimNoticeClaimNoticeDecisionClassificationsList =
@@ -1645,13 +1645,13 @@ export type DomainDataClaimNoticeCourtDecisionRegionsList = Array<string>;
 /** Definition of a court decision */
 export interface DomainDataClaimNoticeCourtDecision {
   /** Country code */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Court name */
-  courtName?: string;
+  courtName?: string | undefined;
   /** Reference number of court decision */
-  referenceNumber?: string;
+  referenceNumber?: string | undefined;
   /** Regions where court decision apply */
-  regions?: DomainDataClaimNoticeCourtDecisionRegionsList;
+  regions?: DomainDataClaimNoticeCourtDecisionRegionsList | undefined;
 }
 /** Array of court decisions related to claim notice */
 export type DomainDataClaimNoticeClaimNoticeDecisionCourtDecisionsList =
@@ -1661,38 +1661,38 @@ export type DomainDataClaimNoticeAddressStreetsList = Array<string>;
 /** Address for a claim notice holder */
 export interface DomainDataClaimNoticeAddress {
   /** City */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Country code */
-  countryCode?: NichandleCountryEnum | null;
+  countryCode?: NichandleCountryEnum | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** Fax number extension */
-  faxExtension?: string | null;
+  faxExtension?: string | null | undefined;
   /** Postal zip code */
-  postalCode?: string | null;
+  postalCode?: string | null | undefined;
   /** State of province */
-  stateOrProvince?: string | null;
+  stateOrProvince?: string | null | undefined;
   /** Array of street name */
-  streets?: DomainDataClaimNoticeAddressStreetsList;
+  streets?: DomainDataClaimNoticeAddressStreetsList | undefined;
   /** Phone number */
-  voice?: string | null;
+  voice?: string | null | undefined;
   /** Phone number extension */
-  voiceExtension?: string | null;
+  voiceExtension?: string | null | undefined;
 }
 /** Contact definition of a claim notice holder */
 export interface DomainDataClaimNoticeContact {
   /** Address of holder */
-  address?: DomainDataClaimNoticeAddress;
+  address?: DomainDataClaimNoticeAddress | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Legitimacy of holder */
-  entitlement?: string | null;
+  entitlement?: string | null | undefined;
   /** Name of claim notice holder */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Organisation name */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Type of contact */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 /** Trademark contacts */
 export type DomainDataClaimNoticeClaimNoticeDecisionTrademarkContactsList =
@@ -1703,9 +1703,9 @@ export type DomainDataClaimNoticeClaimNoticeDecisionTrademarkHoldersList =
 /** Definition of a UDRP procedure */
 export interface DomainDataClaimNoticeUDRP {
   /** Case number */
-  caseNumber?: string;
+  caseNumber?: string | undefined;
   /** UDRP Provider */
-  udrpProvider?: string;
+  udrpProvider?: string | undefined;
 }
 /** Trademark UDRP information */
 export type DomainDataClaimNoticeClaimNoticeDecisionTrademarkUDRPList =
@@ -1713,23 +1713,23 @@ export type DomainDataClaimNoticeClaimNoticeDecisionTrademarkUDRPList =
 /** Definition of a single claim notice */
 export interface DomainDataClaimNoticeClaimNoticeDecision {
   /** Classifications where trademark claim notice apply */
-  classifications?: DomainDataClaimNoticeClaimNoticeDecisionClassificationsList;
+  classifications?: DomainDataClaimNoticeClaimNoticeDecisionClassificationsList | undefined;
   /** Array of court decisions related to claim notice */
-  courtDecisions?: DomainDataClaimNoticeClaimNoticeDecisionCourtDecisionsList;
+  courtDecisions?: DomainDataClaimNoticeClaimNoticeDecisionCourtDecisionsList | undefined;
   /** Goods and services on which apply claim notice */
-  goodsAndServices?: string;
+  goodsAndServices?: string | undefined;
   /** Name of jurisdiction */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** Jurisdiction country code */
-  jurisdictionCountryCode?: string;
+  jurisdictionCountryCode?: string | undefined;
   /** Mark name implicated in claim notice */
-  markName?: string;
+  markName?: string | undefined;
   /** Trademark contacts */
-  trademarkContacts?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkContactsList;
+  trademarkContacts?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkContactsList | undefined;
   /** Trademark holders */
-  trademarkHolders?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkHoldersList;
+  trademarkHolders?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkHoldersList | undefined;
   /** Trademark UDRP information */
-  trademarkUDRP?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkUDRPList;
+  trademarkUDRP?: DomainDataClaimNoticeClaimNoticeDecisionTrademarkUDRPList | undefined;
 }
 /** Array of claim notice for the domain */
 export type DomainDataClaimNoticeClaimNoticeClaimsList =
@@ -1739,17 +1739,17 @@ export type DomainDataClaimNoticeClaimNoticeTypeEnum = "TRADEMARK" | "UK";
 /** Definition of claim notices applying to a domain name */
 export interface DomainDataClaimNoticeClaimNotice {
   /** Array of claim notice for the domain */
-  claims?: DomainDataClaimNoticeClaimNoticeClaimsList | null;
+  claims?: DomainDataClaimNoticeClaimNoticeClaimsList | null | undefined;
   /** Ending date of claim notice */
-  endingDate?: string;
+  endingDate?: string | undefined;
   /** Claim notice ID */
-  id?: string;
+  id?: string | undefined;
   /** Label referring to claim notice */
-  label?: string;
+  label?: string | undefined;
   /** Beginning date of claim notice */
-  startingDate?: string | null;
+  startingDate?: string | null | undefined;
   /** Type of claim notice */
-  type?: DomainDataClaimNoticeClaimNoticeTypeEnum | null;
+  type?: DomainDataClaimNoticeClaimNoticeTypeEnum | null | undefined;
 }
 export interface GetDomainDataSmdRequest {
   /** Smd ID */
@@ -1772,17 +1772,17 @@ export type DnssecKeyStatusEnum =
 /** Domain's DNSSEC Key */
 export interface DnssecKey {
   /** Algorithm number of the DNSSEC key */
-  algorithm?: DnssecKeyAlgorithmEnum;
+  algorithm?: DnssecKeyAlgorithmEnum | undefined;
   /** Flag of the DNSSEC key */
-  flags?: DnssecKeyFlagEnum;
+  flags?: DnssecKeyFlagEnum | undefined;
   /** ID of the DNSSEC key */
-  id?: number;
+  id?: number | undefined;
   /** Public key */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Key status of the DNSSEC key */
-  status?: DnssecKeyStatusEnum;
+  status?: DnssecKeyStatusEnum | undefined;
   /** Tag of the DNSSEC key */
-  tag?: number;
+  tag?: number | undefined;
 }
 export interface GetDomainExtensionRequest {
   /** Name */
@@ -1791,7 +1791,7 @@ export interface GetDomainExtensionRequest {
 /** A domain name extension */
 export interface DomainExtensionsExtension {
   /** The extension name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDomainExtensionRegistryConfigurationsRequest {
   /** Name */
@@ -1800,31 +1800,31 @@ export interface GetDomainExtensionRegistryConfigurationsRequest {
 /** The registry configurations applied to the DNS of a domain name */
 export interface DomainExtensionsRegistryConfigurationsDNSRegistryConfiguration {
   /** Whether DNSSEC is supported by the registry/backend and handled by OVHcloud */
-  isDNSSECSupported?: boolean;
+  isDNSSECSupported?: boolean | undefined;
   /** The maximum required number of DNS */
-  maxNumber?: number | null;
+  maxNumber?: number | null | undefined;
   /** The minimum required number of DNS */
-  minNumber?: number | null;
+  minNumber?: number | null | undefined;
 }
 /** The type of an extension (country-code TLD or generic TLD) */
 export type DomainExtensionsRegistryConfigurationsExtensionTypeEnum = "cctld" | "gtld";
 /** The registry configurations applied to the domain name label */
 export interface DomainExtensionsRegistryConfigurationsLabelDomainRegistryConfiguration {
   /** Whether International Domain Names are supported by the registry and handled by OVHcloud */
-  isIDNSupported?: boolean;
+  isIDNSupported?: boolean | undefined;
   /** The maximum length allowed for a domain name (without the extension) */
-  maxLength?: number | null;
+  maxLength?: number | null | undefined;
   /** The minimum length allowed for a domain name (without the extension) */
-  minLength?: number | null;
+  minLength?: number | null | undefined;
 }
 /** The registry configurations applied to a domain name */
 export interface DomainExtensionsRegistryConfigurationsDomainRegistryConfiguration {
   /** The type of an extension (cctld or gtld) */
-  extension_type?: DomainExtensionsRegistryConfigurationsExtensionTypeEnum;
+  extension_type?: DomainExtensionsRegistryConfigurationsExtensionTypeEnum | undefined;
   /** Whether premium domains are supported by the registry and handled by OVHcloud */
-  isPremiumSupported?: boolean;
+  isPremiumSupported?: boolean | undefined;
   /** The registry configurations applied to the domain name label */
-  label?: DomainExtensionsRegistryConfigurationsLabelDomainRegistryConfiguration;
+  label?: DomainExtensionsRegistryConfigurationsLabelDomainRegistryConfiguration | undefined;
 }
 /** The number of months allowed for a domain creation */
 export type DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfigurationAllowedPeriodsInMonthsList =
@@ -1832,16 +1832,19 @@ export type DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfigu
 /** The registry configurations applied when creating a domain name */
 export interface DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfiguration {
   /** The number of months allowed for a domain creation */
-  allowedPeriodsInMonths?: DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfigurationAllowedPeriodsInMonthsList | null;
+  allowedPeriodsInMonths?:
+    | DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfigurationAllowedPeriodsInMonthsList
+    | null
+    | undefined;
 }
 /** The registry configurations applied when ordering a domain name */
 export interface DomainExtensionsRegistryConfigurationsOrderLifecycleRegistryConfiguration {
   /** True if the extension can be ordered from the website */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The maximum number of months a domain can be ordered for */
-  maxMonths?: number | null;
+  maxMonths?: number | null | undefined;
   /** The minimum number of months a domain can be ordered for */
-  minMonths?: number | null;
+  minMonths?: number | null | undefined;
 }
 /** The number of months allowed for a domain renewal */
 export type DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfigurationAllowedPeriodsInMonthsList =
@@ -1849,14 +1852,17 @@ export type DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfigur
 /** The registry configurations applied when renewing a domain name */
 export interface DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfiguration {
   /** The number of months allowed for a domain renewal */
-  allowedPeriodsInMonths?: DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfigurationAllowedPeriodsInMonthsList | null;
+  allowedPeriodsInMonths?:
+    | DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfigurationAllowedPeriodsInMonthsList
+    | null
+    | undefined;
   /** The number of calendar days between the expiration date and the redemption period when a renew can be executed. During this period, the domain has expired and is suspended. It's the number of days before real deletion. The customer can still renew. */
-  gracePeriodInDays?: number | null;
+  gracePeriodInDays?: number | null | undefined;
 }
 /** The registry configurations applied when restoring a domain name */
 export interface DomainExtensionsRegistryConfigurationsRestoreLifecycleRegistryConfiguration {
   /** The number of calendar days in which the customer still can restore their domain after expiration. During this period, the domain has been deleted. The customer can still restore it until these days are over. Then the domain is returned to public, if not restored. */
-  gracePeriodInDays?: number | null;
+  gracePeriodInDays?: number | null | undefined;
 }
 /** The number of months allowed for a domain transfer */
 export type DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfigurationAllowedPeriodsInMonthsList =
@@ -1864,31 +1870,36 @@ export type DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfi
 /** The registry configurations applied when transfering a domain name */
 export interface DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfiguration {
   /** The number of months allowed for a domain transfer */
-  allowedPeriodsInMonths?: DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfigurationAllowedPeriodsInMonthsList | null;
+  allowedPeriodsInMonths?:
+    | DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfigurationAllowedPeriodsInMonthsList
+    | null
+    | undefined;
   /** Whether the transfer includes a renewal of the domain name, and therefore updates its expiration date */
-  includeRenew?: boolean;
+  includeRenew?: boolean | undefined;
 }
 /** The registry configurations of the lifecycle of a domain name */
 export interface DomainExtensionsRegistryConfigurationsLifecycleRegistryConfiguration {
   /** The registry configurations applied when creating a domain name */
-  create?: DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfiguration;
+  create?: DomainExtensionsRegistryConfigurationsCreateLifecycleRegistryConfiguration | undefined;
   /** The registry configurations applied when ordering a domain name */
-  order?: DomainExtensionsRegistryConfigurationsOrderLifecycleRegistryConfiguration;
+  order?: DomainExtensionsRegistryConfigurationsOrderLifecycleRegistryConfiguration | undefined;
   /** The registry configurations applied when renewing a domain name */
-  renew?: DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfiguration;
+  renew?: DomainExtensionsRegistryConfigurationsRenewLifecycleRegistryConfiguration | undefined;
   /** The registry configurations applied when restoring a domain name */
-  restore?: DomainExtensionsRegistryConfigurationsRestoreLifecycleRegistryConfiguration;
+  restore?: DomainExtensionsRegistryConfigurationsRestoreLifecycleRegistryConfiguration | undefined;
   /** The registry configurations applied when transfering a domain name */
-  transfer?: DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfiguration;
+  transfer?:
+    | DomainExtensionsRegistryConfigurationsTransferLifecycleRegistryConfiguration
+    | undefined;
 }
 /** The registry configurations applied to a domain extension (TLD, SLD) */
 export interface DomainExtensionsRegistryConfigurationsRegistryConfigurations {
   /** Configurations on the DNS associated to the domain for the given extension */
-  dns?: DomainExtensionsRegistryConfigurationsDNSRegistryConfiguration;
+  dns?: DomainExtensionsRegistryConfigurationsDNSRegistryConfiguration | undefined;
   /** Configurations on the domain name itself for the given extension */
-  domain?: DomainExtensionsRegistryConfigurationsDomainRegistryConfiguration;
+  domain?: DomainExtensionsRegistryConfigurationsDomainRegistryConfiguration | undefined;
   /** Configurations on the lifecycle of a domain for the given extension */
-  lifecycle?: DomainExtensionsRegistryConfigurationsLifecycleRegistryConfiguration;
+  lifecycle?: DomainExtensionsRegistryConfigurationsLifecycleRegistryConfiguration | undefined;
 }
 export interface GetDomainGlueRecordRequest {
   /** Service name */
@@ -1901,7 +1912,7 @@ export type DomainGlueRecordGlueRecordIpsList = Array<string>;
 /** Glue record */
 export interface DomainGlueRecordGlueRecord {
   /** Host of the glue record */
-  host?: string;
+  host?: string | undefined;
   /** IP address */
   ips: DomainGlueRecordGlueRecordIpsList;
 }
@@ -1914,15 +1925,15 @@ export interface GetDomainNameServerRequest {
 /** Full name server configuration */
 export interface DomainNameServerFullNameServer {
   /** Host of the name server */
-  host?: string;
+  host?: string | undefined;
   /** ID of the name server */
-  id?: number;
+  id?: number | undefined;
   /** IP address of the name server */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** isUsed flag of the name server */
-  isUsed?: boolean;
+  isUsed?: boolean | undefined;
   /** toDelete flag of the name server */
-  toDelete?: boolean;
+  toDelete?: boolean | undefined;
 }
 export interface GetDomainNameServerStatusRequest {
   /** Service name */
@@ -1935,11 +1946,11 @@ export type DomainNameServerNameServerStateEnum = "ko" | "ok";
 /** DNS server status */
 export interface DomainNameServerNameServerStatus {
   /** Whether or not the DNS server is working */
-  state?: DomainNameServerNameServerStateEnum;
+  state?: DomainNameServerNameServerStateEnum | undefined;
   /** Whether or not the DNS server is managed by OVHcloud */
-  type?: DomainNameServerNameServerTypeEnum;
+  type?: DomainNameServerNameServerTypeEnum | undefined;
   /** Date from which the DNS server is used by the domain */
-  usedSince?: string | null;
+  usedSince?: string | null | undefined;
 }
 /** All options a domain can have */
 export type GetDomainOptionRequestOption = "dnsAnycast";
@@ -1956,11 +1967,11 @@ export type DomainDomainOptionStateEnum = "released" | "subscribed";
 /** Information about the options of a domain */
 export interface DomainOption {
   /** Expiration date of the option */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The option name */
-  option?: DomainDomainOptionEnum;
+  option?: DomainDomainOptionEnum | undefined;
   /** The state of the option */
-  state?: DomainDomainOptionStateEnum;
+  state?: DomainDomainOptionStateEnum | undefined;
 }
 export interface GetDomainOptionsRequest {
   /** Service name */
@@ -1969,16 +1980,16 @@ export interface GetDomainOptionsRequest {
 /** Data of a domain option */
 export interface DomainServiceOption {
   /** Service name of the option */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 /** Representation of the domain options */
 export interface DomainServiceOptions {
   /** Hosting option */
-  hosting?: DomainServiceOption | null;
+  hosting?: DomainServiceOption | null | undefined;
   /** Offer option (Diamond, Platinum) */
-  offer?: DomainServiceOption | null;
+  offer?: DomainServiceOption | null | undefined;
   /** DNS zone option */
-  zone?: DomainServiceOption | null;
+  zone?: DomainServiceOption | null | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1988,9 +1999,9 @@ export type GetDomainsRequestIamTagsMap = {
 };
 export interface GetDomainsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: GetDomainsRequestIamTagsMap;
+  iamTags?: GetDomainsRequestIamTagsMap | undefined;
   /** Filter domain names by owner ID */
-  whoisOwner?: string;
+  whoisOwner?: string | undefined;
 }
 export type GetDomainsResponseBodyList = Array<string>;
 export type GetDomainsResponse = GetDomainsResponseBodyList;
@@ -2003,15 +2014,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -2033,21 +2044,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDomainTaskRequest {
   /** Service name */
@@ -2062,7 +2073,7 @@ export interface GetDomainZoneCapabilitiesRequest {
 /** DNS zone capabilities */
 export interface DomainZoneCapabilities {
   /** True if dynHost available for this zone */
-  dynHost?: boolean;
+  dynHost?: boolean | undefined;
 }
 export interface GetDomainZoneExportRequest {
   /** Zone name */
@@ -2078,9 +2089,9 @@ export interface GetDomainZoneHistoryRequest {
 /** DNS zone history */
 export interface DomainZoneZoneRestorePoint {
   /** The date of backup creation */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The URL of the saved zone at this date */
-  zoneFileUrl?: string;
+  zoneFileUrl?: string | undefined;
 }
 export interface GetDomainZoneOptionRequest {
   /** Zone name */
@@ -2091,7 +2102,7 @@ export interface GetDomainZoneOptionRequest {
 /** DNS zone option */
 export interface DomainZoneOption {
   /** The option name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDomainZoneOptionServiceInfosRequest {
   /** The internal name of your zone */
@@ -2110,19 +2121,19 @@ export interface GetDomainZoneSoaRequest {
 /** DNS zone SOA */
 export interface DomainZoneSoa {
   /** Email address of the DNS Administrator */
-  email?: string;
+  email?: string | undefined;
   /** When a zone transfer fails, a countdown clock begins. When the number of seconds set in the expire field elapses, the nameserver stops answering for that zone file */
-  expire?: number;
+  expire?: number | undefined;
   /** Non-Existent Domain TTL, if the name server returns a negative response, the remote server should wait the number of seconds set in the nxDomainTtl field before trying again */
-  nxDomainTtl?: number;
+  nxDomainTtl?: number | undefined;
   /** The refresh value determines the interval in seconds between successful zone transfers of the entire zone file from a nameserver to another. */
-  refresh?: number;
+  refresh?: number | undefined;
   /** The serial number is used to indicate which copy of the zone file is the most current. When editing zone files, you must increment the serial number */
-  serial?: number;
+  serial?: number | undefined;
   /** Primary authoritative server */
-  server?: string;
+  server?: string | undefined;
   /** Time To Live in seconds */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export interface GetDomainZoneTaskRequest {
   /** Zone name */
@@ -2151,27 +2162,27 @@ export type DomainTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | "p
 /** DNS zone task */
 export interface DomainZoneTask {
   /** Can accelerate the task */
-  canAccelerate?: boolean;
+  canAccelerate?: boolean | undefined;
   /** Can cancel the task */
-  canCancel?: boolean;
+  canCancel?: boolean | undefined;
   /** Can relaunch the task */
-  canRelaunch?: boolean;
+  canRelaunch?: boolean | undefined;
   /** Comment about the task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Creation date of the task */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Done date of the task */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function of the task */
-  function?: DomainTaskFunctionEnum;
+  function?: DomainTaskFunctionEnum | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Last update date of the task */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Status of the task */
-  status?: DomainTaskStatusEnum;
+  status?: DomainTaskStatusEnum | undefined;
   /** Todo date of the task */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export interface GetDynHostLoginRequest {
   /** Zone name */
@@ -2183,9 +2194,9 @@ export interface GetDynHostLoginsRequest {
   /** Zone name */
   zoneName: string;
   /** Filter the value of login property (ilike) */
-  login?: string;
+  login?: string | undefined;
   /** Filter the value of subDomain property (ilike) */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type GetDynHostLoginsResponseBodyList = Array<string>;
 export type GetDynHostLoginsResponse = GetDynHostLoginsResponseBodyList;
@@ -2199,7 +2210,7 @@ export interface GetDynHostRecordsRequest {
   /** Zone name */
   zoneName: string;
   /** Filter the value of subDomain property (ilike) */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type GetDynHostRecordsResponseBodyList = Array<number>;
 export type GetDynHostRecordsResponse = GetDynHostRecordsResponseBodyList;
@@ -2213,9 +2224,9 @@ export interface GetRecordsRequest {
   /** Zone name */
   zoneName: string;
   /** Filter the value of fieldType property (like) */
-  fieldType?: DomainZoneRecordTypeEnum | (string & {});
+  fieldType?: DomainZoneRecordTypeEnum | (string & {}) | undefined;
   /** Filter the value of subDomain property (ilike) */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type GetRecordsResponseBodyList = Array<number>;
 export type GetRecordsResponse = GetRecordsResponseBodyList;
@@ -2229,7 +2240,7 @@ export interface GetRedirectionsRequest {
   /** Zone name */
   zoneName: string;
   /** Filter the value of subDomain property */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type GetRedirectionsResponseBodyList = Array<number>;
 export type GetRedirectionsResponse = GetRedirectionsResponseBodyList;
@@ -2242,19 +2253,19 @@ export type DomainZoneWithIAMNameServersList = Array<string>;
 /** DNS zone */
 export interface DomainZoneWithIAM {
   /** Is DNSSEC activated for this zone */
-  dnssecActivated?: boolean;
+  dnssecActivated?: boolean | undefined;
   /** Is DNSSEC supported by this zone */
-  dnssecSupported?: boolean;
+  dnssecSupported?: boolean | undefined;
   /** Whether the DNS zone has a DNS Anycast subscription */
-  hasDnsAnycast?: boolean;
+  hasDnsAnycast?: boolean | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Last update date of the DNS zone */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Zone name */
-  name?: string;
+  name?: string | undefined;
   /** Name servers that host the DNS zone */
-  nameServers?: DomainZoneWithIAMNameServersList;
+  nameServers?: DomainZoneWithIAMNameServersList | undefined;
 }
 export type GetZonesRequestIamTagsValueList = Array<IamResourceTagFilterInput>;
 export type GetZonesRequestIamTagsMap = {
@@ -2262,7 +2273,7 @@ export type GetZonesRequestIamTagsMap = {
 };
 export interface GetZonesRequest {
   /** Filter resources on IAM tags */
-  iamTags?: GetZonesRequestIamTagsMap;
+  iamTags?: GetZonesRequestIamTagsMap | undefined;
 }
 export type GetZonesResponseBodyList = Array<string>;
 export type GetZonesResponse = GetZonesResponseBodyList;
@@ -2283,11 +2294,11 @@ export type DomainConfigurationsContactTypeEnum = "admin" | "all" | "billing" | 
 /** Configuration of the email obfuscations for contacts related to a domain name */
 export interface DomainConfigurationsObfuscatedEmail {
   /** Status of the email obfuscation */
-  status?: DomainConfigurationsObfuscationStatusEnum | null;
+  status?: DomainConfigurationsObfuscationStatusEnum | null | undefined;
   /** Type of the contact whose email is obfuscated by this configuration */
-  type?: DomainConfigurationsContactTypeEnum;
+  type?: DomainConfigurationsContactTypeEnum | undefined;
   /** Obfuscated email address */
-  value?: string;
+  value?: string | undefined;
 }
 export type ListDomainConfigurationObfuscatedEmailsResponseBodyList =
   Array<DomainConfigurationsObfuscatedEmail>;
@@ -2314,9 +2325,9 @@ export type DomainConfigurationsOptinFieldsList = Array<DomainOptinFieldsEnum | 
 /** Configuration of the optin fields for contacts related to a domain name */
 export interface DomainConfigurationsOptin {
   /** Fields to display publicly on the Whois */
-  fields?: DomainConfigurationsOptinFieldsList;
+  fields?: DomainConfigurationsOptinFieldsList | undefined;
   /** Type of the contact associated to the optin configuration */
-  type?: DomainConfigurationsContactTypeEnum | (string & {});
+  type?: DomainConfigurationsContactTypeEnum | (string & {}) | undefined;
 }
 export type ListDomainConfigurationOptinResponseBodyList = Array<DomainConfigurationsOptin>;
 export type ListDomainConfigurationOptinResponse = ListDomainConfigurationOptinResponseBodyList;
@@ -2327,9 +2338,9 @@ export interface ListDomainDsRecordRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of flags property (=) */
-  flags?: DnssecKeyFlagEnum | (number & {});
+  flags?: DnssecKeyFlagEnum | (number & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: DnssecKeyStatusEnum | (string & {});
+  status?: DnssecKeyStatusEnum | (string & {}) | undefined;
 }
 export type ListDomainDsRecordResponseBodyList = Array<number>;
 export type ListDomainDsRecordResponse = ListDomainDsRecordResponseBodyList;
@@ -2340,16 +2351,16 @@ export type ListDomainExtensionByCategoryRequestCategoryTypeList = Array<
 >;
 export interface ListDomainExtensionByCategoryRequest {
   /** Filter by category types */
-  categoryType?: ListDomainExtensionByCategoryRequestCategoryTypeList;
+  categoryType?: ListDomainExtensionByCategoryRequestCategoryTypeList | undefined;
 }
 /** List of extensions */
 export type DomainExtensionsCategoryNameWithExtensionsExtensionsList = Array<string>;
 /** Result of extensions by category request */
 export interface DomainExtensionsCategoryNameWithExtensions {
   /** List of extensions */
-  extensions?: DomainExtensionsCategoryNameWithExtensionsExtensionsList;
+  extensions?: DomainExtensionsCategoryNameWithExtensionsExtensionsList | undefined;
   /** Name of the category */
-  name?: string;
+  name?: string | undefined;
 }
 /** Geolocalizations groups extensions by geographical place, like 'europe' */
 export type DomainExtensionsExtensionsByCategoryGeolocalizationList =
@@ -2360,9 +2371,9 @@ export type DomainExtensionsExtensionsByCategoryThematicList =
 /** Result of extensions by category request */
 export interface DomainExtensionsExtensionsByCategory {
   /** Geolocalizations groups extensions by geographical place, like 'europe' */
-  geolocalization?: DomainExtensionsExtensionsByCategoryGeolocalizationList | null;
+  geolocalization?: DomainExtensionsExtensionsByCategoryGeolocalizationList | null | undefined;
   /** Thematics groups extensions by a thematic like 'gastronomy' for '.pizza' */
-  thematic?: DomainExtensionsExtensionsByCategoryThematicList | null;
+  thematic?: DomainExtensionsExtensionsByCategoryThematicList | null | undefined;
 }
 /** OVH subsidiaries */
 export type NichandleOvhSubsidiaryEnum =
@@ -2384,22 +2395,22 @@ export type NichandleOvhSubsidiaryEnum =
   | "TN";
 export interface ListDomainExtensionHighlightedRequest {
   /** OVHcloud subsidiary targeted. Highlighted extensions are different from one subsidiary to another. Default to FR. */
-  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {});
+  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {}) | undefined;
 }
 export type ListDomainExtensionHighlightedResponseBodyList = Array<string>;
 export type ListDomainExtensionHighlightedResponse = ListDomainExtensionHighlightedResponseBodyList;
 export interface ListDomainExtensionPricingAttributesRequest {
   /** OVHcloud subsidiary targeted. Attributes may be different from one subsidiary to another. Default to FR. */
-  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {});
+  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {}) | undefined;
 }
 /** Result of getting pricing attributes of an extension */
 export interface DomainExtensionsExtensionsPricingAttributes {
   /** Parameter is true when the extension has been created recently and we want to highlight this fact */
-  brandNew?: boolean;
+  brandNew?: boolean | undefined;
   /** Extension name, like 'com' or 'co.uk' */
-  name?: string;
+  name?: string | undefined;
   /** Parameter is true when the extension price has dropped recently and we want to highlight this fact */
-  priceDrop?: boolean;
+  priceDrop?: boolean | undefined;
 }
 export type ListDomainExtensionPricingAttributesResponseBodyList =
   Array<DomainExtensionsExtensionsPricingAttributes>;
@@ -2409,13 +2420,13 @@ export type ListDomainExtensionPricingAttributesResponse =
 export type DomainExtensionsOrderByTypeEnum = "alphabetical" | "trending";
 export interface ListDomainExtensionsRequest {
   /** Filter only extensions related to this list of geolocalization places (comma separated). Default to empty. */
-  geolocalizations?: string;
+  geolocalizations?: string | undefined;
   /** Order results by name (alphabetical) or trending importance (trending). Default to alphabetical. */
-  orderBy?: DomainExtensionsOrderByTypeEnum | (string & {});
+  orderBy?: DomainExtensionsOrderByTypeEnum | (string & {}) | undefined;
   /** OVHcloud subsidiary targeted. Useful only when orderBy is equal to trending. Default to FR. */
-  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {});
+  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | (string & {}) | undefined;
   /** Filter only extensions related to this list of thematics (comma separated). Default to empty. */
-  thematics?: string;
+  thematics?: string | undefined;
 }
 export type ListDomainExtensionsResponseBodyList = Array<string>;
 export type ListDomainExtensionsResponse = ListDomainExtensionsResponseBodyList;
@@ -2423,7 +2434,7 @@ export interface ListDomainGlueRecordRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of host property */
-  host?: string;
+  host?: string | undefined;
 }
 export type ListDomainGlueRecordResponseBodyList = Array<string>;
 export type ListDomainGlueRecordResponse = ListDomainGlueRecordResponseBodyList;
@@ -2456,9 +2467,9 @@ export type DomainRulesOptinFieldsList = Array<DomainOptinFieldsEnum>;
 /** Representation of the optin rule */
 export interface DomainRulesOptin {
   /** Fields to display publicly on the Whois */
-  fields?: DomainRulesOptinFieldsList;
+  fields?: DomainRulesOptinFieldsList | undefined;
   /** Type of the contact associated to the optin rule */
-  type?: DomainConfigurationsContactTypeEnum;
+  type?: DomainConfigurationsContactTypeEnum | undefined;
 }
 export type ListDomainRuleOptinResponseBodyList = Array<DomainRulesOptin>;
 export type ListDomainRuleOptinResponse = ListDomainRuleOptinResponseBodyList;
@@ -2466,11 +2477,11 @@ export interface ListDomainTaskRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of function property (like) */
-  function?: string;
+  function?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: DomainOperationStatusEnum | (string & {});
+  status?: DomainOperationStatusEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: DomainOperationTypeEnum | (string & {});
+  type?: DomainOperationTypeEnum | (string & {}) | undefined;
 }
 export type ListDomainTaskResponseBodyList = Array<number>;
 export type ListDomainTaskResponse = ListDomainTaskResponseBodyList;
@@ -2481,7 +2492,7 @@ export interface ListDomainUkRegistrarsRequest {
 /** Representation of a UK Registrar (used for outgoing transfer) */
 export interface DomainUkRegistrar {
   /** Registrar name */
-  name?: string;
+  name?: string | undefined;
   /** Registrar tag */
   tag: string;
 }
@@ -2491,9 +2502,9 @@ export interface ListDomainZoneHistoryRequest {
   /** Zone name */
   zoneName: string;
   /** Filter using the value of creationDate property (>=) */
-  creationDate_from?: string;
+  creationDate_from?: string | undefined;
   /** Filter using the value of creationDate property (<=) */
-  creationDate_to?: string;
+  creationDate_to?: string | undefined;
 }
 export type ListDomainZoneHistoryResponseBodyList = Array<string>;
 export type ListDomainZoneHistoryResponse = ListDomainZoneHistoryResponseBodyList;
@@ -2514,17 +2525,17 @@ export type DomainZoneStatusWarningsList = Array<string>;
 /** DNS zone status */
 export interface DomainZoneStatus {
   /** Error list if any */
-  errors?: DomainZoneStatusErrorsList | null;
+  errors?: DomainZoneStatusErrorsList | null | undefined;
   /** Whether the zone is deployed or not */
-  isDeployed?: boolean;
+  isDeployed?: boolean | undefined;
   /** Warning list if any */
-  warnings?: DomainZoneStatusWarningsList | null;
+  warnings?: DomainZoneStatusWarningsList | null | undefined;
 }
 export interface ListDomainZoneTaskRequest {
   /** Zone name */
   zoneName: string;
-  function?: DomainTaskFunctionEnum | (string & {});
-  status?: DomainTaskStatusEnum | (string & {});
+  function?: DomainTaskFunctionEnum | (string & {}) | undefined;
+  status?: DomainTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListDomainZoneTaskResponseBodyList = Array<number>;
 export type ListDomainZoneTaskResponse = ListDomainZoneTaskResponseBodyList;
@@ -2533,21 +2544,21 @@ export type DomainConfigurationsCustomFieldsInputIsForList = Array<DomainIsForEn
 /** Representation of the domain custom fields */
 export interface DomainConfigurationsCustomFieldsInput {
   /** Domain name audience */
-  audience?: string | null;
+  audience?: string | null | undefined;
   /** Purposes of the domain */
-  isFor?: DomainConfigurationsCustomFieldsInputIsForList | null;
+  isFor?: DomainConfigurationsCustomFieldsInputIsForList | null | undefined;
   /** Domain name other purpose */
-  otherPurpose?: string | null;
+  otherPurpose?: string | null | undefined;
   /** Reason of the purchase of this domain */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Represented company */
-  represent?: string | null;
+  represent?: string | null | undefined;
 }
 export interface PutDomainConfigurationDataRequest {
   /** Service name */
   serviceName: string;
   /** New domain custom fields */
-  customFields?: DomainConfigurationsCustomFieldsInput;
+  customFields?: DomainConfigurationsCustomFieldsInput | undefined;
 }
 /** Type of the contacts to request email obfuscation for */
 export type PutDomainConfigurationObfuscatedEmailsRequestContactsList = Array<
@@ -2569,7 +2580,7 @@ export interface PutDomainConfigurationOptinRequest {
   /** Service name */
   serviceName: string;
   /** New optin configuration */
-  optin?: PutDomainConfigurationOptinRequestOptinList;
+  optin?: PutDomainConfigurationOptinRequestOptinList | undefined;
 }
 export type PutDomainConfigurationOptinResponseBodyList = Array<DomainConfigurationsOptin>;
 export type PutDomainConfigurationOptinResponse = PutDomainConfigurationOptinResponseBodyList;
@@ -2583,7 +2594,7 @@ export interface PutDomainServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDomainServiceInfosResponse {}
 export interface PutDomainZoneOptionServiceInfosRequest {
@@ -2599,26 +2610,26 @@ export interface PutDomainZoneServiceInfosRequest {
   /** Zone name */
   zoneName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDomainZoneServiceInfosResponse {}
 export interface PutDomainZoneSoaRequest {
   /** Zone name */
   zoneName: string;
   /** Email address of the DNS Administrator */
-  email?: string;
+  email?: string | undefined;
   /** When a zone transfer fails, a countdown clock begins. When the number of seconds set in the expire field elapses, the nameserver stops answering for that zone file */
-  expire?: number;
+  expire?: number | undefined;
   /** Non-Existent Domain TTL, if the name server returns a negative response, the remote server should wait the number of seconds set in the nxDomainTtl field before trying again */
-  nxDomainTtl?: number;
+  nxDomainTtl?: number | undefined;
   /** The refresh value determines the interval in seconds between successful zone transfers of the entire zone file from a nameserver to another. */
-  refresh?: number;
+  refresh?: number | undefined;
   /** The serial number is used to indicate which copy of the zone file is the most current. When editing zone files, you must increment the serial number */
-  serial?: number;
+  serial?: number | undefined;
   /** Primary authoritative server */
-  server?: string;
+  server?: string | undefined;
   /** Time To Live in seconds */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export interface PutDomainZoneSoaResponse {}
 /** Type of the contacts to refresh email obfuscation for */
@@ -2642,9 +2653,9 @@ export type DomainZoneResettableNamedResolutionFieldTypeEnum = "A" | "MX";
 /** Record associated to domain zone reset */
 export interface DomainZoneResetRecord {
   /** Field type associated to domain zone reset */
-  fieldType?: DomainZoneResettableNamedResolutionFieldTypeEnum | (string & {});
+  fieldType?: DomainZoneResettableNamedResolutionFieldTypeEnum | (string & {}) | undefined;
   /** Target associated to domain zone reset */
-  target?: string;
+  target?: string | undefined;
 }
 /** Records that will be set after reset */
 export type ResetDomainZoneRequestDnsRecordsList = Array<DomainZoneResetRecord>;
@@ -2652,9 +2663,9 @@ export interface ResetDomainZoneRequest {
   /** Zone name */
   zoneName: string;
   /** Records that will be set after reset */
-  DnsRecords?: ResetDomainZoneRequestDnsRecordsList;
+  DnsRecords?: ResetDomainZoneRequestDnsRecordsList | undefined;
   /** Create only mandatory records */
-  minimized?: boolean;
+  minimized?: boolean | undefined;
 }
 export interface ResetDomainZoneResponse {}
 export interface RestoreDomainZoneHistoryRequest {
@@ -2672,84 +2683,84 @@ export interface UpdateContactRequest {
   /** Contact ID */
   contactId: number;
   /** Country of lawyer accreditation */
-  accreditationCountry?: NichandleCountryEnum | (string & {}) | null;
+  accreditationCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Lawyer accreditation number */
-  accreditationId?: string | null;
+  accreditationId?: string | null | undefined;
   /** Organism of lawyer accreditation */
-  accreditationOrganism?: string | null;
+  accreditationOrganism?: string | null | undefined;
   /** Year of lawyer accreditation */
-  accreditationYear?: number | null;
+  accreditationYear?: number | null | undefined;
   /** The address of the contact */
-  address?: DomainContactAddress | null;
+  address?: DomainContactAddress | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | (string & {}) | null;
+  birthCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Enterprise identifier */
-  enterpriseId?: string | null;
+  enterpriseId?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | (string & {}) | null;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** INSEE identifier */
-  insee?: string | null;
+  insee?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Last name */
-  lastName?: string | null;
-  legalForm?: NichandleLegalFormEnum | (string & {}) | null;
+  lastName?: string | null | undefined;
+  legalForm?: NichandleLegalFormEnum | (string & {}) | null | undefined;
   /** category of legalForm */
-  legalFormCategory?: string | null;
+  legalFormCategory?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | (string & {}) | null;
+  nationality?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** To whom is the organisation accountable */
-  organisationAccountable?: string | null;
+  organisationAccountable?: string | null | undefined;
   /** What is the source of funding */
-  organisationFunding?: string | null;
+  organisationFunding?: string | null | undefined;
   /** Explain the source of funding if organisationFunding is other */
-  organisationFundingOther?: string | null;
+  organisationFundingOther?: string | null | undefined;
   /** Name of organisation */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Role of your organisation */
-  organisationRole?: string | null;
+  organisationRole?: string | null | undefined;
   /** Explain the role of your organisation if organisationRole is other */
-  organisationRoleOther?: string | null;
+  organisationRoleOther?: string | null | undefined;
   /** Status of the staff */
-  organisationStaffStatus?: string | null;
+  organisationStaffStatus?: string | null | undefined;
   /** Explain the status of the staff if organisationStaffStatus is other */
-  organisationStaffStatusOther?: string | null;
+  organisationStaffStatusOther?: string | null | undefined;
   /** type of organisation */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Explain the type of organisation if organisationType is other */
-  organisationTypeOther?: string | null;
+  organisationTypeOther?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Type of registrant document */
-  registrantDocumentType?: string | null;
+  registrantDocumentType?: string | null | undefined;
   /** Explain the type of registrant document if registrantDocumentType is other */
-  registrantDocumentTypeOther?: string | null;
+  registrantDocumentTypeOther?: string | null | undefined;
   /** The role in the organisation */
-  roleInOrganisation?: string | null;
+  roleInOrganisation?: string | null | undefined;
   /** Trademark related to the contact */
-  trademarkId?: string | null;
+  trademarkId?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Website */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 /** IP address */
 export type UpdateDomainGlueRecordRequestIpsList = Array<string>;

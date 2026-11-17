@@ -28,15 +28,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Adyen error -- returned when nothing else matches the failure. */
 export class UnknownAdyenError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownAdyenError>()("UnknownAdyenError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownAdyenError>()(
+    "UnknownAdyenError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class AdyenParseError

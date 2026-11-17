@@ -67,9 +67,9 @@ export interface DeletePoolRequest {
 }
 export interface DeletePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource IDs to delete. */
 export type DeletePoolResourcesRequestResourceIdsList = Array<string>;
@@ -99,17 +99,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -122,139 +122,271 @@ export type ProvisioningState =
   | "Updating"
   | "Deleting"
   | "Accepted";
-/** A list of strings. */
-export type PoolStringList = Array<string>;
+/** Discriminator property for OrganizationProfile. */
+export type AzureDevOpsOrganizationProfileKind = "AzureDevOps";
+/** Optional list of projects in which the pool should be created. */
+export type OrganizationProjectsList = Array<string>;
+/** Defines an Azure DevOps organization. */
+export interface Organization {
+  /** The Azure DevOps organization URL in which the pool should be created. */
+  url: string;
+  /** Optional list of projects in which the pool should be created. */
+  projects?: OrganizationProjectsList | undefined;
+  /** How many machines can be created at maximum in this organization out of the maximumConcurrency of the pool. */
+  parallelism?: number | undefined;
+  /** Determines if the pool should have open access to all projects in this organization. */
+  openAccess?: boolean | undefined;
+  /** An alias to reference the Azure DevOps pool name. */
+  alias?: string | undefined;
+}
+/** The list of Azure DevOps organizations the pool should be present in. */
+export type AzureDevOpsOrganizationProfileOrganizationsList = Array<Organization>;
+/** Determines who has admin permissions to the Azure DevOps pool. */
+export type AzureDevOpsPermissionType = "Inherit" | "CreatorOnly" | "SpecificAccounts";
+/** User email addresses */
+export type AzureDevOpsPermissionProfileUsersList = Array<string>;
+/** Group email addresses */
+export type AzureDevOpsPermissionProfileGroupsList = Array<string>;
 /** Defines the type of Azure DevOps pool permission. */
 export interface AzureDevOpsPermissionProfile {
-  /** Determines who has admin permissions to the Azure DevOps pool (CreatorOnly, Inherit, SpecificAccounts). */
-  kind: string;
-  /** User email addresses. */
-  users?: PoolStringList;
-  /** Group email addresses. */
-  groups?: PoolStringList;
+  /** Determines who has admin permissions to the Azure DevOps pool. */
+  kind: AzureDevOpsPermissionType | (string & {});
+  /** User email addresses */
+  users?: AzureDevOpsPermissionProfileUsersList | undefined;
+  /** Group email addresses */
+  groups?: AzureDevOpsPermissionProfileGroupsList | undefined;
+}
+/** Azure DevOps organization profile */
+export interface AzureDevOpsOrganizationProfile {
+  /** Discriminator property for OrganizationProfile. */
+  kind: AzureDevOpsOrganizationProfileKind;
+  /** An extra description to add to the Azure DevOps pool. */
+  description?: string | undefined;
+  /** Determines whether the service updates the Azure DevOps pool description. */
+  updateDescription?: boolean | undefined;
+  /** The list of Azure DevOps organizations the pool should be present in. */
+  organizations: AzureDevOpsOrganizationProfileOrganizationsList;
+  /** The type of permission which determines which accounts are admins on the Azure DevOps pool. */
+  permissionProfile?: AzureDevOpsPermissionProfile | undefined;
+  /** An alias to reference the Azure DevOps pool name. */
+  alias?: string | undefined;
+}
+/** Discriminator property for OrganizationProfile. */
+export type GitHubOrganizationProfileKind = "GitHub";
+/** Optional list of repositories in which the pool should be created. */
+export type GitHubOrganizationRepositoriesList = Array<string>;
+/** Defines a GitHub organization */
+export interface GitHubOrganization {
+  /** The GitHub organization URL in which the pool should be created. */
+  url: string;
+  /** Optional list of repositories in which the pool should be created. */
+  repositories?: GitHubOrganizationRepositoriesList | undefined;
+}
+/** The list of GitHub organizations/repositories the pool should be present in. */
+export type GitHubOrganizationProfileOrganizationsList = Array<GitHubOrganization>;
+/** GitHub organization profile */
+export interface GitHubOrganizationProfile {
+  /** Discriminator property for OrganizationProfile. */
+  kind: GitHubOrganizationProfileKind;
+  /** The list of GitHub organizations/repositories the pool should be present in. */
+  organizations: GitHubOrganizationProfileOrganizationsList;
 }
 /** Defines the organization in which the pool will be used. */
-export interface OrganizationProfile {
-  /** Discriminator property for OrganizationProfile. */
-  kind: string;
-  /** AzureDevOps: list of {url, projects?, parallelism?, openAccess?}; GitHub: list of {url, repositories?}. */
-  organizations?: unknown;
-  /** AzureDevOps only: the type of permission which determines which accounts are admins on the pool. */
-  permissionProfile?: AzureDevOpsPermissionProfile;
-  /** AzureDevOps only: an alias to reference the pool by. */
-  alias?: string;
+export type OrganizationProfile = AzureDevOpsOrganizationProfile | GitHubOrganizationProfile;
+/** Discriminator property for AgentProfile. */
+export type StatefulKind = "Stateful";
+/** Determines how the stand-by scheme should be provided. */
+export type AutomaticResourcePredictionsProfileKind = "Automatic";
+/** Determines the balance between cost and performance. */
+export type PredictionPreference =
+  | "Balanced"
+  | "MostCostEffective"
+  | "MoreCostEffective"
+  | "MorePerformance"
+  | "BestPerformance";
+/** The stand-by agent scheme is determined based on historical demand. */
+export interface AutomaticResourcePredictionsProfile {
+  /** Determines how the stand-by scheme should be provided. */
+  kind: AutomaticResourcePredictionsProfileKind;
+  /** Determines the balance between cost and performance. */
+  predictionPreference?: PredictionPreference | (string & {}) | undefined;
 }
 /** Determines how the stand-by scheme should be provided. */
-export type ResourcePredictionsProfileType = "Manual" | "Automatic";
+export type ManualResourcePredictionsProfileKind = "Manual";
 /** Determines how the stand-by scheme should be provided. */
-export interface ResourcePredictionsProfile {
+export interface ManualResourcePredictionsProfile {
   /** Determines how the stand-by scheme should be provided. */
-  kind: ResourcePredictionsProfileType | (string & {});
-  /** Automatic only: determines the balance between cost and performance (Balanced, MostCostEffective, MoreCostEffective, MorePerformance, BestPerformance). */
-  predictionPreference?: string;
+  kind: ManualResourcePredictionsProfileKind;
+}
+/** Determines how the stand-by scheme should be provided. */
+export type ResourcePredictionsProfile =
+  | AutomaticResourcePredictionsProfile
+  | ManualResourcePredictionsProfile;
+/** Stateful profile meaning that the machines will be returned to the pool after running a job. */
+export interface Stateful {
+  /** Discriminator property for AgentProfile. */
+  kind: StatefulKind;
+  /** Defines pool buffer/stand-by agents. */
+  resourcePredictions?: unknown | undefined;
+  /** Defines how the pool buffer/stand-by agents is provided. */
+  resourcePredictionsProfile?: ResourcePredictionsProfile | undefined;
+  /** How long should stateful machines be kept around. The maximum is one week. */
+  maxAgentLifetime?: string | undefined;
+  /** How long should the machine be kept around after it ran a workload when there are no stand-by agents. The maximum is one week. */
+  gracePeriodTimeSpan?: string | undefined;
+}
+/** Discriminator property for AgentProfile. */
+export type StatelessAgentProfileKind = "Stateless";
+/** The agent profile of the machines in the pool. */
+export interface StatelessAgentProfile {
+  /** Discriminator property for AgentProfile. */
+  kind: StatelessAgentProfileKind;
+  /** Defines pool buffer/stand-by agents. */
+  resourcePredictions?: unknown | undefined;
+  /** Defines how the pool buffer/stand-by agents is provided. */
+  resourcePredictionsProfile?: ResourcePredictionsProfile | undefined;
 }
 /** The agent profile of the machines in the pool. */
-export interface AgentProfile {
-  /** Discriminator property for AgentProfile. */
-  kind: string;
-  /** Defines pool buffer/stand-by agents. */
-  resourcePredictions?: unknown;
-  /** Defines how the pool buffer/stand-by agents is provided. */
-  resourcePredictionsProfile?: ResourcePredictionsProfile;
-  /** Stateful only: how long should stateful machines be kept around (d.hh:mm:ss). */
-  maxAgentLifetime?: string;
-  /** Stateful only: how long should the machine be kept around after it ran a workload when there are no stand-by agents. */
-  gracePeriodTimeSpan?: string;
+export type AgentProfile = Stateful | StatelessAgentProfile;
+/** Discriminator property for FabricProfile. */
+export type VmssFabricProfileKind = "Vmss";
+/** Specifies the VM Size. */
+export interface VmSize {
+  /** Specifies the name of the VM Size. */
+  name?: string | undefined;
 }
+/** Specifies VM sizes for instance-mix allocation. */
+export type DevOpsAzureSkuVmSizesList = Array<VmSize>;
 /** The Azure SKU of the machines in the pool. */
 export interface DevOpsAzureSku {
   /** The Azure SKU name of the machines in the pool. */
   name: string;
+  /** The drive letter for the NVMe striped volume on Windows (e.g., 'N'). Defaults to 'N' when not specified. */
+  windowsNvmeDrive?: string | undefined;
+  /** The mount path for the NVMe striped volume on Linux (e.g., '/mnt/azure_nvme_temp'). Defaults to '/mnt/azure_nvme_temp' when not specified. */
+  linuxNvmePath?: string | undefined;
+  /** Specifies VM sizes for instance-mix allocation. */
+  vmSizes?: DevOpsAzureSkuVmSizesList | undefined;
 }
+/** List of aliases to reference the image by. */
+export type PoolImageAliasesList = Array<string>;
+/** The type of Ephemeral option the pool will use on underlying VMs when loading this image. */
+export type EphemeralType = "Automatic" | "CacheDisk" | "ResourceDisk";
 /** The VM image of the machines in the pool. */
 export interface PoolImage {
   /** The resource id of the image. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The image to use from a well-known set of images made available to customers. */
-  wellKnownImageName?: string;
+  wellKnownImageName?: string | undefined;
   /** List of aliases to reference the image by. */
-  aliases?: PoolStringList;
+  aliases?: PoolImageAliasesList | undefined;
   /** The percentage of the buffer to be allocated to this image. */
-  buffer?: string;
-  /** The ephemeral type of the image (Automatic, CacheDisk, ResourceDisk). */
-  ephemeralType?: string;
+  buffer?: string | undefined;
+  /** The ephemeral type of the image. */
+  ephemeralType?: EphemeralType | undefined;
+  /** Read only. Determines if the image is ephemeral. */
+  isEphemeral?: boolean | undefined;
+  /** The ARM resource ID of the storage account hosting provisioning scripts for this image. */
+  provisioningScriptStorageAccountResourceId?: string | undefined;
+  /** The managed identity client ID used to access provisioning script content for this image. */
+  provisioningScriptManagedIdentityClientId?: string | undefined;
+  /** Determines whether the machine should be restarted after provisioning script execution for this image. */
+  provisioningScriptShouldRestart?: boolean | undefined;
+  /** The provisioning script entry point for this image. */
+  provisioningScriptEntryPoint?: string | undefined;
 }
 /** The VM images of the machines in the pool. */
-export type PoolImageList = Array<PoolImage>;
+export type VmssFabricProfileImagesList = Array<PoolImage>;
+/** The certificate store name type */
+export type CertificateStoreNameOption = "My" | "Root";
+/** The list of certificates to install on all machines in the pool. */
+export type SecretsManagementSettingsObservedCertificatesList = Array<string>;
 /** The secret management settings of the machines in the pool. */
 export interface SecretsManagementSettings {
   /** Where to store certificates on the machine. */
-  certificateStoreLocation?: string;
-  /** Name of the certificate store to use on the machine (My, Root). */
-  certificateStoreName?: string;
+  certificateStoreLocation?: string | undefined;
+  /** Name of the certificate store to use on the machine, currently 'My' and 'Root' are supported. */
+  certificateStoreName?: CertificateStoreNameOption | (string & {}) | undefined;
   /** The list of certificates to install on all machines in the pool. */
-  observedCertificates: PoolStringList;
-  /** Defines if the key of installed certificates should be exportable. */
+  observedCertificates: SecretsManagementSettingsObservedCertificatesList;
+  /** Defines if the key of the certificates should be exportable. */
   keyExportable: boolean;
 }
+/** Determines how the service should be run. */
+export type LogonType = "Service" | "Interactive";
 /** The OS profile of the machines in the pool. */
 export interface OsProfile {
   /** The secret management settings of the machines in the pool. */
-  secretsManagementSettings?: SecretsManagementSettings;
-  /** Determines how the service should be run (Service, Interactive). */
-  logonType?: string;
+  secretsManagementSettings?: SecretsManagementSettings | undefined;
+  /** Determines how the service should be run. By default, this will be set to Service. */
+  logonType?: LogonType | (string & {}) | undefined;
 }
+/** The storage account type of the OS disk. */
+export type OsDiskStorageAccountType = "Standard" | "Premium" | "StandardSSD";
+/** The type of caching in a data disk. */
+export type CachingType = "None" | "ReadOnly" | "ReadWrite";
+/** StorageAccountType enums */
+export type StorageAccountType =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS"
+  | "Premium_ZRS"
+  | "StandardSSD_ZRS";
 /** The data disk of the VMSS. */
 export interface DataDisk {
-  /** The type of caching to be enabled for the data disks (None, ReadOnly, ReadWrite). */
-  caching?: string;
+  /** The type of caching to be enabled for the data disks. The default value for caching is readwrite. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/. */
+  caching?: CachingType | (string & {}) | undefined;
   /** The initial disk size in gigabytes. */
-  diskSizeGiB?: number;
-  /** The storage Account type to be used for the data disk. */
-  storageAccountType?: string;
-  /** The drive letter for the empty data disk. */
-  driveLetter?: string;
+  diskSizeGiB?: number | undefined;
+  /** The storage Account type to be used for the data disk. If omitted, the default is "standard_lrs". */
+  storageAccountType?: StorageAccountType | (string & {}) | undefined;
+  /** The drive letter for the empty data disk. If not specified, it will be the first available letter. */
+  driveLetter?: string | undefined;
 }
 /** A list of empty data disks to attach. */
-export type DataDiskList = Array<DataDisk>;
+export type StorageProfileDataDisksList = Array<DataDisk>;
 /** The storage profile of the VMSS. */
 export interface StorageProfile {
-  /** The Azure SKU name of the OS disk (Standard, Premium, StandardSSD). */
-  osDiskStorageAccountType?: string;
+  /** The Azure SKU name of the machines in the pool. */
+  osDiskStorageAccountType?: OsDiskStorageAccountType | (string & {}) | undefined;
   /** A list of empty data disks to attach. */
-  dataDisks?: DataDiskList;
+  dataDisks?: StorageProfileDataDisksList | undefined;
 }
+/** Read only. The list of static public IP addresses for outgoing connections assigned to the pool. */
+export type NetworkProfileIpAddressesList = Array<string>;
 /** The network profile of the machines in the pool. */
 export interface NetworkProfile {
   /** The subnet id on which to put all machines created in the pool. */
-  subnetId?: string;
-  /** The number of static public IP addresses for machines in the pool. */
-  staticIpAddressCount?: number;
+  subnetId?: string | undefined;
+  /** The number of static public IP addresses for outgoing connections assigned to the pool. */
+  staticIpAddressCount?: number | undefined;
+  /** Read only. The list of static public IP addresses for outgoing connections assigned to the pool. */
+  ipAddresses?: NetworkProfileIpAddressesList | undefined;
 }
-/** Defines the type of fabric the agent will run on. */
-export interface FabricProfile {
+/** The agents will run on Virtual Machine Scale Sets. */
+export interface VmssFabricProfile {
   /** Discriminator property for FabricProfile. */
-  kind: string;
-  /** Vmss only: the Azure SKU of the machines in the pool. */
-  sku?: DevOpsAzureSku;
-  /** Vmss only: the VM images of the machines in the pool. */
-  images?: PoolImageList;
-  /** Vmss only: the OS profile of the machines in the pool. */
-  osProfile?: OsProfile;
-  /** Vmss only: the storage profile of the machines in the pool. */
-  storageProfile?: StorageProfile;
-  /** Vmss only: the network profile of the machines in the pool. */
-  networkProfile?: NetworkProfile;
+  kind: VmssFabricProfileKind;
+  /** The Azure SKU of the machines in the pool. */
+  sku: DevOpsAzureSku;
+  /** The VM images of the machines in the pool. */
+  images: VmssFabricProfileImagesList;
+  /** The OS profile of the machines in the pool. */
+  osProfile?: OsProfile | undefined;
+  /** The storage profile of the machines in the pool. */
+  storageProfile?: StorageProfile | undefined;
+  /** The network profile of the machines in the pool. */
+  networkProfile?: NetworkProfile | undefined;
 }
 /** The runtime configuration of the pool. */
 export interface RuntimeConfiguration {
   /** The target work folder of the task agent on the machine. */
-  workFolder?: string;
+  workFolder?: string | undefined;
 }
 /** Pool properties */
 export interface PoolProperties {
   /** The status of the current operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | undefined;
   /** Defines how many resources can there be created at any given time. */
   maximumConcurrency: number;
   /** Defines the organization in which the pool will be used. */
@@ -262,11 +394,11 @@ export interface PoolProperties {
   /** Defines how the machine will be handled once it executed a job. */
   agentProfile: AgentProfile;
   /** Defines the type of fabric the agent will run on. */
-  fabricProfile: FabricProfile;
+  fabricProfile: VmssFabricProfile;
   /** The resource id of the DevCenter Project the pool belongs to. */
-  devCenterProjectResourceId?: string;
+  devCenterProjectResourceId?: string | undefined;
   /** The runtime configuration of the pool. */
-  runtimeConfiguration?: RuntimeConfiguration;
+  runtimeConfiguration?: RuntimeConfiguration | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -277,9 +409,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetPoolResponseIdentityUserAssignedIdentitiesMap = {
@@ -288,30 +420,30 @@ export type GetPoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetPoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetPoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetPoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPoolResponseTagsMap;
+  tags?: GetPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetPoolResponseIdentity;
+  identity?: GetPoolResponseIdentity | undefined;
 }
 export interface ListImageVersionByImageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -329,15 +461,15 @@ export interface ImageVersionProperties {
 /** An image version object */
 export interface ImageVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageVersionProperties;
+  properties?: ImageVersionProperties | undefined;
 }
 /** The ImageVersion items on this page */
 export type ImageVersionListResultValueList = Array<ImageVersion>;
@@ -346,19 +478,19 @@ export interface ImageVersionListResult {
   /** The ImageVersion items on this page */
   value: ImageVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -367,23 +499,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -400,31 +532,31 @@ export type PoolIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface PoolIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface Pool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolTagsMap;
+  tags?: PoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolIdentity;
+  identity?: PoolIdentity | undefined;
 }
 /** The Pool items on this page */
 export type PoolListResultValueList = Array<Pool>;
@@ -433,7 +565,7 @@ export interface PoolListResult {
   /** The Pool items on this page */
   value: PoolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -472,15 +604,15 @@ export interface ResourceDetailsObjectProperties {
 /** A ResourceDetailsObject */
 export interface ResourceDetailsObject {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ResourceDetailsObjectProperties;
+  properties?: ResourceDetailsObjectProperties | undefined;
 }
 /** The ResourceDetailsObject items on this page */
 export type ResourceDetailsObjectListResultValueList = Array<ResourceDetailsObject>;
@@ -489,7 +621,7 @@ export interface ResourceDetailsObjectListResult {
   /** The ResourceDetailsObject items on this page */
   value: ResourceDetailsObjectListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkuByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -545,22 +677,22 @@ export type ResourceSkuRestrictionInfoZonesList = Array<string>;
 /** Describes an available Compute SKU Restriction Information. */
 export interface ResourceSkuRestrictionInfo {
   /** Locations where the SKU is restricted */
-  locations?: ResourceSkuRestrictionInfoLocationsList;
+  locations?: ResourceSkuRestrictionInfoLocationsList | undefined;
   /** List of availability zones where the SKU is restricted. */
-  zones?: ResourceSkuRestrictionInfoZonesList;
+  zones?: ResourceSkuRestrictionInfoZonesList | undefined;
 }
 /** Describes the reason for SKU restriction. */
 export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** The restrictions of the SKU. */
 export interface ResourceSkuRestrictions {
   /** the type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
   values: ResourceSkuRestrictionsValuesList;
   /** The information about the restriction where the SKU cannot be used. */
   restrictionInfo: ResourceSkuRestrictionInfo;
   /** the reason for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions of the SKU. */
 export type ResourceSkuPropertiesRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -586,15 +718,15 @@ export interface ResourceSkuProperties {
 /** A ResourceSku */
 export interface ResourceSku {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ResourceSkuProperties;
+  properties?: ResourceSkuProperties | undefined;
 }
 /** The ResourceSku items on this page */
 export type ResourceSkuListResultValueList = Array<ResourceSku>;
@@ -603,10 +735,76 @@ export interface ResourceSkuListResult {
   /** The ResourceSku items on this page */
   value: ResourceSkuListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** Discriminator property for FabricProfile. */
+export type VmssFabricProfileInputKind = "Vmss";
+/** List of aliases to reference the image by. */
+export type PoolImageInputAliasesList = Array<string>;
+/** The VM image of the machines in the pool. */
+export interface PoolImageInput {
+  /** The resource id of the image. */
+  resourceId?: string | undefined;
+  /** The image to use from a well-known set of images made available to customers. */
+  wellKnownImageName?: string | undefined;
+  /** List of aliases to reference the image by. */
+  aliases?: PoolImageInputAliasesList | undefined;
+  /** The percentage of the buffer to be allocated to this image. */
+  buffer?: string | undefined;
+  /** The ephemeral type of the image. */
+  ephemeralType?: EphemeralType | (string & {}) | undefined;
+  /** The ARM resource ID of the storage account hosting provisioning scripts for this image. */
+  provisioningScriptStorageAccountResourceId?: string | undefined;
+  /** The managed identity client ID used to access provisioning script content for this image. */
+  provisioningScriptManagedIdentityClientId?: string | undefined;
+  /** Determines whether the machine should be restarted after provisioning script execution for this image. */
+  provisioningScriptShouldRestart?: boolean | undefined;
+  /** The provisioning script entry point for this image. */
+  provisioningScriptEntryPoint?: string | undefined;
+}
+/** The VM images of the machines in the pool. */
+export type VmssFabricProfileInputImagesList = Array<PoolImageInput>;
+/** The network profile of the machines in the pool. */
+export interface NetworkProfileInput {
+  /** The subnet id on which to put all machines created in the pool. */
+  subnetId?: string | undefined;
+  /** The number of static public IP addresses for outgoing connections assigned to the pool. */
+  staticIpAddressCount?: number | undefined;
+}
+/** The agents will run on Virtual Machine Scale Sets. */
+export interface VmssFabricProfileInput {
+  /** Discriminator property for FabricProfile. */
+  kind: VmssFabricProfileInputKind | (string & {});
+  /** The Azure SKU of the machines in the pool. */
+  sku: DevOpsAzureSku;
+  /** The VM images of the machines in the pool. */
+  images: VmssFabricProfileInputImagesList;
+  /** The OS profile of the machines in the pool. */
+  osProfile?: OsProfile | undefined;
+  /** The storage profile of the machines in the pool. */
+  storageProfile?: StorageProfile | undefined;
+  /** The network profile of the machines in the pool. */
+  networkProfile?: NetworkProfileInput | undefined;
+}
+/** Pool properties */
+export interface PoolPropertiesInput {
+  /** The status of the current operation. */
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
+  /** Defines how many resources can there be created at any given time. */
+  maximumConcurrency: number;
+  /** Defines the organization in which the pool will be used. */
+  organizationProfile: OrganizationProfile;
+  /** Defines how the machine will be handled once it executed a job. */
+  agentProfile: AgentProfile;
+  /** Defines the type of fabric the agent will run on. */
+  fabricProfile: VmssFabricProfileInput;
+  /** The resource id of the DevCenter Project the pool belongs to. */
+  devCenterProjectResourceId?: string | undefined;
+  /** The runtime configuration of the pool. */
+  runtimeConfiguration?: RuntimeConfiguration | undefined;
+}
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
@@ -617,7 +815,7 @@ export type PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface PoolsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface PoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -627,13 +825,13 @@ export interface PoolsCreateOrUpdateRequest {
   /** Name of the pool. It needs to be globally unique. */
   poolName: string;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateRequestTagsMap;
+  tags?: PoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolsCreateOrUpdateRequestIdentity;
+  identity?: PoolsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -644,32 +842,32 @@ export type PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface PoolsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface PoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateResponseTagsMap;
+  tags?: PoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolsCreateOrUpdateResponseIdentity;
+  identity?: PoolsCreateOrUpdateResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SubscriptionUsagesUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -680,14 +878,14 @@ export interface SubscriptionUsagesUsagesRequest {
 /** The Quota Names */
 export interface QuotaName {
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes Resource Quota */
 export interface Quota {
   /** The name of the quota. */
-  name?: QuotaName;
+  name?: QuotaName | undefined;
   /** Fully qualified ARM resource id */
   id: string;
   /** The unit of usage measurement. */
@@ -704,7 +902,7 @@ export interface PagedQuota {
   /** The Quota items on this page */
   value: PagedQuotaValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdatePoolRequestIdentityUserAssignedIdentitiesMap = {
@@ -714,26 +912,26 @@ export type UpdatePoolRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdatePoolRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdatePoolRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdatePoolRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the Pool. */
-export interface PoolUpdateProperties {
+export interface PoolUpdatePropertiesInput {
   /** The status of the current operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Defines how many resources can there be created at any given time. */
-  maximumConcurrency?: number;
+  maximumConcurrency?: number | undefined;
   /** Defines the organization in which the pool will be used. */
-  organizationProfile?: OrganizationProfile;
+  organizationProfile?: OrganizationProfile | undefined;
   /** Defines how the machine will be handled once it executed a job. */
-  agentProfile?: AgentProfile;
+  agentProfile?: AgentProfile | undefined;
   /** Defines the type of fabric the agent will run on. */
-  fabricProfile?: FabricProfile;
+  fabricProfile?: VmssFabricProfileInput | undefined;
   /** The resource id of the DevCenter Project the pool belongs to. */
-  devCenterProjectResourceId?: string;
+  devCenterProjectResourceId?: string | undefined;
   /** The runtime configuration of the pool. */
-  runtimeConfiguration?: RuntimeConfiguration;
+  runtimeConfiguration?: RuntimeConfiguration | undefined;
 }
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -743,11 +941,11 @@ export interface UpdatePoolRequest {
   /** Name of the pool. It needs to be globally unique. */
   poolName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdatePoolRequestIdentity;
+  identity?: UpdatePoolRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolRequestTagsMap;
+  tags?: UpdatePoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PoolUpdateProperties;
+  properties?: PoolUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -758,34 +956,34 @@ export type UpdatePoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdatePoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdatePoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdatePoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolResponseTagsMap;
+  tags?: UpdatePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdatePoolResponseIdentity;
+  identity?: UpdatePoolResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckPoolNameAvailabilityError = AzureOpError;
 /** Checks that the pool name is valid and is not already in use. */
@@ -965,8 +1163,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
   PoolsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<PoolsCreateOrUpdateRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<PoolsCreateOrUpdateResponse>,
+  input: __S(65, __c2, 1) as any as S.Schema<PoolsCreateOrUpdateRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PoolsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1068,13 +1266,25 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          provisioningState: S.optional(S.String),
+          maximumConcurrency: S.Number,
+          organizationProfile: __S(392, __c12, 8),
+          agentProfile: __S(398, __c12, 14),
+          fabricProfile: __S(99, __c3, 3),
+          devCenterProjectResourceId: S.optional(S.String),
+          runtimeConfiguration: S.optional(__S(411, __c12, 27)),
+        }),
+      ).annotate({ identifier: "PoolPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           tags: S.optional(__S(384, __c12, 0)),
           location: S.String,
-          properties: S.optional(__S(400, __c12, 16)),
-          identity: S.optional(__S(97, __c3, 1)),
+          properties: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(101, __c3, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1084,7 +1294,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PoolsCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1093,8 +1303,8 @@ function __c2(j: number): any {
           systemData: S.optional(__S(320, __c10, 0)),
           tags: S.optional(__S(384, __c12, 0)),
           location: S.String,
-          properties: S.optional(__S(400, __c12, 16)),
-          identity: S.optional(__S(403, __c12, 19)),
+          properties: S.optional(__S(412, __c12, 28)),
+          identity: S.optional(__S(415, __c12, 31)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "PoolsCreateOrUpdateResponse" });
@@ -1103,12 +1313,46 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(224, __c7, 0)));
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+          wellKnownImageName: S.optional(S.String),
+          aliases: S.optional(__S(256, __c8, 0)),
+          buffer: S.optional(S.String),
+          ephemeralType: S.optional(S.String),
+          provisioningScriptStorageAccountResourceId: S.optional(S.String),
+          provisioningScriptManagedIdentityClientId: S.optional(S.String),
+          provisioningScriptShouldRestart: S.optional(S.Boolean),
+          provisioningScriptEntryPoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PoolImageInput" });
     case 1:
+      return S.Array(__S(96, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          subnetId: S.optional(S.String),
+          staticIpAddressCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NetworkProfileInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          sku: __S(401, __c12, 17),
+          images: __S(97, __c3, 1),
+          osProfile: S.optional(__S(405, __c12, 21)),
+          storageProfile: S.optional(__S(408, __c12, 24)),
+          networkProfile: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "VmssFabricProfileInput" });
+    case 4:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(224, __c7, 0)));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(96, __c3, 0)),
+          userAssignedIdentities: S.optional(__S(100, __c3, 4)),
         }),
       ).annotate({ identifier: "PoolsCreateOrUpdateRequestIdentity" });
   }
@@ -1164,20 +1408,20 @@ function __c5(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           maximumConcurrency: S.optional(S.Number),
-          organizationProfile: S.optional(__S(386, __c12, 2)),
-          agentProfile: S.optional(__S(388, __c12, 4)),
-          fabricProfile: S.optional(__S(398, __c12, 14)),
+          organizationProfile: S.optional(__S(392, __c12, 8)),
+          agentProfile: S.optional(__S(398, __c12, 14)),
+          fabricProfile: S.optional(__S(99, __c3, 3)),
           devCenterProjectResourceId: S.optional(S.String),
-          runtimeConfiguration: S.optional(__S(399, __c12, 15)),
+          runtimeConfiguration: S.optional(__S(411, __c12, 27)),
         }),
-      ).annotate({ identifier: "PoolUpdateProperties" });
+      ).annotate({ identifier: "PoolUpdatePropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
-          identity: S.optional(__S(97, __c3, 1)),
+          identity: S.optional(__S(101, __c3, 5)),
           tags: S.optional(__S(384, __c12, 0)),
           properties: S.optional(__S(160, __c5, 0)),
         }).pipe(
@@ -1198,8 +1442,8 @@ function __c5(j: number): any {
           systemData: S.optional(__S(320, __c10, 0)),
           tags: S.optional(__S(384, __c12, 0)),
           location: S.String,
-          properties: S.optional(__S(400, __c12, 16)),
-          identity: S.optional(__S(403, __c12, 19)),
+          properties: S.optional(__S(412, __c12, 28)),
+          identity: S.optional(__S(415, __c12, 31)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -1283,8 +1527,8 @@ function __c11(j: number): any {
           systemData: S.optional(__S(320, __c10, 0)),
           tags: S.optional(__S(384, __c12, 0)),
           location: S.String,
-          properties: S.optional(__S(400, __c12, 16)),
-          identity: S.optional(__S(403, __c12, 19)),
+          properties: S.optional(__S(412, __c12, 28)),
+          identity: S.optional(__S(415, __c12, 31)),
         }),
       ).annotate({ identifier: "GetPoolResponse" });
   }
@@ -1296,44 +1540,105 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          url: S.String,
+          projects: S.optional(__S(256, __c8, 0)),
+          parallelism: S.optional(S.Number),
+          openAccess: S.optional(S.Boolean),
+          alias: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Organization" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           kind: S.String,
           users: S.optional(__S(256, __c8, 0)),
           groups: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "AzureDevOpsPermissionProfile" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          organizations: S.optional(S.Unknown),
-          permissionProfile: S.optional(__S(385, __c12, 1)),
+          description: S.optional(S.String),
+          updateDescription: S.optional(S.Boolean),
+          organizations: __S(386, __c12, 2),
+          permissionProfile: S.optional(__S(387, __c12, 3)),
           alias: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OrganizationProfile" });
-    case 3:
+      ).annotate({ identifier: "AzureDevOpsOrganizationProfile" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          repositories: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "GitHubOrganization" });
+    case 6:
+      return S.Array(__S(389, __c12, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          organizations: __S(390, __c12, 6),
+        }),
+      ).annotate({ identifier: "GitHubOrganizationProfile" });
+    case 8:
+      return S.Union([__S(388, __c12, 4), __S(391, __c12, 7)]);
+    case 9:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
           predictionPreference: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourcePredictionsProfile" });
-    case 4:
+      ).annotate({ identifier: "AutomaticResourcePredictionsProfile" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+        }),
+      ).annotate({ identifier: "ManualResourcePredictionsProfile" });
+    case 11:
+      return S.Union([__S(393, __c12, 9), __S(394, __c12, 10)]);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
           resourcePredictions: S.optional(S.Unknown),
-          resourcePredictionsProfile: S.optional(__S(387, __c12, 3)),
+          resourcePredictionsProfile: S.optional(__S(395, __c12, 11)),
           maxAgentLifetime: S.optional(S.String),
           gracePeriodTimeSpan: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AgentProfile" });
-    case 5:
+      ).annotate({ identifier: "Stateful" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          resourcePredictions: S.optional(S.Unknown),
+          resourcePredictionsProfile: S.optional(__S(395, __c12, 11)),
+        }),
+      ).annotate({ identifier: "StatelessAgentProfile" });
+    case 14:
+      return S.Union([__S(396, __c12, 12), __S(397, __c12, 13)]);
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmSize" });
+    case 16:
+      return S.Array(__S(399, __c12, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
+          windowsNvmeDrive: S.optional(S.String),
+          linuxNvmePath: S.optional(S.String),
+          vmSizes: S.optional(__S(400, __c12, 16)),
         }),
       ).annotate({ identifier: "DevOpsAzureSku" });
-    case 6:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.optional(S.String),
@@ -1341,11 +1646,16 @@ function __c12(j: number): any {
           aliases: S.optional(__S(256, __c8, 0)),
           buffer: S.optional(S.String),
           ephemeralType: S.optional(S.String),
+          isEphemeral: S.optional(S.Boolean),
+          provisioningScriptStorageAccountResourceId: S.optional(S.String),
+          provisioningScriptManagedIdentityClientId: S.optional(S.String),
+          provisioningScriptShouldRestart: S.optional(S.Boolean),
+          provisioningScriptEntryPoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "PoolImage" });
-    case 7:
-      return S.Array(__S(390, __c12, 6));
-    case 8:
+    case 19:
+      return S.Array(__S(402, __c12, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           certificateStoreLocation: S.optional(S.String),
@@ -1354,14 +1664,14 @@ function __c12(j: number): any {
           keyExportable: S.Boolean,
         }),
       ).annotate({ identifier: "SecretsManagementSettings" });
-    case 9:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          secretsManagementSettings: S.optional(__S(392, __c12, 8)),
+          secretsManagementSettings: S.optional(__S(404, __c12, 20)),
           logonType: S.optional(S.String),
         }),
       ).annotate({ identifier: "OsProfile" });
-    case 10:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           caching: S.optional(S.String),
@@ -1370,67 +1680,68 @@ function __c12(j: number): any {
           driveLetter: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataDisk" });
-    case 11:
-      return S.Array(__S(394, __c12, 10));
-    case 12:
+    case 23:
+      return S.Array(__S(406, __c12, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           osDiskStorageAccountType: S.optional(S.String),
-          dataDisks: S.optional(__S(395, __c12, 11)),
+          dataDisks: S.optional(__S(407, __c12, 23)),
         }),
       ).annotate({ identifier: "StorageProfile" });
-    case 13:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           subnetId: S.optional(S.String),
           staticIpAddressCount: S.optional(S.Number),
+          ipAddresses: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "NetworkProfile" });
-    case 14:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          sku: S.optional(__S(389, __c12, 5)),
-          images: S.optional(__S(391, __c12, 7)),
-          osProfile: S.optional(__S(393, __c12, 9)),
-          storageProfile: S.optional(__S(396, __c12, 12)),
-          networkProfile: S.optional(__S(397, __c12, 13)),
+          sku: __S(401, __c12, 17),
+          images: __S(403, __c12, 19),
+          osProfile: S.optional(__S(405, __c12, 21)),
+          storageProfile: S.optional(__S(408, __c12, 24)),
+          networkProfile: S.optional(__S(409, __c12, 25)),
         }),
-      ).annotate({ identifier: "FabricProfile" });
-    case 15:
+      ).annotate({ identifier: "VmssFabricProfile" });
+    case 27:
       return S.suspend(() =>
         S.Struct({
           workFolder: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeConfiguration" });
-    case 16:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           maximumConcurrency: S.Number,
-          organizationProfile: __S(386, __c12, 2),
-          agentProfile: __S(388, __c12, 4),
-          fabricProfile: __S(398, __c12, 14),
+          organizationProfile: __S(392, __c12, 8),
+          agentProfile: __S(398, __c12, 14),
+          fabricProfile: __S(410, __c12, 26),
           devCenterProjectResourceId: S.optional(S.String),
-          runtimeConfiguration: S.optional(__S(399, __c12, 15)),
+          runtimeConfiguration: S.optional(__S(411, __c12, 27)),
         }),
       ).annotate({ identifier: "PoolProperties" });
-    case 17:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
-    case 18:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(401, __c12, 17)));
-    case 19:
+    case 30:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(413, __c12, 29)));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(402, __c12, 18)),
+          userAssignedIdentities: S.optional(__S(414, __c12, 30)),
         }),
       ).annotate({ identifier: "GetPoolResponseIdentity" });
   }

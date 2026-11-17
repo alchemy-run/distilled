@@ -1,0 +1,37 @@
+{
+  "description": "Type createOrganizationTailnet's duplicate display name as TailnetDisplayNameAlreadyExists instead of a generic BadRequest: 400 'tailnet display names must be unique within the organization' (live, 2026-10-06).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#TailnetDisplayNameAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Another tailnet in the organization already has this display name (HTTP 400, 'tailnet display names must be unique within the organization').",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "display names must be unique"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateOrganizationTailnet/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetDisplayNameAlreadyExists"
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { SlackError, SlackRateLimited } from "../errors.ts";
+import { slackPaginate } from "../pagination.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -53,43 +54,43 @@ export interface SearchContextRequest {
   /** User prompt or search query */
   query: string;
   /** Send `action_token` as received in a message event. */
-  action_token?: string;
+  action_token?: string | undefined;
   /** Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`. */
-  channel_types?: SearchContextRequestChannelTypesList;
+  channel_types?: SearchContextRequestChannelTypesList | undefined;
   /** Content types to include, a comma-separated list of any combination of `messages`, `files`, `channels`, `users`. */
-  content_types?: SearchContextRequestContentTypesList;
+  content_types?: SearchContextRequestContentTypesList | undefined;
   /** Whether the results should include bots. */
-  include_bots?: boolean;
+  include_bots?: boolean | undefined;
   /** Whether to include deleted users in the user search results. Defaults to false. */
-  include_deleted_users?: boolean;
+  include_deleted_users?: boolean | undefined;
   /** UNIX timestamp filter. If present, filters for results before this date. */
-  before?: number;
+  before?: number | undefined;
   /** UNIX timestamp filter. If present, filters for results after this date. */
-  after?: number;
+  after?: number | undefined;
   /** Whether to include context messages surrounding the main message result. Defaults to false if unspecified. */
-  include_context_messages?: boolean;
+  include_context_messages?: boolean | undefined;
   /** Context channel ID to support scoping the search when applicable. */
-  context_channel_id?: string;
+  context_channel_id?: string | undefined;
   /** The cursor returned by the API. Leave this blank for the first request and use this to get the next page of results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of results to return, up to a max of 20. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** The field to sort the results by. Defaults to score. Can be one of: score, timestamp. */
-  sort?: SearchContextRequestSort | (string & {});
+  sort?: SearchContextRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. Defaults to desc. */
-  sort_dir?: SearchContextRequestSortDir | (string & {});
+  sort_dir?: SearchContextRequestSortDir | (string & {}) | undefined;
   /** Whether to return the message blocks in the response. */
-  include_message_blocks?: boolean;
+  include_message_blocks?: boolean | undefined;
   /** Whether to highlight the search query in the results. Defaults to false if unspecified. */
-  highlight?: boolean;
+  highlight?: boolean | undefined;
   /** A list of term clauses. A term clause is a string with search terms. Search results returned will match every term clause specified (i.e., conjunctive normal form). */
-  term_clauses?: SearchContextRequestTermClausesList;
+  term_clauses?: SearchContextRequestTermClausesList | undefined;
   /** A string containing only modifiers in the format of `modifier:value`. Search results returned will match the modifier value. For now modifiers only affect term clauses. */
-  modifiers?: string;
+  modifiers?: string | undefined;
   /** Whether to include archived channels in the search results. */
-  include_archived_channels?: boolean;
+  include_archived_channels?: boolean | undefined;
   /** Whether to disable semantic search. When true, only keyword-based search is used. Defaults to false. */
-  disable_semantic_search?: boolean;
+  disable_semantic_search?: boolean | undefined;
 }
 /** Messages before the current message, if applicable. */
 export type SearchContextResponseResultsMessagesItemContextMessagesBeforeList = Array<unknown>;
@@ -97,9 +98,9 @@ export type SearchContextResponseResultsMessagesItemContextMessagesBeforeList = 
 export type SearchContextResponseResultsMessagesItemContextMessagesAfterList = Array<unknown>;
 export interface SearchContextResponseResultsMessagesItemContextMessages {
   /** Messages before the current message, if applicable. */
-  before?: SearchContextResponseResultsMessagesItemContextMessagesBeforeList;
+  before?: SearchContextResponseResultsMessagesItemContextMessagesBeforeList | undefined;
   /** Messages after the current message. */
-  after?: SearchContextResponseResultsMessagesItemContextMessagesAfterList;
+  after?: SearchContextResponseResultsMessagesItemContextMessagesAfterList | undefined;
 }
 /** Blocks from the retrieved message. */
 export type SearchContextResponseResultsMessagesItemBlocksList = Array<unknown>;
@@ -107,7 +108,7 @@ export interface SearchContextResponseResultsMessagesItem {
   /** Full name of the user who authored the message. */
   author_name: string;
   /** Email address of the user who authored the message, if visible to the searching user. */
-  author_email?: string;
+  author_email?: string | undefined;
   /** ID of the user who authored the message. */
   author_user_id: string;
   /** ID of the workspace in which the message was sent. */
@@ -123,10 +124,10 @@ export interface SearchContextResponseResultsMessagesItem {
   /** Whether the message was authored by a bot (app) or not. */
   is_author_bot: boolean;
   permalink: string;
-  context_messages?: SearchContextResponseResultsMessagesItemContextMessages;
+  context_messages?: SearchContextResponseResultsMessagesItemContextMessages | undefined;
   /** Blocks from the retrieved message. */
-  blocks?: SearchContextResponseResultsMessagesItemBlocksList;
-  reply_count?: number;
+  blocks?: SearchContextResponseResultsMessagesItemBlocksList | undefined;
+  reply_count?: number | undefined;
 }
 export type SearchContextResponseResultsMessagesList =
   Array<SearchContextResponseResultsMessagesItem>;
@@ -134,7 +135,7 @@ export interface SearchContextResponseResultsFilesItem {
   /** Full name of the user who uploaded or created the file. */
   author_name: string;
   /** Email address of the user who uploaded or created the file, if visible to the searching user */
-  author_email?: string;
+  author_email?: string | undefined;
   /** ID of the user who uploaded or created the file. */
   author_user_id: string;
   /** ID of the user who uploaded the file. */
@@ -156,17 +157,23 @@ export interface SearchContextResponseResultsFilesItem {
   /** Content from the retrieved file. */
   content: string;
   /** Size of the file in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 export type SearchContextResponseResultsFilesList = Array<SearchContextResponseResultsFilesItem>;
 export type SearchContextResponseResultsEnterpriseList = Array<unknown>;
+/** Type of the channel */
+export type SearchContextResponseResultsChannelsItemChannelType =
+  | "public_channel"
+  | "private_channel"
+  | "mpim"
+  | "im";
 export interface SearchContextResponseResultsChannelsItem {
   /** ID of the workspace in which the channel was created. */
   team_id: string;
   /** ID of the user who created the channel. */
   creator_user_id: string;
   /** Full name of the user who created the channel. */
-  creator_name?: string;
+  creator_name?: string | undefined;
   /** Epoch timestamp in microseconds at which the channel was created. */
   date_created: number;
   /** Epoch timestamp in microseconds at which the channel was updated. */
@@ -174,13 +181,15 @@ export interface SearchContextResponseResultsChannelsItem {
   /** Name of the channel. */
   name: string;
   /** Topic of the channel. */
-  topic?: string;
+  topic?: string | undefined;
   /** Purpose of the channel. */
-  purpose?: string;
+  purpose?: string | undefined;
   /** Permanent link to the channel in Slack. */
   permalink: string;
   /** Whether the channel is archived. */
   is_archived: boolean;
+  /** Type of the channel */
+  channel_type: SearchContextResponseResultsChannelsItemChannelType;
 }
 export type SearchContextResponseResultsChannelsList =
   Array<SearchContextResponseResultsChannelsItem>;
@@ -190,7 +199,7 @@ export interface SearchContextResponseResultsUsersItem {
   /** The permalink to the user in Slack */
   permalink: string;
   /** The permalink to the user's profile photo. */
-  profile_pic_permalink?: string;
+  profile_pic_permalink?: string | undefined;
   /** The user's full name, which might be different from the display name. */
   full_name: string;
   /** The user's job title. */
@@ -202,23 +211,33 @@ export interface SearchContextResponseResultsUsersItem {
 }
 export type SearchContextResponseResultsUsersList = Array<SearchContextResponseResultsUsersItem>;
 export interface SearchContextResponseResults {
-  messages?: SearchContextResponseResultsMessagesList;
-  files?: SearchContextResponseResultsFilesList;
-  enterprise?: SearchContextResponseResultsEnterpriseList;
-  channels?: SearchContextResponseResultsChannelsList;
-  users?: SearchContextResponseResultsUsersList;
+  messages?: SearchContextResponseResultsMessagesList | undefined;
+  files?: SearchContextResponseResultsFilesList | undefined;
+  enterprise?: SearchContextResponseResultsEnterpriseList | undefined;
+  channels?: SearchContextResponseResultsChannelsList | undefined;
+  users?: SearchContextResponseResultsUsersList | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface SearchContextResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
+export type SearchContextResponseFailedContentTypesItem =
+  | "messages"
+  | "files"
+  | "channels"
+  | "users";
+/** Requested content types whose search failed. Their lists in `results` are empty because they could not be searched, not because nothing matched. Present only when at least one failed; see the `content_type_search_failed` warning. */
+export type SearchContextResponseFailedContentTypesList =
+  Array<SearchContextResponseFailedContentTypesItem>;
 export interface SearchContextResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   results: SearchContextResponseResults;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: SearchContextResponseResponseMetadata;
+  response_metadata?: SearchContextResponseResponseMetadata | undefined;
+  /** Requested content types whose search failed. Their lists in `results` are empty because they could not be searched, not because nothing matched. Present only when at least one failed; see the `content_type_search_failed` warning. */
+  failed_content_types: SearchContextResponseFailedContentTypesList;
 }
 export interface SearchInfoRequest {}
 export interface SearchInfoResponse {
@@ -237,13 +256,13 @@ export interface SetStatusRequest {
   /** Status of the specified bot user, e.g., 'is thinking...'. A two minute timeout applies, which will cause the status to be removed if no message has been sent. */
   status: string;
   /** The list of messages to rotate through as a loading indicator. Maximum of 10 messages. */
-  loading_messages?: SetStatusRequestLoadingMessagesList;
+  loading_messages?: SetStatusRequestLoadingMessagesList | undefined;
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string;
+  icon_emoji?: string | undefined;
   /** Image URL to use as the icon for this message. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The bot's username to display. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface SetStatusResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -253,11 +272,11 @@ export interface SetSuggestedPromptsRequest {
   /** Channel ID containing the assistant thread. */
   channel_id: string;
   /** Message timestamp of the thread to set suggested prompts for. If not provided, the prompts will be set for the latest message in the channel. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Each prompt should be supplied with its `title` and `message` attribute. */
   prompts: unknown;
   /** Title for the list of provided prompts. For example: Suggested Prompts, Related Questions. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface SetSuggestedPromptsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -276,21 +295,32 @@ export interface SetTitleResponse {
   ok: boolean;
 }
 export type SearchContextError = SlackOpError;
-/** Searches messages, files, channels and users across your Slack organization. Required scopes -- user: `search:read.public`, `search:read.private`, `search:read.im`, `search:read.mpim`, `search:read.files`, `search:read.users`; bot: `search:read.public`, `search:read.files`, `search:read.users` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal error. - `rate_limited` -- Rate limited. - `missing_query` -- Missing query. - `query_too_long` -- Query too long. - `feature_not_enabled` -- The feature is not available on the current workspace. - `invalid_action_token` -- The `action_token` provided is not valid. - `invalid_cursor` -- The cursormark provided is not valid. - `context_channel_not_found` -- Specified `context_channel_id` is invalid or the user lacks permission to view it. - `missing_scope` -- The requested channel types are not allowed by the provided scopes. - `assistant_search_context_disabled` -- We're having issues returning your search results. Please wait and try again. See https://docs.slack.dev/reference/methods/assistant.search.context */
-export const searchContext: API.OperationMethod<
+/** Searches messages, files, channels and users across your Slack organization. Required scopes -- user: `search:read.public`, `search:read.private`, `search:read.im`, `search:read.mpim`, `search:read.files`, `search:read.users`; bot: `search:read.public`, `search:read.files`, `search:read.users` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal error. - `rate_limited` -- Rate limited. - `missing_query` -- Missing query. - `query_too_long` -- Query too long. - `feature_not_enabled` -- The feature is not available on the current workspace. - `invalid_action_token` -- The `action_token` provided is not valid, has expired, or was not issued to the app whose token accompanies it. - `invalid_cursor` -- The cursormark provided is not valid. - `context_channel_not_found` -- Specified `context_channel_id` is invalid or the user lacks permission to view it. - `missing_scope` -- The requested channel types are not allowed by the provided scopes. - `assistant_search_context_disabled` -- We're having issues returning your search results. Please wait and try again. - `restricted_action` -- The calling user is a guest, or is not an active member of the workspace. See https://docs.slack.dev/reference/methods/assistant.search.context */
+export const searchContext: API.PaginatedOperationMethod<
   SearchContextRequest,
   SearchContextResponse,
   SearchContextError,
-  SlackOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<SearchContextRequest>,
-  output: __S(14, __c0, 14) as any as S.Schema<SearchContextResponse>,
-  errors: [SlackError, SlackRateLimited],
-  protocol: SlackProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "SearchContext",
-}));
+  SlackOpContext,
+  SearchContextResponseFailedContentTypesItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1, __c0, 1) as any as S.Schema<SearchContextRequest>,
+    output: __S(14, __c0, 14) as any as S.Schema<SearchContextResponse>,
+    errors: [SlackError, SlackRateLimited],
+    protocol: SlackProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SearchContext",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "response_metadata.next_cursor",
+      items: "failed_content_types",
+      pageSize: "limit",
+    } as const,
+  }),
+  slackPaginate,
+) as any;
 
 export type SearchInfoError = SlackOpError;
 /** Returns search capabilities on a given team. Required scopes -- user: `search:read.public`; bot: `search:read.public` Rate limit tier: 2 See https://docs.slack.dev/reference/methods/assistant.search.info */
@@ -452,6 +482,7 @@ function __c0(j: number): any {
           purpose: S.optional(S.String),
           permalink: S.String,
           is_archived: S.Boolean,
+          channel_type: S.String,
         }),
       ).annotate({ identifier: "SearchContextResponseResultsChannelsItem" });
     case 9:
@@ -492,6 +523,7 @@ function __c0(j: number): any {
           ok: S.Boolean,
           results: __S(12, __c0, 12),
           response_metadata: S.optional(__S(13, __c0, 13)),
+          failed_content_types: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "SearchContextResponse" });
   }

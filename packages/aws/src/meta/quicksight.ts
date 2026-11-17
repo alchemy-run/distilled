@@ -2474,6 +2474,12 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  updateResourcePermissions: {
+    iam: {
+      actions: ["iam:PassRole", "quicksight:UpdateResourcePermissions"],
+      resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    },
+  },
   updateRoleCustomPermission: { iam: { actions: ["quicksight:UpdateRoleCustomPermission"] } },
   updateSPICECapacityConfiguration: {
     iam: { actions: ["quicksight:UpdateSPICECapacityConfiguration"] },

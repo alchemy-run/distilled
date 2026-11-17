@@ -29,7 +29,7 @@ const TELEMETRY = {
 
 export interface ApproveKernelAccessRequest {
   namespace: string;
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface ApproveKernelAccessResponse {}
 export type DuplicateXetFilesRequestTargetType = "model" | "space" | "dataset" | "kernel";
@@ -40,7 +40,7 @@ export interface DuplicateXetFilesRequestTarget {
 export interface DuplicateXetFilesRequestFilesItem {
   xetHash: string;
   sha256: string;
-  filename?: string;
+  filename?: string | undefined;
 }
 export type DuplicateXetFilesRequestFilesList = Array<DuplicateXetFilesRequestFilesItem>;
 export interface DuplicateXetFilesRequest {
@@ -79,7 +79,7 @@ export interface GetKernelResponseResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export type GetKernelResponseAuthorDataCase0Plan = "team" | "enterprise" | "plus" | "academia";
 export interface GetKernelResponseAuthorDataCase0 {
@@ -91,10 +91,10 @@ export interface GetKernelResponseAuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetKernelResponseAuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetKernelResponseAuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetKernelResponseAuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -113,12 +113,12 @@ export interface GetKernelResponseAuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetKernelResponseAuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetKernelResponseAuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetKernelResponseAuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetKernelResponseAuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetKernelResponseAuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -129,11 +129,11 @@ export interface GetKernelResponseAuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetKernelResponseAuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetKernelResponseAuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetKernelResponseAuthorData =
   | GetKernelResponseAuthorDataCase0
@@ -160,11 +160,11 @@ export interface GetKernelResponse {
   repoType: string;
   sha: string;
   gated: GetKernelResponseGated;
-  resourceGroup?: GetKernelResponseResourceGroup;
-  authorData?: GetKernelResponseAuthorData;
-  files?: GetKernelResponseFilesList;
-  supportedDriverFamilies?: GetKernelResponseSupportedDriverFamiliesList;
-  trustedPublisher?: boolean;
+  resourceGroup?: GetKernelResponseResourceGroup | undefined;
+  authorData?: GetKernelResponseAuthorData | undefined;
+  files?: GetKernelResponseFilesList | undefined;
+  supportedDriverFamilies?: GetKernelResponseSupportedDriverFamiliesList | undefined;
+  trustedPublisher?: boolean | undefined;
 }
 export interface GetKernelRevisionRequest {
   namespace: string;
@@ -188,10 +188,10 @@ export interface GetKernelRevisionResponseAuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetKernelRevisionResponseAuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetKernelRevisionResponseAuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetKernelRevisionResponseAuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -210,12 +210,12 @@ export interface GetKernelRevisionResponseAuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetKernelRevisionResponseAuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -226,11 +226,11 @@ export interface GetKernelRevisionResponseAuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetKernelRevisionResponseAuthorData =
   | GetKernelRevisionResponseAuthorDataCase0
@@ -257,11 +257,11 @@ export interface GetKernelRevisionResponse {
   repoType: string;
   sha: string;
   gated: GetKernelRevisionResponseGated;
-  resourceGroup?: GetKernelResponseResourceGroup;
-  authorData?: GetKernelRevisionResponseAuthorData;
-  files?: GetKernelRevisionResponseFilesList;
-  supportedDriverFamilies?: GetKernelRevisionResponseSupportedDriverFamiliesList;
-  trustedPublisher?: boolean;
+  resourceGroup?: GetKernelResponseResourceGroup | undefined;
+  authorData?: GetKernelRevisionResponseAuthorData | undefined;
+  files?: GetKernelRevisionResponseFilesList | undefined;
+  supportedDriverFamilies?: GetKernelRevisionResponseSupportedDriverFamiliesList | undefined;
+  trustedPublisher?: boolean | undefined;
 }
 export interface GetSecurityStatusRequest {
   namespace: string;
@@ -354,18 +354,18 @@ export type ListKernelsRequestExpand =
   | ListKernelsRequestExpandCase0
   | ListKernelsRequestExpandCase1List;
 export interface ListKernelsRequest {
-  search?: string;
-  author?: ListKernelsRequestAuthor;
-  id?: ListKernelsRequestId;
-  arxivIds?: ListKernelsRequestArxivIds;
-  filter?: ListKernelsRequestFilter;
-  sort?: ListKernelsRequestSort | (string & {});
-  direction?: ListKernelsRequestDirection | (string & {});
-  limit?: number;
-  cursor?: string;
-  full?: boolean;
-  gated?: boolean;
-  expand?: ListKernelsRequestExpand;
+  search?: string | undefined;
+  author?: ListKernelsRequestAuthor | undefined;
+  id?: ListKernelsRequestId | undefined;
+  arxivIds?: ListKernelsRequestArxivIds | undefined;
+  filter?: ListKernelsRequestFilter | undefined;
+  sort?: ListKernelsRequestSort | (string & {}) | undefined;
+  direction?: ListKernelsRequestDirection | (string & {}) | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  full?: boolean | undefined;
+  gated?: boolean | undefined;
+  expand?: ListKernelsRequestExpand | undefined;
 }
 /** Kernel card metadata */
 export type ListKernelsResponseBodyItemCardDataMap = { [key: string]: unknown | undefined };
@@ -477,20 +477,20 @@ export type ListKernelsResponseBodyItemBuildMetadataBackendsItemHardwareTypesLis
 export interface ListKernelsResponseBodyItemBuildMetadataBackendsItem {
   type: ListKernelsResponseBodyItemBuildMetadataBackendsItemType;
   hardwareTypes: ListKernelsResponseBodyItemBuildMetadataBackendsItemHardwareTypesList;
-  noArchs?: boolean;
+  noArchs?: boolean | undefined;
 }
 export type ListKernelsResponseBodyItemBuildMetadataBackendsList =
   Array<ListKernelsResponseBodyItemBuildMetadataBackendsItem>;
 export interface ListKernelsResponseBodyItemBuildMetadataBuilder {
   version: string;
-  commit?: string;
-  dirty?: boolean;
+  commit?: string | undefined;
+  dirty?: boolean | undefined;
 }
 /** Build metadata */
 export interface ListKernelsResponseBodyItemBuildMetadata {
-  compatibility?: ListKernelsResponseBodyItemBuildMetadataCompatibility;
+  compatibility?: ListKernelsResponseBodyItemBuildMetadataCompatibility | undefined;
   backends: ListKernelsResponseBodyItemBuildMetadataBackendsList;
-  builder?: ListKernelsResponseBodyItemBuildMetadataBuilder;
+  builder?: ListKernelsResponseBodyItemBuildMetadataBuilder | undefined;
 }
 export type ListKernelsResponseBodyItemSupportedDriverFamiliesItem =
   | "cuda"
@@ -509,39 +509,39 @@ export interface ListKernelsResponseBodyItem {
   /** Kernel ID in format namespace/name */
   id: string;
   /** Namespace (user or organization) of the kernel */
-  author?: string;
+  author?: string | undefined;
   /** Whether the kernel is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Kernel card metadata */
-  cardData?: ListKernelsResponseBodyItemCardDataMap;
+  cardData?: ListKernelsResponseBodyItemCardDataMap | undefined;
   /** Whether the kernel is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Number of downloads in the last 30 days */
-  downloads?: number;
+  downloads?: number | undefined;
   /** Total number of downloads */
-  downloadsAllTime?: number;
+  downloadsAllTime?: number | undefined;
   /** Gated access status */
-  gated?: ListKernelsResponseBodyItemGated;
+  gated?: ListKernelsResponseBodyItemGated | undefined;
   /** Last modification timestamp */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Creation timestamp */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Number of likes */
-  likes?: number;
+  likes?: number | undefined;
   /** Current commit SHA */
-  sha?: string;
+  sha?: string | undefined;
   /** List of files in the kernel */
-  files?: ListKernelsResponseBodyItemFilesList;
+  files?: ListKernelsResponseBodyItemFilesList | undefined;
   /** Kernel tags */
-  tags?: ListKernelsResponseBodyItemTagsList;
+  tags?: ListKernelsResponseBodyItemTagsList | undefined;
   /** Trending score */
-  trendingScore?: number;
+  trendingScore?: number | undefined;
   /** Build metadata */
-  buildMetadata?: ListKernelsResponseBodyItemBuildMetadata;
+  buildMetadata?: ListKernelsResponseBodyItemBuildMetadata | undefined;
   /** Driver families supported by the kernel (derived from build metadata) */
-  supportedDriverFamilies?: ListKernelsResponseBodyItemSupportedDriverFamiliesList;
+  supportedDriverFamilies?: ListKernelsResponseBodyItemSupportedDriverFamiliesList | undefined;
   /** Resource group information */
-  resourceGroup?: GetKernelResponseResourceGroup;
+  resourceGroup?: GetKernelResponseResourceGroup | undefined;
 }
 export type ListKernelsResponseBodyList = Array<ListKernelsResponseBodyItem>;
 export type ListKernelsResponse = ListKernelsResponseBodyList;
@@ -550,7 +550,7 @@ export type ListLikersRequestExpandList = Array<ListLikersRequestExpandItem | (s
 export interface ListLikersRequest {
   namespace: string;
   repo: string;
-  expand?: ListLikersRequestExpandList;
+  expand?: ListLikersRequestExpandList | undefined;
 }
 export interface ListLikersResponse {}
 export type ApproveKernelAccessError = HuggingFaceOpError;

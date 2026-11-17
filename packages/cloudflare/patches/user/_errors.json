@@ -26,6 +26,30 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.user#InvalidApiToken",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 401,
+              "code": 1000
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.user#InvalidRoute",
       "value": {
         "type": "structure",

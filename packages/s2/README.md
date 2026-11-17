@@ -14,9 +14,10 @@ npm install @distilled.cloud/s2 effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as S2 from "@distilled.cloud/s2";
+import * as Streams from "@distilled.cloud/s2/streams";
 
 const program = Effect.gen(function* () {
-  const result = yield* S2.streams.listStreams({});
+  const result = yield* Streams.listStreams({});
   return result;
 });
 

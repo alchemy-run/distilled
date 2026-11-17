@@ -33,9 +33,6 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
   listProjectsLocationsSecurityGatewaysApplications: {
     iam: { actions: ["beyondcorp.securityGateways.get"], roles: ["roles/beyondcorp.viewer"] },
   },
-  reportStatusProjectsLocationsAppConnectors: {
-    iam: { actions: ["beyondcorp.appConnectors.reportStatus"], roles: ["roles/beyondcorp.editor"] },
-  },
   resolveInstanceConfigProjectsLocationsAppConnectors: {
     iam: { actions: ["beyondcorp.appConnectors.update"], roles: ["roles/beyondcorp.editor"] },
   },

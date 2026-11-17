@@ -21,6 +21,7 @@
 
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import { PURE } from "@distilled.cloud/dev/codegen/emit";
+import { flattenStructurePayloads } from "@distilled.cloud/dev/codegen/flatten-payload";
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
@@ -68,14 +69,12 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
 
   // The standard GCP error envelope fields, declared on every generated 4xx
   // error class so catch-site narrowing sees the envelope's gRPC-style
-  // `status` and typed `details[]` (populated by GcpProtocol's tack-on).
+  // `status` and typed `details[]` (core reads them under the body's `error`).
   errors: {
     defaultFields: () => [
       `  code: S.optional(S.Number),`,
       `  message: S.String,`,
       `  status: S.optional(S.String),`,
-      `  reason: S.optional(S.String),`,
-      `  domain: S.optional(S.String),`,
       `  details: S.optional(S.Array(S.Unknown)),`,
     ],
   },
@@ -106,6 +105,9 @@ runGeneratorCli({
   description: "Generate the GCP Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  // A request body schema becomes top-level input fields, as in every other
+  // SDK, after convert has applied the patches to it.
+  transformModel: (model) => flattenStructurePayloads(model),
   targets: [
     { smithyDir: ".generated-specs/stable", outDir: "src/services" },
     { smithyDir: ".generated-specs/unstable", outDir: "src/unstable-services" },

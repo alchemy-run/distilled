@@ -47,8 +47,8 @@ export interface GetSkillDirectoryResponse {
   url: string;
 }
 export interface ListPluginsRequest {
-  page_size?: number;
-  start_cursor?: string;
+  page_size?: number | undefined;
+  start_cursor?: string | undefined;
 }
 export interface ListPluginsResponseResultsItem {
   id: string;

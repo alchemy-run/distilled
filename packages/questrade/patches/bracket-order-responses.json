@@ -1,0 +1,15 @@
+{
+  "description": "The bracket order page shows no response, and says: \"The responses are the same for all bracket order insert and replace calls as the responses for old order calls (including impact).\" (https://www.questrade.com/api/documentation/rest-operations/order-calls/accounts-id-orders-bracket). Give placeBracketOrder the placeOrder response and getBracketOrderImpact the getOrderImpact response.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.questrade.api#PostV1AccountsIdOrdersResponse/members",
+      "path": "/shapes/com.questrade.api#PostV1AccountsIdOrdersBracketResponse/members"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.questrade.api#PostV1AccountsIdOrdersImpactResponse/members",
+      "path": "/shapes/com.questrade.api#PostV1AccountsIdOrdersBracketImpactResponse/members"
+    }
+  ]
+}

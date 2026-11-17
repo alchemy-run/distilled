@@ -1,0 +1,53 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalog#ProvisionProduct/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalog#TerminateProvisionedProduct/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:DeleteStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalog#UpdateProvisionedProduct/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateChangeSet",
+          "cloudformation:DeleteChangeSet",
+          "cloudformation:DescribeChangeSet",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:ExecuteChangeSet",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:UpdateStack",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
+    }
+  ]
+}

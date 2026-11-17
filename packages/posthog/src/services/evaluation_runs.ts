@@ -27,15 +27,15 @@ export interface CreateEvaluationRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** UUID of the evaluation to run. */
-  evaluation_id?: string;
+  evaluation_id?: string | undefined;
   /** UUID of the $ai_generation event to evaluate. */
-  target_event_id?: string;
+  target_event_id?: string | undefined;
   /** ISO 8601 timestamp of the target event (needed for efficient ClickHouse lookup). */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Event name. Defaults to '$ai_generation'. */
-  event?: string;
+  event?: string | undefined;
   /** Distinct ID of the event (optional, improves lookup performance). */
-  distinct_id?: string | null;
+  distinct_id?: string | null | undefined;
 }
 export interface CreateEvaluationRunResponse {}
 export type CreateEvaluationRunError = PosthogOpError;

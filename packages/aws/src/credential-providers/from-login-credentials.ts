@@ -1,8 +1,10 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 /**
@@ -107,14 +109,23 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
   );
 };
 
-/** Best effort: failing to update the cache does not invalidate the token. */
+/**
+ * Best effort: the refreshed token stays in use when the cache can't be
+ * written. The failure is logged, as the AWS SDK does, because the file may
+ * now hold a refresh token that no longer works.
+ */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
   return Effect.tryPromise(() =>
     mkdir(dirname(path), { recursive: true }).then(() =>
       writeFile(path, JSON.stringify(token, null, 2), "utf8"),
     ),
-  ).pipe(Effect.ignore);
+  ).pipe(
+    Effect.ignore({
+      log: "Warn",
+      message: `Could not save the refreshed AWS login token to ${path}`,
+    }),
+  );
 };
 
 const unredact = (value: string | Redacted.Redacted<string>): string =>
@@ -215,12 +226,25 @@ const withDpop =
   ): Effect.Effect<A, E, HttpClient.HttpClient> =>
     effect.pipe(
       Effect.updateService(HttpClient.HttpClient, (client) =>
-        HttpClient.mapRequest(client, (request) =>
-          HttpClientRequest.setHeader(
-            request,
-            "DPoP",
-            proof(request.method, endpoint(request.url)),
-          ),
+        HttpClient.mapRequestEffect(client, (request) =>
+          // Signing the proof can fail (a bad DER signature, a URL that does
+          // not parse); the request then fails to encode.
+          Effect.try({
+            try: () =>
+              HttpClientRequest.setHeader(
+                request,
+                "DPoP",
+                proof(request.method, endpoint(request.url)),
+              ),
+            catch: (cause) =>
+              new HttpClientError.HttpClientError({
+                reason: new HttpClientError.EncodeError({
+                  request,
+                  cause,
+                  description: "could not sign the DPoP proof",
+                }),
+              }),
+          }),
         ),
       ),
     );
@@ -256,7 +280,15 @@ const refresh = (
 ): CredentialSource =>
   Effect.gen(function* () {
     const proof = yield* dpopProof(token.dpopKey);
-    const Signin = yield* Effect.promise(() => import("../services/signin.ts"));
+    const Signin = yield* loadModule(() => import("../services/signin.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the Sign-In client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const refreshed = yield* Signin.createOAuth2Token({
       tokenInput: {
         clientId: token.clientId,

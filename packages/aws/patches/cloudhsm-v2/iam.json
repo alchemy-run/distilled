@@ -1,0 +1,35 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudhsmv2#DeleteResourcePolicy/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:DeleteResourcePolicy": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudhsmv2#GetResourcePolicy/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:GetResourcePolicy": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudhsmv2#PutResourcePolicy/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:PutResourcePolicy": "*"
+        }
+      }
+    }
+  ]
+}

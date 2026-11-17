@@ -30,27 +30,67 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** A namespace with this name already exists (`namespace.name_not_unique`). */
 export class NamespaceAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceAlreadyExists>()("NamespaceAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, headers: { "x-rivet-error": "namespace.name_not_unique" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
+
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface CreateNamespaceRequest {
   /** Immutable namespace name. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
@@ -67,11 +107,11 @@ export interface NamespacesCreateResponse {
 }
 export interface ListNamespacesRequest {
   /** Only return the namespace with this name. The response then holds zero or one namespace, `pagination.cursor` is `null`, and `limit` and `cursor` are ignored. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the last namespace on the previous page. Pass the `pagination.cursor` value from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of namespaces to return, from 1 to 100. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type NamespaceListResponseNamespacesList = Array<Namespace>;
 export interface Pagination {
@@ -82,9 +122,21 @@ export interface NamespaceListResponse {
   namespaces: NamespaceListResponseNamespacesList;
   pagination: Pagination;
 }
+/** A structured error. The response also carries an `x-rivet-error: <group>.<code>` header. */
+export interface ErrorResponse {
+  /** Error group, for example `actor`. */
+  group: string;
+  /** Error code within the group, for example `not_found`. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  /** Extra details. Only present on some errors raised while authenticating or authorizing the request. */
+  metadata?: unknown | undefined;
+}
 export type CreateNamespaceError =
   | NamespaceAlreadyExists
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Creates a namespace. Requires the admin token. */
@@ -94,16 +146,26 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<NamespacesCreateResponse>,
-  errors: [NamespaceAlreadyExists, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  input: __S(4, __c1, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<NamespacesCreateResponse>,
+  errors: [
+    NamespaceAlreadyExists,
+    StorageOverloaded,
+    StorageCommandCapacity,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
 
-export type ListNamespacesError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type ListNamespacesError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Lists namespaces in name order, or looks up one namespace by name. Requires the admin token. */
 export const listNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
@@ -113,9 +175,9 @@ export const listNamespaces: API.PaginatedOperationMethod<
   Namespace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(11, __c2, 3) as any as S.Schema<NamespaceListResponse>,
-    errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+    input: __S(12, __c3, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(15, __c3, 3) as any as S.Schema<NamespaceListResponse>,
+    errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -137,18 +199,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          group: S.String,
+          code: S.String,
+          message: S.String,
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/namespaces", code: 200 })),
       ).annotate({ identifier: "CreateNamespaceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(4, __c1, 0),
+          namespace: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "NamespacesCreateResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -159,7 +234,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Namespace" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -170,7 +245,7 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/namespaces", code: 200 })),
       ).annotate({ identifier: "ListNamespacesRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -180,8 +255,8 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          namespaces: __S(9, __c2, 1),
-          pagination: __S(10, __c2, 2),
+          namespaces: __S(13, __c3, 1),
+          pagination: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "NamespaceListResponse" });
   }

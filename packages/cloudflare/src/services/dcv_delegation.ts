@@ -36,7 +36,7 @@ export interface GetDcvDelegationRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDcvDelegationResponse {
   /** The DCV Delegation unique identifier. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 export type GetDcvDelegationError = CloudflareOpError;
 /** Retrieve the account and zone specific unique identifier used as part of the CNAME target for DCV Delegation. */

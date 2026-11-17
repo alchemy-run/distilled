@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface CompletionContext {
-  triggerCharacter?: string;
+  triggerCharacter?: string | undefined;
   triggerKind: number;
 }
 export interface LspPosition {
@@ -32,20 +32,20 @@ export interface LspPosition {
   line: number;
 }
 export interface CompletionsRequest {
-  context?: CompletionContext;
+  context?: CompletionContext | undefined;
   languageId: string;
   pathToProject: string;
   position: LspPosition;
   uri: string;
 }
 export interface CompletionItem {
-  detail?: string;
-  documentation?: unknown;
-  filterText?: string;
-  insertText?: string;
-  kind?: number;
+  detail?: string | undefined;
+  documentation?: unknown | undefined;
+  filterText?: string | undefined;
+  insertText?: string | undefined;
+  kind?: number | undefined;
   label: string;
-  sortText?: string;
+  sortText?: string | undefined;
 }
 export type CompletionListItemsList = Array<CompletionItem>;
 export interface CompletionList {

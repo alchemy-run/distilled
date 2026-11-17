@@ -441,6 +441,16 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
       },
     },
   },
+  invokeWebSearch: {
+    iam: {
+      actions: ["bedrock-agentcore:InvokeWebSearch"],
+      resources: {
+        "bedrock-agentcore:InvokeWebSearch": [
+          "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:tool/web-search.v1",
+        ],
+      },
+    },
+  },
   listABTests: { iam: { actions: ["bedrock-agentcore:ListABTests"] } },
   listActors: {
     iam: {

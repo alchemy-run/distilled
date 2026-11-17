@@ -30,9 +30,9 @@ export type CreateFieldNoteRequestElementContextMap = { [key: string]: unknown |
 /** Viewport size when the field note was made, as {width, height}. */
 export interface CreateFieldNoteRequestViewport {
   /** Viewport width in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Viewport height in pixels. */
-  height?: number;
+  height?: number | undefined;
 }
 export interface CreateFieldNoteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -40,27 +40,27 @@ export interface CreateFieldNoteRequest {
   /** The note the user wrote about the element. */
   comment: string;
   /** Lifecycle of the field note: pending, acknowledged, resolved, or dismissed. Ignored on create. * `pending` - Pending * `acknowledged` - Acknowledged * `resolved` - Resolved * `dismissed` - Dismissed */
-  field_note_status?: FieldNoteStatusEnum | (string & {});
+  field_note_status?: FieldNoteStatusEnum | (string & {}) | undefined;
   /** Optional note left by the agent when acknowledging, resolving, or dismissing the field note. */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Full URL of the page the field note was made on. */
   url: string;
   /** Hostname of the page, used to scope field notes to a site. */
   host: string;
   /** Path portion of the URL. */
-  pathname?: string | null;
+  pathname?: string | null | undefined;
   /** CSS selector that locates the element on the page. */
   selector: string;
   /** Visible text of the element, if any. */
-  element_text?: string | null;
+  element_text?: string | null | undefined;
   /** Serialized autocapture-style element chain from the element up to the document root. */
-  element_chain?: string | null;
+  element_chain?: string | null | undefined;
   /** Structured element metadata (inferred selectors, attributes, component hints). */
-  element_context?: CreateFieldNoteRequestElementContextMap;
+  element_context?: CreateFieldNoteRequestElementContextMap | undefined;
   /** Viewport size when the field note was made, as {width, height}. */
-  viewport?: CreateFieldNoteRequestViewport | null;
+  viewport?: CreateFieldNoteRequestViewport | null | undefined;
   /** URL of an uploaded screenshot captured with the field_note. */
-  screenshot_url?: string | null;
+  screenshot_url?: string | null | undefined;
 }
 /** Structured element metadata (inferred selectors, attributes, component hints). */
 export type FieldNoteElementContextMap = { [key: string]: unknown | undefined };
@@ -81,42 +81,42 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface FieldNote {
   id: string;
   /** The note the user wrote about the element. */
   comment: string;
   /** Lifecycle of the field note: pending, acknowledged, resolved, or dismissed. Ignored on create. * `pending` - Pending * `acknowledged` - Acknowledged * `resolved` - Resolved * `dismissed` - Dismissed */
-  field_note_status?: FieldNoteStatusEnum;
+  field_note_status?: FieldNoteStatusEnum | undefined;
   /** Optional note left by the agent when acknowledging, resolving, or dismissing the field note. */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Full URL of the page the field note was made on. */
   url: string;
   /** Hostname of the page, used to scope field notes to a site. */
   host: string;
   /** Path portion of the URL. */
-  pathname?: string | null;
+  pathname?: string | null | undefined;
   /** CSS selector that locates the element on the page. */
   selector: string;
   /** Visible text of the element, if any. */
-  element_text?: string | null;
+  element_text?: string | null | undefined;
   /** Serialized autocapture-style element chain from the element up to the document root. */
-  element_chain?: string | null;
+  element_chain?: string | null | undefined;
   /** Structured element metadata (inferred selectors, attributes, component hints). */
-  element_context?: FieldNoteElementContextMap;
+  element_context?: FieldNoteElementContextMap | undefined;
   /** Viewport size when the field note was made, as {width, height}. */
-  viewport?: CreateFieldNoteRequestViewport | null;
+  viewport?: CreateFieldNoteRequestViewport | null | undefined;
   /** URL of an uploaded screenshot captured with the field_note. */
-  screenshot_url?: string | null;
+  screenshot_url?: string | null | undefined;
   created_at: string;
   updated_at: string | null;
   created_by: UserBasic;
@@ -143,19 +143,19 @@ export interface ListFieldNotesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter to field notes in this lifecycle state (e.g. `pending` for unaddressed feedback). */
-  field_note_status?: ListFieldNotesRequestFieldNoteStatus | (string & {});
+  field_note_status?: ListFieldNotesRequestFieldNoteStatus | (string & {}) | undefined;
   /** Filter to field notes made on this hostname (e.g. `app.example.com`). */
-  host?: string;
+  host?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedFieldNoteListResultsList = Array<FieldNote>;
 export interface PaginatedFieldNoteList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedFieldNoteListResultsList;
 }
 /** Structured element metadata (inferred selectors, attributes, component hints). */
@@ -170,27 +170,27 @@ export interface UpdateFieldNoteRequest {
   /** The note the user wrote about the element. */
   comment: string;
   /** Lifecycle of the field note: pending, acknowledged, resolved, or dismissed. Ignored on create. * `pending` - Pending * `acknowledged` - Acknowledged * `resolved` - Resolved * `dismissed` - Dismissed */
-  field_note_status?: FieldNoteStatusEnum | (string & {});
+  field_note_status?: FieldNoteStatusEnum | (string & {}) | undefined;
   /** Optional note left by the agent when acknowledging, resolving, or dismissing the field note. */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Full URL of the page the field note was made on. */
   url: string;
   /** Hostname of the page, used to scope field notes to a site. */
   host: string;
   /** Path portion of the URL. */
-  pathname?: string | null;
+  pathname?: string | null | undefined;
   /** CSS selector that locates the element on the page. */
   selector: string;
   /** Visible text of the element, if any. */
-  element_text?: string | null;
+  element_text?: string | null | undefined;
   /** Serialized autocapture-style element chain from the element up to the document root. */
-  element_chain?: string | null;
+  element_chain?: string | null | undefined;
   /** Structured element metadata (inferred selectors, attributes, component hints). */
-  element_context?: UpdateFieldNoteRequestElementContextMap;
+  element_context?: UpdateFieldNoteRequestElementContextMap | undefined;
   /** Viewport size when the field note was made, as {width, height}. */
-  viewport?: CreateFieldNoteRequestViewport | null;
+  viewport?: CreateFieldNoteRequestViewport | null | undefined;
   /** URL of an uploaded screenshot captured with the field_note. */
-  screenshot_url?: string | null;
+  screenshot_url?: string | null | undefined;
 }
 /** Structured element metadata (inferred selectors, attributes, component hints). */
 export type UpdateFieldNotesPartialRequestElementContextMap = {
@@ -204,29 +204,29 @@ export interface UpdateFieldNotesPartialRequest {
   /** A UUID string identifying this field note. */
   id: string;
   /** The note the user wrote about the element. */
-  comment?: string;
+  comment?: string | undefined;
   /** Lifecycle of the field note: pending, acknowledged, resolved, or dismissed. Ignored on create. * `pending` - Pending * `acknowledged` - Acknowledged * `resolved` - Resolved * `dismissed` - Dismissed */
-  field_note_status?: FieldNoteStatusEnum | (string & {});
+  field_note_status?: FieldNoteStatusEnum | (string & {}) | undefined;
   /** Optional note left by the agent when acknowledging, resolving, or dismissing the field note. */
-  resolution?: string | null;
+  resolution?: string | null | undefined;
   /** Full URL of the page the field note was made on. */
-  url?: string;
+  url?: string | undefined;
   /** Hostname of the page, used to scope field notes to a site. */
-  host?: string;
+  host?: string | undefined;
   /** Path portion of the URL. */
-  pathname?: string | null;
+  pathname?: string | null | undefined;
   /** CSS selector that locates the element on the page. */
-  selector?: string;
+  selector?: string | undefined;
   /** Visible text of the element, if any. */
-  element_text?: string | null;
+  element_text?: string | null | undefined;
   /** Serialized autocapture-style element chain from the element up to the document root. */
-  element_chain?: string | null;
+  element_chain?: string | null | undefined;
   /** Structured element metadata (inferred selectors, attributes, component hints). */
-  element_context?: UpdateFieldNotesPartialRequestElementContextMap;
+  element_context?: UpdateFieldNotesPartialRequestElementContextMap | undefined;
   /** Viewport size when the field note was made, as {width, height}. */
-  viewport?: CreateFieldNoteRequestViewport | null;
+  viewport?: CreateFieldNoteRequestViewport | null | undefined;
   /** URL of an uploaded screenshot captured with the field_note. */
-  screenshot_url?: string | null;
+  screenshot_url?: string | null | undefined;
 }
 export type CreateFieldNoteError = PosthogOpError;
 /** Create, read, update, and resolve toolbar field notes -- UI feedback a user points at on their own site, surfaced to coding agents over MCP. */

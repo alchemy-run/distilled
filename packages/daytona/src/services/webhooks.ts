@@ -30,6 +30,8 @@ export class WebhooksNotInitialized
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<WebhooksNotInitialized>()("WebhooksNotInitialized", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { includes: "initialization status not found" } }],
   ) {}
@@ -37,7 +39,7 @@ export class WebhooksNotInitialized
 export interface GetWebhookControllerAppPortalAccessRequest {
   organizationId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface WebhookAppPortalAccess {
   /** The authentication token for the Svix consumer app portal */
@@ -48,7 +50,7 @@ export interface WebhookAppPortalAccess {
 export interface GetWebhookControllerInitializationStatusRequest {
   organizationId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface WebhookInitializationStatus {
   /** Organization ID */
@@ -67,14 +69,14 @@ export interface WebhookInitializationStatus {
 export interface RefreshWebhookControllerEndpointsRequest {
   organizationId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RefreshWebhookControllerEndpointsResponse {}
 export interface WebhookControllerInitializeWebhooksRequest {
   /** Organization ID */
   organizationId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type GetWebhookControllerAppPortalAccessError = DaytonaOpError;
 /** Get Svix Consumer App Portal access for an organization */

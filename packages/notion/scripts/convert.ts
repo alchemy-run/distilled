@@ -99,6 +99,7 @@ const OPERATION_NAMES: Record<string, string> = {
   "POST /v1/agents/query": "queryAgents",
   "GET /v1/agents/{agent_id}": "getAgent",
   "DELETE /v1/agents/{agent_id}": "deleteAgent",
+  "PATCH /v1/agents/{agent_id}": "updateAgent",
   "GET /v1/agents/{agent_id}/insights": "getAgentInsights",
   "PATCH /v1/agents/{agent_id}/status": "updateAgentStatus",
   "PATCH /v1/agents/{agent_id}/credit_limit": "updateAgentCreditLimit",

@@ -41,22 +41,22 @@ export type ProductType =
 /** Details of the product that is transferred. */
 export interface ProductDetails {
   /** Type of the product that is transferred. */
-  productType?: ProductType | (string & {});
+  productType?: ProductType | (string & {}) | undefined;
   /** The ID of the product that is transferred. */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** Request parameters to accept transfer. */
 export type AcceptTransferPropertiesProductDetailsList = Array<ProductDetails>;
 /** Request parameters to accept transfer. */
 export interface AcceptTransferProperties {
   /** Request parameters to accept transfer. */
-  productDetails?: AcceptTransferPropertiesProductDetailsList;
+  productDetails?: AcceptTransferPropertiesProductDetailsList | undefined;
 }
 export interface AcceptRecipientTransferRequest {
   /** The ID that uniquely identifies a transfer request. */
   transferName: string;
   /** Request parameters to accept transfer. */
-  properties?: AcceptTransferProperties;
+  properties?: AcceptTransferProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -65,17 +65,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Type of the products that can be transferred. */
 export type EligibleProductType =
@@ -101,24 +101,24 @@ export type ProductTransferStatus = "NotStarted" | "InProgress" | "Completed" | 
 /** Error details for transfer execution. */
 export interface TransferError {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Detailed transfer status. */
 export interface DetailedTransferStatus {
   /** Type of product that is transferred. */
-  productType?: ProductType;
+  productType?: ProductType | undefined;
   /** The ID of the product that is transferred. */
-  productId?: string;
+  productId?: string | undefined;
   /** The name of the product that is transferred. */
-  productName?: string;
+  productName?: string | undefined;
   /** The SKU of the product that is transferred. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** Transfer status. */
-  transferStatus?: ProductTransferStatus;
+  transferStatus?: ProductTransferStatus | undefined;
   /** Error details for transfer execution. */
-  errorDetails?: TransferError;
+  errorDetails?: TransferError | undefined;
 }
 /** Detailed transfer status. */
 export type RecipientTransferPropertiesDetailedTransferStatusList = Array<DetailedTransferStatus>;
@@ -129,54 +129,54 @@ export type RecipientTransferPropertiesSupportedAccountsList = Array<SupportedAc
 /** Transfer Details. */
 export interface RecipientTransferProperties {
   /** The time at which the transfer request expires. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Type of subscriptions that can be transferred. */
-  allowedProductType?: RecipientTransferPropertiesAllowedProductTypeList;
+  allowedProductType?: RecipientTransferPropertiesAllowedProductTypeList | undefined;
   /** Overall transfer status. */
-  transferStatus?: TransferStatus;
+  transferStatus?: TransferStatus | undefined;
   /** The email ID of the user to whom the transfer request was sent. */
-  recipientEmailId?: string;
+  recipientEmailId?: string | undefined;
   /** The email ID of the user who sent the transfer request. */
-  initiatorEmailId?: string;
+  initiatorEmailId?: string | undefined;
   /** Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account. */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** Optional name of the reseller for transfer requests that are sent from Microsoft Partner Agreement billing account. */
-  resellerName?: string;
+  resellerName?: string | undefined;
   /** The type of customer who sent the transfer request. */
-  initiatorCustomerType?: InitiatorCustomerType;
+  initiatorCustomerType?: InitiatorCustomerType | undefined;
   /** The email ID of the user who canceled the transfer request. */
-  canceledBy?: string;
+  canceledBy?: string | undefined;
   /** Detailed transfer status. */
-  detailedTransferStatus?: RecipientTransferPropertiesDetailedTransferStatusList;
+  detailedTransferStatus?: RecipientTransferPropertiesDetailedTransferStatusList | undefined;
   /** The customer tenant id. */
-  customerTenantId?: string;
+  customerTenantId?: string | undefined;
   /** List of supported account types. */
-  supportedAccounts?: RecipientTransferPropertiesSupportedAccountsList;
+  supportedAccounts?: RecipientTransferPropertiesSupportedAccountsList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AcceptRecipientTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface AcceptRecipientTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: RecipientTransferProperties;
+  properties?: RecipientTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AcceptRecipientTransferResponseTagsMap;
+  tags?: AcceptRecipientTransferResponseTagsMap | undefined;
 }
 /** The properties of payment term. */
 export interface PaymentTermInput {
   /** Represents duration in netXX format. Always in days. */
-  term?: string;
+  term?: string | undefined;
   /** The date on when the defined 'Payment Term' will be effective from and is always in UTC. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The date on when the defined 'Payment Term' will end and is always in UTC. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 export type AddBillingAccountPaymentTermsRequestBodyList = Array<PaymentTermInput>;
 export interface AddBillingAccountPaymentTermsRequest {
@@ -247,88 +247,88 @@ export type MarkupStatus = "Other" | "Disabled" | "Preview" | "Published" | "Loc
 /** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
 export interface IndirectRelationshipInfo {
   /** The billing account name of the partner or the customer for an indirect motion. */
-  billingAccountName?: string;
+  billingAccountName?: string | undefined;
   /** The billing profile name of the partner or the customer for an indirect motion. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** The display name of the partner or customer for an indirect motion. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The properties of an enrollment. */
 export interface EnrollmentDetails {
   /** The start date of the enrollment. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The end date of the enrollment. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The billing currency for the enrollment. */
-  currency?: string;
+  currency?: string | undefined;
   /** The channel type of the enrollment. */
-  channel?: string;
+  channel?: string | undefined;
   /** The language for the enrollment. */
-  language?: string;
+  language?: string | undefined;
   /** The country code of the enrollment. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The billing cycle for the enrollment. */
-  billingCycle?: string;
+  billingCycle?: string | undefined;
   /** The billing account extension opted by the company. */
-  extendedTermOption?: ExtendedTermOption;
+  extendedTermOption?: ExtendedTermOption | undefined;
   /** The support level offer associated with an enrollment. */
-  supportLevel?: SupportLevel;
+  supportLevel?: SupportLevel | undefined;
   /** The support coverage period for the enrollment. */
-  supportCoverage?: string;
+  supportCoverage?: string | undefined;
   /** The cloud of the enrollment. */
-  cloud?: string;
+  cloud?: string | undefined;
   /** The purchase order number of the enrollment. */
-  poNumber?: string;
+  poNumber?: string | undefined;
   /** Markup status of enrollment, applicable only for indirect enrollments. */
-  markupStatus?: MarkupStatus;
+  markupStatus?: MarkupStatus | undefined;
   /** The properties of an enrollment which are applicable only for indirect enrollments. */
-  indirectRelationshipInfo?: IndirectRelationshipInfo;
+  indirectRelationshipInfo?: IndirectRelationshipInfo | undefined;
   /** The contact who receives invoices of the enrollment. */
-  invoiceRecipient?: string;
+  invoiceRecipient?: string | undefined;
 }
 /** Address details. */
 export interface AddressDetails {
   /** Address line 1. */
   addressLine1: string;
   /** Address line 2. */
-  addressLine2?: string;
+  addressLine2?: string | undefined;
   /** Address line 3. */
-  addressLine3?: string;
+  addressLine3?: string | undefined;
   /** Address city. */
-  city?: string;
+  city?: string | undefined;
   /** Company name. Optional for MCA Individual (Pay-as-you-go). */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Country code uses ISO 3166-1 Alpha-2 format. */
   country: string;
   /** Address district. */
-  district?: string;
+  district?: string | undefined;
   /** Email address. */
-  email?: string;
+  email?: string | undefined;
   /** First name. Optional for MCA Enterprise. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name. Optional for MCA Enterprise. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Middle name. */
-  middleName?: string;
+  middleName?: string | undefined;
   /** Phone number. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Address region. */
-  region?: string;
+  region?: string | undefined;
   /** Indicates if the address is incomplete. */
-  isValidAddress?: boolean;
+  isValidAddress?: boolean | undefined;
 }
 /** The types of registration number allowed based on the country of the billing account. */
 export type RegistrationNumberTypeList = Array<string>;
 /** Describes the registration number of the organization linked with the billing account. */
 export interface RegistrationNumber {
   /** The unique identification number of the organization linked with the billing account. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies if the registration number is required for the billing account. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The types of registration number allowed based on the country of the billing account. */
-  type?: RegistrationNumberTypeList;
+  type?: RegistrationNumberTypeList | undefined;
 }
 /** Identifies the billing relationships represented by a billing account or billing profile. The billing relationship may be between Microsoft, the customer, and/or a third-party. */
 export type BillingRelationshipType =
@@ -369,74 +369,74 @@ export type TaxIdentifierStatus = "Other" | "Valid" | "Invalid";
 /** A tax identifier for the billing account. */
 export interface TaxIdentifier {
   /** The id of the tax identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the tax identifier. */
-  type?: TaxIdentifierType | (string & {});
+  type?: TaxIdentifierType | (string & {}) | undefined;
   /** The scope of the tax identifier. */
-  scope?: string;
+  scope?: string | undefined;
   /** The country of the tax identifier. */
-  country?: string;
+  country?: string | undefined;
   /** The status of the tax identifier. */
-  status?: TaxIdentifierStatus | (string & {});
+  status?: TaxIdentifierStatus | (string & {}) | undefined;
 }
 /** A list of tax identifiers for the billing account. */
 export type BillingAccountPropertiesTaxIdsList = Array<TaxIdentifier>;
 /** A billing account. */
 export interface BillingAccountProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The current status of the billing account. */
-  accountStatus?: AccountStatus;
+  accountStatus?: AccountStatus | undefined;
   /** The type of customer. */
-  accountType?: AccountType;
+  accountType?: AccountType | undefined;
   /** The tier of the account. */
-  accountSubType?: AccountSubType;
+  accountSubType?: AccountSubType | undefined;
   /** Reason for the specified billing account status. */
-  accountStatusReasonCode?: BillingAccountStatusReasonCode;
+  accountStatusReasonCode?: BillingAccountStatusReasonCode | undefined;
   /** The type of agreement. */
-  agreementType?: AgreementType;
+  agreementType?: AgreementType | undefined;
   /** The billing account name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The properties of an enrollment. */
-  enrollmentDetails?: EnrollmentDetails;
+  enrollmentDetails?: EnrollmentDetails | undefined;
   /** Indicates whether user has read access to the billing account. */
-  hasReadAccess?: boolean;
+  hasReadAccess?: boolean | undefined;
   /** Indicates whether or not the billing account has any billing profiles. */
-  hasNoBillingProfiles?: boolean;
+  hasNoBillingProfiles?: boolean | undefined;
   /** Notification email address for legacy account. Available for agreement type Microsoft Online Services Program. */
-  notificationEmailAddress?: string;
+  notificationEmailAddress?: string | undefined;
   /** The tenant that was used to set up the billing account. By default, only users from this tenant can get role assignments on the billing account and all purchases are provisioned in this tenant. */
-  primaryBillingTenantId?: string;
+  primaryBillingTenantId?: string | undefined;
   /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
+  soldTo?: AddressDetails | undefined;
   /** Describes the registration number of the organization linked with the billing account. */
-  registrationNumber?: RegistrationNumber;
+  registrationNumber?: RegistrationNumber | undefined;
   /** Identifies the billing relationships represented by a billing account. The billing relationship may be between Microsoft, the customer, and/or a third-party. */
-  billingRelationshipTypes?: BillingAccountPropertiesBillingRelationshipTypesList;
+  billingRelationshipTypes?: BillingAccountPropertiesBillingRelationshipTypesList | undefined;
   /** Qualifications for pricing on a billing account. Values may be Commercial, Education, Charity or Government. */
-  qualifications?: BillingAccountPropertiesQualificationsList;
+  qualifications?: BillingAccountPropertiesQualificationsList | undefined;
   /** A list of tax identifiers for the billing account. */
-  taxIds?: BillingAccountPropertiesTaxIdsList;
+  taxIds?: BillingAccountPropertiesTaxIdsList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AddBillingAccountPaymentTermsResponseTagsMap = { [key: string]: string | undefined };
 export interface AddBillingAccountPaymentTermsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing account. */
-  properties?: BillingAccountProperties;
+  properties?: BillingAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AddBillingAccountPaymentTermsResponseTagsMap;
+  tags?: AddBillingAccountPaymentTermsResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The state determines whether users from the associated tenant can be assigned roles for commerce activities like viewing and downloading invoices, managing payments, and making purchases. */
 export type BillingManagementTenantState = "Other" | "NotAllowed" | "Active" | "Revoked";
@@ -452,13 +452,13 @@ export type ProvisioningTenantState =
 /** An associated tenant. */
 export interface AssociatedTenantPropertiesInput {
   /** The name of the associated tenant. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID that uniquely identifies a tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The state determines whether users from the associated tenant can be assigned roles for commerce activities like viewing and downloading invoices, managing payments, and making purchases. */
-  billingManagementState?: BillingManagementTenantState | (string & {});
+  billingManagementState?: BillingManagementTenantState | (string & {}) | undefined;
   /** The state determines whether subscriptions and licenses can be provisioned in the associated tenant. It can be set to 'Pending' to initiate a billing request. */
-  provisioningManagementState?: ProvisioningTenantState | (string & {});
+  provisioningManagementState?: ProvisioningTenantState | (string & {}) | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AssociatedTenantsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -468,50 +468,50 @@ export interface AssociatedTenantsCreateOrUpdateRequest {
   /** The ID that uniquely identifies a tenant. */
   associatedTenantName: string;
   /** An associated tenant. */
-  properties?: AssociatedTenantPropertiesInput;
+  properties?: AssociatedTenantPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AssociatedTenantsCreateOrUpdateRequestTagsMap;
+  tags?: AssociatedTenantsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** An associated tenant. */
 export interface AssociatedTenantProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The name of the associated tenant. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID that uniquely identifies a tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The state determines whether users from the associated tenant can be assigned roles for commerce activities like viewing and downloading invoices, managing payments, and making purchases. */
-  billingManagementState?: BillingManagementTenantState;
+  billingManagementState?: BillingManagementTenantState | undefined;
   /** The state determines whether subscriptions and licenses can be provisioned in the associated tenant. It can be set to 'Pending' to initiate a billing request. */
-  provisioningManagementState?: ProvisioningTenantState;
+  provisioningManagementState?: ProvisioningTenantState | undefined;
   /** The unique identifier for the billing request that is created when enabling provisioning for an associated tenant. */
-  provisioningBillingRequestId?: string;
+  provisioningBillingRequestId?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AssociatedTenantsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface AssociatedTenantsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An associated tenant. */
-  properties?: AssociatedTenantProperties;
+  properties?: AssociatedTenantProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AssociatedTenantsCreateOrUpdateResponseTagsMap;
+  tags?: AssociatedTenantsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** The status of the billing profile. */
 export type BillingProfileStatus =
@@ -533,36 +533,36 @@ export type SpendingLimit = "Off" | "On";
 /** Details of the Azure plan. */
 export interface AzurePlan {
   /** The ID that uniquely identifies a product. */
-  productId?: string;
+  productId?: string | undefined;
   /** The ID that uniquely identifies a sku. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The sku description. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
 }
 /** Enabled azure plans for the associated billing profile. */
 export type InvoiceSectionWithCreateSubPermissionEnabledAzurePlansList = Array<AzurePlan>;
 /** Invoice section properties with create subscription permission. */
 export interface InvoiceSectionWithCreateSubPermission {
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The system generated unique identifier for a billing profile. */
-  billingProfileSystemId?: string;
+  billingProfileSystemId?: string | undefined;
   /** The status of the billing profile. */
-  billingProfileStatus?: BillingProfileStatus;
+  billingProfileStatus?: BillingProfileStatus | undefined;
   /** Reason for the specified billing profile status. */
-  billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+  billingProfileStatusReasonCode?: BillingProfileStatusReasonCode | undefined;
   /** The billing profile spending limit. */
-  billingProfileSpendingLimit?: SpendingLimit;
+  billingProfileSpendingLimit?: SpendingLimit | undefined;
   /** Enabled azure plans for the associated billing profile. */
-  enabledAzurePlans?: InvoiceSectionWithCreateSubPermissionEnabledAzurePlansList;
+  enabledAzurePlans?: InvoiceSectionWithCreateSubPermissionEnabledAzurePlansList | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The system generated unique identifier for an invoice section. */
-  invoiceSectionSystemId?: string;
+  invoiceSectionSystemId?: string | undefined;
 }
 /** The InvoiceSectionWithCreateSubPermission items on this page */
 export type InvoiceSectionWithCreateSubPermissionListResultValueList =
@@ -572,7 +572,7 @@ export interface InvoiceSectionWithCreateSubPermissionListResult {
   /** The InvoiceSectionWithCreateSubPermission items on this page */
   value: InvoiceSectionWithCreateSubPermissionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Information about the enabled azure plans. */
 export type BillingProfilePropertiesInputEnabledAzurePlansList = Array<AzurePlan>;
@@ -583,27 +583,27 @@ export type BillingProfilePropertiesInputTagsMap = { [key: string]: string | und
 /** A billing profile. */
 export interface BillingProfilePropertiesInput {
   /** Billing address. */
-  billTo?: AddressDetails;
+  billTo?: AddressDetails | undefined;
   /** The name of the billing profile. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Information about the enabled azure plans. */
-  enabledAzurePlans?: BillingProfilePropertiesInputEnabledAzurePlansList;
+  enabledAzurePlans?: BillingProfilePropertiesInputEnabledAzurePlansList | undefined;
   /** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
-  indirectRelationshipInfo?: IndirectRelationshipInfo;
+  indirectRelationshipInfo?: IndirectRelationshipInfo | undefined;
   /** Flag controlling whether the invoices for the billing profile are sent through email. */
-  invoiceEmailOptIn?: boolean;
+  invoiceEmailOptIn?: boolean | undefined;
   /** The list of email addresses to receive invoices by email for the billing profile. */
-  invoiceRecipients?: BillingProfilePropertiesInputInvoiceRecipientsList;
+  invoiceRecipients?: BillingProfilePropertiesInputInvoiceRecipientsList | undefined;
   /** The default purchase order number that will appear on the invoices generated for the billing profile. */
-  poNumber?: string;
+  poNumber?: string | undefined;
   /** The default address where the products are shipped, or the services are being used. If a ship to is not specified for a product or a subscription, then this address will be used. */
-  shipTo?: AddressDetails;
+  shipTo?: AddressDetails | undefined;
   /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
+  soldTo?: AddressDetails | undefined;
   /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingProfilePropertiesInputTagsMap;
+  tags?: BillingProfilePropertiesInputTagsMap | undefined;
   /** The current payment term of the billing profile. */
-  currentPaymentTerm?: PaymentTermInput;
+  currentPaymentTerm?: PaymentTermInput | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -613,9 +613,9 @@ export interface BillingProfilesCreateOrUpdateRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** A billing profile. */
-  properties?: BillingProfilePropertiesInput;
+  properties?: BillingProfilePropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingProfilesCreateOrUpdateRequestTagsMap;
+  tags?: BillingProfilesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Information about the enabled azure plans. */
 export type BillingProfilePropertiesEnabledAzurePlansList = Array<AzurePlan>;
@@ -649,17 +649,17 @@ export type SpendingLimitStatus =
 /** The billing profile spending limit. */
 export interface SpendingLimitDetails {
   /** The initial amount for the billing profile. */
-  amount?: number;
+  amount?: number | undefined;
   /** The currency in which the charges for the billing profile are billed. */
-  currency?: string;
+  currency?: string | undefined;
   /** The date when this spending limit goes into effect. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The date when this spending limit is no longer in effect. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The type of spending limit. */
-  type?: SpendingLimitType;
+  type?: SpendingLimitType | undefined;
   /** The status of current spending limit. */
-  status?: SpendingLimitStatus;
+  status?: SpendingLimitStatus | undefined;
 }
 /** The details of billing profile spending limit. */
 export type BillingProfilePropertiesSpendingLimitDetailsList = Array<SpendingLimitDetails>;
@@ -670,84 +670,84 @@ export type BillingProfilePropertiesTargetCloudsList = Array<string>;
 /** The properties of payment term. */
 export interface PaymentTerm {
   /** Represents duration in netXX format. Always in days. */
-  term?: string;
+  term?: string | undefined;
   /** The date on when the defined 'Payment Term' will be effective from and is always in UTC. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The date on when the defined 'Payment Term' will end and is always in UTC. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Indicates payment term is the standard payment term. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 /** The other payment terms of the billing profile. */
 export type BillingProfilePropertiesOtherPaymentTermsList = Array<PaymentTerm>;
 /** A billing profile. */
 export interface BillingProfileProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Identifies the billing relationship represented by the billing profile. The billing relationship may be between Microsoft, the customer, and/or a third-party. */
-  billingRelationshipType?: BillingRelationshipType;
+  billingRelationshipType?: BillingRelationshipType | undefined;
   /** Billing address. */
-  billTo?: AddressDetails;
+  billTo?: AddressDetails | undefined;
   /** The currency in which the charges for the billing profile are billed. */
-  currency?: string;
+  currency?: string | undefined;
   /** The name of the billing profile. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Information about the enabled azure plans. */
-  enabledAzurePlans?: BillingProfilePropertiesEnabledAzurePlansList;
+  enabledAzurePlans?: BillingProfilePropertiesEnabledAzurePlansList | undefined;
   /** Indicates whether user has read access to the billing profile. */
-  hasReadAccess?: boolean;
+  hasReadAccess?: boolean | undefined;
   /** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
-  indirectRelationshipInfo?: IndirectRelationshipInfo;
+  indirectRelationshipInfo?: IndirectRelationshipInfo | undefined;
   /** The day of the month when the invoice for the billing profile is generated. */
-  invoiceDay?: number;
+  invoiceDay?: number | undefined;
   /** Flag controlling whether the invoices for the billing profile are sent through email. */
-  invoiceEmailOptIn?: boolean;
+  invoiceEmailOptIn?: boolean | undefined;
   /** The list of email addresses to receive invoices by email for the billing profile. */
-  invoiceRecipients?: BillingProfilePropertiesInvoiceRecipientsList;
+  invoiceRecipients?: BillingProfilePropertiesInvoiceRecipientsList | undefined;
   /** The default purchase order number that will appear on the invoices generated for the billing profile. */
-  poNumber?: string;
+  poNumber?: string | undefined;
   /** The default address where the products are shipped, or the services are being used. If a ship to is not specified for a product or a subscription, then this address will be used. */
-  shipTo?: AddressDetails;
+  shipTo?: AddressDetails | undefined;
   /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
+  soldTo?: AddressDetails | undefined;
   /** The billing profile spending limit. */
-  spendingLimit?: SpendingLimit;
+  spendingLimit?: SpendingLimit | undefined;
   /** The details of billing profile spending limit. */
-  spendingLimitDetails?: BillingProfilePropertiesSpendingLimitDetailsList;
+  spendingLimitDetails?: BillingProfilePropertiesSpendingLimitDetailsList | undefined;
   /** The status of the billing profile. */
-  status?: BillingProfileStatus;
+  status?: BillingProfileStatus | undefined;
   /** Reason for the specified billing profile status. */
-  statusReasonCode?: BillingProfileStatusReasonCode;
+  statusReasonCode?: BillingProfileStatusReasonCode | undefined;
   /** The system generated unique identifier for a billing profile. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingProfilePropertiesTagsMap;
+  tags?: BillingProfilePropertiesTagsMap | undefined;
   /** Identifies the cloud environments that are associated with a billing profile. This is a system managed optional field and gets updated as the billing profile gets associated with accounts in various clouds. */
-  targetClouds?: BillingProfilePropertiesTargetCloudsList;
+  targetClouds?: BillingProfilePropertiesTargetCloudsList | undefined;
   /** The current payment term of the billing profile. */
-  currentPaymentTerm?: PaymentTerm;
+  currentPaymentTerm?: PaymentTerm | undefined;
   /** The other payment terms of the billing profile. */
-  otherPaymentTerms?: BillingProfilePropertiesOtherPaymentTermsList;
+  otherPaymentTerms?: BillingProfilePropertiesOtherPaymentTermsList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface BillingProfilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing profile. */
-  properties?: BillingProfileProperties;
+  properties?: BillingProfileProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingProfilesCreateOrUpdateResponseTagsMap;
+  tags?: BillingProfilesCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingProfilesValidateDeleteEligibilityRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -771,9 +771,9 @@ export type DeleteBillingProfileEligibilityCode =
 /** Validation details of delete billing profile eligibility. */
 export interface DeleteBillingProfileEligibilityDetail {
   /** Code of the delete invoice section eligibility response. */
-  code?: DeleteBillingProfileEligibilityCode;
+  code?: DeleteBillingProfileEligibilityCode | undefined;
   /** Validation message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Validation details of delete billing profile eligibility. */
 export type DeleteBillingProfileEligibilityResultEligibilityDetailsList =
@@ -781,9 +781,9 @@ export type DeleteBillingProfileEligibilityResultEligibilityDetailsList =
 /** Eligibility to delete a billing profile result. */
 export interface DeleteBillingProfileEligibilityResult {
   /** Status describing if billing profile is eligible to be deleted. */
-  eligibilityStatus?: DeleteBillingProfileEligibilityStatus;
+  eligibilityStatus?: DeleteBillingProfileEligibilityStatus | undefined;
   /** Validation details of delete billing profile eligibility. */
-  eligibilityDetails?: DeleteBillingProfileEligibilityResultEligibilityDetailsList;
+  eligibilityDetails?: DeleteBillingProfileEligibilityResultEligibilityDetailsList | undefined;
 }
 /** Additional information for the billing request. */
 export type BillingRequestPropertiesInputAdditionalInformationMap = {
@@ -792,11 +792,11 @@ export type BillingRequestPropertiesInputAdditionalInformationMap = {
 /** A principal who has interacted with a billing entity. */
 export interface Principal {
   /** The tenant id of the principal who has interacted with a billing entity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The object id of the principal who has interacted with a billing entity. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The user principal name of the principal who has interacted with a billing entity. */
-  upn?: string;
+  upn?: string | undefined;
 }
 /** The recipients of the billing request. */
 export type BillingRequestPropertiesInputRecipientsList = Array<Principal>;
@@ -819,25 +819,25 @@ export type BillingRequestType =
 /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
 export interface BillingRequestPropertiesInput {
   /** Additional information for the billing request. */
-  additionalInformation?: BillingRequestPropertiesInputAdditionalInformationMap;
+  additionalInformation?: BillingRequestPropertiesInputAdditionalInformationMap | undefined;
   /** The principal of the request reviewer. Will only be set if request is approved. */
-  reviewedBy?: Principal;
+  reviewedBy?: Principal | undefined;
   /** The principal of the entity who created the request. */
-  createdBy?: Principal;
+  createdBy?: Principal | undefined;
   /** The reason to approve or decline the request. */
-  decisionReason?: string;
+  decisionReason?: string | undefined;
   /** Justification for submitting request. */
-  justification?: string;
+  justification?: string | undefined;
   /** The recipients of the billing request. */
-  recipients?: BillingRequestPropertiesInputRecipientsList;
+  recipients?: BillingRequestPropertiesInputRecipientsList | undefined;
   /** The billing scope for which the request was submitted (ex. '/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}'). */
-  requestScope?: string;
+  requestScope?: string | undefined;
   /** Status of billing request. */
-  status?: BillingRequestStatus | (string & {});
+  status?: BillingRequestStatus | (string & {}) | undefined;
   /** Type of billing request. */
-  type?: BillingRequestType | (string & {});
+  type?: BillingRequestType | (string & {}) | undefined;
   /** The principal of the entity who last updated the request. */
-  lastUpdatedBy?: Principal;
+  lastUpdatedBy?: Principal | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRequestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -845,9 +845,9 @@ export interface BillingRequestsCreateOrUpdateRequest {
   /** The ID that uniquely identifies a billing request. */
   billingRequestName: string;
   /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
-  properties?: BillingRequestPropertiesInput;
+  properties?: BillingRequestPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRequestsCreateOrUpdateRequestTagsMap;
+  tags?: BillingRequestsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Additional information for the billing request. */
 export type BillingRequestPropertiesAdditionalInformationMap = {
@@ -858,106 +858,106 @@ export type BillingRequestPropertiesRecipientsList = Array<Principal>;
 /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
 export interface BillingRequestProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Additional information for the billing request. */
-  additionalInformation?: BillingRequestPropertiesAdditionalInformationMap;
+  additionalInformation?: BillingRequestPropertiesAdditionalInformationMap | undefined;
   /** The principal of the request reviewer. Will only be set if request is approved. */
-  reviewedBy?: Principal;
+  reviewedBy?: Principal | undefined;
   /** The date and time when the request was reviewed. */
-  reviewalDate?: string;
+  reviewalDate?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing account. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** The ID that uniquely identifies a billing account. */
-  billingAccountName?: string;
+  billingAccountName?: string | undefined;
   /** The name of the billing account. */
-  billingAccountDisplayName?: string;
+  billingAccountDisplayName?: string | undefined;
   /** The primary tenant ID of the billing account for which the billing request was submitted. */
-  billingAccountPrimaryBillingTenantId?: string;
+  billingAccountPrimaryBillingTenantId?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The ID that uniquely identifies a billing profile. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The principal of the entity who created the request. */
-  createdBy?: Principal;
+  createdBy?: Principal | undefined;
   /** The date and time when the request was created. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The date and time when the request expires. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The reason to approve or decline the request. */
-  decisionReason?: string;
+  decisionReason?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The ID that uniquely identifies an invoice section. */
-  invoiceSectionName?: string;
+  invoiceSectionName?: string | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The ID that uniquely identifies a customer. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The ID that uniquely identifies a billing subscription. */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
   /** The name of the billing subscription. */
-  subscriptionDisplayName?: string;
+  subscriptionDisplayName?: string | undefined;
   /** Justification for submitting request. */
-  justification?: string;
+  justification?: string | undefined;
   /** The recipients of the billing request. */
-  recipients?: BillingRequestPropertiesRecipientsList;
+  recipients?: BillingRequestPropertiesRecipientsList | undefined;
   /** The billing scope for which the request was submitted (ex. '/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}'). */
-  requestScope?: string;
+  requestScope?: string | undefined;
   /** The billing scope for which the request will be applied. This is a read only property derived by the service. */
-  billingScope?: string;
+  billingScope?: string | undefined;
   /** Status of billing request. */
-  status?: BillingRequestStatus;
+  status?: BillingRequestStatus | undefined;
   /** Type of billing request. */
-  type?: BillingRequestType;
+  type?: BillingRequestType | undefined;
   /** The principal of the entity who last updated the request. */
-  lastUpdatedBy?: Principal;
+  lastUpdatedBy?: Principal | undefined;
   /** Date and time of last update. */
-  lastUpdatedDate?: string;
+  lastUpdatedDate?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRequestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface BillingRequestsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
-  properties?: BillingRequestProperties;
+  properties?: BillingRequestProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRequestsCreateOrUpdateResponseTagsMap;
+  tags?: BillingRequestsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of the billing role assignment. */
 export interface BillingRoleAssignmentPropertiesInput {
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountRequestTagsMap = {
@@ -969,9 +969,9 @@ export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountRequest {
   /** The ID that uniquely identifies a role assignment. */
   billingRoleAssignmentName: string;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentPropertiesInput;
+  properties?: BillingRoleAssignmentPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountRequestTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountRequestTagsMap | undefined;
 }
 /** The type of a role Assignment. */
 export type PrincipalType =
@@ -985,65 +985,65 @@ export type PrincipalType =
 /** The properties of the billing role assignment. */
 export interface BillingRoleAssignmentProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The date the role assignment was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The tenant Id of the user who created the role assignment. */
-  createdByPrincipalTenantId?: string;
+  createdByPrincipalTenantId?: string | undefined;
   /** The object ID of the user who created the role assignment. */
-  createdByPrincipalId?: string;
+  createdByPrincipalId?: string | undefined;
   /** The principal PUID of the user who created the role assignment. */
-  createdByPrincipalPuid?: string;
+  createdByPrincipalPuid?: string | undefined;
   /** The email address of the user who created the role assignment. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  createdByUserEmailAddress?: string;
+  createdByUserEmailAddress?: string | undefined;
   /** The date the role assignment was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** The principal PUID of the user who modified the role assignment. */
-  modifiedByPrincipalPuid?: string;
+  modifiedByPrincipalPuid?: string | undefined;
   /** The email address of the user who modified the role assignment. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  modifiedByUserEmailAddress?: string;
+  modifiedByUserEmailAddress?: string | undefined;
   /** The principal PUID of the user who modified the role assignment. */
-  modifiedByPrincipalId?: string;
+  modifiedByPrincipalId?: string | undefined;
   /** The tenant Id of the user who modified the role assignment. */
-  modifiedByPrincipalTenantId?: string;
+  modifiedByPrincipalTenantId?: string | undefined;
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
   /** The friendly name of the tenant of the user to whom the role was assigned. This will be 'Primary Tenant' for the primary tenant of the billing account. */
-  principalTenantName?: string;
+  principalTenantName?: string | undefined;
   /** The display name of the principal to whom the role was assigned. */
-  principalDisplayName?: string;
+  principalDisplayName?: string | undefined;
   /** The type of a role Assignment. */
-  principalType?: PrincipalType;
+  principalType?: PrincipalType | undefined;
   /** The ID of the billing request that was created for the role assignment. This is only applicable to cross tenant role assignments or role assignments created through the billing request. */
-  billingRequestId?: string;
+  billingRequestId?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing account. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** The name of the billing account. */
-  billingAccountDisplayName?: string;
+  billingAccountDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap = {
@@ -1051,21 +1051,21 @@ export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap 
 };
 export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByDepartmentRequestTagsMap = {
@@ -1079,9 +1079,9 @@ export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentRequest {
   /** The ID that uniquely identifies a role assignment. */
   billingRoleAssignmentName: string;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentPropertiesInput;
+  properties?: BillingRoleAssignmentPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByDepartmentRequestTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByDepartmentRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap = {
@@ -1089,21 +1089,21 @@ export type BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap = {
 };
 export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountRequestTagsMap = {
@@ -1117,9 +1117,9 @@ export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountRequest 
   /** The ID that uniquely identifies a role assignment. */
   billingRoleAssignmentName: string;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentPropertiesInput;
+  properties?: BillingRoleAssignmentPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountRequestTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsMap = {
@@ -1127,46 +1127,46 @@ export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsM
 };
 export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsMap;
+  tags?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingRoleAssignmentsResolveByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Resolves the scope display name for each of the role assignments. */
-  resolveScopeDisplayNames?: boolean;
+  resolveScopeDisplayNames?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRoleAssignmentTagsMap = { [key: string]: string | undefined };
 /** The properties of the billing role assignment. */
 export interface BillingRoleAssignment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleAssignmentTagsMap;
+  tags?: BillingRoleAssignmentTagsMap | undefined;
 }
 /** The BillingRoleAssignment items on this page */
 export type BillingRoleAssignmentListResultValueList = Array<BillingRoleAssignment>;
@@ -1175,11 +1175,11 @@ export interface BillingRoleAssignmentsResolveByBillingAccountResponse {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingRoleAssignmentsResolveByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1187,20 +1187,20 @@ export interface BillingRoleAssignmentsResolveByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** Resolves the scope display name for each of the role assignments. */
-  resolveScopeDisplayNames?: boolean;
+  resolveScopeDisplayNames?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Paged collection of BillingRoleAssignment items */
 export interface BillingRoleAssignmentsResolveByBillingProfileResponse {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingRoleAssignmentsResolveByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1210,20 +1210,20 @@ export interface BillingRoleAssignmentsResolveByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** Resolves the scope display name for each of the role assignments. */
-  resolveScopeDisplayNames?: boolean;
+  resolveScopeDisplayNames?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Paged collection of BillingRoleAssignment items */
 export interface BillingRoleAssignmentsResolveByCustomerResponse {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingRoleAssignmentsResolveByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1233,64 +1233,64 @@ export interface BillingRoleAssignmentsResolveByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** Resolves the scope display name for each of the role assignments. */
-  resolveScopeDisplayNames?: boolean;
+  resolveScopeDisplayNames?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Paged collection of BillingRoleAssignment items */
 export interface BillingRoleAssignmentsResolveByInvoiceSectionResponse {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Indicates whether auto renewal is turned on or off for a product. */
 export type AutoRenew = "Off" | "On";
 /** Details of the beneficiary. */
 export interface Beneficiary {
   /** The ID that uniquely identifies a tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The ID that uniquely identifies a user in a tenant. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** System imposed policies that regulate behavior of the subscription. */
 export interface SystemOverridesInput {}
 /** A billing subscription alias. */
 export interface BillingSubscriptionAliasPropertiesInput {
   /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew | (string & {});
+  autoRenew?: AutoRenew | (string & {}) | undefined;
   /** The provisioning tenant of the subscription. */
-  beneficiaryTenantId?: string;
+  beneficiaryTenantId?: string | undefined;
   /** The beneficiary of the billing subscription. */
-  beneficiary?: Beneficiary;
+  beneficiary?: Beneficiary | undefined;
   /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
-  consumptionCostCenter?: string;
+  consumptionCostCenter?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The name of the billing subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** Id of the product for which the subscription is purchased. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** The quantity of licenses or fulfillment units for the subscription. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The SKU ID of the product for which the subscription is purchased. This field is is only available for Microsoft Customer Agreement billing accounts. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** System imposed policies that regulate behavior of the subscription. */
-  systemOverrides?: SystemOverridesInput;
+  systemOverrides?: SystemOverridesInput | undefined;
   /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** The tenant in which the subscription is provisioned. */
-  provisioningTenantId?: string;
+  provisioningTenantId?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingSubscriptionsAliasesCreateOrUpdateRequestTagsMap = {
@@ -1302,9 +1302,9 @@ export interface BillingSubscriptionsAliasesCreateOrUpdateRequest {
   /** The ID that uniquely identifies a subscription alias. */
   aliasName: string;
   /** The properties of a(n) BillingSubscriptionAlias */
-  properties?: BillingSubscriptionAliasPropertiesInput;
+  properties?: BillingSubscriptionAliasPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingSubscriptionsAliasesCreateOrUpdateRequestTagsMap;
+  tags?: BillingSubscriptionsAliasesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Dictionary of billing policies associated with the subscription. */
 export type BillingSubscriptionAliasPropertiesBillingPoliciesMap = {
@@ -1322,54 +1322,54 @@ export type SubscriptionEnrollmentAccountStatus =
 /** The billing properties that can be modified. Available only for the Enterprise Agreement Type. */
 export interface EnrollmentAccountSubscriptionDetails {
   /** The enrollment Account and the subscription association start date. This field is available only for the Enterprise Agreement Type. */
-  enrollmentAccountStartDate?: string;
+  enrollmentAccountStartDate?: string | undefined;
   /** The current enrollment account status of the subscription. This field is available only for the Enterprise Agreement Type. */
-  subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus;
+  subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus | undefined;
 }
 /** The amount. */
 export interface Amount {
   /** The currency for the amount value. */
-  currency?: string;
+  currency?: string | undefined;
   /** The amount value. For example, if the currency is USD, then a value of 600 would be $600.00. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Billing cycle details of the product. */
 export interface NextBillingCycleDetails {
   /** Billing frequency of the product under the subscription. */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
 }
 /** Details of the reseller. */
 export interface Reseller {
   /** The MPN ID of the reseller. */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** The name of the reseller. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Details for the next renewal term of a subscription. */
 export interface RenewalTermDetails {
   /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** Id of the product for which the subscription is purchased. */
-  productId?: string;
+  productId?: string | undefined;
   /** Type Id of the product for which the subscription is purchased. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** The SKU ID of the product for which the subscription is purchased. This field is is only available for Microsoft Customer Agreement billing accounts. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** The quantity of licenses or fulfillment units for the subscription. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** End date of the term in UTC time. */
-  termEndDate?: string;
+  termEndDate?: string | undefined;
 }
 /** The policy override for the subscription indicates whether the self-serve cancellation or seat reduction is allowed. */
 export type Cancellation = "NotAllowed" | "Allowed";
 /** System imposed policies that regulate behavior of the subscription. */
 export interface SystemOverrides {
   /** The policy override for the subscription indicates whether the self-serve cancellation or seat reduction is allowed. */
-  cancellation?: Cancellation;
+  cancellation?: Cancellation | undefined;
   /** The end date in UTC time by when the self-serve cancellation ends. */
-  cancellationAllowedEndDate?: string;
+  cancellationAllowedEndDate?: string | undefined;
 }
 /** The subscription status. */
 export type BillingSubscriptionStatus =
@@ -1403,9 +1403,9 @@ export type SubscriptionStatusReason =
 /** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
 export interface BillingSubscriptionStatusDetails {
   /** The suspension effective date for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  effectiveDate?: string;
+  effectiveDate?: string | undefined;
   /** The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  reason?: SubscriptionStatusReason;
+  reason?: SubscriptionStatusReason | undefined;
 }
 /** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
 export type BillingSubscriptionAliasPropertiesSuspensionReasonDetailsList =
@@ -1413,95 +1413,97 @@ export type BillingSubscriptionAliasPropertiesSuspensionReasonDetailsList =
 /** A billing subscription alias. */
 export interface BillingSubscriptionAliasProperties {
   /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew;
+  autoRenew?: AutoRenew | undefined;
   /** The provisioning tenant of the subscription. */
-  beneficiaryTenantId?: string;
+  beneficiaryTenantId?: string | undefined;
   /** The beneficiary of the billing subscription. */
-  beneficiary?: Beneficiary;
+  beneficiary?: Beneficiary | undefined;
   /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Dictionary of billing policies associated with the subscription. */
-  billingPolicies?: BillingSubscriptionAliasPropertiesBillingPoliciesMap;
+  billingPolicies?: BillingSubscriptionAliasPropertiesBillingPoliciesMap | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID that uniquely identifies a billing profile. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
-  consumptionCostCenter?: string;
+  consumptionCostCenter?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The ID that uniquely identifies a customer. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** The name of the billing subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountId?: string;
+  enrollmentAccountId?: string | undefined;
   /** The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountDisplayName?: string;
+  enrollmentAccountDisplayName?: string | undefined;
   /** Enrollment Account Subscription details. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountSubscriptionDetails?: EnrollmentAccountSubscriptionDetails;
+  enrollmentAccountSubscriptionDetails?: EnrollmentAccountSubscriptionDetails | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The ID that uniquely identifies an invoice section. */
-  invoiceSectionName?: string;
+  invoiceSectionName?: string | undefined;
   /** The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts. */
-  lastMonthCharges?: Amount;
+  lastMonthCharges?: Amount | undefined;
   /** The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts. */
-  monthToDateCharges?: Amount;
+  monthToDateCharges?: Amount | undefined;
   /** Next billing cycle details of the subscription. */
-  nextBillingCycleDetails?: NextBillingCycleDetails;
+  nextBillingCycleDetails?: NextBillingCycleDetails | undefined;
   /** The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other. */
-  productCategory?: string;
+  productCategory?: string | undefined;
   /** Type of the product for which the subscription is purchased. */
-  productType?: string;
+  productType?: string | undefined;
   /** Id of the product for which the subscription is purchased. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** Purchase date of the product in UTC time. */
-  purchaseDate?: string;
+  purchaseDate?: string | undefined;
   /** The quantity of licenses or fulfillment units for the subscription. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
   /** Details for the next renewal term of a subscription. */
-  renewalTermDetails?: RenewalTermDetails;
+  renewalTermDetails?: RenewalTermDetails | undefined;
   /** The SKU ID of the product for which the subscription is purchased. This field is is only available for Microsoft Customer Agreement billing accounts. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** System imposed policies that regulate behavior of the subscription. */
-  systemOverrides?: SystemOverrides;
+  systemOverrides?: SystemOverrides | undefined;
   /** Unique identifier of the linked resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** Start date of the term in UTC time. */
-  termStartDate?: string;
+  termStartDate?: string | undefined;
   /** End date of the term in UTC time. */
-  termEndDate?: string;
+  termEndDate?: string | undefined;
   /** The tenant in which the subscription is provisioned. */
-  provisioningTenantId?: string;
+  provisioningTenantId?: string | undefined;
   /** The status of the subscription. This field is not available for Enterprise Agreement billing accounts */
-  status?: BillingSubscriptionStatus;
+  status?: BillingSubscriptionStatus | undefined;
   /** The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details. */
-  operationStatus?: BillingSubscriptionOperationStatus;
+  operationStatus?: BillingSubscriptionOperationStatus | undefined;
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The ID of the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  suspensionReasons?: BillingSubscriptionAliasPropertiesSuspensionReasonsList;
+  suspensionReasons?: BillingSubscriptionAliasPropertiesSuspensionReasonsList | undefined;
   /** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  suspensionReasonDetails?: BillingSubscriptionAliasPropertiesSuspensionReasonDetailsList;
+  suspensionReasonDetails?:
+    | BillingSubscriptionAliasPropertiesSuspensionReasonDetailsList
+    | undefined;
   /** The ID of the billing subscription with the subscription alias. */
-  billingSubscriptionId?: string;
+  billingSubscriptionId?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap = {
@@ -1509,21 +1511,21 @@ export type BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap = {
 };
 export interface BillingSubscriptionsAliasesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscriptionAlias */
-  properties?: BillingSubscriptionAliasProperties;
+  properties?: BillingSubscriptionAliasProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap;
+  tags?: BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface BillingSubscriptionsSplitRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1531,15 +1533,15 @@ export interface BillingSubscriptionsSplitRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** The ID of the target product to which the subscription needs to be split into. This value is not same as the value returned in Get API call and can be retrieved from Catalog API to know the product id to split into. */
-  targetProductTypeId?: string;
+  targetProductTypeId?: string | undefined;
   /** The ID of the target product to which the subscription needs to be split into. This value is not same as the value returned in Get API call and can be retrieved from Catalog API to know the sku id to split into. */
-  targetSkuId?: string;
+  targetSkuId?: string | undefined;
   /** The quantity of the target product to which the subscription needs to be split into. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The term duration of the target in ISO8601 format product to which the subscription needs to be split into. Example: P1M, P1Y */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** The billing frequency of the target subscription in the ISO8601 format. Example: P1M, P3M, P1Y" */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
 }
 /** Dictionary of billing policies associated with the subscription. */
 export type BillingSubscriptionPropertiesBillingPoliciesMap = { [key: string]: string | undefined };
@@ -1551,113 +1553,113 @@ export type BillingSubscriptionPropertiesSuspensionReasonDetailsList =
 /** The billing properties of a subscription. */
 export interface BillingSubscriptionProperties {
   /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew;
+  autoRenew?: AutoRenew | undefined;
   /** The provisioning tenant of the subscription. */
-  beneficiaryTenantId?: string;
+  beneficiaryTenantId?: string | undefined;
   /** The beneficiary of the billing subscription. */
-  beneficiary?: Beneficiary;
+  beneficiary?: Beneficiary | undefined;
   /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Dictionary of billing policies associated with the subscription. */
-  billingPolicies?: BillingSubscriptionPropertiesBillingPoliciesMap;
+  billingPolicies?: BillingSubscriptionPropertiesBillingPoliciesMap | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID that uniquely identifies a billing profile. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
-  consumptionCostCenter?: string;
+  consumptionCostCenter?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The ID that uniquely identifies a customer. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** The name of the billing subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountId?: string;
+  enrollmentAccountId?: string | undefined;
   /** The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountDisplayName?: string;
+  enrollmentAccountDisplayName?: string | undefined;
   /** Enrollment Account Subscription details. This field is available only for the Enterprise Agreement Type billing accounts. */
-  enrollmentAccountSubscriptionDetails?: EnrollmentAccountSubscriptionDetails;
+  enrollmentAccountSubscriptionDetails?: EnrollmentAccountSubscriptionDetails | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The ID that uniquely identifies an invoice section. */
-  invoiceSectionName?: string;
+  invoiceSectionName?: string | undefined;
   /** The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts. */
-  lastMonthCharges?: Amount;
+  lastMonthCharges?: Amount | undefined;
   /** The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts. */
-  monthToDateCharges?: Amount;
+  monthToDateCharges?: Amount | undefined;
   /** Next billing cycle details of the subscription. */
-  nextBillingCycleDetails?: NextBillingCycleDetails;
+  nextBillingCycleDetails?: NextBillingCycleDetails | undefined;
   /** The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other. */
-  productCategory?: string;
+  productCategory?: string | undefined;
   /** Type of the product for which the subscription is purchased. */
-  productType?: string;
+  productType?: string | undefined;
   /** Id of the product for which the subscription is purchased. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** Purchase date of the product in UTC time. */
-  purchaseDate?: string;
+  purchaseDate?: string | undefined;
   /** The quantity of licenses or fulfillment units for the subscription. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
   /** Details for the next renewal term of a subscription. */
-  renewalTermDetails?: RenewalTermDetails;
+  renewalTermDetails?: RenewalTermDetails | undefined;
   /** The SKU ID of the product for which the subscription is purchased. This field is is only available for Microsoft Customer Agreement billing accounts. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** System imposed policies that regulate behavior of the subscription. */
-  systemOverrides?: SystemOverrides;
+  systemOverrides?: SystemOverrides | undefined;
   /** Unique identifier of the linked resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** Start date of the term in UTC time. */
-  termStartDate?: string;
+  termStartDate?: string | undefined;
   /** End date of the term in UTC time. */
-  termEndDate?: string;
+  termEndDate?: string | undefined;
   /** The tenant in which the subscription is provisioned. */
-  provisioningTenantId?: string;
+  provisioningTenantId?: string | undefined;
   /** The status of the subscription. This field is not available for Enterprise Agreement billing accounts */
-  status?: BillingSubscriptionStatus;
+  status?: BillingSubscriptionStatus | undefined;
   /** The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details. */
-  operationStatus?: BillingSubscriptionOperationStatus;
+  operationStatus?: BillingSubscriptionOperationStatus | undefined;
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The ID of the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  suspensionReasons?: BillingSubscriptionPropertiesSuspensionReasonsList;
+  suspensionReasons?: BillingSubscriptionPropertiesSuspensionReasonsList | undefined;
   /** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-  suspensionReasonDetails?: BillingSubscriptionPropertiesSuspensionReasonDetailsList;
+  suspensionReasonDetails?: BillingSubscriptionPropertiesSuspensionReasonDetailsList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingSubscriptionsSplitResponseTagsMap = { [key: string]: string | undefined };
 export interface BillingSubscriptionsSplitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingSubscriptionsSplitResponseTagsMap;
+  tags?: BillingSubscriptionsSplitResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BillingSubscriptionsValidateMoveEligibilityRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1665,9 +1667,9 @@ export interface BillingSubscriptionsValidateMoveEligibilityRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** The destination invoice section id. */
-  destinationInvoiceSectionId?: string;
+  destinationInvoiceSectionId?: string | undefined;
   /** The destination enrollment account id. */
-  destinationEnrollmentAccountId?: string;
+  destinationEnrollmentAccountId?: string | undefined;
 }
 /** Error code of the transfer validation response. */
 export type SubscriptionTransferValidationErrorCode =
@@ -1702,18 +1704,18 @@ export type SubscriptionTransferValidationErrorCode =
 /** Error details of the transfer eligibility validation. */
 export interface MoveBillingSubscriptionErrorDetails {
   /** Error code of the transfer validation response. */
-  code?: SubscriptionTransferValidationErrorCode;
+  code?: SubscriptionTransferValidationErrorCode | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** Detailed error message explaining the error. */
-  details?: string;
+  details?: string | undefined;
 }
 /** Result of the transfer eligibility validation. */
 export interface MoveBillingSubscriptionEligibilityResult {
   /** Specifies whether the subscription is eligible to be transferred. */
-  isMoveEligible?: boolean;
+  isMoveEligible?: boolean | undefined;
   /** Error details of the transfer eligibility validation. */
-  errorDetails?: MoveBillingSubscriptionErrorDetails;
+  errorDetails?: MoveBillingSubscriptionErrorDetails | undefined;
 }
 export interface CancelBillingAccountPaymentTermsRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1724,21 +1726,21 @@ export interface CancelBillingAccountPaymentTermsRequest {
 export type CancelBillingAccountPaymentTermsResponseTagsMap = { [key: string]: string | undefined };
 export interface CancelBillingAccountPaymentTermsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing account. */
-  properties?: BillingAccountProperties;
+  properties?: BillingAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CancelBillingAccountPaymentTermsResponseTagsMap;
+  tags?: CancelBillingAccountPaymentTermsResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Cancellation reason. */
 export type CancellationReason = "Other" | "Compromise" | "Dispute";
@@ -1750,13 +1752,13 @@ export interface CancelBillingSubscriptionRequest {
   /** Cancellation reason. */
   cancellationReason: CancellationReason | (string & {});
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
 }
 export interface CancelBillingSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CancelPartnerTransferRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1773,39 +1775,39 @@ export type PartnerTransferPropertiesDetailedTransferStatusList = Array<Detailed
 /** Transfer Details. */
 export interface PartnerTransferProperties {
   /** The time at which the transfer request expires. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Overall transfer status. */
-  transferStatus?: TransferStatus;
+  transferStatus?: TransferStatus | undefined;
   /** The email ID of the user to whom the transfer request was sent. */
-  recipientEmailId?: string;
+  recipientEmailId?: string | undefined;
   /** The type of customer who sent the transfer request. */
-  initiatorCustomerType?: InitiatorCustomerType;
+  initiatorCustomerType?: InitiatorCustomerType | undefined;
   /** The email ID of the user who sent the transfer request. */
-  initiatorEmailId?: string;
+  initiatorEmailId?: string | undefined;
   /** Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account. */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** Optional name of the reseller for transfer requests that are sent from Microsoft Partner Agreement billing account. */
-  resellerName?: string;
+  resellerName?: string | undefined;
   /** The email ID of the user who canceled the transfer request. */
-  canceledBy?: string;
+  canceledBy?: string | undefined;
   /** Detailed transfer status. */
-  detailedTransferStatus?: PartnerTransferPropertiesDetailedTransferStatusList;
+  detailedTransferStatus?: PartnerTransferPropertiesDetailedTransferStatusList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CancelPartnerTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface CancelPartnerTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: PartnerTransferProperties;
+  properties?: PartnerTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CancelPartnerTransferResponseTagsMap;
+  tags?: CancelPartnerTransferResponseTagsMap | undefined;
 }
 export interface CancelTransferRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -1822,33 +1824,33 @@ export type TransferPropertiesDetailedTransferStatusList = Array<DetailedTransfe
 /** Transfer details */
 export interface TransferProperties {
   /** The time at which the transfer request expires. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Overall transfer status. */
-  transferStatus?: TransferStatus;
+  transferStatus?: TransferStatus | undefined;
   /** The email ID of the user to whom the transfer request was sent. */
-  recipientEmailId?: string;
+  recipientEmailId?: string | undefined;
   /** The email ID of the user who sent the transfer request. */
-  initiatorEmailId?: string;
+  initiatorEmailId?: string | undefined;
   /** The email ID of the user who canceled the transfer request. */
-  canceledBy?: string;
+  canceledBy?: string | undefined;
   /** Detailed transfer status. */
-  detailedTransferStatus?: TransferPropertiesDetailedTransferStatusList;
+  detailedTransferStatus?: TransferPropertiesDetailedTransferStatusList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CancelTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface CancelTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: TransferProperties;
+  properties?: TransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CancelTransferResponseTagsMap;
+  tags?: CancelTransferResponseTagsMap | undefined;
 }
 /** List of actions passed in the request body against which the permissions will be checked. */
 export type CheckBillingPermissionsAccessByBillingAccountRequestActionsList = Array<string>;
@@ -1856,16 +1858,16 @@ export interface CheckBillingPermissionsAccessByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByBillingAccountRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByBillingAccountRequestActionsList | undefined;
 }
 /** Access Decision, specifies access is allowed or not. */
 export type AccessDecision = "Other" | "Allowed" | "NotAllowed";
 /** The properties of a check access response. */
 export interface CheckAccessResponse {
   /** Access Decision, specifies access is allowed or not. */
-  accessDecision?: AccessDecision;
+  accessDecision?: AccessDecision | undefined;
   /** Gets or sets an action. */
-  action?: string;
+  action?: string | undefined;
 }
 export type CheckBillingPermissionsAccessByBillingAccountResponseBodyList =
   Array<CheckAccessResponse>;
@@ -1879,7 +1881,7 @@ export interface CheckBillingPermissionsAccessByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByBillingProfileRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByBillingProfileRequestActionsList | undefined;
 }
 export type CheckBillingPermissionsAccessByBillingProfileResponseBodyList =
   Array<CheckAccessResponse>;
@@ -1895,7 +1897,7 @@ export interface CheckBillingPermissionsAccessByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByCustomerRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByCustomerRequestActionsList | undefined;
 }
 export type CheckBillingPermissionsAccessByCustomerResponseBodyList = Array<CheckAccessResponse>;
 export type CheckBillingPermissionsAccessByCustomerResponse =
@@ -1908,7 +1910,7 @@ export interface CheckBillingPermissionsAccessByDepartmentRequest {
   /** The name of the department. */
   departmentName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByDepartmentRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByDepartmentRequestActionsList | undefined;
 }
 export type CheckBillingPermissionsAccessByDepartmentResponseBodyList = Array<CheckAccessResponse>;
 export type CheckBillingPermissionsAccessByDepartmentResponse =
@@ -1921,7 +1923,7 @@ export interface CheckBillingPermissionsAccessByEnrollmentAccountRequest {
   /** The name of the enrollment account. */
   enrollmentAccountName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByEnrollmentAccountRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByEnrollmentAccountRequestActionsList | undefined;
 }
 export type CheckBillingPermissionsAccessByEnrollmentAccountResponseBodyList =
   Array<CheckAccessResponse>;
@@ -1937,7 +1939,7 @@ export interface CheckBillingPermissionsAccessByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** List of actions passed in the request body against which the permissions will be checked. */
-  actions?: CheckBillingPermissionsAccessByInvoiceSectionRequestActionsList;
+  actions?: CheckBillingPermissionsAccessByInvoiceSectionRequestActionsList | undefined;
 }
 export type CheckBillingPermissionsAccessByInvoiceSectionResponseBodyList =
   Array<CheckAccessResponse>;
@@ -1950,27 +1952,27 @@ export interface ConfirmBillingAccountTransitionRequest {
 /** The details for a billing account transitioned from agreement type Microsoft Online Services Program to agreement type Microsoft Customer Agreement. */
 export interface TransitionDetails {
   /** The transition completion date. */
-  transitionDate?: string;
+  transitionDate?: string | undefined;
   /** The anniversary day of the pre-transitioned account of type Microsoft Online Services Program. */
-  anniversaryDay?: number;
+  anniversaryDay?: number | undefined;
 }
 export interface CreateBillingRoleAssignmentByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CreateBillingRoleAssignmentByBillingAccountResponseTagsMap = {
@@ -1978,21 +1980,21 @@ export type CreateBillingRoleAssignmentByBillingAccountResponseTagsMap = {
 };
 export interface CreateBillingRoleAssignmentByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CreateBillingRoleAssignmentByBillingAccountResponseTagsMap;
+  tags?: CreateBillingRoleAssignmentByBillingAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2000,19 +2002,19 @@ export interface CreateBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CreateBillingRoleAssignmentByBillingProfileResponseTagsMap = {
@@ -2020,21 +2022,21 @@ export type CreateBillingRoleAssignmentByBillingProfileResponseTagsMap = {
 };
 export interface CreateBillingRoleAssignmentByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CreateBillingRoleAssignmentByBillingProfileResponseTagsMap;
+  tags?: CreateBillingRoleAssignmentByBillingProfileResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateBillingRoleAssignmentByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2044,19 +2046,19 @@ export interface CreateBillingRoleAssignmentByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CreateBillingRoleAssignmentByCustomerResponseTagsMap = {
@@ -2064,21 +2066,21 @@ export type CreateBillingRoleAssignmentByCustomerResponseTagsMap = {
 };
 export interface CreateBillingRoleAssignmentByCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CreateBillingRoleAssignmentByCustomerResponseTagsMap;
+  tags?: CreateBillingRoleAssignmentByCustomerResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateBillingRoleAssignmentByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2088,19 +2090,19 @@ export interface CreateBillingRoleAssignmentByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** The principal PUID of the user to whom the role was assigned. */
-  principalPuid?: string;
+  principalPuid?: string | undefined;
   /** The object id of the user to whom the role was assigned. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
+  principalTenantId?: string | undefined;
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** The scope at which the role was assigned. */
-  scope?: string;
+  scope?: string | undefined;
   /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userAuthenticationType?: string;
+  userAuthenticationType?: string | undefined;
   /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
-  userEmailAddress?: string;
+  userEmailAddress?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap = {
@@ -2108,21 +2110,21 @@ export type CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap = {
 };
 export interface CreateBillingRoleAssignmentByInvoiceSectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap;
+  tags?: CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAssociatedTenantRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2132,9 +2134,9 @@ export interface DeleteAssociatedTenantRequest {
 }
 export interface DeleteAssociatedTenantResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2144,9 +2146,9 @@ export interface DeleteBillingProfileRequest {
 }
 export interface DeleteBillingProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBillingRoleAssignmentByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2212,9 +2214,9 @@ export interface DeleteBillingSubscriptionRequest {
 }
 export interface DeleteBillingSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2226,9 +2228,9 @@ export interface DeleteInvoiceSectionRequest {
 }
 export interface DeleteInvoiceSectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePaymentMethodByUserRequest {
   /** The ID that uniquely identifies a payment method. */
@@ -2241,18 +2243,18 @@ export interface DownloadInvoiceByBillingAccountRequest {
   /** The ID that uniquely identifies an invoice. */
   invoiceName: string;
   /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. */
-  documentName?: string;
+  documentName?: string | undefined;
 }
 /** A secure URL that can be used to download a an entity until the URL expires. */
 export interface DocumentDownloadResult {
   /** The time in UTC when the download URL will expire. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The URL to the PDF or .zip file. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DownloadInvoiceByBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing subscription. */
@@ -2260,14 +2262,14 @@ export interface DownloadInvoiceByBillingSubscriptionRequest {
   /** The ID that uniquely identifies an invoice. */
   invoiceName: string;
   /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. */
-  documentName?: string;
+  documentName?: string | undefined;
 }
 /** A list of download details for individual documents. */
 export interface DocumentDownloadRequest {
   /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. If omitted, the most recent invoice PDF for the invoice will be returned. */
-  documentName?: string;
+  documentName?: string | undefined;
   /** The ID that uniquely identifies an invoice. */
-  invoiceName?: string;
+  invoiceName?: string | undefined;
 }
 export type DownloadInvoiceDocumentsByBillingAccountRequestBodyList =
   Array<DocumentDownloadRequest>;
@@ -2307,15 +2309,15 @@ export type AcceptanceMode =
 /** Details about billing profile associated with agreement and available only for specific agreements. */
 export interface BillingProfileInfo {
   /** The fully qualified ID that uniquely identifies a billing account. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The friendly ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileSystemId?: string;
+  billingProfileSystemId?: string | undefined;
   /** Billing account name. Available for a specific type of agreement. */
-  indirectRelationshipOrganizationName?: string;
+  indirectRelationshipOrganizationName?: string | undefined;
 }
 /** The list of billing profiles associated with agreement and present only for specific agreements. */
 export type AgreementPropertiesBillingProfileInfoList = Array<BillingProfileInfo>;
@@ -2330,52 +2332,52 @@ export type Category =
 /** Billing account name. Available for a specific type of agreement. */
 export interface Participant {
   /** The email address of the participant. */
-  email?: string;
+  email?: string | undefined;
   /** The acceptance status of the participant. */
-  status?: string;
+  status?: string | undefined;
   /** The date when the status got changed. */
-  statusDate?: string;
+  statusDate?: string | undefined;
 }
 /** The list of participants that participates in acceptance of an agreement. */
 export type AgreementPropertiesParticipantsList = Array<Participant>;
 /** An agreement. */
 export interface AgreementProperties {
   /** The mode of acceptance for an agreement. */
-  acceptanceMode?: AcceptanceMode;
+  acceptanceMode?: AcceptanceMode | undefined;
   /** The URL to download the agreement. */
-  agreementLink?: string;
+  agreementLink?: string | undefined;
   /** The list of billing profiles associated with agreement and present only for specific agreements. */
-  billingProfileInfo?: AgreementPropertiesBillingProfileInfoList;
+  billingProfileInfo?: AgreementPropertiesBillingProfileInfoList | undefined;
   /** The category of the agreement. */
-  category?: Category;
+  category?: Category | undefined;
   /** The name of the agreement signed by a customer. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The date from which the agreement is effective. */
-  effectiveDate?: string;
+  effectiveDate?: string | undefined;
   /** The date when the agreement expires. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The list of participants that participates in acceptance of an agreement. */
-  participants?: AgreementPropertiesParticipantsList;
+  participants?: AgreementPropertiesParticipantsList | undefined;
   /** The current status of the agreement. */
-  status?: string;
+  status?: string | undefined;
   /** The ID of the lead billing account if this agreement is part of the Customer Affiliate Purchase Terms. */
-  leadBillingAccountName?: string;
+  leadBillingAccountName?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetAgreementResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAgreementResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An agreement. */
-  properties?: AgreementProperties;
+  properties?: AgreementProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetAgreementResponseTagsMap;
+  tags?: GetAgreementResponseTagsMap | undefined;
 }
 export interface GetAssociatedTenantRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2387,17 +2389,17 @@ export interface GetAssociatedTenantRequest {
 export type GetAssociatedTenantResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAssociatedTenantResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An associated tenant. */
-  properties?: AssociatedTenantProperties;
+  properties?: AssociatedTenantProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetAssociatedTenantResponseTagsMap;
+  tags?: GetAssociatedTenantResponseTagsMap | undefined;
 }
 export interface GetAvailableBalanceByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2416,30 +2418,30 @@ export type PaymentMethodFamily =
 /** A Payment on Account. */
 export interface PaymentOnAccount {
   /** Payment on Account amount. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The ID of the billing profile for the payments on account. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The name of the billing profile for the payments on account. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID of the invoice for which the payments on account was generated. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
   /** The name of the invoice for the payments on account. */
-  invoiceName?: string;
+  invoiceName?: string | undefined;
   /** The date of the payments on account. */
-  date?: string;
+  date?: string | undefined;
   /** Payment on Account type. */
-  paymentMethodType?: PaymentMethodFamily;
+  paymentMethodType?: PaymentMethodFamily | undefined;
 }
 /** The list of payments on accounts. */
 export type AvailableBalancePropertiesPaymentsOnAccountList = Array<PaymentOnAccount>;
 /** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
 export interface AvailableBalanceProperties {
   /** Credit amount for immediate payment. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The list of payments on accounts. */
-  paymentsOnAccount?: AvailableBalancePropertiesPaymentsOnAccountList;
+  paymentsOnAccount?: AvailableBalancePropertiesPaymentsOnAccountList | undefined;
   /** Total amount of payments on accounts. */
-  totalPaymentsOnAccount?: Amount;
+  totalPaymentsOnAccount?: Amount | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetAvailableBalanceByBillingAccountResponseTagsMap = {
@@ -2447,17 +2449,17 @@ export type GetAvailableBalanceByBillingAccountResponseTagsMap = {
 };
 export interface GetAvailableBalanceByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
-  properties?: AvailableBalanceProperties;
+  properties?: AvailableBalanceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetAvailableBalanceByBillingAccountResponseTagsMap;
+  tags?: GetAvailableBalanceByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetAvailableBalanceByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2471,17 +2473,17 @@ export type GetAvailableBalanceByBillingProfileResponseTagsMap = {
 };
 export interface GetAvailableBalanceByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
-  properties?: AvailableBalanceProperties;
+  properties?: AvailableBalanceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetAvailableBalanceByBillingProfileResponseTagsMap;
+  tags?: GetAvailableBalanceByBillingProfileResponseTagsMap | undefined;
 }
 export interface GetBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2491,17 +2493,17 @@ export interface GetBillingAccountRequest {
 export type GetBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing account. */
-  properties?: BillingAccountProperties;
+  properties?: BillingAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingAccountResponseTagsMap;
+  tags?: GetBillingAccountResponseTagsMap | undefined;
 }
 export interface GetBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2513,25 +2515,25 @@ export interface GetBillingProfileRequest {
 export type GetBillingProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing profile. */
-  properties?: BillingProfileProperties;
+  properties?: BillingProfileProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingProfileResponseTagsMap;
+  tags?: GetBillingProfileResponseTagsMap | undefined;
 }
 export interface GetBillingPropertyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** A flag that specifies whether or not to include billing country. */
-  includeBillingCountry?: boolean;
+  includeBillingCountry?: boolean | undefined;
   /** A flag that specifies whether or not to include transition status for billing accounts with agreement type Microsoft Customer Agreement. */
-  includeTransitionStatus?: boolean;
+  includeTransitionStatus?: boolean | undefined;
 }
 /** The details of billing profile spending limit. */
 export type BillingPropertyPropertiesBillingProfileSpendingLimitDetailsList =
@@ -2571,112 +2573,116 @@ export type SubscriptionWorkloadType = "None" | "Production" | "DevTest" | "Inte
 /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
 export interface SubscriptionEnrollmentDetails {
   /** The name of the department */
-  departmentDisplayName?: string;
+  departmentDisplayName?: string | undefined;
   /** The ID that uniquely identifies the department. */
-  departmentId?: string;
+  departmentId?: string | undefined;
   /** The status of the enrollment account. */
-  enrollmentAccountStatus?: string;
+  enrollmentAccountStatus?: string | undefined;
   /** The name of the enrollment account. */
-  enrollmentAccountDisplayName?: string;
+  enrollmentAccountDisplayName?: string | undefined;
   /** The ID that uniquely identifies an enrollment account. */
-  enrollmentAccountId?: string;
+  enrollmentAccountId?: string | undefined;
 }
 /** A billing property. */
 export interface BillingPropertyProperties {
   /** The type of agreement. */
-  billingAccountAgreementType?: AgreementType;
+  billingAccountAgreementType?: AgreementType | undefined;
   /** The name of the billing account. */
-  billingAccountDisplayName?: string;
+  billingAccountDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing account. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Notification email address for legacy account. Available for agreement type Microsoft Online Services Program. */
-  accountAdminNotificationEmailAddress?: string;
+  accountAdminNotificationEmailAddress?: string | undefined;
   /** The country of the individual or organization that is responsible for the billing account. */
-  billingAccountSoldToCountry?: string;
+  billingAccountSoldToCountry?: string | undefined;
   /** The current status of the billing account. */
-  billingAccountStatus?: AccountStatus;
+  billingAccountStatus?: AccountStatus | undefined;
   /** Reason for the specified billing account status. */
-  billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
+  billingAccountStatusReasonCode?: BillingAccountStatusReasonCode | undefined;
   /** The type of customer. */
-  billingAccountType?: AccountType;
+  billingAccountType?: AccountType | undefined;
   /** The tier of the account. */
-  billingAccountSubType?: AccountSubType;
+  billingAccountSubType?: AccountSubType | undefined;
   /** The billing currency for the subscription. Available for billing accounts with agreement type Enterprise Agreement */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The billing profile spending limit. */
-  billingProfileSpendingLimit?: SpendingLimit;
+  billingProfileSpendingLimit?: SpendingLimit | undefined;
   /** The details of billing profile spending limit. */
-  billingProfileSpendingLimitDetails?: BillingPropertyPropertiesBillingProfileSpendingLimitDetailsList;
+  billingProfileSpendingLimitDetails?:
+    | BillingPropertyPropertiesBillingProfileSpendingLimitDetailsList
+    | undefined;
   /** The status of the billing profile. */
-  billingProfileStatus?: BillingProfileStatus;
+  billingProfileStatus?: BillingProfileStatus | undefined;
   /** Reason for the specified billing profile status. */
-  billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+  billingProfileStatusReasonCode?: BillingProfileStatusReasonCode | undefined;
   /** The payment method family of the primary payment method for the billing profile. */
-  billingProfilePaymentMethodFamily?: PaymentMethodFamily;
+  billingProfilePaymentMethodFamily?: PaymentMethodFamily | undefined;
   /** The payment method type of the primary payment method for the billing profile. */
-  billingProfilePaymentMethodType?: string;
+  billingProfilePaymentMethodType?: string | undefined;
   /** The Azure AD tenant ID of the billing account for the subscription. */
-  billingTenantId?: string;
+  billingTenantId?: string | undefined;
   /** The cost center applied to the subscription. Available for agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. This property can be updated via patch. */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Identifies the status of an customer. This is an upcoming property that will be populated in the future. */
-  customerStatus?: CustomerStatus;
+  customerStatus?: CustomerStatus | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** Identifies the status of an invoice section. */
-  invoiceSectionStatus?: InvoiceSectionState;
+  invoiceSectionStatus?: InvoiceSectionState | undefined;
   /** Reason for the specified invoice section status. */
-  invoiceSectionStatusReasonCode?: InvoiceSectionStateReasonCode;
+  invoiceSectionStatusReasonCode?: InvoiceSectionStateReasonCode | undefined;
   /** Specifies if the billing account for the subscription is transitioned from a Microsoft Online Service Program to a Microsoft Customer Agreement (MCA) account. Will be present and value will be true if its a transitioned billing account. */
-  isTransitionedBillingAccount?: boolean;
+  isTransitionedBillingAccount?: boolean | undefined;
   /** The sku description. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** The ID that uniquely identifies a sku. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The subscription status. */
-  subscriptionBillingStatus?: BillingSubscriptionStatus;
+  subscriptionBillingStatus?: BillingSubscriptionStatus | undefined;
   /** The reason codes for the subscription status. */
-  subscriptionBillingStatusDetails?: BillingPropertyPropertiesSubscriptionBillingStatusDetailsList;
+  subscriptionBillingStatusDetails?:
+    | BillingPropertyPropertiesSubscriptionBillingStatusDetailsList
+    | undefined;
   /** The type of billing subscription. */
-  subscriptionBillingType?: SubscriptionBillingType;
+  subscriptionBillingType?: SubscriptionBillingType | undefined;
   /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
-  subscriptionServiceUsageAddress?: AddressDetails;
+  subscriptionServiceUsageAddress?: AddressDetails | undefined;
   /** The Azure workload type of the subscription. */
-  subscriptionWorkloadType?: SubscriptionWorkloadType;
+  subscriptionWorkloadType?: SubscriptionWorkloadType | undefined;
   /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-  enrollmentDetails?: SubscriptionEnrollmentDetails;
+  enrollmentDetails?: SubscriptionEnrollmentDetails | undefined;
   /** Indicates whether user is the account admin. */
-  isAccountAdmin?: boolean;
+  isAccountAdmin?: boolean | undefined;
   /** The ID that uniquely identifies a product. */
-  productId?: string;
+  productId?: string | undefined;
   /** The ID that uniquely identifies a product. */
-  productName?: string;
+  productName?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetBillingPropertyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingPropertyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing property. */
-  properties?: BillingPropertyProperties;
+  properties?: BillingPropertyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingPropertyResponseTagsMap;
+  tags?: GetBillingPropertyResponseTagsMap | undefined;
 }
 export interface GetBillingRequestRequest {
   /** The ID that uniquely identifies a billing request. */
@@ -2686,17 +2692,17 @@ export interface GetBillingRequestRequest {
 export type GetBillingRequestResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingRequestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
-  properties?: BillingRequestProperties;
+  properties?: BillingRequestProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRequestResponseTagsMap;
+  tags?: GetBillingRequestResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2710,17 +2716,17 @@ export type GetBillingRoleAssignmentByBillingAccountResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByBillingAccountResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2736,17 +2742,17 @@ export type GetBillingRoleAssignmentByBillingProfileResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByBillingProfileResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByBillingProfileResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2764,17 +2770,17 @@ export type GetBillingRoleAssignmentByCustomerResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByCustomerResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByCustomerResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2790,17 +2796,17 @@ export type GetBillingRoleAssignmentByDepartmentResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByDepartmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByDepartmentResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByDepartmentResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByEnrollmentAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2816,17 +2822,17 @@ export type GetBillingRoleAssignmentByEnrollmentAccountResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByEnrollmentAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByEnrollmentAccountResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByEnrollmentAccountResponseTagsMap | undefined;
 }
 export interface GetBillingRoleAssignmentByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2844,17 +2850,17 @@ export type GetBillingRoleAssignmentByInvoiceSectionResponseTagsMap = {
 };
 export interface GetBillingRoleAssignmentByInvoiceSectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the billing role assignment. */
-  properties?: BillingRoleAssignmentProperties;
+  properties?: BillingRoleAssignmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleAssignmentByInvoiceSectionResponseTagsMap;
+  tags?: GetBillingRoleAssignmentByInvoiceSectionResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2869,18 +2875,18 @@ export type BillingPermissionNotActionsList = Array<string>;
 /** The set of allowed action and not allowed actions a caller has on a resource. */
 export interface BillingPermission {
   /** The set of actions that the caller is allowed to perform. */
-  actions?: BillingPermissionActionsList;
+  actions?: BillingPermissionActionsList | undefined;
   /** The set of actions that the caller is not allowed to perform. */
-  notActions?: BillingPermissionNotActionsList;
+  notActions?: BillingPermissionNotActionsList | undefined;
 }
 /** The billingPermissions the role has. */
 export type BillingRoleDefinitionPropertiesPermissionsList = Array<BillingPermission>;
 /** The properties of a role definition. */
 export interface BillingRoleDefinitionProperties {
   /** The role description. */
-  description?: string;
+  description?: string | undefined;
   /** The billingPermissions the role has. */
-  permissions?: BillingRoleDefinitionPropertiesPermissionsList;
+  permissions?: BillingRoleDefinitionPropertiesPermissionsList | undefined;
   /** The name of the role. */
   roleName: string;
 }
@@ -2890,17 +2896,17 @@ export type GetBillingRoleDefinitionByBillingAccountResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByBillingAccountResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2916,17 +2922,17 @@ export type GetBillingRoleDefinitionByBillingProfileResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByBillingProfileResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByBillingProfileResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2944,17 +2950,17 @@ export type GetBillingRoleDefinitionByCustomerResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByCustomerResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByCustomerResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2970,17 +2976,17 @@ export type GetBillingRoleDefinitionByDepartmentResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByDepartmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByDepartmentResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByDepartmentResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByEnrollmentAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2996,17 +3002,17 @@ export type GetBillingRoleDefinitionByEnrollmentAccountResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByEnrollmentAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByEnrollmentAccountResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByEnrollmentAccountResponseTagsMap | undefined;
 }
 export interface GetBillingRoleDefinitionByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3024,17 +3030,17 @@ export type GetBillingRoleDefinitionByInvoiceSectionResponseTagsMap = {
 };
 export interface GetBillingRoleDefinitionByInvoiceSectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingRoleDefinitionByInvoiceSectionResponseTagsMap;
+  tags?: GetBillingRoleDefinitionByInvoiceSectionResponseTagsMap | undefined;
 }
 export interface GetBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3042,23 +3048,23 @@ export interface GetBillingSubscriptionRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetBillingSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingSubscriptionResponseTagsMap;
+  tags?: GetBillingSubscriptionResponseTagsMap | undefined;
 }
 export interface GetBillingSubscriptionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3068,7 +3074,7 @@ export interface GetBillingSubscriptionByBillingProfileRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetBillingSubscriptionByBillingProfileResponseTagsMap = {
@@ -3076,17 +3082,17 @@ export type GetBillingSubscriptionByBillingProfileResponseTagsMap = {
 };
 export interface GetBillingSubscriptionByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingSubscriptionByBillingProfileResponseTagsMap;
+  tags?: GetBillingSubscriptionByBillingProfileResponseTagsMap | undefined;
 }
 export interface GetBillingSubscriptionsAliasRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3098,17 +3104,17 @@ export interface GetBillingSubscriptionsAliasRequest {
 export type GetBillingSubscriptionsAliasResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBillingSubscriptionsAliasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscriptionAlias */
-  properties?: BillingSubscriptionAliasProperties;
+  properties?: BillingSubscriptionAliasProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetBillingSubscriptionsAliasResponseTagsMap;
+  tags?: GetBillingSubscriptionsAliasResponseTagsMap | undefined;
 }
 export interface GetCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3127,37 +3133,37 @@ export type CustomerPropertiesTagsMap = { [key: string]: string | undefined };
 /** A partner's customer. */
 export interface CustomerProperties {
   /** The name of the billing profile. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The name of the customer. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The system generated unique identifier for a customer. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Identifies the status of an customer. This is an upcoming property that will be populated in the future. */
-  status?: CustomerStatus;
+  status?: CustomerStatus | undefined;
   /** Azure plans enabled for the customer. */
-  enabledAzurePlans?: CustomerPropertiesEnabledAzurePlansList;
+  enabledAzurePlans?: CustomerPropertiesEnabledAzurePlansList | undefined;
   /** The list of resellers for which an Azure plan is enabled for the customer. */
-  resellers?: CustomerPropertiesResellersList;
+  resellers?: CustomerPropertiesResellersList | undefined;
   /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CustomerPropertiesTagsMap;
+  tags?: CustomerPropertiesTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A partner's customer. */
-  properties?: CustomerProperties;
+  properties?: CustomerProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetCustomerResponseTagsMap;
+  tags?: GetCustomerResponseTagsMap | undefined;
 }
 export interface GetCustomerByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3169,17 +3175,17 @@ export interface GetCustomerByBillingAccountRequest {
 export type GetCustomerByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCustomerByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A partner's customer. */
-  properties?: CustomerProperties;
+  properties?: CustomerProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetCustomerByBillingAccountResponseTagsMap;
+  tags?: GetCustomerByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3190,29 +3196,29 @@ export interface GetDepartmentRequest {
 /** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
 export interface DepartmentProperties {
   /** The cost center associated with the department. */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** The name of the department. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID that uniquely identifies the department. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the department. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetDepartmentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDepartmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
-  properties?: DepartmentProperties;
+  properties?: DepartmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetDepartmentResponseTagsMap;
+  tags?: GetDepartmentResponseTagsMap | undefined;
 }
 export interface GetEnrollmentAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3223,41 +3229,41 @@ export interface GetEnrollmentAccountRequest {
 /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
 export interface EnrollmentAccountProperties {
   /** The cost center associated with the enrollment account. */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** The name of the enrollment account. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The name of the department under which the enrollment account exists. */
-  departmentDisplayName?: string;
+  departmentDisplayName?: string | undefined;
   /** The ID that uniquely identifies the department. */
-  departmentId?: string;
+  departmentId?: string | undefined;
   /** Boolean flag which enables subscribers to run development and testing workloads on Azure at special Dev/Test rates. */
-  isDevTestEnabled?: boolean;
+  isDevTestEnabled?: boolean | undefined;
   /** The owner of the enrollment account. */
-  accountOwner?: string;
+  accountOwner?: string | undefined;
   /** The authorization type of the enrollment account. */
-  authType?: string;
+  authType?: string | undefined;
   /** The status of the enrollment account. */
-  status?: string;
+  status?: string | undefined;
   /** The date from which the enrollment account became valid and functional. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The date of expiration of the enrollment account. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetEnrollmentAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnrollmentAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
-  properties?: EnrollmentAccountProperties;
+  properties?: EnrollmentAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetEnrollmentAccountResponseTagsMap;
+  tags?: GetEnrollmentAccountResponseTagsMap | undefined;
 }
 export interface GetEnrollmentAccountByDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3271,17 +3277,17 @@ export interface GetEnrollmentAccountByDepartmentRequest {
 export type GetEnrollmentAccountByDepartmentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnrollmentAccountByDepartmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
-  properties?: EnrollmentAccountProperties;
+  properties?: EnrollmentAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetEnrollmentAccountByDepartmentResponseTagsMap;
+  tags?: GetEnrollmentAccountByDepartmentResponseTagsMap | undefined;
 }
 export interface GetInvoiceRequest {
   /** The ID that uniquely identifies an invoice. */
@@ -3303,17 +3309,17 @@ export type DocumentSource = "Other" | "DRS" | "ENF";
 /** The properties of a document. */
 export interface InvoiceDocument {
   /** The document numbers for the invoice document. */
-  documentNumbers?: InvoiceDocumentDocumentNumbersList;
+  documentNumbers?: InvoiceDocumentDocumentNumbersList | undefined;
   /** The URL to download the invoice document if the source is external to Microsoft.Billing. */
-  externalUrl?: string;
+  externalUrl?: string | undefined;
   /** The type of the document. */
-  kind?: InvoiceDocumentType;
+  kind?: InvoiceDocumentType | undefined;
   /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. */
-  name?: string;
+  name?: string | undefined;
   /** The URL to download the invoice document if the source is internal to Microsoft.Billing. */
-  url?: string;
+  url?: string | undefined;
   /** The source of the document. ENF for Brazil and DRS for rest of the world. */
-  source?: DocumentSource;
+  source?: DocumentSource | undefined;
 }
 /** List of documents available to download and view such as invoice, credit note, or tax receipt. */
 export type InvoicePropertiesDocumentsList = Array<InvoiceDocument>;
@@ -3322,9 +3328,9 @@ export type FailedPaymentReason = "Other" | "BankDeclined" | "CardExpired" | "In
 /** A failed payment. */
 export interface FailedPayment {
   /** The date when the payment was attempted. */
-  date?: string;
+  date?: string | undefined;
   /** The reason that the payment failed. */
-  failedPaymentReason?: FailedPaymentReason;
+  failedPaymentReason?: FailedPaymentReason | undefined;
 }
 /** List of failed payments. */
 export type InvoicePropertiesFailedPaymentsList = Array<FailedPayment>;
@@ -3333,28 +3339,28 @@ export type InvoiceType = "Other" | "AzureServices" | "AzureMarketplace" | "Azur
 /** An invoice payment. */
 export interface Payment {
   /** The paid amount. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The date when the payment was made. */
-  date?: string;
+  date?: string | undefined;
   /** The ID that uniquely identifies the payment method used for the invoice. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
   /** The family of payment method. */
-  paymentMethodFamily?: PaymentMethodFamily;
+  paymentMethodFamily?: PaymentMethodFamily | undefined;
   /** The type of payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** The type of payment. */
-  paymentType?: string;
+  paymentType?: string | undefined;
 }
 /** List of payments. */
 export type InvoicePropertiesPaymentsList = Array<Payment>;
 /** The rebill details of an invoice. */
 export interface RebillDetails {
   /** The ID of invoice. */
-  invoiceDocumentId?: string;
+  invoiceDocumentId?: string | undefined;
   /** The ID of credit note. */
-  creditNoteDocumentId?: string;
+  creditNoteDocumentId?: string | undefined;
   /** The rebill details of an invoice. */
-  rebillDetails?: RebillDetails;
+  rebillDetails?: RebillDetails | undefined;
 }
 /** The current status of the invoice. */
 export type InvoiceStatus = "Other" | "Due" | "OverDue" | "Paid" | "Void" | "Locked";
@@ -3380,102 +3386,102 @@ export type RefundReasonCode =
 /** The details of refund request. */
 export interface RefundDetailsSummary {
   /** Date when the refund was requested. */
-  requestedOn?: string;
+  requestedOn?: string | undefined;
   /** Date when the refund was approved. */
-  approvedOn?: string;
+  approvedOn?: string | undefined;
   /** Date when the refund was completed. */
-  completedOn?: string;
+  completedOn?: string | undefined;
   /** The amount of refund requested. */
-  amountRequested?: Amount;
+  amountRequested?: Amount | undefined;
   /** The amount refunded. */
-  amountRefunded?: Amount;
+  amountRefunded?: Amount | undefined;
   /** The invoice ID of the rebill invoice for a refund. */
-  rebillInvoiceId?: string;
+  rebillInvoiceId?: string | undefined;
   /** The number of transactions refunded. */
-  transactionCount?: number;
+  transactionCount?: number | undefined;
   /** The status of refund request. */
-  refundStatus?: RefundStatus;
+  refundStatus?: RefundStatus | undefined;
   /** The ID of refund operation. */
-  refundOperationId?: string;
+  refundOperationId?: string | undefined;
   /** The reason for refund. */
-  refundReason?: RefundReasonCode;
+  refundReason?: RefundReasonCode | undefined;
 }
 /** An invoice. */
 export interface InvoiceProperties {
   /** The amount due as of now. */
-  amountDue?: Amount;
+  amountDue?: Amount | undefined;
   /** The amount of Azure prepayment applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  azurePrepaymentApplied?: Amount;
+  azurePrepaymentApplied?: Amount | undefined;
   /** The total charges for the invoice billing period. */
-  billedAmount?: Amount;
+  billedAmount?: Amount | undefined;
   /** The Id of the active invoice which is originally billed after this invoice was voided. This field is applicable to the void invoices only. */
-  billedDocumentId?: string;
+  billedDocumentId?: string | undefined;
   /** The name of the billing profile for which the invoice is generated. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID of the billing profile for which the invoice is generated. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The total refund for returns and cancellations during the invoice billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  creditAmount?: Amount;
+  creditAmount?: Amount | undefined;
   /** The Id of the invoice which got voided and this credit note was issued as a result. This field is applicable to the credit notes only. */
-  creditForDocumentId?: string;
+  creditForDocumentId?: string | undefined;
   /** List of documents available to download and view such as invoice, credit note, or tax receipt. */
-  documents?: InvoicePropertiesDocumentsList;
+  documents?: InvoicePropertiesDocumentsList | undefined;
   /** The type of the document. */
-  documentType?: InvoiceDocumentType;
+  documentType?: InvoiceDocumentType | undefined;
   /** The due date for the invoice. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** List of failed payments. */
-  failedPayments?: InvoicePropertiesFailedPaymentsList;
+  failedPayments?: InvoicePropertiesFailedPaymentsList | undefined;
   /** The amount of free Azure credits applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  freeAzureCreditApplied?: Amount;
+  freeAzureCreditApplied?: Amount | undefined;
   /** The date when the invoice was generated. */
-  invoiceDate?: string;
+  invoiceDate?: string | undefined;
   /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  invoicePeriodEndDate?: string;
+  invoicePeriodEndDate?: string | undefined;
   /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  invoicePeriodStartDate?: string;
+  invoicePeriodStartDate?: string | undefined;
   /** Invoice type. */
-  invoiceType?: InvoiceType;
+  invoiceType?: InvoiceType | undefined;
   /** Specifies if the invoice is generated as part of monthly invoicing cycle or not. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  isMonthlyInvoice?: boolean;
+  isMonthlyInvoice?: boolean | undefined;
   /** List of payments. */
-  payments?: InvoicePropertiesPaymentsList;
+  payments?: InvoicePropertiesPaymentsList | undefined;
   /** An optional purchase order number for the invoice. */
-  purchaseOrderNumber?: string;
+  purchaseOrderNumber?: string | undefined;
   /** Rebill details for an invoice. */
-  rebillDetails?: RebillDetails;
+  rebillDetails?: RebillDetails | undefined;
   /** The current status of the invoice. */
-  status?: InvoiceStatus;
+  status?: InvoiceStatus | undefined;
   /** The name of the billing subscription for which the invoice is generated. */
-  subscriptionDisplayName?: string;
+  subscriptionDisplayName?: string | undefined;
   /** The ID of the subscription for which the invoice is generated. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Identifies the type of tax calculation used for the invoice. The field is applicable only to invoices with special tax calculation logic. */
-  specialTaxationType?: SpecialTaxationType;
+  specialTaxationType?: SpecialTaxationType | undefined;
   /** The pre-tax amount due. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  subTotal?: Amount;
+  subTotal?: Amount | undefined;
   /** The amount of tax charged for the billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  taxAmount?: Amount;
+  taxAmount?: Amount | undefined;
   /** The amount due when the invoice was generated. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
-  totalAmount?: Amount;
+  totalAmount?: Amount | undefined;
   /** The details of a refund request. */
-  refundDetails?: RefundDetailsSummary;
+  refundDetails?: RefundDetailsSummary | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetInvoiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInvoiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice. */
-  properties?: InvoiceProperties;
+  properties?: InvoiceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetInvoiceResponseTagsMap;
+  tags?: GetInvoiceResponseTagsMap | undefined;
 }
 export interface GetInvoiceByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3487,17 +3493,17 @@ export interface GetInvoiceByBillingAccountRequest {
 export type GetInvoiceByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInvoiceByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice. */
-  properties?: InvoiceProperties;
+  properties?: InvoiceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetInvoiceByBillingAccountResponseTagsMap;
+  tags?: GetInvoiceByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetInvoiceByBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing subscription. */
@@ -3509,17 +3515,17 @@ export interface GetInvoiceByBillingSubscriptionRequest {
 export type GetInvoiceByBillingSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInvoiceByBillingSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice. */
-  properties?: InvoiceProperties;
+  properties?: InvoiceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetInvoiceByBillingSubscriptionResponseTagsMap;
+  tags?: GetInvoiceByBillingSubscriptionResponseTagsMap | undefined;
 }
 export interface GetInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3534,35 +3540,35 @@ export type InvoiceSectionPropertiesTagsMap = { [key: string]: string | undefine
 /** An invoice section. */
 export interface InvoiceSectionProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The name of the invoice section. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifies the status of an invoice section. */
-  state?: InvoiceSectionState;
+  state?: InvoiceSectionState | undefined;
   /** Reason for the specified invoice section status. */
-  reasonCode?: InvoiceSectionStateReasonCode;
+  reasonCode?: InvoiceSectionStateReasonCode | undefined;
   /** The system generated unique identifier for an invoice section. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds. */
-  targetCloud?: string;
+  targetCloud?: string | undefined;
   /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceSectionPropertiesTagsMap;
+  tags?: InvoiceSectionPropertiesTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetInvoiceSectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInvoiceSectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice section. */
-  properties?: InvoiceSectionProperties;
+  properties?: InvoiceSectionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetInvoiceSectionResponseTagsMap;
+  tags?: GetInvoiceSectionResponseTagsMap | undefined;
 }
 export interface GetPartnerTransferRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3578,17 +3584,17 @@ export interface GetPartnerTransferRequest {
 export type GetPartnerTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPartnerTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: PartnerTransferProperties;
+  properties?: PartnerTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPartnerTransferResponseTagsMap;
+  tags?: GetPartnerTransferResponseTagsMap | undefined;
 }
 export interface GetPaymentMethodByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3599,9 +3605,9 @@ export interface GetPaymentMethodByBillingAccountRequest {
 /** Logo of payment method. */
 export interface PaymentMethodLogo {
   /** MIME type of the logo. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Public URL of image of the logo. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The list of logos for the payment method. */
 export type PaymentMethodPropertiesLogosList = Array<PaymentMethodLogo>;
@@ -3610,39 +3616,39 @@ export type PaymentMethodStatus = "active" | "inactive";
 /** The properties of a payment method. */
 export interface PaymentMethodProperties {
   /** Id of payment method. */
-  id?: string;
+  id?: string | undefined;
   /** The account holder name for the payment method. This is only supported for payment methods with family CreditCard. */
-  accountHolderName?: string;
+  accountHolderName?: string | undefined;
   /** The display name of the payment method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The expiration month and year of the payment method. This is only supported for payment methods with family CreditCard. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The family of payment method. */
-  family?: PaymentMethodFamily;
+  family?: PaymentMethodFamily | undefined;
   /** Last four digits of payment method. */
-  lastFourDigits?: string;
+  lastFourDigits?: string | undefined;
   /** The list of logos for the payment method. */
-  logos?: PaymentMethodPropertiesLogosList;
+  logos?: PaymentMethodPropertiesLogosList | undefined;
   /** The type of payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** Status of the payment method. */
-  status?: PaymentMethodStatus;
+  status?: PaymentMethodStatus | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPaymentMethodByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPaymentMethodByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Payment method properties */
-  properties?: PaymentMethodProperties;
+  properties?: PaymentMethodProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPaymentMethodByBillingAccountResponseTagsMap;
+  tags?: GetPaymentMethodByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetPaymentMethodByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3657,41 +3663,41 @@ export type PaymentMethodLinkPropertiesLogosList = Array<PaymentMethodLogo>;
 /** The properties of a payment method link. */
 export interface PaymentMethodLinkProperties {
   /** The account holder name for the payment method. This is only supported for payment methods with family CreditCard. */
-  accountHolderName?: string;
+  accountHolderName?: string | undefined;
   /** The display name of the payment method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The expiration month and year of the payment method. This is only supported for payment methods with family CreditCard. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The family of payment method. */
-  family?: PaymentMethodFamily;
+  family?: PaymentMethodFamily | undefined;
   /** Last four digits of payment method. */
-  lastFourDigits?: string;
+  lastFourDigits?: string | undefined;
   /** The list of logos for the payment method. */
-  logos?: PaymentMethodLinkPropertiesLogosList;
+  logos?: PaymentMethodLinkPropertiesLogosList | undefined;
   /** Projection of a payment method. Will not be returned in this or future versions. */
-  paymentMethod?: PaymentMethodProperties;
+  paymentMethod?: PaymentMethodProperties | undefined;
   /** Id of payment method. Example: /providers/Microsoft.Billing/paymentMethods/ABCDABCDABC0 */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
   /** The type of payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** Status of the payment method. */
-  status?: PaymentMethodStatus;
+  status?: PaymentMethodStatus | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPaymentMethodByBillingProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPaymentMethodByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Payment method link properties */
-  properties?: PaymentMethodLinkProperties;
+  properties?: PaymentMethodLinkProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPaymentMethodByBillingProfileResponseTagsMap;
+  tags?: GetPaymentMethodByBillingProfileResponseTagsMap | undefined;
 }
 export interface GetPaymentMethodByUserRequest {
   /** The ID that uniquely identifies a payment method. */
@@ -3701,17 +3707,17 @@ export interface GetPaymentMethodByUserRequest {
 export type GetPaymentMethodByUserResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPaymentMethodByUserResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Payment method properties */
-  properties?: PaymentMethodProperties;
+  properties?: PaymentMethodProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPaymentMethodByUserResponseTagsMap;
+  tags?: GetPaymentMethodByUserResponseTagsMap | undefined;
 }
 export interface GetPolicyByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3731,11 +3737,11 @@ export type EnrollmentDepartmentAdminViewCharges = "Other" | "Allowed" | "Disabl
 /** The policies for Enterprise Agreement enrollments. */
 export interface EnterpriseAgreementPolicies {
   /** The state showing the enrollment auth level. */
-  authenticationType?: EnrollmentAuthLevelState | (string & {});
+  authenticationType?: EnrollmentAuthLevelState | (string & {}) | undefined;
   /** The policy that controls whether account owner can view charges. */
-  accountOwnerViewCharges?: EnrollmentAccountOwnerViewCharges | (string & {});
+  accountOwnerViewCharges?: EnrollmentAccountOwnerViewCharges | (string & {}) | undefined;
   /** The policy that controls whether department admin can view charges. */
-  departmentAdminViewCharges?: EnrollmentDepartmentAdminViewCharges | (string & {});
+  departmentAdminViewCharges?: EnrollmentDepartmentAdminViewCharges | (string & {}) | undefined;
 }
 /** The policy that controls whether Azure marketplace purchases are allowed. */
 export type MarketplacePurchasesPolicy =
@@ -3753,46 +3759,46 @@ export type PolicyType = "Other" | "UserControlled" | "SystemControlled";
 /** The summary of the policy. */
 export interface PolicySummary {
   /** The name of the policy. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the policy. */
-  value?: string;
+  value?: string | undefined;
   /** The type of the policy. */
-  policyType?: PolicyType | (string & {});
+  policyType?: PolicyType | (string & {}) | undefined;
   /** The scope at which the policy is defined. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** List of all policies defined at the billing scope. */
 export type BillingAccountPolicyPropertiesPoliciesList = Array<PolicySummary>;
 /** A policy at billing account scope. */
 export interface BillingAccountPolicyProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The policies for Enterprise Agreement enrollments. */
-  enterpriseAgreementPolicies?: EnterpriseAgreementPolicies;
+  enterpriseAgreementPolicies?: EnterpriseAgreementPolicies | undefined;
   /** The policy that controls whether Azure marketplace purchases are allowed. */
-  marketplacePurchases?: MarketplacePurchasesPolicy | (string & {});
+  marketplacePurchases?: MarketplacePurchasesPolicy | (string & {}) | undefined;
   /** The policy that controls whether Azure reservation purchases are allowed. */
-  reservationPurchases?: ReservationPurchasesPolicy | (string & {});
+  reservationPurchases?: ReservationPurchasesPolicy | (string & {}) | undefined;
   /** The policy that controls whether users with Azure savings plan purchase are allowed. */
-  savingsPlanPurchases?: SavingsPlanPurchasesPolicy | (string & {});
+  savingsPlanPurchases?: SavingsPlanPurchasesPolicy | (string & {}) | undefined;
   /** List of all policies defined at the billing scope. */
-  policies?: BillingAccountPolicyPropertiesPoliciesList;
+  policies?: BillingAccountPolicyPropertiesPoliciesList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPolicyByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPolicyByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at billing account scope. */
-  properties?: BillingAccountPolicyProperties;
+  properties?: BillingAccountPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPolicyByBillingAccountResponseTagsMap;
+  tags?: GetPolicyByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetPolicyByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3809,37 +3815,37 @@ export type BillingProfilePolicyPropertiesPoliciesList = Array<PolicySummary>;
 /** A policy at billing profile scope. */
 export interface BillingProfilePolicyProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The policies for Enterprise Agreement enrollments. */
-  enterpriseAgreementPolicies?: EnterpriseAgreementPolicies;
+  enterpriseAgreementPolicies?: EnterpriseAgreementPolicies | undefined;
   /** The policy that controls invoice section label management at invoice section scope. This is allowed by default. */
-  invoiceSectionLabelManagement?: InvoiceSectionLabelManagementPolicy | (string & {});
+  invoiceSectionLabelManagement?: InvoiceSectionLabelManagementPolicy | (string & {}) | undefined;
   /** The policy that controls whether Azure marketplace purchases are allowed. */
-  marketplacePurchases?: MarketplacePurchasesPolicy | (string & {});
+  marketplacePurchases?: MarketplacePurchasesPolicy | (string & {}) | undefined;
   /** The policy that controls whether Azure reservation purchases are allowed. */
-  reservationPurchases?: ReservationPurchasesPolicy | (string & {});
+  reservationPurchases?: ReservationPurchasesPolicy | (string & {}) | undefined;
   /** The policy that controls whether users with Azure savings plan purchase are allowed. */
-  savingsPlanPurchases?: SavingsPlanPurchasesPolicy | (string & {});
+  savingsPlanPurchases?: SavingsPlanPurchasesPolicy | (string & {}) | undefined;
   /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
-  viewCharges?: ViewChargesPolicy | (string & {});
+  viewCharges?: ViewChargesPolicy | (string & {}) | undefined;
   /** List of all policies defined at the billing scope. */
-  policies?: BillingProfilePolicyPropertiesPoliciesList;
+  policies?: BillingProfilePolicyPropertiesPoliciesList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPolicyByBillingProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPolicyByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at billing profile scope. */
-  properties?: BillingProfilePolicyProperties;
+  properties?: BillingProfilePolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPolicyByBillingProfileResponseTagsMap;
+  tags?: GetPolicyByBillingProfileResponseTagsMap | undefined;
 }
 export type GetPolicyByCustomerRequestPolicyName = "default";
 export interface GetPolicyByCustomerRequest {
@@ -3857,27 +3863,27 @@ export type CustomerPolicyPropertiesPoliciesList = Array<PolicySummary>;
 /** A policy at customer scope. */
 export interface CustomerPolicyProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
   viewCharges: ViewChargesPolicy | (string & {});
   /** List of all policies defined at the billing scope. */
-  policies?: CustomerPolicyPropertiesPoliciesList;
+  policies?: CustomerPolicyPropertiesPoliciesList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPolicyByCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPolicyByCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPolicyByCustomerResponseTagsMap;
+  tags?: GetPolicyByCustomerResponseTagsMap | undefined;
 }
 export interface GetPolicyByCustomerAtBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3891,17 +3897,17 @@ export type GetPolicyByCustomerAtBillingAccountResponseTagsMap = {
 };
 export interface GetPolicyByCustomerAtBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPolicyByCustomerAtBillingAccountResponseTagsMap;
+  tags?: GetPolicyByCustomerAtBillingAccountResponseTagsMap | undefined;
 }
 export interface GetPolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3912,25 +3918,25 @@ export type SubscriptionPolicyPropertiesPoliciesList = Array<PolicySummary>;
 /** A policy at subscription scope. */
 export interface SubscriptionPolicyProperties {
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of all policies defined at the billing scope. */
-  policies?: SubscriptionPolicyPropertiesPoliciesList;
+  policies?: SubscriptionPolicyPropertiesPoliciesList | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetPolicyBySubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPolicyBySubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at subscription scope. */
-  properties?: SubscriptionPolicyProperties;
+  properties?: SubscriptionPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetPolicyBySubscriptionResponseTagsMap;
+  tags?: GetPolicyBySubscriptionResponseTagsMap | undefined;
 }
 export interface GetProductRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -3953,65 +3959,65 @@ export type ProductStatus =
 /** A product. */
 export interface ProductProperties {
   /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew;
+  autoRenew?: AutoRenew | undefined;
   /** The availability of the product. */
-  availabilityId?: string;
+  availabilityId?: string | undefined;
   /** The frequency at which the product will be billed. */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** The ID of the billing profile to which the product is billed. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The name of the billing profile to which the product is billed. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The name of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The display name of the product. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The date when the product will be renewed or canceled. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The ID of the invoice section to which the product is billed. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** The name of the invoice section to which the product is billed. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The last month charges. */
-  lastCharge?: Amount;
+  lastCharge?: Amount | undefined;
   /** The date of the last charge. */
-  lastChargeDate?: string;
+  lastChargeDate?: string | undefined;
   /** The description of the type of product. */
-  productType?: string;
+  productType?: string | undefined;
   /** The ID of the type of product. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** The sku ID of the product. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** The sku description of the product. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** The date when the product was purchased. */
-  purchaseDate?: string;
+  purchaseDate?: string | undefined;
   /** The quantity purchased for the product. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The status of the product. */
-  status?: ProductStatus;
+  status?: ProductStatus | undefined;
   /** The id of the tenant in which the product is used. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Reseller for this product. The fields is not available for Microsoft Partner Agreement products. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetProductResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProductResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A product. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetProductResponseTagsMap;
+  tags?: GetProductResponseTagsMap | undefined;
 }
 export interface GetRecipientTransferRequest {
   /** The ID that uniquely identifies a transfer request. */
@@ -4021,17 +4027,17 @@ export interface GetRecipientTransferRequest {
 export type GetRecipientTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRecipientTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: RecipientTransferProperties;
+  properties?: RecipientTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetRecipientTransferResponseTagsMap;
+  tags?: GetRecipientTransferResponseTagsMap | undefined;
 }
 export interface GetReservationByReservationOrderRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4041,7 +4047,7 @@ export interface GetReservationByReservationOrderRequest {
   /** Id of the reservation item */
   reservationId: string;
   /** May be used to expand the detail information of some properties. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
 export type InstanceFlexibility = "On" | "Off";
@@ -4072,16 +4078,16 @@ export type ReservationStatusCode =
 /** Extended status definition properties */
 export interface ExtendedStatusDefinitionProperties {
   /** Subscription Id */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** Extended status information for the reservation. */
 export interface ReservationExtendedStatusInfo {
   /** The status of the reservation. */
-  statusCode?: ReservationStatusCode;
+  statusCode?: ReservationStatusCode | undefined;
   /** The message giving detailed information about the status code. */
-  message?: string;
+  message?: string | undefined;
   /** Properties for extended status information */
-  properties?: ExtendedStatusDefinitionProperties;
+  properties?: ExtendedStatusDefinitionProperties | undefined;
 }
 /** Represent the billing plans. */
 export type ReservationBillingPlan = "Upfront" | "Monthly";
@@ -4090,42 +4096,42 @@ export type ReservationSplitPropertiesSplitDestinationsList = Array<string>;
 /** Properties of reservation split */
 export interface ReservationSplitProperties {
   /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  splitDestinations?: ReservationSplitPropertiesSplitDestinationsList;
+  splitDestinations?: ReservationSplitPropertiesSplitDestinationsList | undefined;
   /** Resource id of the reservation from which this is split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  splitSource?: string;
+  splitSource?: string | undefined;
 }
 /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
 export type ReservationMergePropertiesMergeSourcesList = Array<string>;
 /** Properties of reservation merge */
 export interface ReservationMergeProperties {
   /** Reservation resource id Created due to the merge. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  mergeDestination?: string;
+  mergeDestination?: string | undefined;
   /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  mergeSources?: ReservationMergePropertiesMergeSourcesList;
+  mergeSources?: ReservationMergePropertiesMergeSourcesList | undefined;
 }
 /** Properties of reservation swap */
 export interface ReservationSwapProperties {
   /** Resource id of the source reservation that gets swapped. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  swapSource?: string;
+  swapSource?: string | undefined;
   /** Reservation resource id that the original resource gets swapped to. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  swapDestination?: string;
+  swapDestination?: string | undefined;
 }
 /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
 export interface ReservationAppliedScopeProperties {
   /** Tenant ID where the reservation should apply benefit. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Fully-qualified identifier of the management group where the benefit must be applied. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Fully-qualified identifier of the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Fully-qualified identifier of the resource group. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The name of sku */
 export interface SkuName {
-  name?: string;
+  name?: string | undefined;
 }
 /** Type of the Applied Scope. */
 export type AppliedScopeType = "Single" | "Shared" | "ManagementGroup";
@@ -4134,181 +4140,183 @@ export type ReservationPurchaseRequestPropertiesAppliedScopesList = Array<string
 /** Properties specific to each reserved resource type. Not required if not applicable. */
 export interface ReservationPurchaseRequestPropertiesReservedResourceProperties {
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
 }
 /** Properties of reservation purchase request */
 export interface ReservationPurchaseRequestProperties {
   /** The reserved source type of the reservation, e.g. virtual machine. */
-  reservedResourceType?: string;
+  reservedResourceType?: string | undefined;
   /** Subscription that will be charged for purchasing reservation or savings plan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** The term of the reservation, e.g. P1Y */
-  term?: string;
+  term?: string | undefined;
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** Quantity of the skus that are part of the reservation. Must be greater than zero. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Friendly name of the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
-  appliedScopes?: ReservationPurchaseRequestPropertiesAppliedScopesList;
+  appliedScopes?: ReservationPurchaseRequestPropertiesAppliedScopesList | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  appliedScopeProperties?: ReservationAppliedScopeProperties | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationPurchaseRequestPropertiesReservedResourceProperties;
+  reservedResourceProperties?:
+    | ReservationPurchaseRequestPropertiesReservedResourceProperties
+    | undefined;
   /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
-  instanceFlexibility?: InstanceFlexibility;
+  instanceFlexibility?: InstanceFlexibility | undefined;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 /** The request for reservation purchase */
 export interface ReservationPurchaseRequest {
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of reservation purchase request */
-  properties?: ReservationPurchaseRequestProperties;
+  properties?: ReservationPurchaseRequestProperties | undefined;
 }
 /** The price. */
 export interface Price {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
 }
 /** The renew properties for a reservation. */
 export interface RenewPropertiesResponse {
   /** The request for reservation purchase */
-  purchaseProperties?: ReservationPurchaseRequest;
+  purchaseProperties?: ReservationPurchaseRequest | undefined;
   /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included. */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
 }
 /** The aggregate values of reservation utilization */
 export interface ReservationUtilizationAggregates {
   /** The grain of the aggregate */
-  grain?: number;
+  grain?: number | undefined;
   /** The grain unit of the aggregate */
-  grainUnit?: string;
+  grainUnit?: string | undefined;
   /** The aggregate value */
-  value?: number;
+  value?: number | undefined;
   /** The aggregate value unit */
-  valueUnit?: string;
+  valueUnit?: string | undefined;
 }
 /** The array of aggregates of a reservation's utilization */
 export type ReservationPropertyUtilizationAggregatesList = Array<ReservationUtilizationAggregates>;
 /** Reservation utilization */
 export interface ReservationPropertyUtilization {
   /** last 7 day utilization trend for a reservation */
-  trend?: string;
+  trend?: string | undefined;
   /** The array of aggregates of a reservation's utilization */
-  aggregates?: ReservationPropertyUtilizationAggregatesList;
+  aggregates?: ReservationPropertyUtilizationAggregatesList | undefined;
 }
 /** The property of reservation object. */
 export interface ReservationProperty {
   /** The reserved source type of the reservation, e.g. virtual machine. */
-  reservedResourceType?: string;
+  reservedResourceType?: string | undefined;
   /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
-  instanceFlexibility?: InstanceFlexibility;
+  instanceFlexibility?: InstanceFlexibility | undefined;
   /** The display name of the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The array of applied scopes of a reservation. Will be null if the reservation is in Shared scope */
-  appliedScopes?: ReservationPropertyAppliedScopesList;
+  appliedScopes?: ReservationPropertyAppliedScopesList | undefined;
   /** The applied scope type of the reservation. */
-  appliedScopeType?: string;
+  appliedScopeType?: string | undefined;
   /** Indicates if the reservation is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Capabilities of the reservation */
-  capabilities?: string;
+  capabilities?: string | undefined;
   /** The number of the reservation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The provisioning state of the reservation, e.g. Succeeded */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The effective date time of the reservation */
-  effectiveDateTime?: string;
+  effectiveDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** DateTime of the last time the reservation was updated. */
-  lastUpdatedDateTime?: string;
+  lastUpdatedDateTime?: string | undefined;
   /** The expiry date of the reservation */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** This is the date-time when the reservation will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
   /** The sku description of the reservation */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** The message giving detailed information about the status code. */
-  extendedStatusInfo?: ReservationExtendedStatusInfo;
+  extendedStatusInfo?: ReservationExtendedStatusInfo | undefined;
   /** The billing plan options available for this sku. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** The provisioning state of the reservation for display, e.g. Succeeded */
-  displayProvisioningState?: string;
+  displayProvisioningState?: string | undefined;
   /** The provisioning state of the reservation, e.g. Succeeded */
-  provisioningSubState?: string;
+  provisioningSubState?: string | undefined;
   /** This is the date when the reservation was purchased. */
-  purchaseDate?: string;
+  purchaseDate?: string | undefined;
   /** This is the date-time when the reservation was purchased. */
-  purchaseDateTime?: string;
+  purchaseDateTime?: string | undefined;
   /** Properties of reservation split */
-  splitProperties?: ReservationSplitProperties;
+  splitProperties?: ReservationSplitProperties | undefined;
   /** Properties of reservation merge */
-  mergeProperties?: ReservationMergeProperties;
+  mergeProperties?: ReservationMergeProperties | undefined;
   /** Properties of reservation swap */
-  swapProperties?: ReservationSwapProperties;
+  swapProperties?: ReservationSwapProperties | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  appliedScopeProperties?: ReservationAppliedScopeProperties | undefined;
   /** Subscription that will be charged for purchasing reservation or savings plan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** The renew state of the reservation */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** The renew source of the reservation */
-  renewSource?: string;
+  renewSource?: string | undefined;
   /** Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
-  renewDestination?: string;
+  renewDestination?: string | undefined;
   /** The renew properties for a reservation. */
-  renewProperties?: RenewPropertiesResponse;
+  renewProperties?: RenewPropertiesResponse | undefined;
   /** The term of the reservation, e.g. P1Y */
-  term?: string;
+  term?: string | undefined;
   /** The applied scope type of the reservation for display, e.g. Shared */
-  userFriendlyAppliedScopeType?: string;
+  userFriendlyAppliedScopeType?: string | undefined;
   /** The renew state of the reservation for display, e.g. On */
-  userFriendlyRenewState?: string;
+  userFriendlyRenewState?: string | undefined;
   /** Reservation utilization */
-  utilization?: ReservationPropertyUtilization;
+  utilization?: ReservationPropertyUtilization | undefined;
   /** Represents UPN */
-  productCode?: string;
+  productCode?: string | undefined;
 }
 /** Tags for this reservation */
 export type GetReservationByReservationOrderResponseTagsMap = { [key: string]: string | undefined };
 /** The property of reservation sku object. */
 export interface ReservationSkuProperty {
   /** The name of the reservation sku. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetReservationByReservationOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationProperty;
+  properties?: ReservationProperty | undefined;
   /** The location of the reservation. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** Tags for this reservation */
-  tags?: GetReservationByReservationOrderResponseTagsMap;
+  tags?: GetReservationByReservationOrderResponseTagsMap | undefined;
   /** The sku information associated to this reservation */
-  sku?: ReservationSkuProperty;
+  sku?: ReservationSkuProperty | undefined;
 }
 export interface GetReservationOrderByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4316,7 +4324,7 @@ export interface GetReservationOrderByBillingAccountRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** May be used to expand the detail information of some properties. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Describes whether the payment is completed, failed, pending, cancelled or scheduled in the future. */
 export type PaymentStatus =
@@ -4329,94 +4337,94 @@ export type PaymentStatus =
 /** Information about payment related to a reservation order. */
 export interface ReservationPaymentDetail {
   /** Date when the payment needs to be done. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** Date when the transaction is completed. Is null when it is scheduled. */
-  paymentDate?: string;
+  paymentDate?: string | undefined;
   /** Amount in pricing currency. Tax not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Amount charged in Billing currency. Tax not included. Is null for future payments */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Shows the Account that is charged for this payment. */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
   /** Describes whether the payment is completed, failed, pending, cancelled or scheduled in the future. */
-  status?: PaymentStatus;
+  status?: PaymentStatus | undefined;
   /** Extended status information for the reservation. */
-  extendedStatusInfo?: ReservationExtendedStatusInfo;
+  extendedStatusInfo?: ReservationExtendedStatusInfo | undefined;
 }
 export type ReservationOrderBillingPlanInformationTransactionsList =
   Array<ReservationPaymentDetail>;
 /** Information describing the type of billing plan for this reservation order. */
 export interface ReservationOrderBillingPlanInformation {
   /** Amount of money to be paid for the Order. Tax is not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Date when the billing plan has started. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
-  nextPaymentDueDate?: string;
-  transactions?: ReservationOrderBillingPlanInformationTransactionsList;
+  nextPaymentDueDate?: string | undefined;
+  transactions?: ReservationOrderBillingPlanInformationTransactionsList | undefined;
 }
 /** Tags for this reservation */
 export type ReservationTagsMap = { [key: string]: string | undefined };
 /** The definition of the reservation. */
 export interface Reservation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationProperty;
+  properties?: ReservationProperty | undefined;
   /** The location of the reservation. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** Tags for this reservation */
-  tags?: ReservationTagsMap;
+  tags?: ReservationTagsMap | undefined;
   /** The sku information associated to this reservation */
-  sku?: ReservationSkuProperty;
+  sku?: ReservationSkuProperty | undefined;
 }
 export type ReservationOrderPropertyReservationsList = Array<Reservation>;
 /** Properties of a reservation order. */
 export interface ReservationOrderProperty {
   /** Friendly name for user to easily identified the reservation order. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Enrollment id of the reservation order. */
-  enrollmentId?: string;
+  enrollmentId?: string | undefined;
   /** Fully-qualified identifier of the customerId where the benefit is applied. Present only for Enterprise Agreement PartnerLed customers. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Billing profile Id associated to this reservation order. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Billing account Id associated to this reservation order. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** This is the DateTime when the reservation order was initially requested for purchase. */
-  requestDateTime?: string;
+  requestDateTime?: string | undefined;
   /** This is the DateTime when the reservation order was created. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** This is the date when the reservation order will expire. */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** This is the date-time when the reservation order will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** Total original quantity of the skus purchased in the reservation order. */
-  originalQuantity?: number;
+  originalQuantity?: number | undefined;
   /** The term of the reservation, e.g. P1Y */
-  term?: string;
+  term?: string | undefined;
   /** The provisioning state of the reservation, e.g. Succeeded */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** Information describing the type of billing plan for this reservation order. */
-  planInformation?: ReservationOrderBillingPlanInformation;
-  reservations?: ReservationOrderPropertyReservationsList;
+  planInformation?: ReservationOrderBillingPlanInformation | undefined;
+  reservations?: ReservationOrderPropertyReservationsList | undefined;
   /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
   /** Extended status information for the reservation. */
-  extendedStatusInfo?: ReservationExtendedStatusInfo;
+  extendedStatusInfo?: ReservationExtendedStatusInfo | undefined;
   /** Represents UPN */
-  productCode?: string;
+  productCode?: string | undefined;
 }
 /** Tags for this reservation */
 export type GetReservationOrderByBillingAccountResponseTagsMap = {
@@ -4424,18 +4432,18 @@ export type GetReservationOrderByBillingAccountResponseTagsMap = {
 };
 export interface GetReservationOrderByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation order */
-  properties?: ReservationOrderProperty;
-  etag?: number;
+  properties?: ReservationOrderProperty | undefined;
+  etag?: number | undefined;
   /** Tags for this reservation */
-  tags?: GetReservationOrderByBillingAccountResponseTagsMap;
+  tags?: GetReservationOrderByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetSavingsPlanByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4445,14 +4453,14 @@ export interface GetSavingsPlanByBillingAccountRequest {
   /** ID of the savings plan */
   savingsPlanId: string;
   /** May be used to expand the planInformation. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Represents the Savings plan term in ISO 8601 format. */
 export type SavingsPlanTerm = "P1Y" | "P3Y" | "P5Y";
 /** The SKU to be applied for this resource */
 export interface Sku {
   /** Name of the SKU to be applied */
-  name?: string;
+  name?: string | undefined;
 }
 /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
 export type BillingPlan = "P1M";
@@ -4461,54 +4469,54 @@ export type CommitmentGrain = "Hourly";
 /** Commitment towards the benefit. */
 export interface Commitment {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
   /** Commitment grain. */
-  grain?: CommitmentGrain | (string & {});
+  grain?: CommitmentGrain | (string & {}) | undefined;
 }
 /** Properties specific to applied scope type. Not required if not applicable. */
 export interface AppliedScopeProperties {
   /** Tenant ID where the savings plan where the benefit is applied. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Fully-qualified identifier of the management group where the benefit is applied. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Fully-qualified identifier of the subscription where the benefit is applied. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Fully-qualified identifier of the resource group where the benefit is applied. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Purchase request properties. */
 export interface PurchaseRequestProperties {
   /** Friendly name of the savings plan */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing SavingsPlan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represents the Savings plan term in ISO 8601 format. */
-  term?: SavingsPlanTerm | (string & {});
+  term?: SavingsPlanTerm | (string & {}) | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
-  billingPlan?: BillingPlan | (string & {});
+  billingPlan?: BillingPlan | (string & {}) | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
 }
 /** Purchase request. */
 export interface PurchaseRequest {
   /** The SKU to be applied for this resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Purchase request properties. */
-  properties?: PurchaseRequestProperties;
+  properties?: PurchaseRequestProperties | undefined;
 }
 /** Properties specific to renew. */
 export interface RenewProperties {
   /** Purchase request. */
-  purchaseProperties?: PurchaseRequest;
+  purchaseProperties?: PurchaseRequest | undefined;
 }
 /** The aggregate values of savings plan utilization */
 export type UtilizationAggregates = ReservationUtilizationAggregates;
@@ -4517,90 +4525,90 @@ export type UtilizationAggregatesList = Array<ReservationUtilizationAggregates>;
 /** Savings plan utilization */
 export interface Utilization {
   /** The trend for a savings plan's utilization */
-  trend?: string;
+  trend?: string | undefined;
   /** The array of aggregates of a savings plan's utilization */
-  aggregates?: UtilizationAggregatesList;
+  aggregates?: UtilizationAggregatesList | undefined;
 }
 /** Properties specific to credit line check failure */
 export interface ExtendedStatusInfoProperties {
   /** The subscription that has failed credit line check. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** Extended status information */
 export interface ExtendedStatusInfo {
   /** Status code providing additional information. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** The message giving detailed information about the status code. */
-  message?: string;
+  message?: string | undefined;
   /** Properties specific to credit line check failure */
-  properties?: ExtendedStatusInfoProperties;
+  properties?: ExtendedStatusInfoProperties | undefined;
 }
 /** Savings plan properties */
 export interface SavingsPlanModelProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The provisioning state of the resource during a long-running operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The provisioning state of the savings plan for display, e.g. Succeeded */
-  displayProvisioningState?: string;
+  displayProvisioningState?: string | undefined;
   /** The applied scope type of the savings plan for display, e.g. Shared */
-  userFriendlyAppliedScopeType?: string;
+  userFriendlyAppliedScopeType?: string | undefined;
   /** Subscription that will be charged for purchasing SavingsPlan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the savings plan is applied. Present only for Field-led or Customer-led customers. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Fully-qualified identifier of the billing account where the savings plan is applied. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Represents the Savings plan term in ISO 8601 format. */
-  term?: SavingsPlanTerm;
+  term?: SavingsPlanTerm | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** SavingsPlan Id of the SavingsPlan from which this SavingsPlan is renewed. */
-  renewSource?: string;
+  renewSource?: string | undefined;
   /** SavingsPlan Id of the SavingsPlan which is purchased because of renew. */
-  renewDestination?: string;
+  renewDestination?: string | undefined;
   /** Properties specific to renew. */
-  renewProperties?: RenewProperties;
+  renewProperties?: RenewProperties | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
   /** DateTime of the savings plan starting when this version is effective from. */
-  effectiveDateTime?: string;
+  effectiveDateTime?: string | undefined;
   /** This is the DateTime when the savings plan benefit starts. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** This is the date-time when the savings plan will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** Date time when the savings plan was purchased. */
-  purchaseDateTime?: string;
+  purchaseDateTime?: string | undefined;
   /** Savings plan utilization */
-  utilization?: Utilization;
+  utilization?: Utilization | undefined;
   /** Extended status information */
-  extendedStatusInfo?: ExtendedStatusInfo;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
   /** Represents UPN */
-  productCode?: string;
+  productCode?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetSavingsPlanByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSavingsPlanByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetSavingsPlanByBillingAccountResponseTagsMap;
+  tags?: GetSavingsPlanByBillingAccountResponseTagsMap | undefined;
   /** Savings plan SKU */
   sku: Sku;
 }
@@ -4610,64 +4618,64 @@ export interface GetSavingsPlanOrderByBillingAccountRequest {
   /** Order ID of the savings plan */
   savingsPlanOrderId: string;
   /** May be used to expand the planInformation. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Information about payment related to a savings plan order. */
 export interface PaymentDetail {
   /** Date when the payment needs to be done. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** Date when the transaction is completed. Null when it is scheduled. */
-  paymentDate?: string;
+  paymentDate?: string | undefined;
   /** Amount in pricing currency. Tax not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Amount charged in Billing currency. Tax not included. Is null for future payments */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Describes whether the payment is completed, failed, pending, cancelled or scheduled in the future. */
-  status?: PaymentStatus;
+  status?: PaymentStatus | undefined;
   /** Extended status information */
-  extendedStatusInfo?: ExtendedStatusInfo;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
 }
 export type BillingPlanInformationTransactionsList = Array<PaymentDetail>;
 /** Information describing the type of billing plan for this savings plan. */
 export interface BillingPlanInformation {
   /** Amount of money to be paid for the Order. Tax is not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Date when the billing plan has started. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
-  nextPaymentDueDate?: string;
-  transactions?: BillingPlanInformationTransactionsList;
+  nextPaymentDueDate?: string | undefined;
+  transactions?: BillingPlanInformationTransactionsList | undefined;
 }
 export type SavingsPlanOrderModelPropertiesSavingsPlansList = Array<string>;
 /** Savings plan order properties */
 export interface SavingsPlanOrderModelProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The provisioning state of the savings plan, e.g. Succeeded */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Subscription that will be charged for purchasing SavingsPlan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Fully-qualified identifier of the billing profile where the savings plan is applied. Present only for Field-led or Customer-led customers. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Fully-qualified identifier of the billing account where the savings plan is applied. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Represents the Savings plan term in ISO 8601 format. */
-  term?: SavingsPlanTerm;
+  term?: SavingsPlanTerm | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
-  billingPlan?: BillingPlan;
+  billingPlan?: BillingPlan | undefined;
   /** DateTime when the savings plan benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** DateTime when the savings plan will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** Information describing the type of billing plan for this savings plan. */
-  planInformation?: BillingPlanInformation;
-  savingsPlans?: SavingsPlanOrderModelPropertiesSavingsPlansList;
+  planInformation?: BillingPlanInformation | undefined;
+  savingsPlans?: SavingsPlanOrderModelPropertiesSavingsPlansList | undefined;
   /** Extended status information */
-  extendedStatusInfo?: ExtendedStatusInfo;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
   /** Represents UPN */
-  productCode?: string;
+  productCode?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type GetSavingsPlanOrderByBillingAccountResponseTagsMap = {
@@ -4675,17 +4683,17 @@ export type GetSavingsPlanOrderByBillingAccountResponseTagsMap = {
 };
 export interface GetSavingsPlanOrderByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order properties */
-  properties?: SavingsPlanOrderModelProperties;
+  properties?: SavingsPlanOrderModelProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetSavingsPlanOrderByBillingAccountResponseTagsMap;
+  tags?: GetSavingsPlanOrderByBillingAccountResponseTagsMap | undefined;
   /** Savings plan SKU */
   sku: Sku;
 }
@@ -4695,24 +4703,24 @@ export interface GetTransactionTransactionSummaryByInvoiceRequest {
   /** The ID that uniquely identifies an invoice. */
   invoiceName: string;
   /** The filter query option allows clients to filter the line items that are aggregated to create the line item summary. */
-  filter?: string;
+  filter?: string | undefined;
   /** The search query option allows clients to filter the line items that are aggregated to create the line item summary. */
-  search?: string;
+  search?: string | undefined;
 }
 /** A transaction summary. */
 export interface TransactionSummary {
   /** The total amount of any Azure credits applied. */
-  azureCreditApplied?: number;
+  azureCreditApplied?: number | undefined;
   /** The ISO 4217 code for the currency in which the transactions are billed. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** The total Microsoft Azure Consumption Commitment (MACC) decrement through the invoice. */
-  consumptionCommitmentDecremented?: number;
+  consumptionCommitmentDecremented?: number | undefined;
   /** The total pre-tax charged amount. */
-  subTotal?: number;
+  subTotal?: number | undefined;
   /** The total tax amount applied. */
-  tax?: number;
+  tax?: number | undefined;
   /** The total charges. */
-  total?: number;
+  total?: number | undefined;
 }
 export interface GetTransferRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4728,17 +4736,17 @@ export interface GetTransferRequest {
 export type GetTransferResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTransferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: TransferProperties;
+  properties?: TransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: GetTransferResponseTagsMap;
+  tags?: GetTransferResponseTagsMap | undefined;
 }
 export interface InvoicesAmendRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4748,24 +4756,24 @@ export interface InvoicesAmendRequest {
 }
 export interface InvoicesAmendResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type InvoiceSectionPropertiesInputTagsMap = { [key: string]: string | undefined };
 /** An invoice section. */
 export interface InvoiceSectionPropertiesInput {
   /** The name of the invoice section. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifies the status of an invoice section. */
-  state?: InvoiceSectionState | (string & {});
+  state?: InvoiceSectionState | (string & {}) | undefined;
   /** Reason for the specified invoice section status. */
-  reasonCode?: InvoiceSectionStateReasonCode | (string & {});
+  reasonCode?: InvoiceSectionStateReasonCode | (string & {}) | undefined;
   /** Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds. */
-  targetCloud?: string;
+  targetCloud?: string | undefined;
   /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceSectionPropertiesInputTagsMap;
+  tags?: InvoiceSectionPropertiesInputTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type InvoiceSectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4777,29 +4785,29 @@ export interface InvoiceSectionsCreateOrUpdateRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** An invoice section. */
-  properties?: InvoiceSectionPropertiesInput;
+  properties?: InvoiceSectionPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceSectionsCreateOrUpdateRequestTagsMap;
+  tags?: InvoiceSectionsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type InvoiceSectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface InvoiceSectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice section. */
-  properties?: InvoiceSectionProperties;
+  properties?: InvoiceSectionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceSectionsCreateOrUpdateResponseTagsMap;
+  tags?: InvoiceSectionsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface InvoiceSectionsValidateDeleteEligibilityRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4821,9 +4829,9 @@ export type DeleteInvoiceSectionEligibilityCode =
 /** The details of delete invoice section eligibility result. */
 export interface DeleteInvoiceSectionEligibilityDetail {
   /** Code for the delete invoice section validation. */
-  code?: DeleteInvoiceSectionEligibilityCode;
+  code?: DeleteInvoiceSectionEligibilityCode | undefined;
   /** Validation message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** A list of delete invoice section eligibility result details. */
 export type DeleteInvoiceSectionEligibilityResultEligibilityDetailsList =
@@ -4831,32 +4839,32 @@ export type DeleteInvoiceSectionEligibilityResultEligibilityDetailsList =
 /** Eligibility to delete an invoice section result. */
 export interface DeleteInvoiceSectionEligibilityResult {
   /** Status describing if invoice section is eligible to be deleted. */
-  eligibilityStatus?: DeleteInvoiceSectionEligibilityStatus;
+  eligibilityStatus?: DeleteInvoiceSectionEligibilityStatus | undefined;
   /** A list of delete invoice section eligibility result details. */
-  eligibilityDetails?: DeleteInvoiceSectionEligibilityResultEligibilityDetailsList;
+  eligibilityDetails?: DeleteInvoiceSectionEligibilityResultEligibilityDetailsList | undefined;
 }
 export interface ListAgreementByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** May be used to expand the participants. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AgreementTagsMap = { [key: string]: string | undefined };
 /** An agreement. */
 export interface Agreement {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An agreement. */
-  properties?: AgreementProperties;
+  properties?: AgreementProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AgreementTagsMap;
+  tags?: AgreementTagsMap | undefined;
 }
 /** The Agreement items on this page */
 export type AgreementListResultValueList = Array<Agreement>;
@@ -4865,42 +4873,42 @@ export interface AgreementListResult {
   /** The Agreement items on this page */
   value: AgreementListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAssociatedTenantByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Can be used to get revoked associated tenants. */
-  includeRevoked?: boolean;
+  includeRevoked?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type AssociatedTenantTagsMap = { [key: string]: string | undefined };
 /** An associated tenant. */
 export interface AssociatedTenant {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An associated tenant. */
-  properties?: AssociatedTenantProperties;
+  properties?: AssociatedTenantProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: AssociatedTenantTagsMap;
+  tags?: AssociatedTenantTagsMap | undefined;
 }
 /** The AssociatedTenant items on this page */
 export type AssociatedTenantListResultValueList = Array<AssociatedTenant>;
@@ -4909,50 +4917,50 @@ export interface AssociatedTenantListResult {
   /** The AssociatedTenant items on this page */
   value: AssociatedTenantListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingAccountsRequest {
   /** When true, results will include Billing Accounts that the user does not have a direct role assignment on if the user has one of the following AAD roles: Global Administrator, Global Reader, Billing Administrator. */
-  includeAll?: boolean;
+  includeAll?: boolean | undefined;
   /** When true, results will include Billing Accounts that are not fully created if the user has one of the following AAD roles: Global Administrator, Global Reader, Billing Administrator. */
-  includeAllWithoutBillingProfiles?: boolean;
+  includeAllWithoutBillingProfiles?: boolean | undefined;
   /** When true, results will include any billing accounts in a deleted state. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Includes billing accounts with agreement pending signature that the user has access to. */
-  includePendingAgreement?: boolean;
+  includePendingAgreement?: boolean | undefined;
   /** Includes the customer's billing account of Microsoft Partner Agreement that the user has access to. */
-  includeResellee?: boolean;
+  includeResellee?: boolean | undefined;
   /** Must be combined with legalOwnerOID, results will only include Billing Accounts for whom is legally responsible for the Billing Accounts. Optional. */
-  legalOwnerTID?: string;
+  legalOwnerTID?: string | undefined;
   /** Must be combined with legalOwnerTID, results will only include Billing Accounts for whom is legally responsible for the Billing Accounts. Optional. */
-  legalOwnerOID?: string;
+  legalOwnerOID?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** Expand is allowed for SoldTo and EnrollmentDetails/PONumber. */
-  expand?: string;
+  expand?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingAccountTagsMap = { [key: string]: string | undefined };
 /** A billing account. */
 export interface BillingAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing account. */
-  properties?: BillingAccountProperties;
+  properties?: BillingAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingAccountTagsMap;
+  tags?: BillingAccountTagsMap | undefined;
 }
 /** The BillingAccount items on this page */
 export type BillingAccountListResultValueList = Array<BillingAccount>;
@@ -4961,7 +4969,7 @@ export interface BillingAccountListResult {
   /** The BillingAccount items on this page */
   value: BillingAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingPermissionsByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -4974,7 +4982,7 @@ export interface BillingPermissionListResult {
   /** The BillingPermission items on this page */
   value: BillingPermissionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingPermissionsByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5020,36 +5028,36 @@ export interface ListBillingProfileByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Can be used to get deleted billing profiles. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingProfileTagsMap = { [key: string]: string | undefined };
 /** A billing profile. */
 export interface BillingProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing profile. */
-  properties?: BillingProfileProperties;
+  properties?: BillingProfileProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingProfileTagsMap;
+  tags?: BillingProfileTagsMap | undefined;
 }
 /** The BillingProfile items on this page */
 export type BillingProfileListResultValueList = Array<BillingProfile>;
@@ -5058,40 +5066,40 @@ export interface BillingProfileListResult {
   /** The BillingProfile items on this page */
   value: BillingProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingRequestByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingRequestTagsMap = { [key: string]: string | undefined };
 /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
 export interface BillingRequest {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
-  properties?: BillingRequestProperties;
+  properties?: BillingRequestProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRequestTagsMap;
+  tags?: BillingRequestTagsMap | undefined;
 }
 /** The BillingRequest items on this page */
 export type BillingRequestListResultValueList = Array<BillingRequest>;
@@ -5100,7 +5108,7 @@ export interface BillingRequestListResult {
   /** The BillingRequest items on this page */
   value: BillingRequestListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingRequestByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5108,17 +5116,17 @@ export interface ListBillingRequestByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingRequestByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5128,17 +5136,17 @@ export interface ListBillingRequestByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingRequestByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5148,48 +5156,48 @@ export interface ListBillingRequestByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingRequestByUserRequest {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingRoleAssignmentByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
 }
 /** Paged collection of BillingRoleAssignment items */
 export interface BillingRoleAssignmentListResult {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5197,11 +5205,11 @@ export interface ListBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
 }
 export interface ListBillingRoleAssignmentByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5211,11 +5219,11 @@ export interface ListBillingRoleAssignmentByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
 }
 export interface ListBillingRoleAssignmentByDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5237,11 +5245,11 @@ export interface ListBillingRoleAssignmentByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
 }
 export interface ListBillingRoleDefinitionByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5252,17 +5260,17 @@ export type BillingRoleDefinitionTagsMap = { [key: string]: string | undefined }
 /** The properties of a role definition. */
 export interface BillingRoleDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a role definition. */
-  properties?: BillingRoleDefinitionProperties;
+  properties?: BillingRoleDefinitionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingRoleDefinitionTagsMap;
+  tags?: BillingRoleDefinitionTagsMap | undefined;
 }
 /** The BillingRoleDefinition items on this page */
 export type BillingRoleDefinitionListResultValueList = Array<BillingRoleDefinition>;
@@ -5271,7 +5279,7 @@ export interface BillingRoleDefinitionListResult {
   /** The BillingRoleDefinition items on this page */
   value: BillingRoleDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBillingRoleDefinitionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5311,53 +5319,53 @@ export interface ListBillingSubscriptionByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Can be used to get tenant-owned billing subscriptions. This field is only applies to Microsoft Online Services Program billing accounts. */
-  includeTenantSubscriptions?: boolean;
+  includeTenantSubscriptions?: boolean | undefined;
   /** Can be used to get failed billing subscriptions. */
-  includeFailed?: boolean;
+  includeFailed?: boolean | undefined;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingSubscriptionTagsMap = { [key: string]: string | undefined };
 /** The billing properties of a subscription. */
 export interface BillingSubscription {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingSubscriptionTagsMap;
+  tags?: BillingSubscriptionTagsMap | undefined;
 }
 /** The list of resources. */
 export type BillingSubscriptionListResultValueList = Array<BillingSubscription>;
 /** A container for a list of resources */
 export interface BillingSubscriptionListResult {
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Total number of records. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The list of resources. */
-  value?: BillingSubscriptionListResultValueList;
+  value?: BillingSubscriptionListResultValueList | undefined;
 }
 export interface ListBillingSubscriptionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5365,21 +5373,21 @@ export interface ListBillingSubscriptionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingSubscriptionByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5389,21 +5397,21 @@ export interface ListBillingSubscriptionByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingSubscriptionByCustomerAtBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5411,21 +5419,21 @@ export interface ListBillingSubscriptionByCustomerAtBillingAccountRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingSubscriptionByEnrollmentAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5433,17 +5441,17 @@ export interface ListBillingSubscriptionByEnrollmentAccountRequest {
   /** The name of the enrollment account. */
   enrollmentAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingSubscriptionByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5453,56 +5461,56 @@ export interface ListBillingSubscriptionByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListBillingSubscriptionsAliasByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Can be used to get deleted billing subscriptions. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type BillingSubscriptionAliasTagsMap = { [key: string]: string | undefined };
 /** A billing subscription alias. */
 export interface BillingSubscriptionAlias {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscriptionAlias */
-  properties?: BillingSubscriptionAliasProperties;
+  properties?: BillingSubscriptionAliasProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: BillingSubscriptionAliasTagsMap;
+  tags?: BillingSubscriptionAliasTagsMap | undefined;
 }
 /** The BillingSubscriptionAlias items on this page */
 export type BillingSubscriptionAliasListResultValueList = Array<BillingSubscriptionAlias>;
@@ -5511,42 +5519,42 @@ export interface BillingSubscriptionAliasListResult {
   /** The BillingSubscriptionAlias items on this page */
   value: BillingSubscriptionAliasListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomerByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** May be used to expand enabledAzurePlans and resellers */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type CustomerTagsMap = { [key: string]: string | undefined };
 /** A partner's customer. */
 export interface Customer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A partner's customer. */
-  properties?: CustomerProperties;
+  properties?: CustomerProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: CustomerTagsMap;
+  tags?: CustomerTagsMap | undefined;
 }
 /** The Customer items on this page */
 export type CustomerListResultValueList = Array<Customer>;
@@ -5555,7 +5563,7 @@ export interface CustomerListResult {
   /** The Customer items on this page */
   value: CustomerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomerByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5563,50 +5571,50 @@ export interface ListCustomerByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** May be used to expand enabledAzurePlans and resellers */
-  expand?: string;
+  expand?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListDepartmentByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type DepartmentTagsMap = { [key: string]: string | undefined };
 /** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
 export interface Department {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
-  properties?: DepartmentProperties;
+  properties?: DepartmentProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: DepartmentTagsMap;
+  tags?: DepartmentTagsMap | undefined;
 }
 /** The Department items on this page */
 export type DepartmentListResultValueList = Array<Department>;
@@ -5615,40 +5623,40 @@ export interface DepartmentListResult {
   /** The Department items on this page */
   value: DepartmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnrollmentAccountByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type EnrollmentAccountTagsMap = { [key: string]: string | undefined };
 /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
 export interface EnrollmentAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
-  properties?: EnrollmentAccountProperties;
+  properties?: EnrollmentAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: EnrollmentAccountTagsMap;
+  tags?: EnrollmentAccountTagsMap | undefined;
 }
 /** The EnrollmentAccount items on this page */
 export type EnrollmentAccountListResultValueList = Array<EnrollmentAccount>;
@@ -5657,7 +5665,7 @@ export interface EnrollmentAccountListResult {
   /** The EnrollmentAccount items on this page */
   value: EnrollmentAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnrollmentAccountByDepartmentRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5665,54 +5673,54 @@ export interface ListEnrollmentAccountByDepartmentRequest {
   /** The name of the department. */
   departmentName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListInvoiceByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodStartDate?: string;
+  periodStartDate?: string | undefined;
   /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodEndDate?: string;
+  periodEndDate?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type InvoiceTagsMap = { [key: string]: string | undefined };
 /** An invoice. */
 export interface Invoice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice. */
-  properties?: InvoiceProperties;
+  properties?: InvoiceProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceTagsMap;
+  tags?: InvoiceTagsMap | undefined;
 }
 /** The Invoice items on this page */
 export type InvoiceListResultValueList = Array<Invoice>;
@@ -5721,7 +5729,7 @@ export interface InvoiceListResult {
   /** The Invoice items on this page */
   value: InvoiceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInvoiceByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5729,41 +5737,41 @@ export interface ListInvoiceByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodStartDate?: string;
+  periodStartDate?: string | undefined;
   /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodEndDate?: string;
+  periodEndDate?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListInvoiceByBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing subscription. */
   subscriptionId: string;
   /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodStartDate?: string;
+  periodStartDate?: string | undefined;
   /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
-  periodEndDate?: string;
+  periodEndDate?: string | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListInvoiceSectionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5771,36 +5779,36 @@ export interface ListInvoiceSectionByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** Can be used to get deleted invoice sections. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type InvoiceSectionTagsMap = { [key: string]: string | undefined };
 /** An invoice section. */
 export interface InvoiceSection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** An invoice section. */
-  properties?: InvoiceSectionProperties;
+  properties?: InvoiceSectionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: InvoiceSectionTagsMap;
+  tags?: InvoiceSectionTagsMap | undefined;
 }
 /** The InvoiceSection items on this page */
 export type InvoiceSectionListResultValueList = Array<InvoiceSection>;
@@ -5809,37 +5817,37 @@ export interface InvoiceSectionListResult {
   /** The InvoiceSection items on this page */
   value: InvoiceSectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Details of a REST API operation, returned from the Resource Provider Operations API. */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action". */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of billing operations supported by the Microsoft.Billing resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list billing operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of billing operations supported by the Microsoft.Billing resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartnerTransfersRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5854,17 +5862,17 @@ export type PartnerTransferDetailsTagsMap = { [key: string]: string | undefined 
 /** Details of the transfer. */
 export interface PartnerTransferDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: PartnerTransferProperties;
+  properties?: PartnerTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PartnerTransferDetailsTagsMap;
+  tags?: PartnerTransferDetailsTagsMap | undefined;
 }
 /** The PartnerTransferDetails items on this page */
 export type PartnerTransferDetailsListResultValueList = Array<PartnerTransferDetails>;
@@ -5873,7 +5881,7 @@ export interface PartnerTransferDetailsListResult {
   /** The PartnerTransferDetails items on this page */
   value: PartnerTransferDetailsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPaymentMethodByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5884,17 +5892,17 @@ export type PaymentMethodTagsMap = { [key: string]: string | undefined };
 /** A payment method. */
 export interface PaymentMethod {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Payment method properties */
-  properties?: PaymentMethodProperties;
+  properties?: PaymentMethodProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PaymentMethodTagsMap;
+  tags?: PaymentMethodTagsMap | undefined;
 }
 /** The PaymentMethod items on this page */
 export type PaymentMethodsListResultValueList = Array<PaymentMethod>;
@@ -5903,7 +5911,7 @@ export interface PaymentMethodsListResult {
   /** The PaymentMethod items on this page */
   value: PaymentMethodsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPaymentMethodByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5916,17 +5924,17 @@ export type PaymentMethodLinkTagsMap = { [key: string]: string | undefined };
 /** A payment method link. */
 export interface PaymentMethodLink {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Payment method link properties */
-  properties?: PaymentMethodLinkProperties;
+  properties?: PaymentMethodLinkProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PaymentMethodLinkTagsMap;
+  tags?: PaymentMethodLinkTagsMap | undefined;
 }
 /** The PaymentMethodLink items on this page */
 export type PaymentMethodLinksListResultValueList = Array<PaymentMethodLink>;
@@ -5935,41 +5943,41 @@ export interface PaymentMethodLinksListResult {
   /** The PaymentMethodLink items on this page */
   value: PaymentMethodLinksListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPaymentMethodByUserRequest {}
 export interface ListProductByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type ProductTagsMap = { [key: string]: string | undefined };
 /** A product. */
 export interface Product {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A product. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: ProductTagsMap;
+  tags?: ProductTagsMap | undefined;
 }
 /** The Product items on this page */
 export type ProductListResultValueList = Array<Product>;
@@ -5978,7 +5986,7 @@ export interface ProductListResult {
   /** The Product items on this page */
   value: ProductListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -5986,17 +5994,17 @@ export interface ListProductByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListProductByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6004,17 +6012,17 @@ export interface ListProductByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListProductByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6024,17 +6032,17 @@ export interface ListProductByInvoiceSectionRequest {
   /** The ID that uniquely identifies an invoice section. */
   invoiceSectionName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListRecipientTransfersRequest {}
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
@@ -6042,17 +6050,17 @@ export type RecipientTransferDetailsTagsMap = { [key: string]: string | undefine
 /** Details of the transfer. */
 export interface RecipientTransferDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: RecipientTransferProperties;
+  properties?: RecipientTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: RecipientTransferDetailsTagsMap;
+  tags?: RecipientTransferDetailsTagsMap | undefined;
 }
 /** The RecipientTransferDetails items on this page */
 export type RecipientTransferDetailsListResultValueList = Array<RecipientTransferDetails>;
@@ -6061,55 +6069,55 @@ export interface RecipientTransferDetailsListResult {
   /** The RecipientTransferDetails items on this page */
   value: RecipientTransferDetailsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of reservations to skip from the list before returning results */
-  skiptoken?: number;
+  skiptoken?: number | undefined;
   /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
+  refreshSummary?: string | undefined;
   /** The selected provisioning state */
-  selectedState?: string;
+  selectedState?: string | undefined;
   /** The number of reservations to return in API response. */
-  take?: number;
+  take?: number | undefined;
 }
 /** The roll up count summary of reservations in each state */
 export interface ReservationSummary {
   /** The number of reservation in Cancelled state */
-  cancelledCount?: number;
+  cancelledCount?: number | undefined;
   /** The number of reservation in Expired state */
-  expiredCount?: number;
+  expiredCount?: number | undefined;
   /** The number of reservation in Expiring state */
-  expiringCount?: number;
+  expiringCount?: number | undefined;
   /** The number of reservation in Failed state */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** The number of reservation in Pending state */
-  pendingCount?: number;
+  pendingCount?: number | undefined;
   /** The number of reservation in Succeeded state */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** The number of reservation in 'No Benefit' state */
-  noBenefitCount?: number;
+  noBenefitCount?: number | undefined;
   /** The number of reservation in Warning state */
-  warningCount?: number;
+  warningCount?: number | undefined;
   /** The number of reservation in Processing state */
-  processingCount?: number;
+  processingCount?: number | undefined;
 }
 /** The list of reservations. */
 export type ReservationsListResultValueList = Array<Reservation>;
 /** The list of reservations and summary of roll out count of reservations in each state. */
 export interface ReservationsListResult {
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The roll out count summary of the reservations */
-  summary?: ReservationSummary;
+  summary?: ReservationSummary | undefined;
   /** The list of reservations. */
-  value?: ReservationsListResultValueList;
+  value?: ReservationsListResultValueList | undefined;
 }
 export interface ListReservationByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6117,17 +6125,17 @@ export interface ListReservationByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of reservations to skip from the list before returning results */
-  skiptoken?: number;
+  skiptoken?: number | undefined;
   /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
+  refreshSummary?: string | undefined;
   /** The selected provisioning state */
-  selectedState?: string;
+  selectedState?: string | undefined;
   /** The number of reservations to return in API response. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface ListReservationByReservationOrderRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6142,35 +6150,35 @@ export interface ReservationList {
   /** The Reservation items on this page */
   value: ReservationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationOrderByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of reservations to skip from the list before returning results */
-  skiptoken?: number;
+  skiptoken?: number | undefined;
 }
 /** Tags for this reservation */
 export type ReservationOrderTagsMap = { [key: string]: string | undefined };
 /** Details of a reservation order being returned. */
 export interface ReservationOrder {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation order */
-  properties?: ReservationOrderProperty;
-  etag?: number;
+  properties?: ReservationOrderProperty | undefined;
+  etag?: number | undefined;
   /** Tags for this reservation */
-  tags?: ReservationOrderTagsMap;
+  tags?: ReservationOrderTagsMap | undefined;
 }
 /** The ReservationOrder items on this page */
 export type ReservationOrderListValueList = Array<ReservationOrder>;
@@ -6179,40 +6187,40 @@ export interface ReservationOrderList {
   /** The ReservationOrder items on this page */
   value: ReservationOrderListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSavingsPlanByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of savings plans to skip from the list before returning results */
-  skiptoken?: number;
+  skiptoken?: number | undefined;
   /** The number of savings plans to return */
-  take?: number;
+  take?: number | undefined;
   /** The selected provisioning state */
-  selectedState?: string;
+  selectedState?: string | undefined;
   /** To indicate whether to refresh the roll up counts of the savings plans group by provisioning states */
-  refreshSummary?: string;
+  refreshSummary?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type SavingsPlanModelTagsMap = { [key: string]: string | undefined };
 /** Savings plan */
 export interface SavingsPlanModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: SavingsPlanModelTagsMap;
+  tags?: SavingsPlanModelTagsMap | undefined;
   /** Savings plan SKU */
   sku: Sku;
 }
@@ -6221,29 +6229,29 @@ export type ListSavingsPlanByBillingAccountResponseValueList = Array<SavingsPlan
 /** The roll up count summary of savings plans in each state */
 export interface SavingsPlanSummaryCount {
   /** The number of savings plans in Succeeded state */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** The number of savings plans in Failed state */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** The number of savings plans in Expiring state */
-  expiringCount?: number;
+  expiringCount?: number | undefined;
   /** The number of savings plans in Expired state */
-  expiredCount?: number;
+  expiredCount?: number | undefined;
   /** The number of savings plans in Pending state */
-  pendingCount?: number;
+  pendingCount?: number | undefined;
   /** The number of savings plans in Cancelled state */
-  cancelledCount?: number;
+  cancelledCount?: number | undefined;
   /** The number of savings plans in Processing state */
-  processingCount?: number;
+  processingCount?: number | undefined;
   /** The number of savings plans in No Benefit state */
-  noBenefitCount?: number;
+  noBenefitCount?: number | undefined;
   /** The number of savings plans in Warning state */
-  warningCount?: number;
+  warningCount?: number | undefined;
 }
 export interface ListSavingsPlanByBillingAccountResponse {
   /** The SavingsPlanModel items on this page */
   value: ListSavingsPlanByBillingAccountResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The roll out count summary of the savings plans */
   summary: SavingsPlanSummaryCount;
 }
@@ -6260,34 +6268,34 @@ export interface SavingsPlanModelList {
   /** The SavingsPlanModel items on this page */
   value: SavingsPlanModelListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSavingsPlanOrderByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of savings plans to skip from the list before returning results */
-  skiptoken?: number;
+  skiptoken?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type SavingsPlanOrderModelTagsMap = { [key: string]: string | undefined };
 /** Savings plan order */
 export interface SavingsPlanOrderModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan order properties */
-  properties?: SavingsPlanOrderModelProperties;
+  properties?: SavingsPlanOrderModelProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: SavingsPlanOrderModelTagsMap;
+  tags?: SavingsPlanOrderModelTagsMap | undefined;
   /** Savings plan SKU */
   sku: Sku;
 }
@@ -6298,7 +6306,7 @@ export interface SavingsPlanOrderModelList {
   /** The SavingsPlanOrderModel items on this page */
   value: SavingsPlanOrderModelListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTransactionByBillingProfileRequestType = "Other" | "Billed" | "Unbilled";
 export interface ListTransactionByBillingProfileRequest {
@@ -6313,17 +6321,17 @@ export interface ListTransactionByBillingProfileRequest {
   /** The type of transaction. */
   type: ListTransactionByBillingProfileRequestType | (string & {});
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type TransactionTagsMap = { [key: string]: string | undefined };
@@ -6339,107 +6347,107 @@ export type TransactionKind = "Other" | "All" | "Reservation";
 /** The refund details of a transaction. */
 export interface RefundTransactionDetails {
   /** The amount of refund requested. */
-  amountRequested?: Amount;
+  amountRequested?: Amount | undefined;
   /** The amount refunded. */
-  amountRefunded?: Amount;
+  amountRefunded?: Amount | undefined;
   /** The ID of refund operation. */
-  refundOperationId?: string;
+  refundOperationId?: string | undefined;
 }
 /** A transaction. */
 export interface TransactionProperties {
   /** The amount of any Azure credits automatically applied to this transaction. */
-  azureCreditApplied?: Amount;
+  azureCreditApplied?: Amount | undefined;
   /** Details of the Azure plan. */
-  azurePlan?: string;
+  azurePlan?: string | undefined;
   /** The ISO 4217 code for the currency in which this transaction is billed. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: unknown;
+  billingProfileDisplayName?: unknown | undefined;
   /** The fully qualified ID that uniquely identifies a billing profile. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The amount of Microsoft Azure Consumption Commitment(MACC) decrement through the transaction. */
-  consumptionCommitmentDecremented?: Amount;
+  consumptionCommitmentDecremented?: Amount | undefined;
   /** The name of the customer. */
-  customerDisplayName?: string;
+  customerDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies a customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The credit type of the transaction. Applies only to credited transactions. */
-  creditType?: CreditType;
+  creditType?: CreditType | undefined;
   /** The date of transaction. */
-  date?: string;
+  date?: string | undefined;
   /** The percentage discount, if any, applied to this transaction. */
-  discount?: number;
+  discount?: number | undefined;
   /** The price of the product after applying any discounts. */
-  effectivePrice?: Amount;
+  effectivePrice?: Amount | undefined;
   /** The exchange rate used to convert charged amount to billing currency, if applicable. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** Invoice name on which the transaction was billed or 'Pending' if the transaction is not billed. */
-  invoice?: string;
+  invoice?: string | undefined;
   /** The fully qualified ID of the invoice on which the transaction was billed. This field is only applicable for transactions which are billed. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
   /** The name of the invoice section. */
-  invoiceSectionDisplayName?: string;
+  invoiceSectionDisplayName?: string | undefined;
   /** The fully qualified ID that uniquely identifies an invoice section. */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** Whether or not the transaction is third party. */
-  isThirdParty?: boolean;
+  isThirdParty?: boolean | undefined;
   /** Type of the transaction, billed or unbilled. */
-  kind?: TransactionKind;
+  kind?: TransactionKind | undefined;
   /** The retail price of the product. */
-  marketPrice?: Amount;
+  marketPrice?: Amount | undefined;
   /** The part number of the product for which the transaction took place. The field is only applicable for Enterprise Agreement invoices. */
-  partNumber?: string;
+  partNumber?: string | undefined;
   /** The ISO 4217 code for the currency in which the product is priced. */
-  pricingCurrency?: string;
+  pricingCurrency?: string | undefined;
   /** The description of the product for which the transaction took place. */
-  productDescription?: string;
+  productDescription?: string | undefined;
   /** The family of the product for which the transaction took place. */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** The ID of the product type for which the transaction took place. */
-  productTypeId?: string;
+  productTypeId?: string | undefined;
   /** The type of the product for which the transaction took place. */
-  productType?: string;
+  productType?: string | undefined;
   /** The quantity purchased in the transaction. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** There reason code for the transaction. */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** The date of the purchase of the product, or the start date of the month in which usage started. */
-  servicePeriodStartDate?: string;
+  servicePeriodStartDate?: string | undefined;
   /** The end date of the product term, or the end date of the month in which usage ended. */
-  servicePeriodEndDate?: string;
+  servicePeriodEndDate?: string | undefined;
   /** The pre-tax charged amount for the transaction. */
-  subTotal?: Amount;
+  subTotal?: Amount | undefined;
   /** The tax amount applied to the transaction. */
-  tax?: Amount;
+  tax?: Amount | undefined;
   /** The charge associated with the transaction. */
-  transactionAmount?: Amount;
+  transactionAmount?: Amount | undefined;
   /** The type of transaction. */
-  transactionType?: string;
+  transactionType?: string | undefined;
   /** The number of units used for a given product. */
-  units?: number;
+  units?: number | undefined;
   /** The unit of measure used to bill for the product. For example, compute services are billed per hour. */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
   /** The description for the unit of measure for a given product. */
-  unitType?: string;
+  unitType?: string | undefined;
   /** Identifies the type of tax calculation used for the invoice. The field is applicable only to invoices with special tax calculation logic. */
-  specialTaxationType?: SpecialTaxationType;
+  specialTaxationType?: SpecialTaxationType | undefined;
   /** The refund details of a transaction. */
-  refundTransactionDetails?: RefundTransactionDetails;
+  refundTransactionDetails?: RefundTransactionDetails | undefined;
 }
 /** A transaction. */
 export interface Transaction {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: TransactionTagsMap;
+  tags?: TransactionTagsMap | undefined;
   /** A transaction. */
-  properties?: TransactionProperties;
+  properties?: TransactionProperties | undefined;
 }
 /** The Transaction items on this page */
 export type TransactionListResultValueList = Array<Transaction>;
@@ -6448,7 +6456,7 @@ export interface TransactionListResult {
   /** The Transaction items on this page */
   value: TransactionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTransactionByCustomerRequestType = "Other" | "Billed" | "Unbilled";
 export interface ListTransactionByCustomerRequest {
@@ -6465,17 +6473,17 @@ export interface ListTransactionByCustomerRequest {
   /** The type of transaction. */
   type: ListTransactionByCustomerRequestType | (string & {});
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListTransactionByInvoiceRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6483,17 +6491,17 @@ export interface ListTransactionByInvoiceRequest {
   /** The ID that uniquely identifies an invoice. */
   invoiceName: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListTransactionByInvoiceSectionRequestType = "Other" | "Billed" | "Unbilled";
 export interface ListTransactionByInvoiceSectionRequest {
@@ -6510,17 +6518,17 @@ export interface ListTransactionByInvoiceSectionRequest {
   /** The type of transaction. */
   type: ListTransactionByInvoiceSectionRequestType | (string & {});
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
-  filter?: string;
+  filter?: string | undefined;
   /** The orderby query option allows clients to request resources in a particular order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
-  top?: number;
+  top?: number | undefined;
   /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
-  skip?: number;
+  skip?: number | undefined;
   /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
-  count?: boolean;
+  count?: boolean | undefined;
   /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface ListTransfersRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6535,17 +6543,17 @@ export type TransferDetailsTagsMap = { [key: string]: string | undefined };
 /** Details of the transfer. */
 export interface TransferDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: TransferProperties;
+  properties?: TransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: TransferDetailsTagsMap;
+  tags?: TransferDetailsTagsMap | undefined;
 }
 /** The TransferDetails items on this page */
 export type TransferDetailsListResultValueList = Array<TransferDetails>;
@@ -6554,7 +6562,7 @@ export interface TransferDetailsListResult {
   /** The TransferDetails items on this page */
   value: TransferDetailsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MergeBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6562,29 +6570,29 @@ export interface MergeBillingSubscriptionRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** The ID of the target billing subscription that will be merged with the source subscription provided in the request. */
-  targetBillingSubscriptionName?: string;
+  targetBillingSubscriptionName?: string | undefined;
   /** The quantity of the source billing subscription that will be merged with the target billing subscription. */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type MergeBillingSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface MergeBillingSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: MergeBillingSubscriptionResponseTagsMap;
+  tags?: MergeBillingSubscriptionResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MoveBillingSubscriptionRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6592,29 +6600,29 @@ export interface MoveBillingSubscriptionRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** The destination invoice section id. */
-  destinationInvoiceSectionId?: string;
+  destinationInvoiceSectionId?: string | undefined;
   /** The destination enrollment account id. */
-  destinationEnrollmentAccountId?: string;
+  destinationEnrollmentAccountId?: string | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type MoveBillingSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface MoveBillingSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: MoveBillingSubscriptionResponseTagsMap;
+  tags?: MoveBillingSubscriptionResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MoveProductRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6628,28 +6636,28 @@ export interface MoveProductRequest {
 export type MoveProductResponseTagsMap = { [key: string]: string | undefined };
 export interface MoveProductResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A product. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: MoveProductResponseTagsMap;
+  tags?: MoveProductResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Request parameters to initiate transfer. */
 export interface PartnerInitiateTransferProperties {
   /** The email ID of the recipient to whom the transfer request is sent. */
-  recipientEmailId?: string;
+  recipientEmailId?: string | undefined;
   /** Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account. */
-  resellerId?: string;
+  resellerId?: string | undefined;
 }
 export interface PartnerTransfersInitiateRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6661,23 +6669,23 @@ export interface PartnerTransfersInitiateRequest {
   /** The ID that uniquely identifies a transfer request. */
   transferName: string;
   /** Request parameters to initiate partner transfer. */
-  properties?: PartnerInitiateTransferProperties;
+  properties?: PartnerInitiateTransferProperties | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PartnerTransfersInitiateResponseTagsMap = { [key: string]: string | undefined };
 export interface PartnerTransfersInitiateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: PartnerTransferProperties;
+  properties?: PartnerTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PartnerTransfersInitiateResponseTagsMap;
+  tags?: PartnerTransfersInitiateResponseTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByBillingAccountRequestTagsMap = {
@@ -6687,9 +6695,9 @@ export interface PoliciesCreateOrUpdateByBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** A policy at billing account scope. */
-  properties?: BillingAccountPolicyProperties;
+  properties?: BillingAccountPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByBillingAccountRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateByBillingAccountRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByBillingAccountResponseTagsMap = {
@@ -6697,21 +6705,21 @@ export type PoliciesCreateOrUpdateByBillingAccountResponseTagsMap = {
 };
 export interface PoliciesCreateOrUpdateByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at billing account scope. */
-  properties?: BillingAccountPolicyProperties;
+  properties?: BillingAccountPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByBillingAccountResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateByBillingAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByBillingProfileRequestTagsMap = {
@@ -6723,9 +6731,9 @@ export interface PoliciesCreateOrUpdateByBillingProfileRequest {
   /** The ID that uniquely identifies a billing profile. */
   billingProfileName: string;
   /** A policy at billing profile scope. */
-  properties?: BillingProfilePolicyProperties;
+  properties?: BillingProfilePolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByBillingProfileRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateByBillingProfileRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByBillingProfileResponseTagsMap = {
@@ -6733,21 +6741,21 @@ export type PoliciesCreateOrUpdateByBillingProfileResponseTagsMap = {
 };
 export interface PoliciesCreateOrUpdateByBillingProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at billing profile scope. */
-  properties?: BillingProfilePolicyProperties;
+  properties?: BillingProfilePolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByBillingProfileResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateByBillingProfileResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByCustomerRequestTagsMap = { [key: string]: string | undefined };
@@ -6759,29 +6767,29 @@ export interface PoliciesCreateOrUpdateByCustomerRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByCustomerRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateByCustomerRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByCustomerResponseTagsMap = { [key: string]: string | undefined };
 export interface PoliciesCreateOrUpdateByCustomerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByCustomerResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateByCustomerResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByCustomerAtBillingAccountRequestTagsMap = {
@@ -6793,9 +6801,9 @@ export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountRequest {
   /** The ID that uniquely identifies a customer. */
   customerName: string;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByCustomerAtBillingAccountRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateByCustomerAtBillingAccountRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap = {
@@ -6803,21 +6811,21 @@ export type PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap = {
 };
 export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A policy at customer scope. */
-  properties?: CustomerPolicyProperties;
+  properties?: CustomerPolicyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ProductsValidateMoveEligibilityRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6849,18 +6857,18 @@ export type MoveValidationErrorCode =
 /** Error details of the transfer eligibility validation. */
 export interface MoveProductErrorDetails {
   /** Error code for the product transfer validation. */
-  code?: MoveValidationErrorCode;
+  code?: MoveValidationErrorCode | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** Error details of the transfer eligibility validation. */
-  details?: string;
+  details?: string | undefined;
 }
 /** Result of the transfer eligibility validation. */
 export interface MoveProductEligibilityResult {
   /** Specifies whether the subscription is eligible to be transferred. */
-  isMoveEligible?: boolean;
+  isMoveEligible?: boolean | undefined;
   /** Error details of the transfer eligibility validation. */
-  errorDetails?: MoveProductErrorDetails;
+  errorDetails?: MoveProductErrorDetails | undefined;
 }
 export interface RecipientTransfersDeclineRequest {
   /** The ID that uniquely identifies a transfer request. */
@@ -6870,30 +6878,30 @@ export interface RecipientTransfersDeclineRequest {
 export type RecipientTransfersDeclineResponseTagsMap = { [key: string]: string | undefined };
 export interface RecipientTransfersDeclineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: RecipientTransferProperties;
+  properties?: RecipientTransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: RecipientTransfersDeclineResponseTagsMap;
+  tags?: RecipientTransfersDeclineResponseTagsMap | undefined;
 }
 /** Savings plan patch request */
 export interface SavingsPlanUpdateRequestProperties {
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Properties specific to renew. */
-  renewProperties?: RenewProperties;
+  renewProperties?: RenewProperties | undefined;
 }
 /** The benefits of a savings plan. */
 export type SavingsPlansValidateUpdateByBillingAccountRequestBenefitsList =
@@ -6906,23 +6914,23 @@ export interface SavingsPlansValidateUpdateByBillingAccountRequest {
   /** ID of the savings plan */
   savingsPlanId: string;
   /** The benefits of a savings plan. */
-  benefits?: SavingsPlansValidateUpdateByBillingAccountRequestBenefitsList;
+  benefits?: SavingsPlansValidateUpdateByBillingAccountRequestBenefitsList | undefined;
 }
 /** Benefit scope response property */
 export interface SavingsPlanValidResponseProperty {
   /** Indicates if the provided input is valid */
-  valid?: boolean;
+  valid?: boolean | undefined;
   /** Failure reason code if the provided input is invalid */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** Failure reason if the provided input is invalid */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type SavingsPlanValidateResponseBenefitsList = Array<SavingsPlanValidResponseProperty>;
 /** Savings plan update validate response. */
 export interface SavingsPlanValidateResponse {
-  benefits?: SavingsPlanValidateResponseBenefitsList;
+  benefits?: SavingsPlanValidateResponseBenefitsList | undefined;
   /** Url to get the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface TransactionsTransactionsDownloadByInvoiceRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6933,7 +6941,7 @@ export interface TransactionsTransactionsDownloadByInvoiceRequest {
 /** Request parameters to initiate transfer. */
 export interface InitiateTransferProperties {
   /** The email ID of the recipient to whom the transfer request is sent. */
-  recipientEmailId?: string;
+  recipientEmailId?: string | undefined;
 }
 export interface TransfersInitiateRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -6945,101 +6953,101 @@ export interface TransfersInitiateRequest {
   /** The ID that uniquely identifies a transfer request. */
   transferName: string;
   /** Request parameters to initiate transfer. */
-  properties?: InitiateTransferProperties;
+  properties?: InitiateTransferProperties | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type TransfersInitiateResponseTagsMap = { [key: string]: string | undefined };
 export interface TransfersInitiateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Details of the transfer. */
-  properties?: TransferProperties;
+  properties?: TransferProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: TransfersInitiateResponseTagsMap;
+  tags?: TransfersInitiateResponseTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingAccountRequestTagsMap = { [key: string]: string | undefined };
 /** The properties of an enrollment. */
 export interface EnrollmentDetailsInput {
   /** The start date of the enrollment. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The end date of the enrollment. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The purchase order number of the enrollment. */
-  poNumber?: string;
+  poNumber?: string | undefined;
   /** The properties of an enrollment which are applicable only for indirect enrollments. */
-  indirectRelationshipInfo?: IndirectRelationshipInfo;
+  indirectRelationshipInfo?: IndirectRelationshipInfo | undefined;
 }
 /** Describes the registration number of the organization linked with the billing account. */
 export interface RegistrationNumberInput {
   /** The unique identification number of the organization linked with the billing account. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of tax identifiers for the billing account. */
 export type BillingAccountPropertiesInputTaxIdsList = Array<TaxIdentifier>;
 /** A billing account. */
 export interface BillingAccountPropertiesInput {
   /** The billing account name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The properties of an enrollment. */
-  enrollmentDetails?: EnrollmentDetailsInput;
+  enrollmentDetails?: EnrollmentDetailsInput | undefined;
   /** Indicates whether user has read access to the billing account. */
-  hasReadAccess?: boolean;
+  hasReadAccess?: boolean | undefined;
   /** Indicates whether or not the billing account has any billing profiles. */
-  hasNoBillingProfiles?: boolean;
+  hasNoBillingProfiles?: boolean | undefined;
   /** Notification email address for legacy account. Available for agreement type Microsoft Online Services Program. */
-  notificationEmailAddress?: string;
+  notificationEmailAddress?: string | undefined;
   /** The tenant that was used to set up the billing account. By default, only users from this tenant can get role assignments on the billing account and all purchases are provisioned in this tenant. */
-  primaryBillingTenantId?: string;
+  primaryBillingTenantId?: string | undefined;
   /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
+  soldTo?: AddressDetails | undefined;
   /** Describes the registration number of the organization linked with the billing account. */
-  registrationNumber?: RegistrationNumberInput;
+  registrationNumber?: RegistrationNumberInput | undefined;
   /** A list of tax identifiers for the billing account. */
-  taxIds?: BillingAccountPropertiesInputTaxIdsList;
+  taxIds?: BillingAccountPropertiesInputTaxIdsList | undefined;
 }
 export interface UpdateBillingAccountRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingAccountRequestTagsMap;
+  tags?: UpdateBillingAccountRequestTagsMap | undefined;
   /** A billing account. */
-  properties?: BillingAccountPropertiesInput;
+  properties?: BillingAccountPropertiesInput | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing account. */
-  properties?: BillingAccountProperties;
+  properties?: BillingAccountProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingAccountResponseTagsMap;
+  tags?: UpdateBillingAccountResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A billing property. */
 export interface BillingPropertyPropertiesInput {
   /** The cost center applied to the subscription. Available for agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. This property can be updated via patch. */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
-  subscriptionServiceUsageAddress?: AddressDetails;
+  subscriptionServiceUsageAddress?: AddressDetails | undefined;
   /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-  enrollmentDetails?: SubscriptionEnrollmentDetails;
+  enrollmentDetails?: SubscriptionEnrollmentDetails | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingPropertyRequestTagsMap = { [key: string]: string | undefined };
@@ -7047,25 +7055,25 @@ export interface UpdateBillingPropertyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** A billing property. */
-  properties?: BillingPropertyPropertiesInput;
+  properties?: BillingPropertyPropertiesInput | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingPropertyRequestTagsMap;
+  tags?: UpdateBillingPropertyRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingPropertyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBillingPropertyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A billing property. */
-  properties?: BillingPropertyProperties;
+  properties?: BillingPropertyProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingPropertyResponseTagsMap;
+  tags?: UpdateBillingPropertyResponseTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingSubscriptionRequestTagsMap = { [key: string]: string | undefined };
@@ -7077,29 +7085,29 @@ export interface UpdateBillingSubscriptionRequest {
   /** The ID that uniquely identifies a subscription. */
   billingSubscriptionName: string;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingSubscriptionRequestTagsMap;
+  tags?: UpdateBillingSubscriptionRequestTagsMap | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionAliasPropertiesInput;
+  properties?: BillingSubscriptionAliasPropertiesInput | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateBillingSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBillingSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a(n) BillingSubscription */
-  properties?: BillingSubscriptionProperties;
+  properties?: BillingSubscriptionProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateBillingSubscriptionResponseTagsMap;
+  tags?: UpdateBillingSubscriptionResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateProductRequestTagsMap = { [key: string]: string | undefined };
@@ -7110,11 +7118,11 @@ export type ResellerInput = SystemOverridesInput;
 /** A product. */
 export interface ProductPropertiesInput {
   /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew | (string & {});
+  autoRenew?: AutoRenew | (string & {}) | undefined;
   /** The last month charges. */
-  lastCharge?: SystemOverridesInput;
+  lastCharge?: SystemOverridesInput | undefined;
   /** Reseller for this product. The fields is not available for Microsoft Partner Agreement products. */
-  reseller?: SystemOverridesInput;
+  reseller?: SystemOverridesInput | undefined;
 }
 export interface UpdateProductRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -7122,79 +7130,81 @@ export interface UpdateProductRequest {
   /** The ID that uniquely identifies a product. */
   productName: string;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateProductRequestTagsMap;
+  tags?: UpdateProductRequestTagsMap | undefined;
   /** A product. */
-  properties?: ProductPropertiesInput;
+  properties?: ProductPropertiesInput | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateProductResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProductResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A product. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateProductResponseTagsMap;
+  tags?: UpdateProductResponseTagsMap | undefined;
 }
 /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
 export type ReservationPurchaseRequestPropertiesInputAppliedScopesList = Array<string>;
 /** Properties of reservation purchase request */
 export interface ReservationPurchaseRequestPropertiesInput {
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan | (string & {});
+  billingPlan?: ReservationBillingPlan | (string & {}) | undefined;
   /** Quantity of the skus that are part of the reservation. Must be greater than zero. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Friendly name of the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
-  appliedScopes?: ReservationPurchaseRequestPropertiesInputAppliedScopesList;
+  appliedScopes?: ReservationPurchaseRequestPropertiesInputAppliedScopesList | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  appliedScopeProperties?: ReservationAppliedScopeProperties | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationPurchaseRequestPropertiesReservedResourceProperties;
+  reservedResourceProperties?:
+    | ReservationPurchaseRequestPropertiesReservedResourceProperties
+    | undefined;
   /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 /** The request for reservation purchase */
 export interface ReservationPurchaseRequestInput {
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of reservation purchase request */
-  properties?: ReservationPurchaseRequestPropertiesInput;
+  properties?: ReservationPurchaseRequestPropertiesInput | undefined;
 }
 export interface PatchPropertiesRenewPropertiesInput {
   /** The request for reservation purchase */
-  purchaseProperties?: ReservationPurchaseRequestInput;
+  purchaseProperties?: ReservationPurchaseRequestInput | undefined;
 }
 /** Properties for reservation patch */
 export interface PatchPropertiesInput {
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  appliedScopeProperties?: ReservationAppliedScopeProperties | undefined;
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
   /** Display name of the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
-  renewProperties?: PatchPropertiesRenewPropertiesInput;
+  renew?: boolean | undefined;
+  renewProperties?: PatchPropertiesRenewPropertiesInput | undefined;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 /** The property of reservation sku object. */
 export type ReservationSkuPropertyInput = SystemOverridesInput;
@@ -7208,11 +7218,11 @@ export interface UpdateReservationByBillingAccountRequest {
   /** Id of the reservation item */
   reservationId: string;
   /** Properties for reservation patch */
-  properties?: PatchPropertiesInput;
+  properties?: PatchPropertiesInput | undefined;
   /** The sku information associated to this reservation */
-  sku?: SystemOverridesInput;
+  sku?: SystemOverridesInput | undefined;
   /** Tags for this reservation */
-  tags?: UpdateReservationByBillingAccountRequestTagsMap;
+  tags?: UpdateReservationByBillingAccountRequestTagsMap | undefined;
 }
 /** Tags for this reservation */
 export type UpdateReservationByBillingAccountResponseTagsMap = {
@@ -7220,28 +7230,28 @@ export type UpdateReservationByBillingAccountResponseTagsMap = {
 };
 export interface UpdateReservationByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationProperty;
+  properties?: ReservationProperty | undefined;
   /** The location of the reservation. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** Tags for this reservation */
-  tags?: UpdateReservationByBillingAccountResponseTagsMap;
+  tags?: UpdateReservationByBillingAccountResponseTagsMap | undefined;
   /** The sku information associated to this reservation */
-  sku?: ReservationSkuProperty;
+  sku?: ReservationSkuProperty | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags for this reservation */
 export type UpdateSavingsPlanByBillingAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -7253,11 +7263,11 @@ export interface UpdateSavingsPlanByBillingAccountRequest {
   /** ID of the savings plan */
   savingsPlanId: string;
   /** Savings plan patch request */
-  properties?: SavingsPlanUpdateRequestProperties;
+  properties?: SavingsPlanUpdateRequestProperties | undefined;
   /** The SKU to be applied for this resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Tags for this reservation */
-  tags?: UpdateSavingsPlanByBillingAccountRequestTagsMap;
+  tags?: UpdateSavingsPlanByBillingAccountRequestTagsMap | undefined;
 }
 /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
 export type UpdateSavingsPlanByBillingAccountResponseTagsMap = {
@@ -7265,57 +7275,57 @@ export type UpdateSavingsPlanByBillingAccountResponseTagsMap = {
 };
 export interface UpdateSavingsPlanByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Savings plan properties */
-  properties?: SavingsPlanModelProperties;
+  properties?: SavingsPlanModelProperties | undefined;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
-  tags?: UpdateSavingsPlanByBillingAccountResponseTagsMap;
+  tags?: UpdateSavingsPlanByBillingAccountResponseTagsMap | undefined;
   /** Savings plan SKU */
   sku: Sku;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateAddressRequest {
   /** Address line 1. */
   addressLine1: string;
   /** Address line 2. */
-  addressLine2?: string;
+  addressLine2?: string | undefined;
   /** Address line 3. */
-  addressLine3?: string;
+  addressLine3?: string | undefined;
   /** Address city. */
-  city?: string;
+  city?: string | undefined;
   /** Company name. Optional for MCA Individual (Pay-as-you-go). */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Country code uses ISO 3166-1 Alpha-2 format. */
   country: string;
   /** Address district. */
-  district?: string;
+  district?: string | undefined;
   /** Email address. */
-  email?: string;
+  email?: string | undefined;
   /** First name. Optional for MCA Enterprise. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name. Optional for MCA Enterprise. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Middle name. */
-  middleName?: string;
+  middleName?: string | undefined;
   /** Phone number. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Address region. */
-  region?: string;
+  region?: string | undefined;
   /** Indicates if the address is incomplete. */
-  isValidAddress?: boolean;
+  isValidAddress?: boolean | undefined;
 }
 /** Status of the address validation. */
 export type AddressValidationStatus = "Other" | "Valid" | "Invalid";
@@ -7324,11 +7334,11 @@ export type AddressValidationResponseSuggestedAddressesList = Array<AddressDetai
 /** Result of the address validation. */
 export interface AddressValidationResponse {
   /** Status of the address validation. */
-  status?: AddressValidationStatus;
+  status?: AddressValidationStatus | undefined;
   /** The list of suggested addresses. */
-  suggestedAddresses?: AddressValidationResponseSuggestedAddressesList;
+  suggestedAddresses?: AddressValidationResponseSuggestedAddressesList | undefined;
   /** Validation error message. */
-  validationMessage?: string;
+  validationMessage?: string | undefined;
 }
 export type ValidateBillingAccountPaymentTermsRequestBodyList = Array<PaymentTermInput>;
 export interface ValidateBillingAccountPaymentTermsRequest {
@@ -7353,9 +7363,9 @@ export type PaymentTermsEligibilityCode =
 /** Details of the payment terms eligibility. */
 export interface PaymentTermsEligibilityDetail {
   /** Indicates the reason for the ineligibility of the payment terms. */
-  code?: PaymentTermsEligibilityCode;
+  code?: PaymentTermsEligibilityCode | undefined;
   /** Indicates the message for the ineligibility of the payment terms. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Details of the payment terms eligibility. */
 export type PaymentTermsEligibilityResultEligibilityDetailsList =
@@ -7363,47 +7373,47 @@ export type PaymentTermsEligibilityResultEligibilityDetailsList =
 /** Result of the payment terms eligibility. */
 export interface PaymentTermsEligibilityResult {
   /** Indicates the eligibility status of the payment terms. */
-  eligibilityStatus?: PaymentTermsEligibilityStatus;
+  eligibilityStatus?: PaymentTermsEligibilityStatus | undefined;
   /** Details of the payment terms eligibility. */
-  eligibilityDetails?: PaymentTermsEligibilityResultEligibilityDetailsList;
+  eligibilityDetails?: PaymentTermsEligibilityResultEligibilityDetailsList | undefined;
 }
 export interface ValidateRecipientTransferRequest {
   /** The ID that uniquely identifies a transfer request. */
   transferName: string;
   /** Request parameters to accept transfer. */
-  properties?: AcceptTransferProperties;
+  properties?: AcceptTransferProperties | undefined;
 }
 /** The properties of the validation result. */
 export interface ValidationResultProperties {
   /** Result Level. */
-  level?: string;
+  level?: string | undefined;
   /** Result Code. */
-  code?: string;
+  code?: string | undefined;
   /** The validation message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The array of validation results. */
 export type ValidateTransferResponsePropertiesResultsList = Array<ValidationResultProperties>;
 /** The properties of transfer validation response. */
 export interface ValidateTransferResponseProperties {
   /** The status of validation */
-  status?: string;
+  status?: string | undefined;
   /** The product id for which this result applies. */
-  productId?: string;
+  productId?: string | undefined;
   /** The array of validation results. */
-  results?: ValidateTransferResponsePropertiesResultsList;
+  results?: ValidateTransferResponsePropertiesResultsList | undefined;
 }
 /** Transfer validation response. */
 export interface ValidateTransferResponse {
   /** The properties of transfer validation response. */
-  properties?: ValidateTransferResponseProperties;
+  properties?: ValidateTransferResponseProperties | undefined;
 }
 /** The list of transfer validation results. */
 export type ValidateTransferListResponseValueList = Array<ValidateTransferResponse>;
 /** Result of transfer validation. */
 export interface ValidateTransferListResponse {
   /** The list of transfer validation results. */
-  value?: ValidateTransferListResponseValueList;
+  value?: ValidateTransferListResponseValueList | undefined;
 }
 export type AcceptRecipientTransferError = AzureOpError;
 /** Accepts a transfer request. Accepts a transfer request. */

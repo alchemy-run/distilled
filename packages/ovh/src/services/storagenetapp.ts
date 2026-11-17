@@ -52,11 +52,11 @@ export interface ConfirmStorageNetappTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -65,11 +65,11 @@ export interface CreateStorageNetappChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateStorageNetappChangeContactResponseBodyList = Array<number>;
 export type CreateStorageNetappChangeContactResponse =
@@ -103,13 +103,13 @@ export interface StorageNetAppShareACLRule {
   /** Rule destination */
   accessTo: string | null;
   /** Rule access type */
-  accessType?: StorageNetAppShareACLTypeEnum | null;
+  accessType?: StorageNetAppShareACLTypeEnum | null | undefined;
   /** Rule creation date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Rule ID */
-  id?: string;
+  id?: string | undefined;
   /** Rule status */
-  status?: StorageNetAppShareACLStatusEnum | null;
+  status?: StorageNetAppShareACLStatusEnum | null | undefined;
 }
 export interface CreateStorageNetappShareRevertRequest {
   /** Service name */
@@ -135,9 +135,9 @@ export interface CreateStorageNetappShareSnapshotRequest {
   /** Share ID */
   shareId: string;
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Snapshot status */
 export type StorageNetAppSnapshotStatusEnum =
@@ -156,19 +156,19 @@ export type StorageNetAppSnapshotTypeEnum = "automatic" | "manual" | "system";
 /** A share snapshot */
 export interface StorageNetAppShareSnapshot {
   /** Snapshot creation date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot ID */
-  id?: string;
+  id?: string | undefined;
   /** Snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Snapshot path */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Snapshot status */
-  status?: StorageNetAppSnapshotStatusEnum | null;
+  status?: StorageNetAppSnapshotStatusEnum | null | undefined;
   /** Snapshot type */
-  type?: StorageNetAppSnapshotTypeEnum | null;
+  type?: StorageNetAppSnapshotTypeEnum | null | undefined;
 }
 export interface CreateStorageNetappShareSnapshotHoldRequest {
   /** Service name */
@@ -191,15 +191,15 @@ export type StorageNetAppSnapshotPolicyScheduleWeekdaysList = Array<number>;
 /** A snapshot policy schedule */
 export interface StorageNetAppSnapshotPolicySchedule {
   /** The days of the month the schedule runs (1 through 31). Empty for all. */
-  days?: StorageNetAppSnapshotPolicyScheduleDaysList | null;
+  days?: StorageNetAppSnapshotPolicyScheduleDaysList | null | undefined;
   /** The hours of the day the schedule runs (0 through 23). Empty for all. */
-  hours?: StorageNetAppSnapshotPolicyScheduleHoursList | null;
+  hours?: StorageNetAppSnapshotPolicyScheduleHoursList | null | undefined;
   /** The minutes the schedule runs (0 through 59). Required to have at least one value. */
   minutes: StorageNetAppSnapshotPolicyScheduleMinutesList;
   /** The months of the year the schedule runs (1 through 12). Empty for all. */
-  months?: StorageNetAppSnapshotPolicyScheduleMonthsList | null;
+  months?: StorageNetAppSnapshotPolicyScheduleMonthsList | null | undefined;
   /** The days of the week the schedule runs (0 through 6, where 0 is Sunday and 6 is Saturday). Empty for all. */
-  weekdays?: StorageNetAppSnapshotPolicyScheduleWeekdaysList | null;
+  weekdays?: StorageNetAppSnapshotPolicyScheduleWeekdaysList | null | undefined;
 }
 /** A snapshot policy rule */
 export interface StorageNetAppSnapshotPolicyRule {
@@ -217,9 +217,9 @@ export interface CreateStorageNetappSnapshotPolicyRequest {
   /** Service name */
   serviceName: string;
   /** Snapshot policy description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot policy name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Snapshot policy rules */
   rules: CreateStorageNetappSnapshotPolicyRequestRulesList | null;
 }
@@ -235,19 +235,19 @@ export type StorageNetAppSnapshotPolicyStatusEnum =
 /** A snapshot policy */
 export interface StorageNetAppSnapshotPolicy {
   /** Snapshot policy creation date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Snapshot policy description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Snapshot policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Is this the default snapshot policy? */
-  isDefault?: boolean | null;
+  isDefault?: boolean | null | undefined;
   /** Snapshot policy name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Snapshot policy rules */
   rules: StorageNetAppSnapshotPolicyRulesList | null;
   /** Snapshot policy status */
-  status?: StorageNetAppSnapshotPolicyStatusEnum | null;
+  status?: StorageNetAppSnapshotPolicyStatusEnum | null | undefined;
 }
 export interface DeleteStorageNetappShareRequest {
   /** Service name */
@@ -299,13 +299,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Service performance level */
 export type StorageNetAppServicePerformanceLevelEnum = "premium";
@@ -328,23 +328,23 @@ export type StorageNetAppServiceStatusEnum =
 /** A service */
 export interface StorageNetAppServiceWithIAM {
   /** Service creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** Service name */
-  name?: string;
+  name?: string | undefined;
   /** Service performance level */
-  performanceLevel?: StorageNetAppServicePerformanceLevelEnum;
+  performanceLevel?: StorageNetAppServicePerformanceLevelEnum | undefined;
   /** Product name */
-  product?: string;
+  product?: string | undefined;
   /** Service quota */
-  quota?: number;
+  quota?: number | undefined;
   /** Service region */
-  region?: StorageRegionEnum;
+  region?: StorageRegionEnum | undefined;
   /** Service status */
-  status?: StorageNetAppServiceStatusEnum;
+  status?: StorageNetAppServiceStatusEnum | undefined;
 }
 export interface GetStorageNetappMetricsTokenRequest {
   /** Service name */
@@ -353,11 +353,11 @@ export interface GetStorageNetappMetricsTokenRequest {
 /** Metrics token */
 export interface StorageMetricsToken {
   /** Backend url */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Token expiration date */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Generated token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetStorageNetappNetworkRequest {
   /** Service name */
@@ -374,11 +374,11 @@ export type StorageNetAppNetworkStatusEnum =
 /** A network */
 export interface StorageNetAppNetwork {
   /** Network ID */
-  id?: string;
+  id?: string | undefined;
   /** Network status */
-  status?: StorageNetAppNetworkStatusEnum | null;
+  status?: StorageNetAppNetworkStatusEnum | null | undefined;
   /** vRack Services URN the network is attached to */
-  vRackServicesURN?: string | null;
+  vRackServicesURN?: string | null | undefined;
 }
 export interface GetStorageNetappServiceInfosRequest {
   /** Service name */
@@ -389,15 +389,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -419,21 +419,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetStorageNetappShareRequest {
   /** Service name */
@@ -471,23 +471,23 @@ export type StorageNetAppShareStatusEnum =
 /** A share */
 export interface StorageNetAppShare {
   /** Share creation date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Share description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Share ID */
-  id?: string;
+  id?: string | undefined;
   /** User-defined name used to generate human readable access path for the share */
-  mountPointName?: string | null;
+  mountPointName?: string | null | undefined;
   /** Share name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Share protocol */
   protocol: StorageProtocolEnum | null;
   /** Share size in Gigabytes */
   size: number | null;
   /** Snapshot ID used to create the share */
-  snapshotID?: string | null;
+  snapshotID?: string | null | undefined;
   /** Share status */
-  status?: StorageNetAppShareStatusEnum | null;
+  status?: StorageNetAppShareStatusEnum | null | undefined;
 }
 export interface GetStorageNetappShareAccessPathRequest {
   /** Service name */
@@ -500,11 +500,11 @@ export interface GetStorageNetappShareAccessPathRequest {
 /** A share access path */
 export interface StorageNetAppShareAccessPath {
   /** Access path ID */
-  id?: string;
+  id?: string | undefined;
   /** Access path */
-  path?: string;
+  path?: string | undefined;
   /** Is this the preferred access path? */
-  preferred?: boolean;
+  preferred?: boolean | undefined;
 }
 export interface GetStorageNetappShareAclRequest {
   /** Service name */
@@ -533,9 +533,9 @@ export type StorageNetAppShareSnapshotPolicyStatusEnum = "active" | "error" | "u
 /** A snapshot policy */
 export interface StorageNetAppShareSnapshotPolicy {
   /** Snapshot policy ID */
-  id?: string;
+  id?: string | undefined;
   /** Association status between the share and the snapshot policy */
-  status?: StorageNetAppShareSnapshotPolicyStatusEnum;
+  status?: StorageNetAppShareSnapshotPolicyStatusEnum | undefined;
 }
 export interface GetStorageNetappShareSnapshotReserveRequest {
   /** Service name */
@@ -548,9 +548,9 @@ export type StorageNetAppShareSnapshotReserveStatusEnum = "active" | "error" | "
 /** Snapshot reserve properties */
 export interface StorageNetAppShareSnapshotReserve {
   /** Share space percentage reserved for snapshots */
-  percent?: number;
+  percent?: number | undefined;
   /** Status */
-  status?: StorageNetAppShareSnapshotReserveStatusEnum;
+  status?: StorageNetAppShareSnapshotReserveStatusEnum | undefined;
 }
 export interface GetStorageNetappSnapshotPolicyRequest {
   /** Service name */
@@ -566,7 +566,7 @@ export type ListStorageNetappRequestIamTagsMap = {
 };
 export interface ListStorageNetappRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListStorageNetappRequestIamTagsMap;
+  iamTags?: ListStorageNetappRequestIamTagsMap | undefined;
 }
 export type ListStorageNetappResponseBodyList = Array<StorageNetAppServiceWithIAM>;
 export type ListStorageNetappResponse = ListStorageNetappResponseBodyList;
@@ -574,7 +574,7 @@ export interface ListStorageNetappNetworkRequest {
   /** Service name */
   serviceName: string;
   /** Get detailed information about each network */
-  detail?: boolean;
+  detail?: boolean | undefined;
 }
 export type ListStorageNetappNetworkResponseBodyList = Array<StorageNetAppNetwork>;
 export type ListStorageNetappNetworkResponse = ListStorageNetappNetworkResponseBodyList;
@@ -582,9 +582,9 @@ export interface ListStorageNetappShareRequest {
   /** Service name */
   serviceName: string;
   /** Get detailed information about each share */
-  detail?: boolean;
+  detail?: boolean | undefined;
   /** If specified, returns only shares with given mount point name */
-  mountPointName?: string;
+  mountPointName?: string | undefined;
 }
 export type ListStorageNetappShareResponseBodyList = Array<StorageNetAppShare>;
 export type ListStorageNetappShareResponse = ListStorageNetappShareResponseBodyList;
@@ -611,7 +611,7 @@ export interface ListStorageNetappShareSnapshotRequest {
   /** Share ID */
   shareId: string;
   /** Get detailed information about each snapshot */
-  detail?: boolean;
+  detail?: boolean | undefined;
 }
 export type ListStorageNetappShareSnapshotResponseBodyList = Array<StorageNetAppShareSnapshot>;
 export type ListStorageNetappShareSnapshotResponse = ListStorageNetappShareSnapshotResponseBodyList;
@@ -631,27 +631,27 @@ export interface PutStorageNetappRequest {
 /** A service */
 export interface StorageNetAppService {
   /** Service creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Service ID */
-  id?: string;
+  id?: string | undefined;
   /** Service name */
-  name?: string;
+  name?: string | undefined;
   /** Service performance level */
-  performanceLevel?: StorageNetAppServicePerformanceLevelEnum;
+  performanceLevel?: StorageNetAppServicePerformanceLevelEnum | undefined;
   /** Product name */
-  product?: string;
+  product?: string | undefined;
   /** Service quota */
-  quota?: number;
+  quota?: number | undefined;
   /** Service region */
-  region?: StorageRegionEnum;
+  region?: StorageRegionEnum | undefined;
   /** Service status */
-  status?: StorageNetAppServiceStatusEnum;
+  status?: StorageNetAppServiceStatusEnum | undefined;
 }
 export interface PutStorageNetappServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutStorageNetappServiceInfosResponse {}
 export interface PutStorageNetappShareRequest {
@@ -660,9 +660,9 @@ export interface PutStorageNetappShareRequest {
   /** Share ID */
   shareId: string;
   /** New share description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** New share name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface PutStorageNetappShareSnapshotRequest {
   /** Service name */
@@ -672,9 +672,9 @@ export interface PutStorageNetappShareSnapshotRequest {
   /** Snapshot ID */
   snapshotId: string;
   /** New snapshot description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** New snapshot name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface PutStorageNetappShareSnapshotPolicyRequest {
   /** Service name */
@@ -700,26 +700,26 @@ export interface PutStorageNetappSnapshotPolicyRequest {
   /** Snapshot policy ID */
   snapshotPolicyId: string;
   /** New snapshot policy description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** New snapshot policy name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface PutStorageNetappSnapshotPolicyResponse {}
 export interface ShareStorageNetappRequest {
   /** Service name */
   serviceName: string;
   /** Share description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** User-defined name used to generate human readable access path for the share */
-  mountPointName?: string | null;
+  mountPointName?: string | null | undefined;
   /** Share name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Share protocol */
   protocol: StorageProtocolEnum | (string & {}) | null;
   /** Share size in Gigabytes */
   size: number | null;
   /** Snapshot ID used to create the share */
-  snapshotID?: string | null;
+  snapshotID?: string | null | undefined;
 }
 export interface TerminateStorageNetappRequest {
   /** Service name */

@@ -52,6 +52,7 @@ import {
   TooManyRequests,
   Unauthorized,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ============================================================================
@@ -727,9 +728,9 @@ export const ERROR_TYPE_MAP: Record<string, new (props: any) => unknown> = {
  */
 export class UnknownCoinbaseError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownCoinbaseError>()("UnknownCoinbaseError", {
+    ...UnknownErrorFields,
     ...CoinbaseErrorFields,
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /**
  * Schema parse error wrapper -- returned when the response body fails schema decoding.

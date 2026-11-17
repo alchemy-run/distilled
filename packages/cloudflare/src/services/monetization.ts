@@ -46,9 +46,9 @@ export interface DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInp
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -60,9 +60,9 @@ export interface DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInp
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type DeleteRuleResponseRulesItem =
   | DeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPrice
@@ -79,15 +79,15 @@ export interface EditRuleRequest {
   zoneId: string;
   ruleId: string;
   /** 0x-prefixed 20-byte hexadecimal Ethereum address. Mixed-case addresses must carry a valid EIP-55 checksum; all-lowercase or all-uppercase addresses are also accepted. The effective address must pass wallet screening whenever the rule is patched. */
-  address?: string;
-  description?: string;
-  enabled?: boolean;
+  address?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
   /** Wirefilter expression identifying the requests that require payment. Forwarded verbatim to the Rulesets API, which validates its syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Price in the smallest indivisible unit of the configured payment token, encoded as a decimal string. Must be a canonical decimal integer in [1000, 100000000]: no leading zeros, and a bare JSON number is rejected. The price is required for the fixed-price schemes ("exact" and "upto") and must be at least 1000, the smallest amount the payment facilitator can settle ($0.001 for a 6-decimal token such as USDC), and at most 100000000 ($100 for a 6-decimal token). When the scheme is "origin_controlled" the origin server sets pricing dynamically and the rule carries no price: the field must be omitted -- any provided value, including "0", is rejected because it would not be enforced. Responses always encode this as a string and omit it for "origin_controlled" rules; the pattern matches exactly the set of values the server accepts. */
-  price?: string;
+  price?: string | undefined;
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount; "origin_controlled" lets the origin server set pricing dynamically, in which case the rule carries no price and the price field must be omitted. */
-  scheme?: EditRuleRequestScheme | (string & {});
+  scheme?: EditRuleRequestScheme | (string & {}) | undefined;
 }
 export type EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme =
   | "exact"
@@ -102,9 +102,9 @@ export interface EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInput
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -116,9 +116,9 @@ export interface EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInput
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type EditRuleResponseRulesItem =
   | EditRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPrice
@@ -146,9 +146,9 @@ export interface GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputF
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -160,9 +160,9 @@ export interface GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputO
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type GetRuleResponseRulesItem =
   | GetRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPrice
@@ -191,9 +191,9 @@ export interface RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRu
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -205,9 +205,9 @@ export interface RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRu
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type RulesDeleteRuleResponseRulesItem =
   | RulesDeleteRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPrice
@@ -236,9 +236,9 @@ export interface RulesGetRuleResultMonetizationRulesMonetizationRuleInputFixedPr
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: RulesGetRuleResultMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type RulesGetRuleResultMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -250,9 +250,9 @@ export interface RulesGetRuleResultMonetizationRulesMonetizationRuleInputOriginC
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: RulesGetRuleResultMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type RulesGetRuleResult =
   | RulesGetRuleResultMonetizationRulesMonetizationRuleInputFixedPrice
@@ -269,9 +269,9 @@ export interface UpdateRuleRequestRulesItemMonetizationRuleInputFixedPrice {
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: UpdateRuleRequestRulesItemMonetizationRuleInputFixedPriceScheme | (string & {});
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string;
-  description?: string;
-  enabled?: boolean;
+  id?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type UpdateRuleRequestRulesItemMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -283,9 +283,9 @@ export interface UpdateRuleRequestRulesItemMonetizationRuleInputOriginControlled
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: UpdateRuleRequestRulesItemMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string;
-  description?: string;
-  enabled?: boolean;
+  id?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type UpdateRuleRequestRulesItem =
   | UpdateRuleRequestRulesItemMonetizationRuleInputFixedPrice
@@ -310,9 +310,9 @@ export interface UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInp
   /** X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount. Both fixed-price schemes require the price field. */
   scheme: UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPriceScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme =
   "origin_controlled";
@@ -324,9 +324,9 @@ export interface UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInp
   /** X402 payment scheme. "origin_controlled" lets the origin server set pricing dynamically; the rule carries no price and the price field must be omitted. */
   scheme: UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInputOriginControlledScheme;
   /** Optional on input. Include the ID of an existing payment rule to update it in place, preserving its stable identity across the full-ruleset replacement; omit it to create a new rule. An ID that does not match an existing payment rule in the zone is rejected. Rules omitted from the request are deleted. */
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export type UpdateRuleResponseRulesItem =
   | UpdateRuleResponseRulesItemMonetizationRulesMonetizationRuleInputFixedPrice

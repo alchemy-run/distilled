@@ -47,22 +47,22 @@ export type EventTypeInfoKind = "Inline";
 /** Additional information about every inline event. */
 export interface InlineEventProperties {
   /** The description for the inline event. */
-  description?: string;
+  description?: string | undefined;
   /** The displayName for the inline event. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The documentationUrl for the inline event. */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
   /** The dataSchemaUrl for the inline event. */
-  dataSchemaUrl?: string;
+  dataSchemaUrl?: string | undefined;
 }
 /** A collection of inline event types for the resource. The inline event type keys are of type string which represents the name of the event. An example of a valid inline event name is "Contoso.OrderCreated". The inline event type values are of type InlineEventProperties and will contain additional information for every inline event type. */
 export type EventTypeInfoInlineEventTypesMap = { [key: string]: InlineEventProperties | undefined };
 /** The event type information for Channels. */
 export interface EventTypeInfo {
   /** The kind of event type used. */
-  kind?: EventTypeInfoKind | (string & {});
+  kind?: EventTypeInfoKind | (string & {}) | undefined;
   /** A collection of inline event types for the resource. The inline event type keys are of type string which represents the name of the event. An example of a valid inline event name is "Contoso.OrderCreated". The inline event type values are of type InlineEventProperties and will contain additional information for every inline event type. */
-  inlineEventTypes?: EventTypeInfoInlineEventTypesMap;
+  inlineEventTypes?: EventTypeInfoInlineEventTypesMap | undefined;
 }
 /** Provisioning state of the partner topic. */
 export type PartnerTopicPropertiesProvisioningState =
@@ -78,21 +78,21 @@ export type PartnerTopicPropertiesActivationState = "NeverActivated" | "Activate
 /** Properties of the Partner Topic. */
 export interface PartnerTopicProperties {
   /** The immutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** Source associated with this partner topic. This represents a unique partner resource. */
-  source?: string;
+  source?: string | undefined;
   /** Event Type information from the corresponding event channel. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Expiration time of the partner topic. If this timer expires while the partner topic is still never activated, the partner topic and corresponding event channel are deleted. */
-  expirationTimeIfNotActivatedUtc?: string;
+  expirationTimeIfNotActivatedUtc?: string | undefined;
   /** Provisioning state of the partner topic. */
-  provisioningState?: PartnerTopicPropertiesProvisioningState;
+  provisioningState?: PartnerTopicPropertiesProvisioningState | undefined;
   /** Activation state of the partner topic. */
-  activationState?: PartnerTopicPropertiesActivationState;
+  activationState?: PartnerTopicPropertiesActivationState | undefined;
   /** Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic. This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer. */
-  partnerTopicFriendlyDescription?: string;
+  partnerTopicFriendlyDescription?: string | undefined;
   /** Context or helpful message that can be used during the approval process by the subscriber. */
-  messageForActivation?: string;
+  messageForActivation?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ActivatePartnerTopicResponseSystemDataCreatedByType =
@@ -109,17 +109,17 @@ export type ActivatePartnerTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ActivatePartnerTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ActivatePartnerTopicResponseSystemDataCreatedByType;
+  createdByType?: ActivatePartnerTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ActivatePartnerTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ActivatePartnerTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
 export type IdentityInfoType =
@@ -130,9 +130,9 @@ export type IdentityInfoType =
 /** The information about the user identity. */
 export interface UserIdentityProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. This property is currently not used and reserved for future usage. */
 export type IdentityInfoUserAssignedIdentitiesMap = {
@@ -141,31 +141,31 @@ export type IdentityInfoUserAssignedIdentitiesMap = {
 /** The identity information for the resource. */
 export interface IdentityInfo {
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
-  type?: IdentityInfoType | (string & {});
+  type?: IdentityInfoType | (string & {}) | undefined;
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. This property is currently not used and reserved for future usage. */
-  userAssignedIdentities?: IdentityInfoUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInfoUserAssignedIdentitiesMap | undefined;
 }
 export interface ActivatePartnerTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: ActivatePartnerTopicResponseTagsMap;
+  tags?: ActivatePartnerTopicResponseTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicProperties;
+  properties?: PartnerTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ActivatePartnerTopicResponseSystemData;
+  systemData?: ActivatePartnerTopicResponseSystemData | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface AuthorizePartnerConfigurationPartnerRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -173,29 +173,29 @@ export interface AuthorizePartnerConfigurationPartnerRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The immutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** The partner name. */
-  partnerName?: string;
+  partnerName?: string | undefined;
   /** Expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration. If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified. */
-  authorizationExpirationTimeInUtc?: string;
+  authorizationExpirationTimeInUtc?: string | undefined;
 }
 /** Information about the partner. */
 export interface Partner {
   /** The immutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** The partner name. */
-  partnerName?: string;
+  partnerName?: string | undefined;
   /** Expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration. If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified. */
-  authorizationExpirationTimeInUtc?: string;
+  authorizationExpirationTimeInUtc?: string | undefined;
 }
 /** The list of authorized partners. */
 export type PartnerAuthorizationAuthorizedPartnersListList = Array<Partner>;
 /** The partner authorization details. */
 export interface PartnerAuthorization {
   /** Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days. */
-  defaultMaximumExpirationTimeInDays?: number;
+  defaultMaximumExpirationTimeInDays?: number | undefined;
   /** The list of authorized partners. */
-  authorizedPartnersList?: PartnerAuthorizationAuthorizedPartnersListList;
+  authorizedPartnersList?: PartnerAuthorizationAuthorizedPartnersListList | undefined;
 }
 /** Provisioning state of the partner configuration. */
 export type PartnerConfigurationPropertiesProvisioningState =
@@ -208,9 +208,9 @@ export type PartnerConfigurationPropertiesProvisioningState =
 /** Properties of the partner configuration. */
 export interface PartnerConfigurationProperties {
   /** The details of authorized partners. */
-  partnerAuthorization?: PartnerAuthorization;
+  partnerAuthorization?: PartnerAuthorization | undefined;
   /** Provisioning state of the partner configuration. */
-  provisioningState?: PartnerConfigurationPropertiesProvisioningState | (string & {});
+  provisioningState?: PartnerConfigurationPropertiesProvisioningState | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type AuthorizePartnerConfigurationPartnerResponseSystemDataCreatedByType =
@@ -227,17 +227,19 @@ export type AuthorizePartnerConfigurationPartnerResponseSystemDataLastModifiedBy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AuthorizePartnerConfigurationPartnerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AuthorizePartnerConfigurationPartnerResponseSystemDataCreatedByType;
+  createdByType?: AuthorizePartnerConfigurationPartnerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AuthorizePartnerConfigurationPartnerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | AuthorizePartnerConfigurationPartnerResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type AuthorizePartnerConfigurationPartnerResponseTagsMap = {
@@ -245,26 +247,26 @@ export type AuthorizePartnerConfigurationPartnerResponseTagsMap = {
 };
 export interface AuthorizePartnerConfigurationPartnerResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AuthorizePartnerConfigurationPartnerResponseSystemData;
+  systemData?: AuthorizePartnerConfigurationPartnerResponseSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: AuthorizePartnerConfigurationPartnerResponseTagsMap;
+  tags?: AuthorizePartnerConfigurationPartnerResponseTagsMap | undefined;
 }
 /** The properties of CA certificate. */
 export interface CaCertificatePropertiesInput {
   /** Description for the CA Certificate resource. */
-  description?: string;
+  description?: string | undefined;
   /** Base64 encoded PEM (Privacy Enhanced Mail) format certificate data. */
-  encodedCertificate?: string;
+  encodedCertificate?: string | undefined;
 }
 export interface CaCertificatesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -276,7 +278,7 @@ export interface CaCertificatesCreateOrUpdateRequest {
   /** The CA certificate name. */
   caCertificateName: string;
   /** The properties of CA certificate. */
-  properties?: CaCertificatePropertiesInput;
+  properties?: CaCertificatePropertiesInput | undefined;
 }
 /** Provisioning state of the CA Certificate resource. */
 export type CaCertificatePropertiesProvisioningState =
@@ -290,15 +292,15 @@ export type CaCertificatePropertiesProvisioningState =
 /** The properties of CA certificate. */
 export interface CaCertificateProperties {
   /** Description for the CA Certificate resource. */
-  description?: string;
+  description?: string | undefined;
   /** Base64 encoded PEM (Privacy Enhanced Mail) format certificate data. */
-  encodedCertificate?: string;
+  encodedCertificate?: string | undefined;
   /** Certificate issue time in UTC. This is a read-only field. */
-  issueTimeInUtc?: string;
+  issueTimeInUtc?: string | undefined;
   /** Certificate expiry time in UTC. This is a read-only field. */
-  expiryTimeInUtc?: string;
+  expiryTimeInUtc?: string | undefined;
   /** Provisioning state of the CA Certificate resource. */
-  provisioningState?: CaCertificatePropertiesProvisioningState;
+  provisioningState?: CaCertificatePropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type CaCertificatesCreateOrUpdateResponseSystemDataCreatedByType =
@@ -315,44 +317,44 @@ export type CaCertificatesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CaCertificatesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CaCertificatesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: CaCertificatesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CaCertificatesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CaCertificatesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CaCertificatesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of CA certificate. */
-  properties?: CaCertificateProperties;
+  properties?: CaCertificateProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CaCertificatesCreateOrUpdateResponseSystemData;
+  systemData?: CaCertificatesCreateOrUpdateResponseSystemData | undefined;
 }
 /** The type of the event channel which represents the direction flow of events. */
 export type ChannelPropertiesChannelType = "PartnerTopic";
 /** Properties of the corresponding partner topic of a Channel. */
 export interface PartnerTopicInfo {
   /** Azure subscription ID of the subscriber. The partner topic associated with the channel will be created under this Azure subscription. */
-  azureSubscriptionId?: string;
+  azureSubscriptionId?: string | undefined;
   /** Azure Resource Group of the subscriber. The partner topic associated with the channel will be created under this resource group. */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
   /** Name of the partner topic associated with the channel. */
-  name?: string;
+  name?: string | undefined;
   /** Event Type Information for the partner topic. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** The source information is provided by the publisher to determine the scope or context from which the events are originating. This information can be used by the subscriber during the approval process of the created partner topic. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Provisioning state of the channel. */
 export type ChannelPropertiesProvisioningState =
@@ -368,17 +370,17 @@ export type ChannelPropertiesReadinessState = "NeverActivated" | "Activated";
 /** Properties of the Channel. */
 export interface ChannelProperties {
   /** The type of the event channel which represents the direction flow of events. */
-  channelType?: ChannelPropertiesChannelType | (string & {});
+  channelType?: ChannelPropertiesChannelType | (string & {}) | undefined;
   /** This property should be populated when channelType is PartnerTopic and represents information about the partner topic resource corresponding to the channel. */
-  partnerTopicInfo?: PartnerTopicInfo;
+  partnerTopicInfo?: PartnerTopicInfo | undefined;
   /** Context or helpful message that can be used during the approval process by the subscriber. */
-  messageForActivation?: string;
+  messageForActivation?: string | undefined;
   /** Provisioning state of the channel. */
-  provisioningState?: ChannelPropertiesProvisioningState | (string & {});
+  provisioningState?: ChannelPropertiesProvisioningState | (string & {}) | undefined;
   /** The readiness state of the corresponding partner topic. */
-  readinessState?: ChannelPropertiesReadinessState | (string & {});
+  readinessState?: ChannelPropertiesReadinessState | (string & {}) | undefined;
   /** Expiration time of the channel. If this timer expires while the corresponding partner topic is never activated, the channel and corresponding partner topic are deleted. */
-  expirationTimeIfNotActivatedUtc?: string;
+  expirationTimeIfNotActivatedUtc?: string | undefined;
 }
 export interface ChannelsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -390,7 +392,7 @@ export interface ChannelsCreateOrUpdateRequest {
   /** Name of the channel. */
   channelName: string;
   /** Properties of the Channel. */
-  properties?: ChannelProperties;
+  properties?: ChannelProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type ChannelsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -407,36 +409,36 @@ export type ChannelsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ChannelsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ChannelsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ChannelsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ChannelsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ChannelsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ChannelsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Channel. */
-  properties?: ChannelProperties;
+  properties?: ChannelProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ChannelsCreateOrUpdateResponseSystemData;
+  systemData?: ChannelsCreateOrUpdateResponseSystemData | undefined;
 }
 /** The properties of client group. */
 export interface ClientGroupPropertiesInput {
   /** Description for the Client Group resource. */
-  description?: string;
+  description?: string | undefined;
   /** The grouping query for the clients. Example : attributes.keyName IN ['a', 'b', 'c']. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface ClientGroupsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -448,7 +450,7 @@ export interface ClientGroupsCreateOrUpdateRequest {
   /** The client group name. */
   clientGroupName: string;
   /** The properties of client group. */
-  properties?: ClientGroupPropertiesInput;
+  properties?: ClientGroupPropertiesInput | undefined;
 }
 /** Provisioning state of the ClientGroup resource. */
 export type ClientGroupPropertiesProvisioningState =
@@ -462,11 +464,11 @@ export type ClientGroupPropertiesProvisioningState =
 /** The properties of client group. */
 export interface ClientGroupProperties {
   /** Description for the Client Group resource. */
-  description?: string;
+  description?: string | undefined;
   /** The grouping query for the clients. Example : attributes.keyName IN ['a', 'b', 'c']. */
-  query?: string;
+  query?: string | undefined;
   /** Provisioning state of the ClientGroup resource. */
-  provisioningState?: ClientGroupPropertiesProvisioningState;
+  provisioningState?: ClientGroupPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClientGroupsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -483,29 +485,29 @@ export type ClientGroupsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClientGroupsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClientGroupsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ClientGroupsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClientGroupsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ClientGroupsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ClientGroupsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client group. */
-  properties?: ClientGroupProperties;
+  properties?: ClientGroupProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClientGroupsCreateOrUpdateResponseSystemData;
+  systemData?: ClientGroupsCreateOrUpdateResponseSystemData | undefined;
 }
 /** The validation scheme used to authenticate the client. Default value is SubjectMatchesAuthenticationName. */
 export type ClientCertificateAuthenticationValidationScheme =
@@ -520,9 +522,9 @@ export type ClientCertificateAuthenticationAllowedThumbprintsList = Array<string
 /** The certificate authentication properties for the client. */
 export interface ClientCertificateAuthentication {
   /** The validation scheme used to authenticate the client. Default value is SubjectMatchesAuthenticationName. */
-  validationScheme?: ClientCertificateAuthenticationValidationScheme | (string & {});
+  validationScheme?: ClientCertificateAuthenticationValidationScheme | (string & {}) | undefined;
   /** The list of thumbprints that are allowed during client authentication. This property is required only if the validationScheme is 'ThumbprintMatch'. */
-  allowedThumbprints?: ClientCertificateAuthenticationAllowedThumbprintsList;
+  allowedThumbprints?: ClientCertificateAuthenticationAllowedThumbprintsList | undefined;
 }
 /** Indicates if the client is enabled or not. Default value is Enabled. */
 export type ClientPropertiesInputState = "Enabled" | "Disabled";
@@ -531,15 +533,15 @@ export type ClientPropertiesInputAttributesMap = { [key: string]: unknown | unde
 /** The properties of client. */
 export interface ClientPropertiesInput {
   /** Description for the Client resource. */
-  description?: string;
+  description?: string | undefined;
   /** The name presented by the client for authentication. The default value is the name of the resource. */
-  authenticationName?: string;
+  authenticationName?: string | undefined;
   /** The client certificate authentication information. */
-  clientCertificateAuthentication?: ClientCertificateAuthentication;
+  clientCertificateAuthentication?: ClientCertificateAuthentication | undefined;
   /** Indicates if the client is enabled or not. Default value is Enabled. */
-  state?: ClientPropertiesInputState | (string & {});
+  state?: ClientPropertiesInputState | (string & {}) | undefined;
   /** Attributes for the client. Supported values are int, bool, string, string[]. Example: "attributes": { "room": "345", "floor": 12, "deviceTypes": ["Fan", "Light"] } */
-  attributes?: ClientPropertiesInputAttributesMap;
+  attributes?: ClientPropertiesInputAttributesMap | undefined;
 }
 export interface ClientsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -551,7 +553,7 @@ export interface ClientsCreateOrUpdateRequest {
   /** The client name. */
   clientName: string;
   /** The properties of client. */
-  properties?: ClientPropertiesInput;
+  properties?: ClientPropertiesInput | undefined;
 }
 /** Indicates if the client is enabled or not. Default value is Enabled. */
 export type ClientPropertiesState = "Enabled" | "Disabled";
@@ -569,17 +571,17 @@ export type ClientPropertiesProvisioningState =
 /** The properties of client. */
 export interface ClientProperties {
   /** Description for the Client resource. */
-  description?: string;
+  description?: string | undefined;
   /** The name presented by the client for authentication. The default value is the name of the resource. */
-  authenticationName?: string;
+  authenticationName?: string | undefined;
   /** The client certificate authentication information. */
-  clientCertificateAuthentication?: ClientCertificateAuthentication;
+  clientCertificateAuthentication?: ClientCertificateAuthentication | undefined;
   /** Indicates if the client is enabled or not. Default value is Enabled. */
-  state?: ClientPropertiesState;
+  state?: ClientPropertiesState | undefined;
   /** Attributes for the client. Supported values are int, bool, string, string[]. Example: "attributes": { "room": "345", "floor": 12, "deviceTypes": ["Fan", "Light"] } */
-  attributes?: ClientPropertiesAttributesMap;
+  attributes?: ClientPropertiesAttributesMap | undefined;
   /** Provisioning state of the Client resource. */
-  provisioningState?: ClientPropertiesProvisioningState;
+  provisioningState?: ClientPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClientsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -596,29 +598,29 @@ export type ClientsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClientsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClientsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ClientsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClientsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ClientsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ClientsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client. */
-  properties?: ClientProperties;
+  properties?: ClientProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClientsCreateOrUpdateResponseSystemData;
+  systemData?: ClientsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DeactivatePartnerTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -645,35 +647,35 @@ export type DeactivatePartnerTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeactivatePartnerTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeactivatePartnerTopicResponseSystemDataCreatedByType;
+  createdByType?: DeactivatePartnerTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeactivatePartnerTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: DeactivatePartnerTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeactivatePartnerTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: DeactivatePartnerTopicResponseTagsMap;
+  tags?: DeactivatePartnerTopicResponseTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicProperties;
+  properties?: PartnerTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeactivatePartnerTopicResponseSystemData;
+  systemData?: DeactivatePartnerTopicResponseSystemData | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface DeleteCaCertificateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -686,7 +688,7 @@ export interface DeleteCaCertificateRequest {
   caCertificateName: string;
 }
 export interface DeleteCaCertificateResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteChannelRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -699,7 +701,7 @@ export interface DeleteChannelRequest {
   channelName: string;
 }
 export interface DeleteChannelResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteClientRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -712,7 +714,7 @@ export interface DeleteClientRequest {
   clientName: string;
 }
 export interface DeleteClientResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteClientGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -725,7 +727,7 @@ export interface DeleteClientGroupRequest {
   clientGroupName: string;
 }
 export interface DeleteClientGroupResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -736,7 +738,7 @@ export interface DeleteDomainRequest {
   domainName: string;
 }
 export interface DeleteDomainResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDomainEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -749,7 +751,7 @@ export interface DeleteDomainEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteDomainEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDomainTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -762,7 +764,7 @@ export interface DeleteDomainTopicRequest {
   domainTopicName: string;
 }
 export interface DeleteDomainTopicResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDomainTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -777,7 +779,7 @@ export interface DeleteDomainTopicEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteDomainTopicEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteEventSubscriptionRequest {
   /** The scope of the event subscription. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}' for a resource, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}' for an EventGrid topic. */
@@ -786,7 +788,7 @@ export interface DeleteEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -797,7 +799,7 @@ export interface DeleteNamespaceRequest {
   namespaceName: string;
 }
 export interface DeleteNamespaceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNamespaceTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -810,7 +812,7 @@ export interface DeleteNamespaceTopicRequest {
   topicName: string;
 }
 export interface DeleteNamespaceTopicResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNamespaceTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -825,7 +827,7 @@ export interface DeleteNamespaceTopicEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteNamespaceTopicEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePartnerConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -834,7 +836,7 @@ export interface DeletePartnerConfigurationRequest {
   resourceGroupName: string;
 }
 export interface DeletePartnerConfigurationResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePartnerNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -845,7 +847,7 @@ export interface DeletePartnerNamespaceRequest {
   partnerNamespaceName: string;
 }
 export interface DeletePartnerNamespaceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePartnerRegistrationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -856,7 +858,7 @@ export interface DeletePartnerRegistrationRequest {
   partnerRegistrationName: string;
 }
 export interface DeletePartnerRegistrationResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePartnerTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -867,7 +869,7 @@ export interface DeletePartnerTopicRequest {
   partnerTopicName: string;
 }
 export interface DeletePartnerTopicResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePartnerTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -880,7 +882,7 @@ export interface DeletePartnerTopicEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeletePartnerTopicEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePermissionBindingRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -893,7 +895,7 @@ export interface DeletePermissionBindingRequest {
   permissionBindingName: string;
 }
 export interface DeletePermissionBindingResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export type DeletePrivateEndpointConnectionRequestParentType =
   | "topics"
@@ -913,7 +915,7 @@ export interface DeletePrivateEndpointConnectionRequest {
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSystemTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -924,7 +926,7 @@ export interface DeleteSystemTopicRequest {
   systemTopicName: string;
 }
 export interface DeleteSystemTopicResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSystemTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -937,7 +939,7 @@ export interface DeleteSystemTopicEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteSystemTopicEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -948,7 +950,7 @@ export interface DeleteTopicRequest {
   topicName: string;
 }
 export interface DeleteTopicResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -961,7 +963,7 @@ export interface DeleteTopicEventSubscriptionRequest {
   eventSubscriptionName: string;
 }
 export interface DeleteTopicEventSubscriptionResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTopicSpaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -974,92 +976,552 @@ export interface DeleteTopicSpaceRequest {
   topicSpaceName: string;
 }
 export interface DeleteTopicSpaceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Type of the endpoint for the event subscription destination. */
-export type EventSubscriptionDestinationEndpointType =
-  | "WebHook"
-  | "EventHub"
-  | "StorageQueue"
-  | "HybridConnection"
-  | "ServiceBusQueue"
-  | "ServiceBusTopic"
-  | "AzureFunction"
-  | "MonitorAlert"
-  | "NamespaceTopic";
-/** Information about the destination for an event subscription. */
-export interface EventSubscriptionDestination {
-  /** Type of the endpoint for the event subscription destination. */
-  endpointType: EventSubscriptionDestinationEndpointType | (string & {});
-  /** Endpoint-type-specific destination properties (polymorphic on `endpointType`), e.g. `{ resourceId, queueName }` for StorageQueue. */
-  properties?: unknown;
+export type WebHookEventSubscriptionDestinationInputEndpointType = "WebHook";
+/** Type of the delivery attribute or header name. */
+export type StaticDeliveryAttributeMappingType = "Static";
+/** Properties of static delivery attribute mapping. */
+export interface StaticDeliveryAttributeMappingProperties {
+  /** Value of the delivery attribute. */
+  value?: string | undefined;
+  /** Boolean flag to tell if the attribute contains sensitive information . */
+  isSecret?: boolean | undefined;
 }
+/** Static delivery attribute mapping details. */
+export interface StaticDeliveryAttributeMapping {
+  /** Name of the delivery attribute or header. */
+  name?: string | undefined;
+  /** Type of the delivery attribute or header name. */
+  type: StaticDeliveryAttributeMappingType;
+  /** Properties of static delivery attribute mapping. */
+  properties?: StaticDeliveryAttributeMappingProperties | undefined;
+}
+/** Type of the delivery attribute or header name. */
+export type DynamicDeliveryAttributeMappingType = "Dynamic";
+/** Properties of dynamic delivery attribute mapping. */
+export interface DynamicDeliveryAttributeMappingProperties {
+  /** JSON path in the event which contains attribute value. */
+  sourceField?: string | undefined;
+}
+/** Dynamic delivery attribute mapping details. */
+export interface DynamicDeliveryAttributeMapping {
+  /** Name of the delivery attribute or header. */
+  name?: string | undefined;
+  /** Type of the delivery attribute or header name. */
+  type: DynamicDeliveryAttributeMappingType;
+  /** Properties of dynamic delivery attribute mapping. */
+  properties?: DynamicDeliveryAttributeMappingProperties | undefined;
+}
+/** Delivery attribute mapping details. */
+export type DeliveryAttributeMapping =
+  | StaticDeliveryAttributeMapping
+  | DynamicDeliveryAttributeMapping;
+/** Delivery attribute details. */
+export type WebHookEventSubscriptionDestinationPropertiesInputDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** Minimum TLS version that should be supported by webhook endpoint */
+export type WebHookEventSubscriptionDestinationPropertiesInputMinimumTlsVersionAllowed =
+  | "1.0"
+  | "1.1"
+  | "1.2";
+/** Information about the webhook destination properties for an event subscription. */
+export interface WebHookEventSubscriptionDestinationPropertiesInput {
+  /** The URL that represents the endpoint of the destination of an event subscription. */
+  endpointUrl?: string | undefined;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number | undefined;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number | undefined;
+  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryTenantId?: string | undefined;
+  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryApplicationIdOrUri?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | WebHookEventSubscriptionDestinationPropertiesInputDeliveryAttributeMappingsList
+    | undefined;
+  /** Minimum TLS version that should be supported by webhook endpoint */
+  minimumTlsVersionAllowed?:
+    | WebHookEventSubscriptionDestinationPropertiesInputMinimumTlsVersionAllowed
+    | (string & {})
+    | undefined;
+}
+/** Information about the webhook destination for an event subscription. */
+export interface WebHookEventSubscriptionDestinationInput {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: WebHookEventSubscriptionDestinationInputEndpointType;
+  /** WebHook Properties of the event subscription destination. */
+  properties?: WebHookEventSubscriptionDestinationPropertiesInput | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type EventHubEventSubscriptionDestinationEndpointType = "EventHub";
+/** Delivery attribute details. */
+export type EventHubEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** The properties for a event hub destination. */
+export interface EventHubEventSubscriptionDestinationProperties {
+  /** The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | EventHubEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+}
+/** Information about the event hub destination for an event subscription. */
+export interface EventHubEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: EventHubEventSubscriptionDestinationEndpointType;
+  /** Event Hub Properties of the event subscription destination. */
+  properties?: EventHubEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type StorageQueueEventSubscriptionDestinationEndpointType = "StorageQueue";
+/** The properties for a storage queue destination. */
+export interface StorageQueueEventSubscriptionDestinationProperties {
+  /** The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** The name of the Storage queue under a storage account that is the destination of an event subscription. */
+  queueName?: string | undefined;
+  /** Storage queue message time to live in seconds. This value cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is Infinite. */
+  queueMessageTimeToLiveInSeconds?: number | undefined;
+}
+/** Information about the storage queue destination for an event subscription. */
+export interface StorageQueueEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: StorageQueueEventSubscriptionDestinationEndpointType;
+  /** Storage Queue Properties of the event subscription destination. */
+  properties?: StorageQueueEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type HybridConnectionEventSubscriptionDestinationEndpointType = "HybridConnection";
+/** Delivery attribute details. */
+export type HybridConnectionEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** The properties for a hybrid connection destination. */
+export interface HybridConnectionEventSubscriptionDestinationProperties {
+  /** The Azure Resource ID of an hybrid connection that is the destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | HybridConnectionEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+}
+/** Information about the HybridConnection destination for an event subscription. */
+export interface HybridConnectionEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: HybridConnectionEventSubscriptionDestinationEndpointType;
+  /** Hybrid connection Properties of the event subscription destination. */
+  properties?: HybridConnectionEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type ServiceBusQueueEventSubscriptionDestinationEndpointType = "ServiceBusQueue";
+/** Delivery attribute details. */
+export type ServiceBusQueueEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** The properties that represent the Service Bus destination of an event subscription. */
+export interface ServiceBusQueueEventSubscriptionDestinationProperties {
+  /** The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | ServiceBusQueueEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+}
+/** Information about the service bus destination for an event subscription. */
+export interface ServiceBusQueueEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: ServiceBusQueueEventSubscriptionDestinationEndpointType;
+  /** Service Bus Properties of the event subscription destination. */
+  properties?: ServiceBusQueueEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type ServiceBusTopicEventSubscriptionDestinationEndpointType = "ServiceBusTopic";
+/** Delivery attribute details. */
+export type ServiceBusTopicEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** The properties that represent the Service Bus Topic destination of an event subscription. */
+export interface ServiceBusTopicEventSubscriptionDestinationProperties {
+  /** The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | ServiceBusTopicEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+}
+/** Information about the service bus topic destination for an event subscription. */
+export interface ServiceBusTopicEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: ServiceBusTopicEventSubscriptionDestinationEndpointType;
+  /** Service Bus Topic Properties of the event subscription destination. */
+  properties?: ServiceBusTopicEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type AzureFunctionEventSubscriptionDestinationEndpointType = "AzureFunction";
+/** Delivery attribute details. */
+export type AzureFunctionEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** The properties that represent the Azure Function destination of an event subscription. */
+export interface AzureFunctionEventSubscriptionDestinationProperties {
+  /** The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription. */
+  resourceId?: string | undefined;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number | undefined;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | AzureFunctionEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+}
+/** Information about the azure function destination for an event subscription. */
+export interface AzureFunctionEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: AzureFunctionEventSubscriptionDestinationEndpointType;
+  /** Azure Function Properties of the event subscription destination. */
+  properties?: AzureFunctionEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type MonitorAlertEventSubscriptionDestinationEndpointType = "MonitorAlert";
+/** The severity that will be attached to every Alert fired through this event subscription. This field must be provided. */
+export type MonitorAlertEventSubscriptionDestinationPropertiesSeverity =
+  | "Sev0"
+  | "Sev1"
+  | "Sev2"
+  | "Sev3"
+  | "Sev4";
+/** The list of ARM Ids of Action Groups that will be triggered on every Alert fired through this event subscription. Each resource ARM Id should follow this pattern: /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Insights/actionGroups/{ActionGroupName}. */
+export type MonitorAlertEventSubscriptionDestinationPropertiesActionGroupsList = Array<string>;
+/** The properties that represent the Monitor Alert destination of an event subscription. */
+export interface MonitorAlertEventSubscriptionDestinationProperties {
+  /** The severity that will be attached to every Alert fired through this event subscription. This field must be provided. */
+  severity?: MonitorAlertEventSubscriptionDestinationPropertiesSeverity | (string & {}) | undefined;
+  /** The description that will be attached to every Alert fired through this event subscription. */
+  description?: string | undefined;
+  /** The list of ARM Ids of Action Groups that will be triggered on every Alert fired through this event subscription. Each resource ARM Id should follow this pattern: /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Insights/actionGroups/{ActionGroupName}. */
+  actionGroups?: MonitorAlertEventSubscriptionDestinationPropertiesActionGroupsList | undefined;
+}
+/** Information about the Monitor Alert destination for an event subscription. */
+export interface MonitorAlertEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: MonitorAlertEventSubscriptionDestinationEndpointType;
+  /** Monitor Alert properties of the event subscription destination. */
+  properties?: MonitorAlertEventSubscriptionDestinationProperties | undefined;
+}
+/** Type of the endpoint for the event subscription destination. */
+export type NamespaceTopicEventSubscriptionDestinationEndpointType = "NamespaceTopic";
+/** The properties that represent the Event Grid Namespace Topic destination of an event subscription. */
+export interface NamespaceTopicEventSubscriptionDestinationProperties {
+  /** The Azure resource Id that represents the endpoint of the Event Grid Namespace Topic destination of an event subscription. This field is required and the Namespace Topic resource listed must already exist. The resource ARM Id should follow this pattern: /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.EventGrid/namespaces/{NamespaceName}/topics/{TopicName}. */
+  resourceId?: string | undefined;
+}
+/** Information about the Namespace Topic destination for an event subscription. */
+export interface NamespaceTopicEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: NamespaceTopicEventSubscriptionDestinationEndpointType;
+  /** Namespace Topic properties of the event subscription destination. */
+  properties?: NamespaceTopicEventSubscriptionDestinationProperties | undefined;
+}
+/** Information about the destination for an event subscription. */
+export type EventSubscriptionDestinationInput =
+  | WebHookEventSubscriptionDestinationInput
+  | EventHubEventSubscriptionDestination
+  | StorageQueueEventSubscriptionDestination
+  | HybridConnectionEventSubscriptionDestination
+  | ServiceBusQueueEventSubscriptionDestination
+  | ServiceBusTopicEventSubscriptionDestination
+  | AzureFunctionEventSubscriptionDestination
+  | MonitorAlertEventSubscriptionDestination
+  | NamespaceTopicEventSubscriptionDestination;
 /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
 export type EventSubscriptionIdentityType = "SystemAssigned" | "UserAssigned";
 /** The identity information with the event subscription. */
 export interface EventSubscriptionIdentity {
   /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
-  type?: EventSubscriptionIdentityType | (string & {});
+  type?: EventSubscriptionIdentityType | (string & {}) | undefined;
   /** The user identity associated with the resource. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Information about the delivery for an event subscription with resource identity. */
-export interface DeliveryWithResourceIdentity {
+export interface DeliveryWithResourceIdentityInput {
   /** The identity to use when delivering events. */
-  identity?: EventSubscriptionIdentity;
+  identity?: EventSubscriptionIdentity | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
 }
 /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
 export type EventSubscriptionFilterIncludedEventTypesList = Array<string>;
 /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
-export type AdvancedFilterOperatorType =
-  | "NumberIn"
-  | "NumberNotIn"
-  | "NumberLessThan"
-  | "NumberGreaterThan"
-  | "NumberLessThanOrEquals"
-  | "NumberGreaterThanOrEquals"
-  | "BoolEquals"
-  | "StringIn"
-  | "StringNotIn"
-  | "StringBeginsWith"
-  | "StringEndsWith"
-  | "StringContains"
-  | "NumberInRange"
-  | "NumberNotInRange"
-  | "StringNotBeginsWith"
-  | "StringNotEndsWith"
-  | "StringNotContains"
-  | "IsNullOrUndefined"
-  | "IsNotNull";
-/** This is the base type that represents an advanced filter. To configure an advanced filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc. depending on the type of the key based on which you want to filter. */
-export interface AdvancedFilter {
+export type NumberInAdvancedFilterOperatorType = "NumberIn";
+/** The set of filter values. */
+export type NumberInAdvancedFilterValuesList = Array<number>;
+/** NumberIn Advanced Filter. */
+export interface NumberInAdvancedFilter {
   /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
-  operatorType: AdvancedFilterOperatorType | (string & {});
+  operatorType: NumberInAdvancedFilterOperatorType;
   /** The field/property in the event based on which you want to filter. */
-  key?: string;
-  /** Single comparison value for NumberGreaterThan/NumberLessThan/BoolEquals-style operators (polymorphic on `operatorType`). */
-  value?: unknown;
-  /** Comparison values for NumberIn/StringIn/StringContains/NumberInRange-style operators (polymorphic on `operatorType`). */
-  values?: unknown;
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberInAdvancedFilterValuesList | undefined;
 }
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberNotInAdvancedFilterOperatorType = "NumberNotIn";
+/** The set of filter values. */
+export type NumberNotInAdvancedFilterValuesList = Array<number>;
+/** NumberNotIn Advanced Filter. */
+export interface NumberNotInAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberNotInAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberNotInAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberLessThanAdvancedFilterOperatorType = "NumberLessThan";
+/** NumberLessThan Advanced Filter. */
+export interface NumberLessThanAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberLessThanAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberGreaterThanAdvancedFilterOperatorType = "NumberGreaterThan";
+/** NumberGreaterThan Advanced Filter. */
+export interface NumberGreaterThanAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberGreaterThanAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberLessThanOrEqualsAdvancedFilterOperatorType = "NumberLessThanOrEquals";
+/** NumberLessThanOrEquals Advanced Filter. */
+export interface NumberLessThanOrEqualsAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberLessThanOrEqualsAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberGreaterThanOrEqualsAdvancedFilterOperatorType = "NumberGreaterThanOrEquals";
+/** NumberGreaterThanOrEquals Advanced Filter. */
+export interface NumberGreaterThanOrEqualsAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberGreaterThanOrEqualsAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type BoolEqualsAdvancedFilterOperatorType = "BoolEquals";
+/** BoolEquals Advanced Filter. */
+export interface BoolEqualsAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: BoolEqualsAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The boolean filter value. */
+  value?: boolean | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringInAdvancedFilterOperatorType = "StringIn";
+/** The set of filter values. */
+export type StringInAdvancedFilterValuesList = Array<string>;
+/** StringIn Advanced Filter. */
+export interface StringInAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringInAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringInAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotInAdvancedFilterOperatorType = "StringNotIn";
+/** The set of filter values. */
+export type StringNotInAdvancedFilterValuesList = Array<string>;
+/** StringNotIn Advanced Filter. */
+export interface StringNotInAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotInAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotInAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringBeginsWithAdvancedFilterOperatorType = "StringBeginsWith";
+/** The set of filter values. */
+export type StringBeginsWithAdvancedFilterValuesList = Array<string>;
+/** StringBeginsWith Advanced Filter. */
+export interface StringBeginsWithAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringBeginsWithAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringBeginsWithAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringEndsWithAdvancedFilterOperatorType = "StringEndsWith";
+/** The set of filter values. */
+export type StringEndsWithAdvancedFilterValuesList = Array<string>;
+/** StringEndsWith Advanced Filter. */
+export interface StringEndsWithAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringEndsWithAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringEndsWithAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringContainsAdvancedFilterOperatorType = "StringContains";
+/** The set of filter values. */
+export type StringContainsAdvancedFilterValuesList = Array<string>;
+/** StringContains Advanced Filter. */
+export interface StringContainsAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringContainsAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringContainsAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberInRangeAdvancedFilterOperatorType = "NumberInRange";
+export type NumberInRangeAdvancedFilterValuesItemList = Array<number>;
+/** The set of filter values. */
+export type NumberInRangeAdvancedFilterValuesList =
+  Array<NumberInRangeAdvancedFilterValuesItemList>;
+/** NumberInRange Advanced Filter. */
+export interface NumberInRangeAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberInRangeAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberInRangeAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberNotInRangeAdvancedFilterOperatorType = "NumberNotInRange";
+export type NumberNotInRangeAdvancedFilterValuesItemList = Array<number>;
+/** The set of filter values. */
+export type NumberNotInRangeAdvancedFilterValuesList =
+  Array<NumberNotInRangeAdvancedFilterValuesItemList>;
+/** NumberNotInRange Advanced Filter. */
+export interface NumberNotInRangeAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberNotInRangeAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberNotInRangeAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotBeginsWithAdvancedFilterOperatorType = "StringNotBeginsWith";
+/** The set of filter values. */
+export type StringNotBeginsWithAdvancedFilterValuesList = Array<string>;
+/** StringNotBeginsWith Advanced Filter. */
+export interface StringNotBeginsWithAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotBeginsWithAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotBeginsWithAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotEndsWithAdvancedFilterOperatorType = "StringNotEndsWith";
+/** The set of filter values. */
+export type StringNotEndsWithAdvancedFilterValuesList = Array<string>;
+/** StringNotEndsWith Advanced Filter. */
+export interface StringNotEndsWithAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotEndsWithAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotEndsWithAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotContainsAdvancedFilterOperatorType = "StringNotContains";
+/** The set of filter values. */
+export type StringNotContainsAdvancedFilterValuesList = Array<string>;
+/** StringNotContains Advanced Filter. */
+export interface StringNotContainsAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotContainsAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotContainsAdvancedFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type IsNullOrUndefinedAdvancedFilterOperatorType = "IsNullOrUndefined";
+/** IsNullOrUndefined Advanced Filter. */
+export interface IsNullOrUndefinedAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: IsNullOrUndefinedAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type IsNotNullAdvancedFilterOperatorType = "IsNotNull";
+/** IsNotNull Advanced Filter. */
+export interface IsNotNullAdvancedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: IsNotNullAdvancedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+}
+/** This is the base type that represents an advanced filter. To configure an advanced filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc. depending on the type of the key based on which you want to filter. */
+export type AdvancedFilter =
+  | NumberInAdvancedFilter
+  | NumberNotInAdvancedFilter
+  | NumberLessThanAdvancedFilter
+  | NumberGreaterThanAdvancedFilter
+  | NumberLessThanOrEqualsAdvancedFilter
+  | NumberGreaterThanOrEqualsAdvancedFilter
+  | BoolEqualsAdvancedFilter
+  | StringInAdvancedFilter
+  | StringNotInAdvancedFilter
+  | StringBeginsWithAdvancedFilter
+  | StringEndsWithAdvancedFilter
+  | StringContainsAdvancedFilter
+  | NumberInRangeAdvancedFilter
+  | NumberNotInRangeAdvancedFilter
+  | StringNotBeginsWithAdvancedFilter
+  | StringNotEndsWithAdvancedFilter
+  | StringNotContainsAdvancedFilter
+  | IsNullOrUndefinedAdvancedFilter
+  | IsNotNullAdvancedFilter;
 /** An array of advanced filters that are used for filtering event subscriptions. */
 export type EventSubscriptionFilterAdvancedFiltersList = Array<AdvancedFilter>;
 /** Filter for the Event Subscription. */
 export interface EventSubscriptionFilter {
   /** An optional string to filter events for an event subscription based on a resource path prefix. The format of this depends on the publisher of the events. Wildcard characters are not supported in this path. */
-  subjectBeginsWith?: string;
+  subjectBeginsWith?: string | undefined;
   /** An optional string to filter events for an event subscription based on a resource path suffix. Wildcard characters are not supported in this path. */
-  subjectEndsWith?: string;
+  subjectEndsWith?: string | undefined;
   /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
-  includedEventTypes?: EventSubscriptionFilterIncludedEventTypesList;
+  includedEventTypes?: EventSubscriptionFilterIncludedEventTypesList | undefined;
   /** Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter should be compared in a case sensitive manner. */
-  isSubjectCaseSensitive?: boolean;
+  isSubjectCaseSensitive?: boolean | undefined;
   /** Allows advanced filters to be evaluated against an array of values instead of expecting a singular value. */
-  enableAdvancedFilteringOnArrays?: boolean;
+  enableAdvancedFilteringOnArrays?: boolean | undefined;
   /** An array of advanced filters that are used for filtering event subscriptions. */
-  advancedFilters?: EventSubscriptionFilterAdvancedFiltersList;
+  advancedFilters?: EventSubscriptionFilterAdvancedFiltersList | undefined;
 }
 /** List of user defined labels. */
 export type EventSubscriptionPropertiesInputLabelsList = Array<string>;
@@ -1071,46 +1533,56 @@ export type EventSubscriptionPropertiesInputEventDeliverySchema =
 /** Information about the retry policy for an event subscription. */
 export interface RetryPolicy {
   /** Maximum number of delivery retry attempts for events. */
-  maxDeliveryAttempts?: number;
+  maxDeliveryAttempts?: number | undefined;
   /** Time To Live (in minutes) for events. */
-  eventTimeToLiveInMinutes?: number;
+  eventTimeToLiveInMinutes?: number | undefined;
 }
 /** Type of the endpoint for the dead letter destination */
-export type DeadLetterDestinationEndpointType = "StorageBlob";
-/** Information about the dead letter destination for an event subscription. To configure a deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class. */
-export interface DeadLetterDestination {
+export type StorageBlobDeadLetterDestinationEndpointType = "StorageBlob";
+/** Properties of the storage blob based dead letter destination. */
+export interface StorageBlobDeadLetterDestinationProperties {
+  /** The Azure Resource ID of the storage account that is the destination of the deadletter events */
+  resourceId?: string | undefined;
+  /** The name of the Storage blob container that is the destination of the deadletter events */
+  blobContainerName?: string | undefined;
+}
+/** Information about the storage blob based dead letter destination. */
+export interface StorageBlobDeadLetterDestination {
   /** Type of the endpoint for the dead letter destination */
-  endpointType: DeadLetterDestinationEndpointType | (string & {});
-  /** Endpoint-type-specific dead-letter properties (polymorphic on `endpointType`), e.g. `{ resourceId, blobContainerName }` for StorageBlob. */
-  properties?: unknown;
+  endpointType: StorageBlobDeadLetterDestinationEndpointType | (string & {});
+  /** The properties of the Storage Blob based deadletter destination */
+  properties?: StorageBlobDeadLetterDestinationProperties | undefined;
 }
 /** Information about the deadletter destination with resource identity. */
 export interface DeadLetterWithResourceIdentity {
   /** The identity to use when dead-lettering events. */
-  identity?: EventSubscriptionIdentity;
+  identity?: EventSubscriptionIdentity | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
 }
 /** Properties of the Event Subscription. */
 export interface EventSubscriptionPropertiesInput {
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: EventSubscriptionPropertiesInputLabelsList;
+  labels?: EventSubscriptionPropertiesInputLabelsList | undefined;
   /** Expiration time of the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: EventSubscriptionPropertiesInputEventDeliverySchema | (string & {});
+  eventDeliverySchema?:
+    | EventSubscriptionPropertiesInputEventDeliverySchema
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 export interface DomainEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1122,7 +1594,7 @@ export interface DomainEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** Provisioning state of the event subscription. */
 export type EventSubscriptionPropertiesProvisioningState =
@@ -1133,6 +1605,64 @@ export type EventSubscriptionPropertiesProvisioningState =
   | "Canceled"
   | "Failed"
   | "AwaitingManualAction";
+/** Type of the endpoint for the event subscription destination. */
+export type WebHookEventSubscriptionDestinationEndpointType = "WebHook";
+/** Delivery attribute details. */
+export type WebHookEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList =
+  Array<DeliveryAttributeMapping>;
+/** Minimum TLS version that should be supported by webhook endpoint */
+export type WebHookEventSubscriptionDestinationPropertiesMinimumTlsVersionAllowed =
+  | "1.0"
+  | "1.1"
+  | "1.2";
+/** Information about the webhook destination properties for an event subscription. */
+export interface WebHookEventSubscriptionDestinationProperties {
+  /** The URL that represents the endpoint of the destination of an event subscription. */
+  endpointUrl?: string | undefined;
+  /** The base URL that represents the endpoint of the destination of an event subscription. */
+  endpointBaseUrl?: string | undefined;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number | undefined;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number | undefined;
+  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryTenantId?: string | undefined;
+  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryApplicationIdOrUri?: string | undefined;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?:
+    | WebHookEventSubscriptionDestinationPropertiesDeliveryAttributeMappingsList
+    | undefined;
+  /** Minimum TLS version that should be supported by webhook endpoint */
+  minimumTlsVersionAllowed?:
+    | WebHookEventSubscriptionDestinationPropertiesMinimumTlsVersionAllowed
+    | undefined;
+}
+/** Information about the webhook destination for an event subscription. */
+export interface WebHookEventSubscriptionDestination {
+  /** Type of the endpoint for the event subscription destination. */
+  endpointType: WebHookEventSubscriptionDestinationEndpointType;
+  /** WebHook Properties of the event subscription destination. */
+  properties?: WebHookEventSubscriptionDestinationProperties | undefined;
+}
+/** Information about the destination for an event subscription. */
+export type EventSubscriptionDestination =
+  | WebHookEventSubscriptionDestination
+  | EventHubEventSubscriptionDestination
+  | StorageQueueEventSubscriptionDestination
+  | HybridConnectionEventSubscriptionDestination
+  | ServiceBusQueueEventSubscriptionDestination
+  | ServiceBusTopicEventSubscriptionDestination
+  | AzureFunctionEventSubscriptionDestination
+  | MonitorAlertEventSubscriptionDestination
+  | NamespaceTopicEventSubscriptionDestination;
+/** Information about the delivery for an event subscription with resource identity. */
+export interface DeliveryWithResourceIdentity {
+  /** The identity to use when delivering events. */
+  identity?: EventSubscriptionIdentity | undefined;
+  /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery. */
+  destination?: EventSubscriptionDestination | undefined;
+}
 /** List of user defined labels. */
 export type EventSubscriptionPropertiesLabelsList = Array<string>;
 /** The event delivery schema for the event subscription. */
@@ -1143,27 +1673,27 @@ export type EventSubscriptionPropertiesEventDeliverySchema =
 /** Properties of the Event Subscription. */
 export interface EventSubscriptionProperties {
   /** Name of the topic of the event subscription. */
-  topic?: string;
+  topic?: string | undefined;
   /** Provisioning state of the event subscription. */
-  provisioningState?: EventSubscriptionPropertiesProvisioningState;
+  provisioningState?: EventSubscriptionPropertiesProvisioningState | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestination | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: EventSubscriptionPropertiesLabelsList;
+  labels?: EventSubscriptionPropertiesLabelsList | undefined;
   /** Expiration time of the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: EventSubscriptionPropertiesEventDeliverySchema;
+  eventDeliverySchema?: EventSubscriptionPropertiesEventDeliverySchema | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type DomainEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1180,29 +1710,31 @@ export type DomainEventSubscriptionsCreateOrUpdateResponseSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: DomainEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DomainEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DomainEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: DomainEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type DomainsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1214,13 +1746,40 @@ export type DomainPropertiesInputInputSchema =
   | "CustomEventSchema"
   | "CloudEventSchemaV1_0";
 /** Type of the custom mapping */
-export type InputSchemaMappingInputSchemaMappingType = "Json";
-/** By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of InputSchemaMapping is 'JsonInputSchemaMapping'. */
-export interface InputSchemaMapping {
+export type JsonInputSchemaMappingInputSchemaMappingType = "Json";
+/** This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema. */
+export interface JsonField {
+  /** Name of a field in the input event schema that's to be used as the source of a mapping. */
+  sourceField?: string | undefined;
+}
+/** This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'subject', 'eventtype' and 'dataversion' properties. This represents a field in the input event schema along with a default value to be used, and at least one of these two properties should be provided. */
+export interface JsonFieldWithDefault {
+  /** Name of a field in the input event schema that's to be used as the source of a mapping. */
+  sourceField?: string | undefined;
+  /** The default value to be used for mapping when a SourceField is not provided or if there's no property with the specified name in the published JSON event payload. */
+  defaultValue?: string | undefined;
+}
+/** This can be used to map properties of a source schema (or default values, for certain supported properties) to properties of the EventGridEvent schema. */
+export interface JsonInputSchemaMappingProperties {
+  /** The mapping information for the Id property of the Event Grid Event. */
+  id?: JsonField | undefined;
+  /** The mapping information for the Topic property of the Event Grid Event. */
+  topic?: JsonField | undefined;
+  /** The mapping information for the EventTime property of the Event Grid Event. */
+  eventTime?: JsonField | undefined;
+  /** The mapping information for the EventType property of the Event Grid Event. */
+  eventType?: JsonFieldWithDefault | undefined;
+  /** The mapping information for the Subject property of the Event Grid Event. */
+  subject?: JsonFieldWithDefault | undefined;
+  /** The mapping information for the DataVersion property of the Event Grid Event. */
+  dataVersion?: JsonFieldWithDefault | undefined;
+}
+/** This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema. */
+export interface JsonInputSchemaMapping {
   /** Type of the custom mapping */
-  inputSchemaMappingType: InputSchemaMappingInputSchemaMappingType | (string & {});
-  /** Mapping-type-specific properties (polymorphic on `inputSchemaMappingType`), e.g. JSON field mappings for `Json`. */
-  properties?: unknown;
+  inputSchemaMappingType: JsonInputSchemaMappingInputSchemaMappingType | (string & {});
+  /** JSON Properties of the input schema mapping */
+  properties?: JsonInputSchemaMappingProperties | undefined;
 }
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /> */
 export type DomainPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -1228,9 +1787,9 @@ export type DomainPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 export type InboundIpRuleAction = "Allow";
 export interface InboundIpRule {
   /** IP Address in CIDR notation e.g., 10.0.0.0/8. */
-  ipMask?: string;
+  ipMask?: string | undefined;
   /** Action to perform based on the match or no match of the IpMask. */
-  action?: InboundIpRuleAction | (string & {});
+  action?: InboundIpRuleAction | (string & {}) | undefined;
 }
 /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
 export type DomainPropertiesInputInboundIpRulesList = Array<InboundIpRule>;
@@ -1239,25 +1798,28 @@ export type DomainPropertiesInputDataResidencyBoundary = "WithinGeopair" | "With
 /** Properties of the Event Grid Domain Resource. */
 export interface DomainPropertiesInput {
   /** Minimum TLS version of the publisher allowed to publish to this domain */
-  minimumTlsVersionAllowed?: DomainPropertiesInputMinimumTlsVersionAllowed | (string & {});
+  minimumTlsVersionAllowed?:
+    | DomainPropertiesInputMinimumTlsVersionAllowed
+    | (string & {})
+    | undefined;
   /** This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. */
-  inputSchema?: DomainPropertiesInputInputSchema | (string & {});
+  inputSchema?: DomainPropertiesInputInputSchema | (string & {}) | undefined;
   /** Event Type Information for the domain. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Information about the InputSchemaMapping which specified the info about mapping event payload. */
-  inputSchemaMapping?: InputSchemaMapping;
+  inputSchemaMapping?: JsonInputSchemaMapping | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /> */
-  publicNetworkAccess?: DomainPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: DomainPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: DomainPropertiesInputInboundIpRulesList;
+  inboundIpRules?: DomainPropertiesInputInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the domain topic on demand if needed. */
-  autoCreateTopicWithFirstSubscription?: boolean;
+  autoCreateTopicWithFirstSubscription?: boolean | undefined;
   /** This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. */
-  autoDeleteTopicWithLastSubscription?: boolean;
+  autoDeleteTopicWithLastSubscription?: boolean | undefined;
   /** Data Residency Boundary of the resource. */
-  dataResidencyBoundary?: DomainPropertiesInputDataResidencyBoundary | (string & {});
+  dataResidencyBoundary?: DomainPropertiesInputDataResidencyBoundary | (string & {}) | undefined;
 }
 export interface DomainsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1269,18 +1831,18 @@ export interface DomainsCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: DomainsCreateOrUpdateRequestTagsMap;
+  tags?: DomainsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Event Grid Domain resource. */
-  properties?: DomainPropertiesInput;
+  properties?: DomainPropertiesInput | undefined;
   /** Identity information for the Event Grid Domain resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type DomainsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** PrivateEndpoint information. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** GroupIds from the private link service resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -1289,11 +1851,11 @@ export type ConnectionStateStatus = "Pending" | "Approved" | "Rejected" | "Disco
 /** ConnectionState information. */
 export interface ConnectionState {
   /** Status of the connection. */
-  status?: ConnectionStateStatus | (string & {});
+  status?: ConnectionStateStatus | (string & {}) | undefined;
   /** Description of the connection state. */
-  description?: string;
+  description?: string | undefined;
   /** Actions required (if any). */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Provisioning state of the Private Endpoint Connection. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -1306,23 +1868,26 @@ export type PrivateEndpointConnectionPropertiesProvisioningState =
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** GroupIds from the private link service resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
   /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | (string & {});
+  provisioningState?:
+    | PrivateEndpointConnectionPropertiesProvisioningState
+    | (string & {})
+    | undefined;
 }
 export interface PrivateEndpointConnection {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type DomainPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -1350,33 +1915,33 @@ export type DomainPropertiesDataResidencyBoundary = "WithinGeopair" | "WithinReg
 /** Properties of the Event Grid Domain Resource. */
 export interface DomainProperties {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: DomainPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: DomainPropertiesPrivateEndpointConnectionsList | undefined;
   /** Provisioning state of the Event Grid Domain Resource. */
-  provisioningState?: DomainPropertiesProvisioningState;
+  provisioningState?: DomainPropertiesProvisioningState | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this domain */
-  minimumTlsVersionAllowed?: DomainPropertiesMinimumTlsVersionAllowed;
+  minimumTlsVersionAllowed?: DomainPropertiesMinimumTlsVersionAllowed | undefined;
   /** Endpoint for the Event Grid Domain Resource which is used for publishing the events. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. */
-  inputSchema?: DomainPropertiesInputSchema;
+  inputSchema?: DomainPropertiesInputSchema | undefined;
   /** Event Type Information for the domain. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Information about the InputSchemaMapping which specified the info about mapping event payload. */
-  inputSchemaMapping?: InputSchemaMapping;
+  inputSchemaMapping?: JsonInputSchemaMapping | undefined;
   /** Metric resource id for the Event Grid Domain Resource. */
-  metricResourceId?: string;
+  metricResourceId?: string | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /> */
-  publicNetworkAccess?: DomainPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: DomainPropertiesPublicNetworkAccess | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: DomainPropertiesInboundIpRulesList;
+  inboundIpRules?: DomainPropertiesInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the domain topic on demand if needed. */
-  autoCreateTopicWithFirstSubscription?: boolean;
+  autoCreateTopicWithFirstSubscription?: boolean | undefined;
   /** This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. */
-  autoDeleteTopicWithLastSubscription?: boolean;
+  autoDeleteTopicWithLastSubscription?: boolean | undefined;
   /** Data Residency Boundary of the resource. */
-  dataResidencyBoundary?: DomainPropertiesDataResidencyBoundary;
+  dataResidencyBoundary?: DomainPropertiesDataResidencyBoundary | undefined;
 }
 /** The type of identity that created the resource. */
 export type DomainsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1393,35 +1958,35 @@ export type DomainsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: DomainsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DomainsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: DomainsCreateOrUpdateResponseTagsMap;
+  tags?: DomainsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Event Grid Domain resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Identity information for the Event Grid Domain resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainsCreateOrUpdateResponseSystemData;
+  systemData?: DomainsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DomainTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1435,7 +2000,7 @@ export interface DomainTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1452,29 +2017,33 @@ export type DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DomainTopicEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: DomainTopicEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DomainTopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1497,7 +2066,7 @@ export type DomainTopicPropertiesProvisioningState =
 /** Properties of the Domain Topic. */
 export interface DomainTopicProperties {
   /** Provisioning state of the domain topic. */
-  provisioningState?: DomainTopicPropertiesProvisioningState;
+  provisioningState?: DomainTopicPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type DomainTopicsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1514,29 +2083,29 @@ export type DomainTopicsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainTopicsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainTopicsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: DomainTopicsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainTopicsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainTopicsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DomainTopicsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Domain Topic. */
-  properties?: DomainTopicProperties;
+  properties?: DomainTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainTopicsCreateOrUpdateResponseSystemData;
+  systemData?: DomainTopicsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface EventSubscriptionsCreateOrUpdateRequest {
   /** The identifier of the resource to which the event subscription needs to be created or updated. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}' for a resource, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}' for an EventGrid topic. */
@@ -1544,7 +2113,7 @@ export interface EventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and should use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type EventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1561,29 +2130,31 @@ export type EventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface EventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: EventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: EventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: EventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | EventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface EventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: EventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: EventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface GetCaCertificateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1610,29 +2181,29 @@ export type GetCaCertificateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetCaCertificateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetCaCertificateResponseSystemDataCreatedByType;
+  createdByType?: GetCaCertificateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetCaCertificateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetCaCertificateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetCaCertificateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of CA certificate. */
-  properties?: CaCertificateProperties;
+  properties?: CaCertificateProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetCaCertificateResponseSystemData;
+  systemData?: GetCaCertificateResponseSystemData | undefined;
 }
 export interface GetChannelRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1659,29 +2230,29 @@ export type GetChannelResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetChannelResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetChannelResponseSystemDataCreatedByType;
+  createdByType?: GetChannelResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetChannelResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetChannelResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetChannelResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Channel. */
-  properties?: ChannelProperties;
+  properties?: ChannelProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetChannelResponseSystemData;
+  systemData?: GetChannelResponseSystemData | undefined;
 }
 export interface GetChannelFullUrlRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1696,7 +2267,7 @@ export interface GetChannelFullUrlRequest {
 /** Full endpoint URL of an event subscription */
 export interface EventSubscriptionFullUrl {
   /** The URL that represents the endpoint of the destination of an event subscription. */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
 }
 export interface GetClientRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1723,29 +2294,29 @@ export type GetClientResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetClientResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetClientResponseSystemDataCreatedByType;
+  createdByType?: GetClientResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetClientResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetClientResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetClientResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client. */
-  properties?: ClientProperties;
+  properties?: ClientProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetClientResponseSystemData;
+  systemData?: GetClientResponseSystemData | undefined;
 }
 export interface GetClientGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1772,29 +2343,29 @@ export type GetClientGroupResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetClientGroupResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetClientGroupResponseSystemDataCreatedByType;
+  createdByType?: GetClientGroupResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetClientGroupResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetClientGroupResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetClientGroupResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client group. */
-  properties?: ClientGroupProperties;
+  properties?: ClientGroupProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetClientGroupResponseSystemData;
+  systemData?: GetClientGroupResponseSystemData | undefined;
 }
 export interface GetDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1821,35 +2392,35 @@ export type GetDomainResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDomainResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDomainResponseSystemDataCreatedByType;
+  createdByType?: GetDomainResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDomainResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDomainResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDomainResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetDomainResponseTagsMap;
+  tags?: GetDomainResponseTagsMap | undefined;
   /** Properties of the Event Grid Domain resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Identity information for the Event Grid Domain resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDomainResponseSystemData;
+  systemData?: GetDomainResponseSystemData | undefined;
 }
 export interface GetDomainEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1876,29 +2447,29 @@ export type GetDomainEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDomainEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDomainEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetDomainEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDomainEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDomainEventSubscriptionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDomainEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDomainEventSubscriptionResponseSystemData;
+  systemData?: GetDomainEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetDomainEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1910,21 +2481,12 @@ export interface GetDomainEventSubscriptionDeliveryAttributesRequest {
   /** Name of the event subscription. */
   eventSubscriptionName: string;
 }
-/** Type of the delivery attribute or header name. */
-export type DeliveryAttributeMappingType = "Static" | "Dynamic";
-/** Delivery attribute mapping details. */
-export interface DeliveryAttributeMapping {
-  /** Name of the delivery attribute or header. */
-  name?: string;
-  /** Type of the delivery attribute or header name. */
-  type: DeliveryAttributeMappingType;
-}
 /** A collection of DeliveryAttributeMapping */
 export type DeliveryAttributeListResultValueList = Array<DeliveryAttributeMapping>;
 /** Result of the Get delivery attributes operation. */
 export interface DeliveryAttributeListResult {
   /** A collection of DeliveryAttributeMapping */
-  value?: DeliveryAttributeListResultValueList;
+  value?: DeliveryAttributeListResultValueList | undefined;
 }
 export interface GetDomainEventSubscriptionFullUrlRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1961,29 +2523,29 @@ export type GetDomainTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDomainTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDomainTopicResponseSystemDataCreatedByType;
+  createdByType?: GetDomainTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDomainTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDomainTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDomainTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Domain Topic. */
-  properties?: DomainTopicProperties;
+  properties?: DomainTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDomainTopicResponseSystemData;
+  systemData?: GetDomainTopicResponseSystemData | undefined;
 }
 export interface GetDomainTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2012,29 +2574,31 @@ export type GetDomainTopicEventSubscriptionResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDomainTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDomainTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetDomainTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDomainTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetDomainTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDomainTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDomainTopicEventSubscriptionResponseSystemData;
+  systemData?: GetDomainTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetDomainTopicEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2081,29 +2645,29 @@ export type GetEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetEventSubscriptionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetEventSubscriptionResponseSystemData;
+  systemData?: GetEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetEventSubscriptionDeliveryAttributesRequest {
   /** The scope of the event subscription. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}' for a resource, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}' for an EventGrid topic. */
@@ -2124,9 +2688,9 @@ export interface GetExtensionTopicRequest {
 /** Properties of the Extension Topic */
 export interface ExtensionTopicProperties {
   /** Description of the extension topic. */
-  description?: string;
+  description?: string | undefined;
   /** System topic resource id which is mapped to the source. */
-  systemTopic?: string;
+  systemTopic?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetExtensionTopicResponseSystemDataCreatedByType =
@@ -2143,29 +2707,29 @@ export type GetExtensionTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetExtensionTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetExtensionTopicResponseSystemDataCreatedByType;
+  createdByType?: GetExtensionTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetExtensionTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetExtensionTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetExtensionTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the extension topic. */
-  properties?: ExtensionTopicProperties;
+  properties?: ExtensionTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetExtensionTopicResponseSystemData;
+  systemData?: GetExtensionTopicResponseSystemData | undefined;
 }
 export interface GetNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2201,85 +2765,87 @@ export type CustomDomainIdentityType = "SystemAssigned" | "UserAssigned";
 /** The identity information for retrieving the certificate for the custom domain. */
 export interface CustomDomainIdentity {
   /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
-  type?: CustomDomainIdentityType | (string & {});
+  type?: CustomDomainIdentityType | (string & {}) | undefined;
   /** The user identity associated with the resource. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** A custom domain configuration that allows users to publish to their own domain name. */
 export interface CustomDomainConfiguration {
   /** Fully Qualified Domain Name (FQDN) for the custom domain. */
   fullyQualifiedDomainName: string;
   /** Validation state for the custom domain. This is a read only property and is initially set to 'Pending' and will be updated to 'Approved' by Event Grid only after ownership of the domain name has been successfully validated. */
-  validationState?: CustomDomainConfigurationValidationState | (string & {});
+  validationState?: CustomDomainConfigurationValidationState | (string & {}) | undefined;
   /** Identity info for accessing the certificate for the custom domain. This identity info must match an identity that has been set on the namespace. */
-  identity?: CustomDomainIdentity;
+  identity?: CustomDomainIdentity | undefined;
   /** The URL for the certificate that is used for publishing to the custom domain. We currently support certificates stored in Azure Key Vault only. While certificate URL can be either versioned URL of the following format https://{key-vault-name}.vault.azure.net/certificates/{certificate-name}/{version-id}, or unversioned URL of the following format (e.g., https://contosovault.vault.azure.net/certificates/contosocert, we support unversioned certificate URL only (e.g., https://contosovault.vault.azure.net/certificates/contosocert) */
-  certificateUrl?: string;
+  certificateUrl?: string | undefined;
   /** Expected DNS TXT record name. Event Grid will check for a TXT record with this name in the DNS record set of the custom domain name to prove ownership over the domain. The values under this TXT record must contain the expected TXT record value. */
-  expectedTxtRecordName?: string;
+  expectedTxtRecordName?: string | undefined;
   /** Expected DNS TXT record value. Event Grid will check for a TXT record with this value in the DNS record set of the custom domain name to prove ownership over the domain. */
-  expectedTxtRecordValue?: string;
+  expectedTxtRecordValue?: string | undefined;
 }
 /** List of custom domain configurations for the namespace. */
 export type TopicsConfigurationCustomDomainsList = Array<CustomDomainConfiguration>;
 /** Properties of the Topics Configuration. */
 export interface TopicsConfiguration {
   /** The hostname for the topics configuration. This is a read-only property. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** List of custom domain configurations for the namespace. */
-  customDomains?: TopicsConfigurationCustomDomainsList;
+  customDomains?: TopicsConfigurationCustomDomainsList | undefined;
 }
 /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
 export type TopicSpacesConfigurationState = "Disabled" | "Enabled";
 /** Static routing enrichment value type. For e.g. this property value can be 'String'. */
-export type StaticRoutingEnrichmentValueType = "String";
+export type StaticStringRoutingEnrichmentValueType = "String";
 /** Static routing enrichment details. */
-export interface StaticRoutingEnrichment {
+export interface StaticStringRoutingEnrichment {
   /** Static routing enrichment key. */
-  key?: string;
+  key?: string | undefined;
   /** Static routing enrichment value type. For e.g. this property value can be 'String'. */
-  valueType: StaticRoutingEnrichmentValueType | (string & {});
+  valueType: StaticStringRoutingEnrichmentValueType | (string & {});
+  /** String type routing enrichment value. */
+  value?: string | undefined;
 }
-export type RoutingEnrichmentsStaticList = Array<StaticRoutingEnrichment>;
+export type RoutingEnrichmentsStaticList = Array<StaticStringRoutingEnrichment>;
 export interface DynamicRoutingEnrichment {
   /** Dynamic routing enrichment key. */
-  key?: string;
+  key?: string | undefined;
   /** Dynamic routing enrichment value. */
-  value?: string;
+  value?: string | undefined;
 }
 export type RoutingEnrichmentsDynamicList = Array<DynamicRoutingEnrichment>;
 export interface RoutingEnrichments {
-  static?: RoutingEnrichmentsStaticList;
-  dynamic?: RoutingEnrichmentsDynamicList;
+  static?: RoutingEnrichmentsStaticList | undefined;
+  dynamic?: RoutingEnrichmentsDynamicList | undefined;
 }
 /** Routing identity type for topic spaces configuration. */
 export type RoutingIdentityInfoType = "None" | "SystemAssigned" | "UserAssigned";
 /** Routing identity info for topic spaces configuration. */
 export interface RoutingIdentityInfo {
   /** Routing identity type for topic spaces configuration. */
-  type?: RoutingIdentityInfoType | (string & {});
-  userAssignedIdentity?: string;
+  type?: RoutingIdentityInfoType | (string & {}) | undefined;
+  userAssignedIdentity?: string | undefined;
 }
 /** List of custom domain configurations for the namespace. */
 export type TopicSpacesConfigurationCustomDomainsList = Array<CustomDomainConfiguration>;
 /** Properties of the Topic Spaces Configuration. */
 export interface TopicSpacesConfiguration {
   /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
-  state?: TopicSpacesConfigurationState;
+  state?: TopicSpacesConfigurationState | undefined;
   /** Fully qualified Azure Resource Id for the Event Grid Topic to which events will be routed to from TopicSpaces under a namespace. This property should be in the following format '/subscriptions/{subId}/resourcegroups/{resourceGroupName}/providers/microsoft.EventGrid/topics/{topicName}'. This topic should reside in the same region where namespace is located. */
-  routeTopicResourceId?: string;
+  routeTopicResourceId?: string | undefined;
   /** The endpoint for the topic spaces configuration. This is a read-only property. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Routing enrichments for topic spaces configuration */
-  routingEnrichments?: RoutingEnrichments;
+  routingEnrichments?: RoutingEnrichments | undefined;
   /** The maximum session expiry in hours. The property default value is 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours. */
-  maximumSessionExpiryInHours?: number;
+  maximumSessionExpiryInHours?: number | undefined;
   /** The maximum number of sessions per authentication name. The property default value is 1. Min allowed value is 1 and max allowed value is 100. */
-  maximumClientSessionsPerAuthenticationName?: number;
+  maximumClientSessionsPerAuthenticationName?: number | undefined;
   /** Routing identity info for topic spaces configuration. */
-  routingIdentityInfo?: RoutingIdentityInfo;
+  routingIdentityInfo?: RoutingIdentityInfo | undefined;
   /** List of custom domain configurations for the namespace. */
-  customDomains?: TopicSpacesConfigurationCustomDomainsList;
+  customDomains?: TopicSpacesConfigurationCustomDomainsList | undefined;
 }
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /> */
 export type NamespacePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
@@ -2290,30 +2856,30 @@ export type NamespacePropertiesMinimumTlsVersionAllowed = "1.0" | "1.1" | "1.2";
 /** Properties of the namespace resource. */
 export interface NamespaceProperties {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: NamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: NamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Provisioning state of the namespace resource. */
-  provisioningState?: NamespacePropertiesProvisioningState;
+  provisioningState?: NamespacePropertiesProvisioningState | undefined;
   /** Topics configuration information for the namespace resource */
-  topicsConfiguration?: TopicsConfiguration;
+  topicsConfiguration?: TopicsConfiguration | undefined;
   /** Topic spaces configuration information for the namespace resource */
-  topicSpacesConfiguration?: TopicSpacesConfiguration;
+  topicSpacesConfiguration?: TopicSpacesConfiguration | undefined;
   /** This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated. */
-  isZoneRedundant?: boolean;
+  isZoneRedundant?: boolean | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /> */
-  publicNetworkAccess?: NamespacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: NamespacePropertiesPublicNetworkAccess | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: NamespacePropertiesInboundIpRulesList;
+  inboundIpRules?: NamespacePropertiesInboundIpRulesList | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported. */
-  minimumTlsVersionAllowed?: NamespacePropertiesMinimumTlsVersionAllowed;
+  minimumTlsVersionAllowed?: NamespacePropertiesMinimumTlsVersionAllowed | undefined;
 }
 /** The name of the SKU. */
 export type NamespaceSkuName = "Standard";
 /** Represents available Sku pricing tiers. */
 export interface NamespaceSku {
   /** The name of the SKU. */
-  name?: NamespaceSkuName | (string & {});
+  name?: NamespaceSkuName | (string & {}) | undefined;
   /** Specifies the number of Throughput Units that defines the capacity for the namespace. The property default value is 1 which signifies 1 Throughput Unit = 1MB/s ingress and 2MB/s egress per namespace. Min capacity is 1 and max allowed capacity is 20. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetNamespaceResponseSystemDataCreatedByType =
@@ -2330,37 +2896,37 @@ export type GetNamespaceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetNamespaceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetNamespaceResponseSystemDataCreatedByType;
+  createdByType?: GetNamespaceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetNamespaceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetNamespaceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetNamespaceResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
   /** Properties of the Namespace resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Identity information for the Namespace resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetNamespaceResponseSystemData;
+  systemData?: GetNamespaceResponseSystemData | undefined;
 }
 export interface GetNamespaceTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2391,13 +2957,13 @@ export type NamespaceTopicPropertiesInputSchema = "CloudEventSchemaV1_0";
 /** Properties of the namespace topic. */
 export interface NamespaceTopicProperties {
   /** Provisioning state of the namespace topic. */
-  provisioningState?: NamespaceTopicPropertiesProvisioningState;
+  provisioningState?: NamespaceTopicPropertiesProvisioningState | undefined;
   /** Publisher type of the namespace topic. */
-  publisherType?: NamespaceTopicPropertiesPublisherType;
+  publisherType?: NamespaceTopicPropertiesPublisherType | undefined;
   /** This determines the format that is expected for incoming events published to the topic. */
-  inputSchema?: NamespaceTopicPropertiesInputSchema;
+  inputSchema?: NamespaceTopicPropertiesInputSchema | undefined;
   /** Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day. */
-  eventRetentionInDays?: number;
+  eventRetentionInDays?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetNamespaceTopicResponseSystemDataCreatedByType =
@@ -2414,29 +2980,29 @@ export type GetNamespaceTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetNamespaceTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetNamespaceTopicResponseSystemDataCreatedByType;
+  createdByType?: GetNamespaceTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetNamespaceTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetNamespaceTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetNamespaceTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the namespace topic. */
-  properties?: NamespaceTopicProperties;
+  properties?: NamespaceTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetNamespaceTopicResponseSystemData;
+  systemData?: GetNamespaceTopicResponseSystemData | undefined;
 }
 export interface GetNamespaceTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2468,93 +3034,313 @@ export type DeliveryConfigurationDeliveryMode = "Queue" | "Push";
 /** Properties of the Queue info for event subscription. */
 export interface QueueInfo {
   /** Maximum period in seconds in which once the message is in received (by the client) state and waiting to be accepted, released or rejected. If this time elapsed after a message has been received by the client and not transitioned into accepted (not processed), released or rejected, the message is available for redelivery. This is an optional field, where default is 60 seconds, minimum is 60 seconds and maximum is 300 seconds. */
-  receiveLockDurationInSeconds?: number;
+  receiveLockDurationInSeconds?: number | undefined;
   /** The maximum delivery count of the events. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (namely, topic) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
   /** Time span duration in ISO 8601 format that determines how long messages are available to the subscription from the time the message was published. This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\', where: - (n) is replaced by the value of each time element that follows the (n). - P is the duration (or Period) designator and is always placed at the beginning of the duration. - Y is the year designator, and it follows the value for the number of years. - M is the month designator, and it follows the value for the number of months. - W is the week designator, and it follows the value for the number of weeks. - D is the day designator, and it follows the value for the number of days. - T is the time designator, and it precedes the time components. - H is the hour designator, and it follows the value for the number of hours. - M is the minute designator, and it follows the value for the number of minutes. - S is the second designator, and it follows the value for the number of seconds. This duration value cannot be set greater than the topic's EventRetentionInDays. It is is an optional field where its minimum value is 1 minute, and its maximum is determined by topic's EventRetentionInDays value. The followings are examples of valid values: - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes. - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day. */
-  eventTimeToLive?: string;
+  eventTimeToLive?: string | undefined;
 }
 /** Properties of the destination info for event subscription supporting push. */
 export interface PushInfo {
   /** The maximum delivery count of the events. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** Time span duration in ISO 8601 format that determines how long messages are available to the subscription from the time the message was published. This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\', where: - (n) is replaced by the value of each time element that follows the (n). - P is the duration (or Period) designator and is always placed at the beginning of the duration. - Y is the year designator, and it follows the value for the number of years. - M is the month designator, and it follows the value for the number of months. - W is the week designator, and it follows the value for the number of weeks. - D is the day designator, and it follows the value for the number of days. - T is the time designator, and it precedes the time components. - H is the hour designator, and it follows the value for the number of hours. - M is the minute designator, and it follows the value for the number of minutes. - S is the second designator, and it follows the value for the number of seconds. This duration value cannot be set greater than the topic's EventRetentionInDays. It is is an optional field where its minimum value is 1 minute, and its maximum is determined by topic's EventRetentionInDays value. The followings are examples of valid values: - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes. - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day. */
-  eventTimeToLive?: string;
+  eventTimeToLive?: string | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (namely, namespace) to acquire the authentication tokens being used during dead-lettering. */
-  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestination | undefined;
 }
 /** Properties of the delivery configuration information of the event subscription. */
 export interface DeliveryConfiguration {
   /** Delivery mode of the event subscription. */
-  deliveryMode?: DeliveryConfigurationDeliveryMode | (string & {});
+  deliveryMode?: DeliveryConfigurationDeliveryMode | undefined;
   /** This property should be populated when deliveryMode is queue and represents information about the queue subscription. */
-  queue?: QueueInfo;
+  queue?: QueueInfo | undefined;
   /** This property should be populated when deliveryMode is push and represents information about the push subscription. */
-  push?: PushInfo;
+  push?: PushInfo | undefined;
 }
 /** The event delivery schema for the event subscription. */
 export type SubscriptionPropertiesEventDeliverySchema = "CloudEventSchemaV1_0";
 /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
 export type FiltersConfigurationIncludedEventTypesList = Array<string>;
 /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
-export type FilterOperatorType =
-  | "NumberIn"
-  | "NumberNotIn"
-  | "NumberLessThan"
-  | "NumberGreaterThan"
-  | "NumberLessThanOrEquals"
-  | "NumberGreaterThanOrEquals"
-  | "BoolEquals"
-  | "StringIn"
-  | "StringNotIn"
-  | "StringBeginsWith"
-  | "StringEndsWith"
-  | "StringContains"
-  | "NumberInRange"
-  | "NumberNotInRange"
-  | "StringNotBeginsWith"
-  | "StringNotEndsWith"
-  | "StringNotContains"
-  | "IsNullOrUndefined"
-  | "IsNotNull";
-/** This is the base type that represents a filter. To configure a filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsFilter, NumberInFilter etc depending on the type of the key based on which you want to filter. */
-export interface Filter {
+export type NumberInFilterOperatorType = "NumberIn";
+/** The set of filter values. */
+export type NumberInFilterValuesList = Array<number>;
+/** NumberIn Filter. */
+export interface NumberInFilter {
   /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
-  operatorType: FilterOperatorType | (string & {});
+  operatorType: NumberInFilterOperatorType;
   /** The field/property in the event based on which you want to filter. */
-  key?: string;
-  /** Single comparison value (polymorphic on `operatorType`). */
-  value?: unknown;
-  /** Comparison values (polymorphic on `operatorType`). */
-  values?: unknown;
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberInFilterValuesList | undefined;
 }
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberNotInFilterOperatorType = "NumberNotIn";
+/** The set of filter values. */
+export type NumberNotInFilterValuesList = Array<number>;
+/** NumberNotIn Filter. */
+export interface NumberNotInFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberNotInFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberNotInFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberLessThanFilterOperatorType = "NumberLessThan";
+/** NumberLessThan Filter. */
+export interface NumberLessThanFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberLessThanFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberGreaterThanFilterOperatorType = "NumberGreaterThan";
+/** NumberGreaterThan Filter. */
+export interface NumberGreaterThanFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberGreaterThanFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberLessThanOrEqualsFilterOperatorType = "NumberLessThanOrEquals";
+/** NumberLessThanOrEquals Filter. */
+export interface NumberLessThanOrEqualsFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberLessThanOrEqualsFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberGreaterThanOrEqualsFilterOperatorType = "NumberGreaterThanOrEquals";
+/** NumberGreaterThanOrEquals Filter. */
+export interface NumberGreaterThanOrEqualsFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberGreaterThanOrEqualsFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The filter value. */
+  value?: number | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type BoolEqualsFilterOperatorType = "BoolEquals";
+/** BoolEquals Filter. */
+export interface BoolEqualsFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: BoolEqualsFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The boolean filter value. */
+  value?: boolean | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringInFilterOperatorType = "StringIn";
+/** The set of filter values. */
+export type StringInFilterValuesList = Array<string>;
+/** StringIn Filter. */
+export interface StringInFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringInFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringInFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotInFilterOperatorType = "StringNotIn";
+/** The set of filter values. */
+export type StringNotInFilterValuesList = Array<string>;
+/** StringNotIn Filter. */
+export interface StringNotInFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotInFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotInFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringBeginsWithFilterOperatorType = "StringBeginsWith";
+/** The set of filter values. */
+export type StringBeginsWithFilterValuesList = Array<string>;
+/** StringBeginsWith Filter. */
+export interface StringBeginsWithFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringBeginsWithFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringBeginsWithFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringEndsWithFilterOperatorType = "StringEndsWith";
+/** The set of filter values. */
+export type StringEndsWithFilterValuesList = Array<string>;
+/** StringEndsWith Filter. */
+export interface StringEndsWithFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringEndsWithFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringEndsWithFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringContainsFilterOperatorType = "StringContains";
+/** The set of filter values. */
+export type StringContainsFilterValuesList = Array<string>;
+/** StringContains Filter. */
+export interface StringContainsFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringContainsFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringContainsFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberInRangeFilterOperatorType = "NumberInRange";
+export type NumberInRangeFilterValuesItemList = Array<number>;
+/** The set of filter values. */
+export type NumberInRangeFilterValuesList = Array<NumberInRangeFilterValuesItemList>;
+/** NumberInRange Filter. */
+export interface NumberInRangeFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberInRangeFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberInRangeFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type NumberNotInRangeFilterOperatorType = "NumberNotInRange";
+export type NumberNotInRangeFilterValuesItemList = Array<number>;
+/** The set of filter values. */
+export type NumberNotInRangeFilterValuesList = Array<NumberNotInRangeFilterValuesItemList>;
+/** NumberNotInRange Filter. */
+export interface NumberNotInRangeFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: NumberNotInRangeFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: NumberNotInRangeFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotBeginsWithFilterOperatorType = "StringNotBeginsWith";
+/** The set of filter values. */
+export type StringNotBeginsWithFilterValuesList = Array<string>;
+/** StringNotBeginsWith Filter. */
+export interface StringNotBeginsWithFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotBeginsWithFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotBeginsWithFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotEndsWithFilterOperatorType = "StringNotEndsWith";
+/** The set of filter values. */
+export type StringNotEndsWithFilterValuesList = Array<string>;
+/** StringNotEndsWith Filter. */
+export interface StringNotEndsWithFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotEndsWithFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotEndsWithFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type StringNotContainsFilterOperatorType = "StringNotContains";
+/** The set of filter values. */
+export type StringNotContainsFilterValuesList = Array<string>;
+/** StringNotContains Filter. */
+export interface StringNotContainsFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: StringNotContainsFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+  /** The set of filter values. */
+  values?: StringNotContainsFilterValuesList | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type IsNullOrUndefinedFilterOperatorType = "IsNullOrUndefined";
+/** IsNullOrUndefined Filter. */
+export interface IsNullOrUndefinedFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: IsNullOrUndefinedFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+}
+/** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+export type IsNotNullFilterOperatorType = "IsNotNull";
+/** IsNotNull Filter. */
+export interface IsNotNullFilter {
+  /** The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others. */
+  operatorType: IsNotNullFilterOperatorType;
+  /** The field/property in the event based on which you want to filter. */
+  key?: string | undefined;
+}
+/** This is the base type that represents a filter. To configure a filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsFilter, NumberInFilter etc depending on the type of the key based on which you want to filter. */
+export type Filter =
+  | NumberInFilter
+  | NumberNotInFilter
+  | NumberLessThanFilter
+  | NumberGreaterThanFilter
+  | NumberLessThanOrEqualsFilter
+  | NumberGreaterThanOrEqualsFilter
+  | BoolEqualsFilter
+  | StringInFilter
+  | StringNotInFilter
+  | StringBeginsWithFilter
+  | StringEndsWithFilter
+  | StringContainsFilter
+  | NumberInRangeFilter
+  | NumberNotInRangeFilter
+  | StringNotBeginsWithFilter
+  | StringNotEndsWithFilter
+  | StringNotContainsFilter
+  | IsNullOrUndefinedFilter
+  | IsNotNullFilter;
 /** An array of filters that are used for filtering event subscriptions. */
 export type FiltersConfigurationFiltersList = Array<Filter>;
 /** Filters configuration for the Event Subscription. */
 export interface FiltersConfiguration {
   /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
-  includedEventTypes?: FiltersConfigurationIncludedEventTypesList;
+  includedEventTypes?: FiltersConfigurationIncludedEventTypesList | undefined;
   /** An array of filters that are used for filtering event subscriptions. */
-  filters?: FiltersConfigurationFiltersList;
+  filters?: FiltersConfigurationFiltersList | undefined;
 }
 /** Properties of the event subscription. */
 export interface SubscriptionProperties {
   /** Provisioning state of the event subscription. */
-  provisioningState?: SubscriptionPropertiesProvisioningState;
+  provisioningState?: SubscriptionPropertiesProvisioningState | undefined;
   /** Information about the delivery configuration of the event subscription. */
-  deliveryConfiguration?: DeliveryConfiguration;
+  deliveryConfiguration?: DeliveryConfiguration | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: SubscriptionPropertiesEventDeliverySchema;
+  eventDeliverySchema?: SubscriptionPropertiesEventDeliverySchema | undefined;
   /** Information about the filter for the event subscription. */
-  filtersConfiguration?: FiltersConfiguration;
+  filtersConfiguration?: FiltersConfiguration | undefined;
   /** Expiration time of the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -2571,29 +3357,31 @@ export type GetNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetNamespaceTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetNamespaceTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: SubscriptionProperties;
+  properties?: SubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetNamespaceTopicEventSubscriptionResponseSystemData;
+  systemData?: GetNamespaceTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetNamespaceTopicEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2622,7 +3410,7 @@ export interface GetNamespaceTopicEventSubscriptionFullUrlRequest {
 /** Full endpoint URL of an event subscription */
 export interface SubscriptionFullUrl {
   /** The URL that represents the endpoint of the destination of an event subscription. */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
 }
 export interface GetPartnerConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2645,35 +3433,35 @@ export type GetPartnerConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPartnerConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPartnerConfigurationResponseSystemDataCreatedByType;
+  createdByType?: GetPartnerConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPartnerConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPartnerConfigurationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type GetPartnerConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPartnerConfigurationResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPartnerConfigurationResponseSystemData;
+  systemData?: GetPartnerConfigurationResponseSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: GetPartnerConfigurationResponseTagsMap;
+  tags?: GetPartnerConfigurationResponseTagsMap | undefined;
 }
 export interface GetPartnerNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2709,23 +3497,23 @@ export type PartnerNamespacePropertiesPartnerTopicRoutingMode =
 /** Properties of the partner namespace. */
 export interface PartnerNamespaceProperties {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: PartnerNamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: PartnerNamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Provisioning state of the partner namespace. */
-  provisioningState?: PartnerNamespacePropertiesProvisioningState;
+  provisioningState?: PartnerNamespacePropertiesProvisioningState | undefined;
   /** The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}. */
-  partnerRegistrationFullyQualifiedId?: string;
+  partnerRegistrationFullyQualifiedId?: string | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this partner namespace */
-  minimumTlsVersionAllowed?: PartnerNamespacePropertiesMinimumTlsVersionAllowed;
+  minimumTlsVersionAllowed?: PartnerNamespacePropertiesMinimumTlsVersionAllowed | undefined;
   /** Endpoint for the partner namespace. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules" /> */
-  publicNetworkAccess?: PartnerNamespacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: PartnerNamespacePropertiesPublicNetworkAccess | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: PartnerNamespacePropertiesInboundIpRulesList;
+  inboundIpRules?: PartnerNamespacePropertiesInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic. */
-  partnerTopicRoutingMode?: PartnerNamespacePropertiesPartnerTopicRoutingMode;
+  partnerTopicRoutingMode?: PartnerNamespacePropertiesPartnerTopicRoutingMode | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetPartnerNamespaceResponseSystemDataCreatedByType =
@@ -2742,33 +3530,33 @@ export type GetPartnerNamespaceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPartnerNamespaceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPartnerNamespaceResponseSystemDataCreatedByType;
+  createdByType?: GetPartnerNamespaceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPartnerNamespaceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPartnerNamespaceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPartnerNamespaceResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetPartnerNamespaceResponseTagsMap;
+  tags?: GetPartnerNamespaceResponseTagsMap | undefined;
   /** Properties of the Partner Namespace. */
-  properties?: PartnerNamespaceProperties;
+  properties?: PartnerNamespaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPartnerNamespaceResponseSystemData;
+  systemData?: GetPartnerNamespaceResponseSystemData | undefined;
 }
 export interface GetPartnerRegistrationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2791,9 +3579,9 @@ export type PartnerRegistrationPropertiesProvisioningState =
 /** Properties of the partner registration. */
 export interface PartnerRegistrationProperties {
   /** Provisioning state of the partner registration. */
-  provisioningState?: PartnerRegistrationPropertiesProvisioningState;
+  provisioningState?: PartnerRegistrationPropertiesProvisioningState | undefined;
   /** The immutableId of the corresponding partner registration. Note: This property is marked for deprecation and is not supported in any future GA API version */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetPartnerRegistrationResponseSystemDataCreatedByType =
@@ -2810,33 +3598,33 @@ export type GetPartnerRegistrationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPartnerRegistrationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPartnerRegistrationResponseSystemDataCreatedByType;
+  createdByType?: GetPartnerRegistrationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPartnerRegistrationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPartnerRegistrationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPartnerRegistrationResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetPartnerRegistrationResponseTagsMap;
+  tags?: GetPartnerRegistrationResponseTagsMap | undefined;
   /** Properties of the partner registration. */
-  properties?: PartnerRegistrationProperties;
+  properties?: PartnerRegistrationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPartnerRegistrationResponseSystemData;
+  systemData?: GetPartnerRegistrationResponseSystemData | undefined;
 }
 export interface GetPartnerTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2863,35 +3651,35 @@ export type GetPartnerTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPartnerTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPartnerTopicResponseSystemDataCreatedByType;
+  createdByType?: GetPartnerTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPartnerTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPartnerTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPartnerTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetPartnerTopicResponseTagsMap;
+  tags?: GetPartnerTopicResponseTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicProperties;
+  properties?: PartnerTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPartnerTopicResponseSystemData;
+  systemData?: GetPartnerTopicResponseSystemData | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface GetPartnerTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2918,29 +3706,31 @@ export type GetPartnerTopicEventSubscriptionResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPartnerTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPartnerTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetPartnerTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPartnerTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPartnerTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPartnerTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPartnerTopicEventSubscriptionResponseSystemData;
+  systemData?: GetPartnerTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetPartnerTopicEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2986,15 +3776,15 @@ export type PermissionBindingPropertiesProvisioningState =
 /** The properties of permission binding. */
 export interface PermissionBindingProperties {
   /** Description for the Permission Binding resource. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the Topic Space resource that the permission is bound to. The Topic space needs to be a resource under the same namespace the permission binding is a part of. */
-  topicSpaceName?: string;
+  topicSpaceName?: string | undefined;
   /** The allowed permission. */
-  permission?: PermissionBindingPropertiesPermission;
+  permission?: PermissionBindingPropertiesPermission | undefined;
   /** The name of the client group resource that the permission is bound to. The client group needs to be a resource under the same namespace the permission binding is a part of. */
-  clientGroupName?: string;
+  clientGroupName?: string | undefined;
   /** Provisioning state of the PermissionBinding resource. */
-  provisioningState?: PermissionBindingPropertiesProvisioningState;
+  provisioningState?: PermissionBindingPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetPermissionBindingResponseSystemDataCreatedByType =
@@ -3011,29 +3801,29 @@ export type GetPermissionBindingResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPermissionBindingResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPermissionBindingResponseSystemDataCreatedByType;
+  createdByType?: GetPermissionBindingResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPermissionBindingResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetPermissionBindingResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetPermissionBindingResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of permission binding. */
-  properties?: PermissionBindingProperties;
+  properties?: PermissionBindingProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPermissionBindingResponseSystemData;
+  systemData?: GetPermissionBindingResponseSystemData | undefined;
 }
 export type GetPrivateEndpointConnectionRequestParentType =
   | "topics"
@@ -3054,13 +3844,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3077,21 +3867,21 @@ export interface GetPrivateLinkResourceRequest {
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
 export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 export interface PrivateLinkResourceProperties {
-  groupId?: string;
-  displayName?: string;
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  groupId?: string | undefined;
+  displayName?: string | undefined;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Information of the private link resource. */
 export interface PrivateLinkResource {
   /** Properties of the private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetSystemTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3114,13 +3904,13 @@ export type SystemTopicPropertiesProvisioningState =
 /** Properties of the System Topic. */
 export interface SystemTopicProperties {
   /** Provisioning state of the system topic. */
-  provisioningState?: SystemTopicPropertiesProvisioningState;
+  provisioningState?: SystemTopicPropertiesProvisioningState | undefined;
   /** Source for the system topic. */
-  source?: string;
+  source?: string | undefined;
   /** TopicType for the system topic. */
-  topicType?: string;
+  topicType?: string | undefined;
   /** Metric resource id for the system topic. */
-  metricResourceId?: string;
+  metricResourceId?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetSystemTopicResponseSystemDataCreatedByType =
@@ -3137,35 +3927,35 @@ export type GetSystemTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetSystemTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetSystemTopicResponseSystemDataCreatedByType;
+  createdByType?: GetSystemTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetSystemTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetSystemTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetSystemTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetSystemTopicResponseTagsMap;
+  tags?: GetSystemTopicResponseTagsMap | undefined;
   /** Properties of the system topic. */
-  properties?: SystemTopicProperties;
+  properties?: SystemTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetSystemTopicResponseSystemData;
+  systemData?: GetSystemTopicResponseSystemData | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface GetSystemTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3192,29 +3982,31 @@ export type GetSystemTopicEventSubscriptionResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetSystemTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetSystemTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetSystemTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetSystemTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetSystemTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetSystemTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetSystemTopicEventSubscriptionResponseSystemData;
+  systemData?: GetSystemTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetSystemTopicEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3272,29 +4064,29 @@ export type TopicPropertiesDataResidencyBoundary = "WithinGeopair" | "WithinRegi
 /** Properties of the Topic. */
 export interface TopicProperties {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: TopicPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: TopicPropertiesPrivateEndpointConnectionsList | undefined;
   /** Provisioning state of the topic. */
-  provisioningState?: TopicPropertiesProvisioningState;
+  provisioningState?: TopicPropertiesProvisioningState | undefined;
   /** Endpoint for the topic. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Event Type Information for the user topic. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this topic */
-  minimumTlsVersionAllowed?: TopicPropertiesMinimumTlsVersionAllowed;
+  minimumTlsVersionAllowed?: TopicPropertiesMinimumTlsVersionAllowed | undefined;
   /** This determines the format that Event Grid should expect for incoming events published to the topic. */
-  inputSchema?: TopicPropertiesInputSchema;
+  inputSchema?: TopicPropertiesInputSchema | undefined;
   /** This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema. */
-  inputSchemaMapping?: InputSchemaMapping;
+  inputSchemaMapping?: JsonInputSchemaMapping | undefined;
   /** Metric resource id for the topic. */
-  metricResourceId?: string;
+  metricResourceId?: string | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" /> */
-  publicNetworkAccess?: TopicPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: TopicPropertiesPublicNetworkAccess | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: TopicPropertiesInboundIpRulesList;
+  inboundIpRules?: TopicPropertiesInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Data Residency Boundary of the resource. */
-  dataResidencyBoundary?: TopicPropertiesDataResidencyBoundary;
+  dataResidencyBoundary?: TopicPropertiesDataResidencyBoundary | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetTopicResponseSystemDataCreatedByType =
@@ -3311,35 +4103,35 @@ export type GetTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTopicResponseSystemDataCreatedByType;
+  createdByType?: GetTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: GetTopicResponseTagsMap;
+  tags?: GetTopicResponseTagsMap | undefined;
   /** Properties of the topic. */
-  properties?: TopicProperties;
+  properties?: TopicProperties | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTopicResponseSystemData;
+  systemData?: GetTopicResponseSystemData | undefined;
 }
 export interface GetTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3366,29 +4158,29 @@ export type GetTopicEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: GetTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTopicEventSubscriptionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTopicEventSubscriptionResponseSystemData;
+  systemData?: GetTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface GetTopicEventSubscriptionDeliveryAttributesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3434,11 +4226,11 @@ export type TopicSpacePropertiesProvisioningState =
 /** The properties of topic space. */
 export interface TopicSpaceProperties {
   /** Description for the Topic Space resource. */
-  description?: string;
+  description?: string | undefined;
   /** The topic filters in the topic space. Example: "topicTemplates": [ "devices/foo/bar", "devices/topic1/+", "devices/${principal.name}/${principal.attributes.keyName}" ]. */
-  topicTemplates?: TopicSpacePropertiesTopicTemplatesList;
+  topicTemplates?: TopicSpacePropertiesTopicTemplatesList | undefined;
   /** Provisioning state of the TopicSpace resource. */
-  provisioningState?: TopicSpacePropertiesProvisioningState;
+  provisioningState?: TopicSpacePropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetTopicSpaceResponseSystemDataCreatedByType =
@@ -3455,29 +4247,29 @@ export type GetTopicSpaceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTopicSpaceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTopicSpaceResponseSystemDataCreatedByType;
+  createdByType?: GetTopicSpaceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTopicSpaceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTopicSpaceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetTopicSpaceResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of topic space. */
-  properties?: TopicSpaceProperties;
+  properties?: TopicSpaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTopicSpaceResponseSystemData;
+  systemData?: GetTopicSpaceResponseSystemData | undefined;
 }
 export interface GetTopicTypeRequest {
   /** Name of the topic type. */
@@ -3504,8 +4296,8 @@ export type TopicTypePropertiesSupportedScopesForSourceItem =
 export type TopicTypePropertiesSupportedScopesForSourceList =
   Array<TopicTypePropertiesSupportedScopesForSourceItem>;
 export interface TopicTypeAdditionalEnforcedPermission {
-  permissionName?: string;
-  isDataAction?: boolean;
+  permissionName?: string | undefined;
+  isDataAction?: boolean | undefined;
 }
 /** Permissions which are enforced for creating and updating system topics of this this topic type. */
 export type TopicTypePropertiesAdditionalEnforcedPermissionsList =
@@ -3513,35 +4305,35 @@ export type TopicTypePropertiesAdditionalEnforcedPermissionsList =
 /** Properties of a topic type. */
 export interface TopicTypeProperties {
   /** Namespace of the provider of the topic type. */
-  provider?: string;
+  provider?: string | undefined;
   /** Display Name for the topic type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the topic type. */
-  description?: string;
+  description?: string | undefined;
   /** Region type of the resource. */
-  resourceRegionType?: TopicTypePropertiesResourceRegionType;
+  resourceRegionType?: TopicTypePropertiesResourceRegionType | undefined;
   /** Provisioning state of the topic type. */
-  provisioningState?: TopicTypePropertiesProvisioningState;
+  provisioningState?: TopicTypePropertiesProvisioningState | undefined;
   /** List of locations supported by this topic type. */
-  supportedLocations?: TopicTypePropertiesSupportedLocationsList;
+  supportedLocations?: TopicTypePropertiesSupportedLocationsList | undefined;
   /** Source resource format. */
-  sourceResourceFormat?: string;
+  sourceResourceFormat?: string | undefined;
   /** Supported source scopes. */
-  supportedScopesForSource?: TopicTypePropertiesSupportedScopesForSourceList;
+  supportedScopesForSource?: TopicTypePropertiesSupportedScopesForSourceList | undefined;
   /** Flag to indicate that a topic type can support both regional or global system topics. */
-  areRegionalAndGlobalSourcesSupported?: boolean;
+  areRegionalAndGlobalSourcesSupported?: boolean | undefined;
   /** Permissions which are enforced for creating and updating system topics of this this topic type. */
-  additionalEnforcedPermissions?: TopicTypePropertiesAdditionalEnforcedPermissionsList;
+  additionalEnforcedPermissions?: TopicTypePropertiesAdditionalEnforcedPermissionsList | undefined;
 }
 export interface GetTopicTypeResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the topic type info */
-  properties?: TopicTypeProperties;
+  properties?: TopicTypeProperties | undefined;
 }
 export interface GetVerifiedPartnerRequest {
   /** Name of the verified partner. */
@@ -3550,11 +4342,11 @@ export interface GetVerifiedPartnerRequest {
 /** Information about the partner. */
 export interface PartnerDetails {
   /** This is short description about the partner. The length of this description should not exceed 256 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Long description for the partner's scenarios and integration.Length of this description should not exceed 2048 characters. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** URI of the partner website that can be used by Azure customers to setup Event Grid integration on an event source. */
-  setupUri?: string;
+  setupUri?: string | undefined;
 }
 /** Provisioning state of the verified partner. */
 export type VerifiedPartnerPropertiesProvisioningState =
@@ -3567,15 +4359,15 @@ export type VerifiedPartnerPropertiesProvisioningState =
 /** Properties of the verified partner. */
 export interface VerifiedPartnerProperties {
   /** ImmutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** Official name of the Partner. */
-  organizationName?: string;
+  organizationName?: string | undefined;
   /** Display name of the verified partner. */
-  partnerDisplayName?: string;
+  partnerDisplayName?: string | undefined;
   /** Details of the partner topic scenario. */
-  partnerTopicDetails?: PartnerDetails;
+  partnerTopicDetails?: PartnerDetails | undefined;
   /** Provisioning state of the verified partner. */
-  provisioningState?: VerifiedPartnerPropertiesProvisioningState;
+  provisioningState?: VerifiedPartnerPropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetVerifiedPartnerResponseSystemDataCreatedByType =
@@ -3592,29 +4384,29 @@ export type GetVerifiedPartnerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetVerifiedPartnerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetVerifiedPartnerResponseSystemDataCreatedByType;
+  createdByType?: GetVerifiedPartnerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetVerifiedPartnerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetVerifiedPartnerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetVerifiedPartnerResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the verified partner. */
-  properties?: VerifiedPartnerProperties;
+  properties?: VerifiedPartnerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetVerifiedPartnerResponseSystemData;
+  systemData?: GetVerifiedPartnerResponseSystemData | undefined;
 }
 export interface ListCaCertificateByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3624,9 +4416,9 @@ export interface ListCaCertificateByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type CaCertificateSystemDataCreatedByType =
@@ -3643,39 +4435,39 @@ export type CaCertificateSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CaCertificateSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CaCertificateSystemDataCreatedByType;
+  createdByType?: CaCertificateSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CaCertificateSystemDataLastModifiedByType;
+  lastModifiedByType?: CaCertificateSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The CA Certificate resource. */
 export interface CaCertificate {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of CA certificate. */
-  properties?: CaCertificateProperties;
+  properties?: CaCertificateProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CaCertificateSystemData;
+  systemData?: CaCertificateSystemData | undefined;
 }
 /** A collection of CA Certificate. */
 export type CaCertificatesListResultValueList = Array<CaCertificate>;
 /** Result of the List CA Certificate operation. */
 export interface CaCertificatesListResult {
   /** A collection of CA Certificate. */
-  value?: CaCertificatesListResultValueList;
+  value?: CaCertificatesListResultValueList | undefined;
   /** A link for the next page of CA Certificate. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListChannelByPartnerNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3685,9 +4477,9 @@ export interface ListChannelByPartnerNamespaceRequest {
   /** Name of the partner namespace. */
   partnerNamespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type ChannelSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -3700,39 +4492,39 @@ export type ChannelSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ChannelSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ChannelSystemDataCreatedByType;
+  createdByType?: ChannelSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ChannelSystemDataLastModifiedByType;
+  lastModifiedByType?: ChannelSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Channel info. */
 export interface Channel {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Channel. */
-  properties?: ChannelProperties;
+  properties?: ChannelProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ChannelSystemData;
+  systemData?: ChannelSystemData | undefined;
 }
 /** A collection of Channels. */
 export type ChannelsListResultValueList = Array<Channel>;
 /** Result of the List Channels operation */
 export interface ChannelsListResult {
   /** A collection of Channels. */
-  value?: ChannelsListResultValueList;
+  value?: ChannelsListResultValueList | undefined;
   /** A link for the next page of channels. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClientByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3742,9 +4534,9 @@ export interface ListClientByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClientSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -3753,39 +4545,39 @@ export type ClientSystemDataLastModifiedByType = "User" | "Application" | "Manag
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClientSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClientSystemDataCreatedByType;
+  createdByType?: ClientSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClientSystemDataLastModifiedByType;
+  lastModifiedByType?: ClientSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Client resource. */
 export interface Client {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client. */
-  properties?: ClientProperties;
+  properties?: ClientProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClientSystemData;
+  systemData?: ClientSystemData | undefined;
 }
 /** A collection of Client. */
 export type ClientsListResultValueList = Array<Client>;
 /** Result of the List Client operation. */
 export interface ClientsListResult {
   /** A collection of Client. */
-  value?: ClientsListResultValueList;
+  value?: ClientsListResultValueList | undefined;
   /** A link for the next page of Client. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClientGroupByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3795,9 +4587,9 @@ export interface ListClientGroupByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClientGroupSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -3810,39 +4602,39 @@ export type ClientGroupSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClientGroupSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClientGroupSystemDataCreatedByType;
+  createdByType?: ClientGroupSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClientGroupSystemDataLastModifiedByType;
+  lastModifiedByType?: ClientGroupSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Client group resource. */
 export interface ClientGroup {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of client group. */
-  properties?: ClientGroupProperties;
+  properties?: ClientGroupProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClientGroupSystemData;
+  systemData?: ClientGroupSystemData | undefined;
 }
 /** A collection of Client Group. */
 export type ClientGroupsListResultValueList = Array<ClientGroup>;
 /** Result of the List Client Group operation. */
 export interface ClientGroupsListResult {
   /** A collection of Client Group. */
-  value?: ClientGroupsListResultValueList;
+  value?: ClientGroupsListResultValueList | undefined;
   /** A link for the next page of Client Group. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3850,9 +4642,9 @@ export interface ListDomainByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type DomainTagsMap = { [key: string]: string | undefined };
@@ -3863,53 +4655,53 @@ export type DomainSystemDataLastModifiedByType = "User" | "Application" | "Manag
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainSystemDataCreatedByType;
+  createdByType?: DomainSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** EventGrid Domain. */
 export interface Domain {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: DomainTagsMap;
+  tags?: DomainTagsMap | undefined;
   /** Properties of the Event Grid Domain resource. */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Identity information for the Event Grid Domain resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainSystemData;
+  systemData?: DomainSystemData | undefined;
 }
 /** A collection of Domains. */
 export type DomainsListResultValueList = Array<Domain>;
 /** Result of the List Domains operation. */
 export interface DomainsListResult {
   /** A collection of Domains. */
-  value?: DomainsListResultValueList;
+  value?: DomainsListResultValueList | undefined;
   /** A link for the next page of domains. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDomainEventSubscriptionsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3919,9 +4711,9 @@ export interface ListDomainEventSubscriptionsRequest {
   /** Name of the domain. */
   domainName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type EventSubscriptionSystemDataCreatedByType =
@@ -3938,39 +4730,39 @@ export type EventSubscriptionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface EventSubscriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: EventSubscriptionSystemDataCreatedByType;
+  createdByType?: EventSubscriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: EventSubscriptionSystemDataLastModifiedByType;
+  lastModifiedByType?: EventSubscriptionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Event Subscription. */
 export interface EventSubscription {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: EventSubscriptionSystemData;
+  systemData?: EventSubscriptionSystemData | undefined;
 }
 /** A collection of EventSubscriptions */
 export type EventSubscriptionsListResultValueList = Array<EventSubscription>;
 /** Result of the List EventSubscriptions operation */
 export interface EventSubscriptionsListResult {
   /** A collection of EventSubscriptions */
-  value?: EventSubscriptionsListResultValueList;
+  value?: EventSubscriptionsListResultValueList | undefined;
   /** A link for the next page of event subscriptions */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3983,9 +4775,9 @@ export interface ListDomainSharedAccessKeysRequest {
 /** Shared access keys of the Domain. */
 export interface DomainSharedAccessKeys {
   /** Shared access key1 for the domain. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the domain. */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface ListDomainTopicByDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3995,9 +4787,9 @@ export interface ListDomainTopicByDomainRequest {
   /** Domain name. */
   domainName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type DomainTopicSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -4010,39 +4802,39 @@ export type DomainTopicSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DomainTopicSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DomainTopicSystemDataCreatedByType;
+  createdByType?: DomainTopicSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DomainTopicSystemDataLastModifiedByType;
+  lastModifiedByType?: DomainTopicSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Domain Topic. */
 export interface DomainTopic {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Domain Topic. */
-  properties?: DomainTopicProperties;
+  properties?: DomainTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DomainTopicSystemData;
+  systemData?: DomainTopicSystemData | undefined;
 }
 /** A collection of Domain Topics. */
 export type DomainTopicsListResultValueList = Array<DomainTopic>;
 /** Result of the List Domain Topics operation. */
 export interface DomainTopicsListResult {
   /** A collection of Domain Topics. */
-  value?: DomainTopicsListResultValueList;
+  value?: DomainTopicsListResultValueList | undefined;
   /** A link for the next page of domain topics. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainTopicEventSubscriptionsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4054,9 +4846,9 @@ export interface ListDomainTopicEventSubscriptionsRequest {
   /** Name of the domain topic. */
   topicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionByDomainTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4068,9 +4860,9 @@ export interface ListEventSubscriptionByDomainTopicRequest {
   /** Name of the domain topic. */
   topicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionByResourceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4084,9 +4876,9 @@ export interface ListEventSubscriptionByResourceRequest {
   /** Name of the resource. */
   resourceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionGlobalByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4094,9 +4886,9 @@ export interface ListEventSubscriptionGlobalByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionGlobalByResourceGroupForTopicTypeRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4106,17 +4898,17 @@ export interface ListEventSubscriptionGlobalByResourceGroupForTopicTypeRequest {
   /** Name of the topic type. */
   topicTypeName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionGlobalBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionGlobalBySubscriptionForTopicTypeRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4124,9 +4916,9 @@ export interface ListEventSubscriptionGlobalBySubscriptionForTopicTypeRequest {
   /** Name of the topic type. */
   topicTypeName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionRegionalByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4136,9 +4928,9 @@ export interface ListEventSubscriptionRegionalByResourceGroupRequest {
   /** Name of the location. */
   location: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionRegionalByResourceGroupForTopicTypeRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4150,9 +4942,9 @@ export interface ListEventSubscriptionRegionalByResourceGroupForTopicTypeRequest
   /** Name of the topic type. */
   topicTypeName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionRegionalBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4160,9 +4952,9 @@ export interface ListEventSubscriptionRegionalBySubscriptionRequest {
   /** Name of the location. */
   location: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListEventSubscriptionRegionalBySubscriptionForTopicTypeRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4172,9 +4964,9 @@ export interface ListEventSubscriptionRegionalBySubscriptionForTopicTypeRequest 
   /** Name of the topic type. */
   topicTypeName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListNamespaceByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4182,9 +4974,9 @@ export interface ListNamespaceByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type NamespaceTagsMap = { [key: string]: string | undefined };
@@ -4199,55 +4991,55 @@ export type NamespaceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NamespaceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NamespaceSystemDataCreatedByType;
+  createdByType?: NamespaceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NamespaceSystemDataLastModifiedByType;
+  lastModifiedByType?: NamespaceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Namespace resource. */
 export interface Namespace {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: NamespaceTagsMap;
+  tags?: NamespaceTagsMap | undefined;
   /** Properties of the Namespace resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Identity information for the Namespace resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NamespaceSystemData;
+  systemData?: NamespaceSystemData | undefined;
 }
 /** A collection of namespaces. */
 export type NamespacesListResultValueList = Array<Namespace>;
 /** Result of the List Namespaces operation. */
 export interface NamespacesListResult {
   /** A collection of namespaces. */
-  value?: NamespacesListResultValueList;
+  value?: NamespacesListResultValueList | undefined;
   /** A link for the next page of namespaces. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListNamespaceSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4260,9 +5052,9 @@ export interface ListNamespaceSharedAccessKeysRequest {
 /** Shared access keys of the Namespace. */
 export interface NamespaceSharedAccessKeys {
   /** Shared access key1 for the namespace. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the namespace. */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface ListNamespaceTopicByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4272,9 +5064,9 @@ export interface ListNamespaceTopicByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type NamespaceTopicSystemDataCreatedByType =
@@ -4291,39 +5083,39 @@ export type NamespaceTopicSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NamespaceTopicSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NamespaceTopicSystemDataCreatedByType;
+  createdByType?: NamespaceTopicSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NamespaceTopicSystemDataLastModifiedByType;
+  lastModifiedByType?: NamespaceTopicSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Namespace topic details. */
 export interface NamespaceTopic {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the namespace topic. */
-  properties?: NamespaceTopicProperties;
+  properties?: NamespaceTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NamespaceTopicSystemData;
+  systemData?: NamespaceTopicSystemData | undefined;
 }
 /** A collection of namespace topics. */
 export type NamespaceTopicsListResultValueList = Array<NamespaceTopic>;
 /** Result of the List namespace topics operation. */
 export interface NamespaceTopicsListResult {
   /** A collection of namespace topics. */
-  value?: NamespaceTopicsListResultValueList;
+  value?: NamespaceTopicsListResultValueList | undefined;
   /** A link for the next page of namespace topics. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceTopicEventSubscriptionByNamespaceTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4335,9 +5127,9 @@ export interface ListNamespaceTopicEventSubscriptionByNamespaceTopicRequest {
   /** Name of the namespace topic. */
   topicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type SubscriptionSystemDataCreatedByType =
@@ -4354,39 +5146,39 @@ export type SubscriptionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SubscriptionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SubscriptionSystemDataCreatedByType;
+  createdByType?: SubscriptionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SubscriptionSystemDataLastModifiedByType;
+  lastModifiedByType?: SubscriptionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Event Subscription. */
 export interface Subscription {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: SubscriptionProperties;
+  properties?: SubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SubscriptionSystemData;
+  systemData?: SubscriptionSystemData | undefined;
 }
 /** A collection of Subscriptions. */
 export type SubscriptionsListResultValueList = Array<Subscription>;
 /** Result of the List event subscriptions operation. */
 export interface SubscriptionsListResult {
   /** A collection of Subscriptions. */
-  value?: SubscriptionsListResultValueList;
+  value?: SubscriptionsListResultValueList | undefined;
   /** A link for the next page of event subscriptions */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceTopicSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4401,41 +5193,41 @@ export interface ListNamespaceTopicSharedAccessKeysRequest {
 /** Shared access keys of the Topic */
 export interface TopicSharedAccessKeys {
   /** Shared access key1 for the topic. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the topic. */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Information about an operation */
 export interface OperationInfo {
   /** Name of the provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Represents an operation returned by the GetOperations request. */
 export interface Operation {
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the operation. */
-  display?: OperationInfo;
+  display?: OperationInfo | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** This Boolean is used to determine if the operation is a data plane action or not. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Properties of the operation. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** A collection of operations */
 export type OperationsListResultValueList = Array<Operation>;
 /** Result of the List Operations operation */
 export interface OperationsListResult {
   /** A collection of operations */
-  value?: OperationsListResultValueList;
+  value?: OperationsListResultValueList | undefined;
 }
 export interface ListPartnerConfigurationByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4458,53 +5250,53 @@ export type PartnerConfigurationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerConfigurationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerConfigurationSystemDataCreatedByType;
+  createdByType?: PartnerConfigurationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerConfigurationSystemDataLastModifiedByType;
+  lastModifiedByType?: PartnerConfigurationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type PartnerConfigurationTagsMap = { [key: string]: string | undefined };
 /** Partner configuration information */
 export interface PartnerConfiguration {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerConfigurationSystemData;
+  systemData?: PartnerConfigurationSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: PartnerConfigurationTagsMap;
+  tags?: PartnerConfigurationTagsMap | undefined;
 }
 /** A collection of partner configurations. */
 export type PartnerConfigurationsListResultValueList = Array<PartnerConfiguration>;
 /** Result of the List partner configurations operation */
 export interface PartnerConfigurationsListResult {
   /** A collection of partner configurations. */
-  value?: PartnerConfigurationsListResultValueList;
+  value?: PartnerConfigurationsListResultValueList | undefined;
   /** A link for the next page of partner configurations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartnerConfigurationBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPartnerNamespaceByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4512,9 +5304,9 @@ export interface ListPartnerNamespaceByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type PartnerNamespaceTagsMap = { [key: string]: string | undefined };
@@ -4533,51 +5325,51 @@ export type PartnerNamespaceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerNamespaceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerNamespaceSystemDataCreatedByType;
+  createdByType?: PartnerNamespaceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerNamespaceSystemDataLastModifiedByType;
+  lastModifiedByType?: PartnerNamespaceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** EventGrid Partner Namespace. */
 export interface PartnerNamespace {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerNamespaceTagsMap;
+  tags?: PartnerNamespaceTagsMap | undefined;
   /** Properties of the Partner Namespace. */
-  properties?: PartnerNamespaceProperties;
+  properties?: PartnerNamespaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerNamespaceSystemData;
+  systemData?: PartnerNamespaceSystemData | undefined;
 }
 /** A collection of partner namespaces. */
 export type PartnerNamespacesListResultValueList = Array<PartnerNamespace>;
 /** Result of the List Partner Namespaces operation */
 export interface PartnerNamespacesListResult {
   /** A collection of partner namespaces. */
-  value?: PartnerNamespacesListResultValueList;
+  value?: PartnerNamespacesListResultValueList | undefined;
   /** A link for the next page of partner namespaces. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartnerNamespaceBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPartnerNamespaceSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4590,9 +5382,9 @@ export interface ListPartnerNamespaceSharedAccessKeysRequest {
 /** Shared access keys of the partner namespace. */
 export interface PartnerNamespaceSharedAccessKeys {
   /** Shared access key1 for the partner namespace. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the partner namespace. */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface ListPartnerRegistrationByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4600,9 +5392,9 @@ export interface ListPartnerRegistrationByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type PartnerRegistrationTagsMap = { [key: string]: string | undefined };
@@ -4621,51 +5413,51 @@ export type PartnerRegistrationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerRegistrationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerRegistrationSystemDataCreatedByType;
+  createdByType?: PartnerRegistrationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerRegistrationSystemDataLastModifiedByType;
+  lastModifiedByType?: PartnerRegistrationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Information about a partner registration. */
 export interface PartnerRegistration {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerRegistrationTagsMap;
+  tags?: PartnerRegistrationTagsMap | undefined;
   /** Properties of the partner registration. */
-  properties?: PartnerRegistrationProperties;
+  properties?: PartnerRegistrationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerRegistrationSystemData;
+  systemData?: PartnerRegistrationSystemData | undefined;
 }
 /** A collection of partner registrations. */
 export type PartnerRegistrationsListResultValueList = Array<PartnerRegistration>;
 /** Result of the List Partner Registrations operation. */
 export interface PartnerRegistrationsListResult {
   /** A collection of partner registrations. */
-  value?: PartnerRegistrationsListResultValueList;
+  value?: PartnerRegistrationsListResultValueList | undefined;
   /** A link for the next page of partner registrations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartnerRegistrationBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPartnerTopicByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4673,9 +5465,9 @@ export interface ListPartnerTopicByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type PartnerTopicTagsMap = { [key: string]: string | undefined };
@@ -4694,53 +5486,53 @@ export type PartnerTopicSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerTopicSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerTopicSystemDataCreatedByType;
+  createdByType?: PartnerTopicSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerTopicSystemDataLastModifiedByType;
+  lastModifiedByType?: PartnerTopicSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Event Grid Partner Topic. */
 export interface PartnerTopic {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerTopicTagsMap;
+  tags?: PartnerTopicTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicProperties;
+  properties?: PartnerTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerTopicSystemData;
+  systemData?: PartnerTopicSystemData | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** A collection of partner topics. */
 export type PartnerTopicsListResultValueList = Array<PartnerTopic>;
 /** Result of the List Partner Topics operation. */
 export interface PartnerTopicsListResult {
   /** A collection of partner topics. */
-  value?: PartnerTopicsListResultValueList;
+  value?: PartnerTopicsListResultValueList | undefined;
   /** A link for the next page of partner topics. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPartnerTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPartnerTopicEventSubscriptionByPartnerTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4750,9 +5542,9 @@ export interface ListPartnerTopicEventSubscriptionByPartnerTopicRequest {
   /** Name of the partner topic. */
   partnerTopicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPermissionBindingByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4762,9 +5554,9 @@ export interface ListPermissionBindingByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type PermissionBindingSystemDataCreatedByType =
@@ -4781,39 +5573,39 @@ export type PermissionBindingSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PermissionBindingSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PermissionBindingSystemDataCreatedByType;
+  createdByType?: PermissionBindingSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PermissionBindingSystemDataLastModifiedByType;
+  lastModifiedByType?: PermissionBindingSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Permission binding resource. */
 export interface PermissionBinding {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of permission binding. */
-  properties?: PermissionBindingProperties;
+  properties?: PermissionBindingProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PermissionBindingSystemData;
+  systemData?: PermissionBindingSystemData | undefined;
 }
 /** A collection of Permission Binding. */
 export type PermissionBindingsListResultValueList = Array<PermissionBinding>;
 /** Result of the List Permission Binding operation. */
 export interface PermissionBindingsListResult {
   /** A collection of Permission Binding. */
-  value?: PermissionBindingsListResultValueList;
+  value?: PermissionBindingsListResultValueList | undefined;
   /** A link for the next page of Permission Binding. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListPrivateEndpointConnectionByResourceRequestParentType =
   | "topics"
@@ -4830,18 +5622,18 @@ export interface ListPrivateEndpointConnectionByResourceRequest {
   /** The name of the parent resource (namely, either, the topic name, domain name, or partner namespace name or namespace name). */
   parentName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A collection of private endpoint connection resources. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** Result of the list of all private endpoint connections operation. */
 export interface PrivateEndpointConnectionListResult {
   /** A collection of private endpoint connection resources. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** A link for the next page of private endpoint connection resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByResourceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4853,18 +5645,18 @@ export interface ListPrivateLinkResourceByResourceRequest {
   /** The name of the parent resource (namely, either, the topic name, domain name, or partner namespace or namespace name). */
   parentName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A collection of private link resources */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
 /** Result of the List private link resources operation. */
 export interface PrivateLinkResourcesListResult {
   /** A collection of private link resources */
-  value?: PrivateLinkResourcesListResultValueList;
+  value?: PrivateLinkResourcesListResultValueList | undefined;
   /** A link for the next page of private link resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSystemTopicByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4872,9 +5664,9 @@ export interface ListSystemTopicByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type SystemTopicTagsMap = { [key: string]: string | undefined };
@@ -4889,53 +5681,53 @@ export type SystemTopicSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemTopicSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemTopicSystemDataCreatedByType;
+  createdByType?: SystemTopicSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemTopicSystemDataLastModifiedByType;
+  lastModifiedByType?: SystemTopicSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** EventGrid System Topic. */
 export interface SystemTopic {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: SystemTopicTagsMap;
+  tags?: SystemTopicTagsMap | undefined;
   /** Properties of the system topic. */
-  properties?: SystemTopicProperties;
+  properties?: SystemTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemTopicSystemData;
+  systemData?: SystemTopicSystemData | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** A collection of system Topics. */
 export type SystemTopicsListResultValueList = Array<SystemTopic>;
 /** Result of the List System topics operation. */
 export interface SystemTopicsListResult {
   /** A collection of system Topics. */
-  value?: SystemTopicsListResultValueList;
+  value?: SystemTopicsListResultValueList | undefined;
   /** A link for the next page of topics. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSystemTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListSystemTopicEventSubscriptionBySystemTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4945,9 +5737,9 @@ export interface ListSystemTopicEventSubscriptionBySystemTopicRequest {
   /** Name of the system topic. */
   systemTopicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListTopicByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4955,9 +5747,9 @@ export interface ListTopicByResourceGroupRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags of the resource. */
 export type TopicTagsMap = { [key: string]: string | undefined };
@@ -4968,53 +5760,53 @@ export type TopicSystemDataLastModifiedByType = "User" | "Application" | "Manage
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TopicSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TopicSystemDataCreatedByType;
+  createdByType?: TopicSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TopicSystemDataLastModifiedByType;
+  lastModifiedByType?: TopicSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** EventGrid Topic */
 export interface Topic {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: TopicTagsMap;
+  tags?: TopicTagsMap | undefined;
   /** Properties of the topic. */
-  properties?: TopicProperties;
+  properties?: TopicProperties | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TopicSystemData;
+  systemData?: TopicSystemData | undefined;
 }
 /** A collection of Topics */
 export type TopicsListResultValueList = Array<Topic>;
 /** Result of the List Topics operation */
 export interface TopicsListResult {
   /** A collection of Topics */
-  value?: TopicsListResultValueList;
+  value?: TopicsListResultValueList | undefined;
   /** A link for the next page of topics */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListTopicEventSubscriptionsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5024,9 +5816,9 @@ export interface ListTopicEventSubscriptionsRequest {
   /** Name of the topic. */
   topicName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListTopicEventTypesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5043,31 +5835,31 @@ export interface ListTopicEventTypesRequest {
 /** Properties of the event type */
 export interface EventTypeProperties {
   /** Display name of the event type. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the event type. */
-  description?: string;
+  description?: string | undefined;
   /** URL of the schema for this event type. */
-  schemaUrl?: string;
+  schemaUrl?: string | undefined;
   /** IsInDefaultSet flag of the event type. */
-  isInDefaultSet?: boolean;
+  isInDefaultSet?: boolean | undefined;
 }
 /** Event Type for a subject under a topic */
 export interface EventType {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event type. */
-  properties?: EventTypeProperties;
+  properties?: EventTypeProperties | undefined;
 }
 /** A collection of event types */
 export type EventTypesListResultValueList = Array<EventType>;
 /** Result of the List Event Types operation */
 export interface EventTypesListResult {
   /** A collection of event types */
-  value?: EventTypesListResultValueList;
+  value?: EventTypesListResultValueList | undefined;
 }
 export interface ListTopicSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5085,9 +5877,9 @@ export interface ListTopicSpaceByNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type TopicSpaceSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -5100,39 +5892,39 @@ export type TopicSpaceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TopicSpaceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TopicSpaceSystemDataCreatedByType;
+  createdByType?: TopicSpaceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TopicSpaceSystemDataLastModifiedByType;
+  lastModifiedByType?: TopicSpaceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Topic space resource. */
 export interface TopicSpace {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of topic space. */
-  properties?: TopicSpaceProperties;
+  properties?: TopicSpaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TopicSpaceSystemData;
+  systemData?: TopicSpaceSystemData | undefined;
 }
 /** A collection of Topic Space. */
 export type TopicSpacesListResultValueList = Array<TopicSpace>;
 /** Result of the List Topic Space operation. */
 export interface TopicSpacesListResult {
   /** A collection of Topic Space. */
-  value?: TopicSpacesListResultValueList;
+  value?: TopicSpacesListResultValueList | undefined;
   /** A link for the next page of Topic Space. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTopicTypeEventTypesRequest {
   /** Name of the topic type. */
@@ -5142,26 +5934,26 @@ export interface ListTopicTypesRequest {}
 /** Properties of a topic type info. */
 export interface TopicTypeInfo {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the topic type info */
-  properties?: TopicTypeProperties;
+  properties?: TopicTypeProperties | undefined;
 }
 /** A collection of topic types */
 export type TopicTypesListResultValueList = Array<TopicTypeInfo>;
 /** Result of the List Topic Types operation */
 export interface TopicTypesListResult {
   /** A collection of topic types */
-  value?: TopicTypesListResultValueList;
+  value?: TopicTypesListResultValueList | undefined;
 }
 export interface ListVerifiedPartnersRequest {
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The type of identity that created the resource. */
 export type VerifiedPartnerSystemDataCreatedByType =
@@ -5178,45 +5970,45 @@ export type VerifiedPartnerSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface VerifiedPartnerSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: VerifiedPartnerSystemDataCreatedByType;
+  createdByType?: VerifiedPartnerSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: VerifiedPartnerSystemDataLastModifiedByType;
+  lastModifiedByType?: VerifiedPartnerSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Verified partner information */
 export interface VerifiedPartner {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the verified partner. */
-  properties?: VerifiedPartnerProperties;
+  properties?: VerifiedPartnerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: VerifiedPartnerSystemData;
+  systemData?: VerifiedPartnerSystemData | undefined;
 }
 /** A collection of verified partners. */
 export type VerifiedPartnersListResultValueList = Array<VerifiedPartner>;
 /** Result of the List verified partners operation */
 export interface VerifiedPartnersListResult {
   /** A collection of verified partners. */
-  value?: VerifiedPartnersListResultValueList;
+  value?: VerifiedPartnersListResultValueList | undefined;
   /** A link for the next page of verified partners if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Tags of the resource. */
 export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export interface PrivateEndpointConnectionInput {
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type NamespacePropertiesInputPrivateEndpointConnectionsList =
@@ -5226,7 +6018,7 @@ export type TopicsConfigurationInputCustomDomainsList = Array<CustomDomainConfig
 /** Properties of the Topics Configuration. */
 export interface TopicsConfigurationInput {
   /** List of custom domain configurations for the namespace. */
-  customDomains?: TopicsConfigurationInputCustomDomainsList;
+  customDomains?: TopicsConfigurationInputCustomDomainsList | undefined;
 }
 /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
 export type TopicSpacesConfigurationInputState = "Disabled" | "Enabled";
@@ -5235,19 +6027,19 @@ export type TopicSpacesConfigurationInputCustomDomainsList = Array<CustomDomainC
 /** Properties of the Topic Spaces Configuration. */
 export interface TopicSpacesConfigurationInput {
   /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
-  state?: TopicSpacesConfigurationInputState | (string & {});
+  state?: TopicSpacesConfigurationInputState | (string & {}) | undefined;
   /** Fully qualified Azure Resource Id for the Event Grid Topic to which events will be routed to from TopicSpaces under a namespace. This property should be in the following format '/subscriptions/{subId}/resourcegroups/{resourceGroupName}/providers/microsoft.EventGrid/topics/{topicName}'. This topic should reside in the same region where namespace is located. */
-  routeTopicResourceId?: string;
+  routeTopicResourceId?: string | undefined;
   /** Routing enrichments for topic spaces configuration */
-  routingEnrichments?: RoutingEnrichments;
+  routingEnrichments?: RoutingEnrichments | undefined;
   /** The maximum session expiry in hours. The property default value is 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours. */
-  maximumSessionExpiryInHours?: number;
+  maximumSessionExpiryInHours?: number | undefined;
   /** The maximum number of sessions per authentication name. The property default value is 1. Min allowed value is 1 and max allowed value is 100. */
-  maximumClientSessionsPerAuthenticationName?: number;
+  maximumClientSessionsPerAuthenticationName?: number | undefined;
   /** Routing identity info for topic spaces configuration. */
-  routingIdentityInfo?: RoutingIdentityInfo;
+  routingIdentityInfo?: RoutingIdentityInfo | undefined;
   /** List of custom domain configurations for the namespace. */
-  customDomains?: TopicSpacesConfigurationInputCustomDomainsList;
+  customDomains?: TopicSpacesConfigurationInputCustomDomainsList | undefined;
 }
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /> */
 export type NamespacePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -5258,19 +6050,22 @@ export type NamespacePropertiesInputMinimumTlsVersionAllowed = "1.0" | "1.1" | "
 /** Properties of the namespace resource. */
 export interface NamespacePropertiesInput {
   /** List of private endpoint connections. */
-  privateEndpointConnections?: NamespacePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: NamespacePropertiesInputPrivateEndpointConnectionsList | undefined;
   /** Topics configuration information for the namespace resource */
-  topicsConfiguration?: TopicsConfigurationInput;
+  topicsConfiguration?: TopicsConfigurationInput | undefined;
   /** Topic spaces configuration information for the namespace resource */
-  topicSpacesConfiguration?: TopicSpacesConfigurationInput;
+  topicSpacesConfiguration?: TopicSpacesConfigurationInput | undefined;
   /** This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated. */
-  isZoneRedundant?: boolean;
+  isZoneRedundant?: boolean | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /> */
-  publicNetworkAccess?: NamespacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: NamespacePropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: NamespacePropertiesInputInboundIpRulesList;
+  inboundIpRules?: NamespacePropertiesInputInboundIpRulesList | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported. */
-  minimumTlsVersionAllowed?: NamespacePropertiesInputMinimumTlsVersionAllowed | (string & {});
+  minimumTlsVersionAllowed?:
+    | NamespacePropertiesInputMinimumTlsVersionAllowed
+    | (string & {})
+    | undefined;
 }
 export interface NamespacesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5282,13 +6077,13 @@ export interface NamespacesCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: NamespacesCreateOrUpdateRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Namespace resource. */
-  properties?: NamespacePropertiesInput;
+  properties?: NamespacePropertiesInput | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Identity information for the Namespace resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5307,50 +6102,74 @@ export type NamespacesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NamespacesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NamespacesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: NamespacesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NamespacesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: NamespacesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface NamespacesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: NamespacesCreateOrUpdateResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Namespace resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Identity information for the Namespace resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NamespacesCreateOrUpdateResponseSystemData;
+  systemData?: NamespacesCreateOrUpdateResponseSystemData | undefined;
+}
+/** Delivery mode of the event subscription. */
+export type DeliveryConfigurationInputDeliveryMode = "Queue" | "Push";
+/** Properties of the destination info for event subscription supporting push. */
+export interface PushInfoInput {
+  /** The maximum delivery count of the events. */
+  maxDeliveryCount?: number | undefined;
+  /** Time span duration in ISO 8601 format that determines how long messages are available to the subscription from the time the message was published. This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\', where: - (n) is replaced by the value of each time element that follows the (n). - P is the duration (or Period) designator and is always placed at the beginning of the duration. - Y is the year designator, and it follows the value for the number of years. - M is the month designator, and it follows the value for the number of months. - W is the week designator, and it follows the value for the number of weeks. - D is the day designator, and it follows the value for the number of days. - T is the time designator, and it precedes the time components. - H is the hour designator, and it follows the value for the number of hours. - M is the minute designator, and it follows the value for the number of minutes. - S is the second designator, and it follows the value for the number of seconds. This duration value cannot be set greater than the topic's EventRetentionInDays. It is is an optional field where its minimum value is 1 minute, and its maximum is determined by topic's EventRetentionInDays value. The followings are examples of valid values: - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes. - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day. */
+  eventTimeToLive?: string | undefined;
+  /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (namely, namespace) to acquire the authentication tokens being used during dead-lettering. */
+  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
+  /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery. */
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
+  /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery. */
+  destination?: EventSubscriptionDestinationInput | undefined;
+}
+/** Properties of the delivery configuration information of the event subscription. */
+export interface DeliveryConfigurationInput {
+  /** Delivery mode of the event subscription. */
+  deliveryMode?: DeliveryConfigurationInputDeliveryMode | (string & {}) | undefined;
+  /** This property should be populated when deliveryMode is queue and represents information about the queue subscription. */
+  queue?: QueueInfo | undefined;
+  /** This property should be populated when deliveryMode is push and represents information about the push subscription. */
+  push?: PushInfoInput | undefined;
 }
 /** The event delivery schema for the event subscription. */
 export type SubscriptionPropertiesInputEventDeliverySchema = "CloudEventSchemaV1_0";
 /** Properties of the event subscription. */
 export interface SubscriptionPropertiesInput {
   /** Information about the delivery configuration of the event subscription. */
-  deliveryConfiguration?: DeliveryConfiguration;
+  deliveryConfiguration?: DeliveryConfigurationInput | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: SubscriptionPropertiesInputEventDeliverySchema | (string & {});
+  eventDeliverySchema?: SubscriptionPropertiesInputEventDeliverySchema | (string & {}) | undefined;
   /** Information about the filter for the event subscription. */
-  filtersConfiguration?: FiltersConfiguration;
+  filtersConfiguration?: FiltersConfiguration | undefined;
   /** Expiration time of the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
 }
 export interface NamespaceTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5364,7 +6183,7 @@ export interface NamespaceTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 50 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: SubscriptionPropertiesInput;
+  properties?: SubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -5381,29 +6200,33 @@ export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface NamespaceTopicEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: SubscriptionProperties;
+  properties?: SubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: NamespaceTopicEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Publisher type of the namespace topic. */
 export type NamespaceTopicPropertiesInputPublisherType = "Custom";
@@ -5412,11 +6235,11 @@ export type NamespaceTopicPropertiesInputInputSchema = "CloudEventSchemaV1_0";
 /** Properties of the namespace topic. */
 export interface NamespaceTopicPropertiesInput {
   /** Publisher type of the namespace topic. */
-  publisherType?: NamespaceTopicPropertiesInputPublisherType | (string & {});
+  publisherType?: NamespaceTopicPropertiesInputPublisherType | (string & {}) | undefined;
   /** This determines the format that is expected for incoming events published to the topic. */
-  inputSchema?: NamespaceTopicPropertiesInputInputSchema | (string & {});
+  inputSchema?: NamespaceTopicPropertiesInputInputSchema | (string & {}) | undefined;
   /** Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day. */
-  eventRetentionInDays?: number;
+  eventRetentionInDays?: number | undefined;
 }
 export interface NamespaceTopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5428,7 +6251,7 @@ export interface NamespaceTopicsCreateOrUpdateRequest {
   /** Name of the namespace topic. */
   topicName: string;
   /** Properties of the namespace topic. */
-  properties?: NamespaceTopicPropertiesInput;
+  properties?: NamespaceTopicPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type NamespaceTopicsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -5445,29 +6268,31 @@ export type NamespaceTopicsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NamespaceTopicsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NamespaceTopicsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: NamespaceTopicsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NamespaceTopicsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | NamespaceTopicsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface NamespaceTopicsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the namespace topic. */
-  properties?: NamespaceTopicProperties;
+  properties?: NamespaceTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NamespaceTopicsCreateOrUpdateResponseSystemData;
+  systemData?: NamespaceTopicsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type PartnerConfigurationsCreateOrUpdateRequestTagsMap = {
@@ -5479,11 +6304,11 @@ export interface PartnerConfigurationsCreateOrUpdateRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: PartnerConfigurationsCreateOrUpdateRequestTagsMap;
+  tags?: PartnerConfigurationsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type PartnerConfigurationsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -5500,17 +6325,19 @@ export type PartnerConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerConfigurationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerConfigurationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: PartnerConfigurationsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PartnerConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type PartnerConfigurationsCreateOrUpdateResponseTagsMap = {
@@ -5518,19 +6345,19 @@ export type PartnerConfigurationsCreateOrUpdateResponseTagsMap = {
 };
 export interface PartnerConfigurationsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerConfigurationsCreateOrUpdateResponseSystemData;
+  systemData?: PartnerConfigurationsCreateOrUpdateResponseSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: PartnerConfigurationsCreateOrUpdateResponseTagsMap;
+  tags?: PartnerConfigurationsCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface PartnerConfigurationsUnauthorizePartnerRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5538,11 +6365,11 @@ export interface PartnerConfigurationsUnauthorizePartnerRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** The immutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** The partner name. */
-  partnerName?: string;
+  partnerName?: string | undefined;
   /** Expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration. If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified. */
-  authorizationExpirationTimeInUtc?: string;
+  authorizationExpirationTimeInUtc?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type PartnerConfigurationsUnauthorizePartnerResponseSystemDataCreatedByType =
@@ -5559,17 +6386,21 @@ export type PartnerConfigurationsUnauthorizePartnerResponseSystemDataLastModifie
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerConfigurationsUnauthorizePartnerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerConfigurationsUnauthorizePartnerResponseSystemDataCreatedByType;
+  createdByType?:
+    | PartnerConfigurationsUnauthorizePartnerResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerConfigurationsUnauthorizePartnerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PartnerConfigurationsUnauthorizePartnerResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type PartnerConfigurationsUnauthorizePartnerResponseTagsMap = {
@@ -5577,19 +6408,19 @@ export type PartnerConfigurationsUnauthorizePartnerResponseTagsMap = {
 };
 export interface PartnerConfigurationsUnauthorizePartnerResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerConfigurationsUnauthorizePartnerResponseSystemData;
+  systemData?: PartnerConfigurationsUnauthorizePartnerResponseSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: PartnerConfigurationsUnauthorizePartnerResponseTagsMap;
+  tags?: PartnerConfigurationsUnauthorizePartnerResponseTagsMap | undefined;
 }
 /** Tags of the resource. */
 export type PartnerNamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5606,19 +6437,26 @@ export type PartnerNamespacePropertiesInputPartnerTopicRoutingMode =
 /** Properties of the partner namespace. */
 export interface PartnerNamespacePropertiesInput {
   /** The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}. */
-  partnerRegistrationFullyQualifiedId?: string;
+  partnerRegistrationFullyQualifiedId?: string | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this partner namespace */
   minimumTlsVersionAllowed?:
     | PartnerNamespacePropertiesInputMinimumTlsVersionAllowed
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules" /> */
-  publicNetworkAccess?: PartnerNamespacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | PartnerNamespacePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: PartnerNamespacePropertiesInputInboundIpRulesList;
+  inboundIpRules?: PartnerNamespacePropertiesInputInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic. */
-  partnerTopicRoutingMode?: PartnerNamespacePropertiesInputPartnerTopicRoutingMode | (string & {});
+  partnerTopicRoutingMode?:
+    | PartnerNamespacePropertiesInputPartnerTopicRoutingMode
+    | (string & {})
+    | undefined;
 }
 export interface PartnerNamespacesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5630,9 +6468,9 @@ export interface PartnerNamespacesCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerNamespacesCreateOrUpdateRequestTagsMap;
+  tags?: PartnerNamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Partner Namespace. */
-  properties?: PartnerNamespacePropertiesInput;
+  properties?: PartnerNamespacePropertiesInput | undefined;
 }
 /** Tags of the resource. */
 export type PartnerNamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5651,33 +6489,35 @@ export type PartnerNamespacesCreateOrUpdateResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerNamespacesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerNamespacesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: PartnerNamespacesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerNamespacesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PartnerNamespacesCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PartnerNamespacesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerNamespacesCreateOrUpdateResponseTagsMap;
+  tags?: PartnerNamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Partner Namespace. */
-  properties?: PartnerNamespaceProperties;
+  properties?: PartnerNamespaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerNamespacesCreateOrUpdateResponseSystemData;
+  systemData?: PartnerNamespacesCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type PartnerRegistrationsCreateOrUpdateRequestTagsMap = {
@@ -5686,7 +6526,7 @@ export type PartnerRegistrationsCreateOrUpdateRequestTagsMap = {
 /** Properties of the partner registration. */
 export interface PartnerRegistrationPropertiesInput {
   /** The immutableId of the corresponding partner registration. Note: This property is marked for deprecation and is not supported in any future GA API version */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
 }
 export interface PartnerRegistrationsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5698,9 +6538,9 @@ export interface PartnerRegistrationsCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerRegistrationsCreateOrUpdateRequestTagsMap;
+  tags?: PartnerRegistrationsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the partner registration. */
-  properties?: PartnerRegistrationPropertiesInput;
+  properties?: PartnerRegistrationPropertiesInput | undefined;
 }
 /** Tags of the resource. */
 export type PartnerRegistrationsCreateOrUpdateResponseTagsMap = {
@@ -5721,33 +6561,35 @@ export type PartnerRegistrationsCreateOrUpdateResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerRegistrationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerRegistrationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: PartnerRegistrationsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerRegistrationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PartnerRegistrationsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PartnerRegistrationsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerRegistrationsCreateOrUpdateResponseTagsMap;
+  tags?: PartnerRegistrationsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the partner registration. */
-  properties?: PartnerRegistrationProperties;
+  properties?: PartnerRegistrationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerRegistrationsCreateOrUpdateResponseSystemData;
+  systemData?: PartnerRegistrationsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface PartnerTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5759,7 +6601,7 @@ export interface PartnerTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -5776,29 +6618,33 @@ export type PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastMo
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PartnerTopicEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: PartnerTopicEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type PartnerTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5810,19 +6656,19 @@ export type PartnerTopicPropertiesInputActivationState =
 /** Properties of the Partner Topic. */
 export interface PartnerTopicPropertiesInput {
   /** The immutableId of the corresponding partner registration. */
-  partnerRegistrationImmutableId?: string;
+  partnerRegistrationImmutableId?: string | undefined;
   /** Source associated with this partner topic. This represents a unique partner resource. */
-  source?: string;
+  source?: string | undefined;
   /** Event Type information from the corresponding event channel. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Expiration time of the partner topic. If this timer expires while the partner topic is still never activated, the partner topic and corresponding event channel are deleted. */
-  expirationTimeIfNotActivatedUtc?: string;
+  expirationTimeIfNotActivatedUtc?: string | undefined;
   /** Activation state of the partner topic. */
-  activationState?: PartnerTopicPropertiesInputActivationState | (string & {});
+  activationState?: PartnerTopicPropertiesInputActivationState | (string & {}) | undefined;
   /** Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic. This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer. */
-  partnerTopicFriendlyDescription?: string;
+  partnerTopicFriendlyDescription?: string | undefined;
   /** Context or helpful message that can be used during the approval process by the subscriber. */
-  messageForActivation?: string;
+  messageForActivation?: string | undefined;
 }
 export interface PartnerTopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5834,11 +6680,11 @@ export interface PartnerTopicsCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerTopicsCreateOrUpdateRequestTagsMap;
+  tags?: PartnerTopicsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicPropertiesInput;
+  properties?: PartnerTopicPropertiesInput | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type PartnerTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5857,48 +6703,48 @@ export type PartnerTopicsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PartnerTopicsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PartnerTopicsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: PartnerTopicsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PartnerTopicsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: PartnerTopicsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PartnerTopicsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: PartnerTopicsCreateOrUpdateResponseTagsMap;
+  tags?: PartnerTopicsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Partner Topic. */
-  properties?: PartnerTopicProperties;
+  properties?: PartnerTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PartnerTopicsCreateOrUpdateResponseSystemData;
+  systemData?: PartnerTopicsCreateOrUpdateResponseSystemData | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** The allowed permission. */
 export type PermissionBindingPropertiesInputPermission = "Publisher" | "Subscriber";
 /** The properties of permission binding. */
 export interface PermissionBindingPropertiesInput {
   /** Description for the Permission Binding resource. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the Topic Space resource that the permission is bound to. The Topic space needs to be a resource under the same namespace the permission binding is a part of. */
-  topicSpaceName?: string;
+  topicSpaceName?: string | undefined;
   /** The allowed permission. */
-  permission?: PermissionBindingPropertiesInputPermission | (string & {});
+  permission?: PermissionBindingPropertiesInputPermission | (string & {}) | undefined;
   /** The name of the client group resource that the permission is bound to. The client group needs to be a resource under the same namespace the permission binding is a part of. */
-  clientGroupName?: string;
+  clientGroupName?: string | undefined;
 }
 export interface PermissionBindingsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5910,7 +6756,7 @@ export interface PermissionBindingsCreateOrUpdateRequest {
   /** The permission binding name. */
   permissionBindingName: string;
   /** The properties of permission binding. */
-  properties?: PermissionBindingPropertiesInput;
+  properties?: PermissionBindingPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type PermissionBindingsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -5927,29 +6773,31 @@ export type PermissionBindingsCreateOrUpdateResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PermissionBindingsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PermissionBindingsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: PermissionBindingsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PermissionBindingsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | PermissionBindingsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PermissionBindingsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of permission binding. */
-  properties?: PermissionBindingProperties;
+  properties?: PermissionBindingProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PermissionBindingsCreateOrUpdateResponseSystemData;
+  systemData?: PermissionBindingsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface RegenerateDomainKeyRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5974,10 +6822,10 @@ export interface RegenerateNamespaceKeyRequest {
 /** Shared access keys of the Namespace. */
 export interface RegenerateNamespaceKeyResponse {
   /** Shared access key1 for the namespace. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the namespace. */
-  key2?: string;
-  location?: string;
+  key2?: string | undefined;
+  location?: string | undefined;
 }
 export interface RegenerateNamespaceTopicKeyRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5994,10 +6842,10 @@ export interface RegenerateNamespaceTopicKeyRequest {
 /** Shared access keys of the Topic */
 export interface RegenerateNamespaceTopicKeyResponse {
   /** Shared access key1 for the topic. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the topic. */
-  key2?: string;
-  location?: string;
+  key2?: string | undefined;
+  location?: string | undefined;
 }
 export interface RegeneratePartnerNamespaceKeyRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6022,10 +6870,10 @@ export interface RegenerateTopicKeyRequest {
 /** Shared access keys of the Topic */
 export interface RegenerateTopicKeyResponse {
   /** Shared access key1 for the topic. */
-  key1?: string;
+  key1?: string | undefined;
   /** Shared access key2 for the topic. */
-  key2?: string;
-  location?: string;
+  key2?: string | undefined;
+  location?: string | undefined;
 }
 export interface SystemTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6037,7 +6885,7 @@ export interface SystemTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -6054,38 +6902,42 @@ export type SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface SystemTopicEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: SystemTopicEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type SystemTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the System Topic. */
 export interface SystemTopicPropertiesInput {
   /** Source for the system topic. */
-  source?: string;
+  source?: string | undefined;
   /** TopicType for the system topic. */
-  topicType?: string;
+  topicType?: string | undefined;
 }
 export interface SystemTopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6097,11 +6949,11 @@ export interface SystemTopicsCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: SystemTopicsCreateOrUpdateRequestTagsMap;
+  tags?: SystemTopicsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the system topic. */
-  properties?: SystemTopicPropertiesInput;
+  properties?: SystemTopicPropertiesInput | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type SystemTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -6120,35 +6972,35 @@ export type SystemTopicsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemTopicsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemTopicsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: SystemTopicsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemTopicsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: SystemTopicsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface SystemTopicsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: SystemTopicsCreateOrUpdateResponseTagsMap;
+  tags?: SystemTopicsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the system topic. */
-  properties?: SystemTopicProperties;
+  properties?: SystemTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemTopicsCreateOrUpdateResponseSystemData;
+  systemData?: SystemTopicsCreateOrUpdateResponseSystemData | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface TopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6160,7 +7012,7 @@ export interface TopicEventSubscriptionsCreateOrUpdateRequest {
   /** Name of the event subscription to be created. Event subscription names must be between 3 and 64 characters in length and use alphanumeric letters only. */
   eventSubscriptionName: string;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionPropertiesInput;
+  properties?: EventSubscriptionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type TopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -6177,29 +7029,31 @@ export type TopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedB
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TopicEventSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: TopicEventSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | TopicEventSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface TopicEventSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TopicEventSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: TopicEventSubscriptionsCreateOrUpdateResponseSystemData | undefined;
 }
 /** Tags of the resource. */
 export type TopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -6219,21 +7073,24 @@ export type TopicPropertiesInputDataResidencyBoundary = "WithinGeopair" | "Withi
 /** Properties of the Topic. */
 export interface TopicPropertiesInput {
   /** Event Type Information for the user topic. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this topic */
-  minimumTlsVersionAllowed?: TopicPropertiesInputMinimumTlsVersionAllowed | (string & {});
+  minimumTlsVersionAllowed?:
+    | TopicPropertiesInputMinimumTlsVersionAllowed
+    | (string & {})
+    | undefined;
   /** This determines the format that Event Grid should expect for incoming events published to the topic. */
-  inputSchema?: TopicPropertiesInputInputSchema | (string & {});
+  inputSchema?: TopicPropertiesInputInputSchema | (string & {}) | undefined;
   /** This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema. */
-  inputSchemaMapping?: InputSchemaMapping;
+  inputSchemaMapping?: JsonInputSchemaMapping | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" /> */
-  publicNetworkAccess?: TopicPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: TopicPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: TopicPropertiesInputInboundIpRulesList;
+  inboundIpRules?: TopicPropertiesInputInboundIpRulesList | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Data Residency Boundary of the resource. */
-  dataResidencyBoundary?: TopicPropertiesInputDataResidencyBoundary | (string & {});
+  dataResidencyBoundary?: TopicPropertiesInputDataResidencyBoundary | (string & {}) | undefined;
 }
 export interface TopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6245,11 +7102,11 @@ export interface TopicsCreateOrUpdateRequest {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: TopicsCreateOrUpdateRequestTagsMap;
+  tags?: TopicsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the topic. */
-  properties?: TopicPropertiesInput;
+  properties?: TopicPropertiesInput | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type TopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -6268,44 +7125,44 @@ export type TopicsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TopicsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TopicsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: TopicsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TopicsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: TopicsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface TopicsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: TopicsCreateOrUpdateResponseTagsMap;
+  tags?: TopicsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the topic. */
-  properties?: TopicProperties;
+  properties?: TopicProperties | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TopicsCreateOrUpdateResponseSystemData;
+  systemData?: TopicsCreateOrUpdateResponseSystemData | undefined;
 }
 /** The topic filters in the topic space. Example: "topicTemplates": [ "devices/foo/bar", "devices/topic1/+", "devices/${principal.name}/${principal.attributes.keyName}" ]. */
 export type TopicSpacePropertiesInputTopicTemplatesList = Array<string>;
 /** The properties of topic space. */
 export interface TopicSpacePropertiesInput {
   /** Description for the Topic Space resource. */
-  description?: string;
+  description?: string | undefined;
   /** The topic filters in the topic space. Example: "topicTemplates": [ "devices/foo/bar", "devices/topic1/+", "devices/${principal.name}/${principal.attributes.keyName}" ]. */
-  topicTemplates?: TopicSpacePropertiesInputTopicTemplatesList;
+  topicTemplates?: TopicSpacePropertiesInputTopicTemplatesList | undefined;
 }
 export interface TopicSpacesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6317,7 +7174,7 @@ export interface TopicSpacesCreateOrUpdateRequest {
   /** The topic space name. */
   topicSpaceName: string;
   /** The properties of topic space. */
-  properties?: TopicSpacePropertiesInput;
+  properties?: TopicSpacePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type TopicSpacesCreateOrUpdateResponseSystemDataCreatedByType =
@@ -6334,41 +7191,41 @@ export type TopicSpacesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TopicSpacesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TopicSpacesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: TopicSpacesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TopicSpacesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: TopicSpacesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface TopicSpacesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of topic space. */
-  properties?: TopicSpaceProperties;
+  properties?: TopicSpaceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TopicSpacesCreateOrUpdateResponseSystemData;
+  systemData?: TopicSpacesCreateOrUpdateResponseSystemData | undefined;
 }
 /** Update properties for the corresponding partner topic of a channel. */
 export interface PartnerUpdateTopicInfo {
   /** Event type info for the partner topic */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
 }
 /** Properties of the channel update parameters. */
 export interface ChannelUpdateParametersProperties {
   /** Expiration time of the channel. If this timer expires while the corresponding partner topic or partner destination is never activated, the channel and corresponding partner topic or partner destination are deleted. */
-  expirationTimeIfNotActivatedUtc?: string;
+  expirationTimeIfNotActivatedUtc?: string | undefined;
   /** Partner topic properties which can be updated if the channel is of type PartnerTopic. */
-  partnerTopicInfo?: PartnerUpdateTopicInfo;
+  partnerTopicInfo?: PartnerUpdateTopicInfo | undefined;
 }
 export interface UpdateChannelRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6379,7 +7236,7 @@ export interface UpdateChannelRequest {
   partnerNamespaceName: string;
   /** Name of the channel. */
   channelName: string;
-  properties?: ChannelUpdateParametersProperties;
+  properties?: ChannelUpdateParametersProperties | undefined;
 }
 export interface UpdateChannelResponse {}
 /** Tags of the domains resource. */
@@ -6395,23 +7252,30 @@ export type DomainUpdateParameterPropertiesDataResidencyBoundary = "WithinGeopai
 /** Information of domain update parameter properties. */
 export interface DomainUpdateParameterProperties {
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules" /> */
-  publicNetworkAccess?: DomainUpdateParameterPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | DomainUpdateParameterPropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: DomainUpdateParameterPropertiesInboundIpRulesList;
+  inboundIpRules?: DomainUpdateParameterPropertiesInboundIpRulesList | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this domain */
   minimumTlsVersionAllowed?:
     | DomainUpdateParameterPropertiesMinimumTlsVersionAllowed
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the domain topic on demand if needed. */
-  autoCreateTopicWithFirstSubscription?: boolean;
+  autoCreateTopicWithFirstSubscription?: boolean | undefined;
   /** This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. */
-  autoDeleteTopicWithLastSubscription?: boolean;
+  autoDeleteTopicWithLastSubscription?: boolean | undefined;
   /** The data residency boundary for the domain. */
-  dataResidencyBoundary?: DomainUpdateParameterPropertiesDataResidencyBoundary | (string & {});
+  dataResidencyBoundary?:
+    | DomainUpdateParameterPropertiesDataResidencyBoundary
+    | (string & {})
+    | undefined;
   /** The eventTypeInfo for the domain. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
 }
 export interface UpdateDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6421,11 +7285,11 @@ export interface UpdateDomainRequest {
   /** Name of the domain. */
   domainName: string;
   /** Tags of the domains resource. */
-  tags?: UpdateDomainRequestTagsMap;
+  tags?: UpdateDomainRequestTagsMap | undefined;
   /** Properties of the resource. */
-  properties?: DomainUpdateParameterProperties;
+  properties?: DomainUpdateParameterProperties | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface UpdateDomainResponse {}
 /** List of user defined labels. */
@@ -6445,23 +7309,26 @@ export interface UpdateDomainEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdateDomainEventSubscriptionRequestLabelsList;
+  labels?: UpdateDomainEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: UpdateDomainEventSubscriptionRequestEventDeliverySchema | (string & {});
+  eventDeliverySchema?:
+    | UpdateDomainEventSubscriptionRequestEventDeliverySchema
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateDomainEventSubscriptionResponseSystemDataCreatedByType =
@@ -6478,29 +7345,31 @@ export type UpdateDomainEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateDomainEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateDomainEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateDomainEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDomainEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateDomainEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateDomainEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDomainEventSubscriptionResponseSystemData;
+  systemData?: UpdateDomainEventSubscriptionResponseSystemData | undefined;
 }
 /** List of user defined labels. */
 export type UpdateDomainTopicEventSubscriptionRequestLabelsList = Array<string>;
@@ -6521,25 +7390,26 @@ export interface UpdateDomainTopicEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdateDomainTopicEventSubscriptionRequestLabelsList;
+  labels?: UpdateDomainTopicEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
   eventDeliverySchema?:
     | UpdateDomainTopicEventSubscriptionRequestEventDeliverySchema
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateDomainTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -6556,29 +7426,31 @@ export type UpdateDomainTopicEventSubscriptionResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateDomainTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateDomainTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateDomainTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDomainTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateDomainTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateDomainTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDomainTopicEventSubscriptionResponseSystemData;
+  systemData?: UpdateDomainTopicEventSubscriptionResponseSystemData | undefined;
 }
 /** List of user defined labels. */
 export type UpdateEventSubscriptionRequestLabelsList = Array<string>;
@@ -6593,23 +7465,26 @@ export interface UpdateEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdateEventSubscriptionRequestLabelsList;
+  labels?: UpdateEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: UpdateEventSubscriptionRequestEventDeliverySchema | (string & {});
+  eventDeliverySchema?:
+    | UpdateEventSubscriptionRequestEventDeliverySchema
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateEventSubscriptionResponseSystemDataCreatedByType =
@@ -6626,29 +7501,29 @@ export type UpdateEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateEventSubscriptionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateEventSubscriptionResponseSystemData;
+  systemData?: UpdateEventSubscriptionResponseSystemData | undefined;
 }
 /** Tags of the namespace resource. */
 export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -6659,26 +7534,26 @@ export type UpdateTopicSpacesConfigurationInfoCustomDomainsList = Array<CustomDo
 /** Properties of the topic spaces configuration info of a namespace. */
 export interface UpdateTopicSpacesConfigurationInfo {
   /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
-  state?: UpdateTopicSpacesConfigurationInfoState | (string & {});
+  state?: UpdateTopicSpacesConfigurationInfoState | (string & {}) | undefined;
   /** This property is used to specify custom topic to which events will be routed to from topic spaces configuration under namespace. */
-  routeTopicResourceId?: string;
+  routeTopicResourceId?: string | undefined;
   /** Routing enrichments for topic spaces configuration. */
-  routingEnrichments?: RoutingEnrichments;
+  routingEnrichments?: RoutingEnrichments | undefined;
   /** The maximum session expiry in hours. The property default value is 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours. */
-  maximumSessionExpiryInHours?: number;
+  maximumSessionExpiryInHours?: number | undefined;
   /** The maximum number of sessions per authentication name. The property default value is 1. Min allowed value is 1 and max allowed value is 100. */
-  maximumClientSessionsPerAuthenticationName?: number;
+  maximumClientSessionsPerAuthenticationName?: number | undefined;
   /** Routing identity info for topic spaces configuration. */
-  routingIdentityInfo?: RoutingIdentityInfo;
+  routingIdentityInfo?: RoutingIdentityInfo | undefined;
   /** Custom domain info for topic spaces configuration. */
-  customDomains?: UpdateTopicSpacesConfigurationInfoCustomDomainsList;
+  customDomains?: UpdateTopicSpacesConfigurationInfoCustomDomainsList | undefined;
 }
 /** Custom domain info for topics configuration. */
 export type UpdateTopicsConfigurationInfoCustomDomainsList = Array<CustomDomainConfiguration>;
 /** Properties of the topics configuration info of a namespace. */
 export interface UpdateTopicsConfigurationInfo {
   /** Custom domain info for topics configuration. */
-  customDomains?: UpdateTopicsConfigurationInfoCustomDomainsList;
+  customDomains?: UpdateTopicsConfigurationInfoCustomDomainsList | undefined;
 }
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules" /> */
 export type NamespaceUpdateParameterPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
@@ -6687,13 +7562,16 @@ export type NamespaceUpdateParameterPropertiesInboundIpRulesList = Array<Inbound
 /** Information of namespace update parameter properties. */
 export interface NamespaceUpdateParameterProperties {
   /** Topic spaces configuration properties that can be updated. */
-  topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
+  topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo | undefined;
   /** Topics configuration properties that can be updated. */
-  topicsConfiguration?: UpdateTopicsConfigurationInfo;
+  topicsConfiguration?: UpdateTopicsConfigurationInfo | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules" /> */
-  publicNetworkAccess?: NamespaceUpdateParameterPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | NamespaceUpdateParameterPropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: NamespaceUpdateParameterPropertiesInboundIpRulesList;
+  inboundIpRules?: NamespaceUpdateParameterPropertiesInboundIpRulesList | undefined;
 }
 export interface UpdateNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6703,13 +7581,13 @@ export interface UpdateNamespaceRequest {
   /** Name of the namespace. */
   namespaceName: string;
   /** Tags of the namespace resource. */
-  tags?: UpdateNamespaceRequestTagsMap;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
   /** Namespace resource identity information. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Properties of the namespace resource. */
-  properties?: NamespaceUpdateParameterProperties;
+  properties?: NamespaceUpdateParameterProperties | undefined;
 }
 /** Tags of the resource. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -6728,43 +7606,43 @@ export type UpdateNamespaceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateNamespaceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateNamespaceResponseSystemDataCreatedByType;
+  createdByType?: UpdateNamespaceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateNamespaceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateNamespaceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateNamespaceResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
   /** Properties of the Namespace resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Represents available Sku pricing tiers. */
-  sku?: NamespaceSku;
+  sku?: NamespaceSku | undefined;
   /** Identity information for the Namespace resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateNamespaceResponseSystemData;
-  locationHeader?: string;
+  systemData?: UpdateNamespaceResponseSystemData | undefined;
+  locationHeader?: string | undefined;
 }
 /** Information of namespace topic update parameter properties. */
 export interface NamespaceTopicUpdateParameterProperties {
   /** Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day. */
-  eventRetentionInDays?: number;
+  eventRetentionInDays?: number | undefined;
 }
 export interface UpdateNamespaceTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6776,7 +7654,7 @@ export interface UpdateNamespaceTopicRequest {
   /** Name of the namespace topic. */
   topicName: string;
   /** Properties of the namespace topic resource. */
-  properties?: NamespaceTopicUpdateParameterProperties;
+  properties?: NamespaceTopicUpdateParameterProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateNamespaceTopicResponseSystemDataCreatedByType =
@@ -6793,43 +7671,46 @@ export type UpdateNamespaceTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateNamespaceTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateNamespaceTopicResponseSystemDataCreatedByType;
+  createdByType?: UpdateNamespaceTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateNamespaceTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateNamespaceTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateNamespaceTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the namespace topic. */
-  properties?: NamespaceTopicProperties;
+  properties?: NamespaceTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateNamespaceTopicResponseSystemData;
-  location?: string;
+  systemData?: UpdateNamespaceTopicResponseSystemData | undefined;
+  location?: string | undefined;
 }
 /** The event delivery schema for the event subscription. */
-export type SubscriptionUpdateParametersPropertiesEventDeliverySchema = "CloudEventSchemaV1_0";
+export type SubscriptionUpdateParametersPropertiesInputEventDeliverySchema = "CloudEventSchemaV1_0";
 /** Properties of the Event Subscription update parameters. */
-export interface SubscriptionUpdateParametersProperties {
+export interface SubscriptionUpdateParametersPropertiesInput {
   /** Information about the delivery configuration of the event subscription. */
-  deliveryConfiguration?: DeliveryConfiguration;
+  deliveryConfiguration?: DeliveryConfigurationInput | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: SubscriptionUpdateParametersPropertiesEventDeliverySchema | (string & {});
+  eventDeliverySchema?:
+    | SubscriptionUpdateParametersPropertiesInputEventDeliverySchema
+    | (string & {})
+    | undefined;
   /** Information about the filter for the event subscription. */
-  filtersConfiguration?: FiltersConfiguration;
+  filtersConfiguration?: FiltersConfiguration | undefined;
   /** Expiration time of the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
 }
 export interface UpdateNamespaceTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6842,7 +7723,7 @@ export interface UpdateNamespaceTopicEventSubscriptionRequest {
   topicName: string;
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
-  properties?: SubscriptionUpdateParametersProperties;
+  properties?: SubscriptionUpdateParametersPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -6859,37 +7740,39 @@ export type UpdateNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedB
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateNamespaceTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateNamespaceTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateNamespaceTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: SubscriptionProperties;
+  properties?: SubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateNamespaceTopicEventSubscriptionResponseSystemData;
-  location?: string;
+  systemData?: UpdateNamespaceTopicEventSubscriptionResponseSystemData | undefined;
+  location?: string | undefined;
 }
 /** Tags of the partner configuration resource. */
 export type UpdatePartnerConfigurationRequestTagsMap = { [key: string]: string | undefined };
 /** Information of partner configuration update parameter properties. */
 export interface PartnerConfigurationUpdateParameterProperties {
   /** The default time used to validate the maximum expiration time for each authorized partners in days. Allowed values ar between 1 and 365 days. */
-  defaultMaximumExpirationTimeInDays?: number;
+  defaultMaximumExpirationTimeInDays?: number | undefined;
 }
 export interface UpdatePartnerConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6897,9 +7780,9 @@ export interface UpdatePartnerConfigurationRequest {
   /** The name of the resource group within the user's subscription. */
   resourceGroupName: string;
   /** Tags of the partner configuration resource. */
-  tags?: UpdatePartnerConfigurationRequestTagsMap;
+  tags?: UpdatePartnerConfigurationRequestTagsMap | undefined;
   /** Properties of the Topic resource. */
-  properties?: PartnerConfigurationUpdateParameterProperties;
+  properties?: PartnerConfigurationUpdateParameterProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePartnerConfigurationResponseSystemDataCreatedByType =
@@ -6916,35 +7799,35 @@ export type UpdatePartnerConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePartnerConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePartnerConfigurationResponseSystemDataCreatedByType;
+  createdByType?: UpdatePartnerConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePartnerConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdatePartnerConfigurationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tags of the resource. */
 export type UpdatePartnerConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePartnerConfigurationResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the partner configuration. */
-  properties?: PartnerConfigurationProperties;
+  properties?: PartnerConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePartnerConfigurationResponseSystemData;
+  systemData?: UpdatePartnerConfigurationResponseSystemData | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags of the resource. */
-  tags?: UpdatePartnerConfigurationResponseTagsMap;
+  tags?: UpdatePartnerConfigurationResponseTagsMap | undefined;
 }
 /** Tags of the Partner Namespace. */
 export type UpdatePartnerNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -6962,15 +7845,17 @@ export interface PartnerNamespaceUpdateParameterProperties {
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceUpdateParameterProperties.InboundIpRules" /> */
   publicNetworkAccess?:
     | PartnerNamespaceUpdateParameterPropertiesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: PartnerNamespaceUpdateParameterPropertiesInboundIpRulesList;
+  inboundIpRules?: PartnerNamespaceUpdateParameterPropertiesInboundIpRulesList | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this domain */
   minimumTlsVersionAllowed?:
     | PartnerNamespaceUpdateParameterPropertiesMinimumTlsVersionAllowed
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 export interface UpdatePartnerNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6980,9 +7865,9 @@ export interface UpdatePartnerNamespaceRequest {
   /** Name of the partner namespace. */
   partnerNamespaceName: string;
   /** Tags of the Partner Namespace. */
-  tags?: UpdatePartnerNamespaceRequestTagsMap;
+  tags?: UpdatePartnerNamespaceRequestTagsMap | undefined;
   /** Properties of the Partner Namespace. */
-  properties?: PartnerNamespaceUpdateParameterProperties;
+  properties?: PartnerNamespaceUpdateParameterProperties | undefined;
 }
 export interface UpdatePartnerNamespaceResponse {}
 /** Tags of the partner registration resource. */
@@ -6995,7 +7880,7 @@ export interface UpdatePartnerRegistrationRequest {
   /** Name of the partner registration. */
   partnerRegistrationName: string;
   /** Tags of the partner registration resource. */
-  tags?: UpdatePartnerRegistrationRequestTagsMap;
+  tags?: UpdatePartnerRegistrationRequestTagsMap | undefined;
 }
 export interface UpdatePartnerRegistrationResponse {}
 /** Tags of the Partner Topic resource. */
@@ -7008,9 +7893,9 @@ export interface UpdatePartnerTopicRequest {
   /** Name of the partner topic. */
   partnerTopicName: string;
   /** Tags of the Partner Topic resource. */
-  tags?: UpdatePartnerTopicRequestTagsMap;
+  tags?: UpdatePartnerTopicRequestTagsMap | undefined;
   /** Identity information for the Partner Topic resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 export interface UpdatePartnerTopicResponse {}
 /** List of user defined labels. */
@@ -7030,25 +7915,26 @@ export interface UpdatePartnerTopicEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdatePartnerTopicEventSubscriptionRequestLabelsList;
+  labels?: UpdatePartnerTopicEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
   eventDeliverySchema?:
     | UpdatePartnerTopicEventSubscriptionRequestEventDeliverySchema
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdatePartnerTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -7065,29 +7951,31 @@ export type UpdatePartnerTopicEventSubscriptionResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdatePartnerTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdatePartnerTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdatePartnerTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdatePartnerTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdatePartnerTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdatePartnerTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdatePartnerTopicEventSubscriptionResponseSystemData;
+  systemData?: UpdatePartnerTopicEventSubscriptionResponseSystemData | undefined;
 }
 export type UpdatePrivateEndpointConnectionRequestParentType =
   | "topics"
@@ -7106,17 +7994,17 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection connection. */
   privateEndpointConnectionName: string;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Tags of the system topic. */
 export type UpdateSystemTopicRequestTagsMap = { [key: string]: string | undefined };
@@ -7128,9 +8016,9 @@ export interface UpdateSystemTopicRequest {
   /** Name of the system topic. */
   systemTopicName: string;
   /** Tags of the system topic. */
-  tags?: UpdateSystemTopicRequestTagsMap;
+  tags?: UpdateSystemTopicRequestTagsMap | undefined;
   /** Resource identity information. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** Tags of the resource. */
 export type UpdateSystemTopicResponseTagsMap = { [key: string]: string | undefined };
@@ -7149,35 +8037,35 @@ export type UpdateSystemTopicResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateSystemTopicResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateSystemTopicResponseSystemDataCreatedByType;
+  createdByType?: UpdateSystemTopicResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateSystemTopicResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateSystemTopicResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateSystemTopicResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
-  tags?: UpdateSystemTopicResponseTagsMap;
+  tags?: UpdateSystemTopicResponseTagsMap | undefined;
   /** Properties of the system topic. */
-  properties?: SystemTopicProperties;
+  properties?: SystemTopicProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateSystemTopicResponseSystemData;
+  systemData?: UpdateSystemTopicResponseSystemData | undefined;
   /** Identity information for the resource. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
 }
 /** List of user defined labels. */
 export type UpdateSystemTopicEventSubscriptionRequestLabelsList = Array<string>;
@@ -7196,25 +8084,26 @@ export interface UpdateSystemTopicEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdateSystemTopicEventSubscriptionRequestLabelsList;
+  labels?: UpdateSystemTopicEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
   eventDeliverySchema?:
     | UpdateSystemTopicEventSubscriptionRequestEventDeliverySchema
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateSystemTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -7231,29 +8120,31 @@ export type UpdateSystemTopicEventSubscriptionResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateSystemTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateSystemTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateSystemTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateSystemTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateSystemTopicEventSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateSystemTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateSystemTopicEventSubscriptionResponseSystemData;
+  systemData?: UpdateSystemTopicEventSubscriptionResponseSystemData | undefined;
 }
 /** Tags of the Topic resource. */
 export type UpdateTopicRequestTagsMap = { [key: string]: string | undefined };
@@ -7268,17 +8159,26 @@ export type TopicUpdateParameterPropertiesDataResidencyBoundary = "WithinGeopair
 /** Information of topic update parameter properties. */
 export interface TopicUpdateParameterProperties {
   /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules" /> */
-  publicNetworkAccess?: TopicUpdateParameterPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | TopicUpdateParameterPropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: TopicUpdateParameterPropertiesInboundIpRulesList;
+  inboundIpRules?: TopicUpdateParameterPropertiesInboundIpRulesList | undefined;
   /** Minimum TLS version of the publisher allowed to publish to this domain */
-  minimumTlsVersionAllowed?: TopicUpdateParameterPropertiesMinimumTlsVersionAllowed | (string & {});
+  minimumTlsVersionAllowed?:
+    | TopicUpdateParameterPropertiesMinimumTlsVersionAllowed
+    | (string & {})
+    | undefined;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The data residency boundary for the topic. */
-  dataResidencyBoundary?: TopicUpdateParameterPropertiesDataResidencyBoundary | (string & {});
+  dataResidencyBoundary?:
+    | TopicUpdateParameterPropertiesDataResidencyBoundary
+    | (string & {})
+    | undefined;
   /** The eventTypeInfo for the topic. */
-  eventTypeInfo?: EventTypeInfo;
+  eventTypeInfo?: EventTypeInfo | undefined;
 }
 export interface UpdateTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7288,11 +8188,11 @@ export interface UpdateTopicRequest {
   /** Name of the topic. */
   topicName: string;
   /** Tags of the Topic resource. */
-  tags?: UpdateTopicRequestTagsMap;
+  tags?: UpdateTopicRequestTagsMap | undefined;
   /** Topic resource identity information. */
-  identity?: IdentityInfo;
+  identity?: IdentityInfo | undefined;
   /** Properties of the Topic resource. */
-  properties?: TopicUpdateParameterProperties;
+  properties?: TopicUpdateParameterProperties | undefined;
 }
 export interface UpdateTopicResponse {}
 /** List of user defined labels. */
@@ -7312,23 +8212,26 @@ export interface UpdateTopicEventSubscriptionRequest {
   /** Name of the event subscription to be updated. */
   eventSubscriptionName: string;
   /** Information about the destination where events have to be delivered for the event subscription. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  destination?: EventSubscriptionDestination;
+  destination?: EventSubscriptionDestinationInput | undefined;
   /** Information about the destination where events have to be delivered for the event subscription. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentityInput | undefined;
   /** Information about the filter for the event subscription. */
-  filter?: EventSubscriptionFilter;
+  filter?: EventSubscriptionFilter | undefined;
   /** List of user defined labels. */
-  labels?: UpdateTopicEventSubscriptionRequestLabelsList;
+  labels?: UpdateTopicEventSubscriptionRequestLabelsList | undefined;
   /** Information about the expiration time for the event subscription. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   /** The event delivery schema for the event subscription. */
-  eventDeliverySchema?: UpdateTopicEventSubscriptionRequestEventDeliverySchema | (string & {});
+  eventDeliverySchema?:
+    | UpdateTopicEventSubscriptionRequestEventDeliverySchema
+    | (string & {})
+    | undefined;
   /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterDestination?: DeadLetterDestination;
+  deadLetterDestination?: StorageBlobDeadLetterDestination | undefined;
   /** The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination. Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering. */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -7345,29 +8248,29 @@ export type UpdateTopicEventSubscriptionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateTopicEventSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateTopicEventSubscriptionResponseSystemDataCreatedByType;
+  createdByType?: UpdateTopicEventSubscriptionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateTopicEventSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateTopicEventSubscriptionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateTopicEventSubscriptionResponse {
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the event subscription. */
-  properties?: EventSubscriptionProperties;
+  properties?: EventSubscriptionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateTopicEventSubscriptionResponseSystemData;
+  systemData?: UpdateTopicEventSubscriptionResponseSystemData | undefined;
 }
 export interface ValidateNamespaceCustomDomainOwnershipRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7386,10 +8289,14 @@ export type CustomDomainOwnershipValidationResultCustomDomainsForTopicSpacesConf
 /** Namespace custom domain ownership validation result. */
 export interface CustomDomainOwnershipValidationResult {
   /** List of custom domain configurations for the namespace under topics configuration. */
-  customDomainsForTopicsConfiguration?: CustomDomainOwnershipValidationResultCustomDomainsForTopicsConfigurationList;
+  customDomainsForTopicsConfiguration?:
+    | CustomDomainOwnershipValidationResultCustomDomainsForTopicsConfigurationList
+    | undefined;
   /** List of custom domain configurations for the namespace under topic spaces configuration. */
-  customDomainsForTopicSpacesConfiguration?: CustomDomainOwnershipValidationResultCustomDomainsForTopicSpacesConfigurationList;
-  location?: string;
+  customDomainsForTopicSpacesConfiguration?:
+    | CustomDomainOwnershipValidationResultCustomDomainsForTopicSpacesConfigurationList
+    | undefined;
+  location?: string | undefined;
 }
 export type ActivatePartnerTopicError = AzureOpError;
 /** Activate a partner topic. Activate a newly created partner topic. */
@@ -7400,7 +8307,7 @@ export const ActivatePartnerTopic: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivatePartnerTopicRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<ActivatePartnerTopicResponse>,
+  output: __S(161, __c5, 1) as any as S.Schema<ActivatePartnerTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7416,8 +8323,8 @@ export const AuthorizePartnerConfigurationPartner: API.OperationMethod<
   AuthorizePartnerConfigurationPartnerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<AuthorizePartnerConfigurationPartnerRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<AuthorizePartnerConfigurationPartnerResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<AuthorizePartnerConfigurationPartnerRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<AuthorizePartnerConfigurationPartnerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7433,8 +8340,8 @@ export const CaCertificatesCreateOrUpdate: API.OperationMethod<
   CaCertificatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1585, __c99, 1) as any as S.Schema<CaCertificatesCreateOrUpdateRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<CaCertificatesCreateOrUpdateResponse>,
+  input: __S(3169, __c99, 1) as any as S.Schema<CaCertificatesCreateOrUpdateRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<CaCertificatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7450,8 +8357,8 @@ export const ChannelsCreateOrUpdate: API.OperationMethod<
   ChannelsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ChannelsCreateOrUpdateRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<ChannelsCreateOrUpdateResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ChannelsCreateOrUpdateRequest>,
+  output: __S(3586, __c112, 2) as any as S.Schema<ChannelsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7467,8 +8374,8 @@ export const ClientGroupsCreateOrUpdate: API.OperationMethod<
   ClientGroupsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2145, __c134, 1) as any as S.Schema<ClientGroupsCreateOrUpdateRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ClientGroupsCreateOrUpdateResponse>,
+  input: __S(4385, __c137, 1) as any as S.Schema<ClientGroupsCreateOrUpdateRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<ClientGroupsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7484,8 +8391,8 @@ export const ClientsCreateOrUpdate: API.OperationMethod<
   ClientsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2353, __c147, 1) as any as S.Schema<ClientsCreateOrUpdateRequest>,
-  output: __S(2387, __c149, 3) as any as S.Schema<ClientsCreateOrUpdateResponse>,
+  input: __S(4801, __c150, 1) as any as S.Schema<ClientsCreateOrUpdateRequest>,
+  output: __S(4867, __c152, 3) as any as S.Schema<ClientsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7501,8 +8408,8 @@ export const DeactivatePartnerTopic: API.OperationMethod<
   DeactivatePartnerTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<DeactivatePartnerTopicRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<DeactivatePartnerTopicResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<DeactivatePartnerTopicRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<DeactivatePartnerTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7518,8 +8425,8 @@ export const DeleteCaCertificate: API.OperationMethod<
   DeleteCaCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<DeleteCaCertificateRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteCaCertificateResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<DeleteCaCertificateRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteCaCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7535,8 +8442,8 @@ export const DeleteChannel: API.OperationMethod<
   DeleteChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<DeleteChannelRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteChannelResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<DeleteChannelRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7552,8 +8459,8 @@ export const DeleteClient: API.OperationMethod<
   DeleteClientError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<DeleteClientRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteClientResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeleteClientRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteClientResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7569,8 +8476,8 @@ export const DeleteClientGroup: API.OperationMethod<
   DeleteClientGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteClientGroupRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteClientGroupResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteClientGroupRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteClientGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7586,8 +8493,8 @@ export const DeleteDomain: API.OperationMethod<
   DeleteDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7603,8 +8510,8 @@ export const DeleteDomainEventSubscription: API.OperationMethod<
   DeleteDomainEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DeleteDomainEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteDomainEventSubscriptionResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteDomainEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteDomainEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7620,8 +8527,8 @@ export const DeleteDomainTopic: API.OperationMethod<
   DeleteDomainTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DeleteDomainTopicRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteDomainTopicResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteDomainTopicRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteDomainTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7637,8 +8544,8 @@ export const DeleteDomainTopicEventSubscription: API.OperationMethod<
   DeleteDomainTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DeleteDomainTopicEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteDomainTopicEventSubscriptionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteDomainTopicEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteDomainTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7654,8 +8561,8 @@ export const DeleteEventSubscription: API.OperationMethod<
   DeleteEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteEventSubscriptionResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7677,8 +8584,8 @@ export const DeleteNamespace: API.OperationMethod<
   DeleteNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<DeleteNamespaceRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteNamespaceResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteNamespaceRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7694,8 +8601,8 @@ export const DeleteNamespaceTopic: API.OperationMethod<
   DeleteNamespaceTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DeleteNamespaceTopicRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteNamespaceTopicResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteNamespaceTopicRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteNamespaceTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7711,8 +8618,8 @@ export const DeleteNamespaceTopicEventSubscription: API.OperationMethod<
   DeleteNamespaceTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7728,8 +8635,8 @@ export const DeletePartnerConfiguration: API.OperationMethod<
   DeletePartnerConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeletePartnerConfigurationRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePartnerConfigurationResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeletePartnerConfigurationRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePartnerConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7745,8 +8652,8 @@ export const DeletePartnerNamespace: API.OperationMethod<
   DeletePartnerNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DeletePartnerNamespaceRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePartnerNamespaceResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeletePartnerNamespaceRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePartnerNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7762,8 +8669,8 @@ export const DeletePartnerRegistration: API.OperationMethod<
   DeletePartnerRegistrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeletePartnerRegistrationRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePartnerRegistrationResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeletePartnerRegistrationRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePartnerRegistrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7779,8 +8686,8 @@ export const DeletePartnerTopic: API.OperationMethod<
   DeletePartnerTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeletePartnerTopicRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePartnerTopicResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeletePartnerTopicRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePartnerTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7796,8 +8703,8 @@ export const DeletePartnerTopicEventSubscription: API.OperationMethod<
   DeletePartnerTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeletePartnerTopicEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePartnerTopicEventSubscriptionResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeletePartnerTopicEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePartnerTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7813,8 +8720,8 @@ export const DeletePermissionBinding: API.OperationMethod<
   DeletePermissionBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeletePermissionBindingRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePermissionBindingResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeletePermissionBindingRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePermissionBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7830,8 +8737,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7847,8 +8754,8 @@ export const DeleteSystemTopic: API.OperationMethod<
   DeleteSystemTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<DeleteSystemTopicRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteSystemTopicResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteSystemTopicRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteSystemTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7864,8 +8771,8 @@ export const DeleteSystemTopicEventSubscription: API.OperationMethod<
   DeleteSystemTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<DeleteSystemTopicEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteSystemTopicEventSubscriptionResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteSystemTopicEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteSystemTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7881,8 +8788,8 @@ export const DeleteTopic: API.OperationMethod<
   DeleteTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DeleteTopicRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteTopicResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteTopicRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7898,8 +8805,8 @@ export const DeleteTopicEventSubscription: API.OperationMethod<
   DeleteTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<DeleteTopicEventSubscriptionRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteTopicEventSubscriptionResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteTopicEventSubscriptionRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7915,8 +8822,8 @@ export const DeleteTopicSpace: API.OperationMethod<
   DeleteTopicSpaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<DeleteTopicSpaceRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<DeleteTopicSpaceResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteTopicSpaceRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<DeleteTopicSpaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7932,8 +8839,8 @@ export const DomainEventSubscriptionsCreateOrUpdate: API.OperationMethod<
   DomainEventSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DomainEventSubscriptionsCreateOrUpdateRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<DomainEventSubscriptionsCreateOrUpdateResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DomainEventSubscriptionsCreateOrUpdateRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<DomainEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7949,8 +8856,8 @@ export const DomainsCreateOrUpdate: API.OperationMethod<
   DomainsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1905, __c119, 1) as any as S.Schema<DomainsCreateOrUpdateRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<DomainsCreateOrUpdateResponse>,
+  input: __S(3905, __c122, 1) as any as S.Schema<DomainsCreateOrUpdateRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<DomainsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7967,13 +8874,13 @@ export const DomainTopicEventSubscriptionsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2000,
-    __c125,
+    4096,
+    __c128,
     0,
   ) as any as S.Schema<DomainTopicEventSubscriptionsCreateOrUpdateRequest>,
   output: __S(
-    1891,
-    __c118,
+    3875,
+    __c121,
     3,
   ) as any as S.Schema<DomainTopicEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -7991,8 +8898,8 @@ export const DomainTopicsCreateOrUpdate: API.OperationMethod<
   DomainTopicsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<DomainTopicsCreateOrUpdateRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<DomainTopicsCreateOrUpdateResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DomainTopicsCreateOrUpdateRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<DomainTopicsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8008,8 +8915,8 @@ export const EventSubscriptionsCreateOrUpdate: API.OperationMethod<
   EventSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<EventSubscriptionsCreateOrUpdateRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<EventSubscriptionsCreateOrUpdateResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<EventSubscriptionsCreateOrUpdateRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<EventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8031,8 +8938,8 @@ export const GetCaCertificate: API.OperationMethod<
   GetCaCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetCaCertificateRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<GetCaCertificateResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetCaCertificateRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<GetCaCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8048,8 +8955,8 @@ export const GetChannel: API.OperationMethod<
   GetChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetChannelRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<GetChannelResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetChannelRequest>,
+  output: __S(3586, __c112, 2) as any as S.Schema<GetChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8065,8 +8972,8 @@ export const GetChannelFullUrl: API.OperationMethod<
   GetChannelFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetChannelFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetChannelFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8082,8 +8989,8 @@ export const GetClient: API.OperationMethod<
   GetClientError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetClientRequest>,
-  output: __S(2387, __c149, 3) as any as S.Schema<GetClientResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetClientRequest>,
+  output: __S(4867, __c152, 3) as any as S.Schema<GetClientResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8099,8 +9006,8 @@ export const GetClientGroup: API.OperationMethod<
   GetClientGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetClientGroupRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<GetClientGroupResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetClientGroupRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<GetClientGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8116,8 +9023,8 @@ export const GetDomain: API.OperationMethod<
   GetDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<GetDomainResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<GetDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8133,8 +9040,8 @@ export const GetDomainEventSubscription: API.OperationMethod<
   GetDomainEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetDomainEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetDomainEventSubscriptionResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetDomainEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetDomainEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8151,11 +9058,11 @@ export const GetDomainEventSubscriptionDeliveryAttributes: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2224,
-    __c139,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<GetDomainEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8171,8 +9078,8 @@ export const GetDomainEventSubscriptionFullUrl: API.OperationMethod<
   GetDomainEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetDomainEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetDomainEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8188,8 +9095,8 @@ export const GetDomainTopic: API.OperationMethod<
   GetDomainTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetDomainTopicRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<GetDomainTopicResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetDomainTopicRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<GetDomainTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8205,8 +9112,8 @@ export const GetDomainTopicEventSubscription: API.OperationMethod<
   GetDomainTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetDomainTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetDomainTopicEventSubscriptionResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetDomainTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetDomainTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8223,11 +9130,11 @@ export const GetDomainTopicEventSubscriptionDeliveryAttributes: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c144,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<GetDomainTopicEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8243,8 +9150,8 @@ export const GetDomainTopicEventSubscriptionFullUrl: API.OperationMethod<
   GetDomainTopicEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetDomainTopicEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetDomainTopicEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8260,8 +9167,8 @@ export const GetEventSubscription: API.OperationMethod<
   GetEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetEventSubscriptionResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8283,8 +9190,8 @@ export const GetEventSubscriptionDeliveryAttributes: API.OperationMethod<
   GetEventSubscriptionDeliveryAttributesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetEventSubscriptionDeliveryAttributesRequest>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8306,8 +9213,8 @@ export const GetEventSubscriptionFullUrl: API.OperationMethod<
   GetEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8329,8 +9236,8 @@ export const GetExtensionTopic: API.OperationMethod<
   GetExtensionTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetExtensionTopicRequest>,
-  output: __S(2434, __c152, 2) as any as S.Schema<GetExtensionTopicResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetExtensionTopicRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<GetExtensionTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8351,8 +9258,8 @@ export const GetNamespace: API.OperationMethod<
   GetNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetNamespaceRequest>,
-  output: __S(2464, __c154, 0) as any as S.Schema<GetNamespaceResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetNamespaceRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<GetNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8368,8 +9275,8 @@ export const GetNamespaceTopic: API.OperationMethod<
   GetNamespaceTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetNamespaceTopicRequest>,
-  output: __S(2528, __c158, 0) as any as S.Schema<GetNamespaceTopicResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetNamespaceTopicRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetNamespaceTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8385,8 +9292,8 @@ export const GetNamespaceTopicEventSubscription: API.OperationMethod<
   GetNamespaceTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionRequest>,
-  output: __S(2576, __c161, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8403,11 +9310,11 @@ export const GetNamespaceTopicEventSubscriptionDeliveryAttributes: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2608,
-    __c163,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<GetNamespaceTopicEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8423,8 +9330,8 @@ export const GetNamespaceTopicEventSubscriptionFullUrl: API.OperationMethod<
   GetNamespaceTopicEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<SubscriptionFullUrl>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetNamespaceTopicEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<SubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8440,8 +9347,8 @@ export const GetPartnerConfiguration: API.OperationMethod<
   GetPartnerConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetPartnerConfigurationRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<GetPartnerConfigurationResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetPartnerConfigurationRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<GetPartnerConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8457,8 +9364,8 @@ export const GetPartnerNamespace: API.OperationMethod<
   GetPartnerNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetPartnerNamespaceRequest>,
-  output: __S(2673, __c167, 1) as any as S.Schema<GetPartnerNamespaceResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetPartnerNamespaceRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<GetPartnerNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8474,8 +9381,8 @@ export const GetPartnerRegistration: API.OperationMethod<
   GetPartnerRegistrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetPartnerRegistrationRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<GetPartnerRegistrationResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetPartnerRegistrationRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetPartnerRegistrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8491,8 +9398,8 @@ export const GetPartnerTopic: API.OperationMethod<
   GetPartnerTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetPartnerTopicRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<GetPartnerTopicResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetPartnerTopicRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<GetPartnerTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8508,8 +9415,8 @@ export const GetPartnerTopicEventSubscription: API.OperationMethod<
   GetPartnerTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetPartnerTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetPartnerTopicEventSubscriptionResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetPartnerTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetPartnerTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8526,11 +9433,11 @@ export const GetPartnerTopicEventSubscriptionDeliveryAttributes: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2768,
-    __c173,
+    5632,
+    __c176,
     0,
   ) as any as S.Schema<GetPartnerTopicEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8546,8 +9453,8 @@ export const GetPartnerTopicEventSubscriptionFullUrl: API.OperationMethod<
   GetPartnerTopicEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<GetPartnerTopicEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetPartnerTopicEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8563,8 +9470,8 @@ export const GetPermissionBinding: API.OperationMethod<
   GetPermissionBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<GetPermissionBindingRequest>,
-  output: __S(2817, __c176, 1) as any as S.Schema<GetPermissionBindingResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetPermissionBindingRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<GetPermissionBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8580,8 +9487,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(3939, __c123, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8597,8 +9504,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<PrivateLinkResource>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<PrivateLinkResource>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8614,8 +9521,8 @@ export const GetSystemTopic: API.OperationMethod<
   GetSystemTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetSystemTopicRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<GetSystemTopicResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetSystemTopicRequest>,
+  output: __S(5889, __c184, 1) as any as S.Schema<GetSystemTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8631,8 +9538,8 @@ export const GetSystemTopicEventSubscription: API.OperationMethod<
   GetSystemTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<GetSystemTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetSystemTopicEventSubscriptionResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetSystemTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetSystemTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8649,11 +9556,11 @@ export const GetSystemTopicEventSubscriptionDeliveryAttributes: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2960,
-    __c185,
+    6016,
+    __c188,
     0,
   ) as any as S.Schema<GetSystemTopicEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8669,8 +9576,8 @@ export const GetSystemTopicEventSubscriptionFullUrl: API.OperationMethod<
   GetSystemTopicEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetSystemTopicEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetSystemTopicEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8686,8 +9593,8 @@ export const GetTopic: API.OperationMethod<
   GetTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<GetTopicRequest>,
-  output: __S(3009, __c188, 1) as any as S.Schema<GetTopicResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetTopicRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<GetTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8703,8 +9610,8 @@ export const GetTopicEventSubscription: API.OperationMethod<
   GetTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetTopicEventSubscriptionResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8721,11 +9628,11 @@ export const GetTopicEventSubscriptionDeliveryAttributes: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c190,
+    6176,
+    __c193,
     0,
   ) as any as S.Schema<GetTopicEventSubscriptionDeliveryAttributesRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<DeliveryAttributeListResult>,
+  output: __S(4576, __c143, 0) as any as S.Schema<DeliveryAttributeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8741,8 +9648,8 @@ export const GetTopicEventSubscriptionFullUrl: API.OperationMethod<
   GetTopicEventSubscriptionFullUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetTopicEventSubscriptionFullUrlRequest>,
-  output: __S(2112, __c132, 0) as any as S.Schema<EventSubscriptionFullUrl>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetTopicEventSubscriptionFullUrlRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<EventSubscriptionFullUrl>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8758,8 +9665,8 @@ export const GetTopicSpace: API.OperationMethod<
   GetTopicSpaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<GetTopicSpaceRequest>,
-  output: __S(3089, __c193, 1) as any as S.Schema<GetTopicSpaceResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetTopicSpaceRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<GetTopicSpaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8775,8 +9682,8 @@ export const GetTopicType: API.OperationMethod<
   GetTopicTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetTopicTypeRequest>,
-  output: __S(3124, __c195, 4) as any as S.Schema<GetTopicTypeResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetTopicTypeRequest>,
+  output: __S(6340, __c198, 4) as any as S.Schema<GetTopicTypeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8792,8 +9699,8 @@ export const GetVerifiedPartner: API.OperationMethod<
   GetVerifiedPartnerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetVerifiedPartnerRequest>,
-  output: __S(3154, __c197, 2) as any as S.Schema<GetVerifiedPartnerResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetVerifiedPartnerRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<GetVerifiedPartnerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8809,8 +9716,8 @@ export const ListCaCertificateByNamespace: API.OperationMethod<
   ListCaCertificateByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<ListCaCertificateByNamespaceRequest>,
-  output: __S(3170, __c198, 2) as any as S.Schema<CaCertificatesListResult>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ListCaCertificateByNamespaceRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<CaCertificatesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8826,8 +9733,8 @@ export const ListChannelByPartnerNamespace: API.OperationMethod<
   ListChannelByPartnerNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ListChannelByPartnerNamespaceRequest>,
-  output: __S(3202, __c200, 2) as any as S.Schema<ChannelsListResult>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ListChannelByPartnerNamespaceRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<ChannelsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8843,8 +9750,8 @@ export const ListClientByNamespace: API.OperationMethod<
   ListClientByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<ListClientByNamespaceRequest>,
-  output: __S(3218, __c201, 2) as any as S.Schema<ClientsListResult>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListClientByNamespaceRequest>,
+  output: __S(6530, __c204, 2) as any as S.Schema<ClientsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8860,8 +9767,8 @@ export const ListClientGroupByNamespace: API.OperationMethod<
   ListClientGroupByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<ListClientGroupByNamespaceRequest>,
-  output: __S(3234, __c202, 2) as any as S.Schema<ClientGroupsListResult>,
+  input: __S(6560, __c205, 0) as any as S.Schema<ListClientGroupByNamespaceRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<ClientGroupsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8877,8 +9784,8 @@ export const ListDomainByResourceGroup: API.OperationMethod<
   ListDomainByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<ListDomainByResourceGroupRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<DomainsListResult>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListDomainByResourceGroupRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<DomainsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8894,8 +9801,8 @@ export const ListDomainBySubscription: API.OperationMethod<
   ListDomainBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<ListDomainBySubscriptionRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<DomainsListResult>,
+  input: __S(6656, __c208, 0) as any as S.Schema<ListDomainBySubscriptionRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<DomainsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8911,8 +9818,8 @@ export const ListDomainEventSubscriptions: API.OperationMethod<
   ListDomainEventSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<ListDomainEventSubscriptionsRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(6688, __c209, 0) as any as S.Schema<ListDomainEventSubscriptionsRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8928,8 +9835,8 @@ export const ListDomainSharedAccessKeys: API.OperationMethod<
   ListDomainSharedAccessKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<ListDomainSharedAccessKeysRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<DomainSharedAccessKeys>,
+  input: __S(6752, __c211, 0) as any as S.Schema<ListDomainSharedAccessKeysRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<DomainSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8945,8 +9852,8 @@ export const ListDomainTopicByDomain: API.OperationMethod<
   ListDomainTopicByDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<ListDomainTopicByDomainRequest>,
-  output: __S(3362, __c210, 2) as any as S.Schema<DomainTopicsListResult>,
+  input: __S(6816, __c213, 0) as any as S.Schema<ListDomainTopicByDomainRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<DomainTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8962,8 +9869,8 @@ export const ListDomainTopicEventSubscriptions: API.OperationMethod<
   ListDomainTopicEventSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<ListDomainTopicEventSubscriptionsRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(6848, __c214, 0) as any as S.Schema<ListDomainTopicEventSubscriptionsRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8979,8 +9886,8 @@ export const ListEventSubscriptionByDomainTopic: API.OperationMethod<
   ListEventSubscriptionByDomainTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<ListEventSubscriptionByDomainTopicRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(6880, __c215, 0) as any as S.Schema<ListEventSubscriptionByDomainTopicRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8996,8 +9903,8 @@ export const ListEventSubscriptionByResource: API.OperationMethod<
   ListEventSubscriptionByResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<ListEventSubscriptionByResourceRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(6944, __c217, 0) as any as S.Schema<ListEventSubscriptionByResourceRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9013,8 +9920,8 @@ export const ListEventSubscriptionGlobalByResourceGroup: API.OperationMethod<
   ListEventSubscriptionGlobalByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<ListEventSubscriptionGlobalByResourceGroupRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(6976, __c218, 0) as any as S.Schema<ListEventSubscriptionGlobalByResourceGroupRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9031,11 +9938,11 @@ export const ListEventSubscriptionGlobalByResourceGroupForTopicType: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c216,
+    7008,
+    __c219,
     0,
   ) as any as S.Schema<ListEventSubscriptionGlobalByResourceGroupForTopicTypeRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9051,8 +9958,8 @@ export const ListEventSubscriptionGlobalBySubscription: API.OperationMethod<
   ListEventSubscriptionGlobalBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<ListEventSubscriptionGlobalBySubscriptionRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(7040, __c220, 0) as any as S.Schema<ListEventSubscriptionGlobalBySubscriptionRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9069,11 +9976,11 @@ export const ListEventSubscriptionGlobalBySubscriptionForTopicType: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3488,
-    __c218,
+    7072,
+    __c221,
     0,
   ) as any as S.Schema<ListEventSubscriptionGlobalBySubscriptionForTopicTypeRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9090,11 +9997,11 @@ export const ListEventSubscriptionRegionalByResourceGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3504,
-    __c219,
+    7104,
+    __c222,
     0,
   ) as any as S.Schema<ListEventSubscriptionRegionalByResourceGroupRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9111,11 +10018,11 @@ export const ListEventSubscriptionRegionalByResourceGroupForTopicType: API.Opera
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c220,
+    7136,
+    __c223,
     0,
   ) as any as S.Schema<ListEventSubscriptionRegionalByResourceGroupForTopicTypeRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9132,11 +10039,11 @@ export const ListEventSubscriptionRegionalBySubscription: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3536,
-    __c221,
+    7168,
+    __c224,
     0,
   ) as any as S.Schema<ListEventSubscriptionRegionalBySubscriptionRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9153,11 +10060,11 @@ export const ListEventSubscriptionRegionalBySubscriptionForTopicType: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c222,
+    7200,
+    __c225,
     0,
   ) as any as S.Schema<ListEventSubscriptionRegionalBySubscriptionForTopicTypeRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9173,8 +10080,8 @@ export const ListNamespaceByResourceGroup: API.OperationMethod<
   ListNamespaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<ListNamespaceByResourceGroupRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<NamespacesListResult>,
+  input: __S(7232, __c226, 0) as any as S.Schema<ListNamespaceByResourceGroupRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<NamespacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9190,8 +10097,8 @@ export const ListNamespaceBySubscription: API.OperationMethod<
   ListNamespaceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListNamespaceBySubscriptionRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<NamespacesListResult>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListNamespaceBySubscriptionRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<NamespacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9207,8 +10114,8 @@ export const ListNamespaceSharedAccessKeys: API.OperationMethod<
   ListNamespaceSharedAccessKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListNamespaceSharedAccessKeysRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<NamespaceSharedAccessKeys>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListNamespaceSharedAccessKeysRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<NamespaceSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9224,8 +10131,8 @@ export const ListNamespaceTopicByNamespace: API.OperationMethod<
   ListNamespaceTopicByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListNamespaceTopicByNamespaceRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<NamespaceTopicsListResult>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListNamespaceTopicByNamespaceRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<NamespaceTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9242,11 +10149,11 @@ export const ListNamespaceTopicEventSubscriptionByNamespaceTopic: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
+    384,
     __c12,
     0,
   ) as any as S.Schema<ListNamespaceTopicEventSubscriptionByNamespaceTopicRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<SubscriptionsListResult>,
+  output: __S(386, __c12, 2) as any as S.Schema<SubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9262,8 +10169,8 @@ export const ListNamespaceTopicSharedAccessKeys: API.OperationMethod<
   ListNamespaceTopicSharedAccessKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListNamespaceTopicSharedAccessKeysRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<TopicSharedAccessKeys>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListNamespaceTopicSharedAccessKeysRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<TopicSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9279,8 +10186,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(228, __c14, 4) as any as S.Schema<OperationsListResult>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(452, __c14, 4) as any as S.Schema<OperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9296,8 +10203,8 @@ export const ListPartnerConfigurationByResourceGroup: API.OperationMethod<
   ListPartnerConfigurationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListPartnerConfigurationByResourceGroupRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<PartnerConfigurationsListResult>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListPartnerConfigurationByResourceGroupRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<PartnerConfigurationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9313,8 +10220,8 @@ export const ListPartnerConfigurationBySubscription: API.OperationMethod<
   ListPartnerConfigurationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListPartnerConfigurationBySubscriptionRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<PartnerConfigurationsListResult>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListPartnerConfigurationBySubscriptionRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<PartnerConfigurationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9330,8 +10237,8 @@ export const ListPartnerNamespaceByResourceGroup: API.OperationMethod<
   ListPartnerNamespaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListPartnerNamespaceByResourceGroupRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<PartnerNamespacesListResult>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListPartnerNamespaceByResourceGroupRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<PartnerNamespacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9347,8 +10254,8 @@ export const ListPartnerNamespaceBySubscription: API.OperationMethod<
   ListPartnerNamespaceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListPartnerNamespaceBySubscriptionRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<PartnerNamespacesListResult>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListPartnerNamespaceBySubscriptionRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<PartnerNamespacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9364,8 +10271,8 @@ export const ListPartnerNamespaceSharedAccessKeys: API.OperationMethod<
   ListPartnerNamespaceSharedAccessKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListPartnerNamespaceSharedAccessKeysRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<PartnerNamespaceSharedAccessKeys>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListPartnerNamespaceSharedAccessKeysRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<PartnerNamespaceSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9381,8 +10288,8 @@ export const ListPartnerRegistrationByResourceGroup: API.OperationMethod<
   ListPartnerRegistrationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListPartnerRegistrationByResourceGroupRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<PartnerRegistrationsListResult>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListPartnerRegistrationByResourceGroupRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<PartnerRegistrationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9398,8 +10305,8 @@ export const ListPartnerRegistrationBySubscription: API.OperationMethod<
   ListPartnerRegistrationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListPartnerRegistrationBySubscriptionRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<PartnerRegistrationsListResult>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListPartnerRegistrationBySubscriptionRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<PartnerRegistrationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9415,8 +10322,8 @@ export const ListPartnerTopicByResourceGroup: API.OperationMethod<
   ListPartnerTopicByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListPartnerTopicByResourceGroupRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<PartnerTopicsListResult>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListPartnerTopicByResourceGroupRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<PartnerTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9432,8 +10339,8 @@ export const ListPartnerTopicBySubscription: API.OperationMethod<
   ListPartnerTopicBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListPartnerTopicBySubscriptionRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<PartnerTopicsListResult>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListPartnerTopicBySubscriptionRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<PartnerTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9450,11 +10357,11 @@ export const ListPartnerTopicEventSubscriptionByPartnerTopic: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    464,
+    928,
     __c29,
     0,
   ) as any as S.Schema<ListPartnerTopicEventSubscriptionByPartnerTopicRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9470,8 +10377,8 @@ export const ListPermissionBindingByNamespace: API.OperationMethod<
   ListPermissionBindingByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListPermissionBindingByNamespaceRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<PermissionBindingsListResult>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListPermissionBindingByNamespaceRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<PermissionBindingsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9487,8 +10394,8 @@ export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
   ListPrivateEndpointConnectionByResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListPrivateEndpointConnectionByResourceRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListPrivateEndpointConnectionByResourceRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9504,8 +10411,8 @@ export const ListPrivateLinkResourceByResource: API.OperationMethod<
   ListPrivateLinkResourceByResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListPrivateLinkResourceByResourceRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<PrivateLinkResourcesListResult>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListPrivateLinkResourceByResourceRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<PrivateLinkResourcesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9521,8 +10428,8 @@ export const ListSystemTopicByResourceGroup: API.OperationMethod<
   ListSystemTopicByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListSystemTopicByResourceGroupRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<SystemTopicsListResult>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListSystemTopicByResourceGroupRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<SystemTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9538,8 +10445,8 @@ export const ListSystemTopicBySubscription: API.OperationMethod<
   ListSystemTopicBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListSystemTopicBySubscriptionRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<SystemTopicsListResult>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListSystemTopicBySubscriptionRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<SystemTopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9556,11 +10463,11 @@ export const ListSystemTopicEventSubscriptionBySystemTopic: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    592,
+    1184,
     __c37,
     0,
   ) as any as S.Schema<ListSystemTopicEventSubscriptionBySystemTopicRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9576,8 +10483,8 @@ export const ListTopicByResourceGroup: API.OperationMethod<
   ListTopicByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListTopicByResourceGroupRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<TopicsListResult>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListTopicByResourceGroupRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<TopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9593,8 +10500,8 @@ export const ListTopicBySubscription: API.OperationMethod<
   ListTopicBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListTopicBySubscriptionRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<TopicsListResult>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListTopicBySubscriptionRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<TopicsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9610,8 +10517,8 @@ export const ListTopicEventSubscriptions: API.OperationMethod<
   ListTopicEventSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListTopicEventSubscriptionsRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EventSubscriptionsListResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListTopicEventSubscriptionsRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<EventSubscriptionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9627,8 +10534,8 @@ export const ListTopicEventTypes: API.OperationMethod<
   ListTopicEventTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListTopicEventTypesRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<EventTypesListResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListTopicEventTypesRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<EventTypesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9644,8 +10551,8 @@ export const ListTopicSharedAccessKeys: API.OperationMethod<
   ListTopicSharedAccessKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListTopicSharedAccessKeysRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<TopicSharedAccessKeys>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListTopicSharedAccessKeysRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<TopicSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9661,8 +10568,8 @@ export const ListTopicSpaceByNamespace: API.OperationMethod<
   ListTopicSpaceByNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListTopicSpaceByNamespaceRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<TopicSpacesListResult>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListTopicSpaceByNamespaceRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<TopicSpacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9678,8 +10585,8 @@ export const ListTopicTypeEventTypes: API.OperationMethod<
   ListTopicTypeEventTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListTopicTypeEventTypesRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<EventTypesListResult>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListTopicTypeEventTypesRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<EventTypesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9695,8 +10602,8 @@ export const ListTopicTypes: API.OperationMethod<
   ListTopicTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListTopicTypesRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<TopicTypesListResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListTopicTypesRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<TopicTypesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9712,8 +10619,8 @@ export const ListVerifiedPartners: API.OperationMethod<
   ListVerifiedPartnersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListVerifiedPartnersRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<VerifiedPartnersListResult>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListVerifiedPartnersRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<VerifiedPartnersListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9729,8 +10636,8 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
   NamespacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(803, __c50, 3) as any as S.Schema<NamespacesCreateOrUpdateRequest>,
-  output: __S(2464, __c154, 0) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
+  input: __S(1603, __c50, 3) as any as S.Schema<NamespacesCreateOrUpdateRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9747,13 +10654,13 @@ export const NamespaceTopicEventSubscriptionsCreateOrUpdate: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
+    1664,
     __c52,
     0,
   ) as any as S.Schema<NamespaceTopicEventSubscriptionsCreateOrUpdateRequest>,
   output: __S(
-    2576,
-    __c161,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -9771,8 +10678,8 @@ export const NamespaceTopicsCreateOrUpdate: API.OperationMethod<
   NamespaceTopicsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c54, 1) as any as S.Schema<NamespaceTopicsCreateOrUpdateRequest>,
-  output: __S(2528, __c158, 0) as any as S.Schema<NamespaceTopicsCreateOrUpdateResponse>,
+  input: __S(1729, __c54, 1) as any as S.Schema<NamespaceTopicsCreateOrUpdateRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<NamespaceTopicsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9788,8 +10695,8 @@ export const PartnerConfigurationsCreateOrUpdate: API.OperationMethod<
   PartnerConfigurationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<PartnerConfigurationsCreateOrUpdateRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<PartnerConfigurationsCreateOrUpdateResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<PartnerConfigurationsCreateOrUpdateRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<PartnerConfigurationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9805,8 +10712,8 @@ export const PartnerConfigurationsUnauthorizePartner: API.OperationMethod<
   PartnerConfigurationsUnauthorizePartnerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<PartnerConfigurationsUnauthorizePartnerRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<PartnerConfigurationsUnauthorizePartnerResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<PartnerConfigurationsUnauthorizePartnerRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<PartnerConfigurationsUnauthorizePartnerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9822,8 +10729,8 @@ export const PartnerNamespacesCreateOrUpdate: API.OperationMethod<
   PartnerNamespacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(913, __c57, 1) as any as S.Schema<PartnerNamespacesCreateOrUpdateRequest>,
-  output: __S(2673, __c167, 1) as any as S.Schema<PartnerNamespacesCreateOrUpdateResponse>,
+  input: __S(1825, __c57, 1) as any as S.Schema<PartnerNamespacesCreateOrUpdateRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<PartnerNamespacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9839,8 +10746,8 @@ export const PartnerRegistrationsCreateOrUpdate: API.OperationMethod<
   PartnerRegistrationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<PartnerRegistrationsCreateOrUpdateRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<PartnerRegistrationsCreateOrUpdateResponse>,
+  input: __S(1857, __c58, 1) as any as S.Schema<PartnerRegistrationsCreateOrUpdateRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<PartnerRegistrationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9856,10 +10763,14 @@ export const PartnerTopicEventSubscriptionsCreateOrUpdate: API.OperationMethod<
   PartnerTopicEventSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<PartnerTopicEventSubscriptionsCreateOrUpdateRequest>,
+  input: __S(
+    1888,
+    __c59,
+    0,
+  ) as any as S.Schema<PartnerTopicEventSubscriptionsCreateOrUpdateRequest>,
   output: __S(
-    1891,
-    __c118,
+    3875,
+    __c121,
     3,
   ) as any as S.Schema<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -9877,8 +10788,8 @@ export const PartnerTopicsCreateOrUpdate: API.OperationMethod<
   PartnerTopicsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(961, __c60, 1) as any as S.Schema<PartnerTopicsCreateOrUpdateRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<PartnerTopicsCreateOrUpdateResponse>,
+  input: __S(1921, __c60, 1) as any as S.Schema<PartnerTopicsCreateOrUpdateRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<PartnerTopicsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9894,8 +10805,8 @@ export const PermissionBindingsCreateOrUpdate: API.OperationMethod<
   PermissionBindingsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c62, 1) as any as S.Schema<PermissionBindingsCreateOrUpdateRequest>,
-  output: __S(2817, __c176, 1) as any as S.Schema<PermissionBindingsCreateOrUpdateResponse>,
+  input: __S(1985, __c62, 1) as any as S.Schema<PermissionBindingsCreateOrUpdateRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<PermissionBindingsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9911,8 +10822,8 @@ export const RegenerateDomainKey: API.OperationMethod<
   RegenerateDomainKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<RegenerateDomainKeyRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<DomainSharedAccessKeys>,
+  input: __S(2016, __c63, 0) as any as S.Schema<RegenerateDomainKeyRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<DomainSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9928,8 +10839,8 @@ export const RegenerateNamespaceKey: API.OperationMethod<
   RegenerateNamespaceKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<RegenerateNamespaceKeyRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<RegenerateNamespaceKeyResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<RegenerateNamespaceKeyRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RegenerateNamespaceKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9945,8 +10856,8 @@ export const RegenerateNamespaceTopicKey: API.OperationMethod<
   RegenerateNamespaceTopicKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<RegenerateNamespaceTopicKeyRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<RegenerateNamespaceTopicKeyResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<RegenerateNamespaceTopicKeyRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RegenerateNamespaceTopicKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9962,8 +10873,8 @@ export const RegeneratePartnerNamespaceKey: API.OperationMethod<
   RegeneratePartnerNamespaceKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<RegeneratePartnerNamespaceKeyRequest>,
-  output: __S(3344, __c209, 0) as any as S.Schema<PartnerNamespaceSharedAccessKeys>,
+  input: __S(2144, __c67, 0) as any as S.Schema<RegeneratePartnerNamespaceKeyRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<PartnerNamespaceSharedAccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9979,8 +10890,8 @@ export const RegenerateTopicKey: API.OperationMethod<
   RegenerateTopicKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<RegenerateTopicKeyRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<RegenerateTopicKeyResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<RegenerateTopicKeyRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RegenerateTopicKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9996,10 +10907,10 @@ export const SystemTopicEventSubscriptionsCreateOrUpdate: API.OperationMethod<
   SystemTopicEventSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<SystemTopicEventSubscriptionsCreateOrUpdateRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<SystemTopicEventSubscriptionsCreateOrUpdateRequest>,
   output: __S(
-    1891,
-    __c118,
+    3875,
+    __c121,
     3,
   ) as any as S.Schema<SystemTopicEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10017,8 +10928,8 @@ export const SystemTopicsCreateOrUpdate: API.OperationMethod<
   SystemTopicsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c70, 1) as any as S.Schema<SystemTopicsCreateOrUpdateRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<SystemTopicsCreateOrUpdateResponse>,
+  input: __S(2241, __c70, 1) as any as S.Schema<SystemTopicsCreateOrUpdateRequest>,
+  output: __S(5889, __c184, 1) as any as S.Schema<SystemTopicsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10034,8 +10945,8 @@ export const TopicEventSubscriptionsCreateOrUpdate: API.OperationMethod<
   TopicEventSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<TopicEventSubscriptionsCreateOrUpdateRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<TopicEventSubscriptionsCreateOrUpdateResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<TopicEventSubscriptionsCreateOrUpdateRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<TopicEventSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10051,8 +10962,8 @@ export const TopicsCreateOrUpdate: API.OperationMethod<
   TopicsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c72, 1) as any as S.Schema<TopicsCreateOrUpdateRequest>,
-  output: __S(3009, __c188, 1) as any as S.Schema<TopicsCreateOrUpdateResponse>,
+  input: __S(2305, __c72, 1) as any as S.Schema<TopicsCreateOrUpdateRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<TopicsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10068,8 +10979,8 @@ export const TopicSpacesCreateOrUpdate: API.OperationMethod<
   TopicSpacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c74, 1) as any as S.Schema<TopicSpacesCreateOrUpdateRequest>,
-  output: __S(3089, __c193, 1) as any as S.Schema<TopicSpacesCreateOrUpdateResponse>,
+  input: __S(2369, __c74, 1) as any as S.Schema<TopicSpacesCreateOrUpdateRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<TopicSpacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10085,8 +10996,8 @@ export const UpdateChannel: API.OperationMethod<
   UpdateChannelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1202, __c75, 2) as any as S.Schema<UpdateChannelRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdateChannelResponse>,
+  input: __S(2402, __c75, 2) as any as S.Schema<UpdateChannelRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdateChannelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10102,8 +11013,8 @@ export const UpdateDomain: API.OperationMethod<
   UpdateDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1233, __c77, 1) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdateDomainResponse>,
+  input: __S(2465, __c77, 1) as any as S.Schema<UpdateDomainRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdateDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10119,8 +11030,8 @@ export const UpdateDomainEventSubscription: API.OperationMethod<
   UpdateDomainEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateDomainEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdateDomainEventSubscriptionResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateDomainEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdateDomainEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10136,8 +11047,8 @@ export const UpdateDomainTopicEventSubscription: API.OperationMethod<
   UpdateDomainTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateDomainTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdateDomainTopicEventSubscriptionResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateDomainTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdateDomainTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10153,8 +11064,8 @@ export const UpdateEventSubscription: API.OperationMethod<
   UpdateEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UpdateEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdateEventSubscriptionResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdateEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10176,8 +11087,8 @@ export const UpdateNamespace: API.OperationMethod<
   UpdateNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1297, __c81, 1) as any as S.Schema<UpdateNamespaceRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<UpdateNamespaceResponse>,
+  input: __S(2593, __c81, 1) as any as S.Schema<UpdateNamespaceRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<UpdateNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10193,8 +11104,8 @@ export const UpdateNamespaceTopic: API.OperationMethod<
   UpdateNamespaceTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c82, 1) as any as S.Schema<UpdateNamespaceTopicRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<UpdateNamespaceTopicResponse>,
+  input: __S(2625, __c82, 1) as any as S.Schema<UpdateNamespaceTopicRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<UpdateNamespaceTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10210,8 +11121,8 @@ export const UpdateNamespaceTopicEventSubscription: API.OperationMethod<
   UpdateNamespaceTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateNamespaceTopicEventSubscriptionRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<UpdateNamespaceTopicEventSubscriptionResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateNamespaceTopicEventSubscriptionRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<UpdateNamespaceTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10227,8 +11138,8 @@ export const UpdatePartnerConfiguration: API.OperationMethod<
   UpdatePartnerConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1345, __c84, 1) as any as S.Schema<UpdatePartnerConfigurationRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<UpdatePartnerConfigurationResponse>,
+  input: __S(2689, __c84, 1) as any as S.Schema<UpdatePartnerConfigurationRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<UpdatePartnerConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10244,8 +11155,8 @@ export const UpdatePartnerNamespace: API.OperationMethod<
   UpdatePartnerNamespaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c86, 1) as any as S.Schema<UpdatePartnerNamespaceRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdatePartnerNamespaceResponse>,
+  input: __S(2753, __c86, 1) as any as S.Schema<UpdatePartnerNamespaceRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdatePartnerNamespaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10261,8 +11172,8 @@ export const UpdatePartnerRegistration: API.OperationMethod<
   UpdatePartnerRegistrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UpdatePartnerRegistrationRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdatePartnerRegistrationResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<UpdatePartnerRegistrationRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdatePartnerRegistrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10278,8 +11189,8 @@ export const UpdatePartnerTopic: API.OperationMethod<
   UpdatePartnerTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UpdatePartnerTopicRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdatePartnerTopicResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<UpdatePartnerTopicRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdatePartnerTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10295,8 +11206,8 @@ export const UpdatePartnerTopicEventSubscription: API.OperationMethod<
   UpdatePartnerTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdatePartnerTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdatePartnerTopicEventSubscriptionResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<UpdatePartnerTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdatePartnerTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10312,8 +11223,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   UpdatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
+  output: __S(3939, __c123, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10329,8 +11240,8 @@ export const UpdateSystemTopic: API.OperationMethod<
   UpdateSystemTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UpdateSystemTopicRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<UpdateSystemTopicResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateSystemTopicRequest>,
+  output: __S(5889, __c184, 1) as any as S.Schema<UpdateSystemTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10346,8 +11257,8 @@ export const UpdateSystemTopicEventSubscription: API.OperationMethod<
   UpdateSystemTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UpdateSystemTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdateSystemTopicEventSubscriptionResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<UpdateSystemTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdateSystemTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10363,8 +11274,8 @@ export const UpdateTopic: API.OperationMethod<
   UpdateTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1489, __c93, 1) as any as S.Schema<UpdateTopicRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdateTopicResponse>,
+  input: __S(2977, __c93, 1) as any as S.Schema<UpdateTopicRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<UpdateTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10380,8 +11291,8 @@ export const UpdateTopicEventSubscription: API.OperationMethod<
   UpdateTopicEventSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UpdateTopicEventSubscriptionRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<UpdateTopicEventSubscriptionResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<UpdateTopicEventSubscriptionRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<UpdateTopicEventSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10397,8 +11308,8 @@ export const ValidateNamespaceCustomDomainOwnership: API.OperationMethod<
   ValidateNamespaceCustomDomainOwnershipError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ValidateNamespaceCustomDomainOwnershipRequest>,
-  output: __S(1521, __c95, 1) as any as S.Schema<CustomDomainOwnershipValidationResult>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ValidateNamespaceCustomDomainOwnershipRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<CustomDomainOwnershipValidationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10459,12 +11370,12 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "InlineEventProperties" });
     case 1:
-      return S.Record(S.String, __S(48, __c3, 0));
+      return S.Record(S.String, __S(96, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          inlineEventTypes: S.optional(__S(49, __c3, 1)),
+          inlineEventTypes: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "EventTypeInfo" });
   }
@@ -10479,14 +11390,14 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentityProperties" });
     case 1:
-      return S.Record(S.String, __S(64, __c4, 0));
+      return S.Record(S.String, __S(128, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(65, __c4, 1)),
+          userAssignedIdentities: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "IdentityInfo" });
   }
@@ -10498,7 +11409,7 @@ function __c5(j: number): any {
         S.Struct({
           partnerRegistrationImmutableId: S.optional(S.String),
           source: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
           expirationTimeIfNotActivatedUtc: S.optional(S.String),
           provisioningState: S.optional(S.String),
           activationState: S.optional(S.String),
@@ -10513,10 +11424,10 @@ function __c5(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(80, __c5, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(160, __c5, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "ActivatePartnerTopicResponse" });
   }
@@ -10553,18 +11464,18 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Partner" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           defaultMaximumExpirationTimeInDays: S.optional(S.Number),
-          authorizedPartnersList: S.optional(__S(113, __c7, 1)),
+          authorizedPartnersList: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "PartnerAuthorization" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          partnerAuthorization: S.optional(__S(114, __c7, 2)),
+          partnerAuthorization: S.optional(__S(226, __c7, 2)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerConfigurationProperties" });
@@ -10574,10 +11485,10 @@ function __c7(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(115, __c7, 3)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(227, __c7, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
-          tags: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "AuthorizePartnerConfigurationPartnerResponse" });
   }
@@ -10660,11 +11571,11 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListNamespaceTopicByNamespaceRequest" });
     case 1:
-      return S.Array(__S(2528, __c158, 0));
+      return S.Array(__S(5152, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(177, __c11, 1)),
+          value: S.optional(__S(353, __c11, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceTopicsListResult" });
@@ -10691,11 +11602,11 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListNamespaceTopicEventSubscriptionByNamespaceTopicRequest" });
     case 1:
-      return S.Array(__S(2576, __c161, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(193, __c12, 1)),
+          value: S.optional(__S(385, __c12, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionsListResult" });
@@ -10747,18 +11658,18 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(225, __c14, 1)),
+          display: S.optional(__S(449, __c14, 1)),
           origin: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(226, __c14, 2));
+      return S.Array(__S(450, __c14, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(227, __c14, 3)),
+          value: S.optional(__S(451, __c14, 3)),
         }),
       ).annotate({ identifier: "OperationsListResult" });
   }
@@ -10784,11 +11695,11 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(116, __c7, 4));
+      return S.Array(__S(228, __c7, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(256, __c16, 0)),
+          value: S.optional(__S(512, __c16, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerConfigurationsListResult" });
@@ -10836,11 +11747,11 @@ function __c18(j: number): any {
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2673, __c167, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(304, __c19, 0)),
+          value: S.optional(__S(608, __c19, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerNamespacesListResult" });
@@ -10926,11 +11837,11 @@ function __c23(j: number): any {
 function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2721, __c170, 1));
+      return S.Array(__S(5537, __c173, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(384, __c24, 0)),
+          value: S.optional(__S(768, __c24, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerRegistrationsListResult" });
@@ -10978,11 +11889,11 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(161, __c5, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(432, __c27, 0)),
+          value: S.optional(__S(864, __c27, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerTopicsListResult" });
@@ -11048,11 +11959,11 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListPermissionBindingByNamespaceRequest" });
     case 1:
-      return S.Array(__S(2817, __c176, 1));
+      return S.Array(__S(5729, __c179, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(481, __c30, 1)),
+          value: S.optional(__S(961, __c30, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PermissionBindingsListResult" });
@@ -11081,7 +11992,7 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1936, __c121, 0)),
+          value: S.optional(__S(3968, __c124, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -11108,11 +12019,11 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByResourceRequest" });
     case 1:
-      return S.Array(__S(2865, __c179, 1));
+      return S.Array(__S(5825, __c182, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(513, __c32, 1)),
+          value: S.optional(__S(1025, __c32, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourcesListResult" });
@@ -11141,11 +12052,11 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2897, __c181, 1));
+      return S.Array(__S(5889, __c184, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(544, __c34, 0)),
+          value: S.optional(__S(1088, __c34, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SystemTopicsListResult" });
@@ -11234,11 +12145,11 @@ function __c38(j: number): any {
 function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3009, __c188, 1));
+      return S.Array(__S(6113, __c191, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(624, __c39, 0)),
+          value: S.optional(__S(1248, __c39, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicsListResult" });
@@ -11322,15 +12233,15 @@ function __c43(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(688, __c43, 0)),
+          properties: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "EventType" });
     case 2:
-      return S.Array(__S(689, __c43, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(690, __c43, 2)),
+          value: S.optional(__S(1378, __c43, 2)),
         }),
       ).annotate({ identifier: "EventTypesListResult" });
   }
@@ -11374,11 +12285,11 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListTopicSpaceByNamespaceRequest" });
     case 1:
-      return S.Array(__S(3089, __c193, 1));
+      return S.Array(__S(6273, __c196, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(721, __c45, 1)),
+          value: S.optional(__S(1441, __c45, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicSpacesListResult" });
@@ -11415,11 +12326,11 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListTopicTypesRequest" });
     case 1:
-      return S.Array(__S(3124, __c195, 4));
+      return S.Array(__S(6340, __c198, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(753, __c47, 1)),
+          value: S.optional(__S(1505, __c47, 1)),
         }),
       ).annotate({ identifier: "TopicTypesListResult" });
   }
@@ -11461,11 +12372,11 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListVerifiedPartnersRequest" });
     case 1:
-      return S.Array(__S(3154, __c197, 2));
+      return S.Array(__S(6402, __c200, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(785, __c49, 1)),
+          value: S.optional(__S(1569, __c49, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifiedPartnersListResult" });
@@ -11476,20 +12387,20 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1922, __c120, 2)),
+          properties: S.optional(__S(3938, __c123, 2)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionInput" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpointConnections: S.optional(__S(801, __c50, 1)),
-          topicsConfiguration: S.optional(__S(816, __c51, 0)),
-          topicSpacesConfiguration: S.optional(__S(817, __c51, 1)),
+          privateEndpointConnections: S.optional(__S(1601, __c50, 1)),
+          topicsConfiguration: S.optional(__S(1632, __c51, 0)),
+          topicSpacesConfiguration: S.optional(__S(1633, __c51, 1)),
           isZoneRedundant: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           minimumTlsVersionAllowed: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespacePropertiesInput" });
@@ -11500,10 +12411,10 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(802, __c50, 2)),
-          sku: S.optional(__S(2488, __c155, 8)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(1602, __c50, 2)),
+          sku: S.optional(__S(5064, __c158, 8)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11520,7 +12431,7 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customDomains: S.optional(__S(2497, __c156, 1)),
+          customDomains: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "TopicsConfigurationInput" });
     case 1:
@@ -11528,11 +12439,11 @@ function __c51(j: number): any {
         S.Struct({
           state: S.optional(S.String),
           routeTopicResourceId: S.optional(S.String),
-          routingEnrichments: S.optional(__S(2485, __c155, 5)),
+          routingEnrichments: S.optional(__S(5061, __c158, 5)),
           maximumSessionExpiryInHours: S.optional(S.Number),
           maximumClientSessionsPerAuthenticationName: S.optional(S.Number),
-          routingIdentityInfo: S.optional(__S(1856, __c116, 0)),
-          customDomains: S.optional(__S(2497, __c156, 1)),
+          routingIdentityInfo: S.optional(__S(3808, __c119, 0)),
+          customDomains: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "TopicSpacesConfigurationInput" });
   }
@@ -11547,7 +12458,7 @@ function __c52(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(848, __c53, 0)),
+          properties: S.optional(__S(1698, __c53, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11564,9 +12475,27 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deliveryConfiguration: S.optional(__S(2594, __c162, 2)),
+          maxDeliveryCount: S.optional(S.Number),
+          eventTimeToLive: S.optional(S.String),
+          deadLetterDestinationWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          destination: S.optional(__S(3714, __c116, 2)),
+        }),
+      ).annotate({ identifier: "PushInfoInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deliveryMode: S.optional(S.String),
+          queue: S.optional(__S(5280, __c165, 0)),
+          push: S.optional(__S(1696, __c53, 0)),
+        }),
+      ).annotate({ identifier: "DeliveryConfigurationInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          deliveryConfiguration: S.optional(__S(1697, __c53, 1)),
           eventDeliverySchema: S.optional(S.String),
-          filtersConfiguration: S.optional(__S(2595, __c162, 3)),
+          filtersConfiguration: S.optional(__S(5283, __c165, 3)),
           expirationTimeUtc: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionPropertiesInput" });
@@ -11589,7 +12518,7 @@ function __c54(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11608,9 +12537,9 @@ function __c55(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(115, __c7, 3)),
+          properties: S.optional(__S(227, __c7, 3)),
           location: S.optional(S.String),
-          tags: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11651,7 +12580,7 @@ function __c57(j: number): any {
           partnerRegistrationFullyQualifiedId: S.optional(S.String),
           minimumTlsVersionAllowed: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           partnerTopicRoutingMode: S.optional(S.String),
         }),
@@ -11663,8 +12592,8 @@ function __c57(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerNamespaceName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(912, __c57, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(1824, __c57, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11691,8 +12620,8 @@ function __c58(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerRegistrationName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(928, __c58, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(1856, __c58, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11713,7 +12642,7 @@ function __c59(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerTopicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11732,7 +12661,7 @@ function __c60(j: number): any {
         S.Struct({
           partnerRegistrationImmutableId: S.optional(S.String),
           source: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
           expirationTimeIfNotActivatedUtc: S.optional(S.String),
           activationState: S.optional(S.String),
           partnerTopicFriendlyDescription: S.optional(S.String),
@@ -11746,9 +12675,9 @@ function __c60(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerTopicName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(1920, __c60, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11799,7 +12728,7 @@ function __c62(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           permissionBindingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(992, __c62, 0)),
+          properties: S.optional(__S(1984, __c62, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11933,7 +12862,7 @@ function __c69(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           systemTopicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11961,9 +12890,9 @@ function __c70(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           systemTopicName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1120, __c70, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(2240, __c70, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11984,7 +12913,7 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12001,12 +12930,12 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
           minimumTlsVersionAllowed: S.optional(S.String),
           inputSchema: S.optional(S.String),
-          inputSchemaMapping: S.optional(__S(1968, __c123, 0)),
+          inputSchemaMapping: S.optional(__S(4034, __c126, 2)),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           dataResidencyBoundary: S.optional(S.String),
         }),
@@ -12018,9 +12947,9 @@ function __c72(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1152, __c72, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12056,7 +12985,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          topicTemplates: S.optional(__S(2368, __c148, 0)),
+          topicTemplates: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "TopicSpacePropertiesInput" });
     case 1:
@@ -12066,7 +12995,7 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           topicSpaceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1184, __c74, 0)),
+          properties: S.optional(__S(2368, __c74, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12083,14 +13012,14 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "PartnerUpdateTopicInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           expirationTimeIfNotActivatedUtc: S.optional(S.String),
-          partnerTopicInfo: S.optional(__S(1200, __c75, 0)),
+          partnerTopicInfo: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({ identifier: "ChannelUpdateParametersProperties" });
     case 2:
@@ -12100,7 +13029,7 @@ function __c75(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerNamespaceName: S.String.pipe(T.Label()),
           channelName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1201, __c75, 1)),
+          properties: S.optional(__S(2401, __c75, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12124,13 +13053,13 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           minimumTlsVersionAllowed: S.optional(S.String),
           disableLocalAuth: S.optional(S.Boolean),
           autoCreateTopicWithFirstSubscription: S.optional(S.Boolean),
           autoDeleteTopicWithLastSubscription: S.optional(S.Boolean),
           dataResidencyBoundary: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "DomainUpdateParameterProperties" });
     case 1:
@@ -12139,9 +13068,9 @@ function __c77(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1232, __c77, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(2464, __c77, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12162,15 +13091,15 @@ function __c78(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12192,15 +13121,15 @@ function __c79(j: number): any {
           domainName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12219,15 +13148,15 @@ function __c80(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12244,10 +13173,10 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          topicSpacesConfiguration: S.optional(__S(817, __c51, 1)),
-          topicsConfiguration: S.optional(__S(816, __c51, 0)),
+          topicSpacesConfiguration: S.optional(__S(1633, __c51, 1)),
+          topicsConfiguration: S.optional(__S(1632, __c51, 0)),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
         }),
       ).annotate({ identifier: "NamespaceUpdateParameterProperties" });
     case 1:
@@ -12256,10 +13185,10 @@ function __c81(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
-          sku: S.optional(__S(2488, __c155, 8)),
-          properties: S.optional(__S(1296, __c81, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
+          sku: S.optional(__S(5064, __c158, 8)),
+          properties: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12276,11 +13205,11 @@ function __c81(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2487, __c155, 7)),
-          sku: S.optional(__S(2488, __c155, 8)),
-          identity: S.optional(__S(66, __c4, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(5063, __c158, 7)),
+          sku: S.optional(__S(5064, __c158, 8)),
+          identity: S.optional(__S(130, __c4, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateNamespaceResponse" });
@@ -12301,7 +13230,7 @@ function __c82(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1312, __c82, 0)),
+          properties: S.optional(__S(2624, __c82, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12317,8 +13246,8 @@ function __c82(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2544, __c159, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(5184, __c162, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateNamespaceTopicResponse" });
@@ -12334,7 +13263,7 @@ function __c83(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(848, __c53, 0)),
+          properties: S.optional(__S(1698, __c53, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12350,8 +13279,8 @@ function __c83(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2596, __c162, 4)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(5284, __c165, 4)),
+          systemData: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateNamespaceTopicEventSubscriptionResponse" });
@@ -12370,8 +13299,8 @@ function __c84(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1344, __c84, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(2688, __c84, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12408,7 +13337,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           minimumTlsVersionAllowed: S.optional(S.String),
           disableLocalAuth: S.optional(S.Boolean),
         }),
@@ -12419,8 +13348,8 @@ function __c86(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           partnerNamespaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1376, __c86, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(2752, __c86, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12440,7 +13369,7 @@ function __c87(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           partnerRegistrationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12460,8 +13389,8 @@ function __c88(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           partnerTopicName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12482,15 +13411,15 @@ function __c89(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerTopicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12512,7 +13441,7 @@ function __c90(j: number): any {
           parentType: S.String.pipe(T.Label()),
           parentName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1922, __c120, 2)),
+          properties: S.optional(__S(3938, __c123, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12532,8 +13461,8 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           systemTopicName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12554,15 +13483,15 @@ function __c92(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           systemTopicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12580,11 +13509,11 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           minimumTlsVersionAllowed: S.optional(S.String),
           disableLocalAuth: S.optional(S.Boolean),
           dataResidencyBoundary: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "TopicUpdateParameterProperties" });
     case 1:
@@ -12593,9 +13522,9 @@ function __c93(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(32, __c2, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
-          properties: S.optional(__S(1488, __c93, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
+          properties: S.optional(__S(2976, __c93, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12616,15 +13545,15 @@ function __c94(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12656,8 +13585,8 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customDomainsForTopicsConfiguration: S.optional(__S(2497, __c156, 1)),
-          customDomainsForTopicSpacesConfiguration: S.optional(__S(2497, __c156, 1)),
+          customDomainsForTopicsConfiguration: S.optional(__S(5089, __c159, 1)),
+          customDomainsForTopicSpacesConfiguration: S.optional(__S(5089, __c159, 1)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "CustomDomainOwnershipValidationResult" });
@@ -12738,7 +13667,7 @@ function __c99(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           caCertificateName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1584, __c99, 0)),
+          properties: S.optional(__S(3168, __c99, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12768,8 +13697,8 @@ function __c100(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1600, __c100, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(3200, __c100, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "CaCertificatesCreateOrUpdateResponse" });
   }
@@ -12979,7 +13908,7 @@ function __c111(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           partnerNamespaceName: S.String.pipe(T.Label()),
           channelName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1793, __c112, 1)),
+          properties: S.optional(__S(3585, __c112, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12999,7 +13928,7 @@ function __c112(j: number): any {
           azureSubscriptionId: S.optional(S.String),
           resourceGroupName: S.optional(S.String),
           name: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerTopicInfo" });
@@ -13007,7 +13936,7 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           channelType: S.optional(S.String),
-          partnerTopicInfo: S.optional(__S(1792, __c112, 0)),
+          partnerTopicInfo: S.optional(__S(3584, __c112, 0)),
           messageForActivation: S.optional(S.String),
           provisioningState: S.optional(S.String),
           readinessState: S.optional(S.String),
@@ -13020,8 +13949,8 @@ function __c112(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1793, __c112, 1)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(3585, __c112, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ChannelsCreateOrUpdateResponse" });
   }
@@ -13055,7 +13984,7 @@ function __c114(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13072,20 +14001,103 @@ function __c115(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          sourceField: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DynamicDeliveryAttributeMappingProperties" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpointUrl: S.optional(S.String),
+          maxEventsPerBatch: S.optional(S.Number),
+          preferredBatchSizeInKilobytes: S.optional(S.Number),
+          azureActiveDirectoryTenantId: S.optional(S.String),
+          azureActiveDirectoryApplicationIdOrUri: S.optional(S.String),
+          deliveryAttributeMappings: S.optional(__S(3780, __c118, 4)),
+          minimumTlsVersionAllowed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebHookEventSubscriptionDestinationPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3712, __c116, 0)),
+        }),
+      ).annotate({ identifier: "WebHookEventSubscriptionDestinationInput" });
+    case 2:
+      return S.Union([
+        __S(3713, __c116, 1),
+        __S(3841, __c120, 1),
+        __S(3843, __c120, 3),
+        __S(3841, __c120, 1),
+        __S(3841, __c120, 1),
+        __S(3841, __c120, 1),
+        __S(3845, __c120, 5),
+        __S(3847, __c120, 7),
+        __S(3849, __c120, 9),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          identity: S.optional(__S(3808, __c119, 0)),
+          destination: S.optional(__S(3714, __c116, 2)),
+        }),
+      ).annotate({ identifier: "DeliveryWithResourceIdentityInput" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          destination: S.optional(__S(3714, __c116, 2)),
+          deliveryWithResourceIdentity: S.optional(__S(3715, __c116, 3)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }),
       ).annotate({ identifier: "EventSubscriptionPropertiesInput" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          isSecret: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "StaticDeliveryAttributeMappingProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.String,
+          properties: S.optional(__S(3776, __c118, 0)),
+        }),
+      ).annotate({ identifier: "StaticDeliveryAttributeMapping" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.String,
+          properties: S.optional(__S(3680, __c115, 0)),
+        }),
+      ).annotate({ identifier: "DynamicDeliveryAttributeMapping" });
+    case 3:
+      return S.Union([__S(3777, __c118, 1), __S(3778, __c118, 2)]);
+    case 4:
+      return S.Array(__S(3779, __c118, 3));
+  }
+}
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13096,53 +14108,229 @@ function __c116(j: number): any {
       ).annotate({ identifier: "EventSubscriptionIdentity" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpointType: S.String,
-          properties: S.optional(S.Unknown),
+          resourceId: S.optional(S.String),
+          deliveryAttributeMappings: S.optional(__S(3780, __c118, 4)),
         }),
-      ).annotate({ identifier: "EventSubscriptionDestination" });
+      ).annotate({ identifier: "EventHubEventSubscriptionDestinationProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1856, __c116, 0)),
-          destination: S.optional(__S(1872, __c117, 0)),
+          endpointType: S.String,
+          properties: S.optional(__S(3840, __c120, 0)),
         }),
-      ).annotate({ identifier: "DeliveryWithResourceIdentity" });
+      ).annotate({ identifier: "EventHubEventSubscriptionDestination" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+          queueName: S.optional(S.String),
+          queueMessageTimeToLiveInSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StorageQueueEventSubscriptionDestinationProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3842, __c120, 2)),
+        }),
+      ).annotate({ identifier: "StorageQueueEventSubscriptionDestination" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+          maxEventsPerBatch: S.optional(S.Number),
+          preferredBatchSizeInKilobytes: S.optional(S.Number),
+          deliveryAttributeMappings: S.optional(__S(3780, __c118, 4)),
+        }),
+      ).annotate({ identifier: "AzureFunctionEventSubscriptionDestinationProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3844, __c120, 4)),
+        }),
+      ).annotate({ identifier: "AzureFunctionEventSubscriptionDestination" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          severity: S.optional(S.String),
+          description: S.optional(S.String),
+          actionGroups: S.optional(__S(4832, __c151, 0)),
+        }),
+      ).annotate({ identifier: "MonitorAlertEventSubscriptionDestinationProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3846, __c120, 6)),
+        }),
+      ).annotate({ identifier: "MonitorAlertEventSubscriptionDestination" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NamespaceTopicEventSubscriptionDestinationProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3848, __c120, 8)),
+        }),
+      ).annotate({ identifier: "NamespaceTopicEventSubscriptionDestination" });
+    case 10:
+      return S.Array(S.Number);
+    case 11:
       return S.suspend(() =>
         S.Struct({
           operatorType: S.String,
           key: S.optional(S.String),
-          value: S.optional(S.Unknown),
-          values: S.optional(S.Unknown),
+          values: S.optional(__S(3850, __c120, 10)),
         }),
-      ).annotate({ identifier: "AdvancedFilter" });
-    case 3:
-      return S.Array(__S(1874, __c117, 2));
-    case 4:
+      ).annotate({ identifier: "NumberInAdvancedFilter" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1856, __c116, 0)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
+          operatorType: S.String,
+          key: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NumberLessThanAdvancedFilter" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          operatorType: S.String,
+          key: S.optional(S.String),
+          value: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BoolEqualsAdvancedFilter" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          operatorType: S.String,
+          key: S.optional(S.String),
+          values: S.optional(__S(4832, __c151, 0)),
+        }),
+      ).annotate({ identifier: "StringInAdvancedFilter" });
+    case 15:
+      return S.Array(__S(3850, __c120, 10));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          operatorType: S.String,
+          key: S.optional(S.String),
+          values: S.optional(__S(3855, __c120, 15)),
+        }),
+      ).annotate({ identifier: "NumberInRangeAdvancedFilter" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          operatorType: S.String,
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IsNullOrUndefinedAdvancedFilter" });
+    case 18:
+      return S.Union([
+        __S(3851, __c120, 11),
+        __S(3851, __c120, 11),
+        __S(3852, __c120, 12),
+        __S(3852, __c120, 12),
+        __S(3852, __c120, 12),
+        __S(3852, __c120, 12),
+        __S(3853, __c120, 13),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3856, __c120, 16),
+        __S(3856, __c120, 16),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3854, __c120, 14),
+        __S(3857, __c120, 17),
+        __S(3857, __c120, 17),
+      ]);
+    case 19:
+      return S.Array(__S(3858, __c120, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+          blobContainerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorageBlobDeadLetterDestinationProperties" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3860, __c120, 20)),
+        }),
+      ).annotate({ identifier: "StorageBlobDeadLetterDestination" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          identity: S.optional(__S(3808, __c119, 0)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
         }),
       ).annotate({ identifier: "DeadLetterWithResourceIdentity" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          endpointUrl: S.optional(S.String),
+          endpointBaseUrl: S.optional(S.String),
+          maxEventsPerBatch: S.optional(S.Number),
+          preferredBatchSizeInKilobytes: S.optional(S.Number),
+          azureActiveDirectoryTenantId: S.optional(S.String),
+          azureActiveDirectoryApplicationIdOrUri: S.optional(S.String),
+          deliveryAttributeMappings: S.optional(__S(3780, __c118, 4)),
+          minimumTlsVersionAllowed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebHookEventSubscriptionDestinationProperties" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          properties: S.optional(__S(3863, __c120, 23)),
+        }),
+      ).annotate({ identifier: "WebHookEventSubscriptionDestination" });
+    case 25:
+      return S.Union([
+        __S(3864, __c120, 24),
+        __S(3841, __c120, 1),
+        __S(3843, __c120, 3),
+        __S(3841, __c120, 1),
+        __S(3841, __c120, 1),
+        __S(3841, __c120, 1),
+        __S(3845, __c120, 5),
+        __S(3847, __c120, 7),
+        __S(3849, __c120, 9),
+      ]);
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          identity: S.optional(__S(3808, __c119, 0)),
+          destination: S.optional(__S(3865, __c120, 25)),
+        }),
+      ).annotate({ identifier: "DeliveryWithResourceIdentity" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subjectBeginsWith: S.optional(S.String),
           subjectEndsWith: S.optional(S.String),
-          includedEventTypes: S.optional(__S(2368, __c148, 0)),
+          includedEventTypes: S.optional(__S(4832, __c151, 0)),
           isSubjectCaseSensitive: S.optional(S.Boolean),
           enableAdvancedFilteringOnArrays: S.optional(S.Boolean),
-          advancedFilters: S.optional(__S(1875, __c117, 3)),
+          advancedFilters: S.optional(__S(3859, __c120, 19)),
         }),
       ).annotate({ identifier: "EventSubscriptionFilter" });
     case 1:
@@ -13157,15 +14345,15 @@ function __c118(j: number): any {
         S.Struct({
           topic: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          destination: S.optional(__S(1872, __c117, 0)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          filter: S.optional(__S(1888, __c118, 0)),
-          labels: S.optional(__S(2368, __c148, 0)),
+          destination: S.optional(__S(3865, __c120, 25)),
+          deliveryWithResourceIdentity: S.optional(__S(3866, __c120, 26)),
+          filter: S.optional(__S(3872, __c121, 0)),
+          labels: S.optional(__S(4832, __c151, 0)),
           expirationTimeUtc: S.optional(S.String),
           eventDeliverySchema: S.optional(S.String),
-          retryPolicy: S.optional(__S(1889, __c118, 1)),
-          deadLetterDestination: S.optional(__S(1872, __c117, 0)),
-          deadLetterWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          retryPolicy: S.optional(__S(3873, __c121, 1)),
+          deadLetterDestination: S.optional(__S(3861, __c120, 21)),
+          deadLetterWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
         }),
       ).annotate({ identifier: "EventSubscriptionProperties" });
     case 3:
@@ -13174,23 +14362,23 @@ function __c118(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1890, __c118, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(3874, __c121, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "DomainEventSubscriptionsCreateOrUpdateResponse" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           minimumTlsVersionAllowed: S.optional(S.String),
           inputSchema: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
-          inputSchemaMapping: S.optional(__S(1968, __c123, 0)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
+          inputSchemaMapping: S.optional(__S(4034, __c126, 2)),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           autoCreateTopicWithFirstSubscription: S.optional(S.Boolean),
           autoDeleteTopicWithLastSubscription: S.optional(S.Boolean),
@@ -13204,9 +14392,9 @@ function __c119(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1904, __c119, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(3904, __c122, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13218,7 +14406,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DomainsCreateOrUpdateRequest" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13237,9 +14425,9 @@ function __c120(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(1920, __c120, 0)),
-          groupIds: S.optional(__S(2368, __c148, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(1921, __c120, 1)),
+          privateEndpoint: S.optional(__S(3936, __c123, 0)),
+          groupIds: S.optional(__S(4832, __c151, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(3937, __c123, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -13249,18 +14437,18 @@ function __c120(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1922, __c120, 2)),
+          properties: S.optional(__S(3938, __c123, 2)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnection" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1923, __c120, 3));
+      return S.Array(__S(3939, __c123, 3));
   }
 }
-function __c122(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13270,35 +14458,53 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "InboundIpRule" });
     case 1:
-      return S.Array(__S(1952, __c122, 0));
+      return S.Array(__S(4000, __c125, 0));
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceField: S.optional(S.String),
+          defaultValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JsonFieldWithDefault" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(__S(3680, __c115, 0)),
+          topic: S.optional(__S(3680, __c115, 0)),
+          eventTime: S.optional(__S(3680, __c115, 0)),
+          eventType: S.optional(__S(4032, __c126, 0)),
+          subject: S.optional(__S(4032, __c126, 0)),
+          dataVersion: S.optional(__S(4032, __c126, 0)),
+        }),
+      ).annotate({ identifier: "JsonInputSchemaMappingProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           inputSchemaMappingType: S.String,
-          properties: S.optional(S.Unknown),
+          properties: S.optional(__S(4033, __c126, 1)),
         }),
-      ).annotate({ identifier: "InputSchemaMapping" });
+      ).annotate({ identifier: "JsonInputSchemaMapping" });
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpointConnections: S.optional(__S(1936, __c121, 0)),
+          privateEndpointConnections: S.optional(__S(3968, __c124, 0)),
           provisioningState: S.optional(S.String),
           minimumTlsVersionAllowed: S.optional(S.String),
           endpoint: S.optional(S.String),
           inputSchema: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
-          inputSchemaMapping: S.optional(__S(1968, __c123, 0)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
+          inputSchemaMapping: S.optional(__S(4034, __c126, 2)),
           metricResourceId: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           autoCreateTopicWithFirstSubscription: S.optional(S.Boolean),
           autoDeleteTopicWithLastSubscription: S.optional(S.Boolean),
@@ -13312,15 +14518,15 @@ function __c124(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(1984, __c124, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(4064, __c127, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "DomainsCreateOrUpdateResponse" });
   }
 }
-function __c125(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13330,7 +14536,7 @@ function __c125(j: number): any {
           domainName: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13342,7 +14548,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DomainTopicEventSubscriptionsCreateOrUpdateRequest" });
   }
 }
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13362,7 +14568,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DomainTopicsCreateOrUpdateRequest" });
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13376,20 +14582,20 @@ function __c127(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2032, __c127, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(4160, __c130, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "DomainTopicsCreateOrUpdateResponse" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
           eventSubscriptionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1840, __c115, 0)),
+          properties: S.optional(__S(3744, __c117, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13401,7 +14607,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "EventSubscriptionsCreateOrUpdateRequest" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13421,7 +14627,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetCaCertificateRequest" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13441,7 +14647,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetChannelRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13461,7 +14667,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetChannelFullUrlRequest" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13471,7 +14677,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "EventSubscriptionFullUrl" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13491,7 +14697,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetClientRequest" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13507,7 +14713,7 @@ function __c134(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           clientGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2144, __c134, 0)),
+          properties: S.optional(__S(4384, __c137, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13519,7 +14725,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ClientGroupsCreateOrUpdateRequest" });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13535,13 +14741,13 @@ function __c135(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2160, __c135, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(4416, __c138, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ClientGroupsCreateOrUpdateResponse" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13561,7 +14767,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetClientGroupRequest" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13580,7 +14786,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13600,7 +14806,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetDomainEventSubscriptionRequest" });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13620,26 +14826,17 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetDomainEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "DeliveryAttributeMapping" });
-    case 1:
-      return S.Array(__S(2240, __c140, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(2241, __c140, 1)),
+          value: S.optional(__S(3780, __c118, 4)),
         }),
       ).annotate({ identifier: "DeliveryAttributeListResult" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13659,7 +14856,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetDomainEventSubscriptionFullUrlRequest" });
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13679,7 +14876,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetDomainTopicRequest" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13700,7 +14897,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetDomainTopicEventSubscriptionRequest" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13721,7 +14918,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetDomainTopicEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13742,7 +14939,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetDomainTopicEventSubscriptionFullUrlRequest" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13760,16 +14957,16 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetEventSubscriptionRequest" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           authenticationName: S.optional(S.String),
-          clientCertificateAuthentication: S.optional(__S(2384, __c149, 0)),
+          clientCertificateAuthentication: S.optional(__S(4864, __c152, 0)),
           state: S.optional(S.String),
-          attributes: S.optional(__S(2385, __c149, 1)),
+          attributes: S.optional(__S(4865, __c152, 1)),
         }),
       ).annotate({ identifier: "ClientPropertiesInput" });
     case 1:
@@ -13779,7 +14976,7 @@ function __c147(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           clientName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2352, __c147, 0)),
+          properties: S.optional(__S(4800, __c150, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13791,19 +14988,19 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ClientsCreateOrUpdateRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validationScheme: S.optional(S.String),
-          allowedThumbprints: S.optional(__S(2368, __c148, 0)),
+          allowedThumbprints: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "ClientCertificateAuthentication" });
     case 1:
@@ -13813,9 +15010,9 @@ function __c149(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           authenticationName: S.optional(S.String),
-          clientCertificateAuthentication: S.optional(__S(2384, __c149, 0)),
+          clientCertificateAuthentication: S.optional(__S(4864, __c152, 0)),
           state: S.optional(S.String),
-          attributes: S.optional(__S(2385, __c149, 1)),
+          attributes: S.optional(__S(4865, __c152, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientProperties" });
@@ -13825,13 +15022,13 @@ function __c149(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2386, __c149, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(4866, __c152, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ClientsCreateOrUpdateResponse" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13849,7 +15046,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13867,7 +15064,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetEventSubscriptionFullUrlRequest" });
   }
 }
-function __c152(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13895,13 +15092,13 @@ function __c152(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2433, __c152, 1)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(4961, __c155, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetExtensionTopicResponse" });
   }
 }
-function __c153(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13920,7 +15117,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetNamespaceRequest" });
   }
 }
-function __c154(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13929,22 +15126,22 @@ function __c154(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2487, __c155, 7)),
-          sku: S.optional(__S(2488, __c155, 8)),
-          identity: S.optional(__S(66, __c4, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(5063, __c158, 7)),
+          sku: S.optional(__S(5064, __c158, 8)),
+          identity: S.optional(__S(130, __c4, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
-function __c155(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           hostname: S.optional(S.String),
-          customDomains: S.optional(__S(2497, __c156, 1)),
+          customDomains: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "TopicsConfiguration" });
     case 1:
@@ -13952,10 +15149,11 @@ function __c155(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           valueType: S.String,
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StaticRoutingEnrichment" });
+      ).annotate({ identifier: "StaticStringRoutingEnrichment" });
     case 2:
-      return S.Array(__S(2481, __c155, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13964,12 +15162,12 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "DynamicRoutingEnrichment" });
     case 4:
-      return S.Array(__S(2483, __c155, 3));
+      return S.Array(__S(5059, __c158, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          static: S.optional(__S(2482, __c155, 2)),
-          dynamic: S.optional(__S(2484, __c155, 4)),
+          static: S.optional(__S(5058, __c158, 2)),
+          dynamic: S.optional(__S(5060, __c158, 4)),
         }),
       ).annotate({ identifier: "RoutingEnrichments" });
     case 6:
@@ -13978,23 +15176,23 @@ function __c155(j: number): any {
           state: S.optional(S.String),
           routeTopicResourceId: S.optional(S.String),
           hostname: S.optional(S.String),
-          routingEnrichments: S.optional(__S(2485, __c155, 5)),
+          routingEnrichments: S.optional(__S(5061, __c158, 5)),
           maximumSessionExpiryInHours: S.optional(S.Number),
           maximumClientSessionsPerAuthenticationName: S.optional(S.Number),
-          routingIdentityInfo: S.optional(__S(1856, __c116, 0)),
-          customDomains: S.optional(__S(2497, __c156, 1)),
+          routingIdentityInfo: S.optional(__S(3808, __c119, 0)),
+          customDomains: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "TopicSpacesConfiguration" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          privateEndpointConnections: S.optional(__S(1936, __c121, 0)),
+          privateEndpointConnections: S.optional(__S(3968, __c124, 0)),
           provisioningState: S.optional(S.String),
-          topicsConfiguration: S.optional(__S(2480, __c155, 0)),
-          topicSpacesConfiguration: S.optional(__S(2486, __c155, 6)),
+          topicsConfiguration: S.optional(__S(5056, __c158, 0)),
+          topicSpacesConfiguration: S.optional(__S(5062, __c158, 6)),
           isZoneRedundant: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           minimumTlsVersionAllowed: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceProperties" });
@@ -14007,24 +15205,24 @@ function __c155(j: number): any {
       ).annotate({ identifier: "NamespaceSku" });
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fullyQualifiedDomainName: S.String,
           validationState: S.optional(S.String),
-          identity: S.optional(__S(1856, __c116, 0)),
+          identity: S.optional(__S(3808, __c119, 0)),
           certificateUrl: S.optional(S.String),
           expectedTxtRecordName: S.optional(S.String),
           expectedTxtRecordValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainConfiguration" });
     case 1:
-      return S.Array(__S(2496, __c156, 0));
+      return S.Array(__S(5088, __c159, 0));
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14044,7 +15242,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetNamespaceTopicRequest" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14052,13 +15250,13 @@ function __c158(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2544, __c159, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(5184, __c162, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetNamespaceTopicResponse" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14071,7 +15269,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "NamespaceTopicProperties" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14092,7 +15290,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetNamespaceTopicEventSubscriptionRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14100,20 +15298,20 @@ function __c161(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2596, __c162, 4)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(5284, __c165, 4)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetNamespaceTopicEventSubscriptionResponse" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           receiveLockDurationInSeconds: S.optional(S.Number),
           maxDeliveryCount: S.optional(S.Number),
-          deadLetterDestinationWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
+          deadLetterDestinationWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
           eventTimeToLive: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueueInfo" });
@@ -14122,39 +15320,39 @@ function __c162(j: number): any {
         S.Struct({
           maxDeliveryCount: S.optional(S.Number),
           eventTimeToLive: S.optional(S.String),
-          deadLetterDestinationWithResourceIdentity: S.optional(__S(1876, __c117, 4)),
-          deliveryWithResourceIdentity: S.optional(__S(1873, __c117, 1)),
-          destination: S.optional(__S(1872, __c117, 0)),
+          deadLetterDestinationWithResourceIdentity: S.optional(__S(3862, __c120, 22)),
+          deliveryWithResourceIdentity: S.optional(__S(3866, __c120, 26)),
+          destination: S.optional(__S(3865, __c120, 25)),
         }),
       ).annotate({ identifier: "PushInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           deliveryMode: S.optional(S.String),
-          queue: S.optional(__S(2592, __c162, 0)),
-          push: S.optional(__S(2593, __c162, 1)),
+          queue: S.optional(__S(5280, __c165, 0)),
+          push: S.optional(__S(5281, __c165, 1)),
         }),
       ).annotate({ identifier: "DeliveryConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          includedEventTypes: S.optional(__S(2368, __c148, 0)),
-          filters: S.optional(__S(1875, __c117, 3)),
+          includedEventTypes: S.optional(__S(4832, __c151, 0)),
+          filters: S.optional(__S(3859, __c120, 19)),
         }),
       ).annotate({ identifier: "FiltersConfiguration" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          deliveryConfiguration: S.optional(__S(2594, __c162, 2)),
+          deliveryConfiguration: S.optional(__S(5282, __c165, 2)),
           eventDeliverySchema: S.optional(S.String),
-          filtersConfiguration: S.optional(__S(2595, __c162, 3)),
+          filtersConfiguration: S.optional(__S(5283, __c165, 3)),
           expirationTimeUtc: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionProperties" });
   }
 }
-function __c163(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14175,7 +15373,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetNamespaceTopicEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c164(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14196,7 +15394,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetNamespaceTopicEventSubscriptionFullUrlRequest" });
   }
 }
-function __c165(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14214,7 +15412,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetPartnerConfigurationRequest" });
   }
 }
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14233,18 +15431,18 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetPartnerNamespaceRequest" });
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpointConnections: S.optional(__S(1936, __c121, 0)),
+          privateEndpointConnections: S.optional(__S(3968, __c124, 0)),
           provisioningState: S.optional(S.String),
           partnerRegistrationFullyQualifiedId: S.optional(S.String),
           minimumTlsVersionAllowed: S.optional(S.String),
           endpoint: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           partnerTopicRoutingMode: S.optional(S.String),
         }),
@@ -14256,14 +15454,14 @@ function __c167(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2672, __c167, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(5440, __c170, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetPartnerNamespaceResponse" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14282,7 +15480,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "DeactivatePartnerTopicRequest" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14301,7 +15499,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetPartnerRegistrationRequest" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14317,14 +15515,14 @@ function __c170(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2720, __c170, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(5536, __c173, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetPartnerRegistrationResponse" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14343,7 +15541,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetPartnerTopicRequest" });
   }
 }
-function __c172(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14363,7 +15561,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetPartnerTopicEventSubscriptionRequest" });
   }
 }
-function __c173(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14383,7 +15581,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetPartnerTopicEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c174(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14403,7 +15601,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetPartnerTopicEventSubscriptionFullUrlRequest" });
   }
 }
-function __c175(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14423,7 +15621,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetPermissionBindingRequest" });
   }
 }
-function __c176(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14441,13 +15639,13 @@ function __c176(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2816, __c176, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(5728, __c179, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetPermissionBindingResponse" });
   }
 }
-function __c177(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14468,7 +15666,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c178(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14489,21 +15687,21 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c179(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
           displayName: S.optional(S.String),
-          requiredMembers: S.optional(__S(2368, __c148, 0)),
-          requiredZoneNames: S.optional(__S(2368, __c148, 0)),
+          requiredMembers: S.optional(__S(4832, __c151, 0)),
+          requiredZoneNames: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(2864, __c179, 0)),
+          properties: S.optional(__S(5824, __c182, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -14511,7 +15709,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "PrivateLinkResource" });
   }
 }
-function __c180(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14530,7 +15728,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetSystemTopicRequest" });
   }
 }
-function __c181(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14548,15 +15746,15 @@ function __c181(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2896, __c181, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(5888, __c184, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "GetSystemTopicResponse" });
   }
 }
-function __c182(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14576,7 +15774,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetSystemTopicEventSubscriptionRequest" });
   }
 }
-function __c183(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14596,7 +15794,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "DeleteCaCertificateRequest" });
   }
 }
-function __c184(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14606,7 +15804,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "DeleteCaCertificateResponse" });
   }
 }
-function __c185(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14626,7 +15824,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetSystemTopicEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c186(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14646,7 +15844,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetSystemTopicEventSubscriptionFullUrlRequest" });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14665,21 +15863,21 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetTopicRequest" });
   }
 }
-function __c188(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpointConnections: S.optional(__S(1936, __c121, 0)),
+          privateEndpointConnections: S.optional(__S(3968, __c124, 0)),
           provisioningState: S.optional(S.String),
           endpoint: S.optional(S.String),
-          eventTypeInfo: S.optional(__S(50, __c3, 2)),
+          eventTypeInfo: S.optional(__S(98, __c3, 2)),
           minimumTlsVersionAllowed: S.optional(S.String),
           inputSchema: S.optional(S.String),
-          inputSchemaMapping: S.optional(__S(1968, __c123, 0)),
+          inputSchemaMapping: S.optional(__S(4034, __c126, 2)),
           metricResourceId: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          inboundIpRules: S.optional(__S(1953, __c122, 1)),
+          inboundIpRules: S.optional(__S(4001, __c125, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           dataResidencyBoundary: S.optional(S.String),
         }),
@@ -14691,15 +15889,15 @@ function __c188(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(3008, __c188, 0)),
-          identity: S.optional(__S(66, __c4, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(64, __c2, 0)),
+          properties: S.optional(__S(6112, __c191, 0)),
+          identity: S.optional(__S(130, __c4, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetTopicResponse" });
   }
 }
-function __c189(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14719,7 +15917,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetTopicEventSubscriptionRequest" });
   }
 }
-function __c190(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14739,7 +15937,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetTopicEventSubscriptionDeliveryAttributesRequest" });
   }
 }
-function __c191(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14759,7 +15957,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GetTopicEventSubscriptionFullUrlRequest" });
   }
 }
-function __c192(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14779,13 +15977,13 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetTopicSpaceRequest" });
   }
 }
-function __c193(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          topicTemplates: S.optional(__S(2368, __c148, 0)),
+          topicTemplates: S.optional(__S(4832, __c151, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicSpaceProperties" });
@@ -14795,13 +15993,13 @@ function __c193(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3088, __c193, 0)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetTopicSpaceResponse" });
   }
 }
-function __c194(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14818,7 +16016,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetTopicTypeRequest" });
   }
 }
-function __c195(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -14830,7 +16028,7 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "TopicTypeAdditionalEnforcedPermission" });
     case 2:
-      return S.Array(__S(3121, __c195, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14839,11 +16037,11 @@ function __c195(j: number): any {
           description: S.optional(S.String),
           resourceRegionType: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          supportedLocations: S.optional(__S(2368, __c148, 0)),
+          supportedLocations: S.optional(__S(4832, __c151, 0)),
           sourceResourceFormat: S.optional(S.String),
-          supportedScopesForSource: S.optional(__S(3120, __c195, 0)),
+          supportedScopesForSource: S.optional(__S(6336, __c198, 0)),
           areRegionalAndGlobalSourcesSupported: S.optional(S.Boolean),
-          additionalEnforcedPermissions: S.optional(__S(3122, __c195, 2)),
+          additionalEnforcedPermissions: S.optional(__S(6338, __c198, 2)),
         }),
       ).annotate({ identifier: "TopicTypeProperties" });
     case 4:
@@ -14852,12 +16050,12 @@ function __c195(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3123, __c195, 3)),
+          properties: S.optional(__S(6339, __c198, 3)),
         }),
       ).annotate({ identifier: "GetTopicTypeResponse" });
   }
 }
-function __c196(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14874,7 +16072,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetVerifiedPartnerRequest" });
   }
 }
-function __c197(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14890,7 +16088,7 @@ function __c197(j: number): any {
           partnerRegistrationImmutableId: S.optional(S.String),
           organizationName: S.optional(S.String),
           partnerDisplayName: S.optional(S.String),
-          partnerTopicDetails: S.optional(__S(3152, __c197, 0)),
+          partnerTopicDetails: S.optional(__S(6400, __c200, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifiedPartnerProperties" });
@@ -14900,13 +16098,13 @@ function __c197(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3153, __c197, 1)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(6401, __c200, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetVerifiedPartnerResponse" });
   }
 }
-function __c198(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14926,17 +16124,17 @@ function __c198(j: number): any {
         ),
       ).annotate({ identifier: "ListCaCertificateByNamespaceRequest" });
     case 1:
-      return S.Array(__S(1601, __c100, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3169, __c198, 1)),
+          value: S.optional(__S(6433, __c201, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CaCertificatesListResult" });
   }
 }
-function __c199(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14956,7 +16154,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "DeleteChannelRequest" });
   }
 }
-function __c200(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14976,17 +16174,17 @@ function __c200(j: number): any {
         ),
       ).annotate({ identifier: "ListChannelByPartnerNamespaceRequest" });
     case 1:
-      return S.Array(__S(1794, __c112, 2));
+      return S.Array(__S(3586, __c112, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3201, __c200, 1)),
+          value: S.optional(__S(6497, __c203, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChannelsListResult" });
   }
 }
-function __c201(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15006,17 +16204,17 @@ function __c201(j: number): any {
         ),
       ).annotate({ identifier: "ListClientByNamespaceRequest" });
     case 1:
-      return S.Array(__S(2387, __c149, 3));
+      return S.Array(__S(4867, __c152, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3217, __c201, 1)),
+          value: S.optional(__S(6529, __c204, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientsListResult" });
   }
 }
-function __c202(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15036,17 +16234,17 @@ function __c202(j: number): any {
         ),
       ).annotate({ identifier: "ListClientGroupByNamespaceRequest" });
     case 1:
-      return S.Array(__S(2161, __c135, 1));
+      return S.Array(__S(4417, __c138, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3233, __c202, 1)),
+          value: S.optional(__S(6561, __c205, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientGroupsListResult" });
   }
 }
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15066,20 +16264,20 @@ function __c203(j: number): any {
       ).annotate({ identifier: "ListDomainByResourceGroupRequest" });
   }
 }
-function __c204(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1985, __c124, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3264, __c204, 0)),
+          value: S.optional(__S(6624, __c207, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainsListResult" });
   }
 }
-function __c205(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15098,7 +16296,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ListDomainBySubscriptionRequest" });
   }
 }
-function __c206(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15119,20 +16317,20 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ListDomainEventSubscriptionsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1891, __c118, 3));
+      return S.Array(__S(3875, __c121, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3312, __c207, 0)),
+          value: S.optional(__S(6720, __c210, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventSubscriptionsListResult" });
   }
 }
-function __c208(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15151,7 +16349,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "ListDomainSharedAccessKeysRequest" });
   }
 }
-function __c209(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15162,7 +16360,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DomainSharedAccessKeys" });
   }
 }
-function __c210(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15182,17 +16380,17 @@ function __c210(j: number): any {
         ),
       ).annotate({ identifier: "ListDomainTopicByDomainRequest" });
     case 1:
-      return S.Array(__S(2033, __c127, 1));
+      return S.Array(__S(4161, __c130, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3361, __c210, 1)),
+          value: S.optional(__S(6817, __c213, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainTopicsListResult" });
   }
 }
-function __c211(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15214,7 +16412,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "ListDomainTopicEventSubscriptionsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15236,7 +16434,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionByDomainTopicRequest" });
   }
 }
-function __c213(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15256,7 +16454,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "DeleteClientRequest" });
   }
 }
-function __c214(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15279,7 +16477,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionByResourceRequest" });
   }
 }
-function __c215(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15299,7 +16497,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionGlobalByResourceGroupRequest" });
   }
 }
-function __c216(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15320,7 +16518,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionGlobalByResourceGroupForTopicTypeRequest" });
   }
 }
-function __c217(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15339,7 +16537,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionGlobalBySubscriptionRequest" });
   }
 }
-function __c218(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15359,7 +16557,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionGlobalBySubscriptionForTopicTypeRequest" });
   }
 }
-function __c219(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15380,7 +16578,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionRegionalByResourceGroupRequest" });
   }
 }
-function __c220(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15402,7 +16600,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionRegionalByResourceGroupForTopicTypeRequest" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15422,7 +16620,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionRegionalBySubscriptionRequest" });
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15443,7 +16641,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ListEventSubscriptionRegionalBySubscriptionForTopicTypeRequest" });
   }
 }
-function __c223(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15463,14 +16661,14 @@ function __c223(j: number): any {
       ).annotate({ identifier: "ListNamespaceByResourceGroupRequest" });
   }
 }
-function __c224(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2464, __c154, 0));
+      return S.Array(__S(5024, __c157, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3584, __c224, 0)),
+          value: S.optional(__S(7264, __c227, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespacesListResult" });

@@ -33,7 +33,7 @@ export interface CreatePlacementGroupRequest {
   /** Name of the Placement Group. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreatePlacementGroupRequestLabelsMap;
+  labels?: CreatePlacementGroupRequestLabelsMap | undefined;
   /** Define the Placement Group Type. */
   type: CreatePlacementGroupRequestType | (string & {});
 }
@@ -97,7 +97,7 @@ export interface CreatePlacementGroupResponseAction {
 }
 export interface CreatePlacementGroupResponse {
   placement_group: CreatePlacementGroupResponsePlacementGroup;
-  action?: CreatePlacementGroupResponseAction | null;
+  action?: CreatePlacementGroupResponseAction | null | undefined;
 }
 export interface DeletePlacementGroupRequest {
   /** ID of the Placement Group. */
@@ -153,17 +153,17 @@ export type ListPlacementGroupsRequestTypeList = Array<
 >;
 export interface ListPlacementGroupsRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListPlacementGroupsRequestSortList;
+  sort?: ListPlacementGroupsRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Filter resources by type. May be used multiple times. The response will only contain the resources with the specified type. */
-  type?: ListPlacementGroupsRequestTypeList;
+  type?: ListPlacementGroupsRequestTypeList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListPlacementGroupsResponsePlacementGroupsItemLabelsMap = {
@@ -218,9 +218,9 @@ export interface UpdatePlacementGroupRequest {
   /** ID of the Placement Group. */
   id: number;
   /** New Placement Group name. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdatePlacementGroupRequestLabelsMap;
+  labels?: UpdatePlacementGroupRequestLabelsMap | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type UpdatePlacementGroupResponsePlacementGroupLabelsMap = {

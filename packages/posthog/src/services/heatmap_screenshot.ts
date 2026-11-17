@@ -43,7 +43,7 @@ export interface UpdateHeatmapScreenshotSettingsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Exact DNS hostnames approved to receive the screenshot cookie. No URLs, wildcards, or IP addresses. */
-  allowed_hostnames?: UpdateHeatmapScreenshotSettingsRequestAllowedHostnamesList;
+  allowed_hostnames?: UpdateHeatmapScreenshotSettingsRequestAllowedHostnamesList | undefined;
 }
 export type GetHeatmapScreenshotSettingsError = PosthogOpError;
 export const getHeatmapScreenshotSettings: API.OperationMethod<

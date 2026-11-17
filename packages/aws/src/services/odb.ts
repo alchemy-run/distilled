@@ -146,7 +146,7 @@ export class ThrottlingException
       ),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -156,7 +156,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1329, __c83, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(1345, __c84, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -176,10 +176,11 @@ export interface AssociateIamRoleToResourceInput {
   resourceArn: string;
 }
 export interface AssociateIamRoleToResourceOutput {}
-export type ResourceIdOrArn = string;
-export interface AssociateVirtualMachinesToExadbVmClusterInput {
-  exadbVmClusterId: string;
-  desiredNodeCount: number;
+export type ResourceId = string;
+export type StringList = string[];
+export interface AssociateVirtualMachinesToCloudVmClusterInput {
+  cloudVmClusterId: string;
+  dbServers: string[];
 }
 export type ResourceStatus =
   | "AVAILABLE"
@@ -190,10 +191,21 @@ export type ResourceStatus =
   | "UPDATING"
   | "MAINTENANCE_IN_PROGRESS"
   | (string & {});
+export interface AssociateVirtualMachinesToCloudVmClusterOutput {
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterId: string;
+}
+export type ResourceIdOrArn = string;
+export interface AssociateVirtualMachinesToExadbVmClusterInput {
+  exadbVmClusterId: string;
+  desiredNodeCount: number;
+}
 export interface AssociateVirtualMachinesToExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export type ResourceDisplayName = string;
@@ -204,16 +216,16 @@ export type DatabaseEdition = "STANDARD_EDITION" | "ENTERPRISE_EDITION" | (strin
 export type StandbyAllowlistedIpsSource = "PRIMARY" | "SEPARATE" | "NOT_APPLICABLE" | (string & {});
 export type AutonomousMaintenanceScheduleType = "EARLY" | "REGULAR" | (string & {});
 export interface CustomerContact {
-  email?: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomerContacts = CustomerContact[];
 export interface ResourcePoolSummary {
-  isDisabled?: boolean;
-  poolSize?: number;
-  poolStorageSizeInTBs?: number;
-  availableStorageCapacityInTBs?: number;
-  totalComputeCapacity?: number;
-  availableComputeCapacity?: number;
+  isDisabled?: boolean | undefined;
+  poolSize?: number | undefined;
+  poolStorageSizeInTBs?: number | undefined;
+  availableStorageCapacityInTBs?: number | undefined;
+  totalComputeCapacity?: number | undefined;
+  availableComputeCapacity?: number | undefined;
 }
 export type DayOfWeekName =
   | "MONDAY"
@@ -225,23 +237,22 @@ export type DayOfWeekName =
   | "SUNDAY"
   | (string & {});
 export interface DayOfWeek {
-  name?: DayOfWeekName;
+  name?: DayOfWeekName | undefined;
 }
 export interface ScheduledOperationDetails {
   dayOfWeek: DayOfWeek;
-  scheduledStartTime?: string;
-  scheduledStopTime?: string;
+  scheduledStartTime?: string | undefined;
+  scheduledStopTime?: string | undefined;
 }
 export type ScheduledOperationDetailsList = ScheduledOperationDetails[];
-export type StringList = string[];
 export interface TransportableTablespace {
-  ttsBundleUrl?: string;
+  ttsBundleUrl?: string | undefined;
 }
 export interface DatabaseTool {
-  isEnabled?: boolean;
-  name?: string;
-  computeCount?: number;
-  maxIdleTimeInMinutes?: number;
+  isEnabled?: boolean | undefined;
+  name?: string | undefined;
+  computeCount?: number | undefined;
+  maxIdleTimeInMinutes?: number | undefined;
 }
 export type DatabaseToolList = DatabaseTool[];
 export type SourceType =
@@ -262,14 +273,14 @@ export type IntegerList = number[];
 export interface RestoreFromBackupConfiguration {
   autonomousDatabaseBackupId: string;
   cloneType: CloneType;
-  cloneTableSpaceList?: number[];
+  cloneTableSpaceList?: number[] | undefined;
 }
 export interface PointInTimeRestoreConfiguration {
   sourceAutonomousDatabaseId: string;
   cloneType: CloneType;
-  timestamp?: Date;
-  useLatestAvailableBackupTimestamp?: boolean;
-  cloneTableSpaceList?: number[];
+  timestamp?: Date | undefined;
+  useLatestAvailableBackupTimestamp?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
 }
 export interface CrossRegionDataGuardConfiguration {
   sourceAutonomousDatabaseArn: string;
@@ -278,75 +289,75 @@ export type DisasterRecoveryType = "ADG" | "BACKUP_BASED" | (string & {});
 export interface CrossRegionDisasterRecoveryConfiguration {
   sourceAutonomousDatabaseArn: string;
   remoteDisasterRecoveryType: DisasterRecoveryType;
-  isReplicateAutomaticBackups?: boolean;
+  isReplicateAutomaticBackups?: boolean | undefined;
 }
 export type RefreshableMode = "AUTOMATIC" | "MANUAL" | (string & {});
 export type OpenMode = "READ_ONLY" | "READ_WRITE" | (string & {});
 export interface CloneToRefreshableConfiguration {
   sourceAutonomousDatabaseId: string;
-  refreshableMode?: RefreshableMode;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  timeOfAutoRefreshStart?: Date;
-  openMode?: OpenMode;
-  cloneType?: CloneType;
+  refreshableMode?: RefreshableMode | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  openMode?: OpenMode | undefined;
+  cloneType?: CloneType | undefined;
 }
 export type SourceConfiguration =
   | {
       databaseClone: DatabaseCloneConfiguration;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
+      databaseClone?: undefined;
       restoreFromBackup: RestoreFromBackupConfiguration;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
       pointInTimeRestore: PointInTimeRestoreConfiguration;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
       crossRegionDataGuard: CrossRegionDataGuardConfiguration;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
       crossRegionDisasterRecovery: CrossRegionDisasterRecoveryConfiguration;
-      cloneToRefreshable?: never;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
       cloneToRefreshable: CloneToRefreshableConfiguration;
     };
 export type EncryptionKeyProviderInput = "ORACLE_MANAGED" | "AWS_KMS" | (string & {});
 export type ExternalIdType = "database_ocid" | "compartment_ocid" | "tenant_ocid" | (string & {});
 export type KmsKeyIdOrArn = string;
 export interface AwsEncryptionKeyConfigurationInput {
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
-  kmsKeyId?: string;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type EncryptionKeyConfigurationInput = {
   awsEncryptionKey: AwsEncryptionKeyConfigurationInput;
@@ -357,9 +368,9 @@ export type AdminPasswordSource =
   | (string & {});
 export type SecretIdOrArn = string;
 export interface CustomerManagedAwsSecretConfigurationInput {
-  secretId?: string;
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
+  secretId?: string | undefined;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
 }
 export type AdminPasswordSourceConfigurationInput = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput;
@@ -369,47 +380,47 @@ export type TagKey = string;
 export type TagValue = string;
 export type RequestTagMap = { [key: string]: string | undefined };
 export interface CreateAutonomousDatabaseInput {
-  odbNetworkId?: string;
-  displayName?: string;
-  dbName?: string;
-  adminPassword?: string | redacted.Redacted<string>;
-  computeCount?: number;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  dbWorkload?: DbWorkload;
-  isAutoScalingEnabled?: boolean;
-  isAutoScalingForStorageEnabled?: boolean;
-  licenseModel?: LicenseModel;
-  characterSet?: string;
-  ncharacterSet?: string;
-  dbVersion?: string;
-  databaseEdition?: DatabaseEdition;
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  backupRetentionPeriodInDays?: number;
-  byolComputeCountLimit?: number;
-  cpuCoreCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  resourcePoolLeaderId?: string;
-  resourcePoolSummary?: ResourcePoolSummary;
-  scheduledOperations?: ScheduledOperationDetails[];
-  standbyAllowlistedIps?: string[];
-  allowlistedIps?: string[];
-  transportableTablespace?: TransportableTablespace;
-  isBackupRetentionLocked?: boolean;
-  isLocalDataGuardEnabled?: boolean;
-  isMtlsConnectionRequired?: boolean;
-  dbToolsDetails?: DatabaseTool[];
-  source?: SourceType;
-  sourceConfiguration?: SourceConfiguration;
-  encryptionKeyProvider?: EncryptionKeyProviderInput;
-  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  odbNetworkId?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  adminPassword?: string | redacted.Redacted<string> | undefined;
+  computeCount?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  dbVersion?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  byolComputeCountLimit?: number | undefined;
+  cpuCoreCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  allowlistedIps?: string[] | undefined;
+  transportableTablespace?: TransportableTablespace | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  source?: SourceType | undefined;
+  sourceConfiguration?: SourceConfiguration | undefined;
+  encryptionKeyProvider?: EncryptionKeyProviderInput | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput | undefined;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AutonomousDatabaseResourceStatus =
   | "AVAILABLE"
@@ -437,21 +448,21 @@ export type AutonomousDatabaseResourceStatus =
   | (string & {});
 export interface CreateAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface CreateAutonomousDatabaseBackupInput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  retentionPeriodInDays?: number;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  displayName?: string | undefined;
+  retentionPeriodInDays?: number | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAutonomousDatabaseBackupOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   autonomousDatabaseBackupId: string;
 }
 export type WalletType = "REGIONAL" | "INSTANCE" | (string & {});
@@ -464,11 +475,11 @@ export type WalletPasswordSourceConfigurationInput = {
 };
 export interface CreateAutonomousDatabaseWalletInput {
   autonomousDatabaseId: string;
-  walletType?: WalletType;
-  password?: string | redacted.Redacted<string>;
-  passwordSource?: WalletPasswordSource;
-  passwordSourceConfiguration?: WalletPasswordSourceConfigurationInput;
-  clientToken?: string;
+  walletType?: WalletType | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  passwordSource?: WalletPasswordSource | undefined;
+  passwordSourceConfiguration?: WalletPasswordSourceConfigurationInput | undefined;
+  clientToken?: string | undefined;
 }
 export type AutonomousDatabaseWalletFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface CreateAutonomousDatabaseWalletOutput {
@@ -491,113 +502,113 @@ export type MonthName =
   | "DECEMBER"
   | (string & {});
 export interface Month {
-  name?: MonthName;
+  name?: MonthName | undefined;
 }
 export type Months = Month[];
 export type PatchingModeType = "ROLLING" | "NONROLLING" | (string & {});
 export type PreferenceType = "NO_PREFERENCE" | "CUSTOM_PREFERENCE" | (string & {});
 export type WeeksOfMonth = number[];
 export interface MaintenanceWindow {
-  customActionTimeoutInMins?: number;
-  daysOfWeek?: DayOfWeek[];
-  hoursOfDay?: number[];
-  isCustomActionTimeoutEnabled?: boolean;
-  leadTimeInWeeks?: number;
-  months?: Month[];
-  patchingMode?: PatchingModeType;
-  preference?: PreferenceType;
-  skipRu?: boolean;
-  weeksOfMonth?: number[];
+  customActionTimeoutInMins?: number | undefined;
+  daysOfWeek?: DayOfWeek[] | undefined;
+  hoursOfDay?: number[] | undefined;
+  isCustomActionTimeoutEnabled?: boolean | undefined;
+  leadTimeInWeeks?: number | undefined;
+  months?: Month[] | undefined;
+  patchingMode?: PatchingModeType | undefined;
+  preference?: PreferenceType | undefined;
+  skipRu?: boolean | undefined;
+  weeksOfMonth?: number[] | undefined;
 }
 export interface CreateCloudAutonomousVmClusterInput {
   cloudExadataInfrastructureId: string;
   odbNetworkId: string;
   displayName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   autonomousDataStorageSizeInTBs: number;
   cpuCoreCountPerNode: number;
-  dbServers?: string[];
-  description?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   memoryPerOracleComputeUnitInGBs: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
   totalContainerDatabases: number;
 }
 export interface CreateCloudAutonomousVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudAutonomousVmClusterId: string;
 }
 export interface CreateCloudExadataInfrastructureInput {
   displayName: string;
   shape: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  tags?: { [key: string]: string | undefined };
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   computeCount: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  maintenanceWindow?: MaintenanceWindow;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   storageCount: number;
-  clientToken?: string;
-  databaseServerType?: string;
-  storageServerType?: string;
+  clientToken?: string | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
 }
 export interface CreateCloudExadataInfrastructureOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudExadataInfrastructureId: string;
 }
 export type VmStorageType = "LOCAL" | "EXASCALE" | (string & {});
 export interface FileSystemConfigurationDetails {
-  mountPoint?: string;
-  fileSystemSizeInGBs?: number;
+  mountPoint?: string | undefined;
+  fileSystemSizeInGBs?: number | undefined;
 }
 export type FileSystemConfigurationDetailsList = FileSystemConfigurationDetails[];
 export type Hostname = string;
 export type ClusterName = string;
 export interface DataCollectionOptions {
-  isDiagnosticsEventsEnabled?: boolean;
-  isHealthMonitoringEnabled?: boolean;
-  isIncidentLogsEnabled?: boolean;
+  isDiagnosticsEventsEnabled?: boolean | undefined;
+  isHealthMonitoringEnabled?: boolean | undefined;
+  isIncidentLogsEnabled?: boolean | undefined;
 }
 export interface CreateCloudVmClusterInput {
   cloudExadataInfrastructureId: string;
-  exascaleDbStorageVaultId?: string;
-  vmFileSystemStorageType?: VmStorageType;
-  vmBackupStorageType?: VmStorageType;
-  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
+  exascaleDbStorageVaultId?: string | undefined;
+  vmFileSystemStorageType?: VmStorageType | undefined;
+  vmBackupStorageType?: VmStorageType | undefined;
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[] | undefined;
   cpuCoreCount: number;
   displayName: string;
   giVersion: string;
   hostname: string;
   sshPublicKeys: string[];
   odbNetworkId: string;
-  clusterName?: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  tags?: { [key: string]: string | undefined };
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  licenseModel?: LicenseModel;
-  memorySizeInGBs?: number;
-  systemVersion?: string;
-  timeZone?: string;
-  clientToken?: string;
-  scanListenerPortTcp?: number;
+  clusterName?: string | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  memorySizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
+  scanListenerPortTcp?: number | undefined;
 }
 export interface CreateCloudVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudVmClusterId: string;
 }
 export type ShapeAttribute = "SMART_STORAGE" | "BLOCK_STORAGE" | (string & {});
@@ -613,68 +624,68 @@ export interface CreateExadbVmClusterInput {
   sshPublicKeys: string[];
   totalEcpuCount: number;
   vmFileSystemStorageTotalSizeInGBs: number;
-  clusterName?: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  licenseModel?: LicenseModel;
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shapeAttribute?: ShapeAttribute;
-  systemVersion?: string;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
-  clientToken?: string;
+  clusterName?: string | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  licenseModel?: LicenseModel | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  systemVersion?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export interface CreateExascaleDbStorageVaultInput {
   displayName: string;
   highCapacityDatabaseStorageTotalSizeInGBs: number;
-  additionalFlashCacheInPercent?: number;
-  autoscaleLimitInGBs?: number;
-  cloudExadataInfrastructureId?: string;
-  availabilityZoneId?: string;
-  availabilityZone?: string;
-  description?: string;
-  isAutoscaleEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
-  clientToken?: string;
+  additionalFlashCacheInPercent?: number | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  availabilityZone?: string | undefined;
+  description?: string | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateExascaleDbStorageVaultOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exascaleDbStorageVaultId: string;
 }
 export type Access = "ENABLED" | "DISABLED" | (string & {});
 export type PolicyDocument = string;
 export interface CreateOdbNetworkInput {
   displayName: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
   clientSubnetCidr: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  clientToken?: string;
-  s3Access?: Access;
-  zeroEtlAccess?: Access;
-  stsAccess?: Access;
-  kmsAccess?: Access;
-  s3PolicyDocument?: string;
-  stsPolicyDocument?: string;
-  kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: string[];
-  tags?: { [key: string]: string | undefined };
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  clientToken?: string | undefined;
+  s3Access?: Access | undefined;
+  zeroEtlAccess?: Access | undefined;
+  stsAccess?: Access | undefined;
+  kmsAccess?: Access | undefined;
+  s3PolicyDocument?: string | undefined;
+  stsPolicyDocument?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
+  crossRegionS3RestoreSourcesToEnable?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateOdbNetworkOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbNetworkId: string;
 }
 export type PeeredCidr = string;
@@ -684,23 +695,22 @@ export type PeerNetworkRouteTableIdList = string[];
 export interface CreateOdbPeeringConnectionInput {
   odbNetworkId: string;
   peerNetworkId: string;
-  displayName?: string;
-  peerNetworkCidrsToBeAdded?: string[];
-  peerNetworkRouteTableIds?: string[];
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  displayName?: string | undefined;
+  peerNetworkCidrsToBeAdded?: string[] | undefined;
+  peerNetworkRouteTableIds?: string[] | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateOdbPeeringConnectionOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbPeeringConnectionId: string;
 }
 export interface DeleteAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface DeleteAutonomousDatabaseOutput {}
-export type ResourceId = string;
 export interface DeleteAutonomousDatabaseBackupInput {
   autonomousDatabaseBackupId: string;
 }
@@ -740,27 +750,37 @@ export interface DisassociateIamRoleFromResourceInput {
   resourceArn: string;
 }
 export interface DisassociateIamRoleFromResourceOutput {}
+export interface DisassociateVirtualMachinesFromCloudVmClusterInput {
+  cloudVmClusterId: string;
+  dbServers: string[];
+}
+export interface DisassociateVirtualMachinesFromCloudVmClusterOutput {
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterId: string;
+}
 export type ResourceIdList = string[];
 export interface DisassociateVirtualMachinesFromExadbVmClusterInput {
   exadbVmClusterId: string;
   dbNodeIds: string[];
 }
 export interface DisassociateVirtualMachinesFromExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export type ResourceArn = string;
 export interface FailoverAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  peerDbArn?: string;
+  peerDbArn?: string | undefined;
 }
 export interface FailoverAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface GetAutonomousDatabaseInput {
   autonomousDatabaseId: string;
@@ -770,39 +790,39 @@ export type PermissionLevel = "RESTRICTED" | "UNRESTRICTED" | (string & {});
 export type NetServicesArchitecture = "DEDICATED" | "SHARED" | (string & {});
 export type DatabaseConnectionStringMap = { [key: string]: string | undefined };
 export interface DatabaseConnectionStringProfile {
-  consumerGroup?: string;
-  displayName?: string;
-  hostFormat?: string;
-  isRegional?: boolean;
-  protocol?: string;
-  sessionMode?: string;
-  syntaxFormat?: string;
-  tlsAuthentication?: string;
-  value?: string;
+  consumerGroup?: string | undefined;
+  displayName?: string | undefined;
+  hostFormat?: string | undefined;
+  isRegional?: boolean | undefined;
+  protocol?: string | undefined;
+  sessionMode?: string | undefined;
+  syntaxFormat?: string | undefined;
+  tlsAuthentication?: string | undefined;
+  value?: string | undefined;
 }
 export type DatabaseConnectionStringProfileList = DatabaseConnectionStringProfile[];
 export interface AutonomousDatabaseConnectionStrings {
-  allConnectionStrings?: { [key: string]: string | undefined };
-  dedicated?: string;
-  high?: string;
-  medium?: string;
-  low?: string;
-  profiles?: DatabaseConnectionStringProfile[];
+  allConnectionStrings?: { [key: string]: string | undefined } | undefined;
+  dedicated?: string | undefined;
+  high?: string | undefined;
+  medium?: string | undefined;
+  low?: string | undefined;
+  profiles?: DatabaseConnectionStringProfile[] | undefined;
 }
 export interface AutonomousDatabaseApex {
-  apexVersion?: string;
-  ordsVersion?: string;
+  apexVersion?: string | undefined;
+  ordsVersion?: string | undefined;
 }
 export interface DatabaseStandbySummary {
-  availabilityDomain?: string;
-  lagTimeInSeconds?: number;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  maintenanceTargetComponent?: string;
-  timeDataGuardRoleChanged?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
+  availabilityDomain?: string | undefined;
+  lagTimeInSeconds?: number | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
 }
 export type DataSafeStatus =
   | "REGISTERING"
@@ -828,15 +848,15 @@ export type OperationsInsightsStatus =
   | "FAILED_DISABLING"
   | (string & {});
 export interface AutonomousDatabaseConnectionUrls {
-  apexUrl?: string;
-  databaseTransformsUrl?: string;
-  graphStudioUrl?: string;
-  machineLearningNotebookUrl?: string;
-  machineLearningUserManagementUrl?: string;
-  mongoDbUrl?: string;
-  ordsUrl?: string;
-  spatialStudioUrl?: string;
-  sqlDevWebUrl?: string;
+  apexUrl?: string | undefined;
+  databaseTransformsUrl?: string | undefined;
+  graphStudioUrl?: string | undefined;
+  machineLearningNotebookUrl?: string | undefined;
+  machineLearningUserManagementUrl?: string | undefined;
+  mongoDbUrl?: string | undefined;
+  ordsUrl?: string | undefined;
+  spatialStudioUrl?: string | undefined;
+  sqlDevWebUrl?: string | undefined;
 }
 export type ComputeModel = "ECPU" | "OCPU" | (string & {});
 export type DataGuardRole =
@@ -847,24 +867,24 @@ export type DataGuardRole =
   | "SNAPSHOT_STANDBY"
   | (string & {});
 export interface DisasterRecoveryConfiguration {
-  disasterRecoveryType?: DisasterRecoveryType;
-  isReplicateAutomaticBackups?: boolean;
-  isSnapshotStandby?: boolean;
-  timeSnapshotStandbyEnabledTill?: Date;
+  disasterRecoveryType?: DisasterRecoveryType | undefined;
+  isReplicateAutomaticBackups?: boolean | undefined;
+  isSnapshotStandby?: boolean | undefined;
+  timeSnapshotStandbyEnabledTill?: Date | undefined;
 }
 export type RefreshableStatus = "REFRESHING" | "NOT_REFRESHING" | (string & {});
 export type RepeatCadence = "ONE_TIME" | "WEEKLY" | "MONTHLY" | "YEARLY" | (string & {});
 export interface LongTermBackupSchedule {
-  isDisabled?: boolean;
-  repeatCadence?: RepeatCadence;
-  retentionPeriodInDays?: number;
-  timeOfBackup?: Date;
+  isDisabled?: boolean | undefined;
+  repeatCadence?: RepeatCadence | undefined;
+  retentionPeriodInDays?: number | undefined;
+  timeOfBackup?: Date | undefined;
 }
 export type EncryptionKeyProvider = "ORACLE_MANAGED" | "AWS_KMS" | "OKV" | "OCI" | (string & {});
 export interface AwsEncryptionKeyConfiguration {
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
-  kmsKeyId?: string;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface OciEncryptionKeyConfiguration {
   kmsKeyId: string;
@@ -872,7 +892,7 @@ export interface OciEncryptionKeyConfiguration {
 }
 export interface OkvEncryptionKeyConfiguration {
   certificateDirectoryName: string;
-  certificateId?: string;
+  certificateId?: string | undefined;
   directoryName: string;
   okvKmsKey: string;
   okvUri: string;
@@ -880,140 +900,140 @@ export interface OkvEncryptionKeyConfiguration {
 export type EncryptionKeyConfiguration =
   | {
       awsEncryptionKey: AwsEncryptionKeyConfiguration;
-      ociEncryptionKey?: never;
-      okvEncryptionKey?: never;
+      ociEncryptionKey?: undefined;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
       ociEncryptionKey: OciEncryptionKeyConfiguration;
-      okvEncryptionKey?: never;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
-      ociEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
+      ociEncryptionKey?: undefined;
       okvEncryptionKey: OkvEncryptionKeyConfiguration;
     };
 export interface EncryptionSummary {
-  encryptionKeyProvider?: EncryptionKeyProvider;
-  encryptionKeyConfiguration?: EncryptionKeyConfiguration;
+  encryptionKeyProvider?: EncryptionKeyProvider | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfiguration | undefined;
 }
 export interface CustomerManagedAwsSecretConfiguration {
-  iamRoleArn?: string;
-  secretId?: string;
-  externalIdType?: ExternalIdType;
+  iamRoleArn?: string | undefined;
+  secretId?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
 }
 export type AdminPasswordSourceConfiguration = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
 };
 export interface AdminPasswordSourceSummary {
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfiguration;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfiguration | undefined;
 }
 export interface AutonomousDatabase {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  ocid?: string;
-  ociUrl?: string;
-  displayName?: string;
-  dbName?: string;
-  sourceId?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  databaseType?: DatabaseType;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  characterSet?: string;
-  ncharacterSet?: string;
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  isMtlsConnectionRequired?: boolean;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  netServicesArchitecture?: NetServicesArchitecture;
-  availableUpgradeVersions?: string[];
-  byolComputeCountLimit?: number;
-  connectionStringDetails?: AutonomousDatabaseConnectionStrings;
-  serviceConsoleUrl?: string;
-  sqlWebDeveloperUrl?: string;
-  customerContacts?: CustomerContact[];
-  apexDetails?: AutonomousDatabaseApex;
-  standbyDb?: DatabaseStandbySummary;
-  localStandbyDb?: DatabaseStandbySummary;
-  dataSafeStatus?: DataSafeStatus;
-  databaseManagementStatus?: DatabaseManagementStatus;
-  operationsInsightsStatus?: OperationsInsightsStatus;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  maintenanceTargetComponent?: string;
-  connectionUrls?: AutonomousDatabaseConnectionUrls;
-  dbToolsDetails?: DatabaseTool[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  resourcePoolLeaderId?: string;
-  computeCount?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  provisionableCpus?: number[];
-  isAutoScalingEnabled?: boolean;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  usedDataStorageSizeInTBs?: number;
-  usedDataStorageSizeInGBs?: number;
-  actualUsedDataStorageSizeInTBs?: number;
-  allocatedStorageSizeInTBs?: number;
-  inMemoryAreaInGBs?: number;
-  isAutoScalingForStorageEnabled?: boolean;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  privateEndpoint?: string;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  allowlistedIps?: string[];
-  standbyAllowlistedIps?: string[];
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  isLocalDataGuardEnabled?: boolean;
-  isRemoteDataGuardEnabled?: boolean;
-  localDisasterRecoveryType?: DisasterRecoveryType;
-  role?: DataGuardRole;
-  peerDbIds?: string[];
-  failedDataRecoveryInSeconds?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration;
-  isRefreshableClone?: boolean;
-  refreshableMode?: RefreshableMode;
-  refreshableStatus?: RefreshableStatus;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  isReconnectCloneEnabled?: boolean;
-  cloneTableSpaceList?: number[];
-  backupRetentionPeriodInDays?: number;
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  isBackupRetentionLocked?: boolean;
-  totalBackupStorageSizeInGBs?: number;
-  resourcePoolSummary?: ResourcePoolSummary;
-  encryptionSummary?: EncryptionSummary;
-  createdAt?: Date;
-  timeOfLastBackup?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
-  timeLocalDataGuardEnabled?: Date;
-  timeDataGuardRoleChanged?: Date;
-  timeOfLastSwitchover?: Date;
-  timeOfLastFailover?: Date;
-  timeOfLastRefresh?: Date;
-  timeOfLastRefreshPoint?: Date;
-  timeOfNextRefresh?: Date;
-  timeOfAutoRefreshStart?: Date;
-  timeDeletionOfFreeAutonomousDatabase?: Date;
-  timeReclamationOfFreeAutonomousDatabase?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeUntilReconnectCloneEnabled?: Date;
-  nextLongTermBackupTimeStamp?: Date;
-  timeUndeleted?: Date;
-  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  sourceId?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  databaseType?: DatabaseType | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  netServicesArchitecture?: NetServicesArchitecture | undefined;
+  availableUpgradeVersions?: string[] | undefined;
+  byolComputeCountLimit?: number | undefined;
+  connectionStringDetails?: AutonomousDatabaseConnectionStrings | undefined;
+  serviceConsoleUrl?: string | undefined;
+  sqlWebDeveloperUrl?: string | undefined;
+  customerContacts?: CustomerContact[] | undefined;
+  apexDetails?: AutonomousDatabaseApex | undefined;
+  standbyDb?: DatabaseStandbySummary | undefined;
+  localStandbyDb?: DatabaseStandbySummary | undefined;
+  dataSafeStatus?: DataSafeStatus | undefined;
+  databaseManagementStatus?: DatabaseManagementStatus | undefined;
+  operationsInsightsStatus?: OperationsInsightsStatus | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  computeCount?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  provisionableCpus?: number[] | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  usedDataStorageSizeInTBs?: number | undefined;
+  usedDataStorageSizeInGBs?: number | undefined;
+  actualUsedDataStorageSizeInTBs?: number | undefined;
+  allocatedStorageSizeInTBs?: number | undefined;
+  inMemoryAreaInGBs?: number | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  privateEndpoint?: string | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  allowlistedIps?: string[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isRemoteDataGuardEnabled?: boolean | undefined;
+  localDisasterRecoveryType?: DisasterRecoveryType | undefined;
+  role?: DataGuardRole | undefined;
+  peerDbIds?: string[] | undefined;
+  failedDataRecoveryInSeconds?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration | undefined;
+  isRefreshableClone?: boolean | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  refreshableStatus?: RefreshableStatus | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  isReconnectCloneEnabled?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  totalBackupStorageSizeInGBs?: number | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  encryptionSummary?: EncryptionSummary | undefined;
+  createdAt?: Date | undefined;
+  timeOfLastBackup?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
+  timeLocalDataGuardEnabled?: Date | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeOfLastSwitchover?: Date | undefined;
+  timeOfLastFailover?: Date | undefined;
+  timeOfLastRefresh?: Date | undefined;
+  timeOfLastRefreshPoint?: Date | undefined;
+  timeOfNextRefresh?: Date | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  timeDeletionOfFreeAutonomousDatabase?: Date | undefined;
+  timeReclamationOfFreeAutonomousDatabase?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeUntilReconnectCloneEnabled?: Date | undefined;
+  nextLongTermBackupTimeStamp?: Date | undefined;
+  timeUndeleted?: Date | undefined;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary | undefined;
 }
 export interface GetAutonomousDatabaseOutput {
   autonomousDatabase: AutonomousDatabase;
@@ -1037,24 +1057,24 @@ export type AutonomousDatabaseBackupType =
   | "ROLL_FORWARD_IMAGE_COPY"
   | (string & {});
 export interface AutonomousDatabaseBackup {
-  autonomousDatabaseBackupId?: string;
-  autonomousDatabaseBackupArn?: string;
-  autonomousDatabaseId?: string;
-  ocid?: string;
-  displayName?: string;
-  dbVersion?: string;
-  status?: AutonomousDatabaseBackupStatus;
-  statusReason?: string;
-  isAutomatic?: boolean;
-  retentionPeriodInDays?: number;
-  sizeInTBs?: number;
-  timeAvailableTill?: Date;
-  timeStarted?: Date;
-  timeEnded?: Date;
-  type?: AutonomousDatabaseBackupType;
+  autonomousDatabaseBackupId?: string | undefined;
+  autonomousDatabaseBackupArn?: string | undefined;
+  autonomousDatabaseId?: string | undefined;
+  ocid?: string | undefined;
+  displayName?: string | undefined;
+  dbVersion?: string | undefined;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  statusReason?: string | undefined;
+  isAutomatic?: boolean | undefined;
+  retentionPeriodInDays?: number | undefined;
+  sizeInTBs?: number | undefined;
+  timeAvailableTill?: Date | undefined;
+  timeStarted?: Date | undefined;
+  timeEnded?: Date | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export interface GetAutonomousDatabaseBackupOutput {
-  autonomousDatabaseBackup?: AutonomousDatabaseBackup;
+  autonomousDatabaseBackup?: AutonomousDatabaseBackup | undefined;
 }
 export interface GetAutonomousDatabaseWalletDetailsInput {
   autonomousDatabaseId: string;
@@ -1064,13 +1084,13 @@ export type WalletPasswordSourceConfiguration = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
 };
 export interface WalletPasswordSourceSummary {
-  passwordSource?: WalletPasswordSource;
-  passwordSourceConfiguration?: WalletPasswordSourceConfiguration;
+  passwordSource?: WalletPasswordSource | undefined;
+  passwordSourceConfiguration?: WalletPasswordSourceConfiguration | undefined;
 }
 export interface AutonomousDatabaseWalletDetails {
-  status?: AutonomousDatabaseWalletStatus;
-  timeRotated?: Date;
-  passwordSourceSummary?: WalletPasswordSourceSummary;
+  status?: AutonomousDatabaseWalletStatus | undefined;
+  timeRotated?: Date | undefined;
+  passwordSourceSummary?: WalletPasswordSourceSummary | undefined;
 }
 export interface GetAutonomousDatabaseWalletDetailsOutput {
   autonomousDatabaseWalletDetails: AutonomousDatabaseWalletDetails;
@@ -1088,142 +1108,145 @@ export type IamRoleStatus =
   | "UNKNOWN"
   | (string & {});
 export interface IamRole {
-  iamRoleArn?: string;
-  status?: IamRoleStatus;
-  statusReason?: string;
-  awsIntegration?: SupportedAwsIntegration;
+  iamRoleArn?: string | undefined;
+  status?: IamRoleStatus | undefined;
+  statusReason?: string | undefined;
+  awsIntegration?: SupportedAwsIntegration | undefined;
 }
 export type IamRoleList = IamRole[];
 export interface CloudAutonomousVmCluster {
   cloudAutonomousVmClusterId: string;
-  cloudAutonomousVmClusterArn?: string;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  autonomousDataStoragePercentage?: number;
-  autonomousDataStorageSizeInTBs?: number;
-  availableAutonomousDataStorageSizeInTBs?: number;
-  availableContainerDatabases?: number;
-  availableCpus?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  cpuCoreCountPerNode?: number;
-  cpuPercentage?: number;
-  dataStorageSizeInGBs?: number;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  description?: string;
-  domain?: string;
-  exadataStorageInTBsLowestScaledValue?: number;
-  hostname?: string;
-  ocid?: string;
-  ociUrl?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
-  maxAcdsLowestScaledValue?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  nonProvisionableAutonomousContainerDatabases?: number;
-  provisionableAutonomousContainerDatabases?: number;
-  provisionedAutonomousContainerDatabases?: number;
-  provisionedCpus?: number;
-  reclaimableCpus?: number;
-  reservedCpus?: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  shape?: string;
-  createdAt?: Date;
-  timeDatabaseSslCertificateExpires?: Date;
-  timeOrdsCertificateExpires?: Date;
-  timeZone?: string;
-  totalContainerDatabases?: number;
-  iamRoles?: IamRole[];
+  cloudAutonomousVmClusterArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  autonomousDataStoragePercentage?: number | undefined;
+  autonomousDataStorageSizeInTBs?: number | undefined;
+  availableAutonomousDataStorageSizeInTBs?: number | undefined;
+  availableContainerDatabases?: number | undefined;
+  availableCpus?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  cpuCoreCountPerNode?: number | undefined;
+  cpuPercentage?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  exadataStorageInTBsLowestScaledValue?: number | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxAcdsLowestScaledValue?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  nonProvisionableAutonomousContainerDatabases?: number | undefined;
+  ocpusLowestScaledValue?: number | undefined;
+  provisionableAutonomousContainerDatabases?: number | undefined;
+  provisionedAutonomousContainerDatabases?: number | undefined;
+  provisionedCpus?: number | undefined;
+  reclaimableCpus?: number | undefined;
+  reservedCpus?: number | undefined;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  timeDatabaseSslCertificateExpires?: Date | undefined;
+  timeOrdsCertificateExpires?: Date | undefined;
+  timeZone?: string | undefined;
+  totalContainerDatabases?: number | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export interface GetCloudAutonomousVmClusterOutput {
-  cloudAutonomousVmCluster?: CloudAutonomousVmCluster;
+  cloudAutonomousVmCluster?: CloudAutonomousVmCluster | undefined;
 }
 export interface GetCloudExadataInfrastructureInput {
   cloudExadataInfrastructureId: string;
 }
 export interface ExascaleConfiguration {
-  totalStorageSizeInGBs?: number;
-  availableStorageSizeInGBs?: number;
-  totalVmStorageSizeInGBs?: number;
-  availableVmStorageSizeInGBs?: number;
+  totalStorageSizeInGBs?: number | undefined;
+  availableStorageSizeInGBs?: number | undefined;
+  totalVmStorageSizeInGBs?: number | undefined;
+  availableVmStorageSizeInGBs?: number | undefined;
 }
 export interface CloudExadataInfrastructure {
   cloudExadataInfrastructureId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureArn?: string;
-  activatedStorageCount?: number;
-  additionalStorageCount?: number;
-  availableStorageSizeInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  computeCount?: number;
-  cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerVersion?: string;
-  lastMaintenanceRunId?: string;
-  maintenanceWindow?: MaintenanceWindow;
-  maxCpuCount?: number;
-  maxDataStorageInTBs?: number;
-  maxDbNodeStorageSizeInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  monthlyDbServerVersion?: string;
-  monthlyStorageServerVersion?: string;
-  nextMaintenanceRunId?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  ocid?: string;
-  shape?: string;
-  storageCount?: number;
-  storageServerVersion?: string;
-  createdAt?: Date;
-  totalStorageSizeInGBs?: number;
-  percentProgress?: number;
-  databaseServerType?: string;
-  storageServerType?: string;
-  computeModel?: ComputeModel;
-  exascaleConfiguration?: ExascaleConfiguration;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  activatedStorageCount?: number | undefined;
+  additionalStorageCount?: number | undefined;
+  availableStorageSizeInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  computeCount?: number | undefined;
+  cpuCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerVersion?: string | undefined;
+  lastMaintenanceRunId?: string | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxCpuCount?: number | undefined;
+  maxDataStorageInTBs?: number | undefined;
+  maxDbNodeStorageSizeInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  monthlyDbServerVersion?: string | undefined;
+  monthlyStorageServerVersion?: string | undefined;
+  nextMaintenanceRunId?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  ocid?: string | undefined;
+  shape?: string | undefined;
+  storageCount?: number | undefined;
+  storageServerVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  totalStorageSizeInGBs?: number | undefined;
+  percentProgress?: number | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
+  computeModel?: ComputeModel | undefined;
+  exascaleConfiguration?: ExascaleConfiguration | undefined;
 }
 export interface GetCloudExadataInfrastructureOutput {
-  cloudExadataInfrastructure?: CloudExadataInfrastructure;
+  cloudExadataInfrastructure?: CloudExadataInfrastructure | undefined;
 }
 export interface GetCloudExadataInfrastructureUnallocatedResourcesInput {
   cloudExadataInfrastructureId: string;
-  dbServers?: string[];
+  dbServers?: string[] | undefined;
 }
 export interface CloudAutonomousVmClusterResourceDetails {
-  cloudAutonomousVmClusterId?: string;
-  unallocatedAdbStorageInTBs?: number;
+  cloudAutonomousVmClusterId?: string | undefined;
+  unallocatedAdbStorageInTBs?: number | undefined;
 }
 export type CloudAutonomousVmClusterResourceDetailsList = CloudAutonomousVmClusterResourceDetails[];
 export interface CloudExadataInfrastructureUnallocatedResources {
-  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetails[];
-  cloudExadataInfrastructureDisplayName?: string;
-  exadataStorageInTBs?: number;
-  cloudExadataInfrastructureId?: string;
-  localStorageInGBs?: number;
-  memoryInGBs?: number;
-  ocpus?: number;
+  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetails[] | undefined;
+  cloudExadataInfrastructureDisplayName?: string | undefined;
+  exadataStorageInTBs?: number | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  localStorageInGBs?: number | undefined;
+  memoryInGBs?: number | undefined;
+  ocpus?: number | undefined;
 }
 export interface GetCloudExadataInfrastructureUnallocatedResourcesOutput {
-  cloudExadataInfrastructureUnallocatedResources?: CloudExadataInfrastructureUnallocatedResources;
+  cloudExadataInfrastructureUnallocatedResources?:
+    | CloudExadataInfrastructureUnallocatedResources
+    | undefined;
 }
 export interface GetCloudVmClusterInput {
   cloudVmClusterId: string;
@@ -1231,9 +1254,9 @@ export interface GetCloudVmClusterInput {
 export type StorageManagementType = "ASM" | "EXASCALE" | (string & {});
 export type DiskRedundancy = "HIGH" | "NORMAL" | (string & {});
 export interface DbIormConfig {
-  dbName?: string;
-  flashCacheLimit?: string;
-  share?: number;
+  dbName?: string | undefined;
+  flashCacheLimit?: string | undefined;
+  share?: number | undefined;
 }
 export type DbIormConfigList = DbIormConfig[];
 export type IormLifecycleState =
@@ -1251,69 +1274,69 @@ export type Objective =
   | "LOW_LATENCY"
   | (string & {});
 export interface ExadataIormConfig {
-  dbPlans?: DbIormConfig[];
-  lifecycleDetails?: string;
-  lifecycleState?: IormLifecycleState;
-  objective?: Objective;
+  dbPlans?: DbIormConfig[] | undefined;
+  lifecycleDetails?: string | undefined;
+  lifecycleState?: IormLifecycleState | undefined;
+  objective?: Objective | undefined;
 }
 export type SensitiveStringList = (string | redacted.Redacted<string>)[];
 export interface CloudVmCluster {
   cloudVmClusterId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudVmClusterArn?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  exascaleDbStorageVaultId?: string;
-  exascaleDbStorageVaultArn?: string;
-  storageManagementType?: StorageManagementType;
-  vmFileSystemStorageType?: VmStorageType;
-  vmBackupStorageType?: VmStorageType;
-  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
-  clusterName?: string;
-  cpuCoreCount?: number;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  diskRedundancy?: DiskRedundancy;
-  giVersion?: string;
-  hostname?: string;
-  iormConfigCache?: ExadataIormConfig;
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  domain?: string;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  shape?: string;
-  sshPublicKeys?: (string | redacted.Redacted<string>)[];
-  storageSizeInGBs?: number;
-  systemVersion?: string;
-  createdAt?: Date;
-  timeZone?: string;
-  vipIds?: string[];
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  percentProgress?: number;
-  computeModel?: ComputeModel;
-  iamRoles?: IamRole[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  storageManagementType?: StorageManagementType | undefined;
+  vmFileSystemStorageType?: VmStorageType | undefined;
+  vmBackupStorageType?: VmStorageType | undefined;
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[] | undefined;
+  clusterName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  diskRedundancy?: DiskRedundancy | undefined;
+  giVersion?: string | undefined;
+  hostname?: string | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  domain?: string | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  shape?: string | undefined;
+  sshPublicKeys?: (string | redacted.Redacted<string>)[] | undefined;
+  storageSizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  timeZone?: string | undefined;
+  vipIds?: string[] | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  percentProgress?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export interface GetCloudVmClusterOutput {
-  cloudVmCluster?: CloudVmCluster;
+  cloudVmCluster?: CloudVmCluster | undefined;
 }
 export interface GetDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export type DbNodeResourceStatus =
@@ -1329,37 +1352,37 @@ export type DbNodeResourceStatus =
   | (string & {});
 export type DbNodeMaintenanceType = "VMDB_REBOOT_MIGRATION" | (string & {});
 export interface DbNode {
-  dbNodeId?: string;
-  dbNodeArn?: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
-  additionalDetails?: string;
-  backupIpId?: string;
-  backupVnic2Id?: string;
-  backupVnicId?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerId?: string;
-  dbSystemId?: string;
-  faultDomain?: string;
-  hostIpId?: string;
-  hostname?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maintenanceType?: DbNodeMaintenanceType;
-  memorySizeInGBs?: number;
-  softwareStorageSizeInGB?: number;
-  createdAt?: Date;
-  timeMaintenanceWindowEnd?: string;
-  timeMaintenanceWindowStart?: string;
-  totalCpuCoreCount?: number;
-  vnic2Id?: string;
-  vnicId?: string;
-  privateIpAddress?: string;
-  floatingIpAddress?: string;
+  dbNodeId?: string | undefined;
+  dbNodeArn?: string | undefined;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
+  additionalDetails?: string | undefined;
+  backupIpId?: string | undefined;
+  backupVnic2Id?: string | undefined;
+  backupVnicId?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerId?: string | undefined;
+  dbSystemId?: string | undefined;
+  faultDomain?: string | undefined;
+  hostIpId?: string | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maintenanceType?: DbNodeMaintenanceType | undefined;
+  memorySizeInGBs?: number | undefined;
+  softwareStorageSizeInGB?: number | undefined;
+  createdAt?: Date | undefined;
+  timeMaintenanceWindowEnd?: string | undefined;
+  timeMaintenanceWindowStart?: string | undefined;
+  totalCpuCoreCount?: number | undefined;
+  vnic2Id?: string | undefined;
+  vnicId?: string | undefined;
+  privateIpAddress?: string | undefined;
+  floatingIpAddress?: string | undefined;
 }
 export interface GetDbNodeOutput {
-  dbNode?: DbNode;
+  dbNode?: DbNode | undefined;
 }
 export interface GetDbServerInput {
   cloudExadataInfrastructureId: string;
@@ -1372,88 +1395,88 @@ export type DbServerPatchingStatus =
   | "SCHEDULED"
   | (string & {});
 export interface DbServerPatchingDetails {
-  estimatedPatchDuration?: number;
-  patchingStatus?: DbServerPatchingStatus;
-  timePatchingEnded?: string;
-  timePatchingStarted?: string;
+  estimatedPatchDuration?: number | undefined;
+  patchingStatus?: DbServerPatchingStatus | undefined;
+  timePatchingEnded?: string | undefined;
+  timePatchingStarted?: string | undefined;
 }
 export interface DbServer {
-  dbServerId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerPatchingDetails?: DbServerPatchingDetails;
-  displayName?: string;
-  exadataInfrastructureId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maxCpuCount?: number;
-  maxDbNodeStorageInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  shape?: string;
-  createdAt?: Date;
-  vmClusterIds?: string[];
-  computeModel?: ComputeModel;
-  autonomousVmClusterIds?: string[];
-  autonomousVirtualMachineIds?: string[];
+  dbServerId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerPatchingDetails?: DbServerPatchingDetails | undefined;
+  displayName?: string | undefined;
+  exadataInfrastructureId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maxCpuCount?: number | undefined;
+  maxDbNodeStorageInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  vmClusterIds?: string[] | undefined;
+  computeModel?: ComputeModel | undefined;
+  autonomousVmClusterIds?: string[] | undefined;
+  autonomousVirtualMachineIds?: string[] | undefined;
 }
 export interface GetDbServerOutput {
-  dbServer?: DbServer;
+  dbServer?: DbServer | undefined;
 }
 export interface GetExadbVmClusterInput {
   exadbVmClusterId: string;
 }
 export type GridImageType = "RELEASE_UPDATE" | "CUSTOM_IMAGE" | (string & {});
 export interface ExadbVmClusterStorageDetails {
-  totalSizeInGBs?: number;
+  totalSizeInGBs?: number | undefined;
 }
 export interface ExadbVmCluster {
   exadbVmClusterId: string;
-  clusterName?: string;
-  createdAt?: Date;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  domain?: string;
-  enabledEcpuCount?: number;
-  exadbVmClusterArn?: string;
-  exascaleDbStorageVaultArn?: string;
-  exascaleDbStorageVaultId?: string;
-  giVersion?: string;
-  gridImageId?: string;
-  gridImageType?: GridImageType;
-  hostname?: string;
-  iamRoles?: IamRole[];
-  iormConfigCache?: ExadataIormConfig;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  odbNetworkArn?: string;
-  odbNetworkId?: string;
-  percentProgress?: number;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shape?: string;
-  shapeAttribute?: ShapeAttribute;
-  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-  sshPublicKeys?: string[];
-  status?: ResourceStatus;
-  statusReason?: string;
-  systemVersion?: string;
-  timeZone?: string;
-  totalEcpuCount?: number;
-  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-  vipIds?: string[];
-  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+  clusterName?: string | undefined;
+  createdAt?: Date | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  domain?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  exadbVmClusterArn?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  giVersion?: string | undefined;
+  gridImageId?: string | undefined;
+  gridImageType?: GridImageType | undefined;
+  hostname?: string | undefined;
+  iamRoles?: IamRole[] | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  percentProgress?: number | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shape?: string | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  sshPublicKeys?: string[] | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  vipIds?: string[] | undefined;
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
 }
 export interface GetExadbVmClusterOutput {
   exadbVmCluster: ExadbVmCluster;
@@ -1464,8 +1487,8 @@ export interface GetExascaleDbStorageVaultInput {
 export type ShapeAttributeList = ShapeAttribute[];
 export type ResourceArnList = string[];
 export interface ExascaleDbStorageDetails {
-  availableSizeInGBs?: number;
-  totalSizeInGBs?: number;
+  availableSizeInGBs?: number | undefined;
+  totalSizeInGBs?: number | undefined;
 }
 export type ExascaleDbStorageVaultType =
   | "EXASCALE_INFRASTRUCTURE"
@@ -1473,30 +1496,30 @@ export type ExascaleDbStorageVaultType =
   | (string & {});
 export interface ExascaleDbStorageVault {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  attachedShapeAttributes?: ShapeAttribute[];
-  autoscaleLimitInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  cloudExadataInfrastructureArn?: string;
-  cloudExadataInfrastructureId?: string;
-  createdAt?: Date;
-  description?: string;
-  displayName?: string;
-  vmClusterArns?: string[];
-  vmClusterCount?: number;
-  vmClusterIds?: string[];
-  exascaleDbStorageVaultArn?: string;
-  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-  isAutoscaleEnabled?: boolean;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  percentProgress?: number;
-  status?: ResourceStatus;
-  statusReason?: string;
-  timeZone?: string;
-  vaultType?: ExascaleDbStorageVaultType;
+  additionalFlashCacheInPercent?: number | undefined;
+  attachedShapeAttributes?: ShapeAttribute[] | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  vmClusterArns?: string[] | undefined;
+  vmClusterCount?: number | undefined;
+  vmClusterIds?: string[] | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  percentProgress?: number | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  timeZone?: string | undefined;
+  vaultType?: ExascaleDbStorageVaultType | undefined;
 }
 export interface GetExascaleDbStorageVaultOutput {
   exascaleDbStorageVault: ExascaleDbStorageVault;
@@ -1517,12 +1540,12 @@ export type OciOnboardingStatus =
   | "CANCELED"
   | (string & {});
 export interface OciIdentityDomain {
-  ociIdentityDomainId?: string;
-  ociIdentityDomainResourceUrl?: string;
-  ociIdentityDomainUrl?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  accountSetupCloudFormationUrl?: string;
+  ociIdentityDomainId?: string | undefined;
+  ociIdentityDomainResourceUrl?: string | undefined;
+  ociIdentityDomainUrl?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  accountSetupCloudFormationUrl?: string | undefined;
 }
 export type OciAwsIntegration = "KmsTde" | "SecretsManager" | (string & {});
 export type OciIamRoleStatus =
@@ -1533,38 +1556,38 @@ export type OciIamRoleStatus =
   | "TERMINATE_FAILED"
   | (string & {});
 export interface OciIamRole {
-  iamRoleArn?: string;
-  awsIntegration?: OciAwsIntegration;
-  status?: OciIamRoleStatus;
-  statusReason?: string;
+  iamRoleArn?: string | undefined;
+  awsIntegration?: OciAwsIntegration | undefined;
+  status?: OciIamRoleStatus | undefined;
+  statusReason?: string | undefined;
 }
 export type OciIamRoleList = OciIamRole[];
 export interface SubscriptionError {
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type SubscriptionErrors = SubscriptionError[];
 export interface GetOciOnboardingStatusOutput {
-  status?: OciOnboardingStatus;
-  existingTenancyActivationLink?: string;
-  newTenancyActivationLink?: string;
-  ociIdentityDomain?: OciIdentityDomain;
-  autonomousDatabaseOciIntegrationIamRoles?: OciIamRole[];
-  linkedOciTenancyId?: string;
-  linkedOciCompartmentId?: string;
-  subscriptionErrors?: SubscriptionError[];
+  status?: OciOnboardingStatus | undefined;
+  existingTenancyActivationLink?: string | undefined;
+  newTenancyActivationLink?: string | undefined;
+  ociIdentityDomain?: OciIdentityDomain | undefined;
+  autonomousDatabaseOciIntegrationIamRoles?: OciIamRole[] | undefined;
+  linkedOciTenancyId?: string | undefined;
+  linkedOciCompartmentId?: string | undefined;
+  subscriptionErrors?: SubscriptionError[] | undefined;
 }
 export interface GetOdbNetworkInput {
   odbNetworkId: string;
 }
 export interface OciDnsForwardingConfig {
-  domainName?: string;
-  ociDnsListenerIp?: string;
+  domainName?: string | undefined;
+  ociDnsListenerIp?: string | undefined;
 }
 export type OciDnsForwardingConfigList = OciDnsForwardingConfig[];
 export type VpcEndpointType = "SERVICENETWORK" | (string & {});
 export interface ServiceNetworkEndpoint {
-  vpcEndpointId?: string;
-  vpcEndpointType?: VpcEndpointType;
+  vpcEndpointId?: string | undefined;
+  vpcEndpointType?: VpcEndpointType | undefined;
 }
 export type ManagedResourceStatus =
   | "ENABLED"
@@ -1573,827 +1596,828 @@ export type ManagedResourceStatus =
   | "DISABLING"
   | (string & {});
 export interface ManagedS3BackupAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
 }
 export interface ZeroEtlAccess {
-  status?: ManagedResourceStatus;
-  cidr?: string;
+  status?: ManagedResourceStatus | undefined;
+  cidr?: string | undefined;
 }
 export interface S3Access {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  s3PolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  s3PolicyDocument?: string | undefined;
 }
 export interface StsAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  stsPolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  stsPolicyDocument?: string | undefined;
 }
 export interface KmsAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  kmsPolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
 }
 export interface CrossRegionS3RestoreSourcesAccess {
-  region?: string;
-  ipv4Addresses?: string[];
-  status?: ManagedResourceStatus;
+  region?: string | undefined;
+  ipv4Addresses?: string[] | undefined;
+  status?: ManagedResourceStatus | undefined;
 }
 export type CrossRegionS3RestoreSourcesAccessList = CrossRegionS3RestoreSourcesAccess[];
 export interface ManagedServices {
-  serviceNetworkArn?: string;
-  resourceGatewayArn?: string;
-  managedServicesIpv4Cidrs?: string[];
-  serviceNetworkEndpoint?: ServiceNetworkEndpoint;
-  managedS3BackupAccess?: ManagedS3BackupAccess;
-  zeroEtlAccess?: ZeroEtlAccess;
-  s3Access?: S3Access;
-  stsAccess?: StsAccess;
-  kmsAccess?: KmsAccess;
-  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccess[];
+  serviceNetworkArn?: string | undefined;
+  resourceGatewayArn?: string | undefined;
+  managedServicesIpv4Cidrs?: string[] | undefined;
+  serviceNetworkEndpoint?: ServiceNetworkEndpoint | undefined;
+  managedS3BackupAccess?: ManagedS3BackupAccess | undefined;
+  zeroEtlAccess?: ZeroEtlAccess | undefined;
+  s3Access?: S3Access | undefined;
+  stsAccess?: StsAccess | undefined;
+  kmsAccess?: KmsAccess | undefined;
+  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccess[] | undefined;
 }
 export interface OdbNetwork {
   odbNetworkId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbNetworkArn?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  clientSubnetCidr?: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  peeredCidrs?: string[];
-  ociNetworkAnchorId?: string;
-  ociNetworkAnchorUrl?: string;
-  ociResourceAnchorName?: string;
-  ociVcnId?: string;
-  ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
-  createdAt?: Date;
-  percentProgress?: number;
-  managedServices?: ManagedServices;
-  ec2PlacementGroupIds?: string[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  clientSubnetCidr?: string | undefined;
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  peeredCidrs?: string[] | undefined;
+  ociNetworkAnchorId?: string | undefined;
+  ociNetworkAnchorUrl?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociVcnId?: string | undefined;
+  ociVcnUrl?: string | undefined;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
+  managedServices?: ManagedServices | undefined;
+  ec2PlacementGroupIds?: string[] | undefined;
 }
 export interface GetOdbNetworkOutput {
-  odbNetwork?: OdbNetwork;
+  odbNetwork?: OdbNetwork | undefined;
 }
 export interface GetOdbPeeringConnectionInput {
   odbPeeringConnectionId: string;
 }
 export interface OdbPeeringConnection {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbPeeringConnectionArn?: string;
-  odbNetworkArn?: string;
-  peerNetworkArn?: string;
-  odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: string[];
-  createdAt?: Date;
-  percentProgress?: number;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbPeeringConnectionArn?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  peerNetworkArn?: string | undefined;
+  odbPeeringConnectionType?: string | undefined;
+  peerNetworkCidrs?: string[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
 }
 export interface GetOdbPeeringConnectionOutput {
-  odbPeeringConnection?: OdbPeeringConnection;
+  odbPeeringConnection?: OdbPeeringConnection | undefined;
 }
 export interface InitializeServiceInput {
-  ociIdentityDomain?: boolean;
-  autonomousDatabaseOciAwsSecretsManagerIntegration?: Access;
+  ociIdentityDomain?: boolean | undefined;
+  autonomousDatabaseOciAwsSecretsManagerIntegration?: Access | undefined;
 }
 export interface InitializeServiceOutput {}
 export interface ListAutonomousDatabaseBackupsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
-  status?: AutonomousDatabaseBackupStatus;
-  type?: AutonomousDatabaseBackupType;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export interface AutonomousDatabaseBackupSummary {
-  autonomousDatabaseBackupId?: string;
-  autonomousDatabaseBackupArn?: string;
-  autonomousDatabaseId?: string;
-  ocid?: string;
-  displayName?: string;
-  dbVersion?: string;
-  status?: AutonomousDatabaseBackupStatus;
-  statusReason?: string;
-  isAutomatic?: boolean;
-  retentionPeriodInDays?: number;
-  sizeInTBs?: number;
-  timeAvailableTill?: Date;
-  timeStarted?: Date;
-  timeEnded?: Date;
-  type?: AutonomousDatabaseBackupType;
+  autonomousDatabaseBackupId?: string | undefined;
+  autonomousDatabaseBackupArn?: string | undefined;
+  autonomousDatabaseId?: string | undefined;
+  ocid?: string | undefined;
+  displayName?: string | undefined;
+  dbVersion?: string | undefined;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  statusReason?: string | undefined;
+  isAutomatic?: boolean | undefined;
+  retentionPeriodInDays?: number | undefined;
+  sizeInTBs?: number | undefined;
+  timeAvailableTill?: Date | undefined;
+  timeStarted?: Date | undefined;
+  timeEnded?: Date | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export type AutonomousDatabaseBackupList = AutonomousDatabaseBackupSummary[];
 export interface ListAutonomousDatabaseBackupsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseBackups: AutonomousDatabaseBackupSummary[];
 }
 export type CharacterSetType = "DATABASE" | "NATIONAL" | (string & {});
 export interface ListAutonomousDatabaseCharacterSetsInput {
-  maxResults?: number;
-  nextToken?: string;
-  characterSetType?: CharacterSetType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  characterSetType?: CharacterSetType | undefined;
 }
 export interface AutonomousDatabaseCharacterSetSummary {
-  characterSet?: string;
+  characterSet?: string | undefined;
 }
 export type AutonomousDatabaseCharacterSetList = AutonomousDatabaseCharacterSetSummary[];
 export interface ListAutonomousDatabaseCharacterSetsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSetSummary[];
 }
 export interface ListAutonomousDatabaseClonesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
 }
 export interface AutonomousDatabaseSummary {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  ocid?: string;
-  ociUrl?: string;
-  displayName?: string;
-  dbName?: string;
-  sourceId?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  databaseType?: DatabaseType;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  characterSet?: string;
-  ncharacterSet?: string;
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  isMtlsConnectionRequired?: boolean;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  netServicesArchitecture?: NetServicesArchitecture;
-  availableUpgradeVersions?: string[];
-  byolComputeCountLimit?: number;
-  connectionStringDetails?: AutonomousDatabaseConnectionStrings;
-  serviceConsoleUrl?: string;
-  sqlWebDeveloperUrl?: string;
-  customerContacts?: CustomerContact[];
-  apexDetails?: AutonomousDatabaseApex;
-  standbyDb?: DatabaseStandbySummary;
-  localStandbyDb?: DatabaseStandbySummary;
-  dataSafeStatus?: DataSafeStatus;
-  databaseManagementStatus?: DatabaseManagementStatus;
-  operationsInsightsStatus?: OperationsInsightsStatus;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  maintenanceTargetComponent?: string;
-  connectionUrls?: AutonomousDatabaseConnectionUrls;
-  dbToolsDetails?: DatabaseTool[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  resourcePoolLeaderId?: string;
-  computeCount?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  provisionableCpus?: number[];
-  isAutoScalingEnabled?: boolean;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  usedDataStorageSizeInTBs?: number;
-  usedDataStorageSizeInGBs?: number;
-  actualUsedDataStorageSizeInTBs?: number;
-  allocatedStorageSizeInTBs?: number;
-  inMemoryAreaInGBs?: number;
-  isAutoScalingForStorageEnabled?: boolean;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  privateEndpoint?: string;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  allowlistedIps?: string[];
-  standbyAllowlistedIps?: string[];
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  isLocalDataGuardEnabled?: boolean;
-  isRemoteDataGuardEnabled?: boolean;
-  localDisasterRecoveryType?: DisasterRecoveryType;
-  role?: DataGuardRole;
-  peerDbIds?: string[];
-  failedDataRecoveryInSeconds?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration;
-  isRefreshableClone?: boolean;
-  refreshableMode?: RefreshableMode;
-  refreshableStatus?: RefreshableStatus;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  isReconnectCloneEnabled?: boolean;
-  cloneTableSpaceList?: number[];
-  backupRetentionPeriodInDays?: number;
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  isBackupRetentionLocked?: boolean;
-  totalBackupStorageSizeInGBs?: number;
-  resourcePoolSummary?: ResourcePoolSummary;
-  encryptionSummary?: EncryptionSummary;
-  createdAt?: Date;
-  timeOfLastBackup?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
-  timeLocalDataGuardEnabled?: Date;
-  timeDataGuardRoleChanged?: Date;
-  timeOfLastSwitchover?: Date;
-  timeOfLastFailover?: Date;
-  timeOfLastRefresh?: Date;
-  timeOfLastRefreshPoint?: Date;
-  timeOfNextRefresh?: Date;
-  timeOfAutoRefreshStart?: Date;
-  timeDeletionOfFreeAutonomousDatabase?: Date;
-  timeReclamationOfFreeAutonomousDatabase?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeUntilReconnectCloneEnabled?: Date;
-  nextLongTermBackupTimeStamp?: Date;
-  timeUndeleted?: Date;
-  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  sourceId?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  databaseType?: DatabaseType | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  netServicesArchitecture?: NetServicesArchitecture | undefined;
+  availableUpgradeVersions?: string[] | undefined;
+  byolComputeCountLimit?: number | undefined;
+  connectionStringDetails?: AutonomousDatabaseConnectionStrings | undefined;
+  serviceConsoleUrl?: string | undefined;
+  sqlWebDeveloperUrl?: string | undefined;
+  customerContacts?: CustomerContact[] | undefined;
+  apexDetails?: AutonomousDatabaseApex | undefined;
+  standbyDb?: DatabaseStandbySummary | undefined;
+  localStandbyDb?: DatabaseStandbySummary | undefined;
+  dataSafeStatus?: DataSafeStatus | undefined;
+  databaseManagementStatus?: DatabaseManagementStatus | undefined;
+  operationsInsightsStatus?: OperationsInsightsStatus | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  computeCount?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  provisionableCpus?: number[] | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  usedDataStorageSizeInTBs?: number | undefined;
+  usedDataStorageSizeInGBs?: number | undefined;
+  actualUsedDataStorageSizeInTBs?: number | undefined;
+  allocatedStorageSizeInTBs?: number | undefined;
+  inMemoryAreaInGBs?: number | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  privateEndpoint?: string | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  allowlistedIps?: string[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isRemoteDataGuardEnabled?: boolean | undefined;
+  localDisasterRecoveryType?: DisasterRecoveryType | undefined;
+  role?: DataGuardRole | undefined;
+  peerDbIds?: string[] | undefined;
+  failedDataRecoveryInSeconds?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration | undefined;
+  isRefreshableClone?: boolean | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  refreshableStatus?: RefreshableStatus | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  isReconnectCloneEnabled?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  totalBackupStorageSizeInGBs?: number | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  encryptionSummary?: EncryptionSummary | undefined;
+  createdAt?: Date | undefined;
+  timeOfLastBackup?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
+  timeLocalDataGuardEnabled?: Date | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeOfLastSwitchover?: Date | undefined;
+  timeOfLastFailover?: Date | undefined;
+  timeOfLastRefresh?: Date | undefined;
+  timeOfLastRefreshPoint?: Date | undefined;
+  timeOfNextRefresh?: Date | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  timeDeletionOfFreeAutonomousDatabase?: Date | undefined;
+  timeReclamationOfFreeAutonomousDatabase?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeUntilReconnectCloneEnabled?: Date | undefined;
+  nextLongTermBackupTimeStamp?: Date | undefined;
+  timeUndeleted?: Date | undefined;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary | undefined;
 }
 export type AutonomousDatabaseList = AutonomousDatabaseSummary[];
 export interface ListAutonomousDatabaseClonesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseClones: AutonomousDatabaseSummary[];
 }
 export interface ListAutonomousDatabasePeersInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
 }
 export interface AutonomousDatabasePeerSummary {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ocid?: string;
-  region?: string;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ocid?: string | undefined;
+  region?: string | undefined;
 }
 export type AutonomousDatabasePeerList = AutonomousDatabasePeerSummary[];
 export interface ListAutonomousDatabasePeersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabasePeers: AutonomousDatabasePeerSummary[];
 }
 export interface ListAutonomousDatabasesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutonomousDatabasesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabases: AutonomousDatabaseSummary[];
 }
 export interface ListAutonomousDatabaseVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  dbWorkload?: DbWorkload;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
 }
 export interface AutonomousDatabaseVersionSummary {
-  dbWorkload?: DbWorkload;
-  details?: string;
-  version?: string;
+  dbWorkload?: DbWorkload | undefined;
+  details?: string | undefined;
+  version?: string | undefined;
 }
 export type AutonomousDatabaseVersionList = AutonomousDatabaseVersionSummary[];
 export interface ListAutonomousDatabaseVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseVersions: AutonomousDatabaseVersionSummary[];
 }
 export interface ListAutonomousVirtualMachinesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   cloudAutonomousVmClusterId: string;
 }
 export interface AutonomousVirtualMachineSummary {
-  autonomousVirtualMachineId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  vmName?: string;
-  dbServerId?: string;
-  dbServerDisplayName?: string;
-  cpuCoreCount?: number;
-  memorySizeInGBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  clientIpAddress?: string;
-  cloudAutonomousVmClusterId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
+  autonomousVirtualMachineId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  vmName?: string | undefined;
+  dbServerId?: string | undefined;
+  dbServerDisplayName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  clientIpAddress?: string | undefined;
+  cloudAutonomousVmClusterId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
 }
 export type AutonomousVirtualMachineList = AutonomousVirtualMachineSummary[];
 export interface ListAutonomousVirtualMachinesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousVirtualMachines: AutonomousVirtualMachineSummary[];
 }
 export interface ListCloudAutonomousVmClustersInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudExadataInfrastructureId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
 }
 export interface CloudAutonomousVmClusterSummary {
   cloudAutonomousVmClusterId: string;
-  cloudAutonomousVmClusterArn?: string;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  autonomousDataStoragePercentage?: number;
-  autonomousDataStorageSizeInTBs?: number;
-  availableAutonomousDataStorageSizeInTBs?: number;
-  availableContainerDatabases?: number;
-  availableCpus?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  cpuCoreCountPerNode?: number;
-  cpuPercentage?: number;
-  dataStorageSizeInGBs?: number;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  description?: string;
-  domain?: string;
-  exadataStorageInTBsLowestScaledValue?: number;
-  hostname?: string;
-  ocid?: string;
-  ociUrl?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
-  maxAcdsLowestScaledValue?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  nonProvisionableAutonomousContainerDatabases?: number;
-  provisionableAutonomousContainerDatabases?: number;
-  provisionedAutonomousContainerDatabases?: number;
-  provisionedCpus?: number;
-  reclaimableCpus?: number;
-  reservedCpus?: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  shape?: string;
-  createdAt?: Date;
-  timeDatabaseSslCertificateExpires?: Date;
-  timeOrdsCertificateExpires?: Date;
-  timeZone?: string;
-  totalContainerDatabases?: number;
-  iamRoles?: IamRole[];
+  cloudAutonomousVmClusterArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  autonomousDataStoragePercentage?: number | undefined;
+  autonomousDataStorageSizeInTBs?: number | undefined;
+  availableAutonomousDataStorageSizeInTBs?: number | undefined;
+  availableContainerDatabases?: number | undefined;
+  availableCpus?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  cpuCoreCountPerNode?: number | undefined;
+  cpuPercentage?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  exadataStorageInTBsLowestScaledValue?: number | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxAcdsLowestScaledValue?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  nonProvisionableAutonomousContainerDatabases?: number | undefined;
+  ocpusLowestScaledValue?: number | undefined;
+  provisionableAutonomousContainerDatabases?: number | undefined;
+  provisionedAutonomousContainerDatabases?: number | undefined;
+  provisionedCpus?: number | undefined;
+  reclaimableCpus?: number | undefined;
+  reservedCpus?: number | undefined;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  timeDatabaseSslCertificateExpires?: Date | undefined;
+  timeOrdsCertificateExpires?: Date | undefined;
+  timeZone?: string | undefined;
+  totalContainerDatabases?: number | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export type CloudAutonomousVmClusterList = CloudAutonomousVmClusterSummary[];
 export interface ListCloudAutonomousVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudAutonomousVmClusters: CloudAutonomousVmClusterSummary[];
 }
 export interface ListCloudExadataInfrastructuresInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface CloudExadataInfrastructureSummary {
   cloudExadataInfrastructureId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureArn?: string;
-  activatedStorageCount?: number;
-  additionalStorageCount?: number;
-  availableStorageSizeInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  computeCount?: number;
-  cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerVersion?: string;
-  lastMaintenanceRunId?: string;
-  maintenanceWindow?: MaintenanceWindow;
-  maxCpuCount?: number;
-  maxDataStorageInTBs?: number;
-  maxDbNodeStorageSizeInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  monthlyDbServerVersion?: string;
-  monthlyStorageServerVersion?: string;
-  nextMaintenanceRunId?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  ocid?: string;
-  shape?: string;
-  storageCount?: number;
-  storageServerVersion?: string;
-  createdAt?: Date;
-  totalStorageSizeInGBs?: number;
-  percentProgress?: number;
-  databaseServerType?: string;
-  storageServerType?: string;
-  computeModel?: ComputeModel;
-  exascaleConfiguration?: ExascaleConfiguration;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  activatedStorageCount?: number | undefined;
+  additionalStorageCount?: number | undefined;
+  availableStorageSizeInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  computeCount?: number | undefined;
+  cpuCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerVersion?: string | undefined;
+  lastMaintenanceRunId?: string | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxCpuCount?: number | undefined;
+  maxDataStorageInTBs?: number | undefined;
+  maxDbNodeStorageSizeInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  monthlyDbServerVersion?: string | undefined;
+  monthlyStorageServerVersion?: string | undefined;
+  nextMaintenanceRunId?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  ocid?: string | undefined;
+  shape?: string | undefined;
+  storageCount?: number | undefined;
+  storageServerVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  totalStorageSizeInGBs?: number | undefined;
+  percentProgress?: number | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
+  computeModel?: ComputeModel | undefined;
+  exascaleConfiguration?: ExascaleConfiguration | undefined;
 }
 export type CloudExadataInfrastructureList = CloudExadataInfrastructureSummary[];
 export interface ListCloudExadataInfrastructuresOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudExadataInfrastructures: CloudExadataInfrastructureSummary[];
 }
 export interface ListCloudVmClustersInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudExadataInfrastructureId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
 }
 export interface CloudVmClusterSummary {
   cloudVmClusterId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudVmClusterArn?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  exascaleDbStorageVaultId?: string;
-  exascaleDbStorageVaultArn?: string;
-  storageManagementType?: StorageManagementType;
-  vmFileSystemStorageType?: VmStorageType;
-  vmBackupStorageType?: VmStorageType;
-  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
-  clusterName?: string;
-  cpuCoreCount?: number;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  diskRedundancy?: DiskRedundancy;
-  giVersion?: string;
-  hostname?: string;
-  iormConfigCache?: ExadataIormConfig;
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  domain?: string;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  shape?: string;
-  sshPublicKeys?: (string | redacted.Redacted<string>)[];
-  storageSizeInGBs?: number;
-  systemVersion?: string;
-  createdAt?: Date;
-  timeZone?: string;
-  vipIds?: string[];
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  percentProgress?: number;
-  computeModel?: ComputeModel;
-  iamRoles?: IamRole[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  storageManagementType?: StorageManagementType | undefined;
+  vmFileSystemStorageType?: VmStorageType | undefined;
+  vmBackupStorageType?: VmStorageType | undefined;
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[] | undefined;
+  clusterName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  diskRedundancy?: DiskRedundancy | undefined;
+  giVersion?: string | undefined;
+  hostname?: string | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  domain?: string | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  shape?: string | undefined;
+  sshPublicKeys?: (string | redacted.Redacted<string>)[] | undefined;
+  storageSizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  timeZone?: string | undefined;
+  vipIds?: string[] | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  percentProgress?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export type CloudVmClusterList = CloudVmClusterSummary[];
 export interface ListCloudVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudVmClusters: CloudVmClusterSummary[];
 }
 export interface ListDbNodesInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
 }
 export interface DbNodeSummary {
-  dbNodeId?: string;
-  dbNodeArn?: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
-  additionalDetails?: string;
-  backupIpId?: string;
-  backupVnic2Id?: string;
-  backupVnicId?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerId?: string;
-  dbSystemId?: string;
-  faultDomain?: string;
-  hostIpId?: string;
-  hostname?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maintenanceType?: DbNodeMaintenanceType;
-  memorySizeInGBs?: number;
-  softwareStorageSizeInGB?: number;
-  createdAt?: Date;
-  timeMaintenanceWindowEnd?: string;
-  timeMaintenanceWindowStart?: string;
-  totalCpuCoreCount?: number;
-  vnic2Id?: string;
-  vnicId?: string;
+  dbNodeId?: string | undefined;
+  dbNodeArn?: string | undefined;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
+  additionalDetails?: string | undefined;
+  backupIpId?: string | undefined;
+  backupVnic2Id?: string | undefined;
+  backupVnicId?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerId?: string | undefined;
+  dbSystemId?: string | undefined;
+  faultDomain?: string | undefined;
+  hostIpId?: string | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maintenanceType?: DbNodeMaintenanceType | undefined;
+  memorySizeInGBs?: number | undefined;
+  softwareStorageSizeInGB?: number | undefined;
+  createdAt?: Date | undefined;
+  timeMaintenanceWindowEnd?: string | undefined;
+  timeMaintenanceWindowStart?: string | undefined;
+  totalCpuCoreCount?: number | undefined;
+  vnic2Id?: string | undefined;
+  vnicId?: string | undefined;
 }
 export type DbNodeList = DbNodeSummary[];
 export interface ListDbNodesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbNodes: DbNodeSummary[];
 }
 export interface ListDbServersInput {
   cloudExadataInfrastructureId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DbServerSummary {
-  dbServerId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerPatchingDetails?: DbServerPatchingDetails;
-  displayName?: string;
-  exadataInfrastructureId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maxCpuCount?: number;
-  maxDbNodeStorageInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  shape?: string;
-  createdAt?: Date;
-  vmClusterIds?: string[];
-  computeModel?: ComputeModel;
-  autonomousVmClusterIds?: string[];
-  autonomousVirtualMachineIds?: string[];
+  dbServerId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerPatchingDetails?: DbServerPatchingDetails | undefined;
+  displayName?: string | undefined;
+  exadataInfrastructureId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maxCpuCount?: number | undefined;
+  maxDbNodeStorageInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  vmClusterIds?: string[] | undefined;
+  computeModel?: ComputeModel | undefined;
+  autonomousVmClusterIds?: string[] | undefined;
+  autonomousVirtualMachineIds?: string[] | undefined;
 }
 export type DbServerList = DbServerSummary[];
 export interface ListDbServersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbServers: DbServerSummary[];
 }
 export interface ListDbSystemShapesInput {
-  maxResults?: number;
-  nextToken?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  shapeFamily?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  shapeFamily?: string | undefined;
 }
 export type ShapeType = "AMD" | "INTEL" | "INTEL_FLEX_X9" | "AMPERE_FLEX_A1" | (string & {});
 export interface DbSystemShapeSummary {
-  availableCoreCount?: number;
-  availableCoreCountPerNode?: number;
-  availableDataStorageInTBs?: number;
-  availableDataStoragePerServerInTBs?: number;
-  availableDbNodePerNodeInGBs?: number;
-  availableDbNodeStorageInGBs?: number;
-  availableMemoryInGBs?: number;
-  availableMemoryPerNodeInGBs?: number;
-  coreCountIncrement?: number;
-  maxStorageCount?: number;
-  maximumNodeCount?: number;
-  minCoreCountPerNode?: number;
-  minDataStorageInTBs?: number;
-  minDbNodeStoragePerNodeInGBs?: number;
-  minMemoryPerNodeInGBs?: number;
-  minStorageCount?: number;
-  minimumCoreCount?: number;
-  minimumNodeCount?: number;
-  runtimeMinimumCoreCount?: number;
-  shapeFamily?: string;
-  shapeType?: ShapeType;
-  shapeAttributes?: ShapeAttribute[];
-  name?: string;
-  computeModel?: ComputeModel;
-  areServerTypesSupported?: boolean;
+  availableCoreCount?: number | undefined;
+  availableCoreCountPerNode?: number | undefined;
+  availableDataStorageInTBs?: number | undefined;
+  availableDataStoragePerServerInTBs?: number | undefined;
+  availableDbNodePerNodeInGBs?: number | undefined;
+  availableDbNodeStorageInGBs?: number | undefined;
+  availableMemoryInGBs?: number | undefined;
+  availableMemoryPerNodeInGBs?: number | undefined;
+  coreCountIncrement?: number | undefined;
+  maxStorageCount?: number | undefined;
+  maximumNodeCount?: number | undefined;
+  minCoreCountPerNode?: number | undefined;
+  minDataStorageInTBs?: number | undefined;
+  minDbNodeStoragePerNodeInGBs?: number | undefined;
+  minMemoryPerNodeInGBs?: number | undefined;
+  minStorageCount?: number | undefined;
+  minimumCoreCount?: number | undefined;
+  minimumNodeCount?: number | undefined;
+  runtimeMinimumCoreCount?: number | undefined;
+  shapeFamily?: string | undefined;
+  shapeType?: ShapeType | undefined;
+  shapeAttributes?: ShapeAttribute[] | undefined;
+  name?: string | undefined;
+  computeModel?: ComputeModel | undefined;
+  areServerTypesSupported?: boolean | undefined;
 }
 export type DbSystemShapeList = DbSystemShapeSummary[];
 export interface ListDbSystemShapesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbSystemShapes: DbSystemShapeSummary[];
 }
 export interface ListExadbVmClustersInput {
-  exascaleDbStorageVaultId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  exascaleDbStorageVaultId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExadbVmClusterSummary {
   exadbVmClusterId: string;
-  clusterName?: string;
-  createdAt?: Date;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  domain?: string;
-  enabledEcpuCount?: number;
-  exadbVmClusterArn?: string;
-  exascaleDbStorageVaultArn?: string;
-  exascaleDbStorageVaultId?: string;
-  giVersion?: string;
-  gridImageId?: string;
-  gridImageType?: GridImageType;
-  hostname?: string;
-  iamRoles?: IamRole[];
-  iormConfigCache?: ExadataIormConfig;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  odbNetworkArn?: string;
-  odbNetworkId?: string;
-  percentProgress?: number;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shape?: string;
-  shapeAttribute?: ShapeAttribute;
-  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-  sshPublicKeys?: string[];
-  status?: ResourceStatus;
-  statusReason?: string;
-  systemVersion?: string;
-  timeZone?: string;
-  totalEcpuCount?: number;
-  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-  vipIds?: string[];
-  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+  clusterName?: string | undefined;
+  createdAt?: Date | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  domain?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  exadbVmClusterArn?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  giVersion?: string | undefined;
+  gridImageId?: string | undefined;
+  gridImageType?: GridImageType | undefined;
+  hostname?: string | undefined;
+  iamRoles?: IamRole[] | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  percentProgress?: number | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shape?: string | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  sshPublicKeys?: string[] | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  vipIds?: string[] | undefined;
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
 }
 export type ExadbVmClusterList = ExadbVmClusterSummary[];
 export interface ListExadbVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   exadbVmClusters: ExadbVmClusterSummary[];
 }
 export interface ListExascaleDbStorageVaultsInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudExadataInfrastructureId?: string;
-  vaultType?: ExascaleDbStorageVaultType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  vaultType?: ExascaleDbStorageVaultType | undefined;
 }
 export interface ExascaleDbStorageVaultSummary {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  attachedShapeAttributes?: ShapeAttribute[];
-  autoscaleLimitInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  cloudExadataInfrastructureArn?: string;
-  cloudExadataInfrastructureId?: string;
-  createdAt?: Date;
-  description?: string;
-  displayName?: string;
-  vmClusterArns?: string[];
-  vmClusterCount?: number;
-  vmClusterIds?: string[];
-  exascaleDbStorageVaultArn?: string;
-  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-  isAutoscaleEnabled?: boolean;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  percentProgress?: number;
-  status?: ResourceStatus;
-  statusReason?: string;
-  timeZone?: string;
-  vaultType?: ExascaleDbStorageVaultType;
+  additionalFlashCacheInPercent?: number | undefined;
+  attachedShapeAttributes?: ShapeAttribute[] | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  vmClusterArns?: string[] | undefined;
+  vmClusterCount?: number | undefined;
+  vmClusterIds?: string[] | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  percentProgress?: number | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  timeZone?: string | undefined;
+  vaultType?: ExascaleDbStorageVaultType | undefined;
 }
 export type ExascaleDbStorageVaultList = ExascaleDbStorageVaultSummary[];
 export interface ListExascaleDbStorageVaultsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   exascaleDbStorageVaults: ExascaleDbStorageVaultSummary[];
 }
 export interface ListFlexComponentsInput {
-  maxResults?: number;
-  nextToken?: string;
-  shape?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shape?: string | undefined;
 }
 export type HardwareType = "COMPUTE" | "CELL" | (string & {});
 export interface FlexComponentSummary {
-  availableCoreCount?: number;
-  availableDbStorageInGBs?: number;
-  availableLocalStorageInGBs?: number;
-  availableMemoryInGBs?: number;
-  computeModel?: ComputeModel;
-  descriptionSummary?: string;
-  hardwareType?: HardwareType;
-  minimumCoreCount?: number;
-  name?: string;
-  runtimeMinimumCoreCount?: number;
-  shape?: string;
+  availableCoreCount?: number | undefined;
+  availableDbStorageInGBs?: number | undefined;
+  availableLocalStorageInGBs?: number | undefined;
+  availableMemoryInGBs?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  descriptionSummary?: string | undefined;
+  hardwareType?: HardwareType | undefined;
+  minimumCoreCount?: number | undefined;
+  name?: string | undefined;
+  runtimeMinimumCoreCount?: number | undefined;
+  shape?: string | undefined;
 }
 export type FlexComponentList = FlexComponentSummary[];
 export interface ListFlexComponentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   flexComponents: FlexComponentSummary[];
 }
 export interface ListGiMinorVersionsInput {
   giVersion: string;
-  maxResults?: number;
-  nextToken?: string;
-  shapeFamily?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shapeFamily?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
 }
 export interface GiMinorVersionSummary {
   version: string;
-  gridImageId?: string;
+  gridImageId?: string | undefined;
 }
 export type GiMinorVersionList = GiMinorVersionSummary[];
 export interface ListGiMinorVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   giMinorVersions: GiMinorVersionSummary[];
 }
 export interface ListGiVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  shape?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shape?: string | undefined;
 }
 export interface GiVersionSummary {
-  version?: string;
+  version?: string | undefined;
 }
 export type GiVersionList = GiVersionSummary[];
 export interface ListGiVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   giVersions: GiVersionSummary[];
 }
 export interface ListOdbNetworksInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface OdbNetworkSummary {
   odbNetworkId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbNetworkArn?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  clientSubnetCidr?: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  peeredCidrs?: string[];
-  ociNetworkAnchorId?: string;
-  ociNetworkAnchorUrl?: string;
-  ociResourceAnchorName?: string;
-  ociVcnId?: string;
-  ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
-  createdAt?: Date;
-  percentProgress?: number;
-  managedServices?: ManagedServices;
-  ec2PlacementGroupIds?: string[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  clientSubnetCidr?: string | undefined;
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  peeredCidrs?: string[] | undefined;
+  ociNetworkAnchorId?: string | undefined;
+  ociNetworkAnchorUrl?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociVcnId?: string | undefined;
+  ociVcnUrl?: string | undefined;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
+  managedServices?: ManagedServices | undefined;
+  ec2PlacementGroupIds?: string[] | undefined;
 }
 export type OdbNetworkList = OdbNetworkSummary[];
 export interface ListOdbNetworksOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   odbNetworks: OdbNetworkSummary[];
 }
 export interface ListOdbPeeringConnectionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  odbNetworkId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  odbNetworkId?: string | undefined;
 }
 export interface OdbPeeringConnectionSummary {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbPeeringConnectionArn?: string;
-  odbNetworkArn?: string;
-  peerNetworkArn?: string;
-  odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: string[];
-  createdAt?: Date;
-  percentProgress?: number;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbPeeringConnectionArn?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  peerNetworkArn?: string | undefined;
+  odbPeeringConnectionType?: string | undefined;
+  peerNetworkCidrs?: string[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
 }
 export type OdbPeeringConnectionList = OdbPeeringConnectionSummary[];
 export interface ListOdbPeeringConnectionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   odbPeeringConnections: OdbPeeringConnectionSummary[];
 }
 export interface ListSystemVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   giVersion: string;
   shape: string;
 }
 export interface SystemVersionSummary {
-  giVersion?: string;
-  shape?: string;
-  systemVersions?: string[];
+  giVersion?: string | undefined;
+  shape?: string | undefined;
+  systemVersions?: string[] | undefined;
 }
 export type SystemVersionList = SystemVersionSummary[];
 export interface ListSystemVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   systemVersions: SystemVersionSummary[];
 }
 export interface ListTagsForResourceRequest {
@@ -2401,27 +2425,27 @@ export interface ListTagsForResourceRequest {
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RebootAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  isOnlineReboot?: boolean;
+  isOnlineReboot?: boolean | undefined;
 }
 export interface RebootAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface RebootDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface RebootDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface RestoreAutonomousDatabaseInput {
   autonomousDatabaseId: string;
@@ -2429,66 +2453,66 @@ export interface RestoreAutonomousDatabaseInput {
 }
 export interface RestoreAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface ShrinkAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface ShrinkAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StartAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface StartAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StartDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface StartDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StopAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface StopAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StopDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface StopDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface SwitchoverAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  peerDbArn?: string;
+  peerDbArn?: string | undefined;
 }
 export interface SwitchoverAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -2503,76 +2527,122 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  adminPassword?: string | redacted.Redacted<string>;
-  computeCount?: number;
-  cpuCoreCount?: number;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  displayName?: string;
-  dbName?: string;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  dbToolsDetails?: DatabaseTool[];
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  isAutoScalingEnabled?: boolean;
-  isAutoScalingForStorageEnabled?: boolean;
-  isBackupRetentionLocked?: boolean;
-  isLocalDataGuardEnabled?: boolean;
-  isMtlsConnectionRequired?: boolean;
-  isRefreshableClone?: boolean;
-  isDisconnectPeer?: boolean;
-  backupRetentionPeriodInDays?: number;
-  byolComputeCountLimit?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  customerContactsToSendToOCI?: CustomerContact[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  refreshableMode?: RefreshableMode;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  peerDbId?: string;
-  resourcePoolLeaderId?: string;
-  resourcePoolSummary?: ResourcePoolSummary;
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  standbyAllowlistedIps?: string[];
-  allowlistedIps?: string[];
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  timeOfAutoRefreshStart?: Date;
-  encryptionKeyProvider?: EncryptionKeyProviderInput;
-  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
+  adminPassword?: string | redacted.Redacted<string> | undefined;
+  computeCount?: number | undefined;
+  cpuCoreCount?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  isRefreshableClone?: boolean | undefined;
+  isDisconnectPeer?: boolean | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  byolComputeCountLimit?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  peerDbId?: string | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  allowlistedIps?: string[] | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  encryptionKeyProvider?: EncryptionKeyProviderInput | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput | undefined;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput | undefined;
 }
 export interface UpdateAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface UpdateAutonomousDatabaseBackupInput {
   autonomousDatabaseBackupId: string;
-  retentionPeriodInDays?: number;
+  retentionPeriodInDays?: number | undefined;
 }
 export interface UpdateAutonomousDatabaseBackupOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   autonomousDatabaseBackupId: string;
+}
+export interface UpdateCloudAutonomousVmClusterInput {
+  cloudAutonomousVmClusterId: string;
+  autonomousDataStorageSizeInTBs?: number | undefined;
+  cpuCoreCountPerNode?: number | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  totalContainerDatabases?: number | undefined;
+}
+export interface UpdateCloudAutonomousVmClusterOutput {
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudAutonomousVmClusterId: string;
 }
 export interface UpdateCloudExadataInfrastructureInput {
   cloudExadataInfrastructureId: string;
-  maintenanceWindow?: MaintenanceWindow;
+  displayName?: string | undefined;
+  computeCount?: number | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  storageCount?: number | undefined;
 }
 export interface UpdateCloudExadataInfrastructureOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudExadataInfrastructureId: string;
+}
+export interface UpdateCloudExadataInfrastructureStorageCapacityInput {
+  cloudExadataInfrastructureId: string;
+}
+export interface UpdateCloudExadataInfrastructureStorageCapacityOutput {
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureId: string;
+}
+export interface UpdateCloudVmClusterInput {
+  cloudVmClusterId: string;
+  cpuCoreCount?: number | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  displayName?: string | undefined;
+  sshPublicKeys?: string[] | undefined;
+  licenseModel?: LicenseModel | undefined;
+  memorySizeInGBs?: number | undefined;
+  storageSizeInGBs?: number | undefined;
+}
+export interface UpdateCloudVmClusterOutput {
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterId: string;
 }
 export type UpdateAction =
   | "ROLLING_APPLY"
@@ -2582,80 +2652,80 @@ export type UpdateAction =
   | (string & {});
 export interface UpdateExadbVmClusterInput {
   exadbVmClusterId: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  enabledEcpuCount?: number;
-  gridImageId?: string;
-  licenseModel?: LicenseModel;
-  sshPublicKeys?: string[];
-  systemVersion?: string;
-  totalEcpuCount?: number;
-  updateAction?: UpdateAction;
-  vmFileSystemStorageTotalSizeInGBs?: number;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  gridImageId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  sshPublicKeys?: string[] | undefined;
+  systemVersion?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  updateAction?: UpdateAction | undefined;
+  vmFileSystemStorageTotalSizeInGBs?: number | undefined;
 }
 export interface UpdateExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export interface UpdateExascaleCloudExadataInfrastructureInput {
   cloudExadataInfrastructureId: string;
   totalStorageSizeInGBs: number;
-  totalVmStorageSizeInGBs?: number;
+  totalVmStorageSizeInGBs?: number | undefined;
 }
 export interface UpdateExascaleCloudExadataInfrastructureOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudExadataInfrastructureId: string;
 }
 export interface UpdateExascaleDbStorageVaultInput {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  autoscaleLimitInGBs?: number;
-  description?: string;
-  displayName?: string;
-  highCapacityDatabaseStorageTotalSizeInGBs?: number;
-  isAutoscaleEnabled?: boolean;
+  additionalFlashCacheInPercent?: number | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  highCapacityDatabaseStorageTotalSizeInGBs?: number | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
 }
 export interface UpdateExascaleDbStorageVaultOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exascaleDbStorageVaultId: string;
 }
 export interface UpdateOdbNetworkInput {
   odbNetworkId: string;
-  displayName?: string;
-  peeredCidrsToBeAdded?: string[];
-  peeredCidrsToBeRemoved?: string[];
-  s3Access?: Access;
-  zeroEtlAccess?: Access;
-  stsAccess?: Access;
-  kmsAccess?: Access;
-  s3PolicyDocument?: string;
-  stsPolicyDocument?: string;
-  kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: string[];
-  crossRegionS3RestoreSourcesToDisable?: string[];
+  displayName?: string | undefined;
+  peeredCidrsToBeAdded?: string[] | undefined;
+  peeredCidrsToBeRemoved?: string[] | undefined;
+  s3Access?: Access | undefined;
+  zeroEtlAccess?: Access | undefined;
+  stsAccess?: Access | undefined;
+  kmsAccess?: Access | undefined;
+  s3PolicyDocument?: string | undefined;
+  stsPolicyDocument?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
+  crossRegionS3RestoreSourcesToEnable?: string[] | undefined;
+  crossRegionS3RestoreSourcesToDisable?: string[] | undefined;
 }
 export interface UpdateOdbNetworkOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbNetworkId: string;
 }
 export interface UpdateOdbPeeringConnectionInput {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  peerNetworkCidrsToBeAdded?: string[];
-  peerNetworkCidrsToBeRemoved?: string[];
+  displayName?: string | undefined;
+  peerNetworkCidrsToBeAdded?: string[] | undefined;
+  peerNetworkCidrsToBeRemoved?: string[] | undefined;
 }
 export interface UpdateOdbPeeringConnectionOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbPeeringConnectionId: string;
 }
 export type ValidationExceptionReason =
@@ -2685,8 +2755,8 @@ export const acceptMarketplaceRegistration: API.OperationMethod<
   AcceptMarketplaceRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<AcceptMarketplaceRegistrationInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<AcceptMarketplaceRegistrationOutput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<AcceptMarketplaceRegistrationInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<AcceptMarketplaceRegistrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2718,8 +2788,8 @@ export const associateIamRoleToResource: API.OperationMethod<
   AssociateIamRoleToResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<AssociateIamRoleToResourceInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<AssociateIamRoleToResourceOutput>,
+  input: __S(1728, __c108, 0) as any as S.Schema<AssociateIamRoleToResourceInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<AssociateIamRoleToResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2733,6 +2803,40 @@ export const associateIamRoleToResource: API.OperationMethod<
   operationName: "AssociateIamRoleToResource",
   telemetry: TELEMETRY,
   span: "AssociateIamRoleToResource",
+}));
+
+export type AssociateVirtualMachinesToCloudVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds virtual machines to the specified VM cluster.
+ */
+export const associateVirtualMachinesToCloudVmCluster: API.OperationMethod<
+  AssociateVirtualMachinesToCloudVmClusterInput & RegionInput,
+  AssociateVirtualMachinesToCloudVmClusterOutput,
+  AssociateVirtualMachinesToCloudVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1904, __c119, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterInput>,
+  output: __S(1936, __c121, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AssociateVirtualMachinesToCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "AssociateVirtualMachinesToCloudVmCluster",
 }));
 
 export type AssociateVirtualMachinesToExadbVmClusterError =
@@ -2753,8 +2857,8 @@ export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
   AssociateVirtualMachinesToExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterInput>,
-  output: __S(1872, __c117, 0) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2789,8 +2893,8 @@ export const createAutonomousDatabase: API.OperationMethod<
   CreateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c0, 8) as any as S.Schema<CreateAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<CreateAutonomousDatabaseOutput>,
+  input: __S(40, __c2, 8) as any as S.Schema<CreateAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<CreateAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2825,8 +2929,8 @@ export const createAutonomousDatabaseBackup: API.OperationMethod<
   CreateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateAutonomousDatabaseBackupInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<CreateAutonomousDatabaseBackupOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateAutonomousDatabaseBackupInput>,
+  output: __S(192, __c12, 0) as any as S.Schema<CreateAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2859,8 +2963,8 @@ export const createAutonomousDatabaseWallet: API.OperationMethod<
   CreateAutonomousDatabaseWalletError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateAutonomousDatabaseWalletInput>,
-  output: __S(193, __c12, 1) as any as S.Schema<CreateAutonomousDatabaseWalletOutput>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateAutonomousDatabaseWalletInput>,
+  output: __S(209, __c13, 1) as any as S.Schema<CreateAutonomousDatabaseWalletOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2893,8 +2997,8 @@ export const createCloudAutonomousVmCluster: API.OperationMethod<
   CreateCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateCloudAutonomousVmClusterInput>,
-  output: __S(209, __c13, 1) as any as S.Schema<CreateCloudAutonomousVmClusterOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateCloudAutonomousVmClusterInput>,
+  output: __S(256, __c16, 0) as any as S.Schema<CreateCloudAutonomousVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2928,8 +3032,8 @@ export const createCloudExadataInfrastructure: API.OperationMethod<
   CreateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateCloudExadataInfrastructureInput>,
-  output: __S(256, __c16, 0) as any as S.Schema<CreateCloudExadataInfrastructureOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateCloudExadataInfrastructureInput>,
+  output: __S(288, __c18, 0) as any as S.Schema<CreateCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2963,8 +3067,8 @@ export const createCloudVmCluster: API.OperationMethod<
   CreateCloudVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateCloudVmClusterInput>,
-  output: __S(273, __c17, 1) as any as S.Schema<CreateCloudVmClusterOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateCloudVmClusterInput>,
+  output: __S(1936, __c121, 0) as any as S.Schema<CreateCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2999,8 +3103,8 @@ export const createExadbVmCluster: API.OperationMethod<
   CreateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateExadbVmClusterInput>,
-  output: __S(1872, __c117, 0) as any as S.Schema<CreateExadbVmClusterOutput>,
+  input: __S(352, __c22, 0) as any as S.Schema<CreateExadbVmClusterInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3037,8 +3141,8 @@ export const createExascaleDbStorageVault: API.OperationMethod<
   CreateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateExascaleDbStorageVaultInput>,
-  output: __S(352, __c22, 0) as any as S.Schema<CreateExascaleDbStorageVaultOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateExascaleDbStorageVaultInput>,
+  output: __S(384, __c24, 0) as any as S.Schema<CreateExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3072,8 +3176,8 @@ export const createOdbNetwork: API.OperationMethod<
   CreateOdbNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateOdbNetworkInput>,
-  output: __S(384, __c24, 0) as any as S.Schema<CreateOdbNetworkOutput>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateOdbNetworkInput>,
+  output: __S(416, __c26, 0) as any as S.Schema<CreateOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3108,8 +3212,8 @@ export const createOdbPeeringConnection: API.OperationMethod<
   CreateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateOdbPeeringConnectionInput>,
-  output: __S(416, __c26, 0) as any as S.Schema<CreateOdbPeeringConnectionOutput>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateOdbPeeringConnectionInput>,
+  output: __S(448, __c28, 0) as any as S.Schema<CreateOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3142,8 +3246,8 @@ export const deleteAutonomousDatabase: API.OperationMethod<
   DeleteAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteAutonomousDatabaseInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteAutonomousDatabaseOutput>,
+  input: __S(464, __c29, 0) as any as S.Schema<DeleteAutonomousDatabaseInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3176,8 +3280,8 @@ export const deleteAutonomousDatabaseBackup: API.OperationMethod<
   DeleteAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupOutput>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3209,8 +3313,8 @@ export const deleteCloudAutonomousVmCluster: API.OperationMethod<
   DeleteCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterOutput>,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3242,8 +3346,8 @@ export const deleteCloudExadataInfrastructure: API.OperationMethod<
   DeleteCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteCloudExadataInfrastructureInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteCloudExadataInfrastructureOutput>,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteCloudExadataInfrastructureInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3275,8 +3379,8 @@ export const deleteCloudVmCluster: API.OperationMethod<
   DeleteCloudVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeleteCloudVmClusterInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteCloudVmClusterOutput>,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteCloudVmClusterInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3308,8 +3412,8 @@ export const deleteExadbVmCluster: API.OperationMethod<
   DeleteExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteExadbVmClusterInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteExadbVmClusterOutput>,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteExadbVmClusterInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3342,8 +3446,8 @@ export const deleteExascaleDbStorageVault: API.OperationMethod<
   DeleteExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DeleteExascaleDbStorageVaultInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteExascaleDbStorageVaultOutput>,
+  input: __S(560, __c35, 0) as any as S.Schema<DeleteExascaleDbStorageVaultInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3375,8 +3479,8 @@ export const deleteOdbNetwork: API.OperationMethod<
   DeleteOdbNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DeleteOdbNetworkInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteOdbNetworkOutput>,
+  input: __S(576, __c36, 0) as any as S.Schema<DeleteOdbNetworkInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3409,8 +3513,8 @@ export const deleteOdbPeeringConnection: API.OperationMethod<
   DeleteOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DeleteOdbPeeringConnectionInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DeleteOdbPeeringConnectionOutput>,
+  input: __S(592, __c37, 0) as any as S.Schema<DeleteOdbPeeringConnectionInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DeleteOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3442,8 +3546,8 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   DisassociateIamRoleFromResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<DisassociateIamRoleFromResourceInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<DisassociateIamRoleFromResourceOutput>,
+  input: __S(608, __c38, 0) as any as S.Schema<DisassociateIamRoleFromResourceInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DisassociateIamRoleFromResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3457,6 +3561,44 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   operationName: "DisassociateIamRoleFromResource",
   telemetry: TELEMETRY,
   span: "DisassociateIamRoleFromResource",
+}));
+
+export type DisassociateVirtualMachinesFromCloudVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes virtual machines from the specified VM cluster.
+ */
+export const disassociateVirtualMachinesFromCloudVmCluster: API.OperationMethod<
+  DisassociateVirtualMachinesFromCloudVmClusterInput & RegionInput,
+  DisassociateVirtualMachinesFromCloudVmClusterOutput,
+  DisassociateVirtualMachinesFromCloudVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<DisassociateVirtualMachinesFromCloudVmClusterInput>,
+  output: __S(
+    1936,
+    __c121,
+    0,
+  ) as any as S.Schema<DisassociateVirtualMachinesFromCloudVmClusterOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisassociateVirtualMachinesFromCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "DisassociateVirtualMachinesFromCloudVmCluster",
 }));
 
 export type DisassociateVirtualMachinesFromExadbVmClusterError =
@@ -3476,12 +3618,8 @@ export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
   DisassociateVirtualMachinesFromExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterInput>,
-  output: __S(
-    1872,
-    __c117,
-    0,
-  ) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterOutput>,
+  input: __S(640, __c40, 0) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3514,8 +3652,8 @@ export const failoverAutonomousDatabase: API.OperationMethod<
   FailoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<FailoverAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<FailoverAutonomousDatabaseOutput>,
+  input: __S(656, __c41, 0) as any as S.Schema<FailoverAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<FailoverAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3547,8 +3685,8 @@ export const getAutonomousDatabase: API.OperationMethod<
   GetAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetAutonomousDatabaseInput>,
-  output: __S(625, __c39, 1) as any as S.Schema<GetAutonomousDatabaseOutput>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetAutonomousDatabaseInput>,
+  output: __S(673, __c42, 1) as any as S.Schema<GetAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3579,8 +3717,8 @@ export const getAutonomousDatabaseBackup: API.OperationMethod<
   GetAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetAutonomousDatabaseBackupInput>,
-  output: __S(689, __c43, 1) as any as S.Schema<GetAutonomousDatabaseBackupOutput>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetAutonomousDatabaseBackupInput>,
+  output: __S(737, __c46, 1) as any as S.Schema<GetAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3611,8 +3749,8 @@ export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
   GetAutonomousDatabaseWalletDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetAutonomousDatabaseWalletDetailsInput>,
-  output: __S(723, __c45, 3) as any as S.Schema<GetAutonomousDatabaseWalletDetailsOutput>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetAutonomousDatabaseWalletDetailsInput>,
+  output: __S(771, __c48, 3) as any as S.Schema<GetAutonomousDatabaseWalletDetailsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3643,8 +3781,8 @@ export const getCloudAutonomousVmCluster: API.OperationMethod<
   GetCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetCloudAutonomousVmClusterInput>,
-  output: __S(737, __c46, 1) as any as S.Schema<GetCloudAutonomousVmClusterOutput>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetCloudAutonomousVmClusterInput>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetCloudAutonomousVmClusterOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3675,8 +3813,8 @@ export const getCloudExadataInfrastructure: API.OperationMethod<
   GetCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetCloudExadataInfrastructureInput>,
-  output: __S(785, __c49, 1) as any as S.Schema<GetCloudExadataInfrastructureOutput>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetCloudExadataInfrastructureInput>,
+  output: __S(833, __c52, 1) as any as S.Schema<GetCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3708,13 +3846,13 @@ export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMet
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    816,
-    __c51,
+    864,
+    __c54,
     0,
   ) as any as S.Schema<GetCloudExadataInfrastructureUnallocatedResourcesInput>,
   output: __S(
-    820,
-    __c51,
+    868,
+    __c54,
     4,
   ) as any as S.Schema<GetCloudExadataInfrastructureUnallocatedResourcesOutput>,
   errors: [
@@ -3747,8 +3885,8 @@ export const getCloudVmCluster: API.OperationMethod<
   GetCloudVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetCloudVmClusterInput>,
-  output: __S(833, __c52, 1) as any as S.Schema<GetCloudVmClusterOutput>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetCloudVmClusterInput>,
+  output: __S(881, __c55, 1) as any as S.Schema<GetCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3779,8 +3917,8 @@ export const getDbNode: API.OperationMethod<
   GetDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetDbNodeInput>,
-  output: __S(882, __c55, 2) as any as S.Schema<GetDbNodeOutput>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetDbNodeInput>,
+  output: __S(930, __c58, 2) as any as S.Schema<GetDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3811,8 +3949,8 @@ export const getDbServer: API.OperationMethod<
   GetDbServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetDbServerInput>,
-  output: __S(897, __c56, 1) as any as S.Schema<GetDbServerOutput>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetDbServerInput>,
+  output: __S(945, __c59, 1) as any as S.Schema<GetDbServerOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3843,8 +3981,8 @@ export const getExadbVmCluster: API.OperationMethod<
   GetExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetExadbVmClusterInput>,
-  output: __S(929, __c58, 1) as any as S.Schema<GetExadbVmClusterOutput>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetExadbVmClusterInput>,
+  output: __S(977, __c61, 1) as any as S.Schema<GetExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3875,8 +4013,8 @@ export const getExascaleDbStorageVault: API.OperationMethod<
   GetExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetExascaleDbStorageVaultInput>,
-  output: __S(961, __c60, 1) as any as S.Schema<GetExascaleDbStorageVaultOutput>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetExascaleDbStorageVaultInput>,
+  output: __S(1009, __c63, 1) as any as S.Schema<GetExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3906,8 +4044,8 @@ export const getOciOnboardingStatus: API.OperationMethod<
   GetOciOnboardingStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetOciOnboardingStatusInput>,
-  output: __S(1014, __c63, 6) as any as S.Schema<GetOciOnboardingStatusOutput>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetOciOnboardingStatusInput>,
+  output: __S(1062, __c66, 6) as any as S.Schema<GetOciOnboardingStatusOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3937,8 +4075,8 @@ export const getOdbNetwork: API.OperationMethod<
   GetOdbNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetOdbNetworkInput>,
-  output: __S(1025, __c64, 1) as any as S.Schema<GetOdbNetworkOutput>,
+  input: __S(1072, __c67, 0) as any as S.Schema<GetOdbNetworkInput>,
+  output: __S(1073, __c67, 1) as any as S.Schema<GetOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3969,8 +4107,8 @@ export const getOdbPeeringConnection: API.OperationMethod<
   GetOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GetOdbPeeringConnectionInput>,
-  output: __S(1057, __c66, 1) as any as S.Schema<GetOdbPeeringConnectionOutput>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetOdbPeeringConnectionInput>,
+  output: __S(1105, __c69, 1) as any as S.Schema<GetOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4000,8 +4138,8 @@ export const initializeService: API.OperationMethod<
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<InitializeServiceInput>,
-  output: __S(1520, __c95, 0) as any as S.Schema<InitializeServiceOutput>,
+  input: __S(1136, __c71, 0) as any as S.Schema<InitializeServiceInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<InitializeServiceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4032,8 +4170,8 @@ export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseBackupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListAutonomousDatabaseBackupsInput>,
-  output: __S(1106, __c69, 2) as any as S.Schema<ListAutonomousDatabaseBackupsOutput>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListAutonomousDatabaseBackupsInput>,
+  output: __S(1154, __c72, 2) as any as S.Schema<ListAutonomousDatabaseBackupsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4070,8 +4208,8 @@ export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseCharacterSetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListAutonomousDatabaseCharacterSetsInput>,
-  output: __S(1123, __c70, 3) as any as S.Schema<ListAutonomousDatabaseCharacterSetsOutput>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListAutonomousDatabaseCharacterSetsInput>,
+  output: __S(1171, __c73, 3) as any as S.Schema<ListAutonomousDatabaseCharacterSetsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4108,8 +4246,8 @@ export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListAutonomousDatabaseClonesInput>,
-  output: __S(1137, __c71, 1) as any as S.Schema<ListAutonomousDatabaseClonesOutput>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListAutonomousDatabaseClonesInput>,
+  output: __S(1185, __c74, 1) as any as S.Schema<ListAutonomousDatabaseClonesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4147,8 +4285,8 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabasePeerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListAutonomousDatabasePeersInput>,
-  output: __S(1171, __c73, 3) as any as S.Schema<ListAutonomousDatabasePeersOutput>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ListAutonomousDatabasePeersInput>,
+  output: __S(1219, __c76, 3) as any as S.Schema<ListAutonomousDatabasePeersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4185,8 +4323,8 @@ export const listAutonomousDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListAutonomousDatabasesInput>,
-  output: __S(1185, __c74, 1) as any as S.Schema<ListAutonomousDatabasesOutput>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ListAutonomousDatabasesInput>,
+  output: __S(1233, __c77, 1) as any as S.Schema<ListAutonomousDatabasesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4222,8 +4360,8 @@ export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListAutonomousDatabaseVersionsInput>,
-  output: __S(1203, __c75, 3) as any as S.Schema<ListAutonomousDatabaseVersionsOutput>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ListAutonomousDatabaseVersionsInput>,
+  output: __S(1251, __c78, 3) as any as S.Schema<ListAutonomousDatabaseVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4260,8 +4398,8 @@ export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousVirtualMachineSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListAutonomousVirtualMachinesInput>,
-  output: __S(1219, __c76, 3) as any as S.Schema<ListAutonomousVirtualMachinesOutput>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListAutonomousVirtualMachinesInput>,
+  output: __S(1267, __c79, 3) as any as S.Schema<ListAutonomousVirtualMachinesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4299,8 +4437,8 @@ export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudAutonomousVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListCloudAutonomousVmClustersInput>,
-  output: __S(1234, __c77, 2) as any as S.Schema<ListCloudAutonomousVmClustersOutput>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListCloudAutonomousVmClustersInput>,
+  output: __S(1282, __c80, 2) as any as S.Schema<ListCloudAutonomousVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4337,8 +4475,8 @@ export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudExadataInfrastructureSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListCloudExadataInfrastructuresInput>,
-  output: __S(1250, __c78, 2) as any as S.Schema<ListCloudExadataInfrastructuresOutput>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListCloudExadataInfrastructuresInput>,
+  output: __S(1298, __c81, 2) as any as S.Schema<ListCloudExadataInfrastructuresOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4375,8 +4513,8 @@ export const listCloudVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListCloudVmClustersInput>,
-  output: __S(1266, __c79, 2) as any as S.Schema<ListCloudVmClustersOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListCloudVmClustersInput>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ListCloudVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4414,8 +4552,8 @@ export const listDbNodes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbNodeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListDbNodesInput>,
-  output: __S(1283, __c80, 3) as any as S.Schema<ListDbNodesOutput>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListDbNodesInput>,
+  output: __S(1331, __c83, 3) as any as S.Schema<ListDbNodesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4453,8 +4591,8 @@ export const listDbServers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbServerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListDbServersInput>,
-  output: __S(1298, __c81, 2) as any as S.Schema<ListDbServersOutput>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListDbServersInput>,
+  output: __S(1362, __c85, 2) as any as S.Schema<ListDbServersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4491,8 +4629,8 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbSystemShapeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListDbSystemShapesInput>,
-  output: __S(1315, __c82, 3) as any as S.Schema<ListDbSystemShapesOutput>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListDbSystemShapesInput>,
+  output: __S(1379, __c86, 3) as any as S.Schema<ListDbSystemShapesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4529,8 +4667,8 @@ export const listExadbVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExadbVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListExadbVmClustersInput>,
-  output: __S(1346, __c84, 2) as any as S.Schema<ListExadbVmClustersOutput>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListExadbVmClustersInput>,
+  output: __S(1394, __c87, 2) as any as S.Schema<ListExadbVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4568,8 +4706,8 @@ export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExascaleDbStorageVaultSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListExascaleDbStorageVaultsInput>,
-  output: __S(1362, __c85, 2) as any as S.Schema<ListExascaleDbStorageVaultsOutput>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListExascaleDbStorageVaultsInput>,
+  output: __S(1410, __c88, 2) as any as S.Schema<ListExascaleDbStorageVaultsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4606,8 +4744,8 @@ export const listFlexComponents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FlexComponentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListFlexComponentsInput>,
-  output: __S(1379, __c86, 3) as any as S.Schema<ListFlexComponentsOutput>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListFlexComponentsInput>,
+  output: __S(1427, __c89, 3) as any as S.Schema<ListFlexComponentsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4643,8 +4781,8 @@ export const listGiMinorVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GiMinorVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListGiMinorVersionsInput>,
-  output: __S(1395, __c87, 3) as any as S.Schema<ListGiMinorVersionsOutput>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListGiMinorVersionsInput>,
+  output: __S(1443, __c90, 3) as any as S.Schema<ListGiMinorVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4680,8 +4818,8 @@ export const listGiVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GiVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListGiVersionsInput>,
-  output: __S(1411, __c88, 3) as any as S.Schema<ListGiVersionsOutput>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListGiVersionsInput>,
+  output: __S(1459, __c91, 3) as any as S.Schema<ListGiVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4717,8 +4855,8 @@ export const listOdbNetworks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OdbNetworkSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListOdbNetworksInput>,
-  output: __S(1426, __c89, 2) as any as S.Schema<ListOdbNetworksOutput>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListOdbNetworksInput>,
+  output: __S(1474, __c92, 2) as any as S.Schema<ListOdbNetworksOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4755,8 +4893,8 @@ export const listOdbPeeringConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OdbPeeringConnectionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListOdbPeeringConnectionsInput>,
-  output: __S(1442, __c90, 2) as any as S.Schema<ListOdbPeeringConnectionsOutput>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListOdbPeeringConnectionsInput>,
+  output: __S(1490, __c93, 2) as any as S.Schema<ListOdbPeeringConnectionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4794,8 +4932,8 @@ export const listSystemVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SystemVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListSystemVersionsInput>,
-  output: __S(1459, __c91, 3) as any as S.Schema<ListSystemVersionsOutput>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListSystemVersionsInput>,
+  output: __S(1507, __c94, 3) as any as S.Schema<ListSystemVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4826,8 +4964,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4853,8 +4991,8 @@ export const rebootAutonomousDatabase: API.OperationMethod<
   RebootAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<RebootAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<RebootAutonomousDatabaseOutput>,
+  input: __S(1568, __c98, 0) as any as S.Schema<RebootAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<RebootAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4886,8 +5024,8 @@ export const rebootDbNode: API.OperationMethod<
   RebootDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<RebootDbNodeInput>,
-  output: __S(1552, __c97, 0) as any as S.Schema<RebootDbNodeOutput>,
+  input: __S(1584, __c99, 0) as any as S.Schema<RebootDbNodeInput>,
+  output: __S(1600, __c100, 0) as any as S.Schema<RebootDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4919,8 +5057,8 @@ export const restoreAutonomousDatabase: API.OperationMethod<
   RestoreAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<RestoreAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<RestoreAutonomousDatabaseOutput>,
+  input: __S(1616, __c101, 0) as any as S.Schema<RestoreAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<RestoreAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4953,8 +5091,8 @@ export const shrinkAutonomousDatabase: API.OperationMethod<
   ShrinkAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ShrinkAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<ShrinkAutonomousDatabaseOutput>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ShrinkAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<ShrinkAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4987,8 +5125,8 @@ export const startAutonomousDatabase: API.OperationMethod<
   StartAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<StartAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<StartAutonomousDatabaseOutput>,
+  input: __S(1648, __c103, 0) as any as S.Schema<StartAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<StartAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5020,8 +5158,8 @@ export const startDbNode: API.OperationMethod<
   StartDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<StartDbNodeInput>,
-  output: __S(1552, __c97, 0) as any as S.Schema<StartDbNodeOutput>,
+  input: __S(1664, __c104, 0) as any as S.Schema<StartDbNodeInput>,
+  output: __S(1600, __c100, 0) as any as S.Schema<StartDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5053,8 +5191,8 @@ export const stopAutonomousDatabase: API.OperationMethod<
   StopAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<StopAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<StopAutonomousDatabaseOutput>,
+  input: __S(1680, __c105, 0) as any as S.Schema<StopAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<StopAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5086,8 +5224,8 @@ export const stopDbNode: API.OperationMethod<
   StopDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<StopDbNodeInput>,
-  output: __S(1552, __c97, 0) as any as S.Schema<StopDbNodeOutput>,
+  input: __S(1696, __c106, 0) as any as S.Schema<StopDbNodeInput>,
+  output: __S(1600, __c100, 0) as any as S.Schema<StopDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5119,8 +5257,8 @@ export const switchoverAutonomousDatabase: API.OperationMethod<
   SwitchoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<SwitchoverAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<SwitchoverAutonomousDatabaseOutput>,
+  input: __S(1712, __c107, 0) as any as S.Schema<SwitchoverAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<SwitchoverAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5149,8 +5287,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5169,8 +5307,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5196,8 +5334,8 @@ export const updateAutonomousDatabase: API.OperationMethod<
   UpdateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UpdateAutonomousDatabaseInput>,
-  output: __S(112, __c7, 0) as any as S.Schema<UpdateAutonomousDatabaseOutput>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpdateAutonomousDatabaseInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<UpdateAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5230,8 +5368,8 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   UpdateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupOutput>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupInput>,
+  output: __S(192, __c12, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5245,6 +5383,40 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   operationName: "UpdateAutonomousDatabaseBackup",
   telemetry: TELEMETRY,
   span: "UpdateAutonomousDatabaseBackup",
+}));
+
+export type UpdateCloudAutonomousVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the properties of the specified Autonomous VM cluster.
+ */
+export const updateCloudAutonomousVmCluster: API.OperationMethod<
+  UpdateCloudAutonomousVmClusterInput & RegionInput,
+  UpdateCloudAutonomousVmClusterOutput,
+  UpdateCloudAutonomousVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1808, __c113, 0) as any as S.Schema<UpdateCloudAutonomousVmClusterInput>,
+  output: __S(256, __c16, 0) as any as S.Schema<UpdateCloudAutonomousVmClusterOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudAutonomousVmCluster",
 }));
 
 export type UpdateCloudExadataInfrastructureError =
@@ -5264,8 +5436,8 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   UpdateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<UpdateCloudExadataInfrastructureInput>,
-  output: __S(256, __c16, 0) as any as S.Schema<UpdateCloudExadataInfrastructureOutput>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateCloudExadataInfrastructureInput>,
+  output: __S(288, __c18, 0) as any as S.Schema<UpdateCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5279,6 +5451,82 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   operationName: "UpdateCloudExadataInfrastructure",
   telemetry: TELEMETRY,
   span: "UpdateCloudExadataInfrastructure",
+}));
+
+export type UpdateCloudExadataInfrastructureStorageCapacityError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds storage capacity to the specified Exadata infrastructure.
+ */
+export const updateCloudExadataInfrastructureStorageCapacity: API.OperationMethod<
+  UpdateCloudExadataInfrastructureStorageCapacityInput & RegionInput,
+  UpdateCloudExadataInfrastructureStorageCapacityOutput,
+  UpdateCloudExadataInfrastructureStorageCapacityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    1840,
+    __c115,
+    0,
+  ) as any as S.Schema<UpdateCloudExadataInfrastructureStorageCapacityInput>,
+  output: __S(
+    288,
+    __c18,
+    0,
+  ) as any as S.Schema<UpdateCloudExadataInfrastructureStorageCapacityOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateCloudExadataInfrastructureStorageCapacity",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudExadataInfrastructureStorageCapacity",
+}));
+
+export type UpdateCloudVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the properties of the specified VM cluster.
+ */
+export const updateCloudVmCluster: API.OperationMethod<
+  UpdateCloudVmClusterInput & RegionInput,
+  UpdateCloudVmClusterOutput,
+  UpdateCloudVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateCloudVmClusterInput>,
+  output: __S(1936, __c121, 0) as any as S.Schema<UpdateCloudVmClusterOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudVmCluster",
 }));
 
 export type UpdateExadbVmClusterError =
@@ -5298,8 +5546,8 @@ export const updateExadbVmCluster: API.OperationMethod<
   UpdateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdateExadbVmClusterInput>,
-  output: __S(1872, __c117, 0) as any as S.Schema<UpdateExadbVmClusterOutput>,
+  input: __S(1872, __c117, 0) as any as S.Schema<UpdateExadbVmClusterInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5332,8 +5580,8 @@ export const updateExascaleCloudExadataInfrastructure: API.OperationMethod<
   UpdateExascaleCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureInput>,
-  output: __S(256, __c16, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureOutput>,
+  input: __S(1888, __c118, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureInput>,
+  output: __S(288, __c18, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5366,8 +5614,8 @@ export const updateExascaleDbStorageVault: API.OperationMethod<
   UpdateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateExascaleDbStorageVaultInput>,
-  output: __S(352, __c22, 0) as any as S.Schema<UpdateExascaleDbStorageVaultOutput>,
+  input: __S(1952, __c122, 0) as any as S.Schema<UpdateExascaleDbStorageVaultInput>,
+  output: __S(384, __c24, 0) as any as S.Schema<UpdateExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5400,8 +5648,8 @@ export const updateOdbNetwork: API.OperationMethod<
   UpdateOdbNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UpdateOdbNetworkInput>,
-  output: __S(384, __c24, 0) as any as S.Schema<UpdateOdbNetworkOutput>,
+  input: __S(1968, __c123, 0) as any as S.Schema<UpdateOdbNetworkInput>,
+  output: __S(416, __c26, 0) as any as S.Schema<UpdateOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5434,8 +5682,8 @@ export const updateOdbPeeringConnection: API.OperationMethod<
   UpdateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<UpdateOdbPeeringConnectionInput>,
-  output: __S(416, __c26, 0) as any as S.Schema<UpdateOdbPeeringConnectionOutput>,
+  input: __S(1984, __c124, 0) as any as S.Schema<UpdateOdbPeeringConnectionInput>,
+  output: __S(448, __c28, 0) as any as S.Schema<UpdateOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5455,6 +5703,29 @@ export const updateOdbPeeringConnection: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({ exadbVmClusterId: S.String, desiredNodeCount: S.Number }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateVirtualMachinesToExadbVmClusterInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          status: S.optional(S.String),
+          statusReason: S.optional(S.String),
+          exadbVmClusterId: S.String,
+        }),
+      ).annotate({ identifier: "AssociateVirtualMachinesToExadbVmClusterOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() => S.Struct({ ttsBundleUrl: S.optional(S.String) })).annotate({
         identifier: "TransportableTablespace",
       });
@@ -5467,7 +5738,7 @@ function __c0(j: number): any {
         S.Struct({
           autonomousDatabaseBackupId: S.String,
           cloneType: S.String,
-          cloneTableSpaceList: S.optional(__S(64, __c4, 0)),
+          cloneTableSpaceList: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "RestoreFromBackupConfiguration" });
     case 3:
@@ -5477,7 +5748,7 @@ function __c0(j: number): any {
           cloneType: S.String,
           timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           useLatestAvailableBackupTimestamp: S.optional(S.Boolean),
-          cloneTableSpaceList: S.optional(__S(64, __c4, 0)),
+          cloneTableSpaceList: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "PointInTimeRestoreConfiguration" });
     case 4:
@@ -5506,12 +5777,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CloneToRefreshableConfiguration" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ databaseClone: __S(1, __c0, 1) }),
-        /*@__PURE__*/ S.Struct({ restoreFromBackup: __S(2, __c0, 2) }),
-        /*@__PURE__*/ S.Struct({ pointInTimeRestore: __S(3, __c0, 3) }),
-        /*@__PURE__*/ S.Struct({ crossRegionDataGuard: __S(4, __c0, 4) }),
-        /*@__PURE__*/ S.Struct({ crossRegionDisasterRecovery: __S(5, __c0, 5) }),
-        /*@__PURE__*/ S.Struct({ cloneToRefreshable: __S(6, __c0, 6) }),
+        /*@__PURE__*/ S.Struct({ databaseClone: __S(33, __c2, 1) }),
+        /*@__PURE__*/ S.Struct({ restoreFromBackup: __S(34, __c2, 2) }),
+        /*@__PURE__*/ S.Struct({ pointInTimeRestore: __S(35, __c2, 3) }),
+        /*@__PURE__*/ S.Struct({ crossRegionDataGuard: __S(36, __c2, 4) }),
+        /*@__PURE__*/ S.Struct({ crossRegionDisasterRecovery: __S(37, __c2, 5) }),
+        /*@__PURE__*/ S.Struct({ cloneToRefreshable: __S(38, __c2, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -5536,38 +5807,38 @@ function __c0(j: number): any {
           backupRetentionPeriodInDays: S.optional(S.Number),
           byolComputeCountLimit: S.optional(S.Number),
           cpuCoreCount: S.optional(S.Number),
-          customerContactsToSendToOCI: S.optional(__S(97, __c6, 1)),
+          customerContactsToSendToOCI: S.optional(__S(113, __c7, 1)),
           privateEndpointIp: S.optional(S.String),
           privateEndpointLabel: S.optional(S.String),
           resourcePoolLeaderId: S.optional(S.String),
-          resourcePoolSummary: S.optional(__S(128, __c8, 0)),
-          scheduledOperations: S.optional(__S(130, __c8, 2)),
-          standbyAllowlistedIps: S.optional(__S(80, __c5, 0)),
-          allowlistedIps: S.optional(__S(80, __c5, 0)),
-          transportableTablespace: S.optional(__S(0, __c0, 0)),
+          resourcePoolSummary: S.optional(__S(144, __c9, 0)),
+          scheduledOperations: S.optional(__S(146, __c9, 2)),
+          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
+          allowlistedIps: S.optional(__S(1920, __c120, 0)),
+          transportableTablespace: S.optional(__S(32, __c2, 0)),
           isBackupRetentionLocked: S.optional(S.Boolean),
           isLocalDataGuardEnabled: S.optional(S.Boolean),
           isMtlsConnectionRequired: S.optional(S.Boolean),
-          dbToolsDetails: S.optional(__S(132, __c8, 4)),
+          dbToolsDetails: S.optional(__S(148, __c9, 4)),
           source: S.optional(S.String),
-          sourceConfiguration: S.optional(__S(7, __c0, 7)),
+          sourceConfiguration: S.optional(__S(39, __c2, 7)),
           encryptionKeyProvider: S.optional(S.String),
-          encryptionKeyConfiguration: S.optional(__S(144, __c9, 0)),
+          encryptionKeyConfiguration: S.optional(__S(160, __c10, 0)),
           adminPasswordSource: S.optional(S.String),
-          adminPasswordSourceConfiguration: S.optional(__S(33, __c2, 1)),
+          adminPasswordSourceConfiguration: S.optional(__S(65, __c4, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAutonomousDatabaseInput" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5578,10 +5849,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CustomerManagedAwsSecretConfigurationInput" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ customerManagedAwsSecret: __S(32, __c2, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ customerManagedAwsSecret: __S(64, __c4, 0) })]);
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.optional(S.String) })).annotate({
@@ -5589,29 +5860,23 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ email: S.optional(SensitiveString) })).annotate({
         identifier: "CustomerContact",
       });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(112, __c7, 0));
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5624,7 +5889,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateAutonomousDatabaseOutput" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5640,13 +5905,13 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dayOfWeek: __S(48, __c3, 0),
+          dayOfWeek: __S(80, __c5, 0),
           scheduledStartTime: S.optional(S.String),
           scheduledStopTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduledOperationDetails" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5657,7 +5922,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseTool" });
     case 4:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(147, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5668,13 +5933,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AwsEncryptionKeyConfigurationInput" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ awsEncryptionKey: __S(133, __c8, 5) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ awsEncryptionKey: __S(149, __c9, 5) })]);
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5683,12 +5948,12 @@ function __c10(j: number): any {
           displayName: S.optional(S.String),
           retentionPeriodInDays: S.optional(S.Number),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAutonomousDatabaseBackupInput" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5701,7 +5966,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateAutonomousDatabaseBackupOutput" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5710,7 +5975,7 @@ function __c12(j: number): any {
           walletType: S.optional(S.String),
           password: S.optional(SensitiveString),
           passwordSource: S.optional(S.String),
-          passwordSourceConfiguration: S.optional(__S(33, __c2, 1)),
+          passwordSourceConfiguration: S.optional(__S(65, __c4, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAutonomousDatabaseWalletInput" });
@@ -5720,7 +5985,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5731,20 +5996,45 @@ function __c13(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           autonomousDataStorageSizeInTBs: S.Number,
           cpuCoreCountPerNode: S.Number,
-          dbServers: S.optional(__S(80, __c5, 0)),
+          dbServers: S.optional(__S(1920, __c120, 0)),
           description: S.optional(S.String),
           isMtlsEnabledVmCluster: S.optional(S.Boolean),
           licenseModel: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(225, __c14, 1)),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
           memoryPerOracleComputeUnitInGBs: S.Number,
           scanListenerPortNonTls: S.optional(S.Number),
           scanListenerPortTls: S.optional(S.Number),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           timeZone: S.optional(S.String),
           totalContainerDatabases: S.Number,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCloudAutonomousVmClusterInput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(80, __c5, 0));
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          customActionTimeoutInMins: S.optional(S.Number),
+          daysOfWeek: S.optional(__S(240, __c15, 0)),
+          hoursOfDay: S.optional(__S(96, __c6, 0)),
+          isCustomActionTimeoutEnabled: S.optional(S.Boolean),
+          leadTimeInWeeks: S.optional(S.Number),
+          months: S.optional(__S(240, __c15, 0)),
+          patchingMode: S.optional(S.String),
+          preference: S.optional(S.String),
+          skipRu: S.optional(S.Boolean),
+          weeksOfMonth: S.optional(__S(96, __c6, 0)),
+        }),
+      ).annotate({ identifier: "MaintenanceWindow" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
@@ -5755,28 +6045,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateCloudAutonomousVmClusterOutput" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(48, __c3, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          customActionTimeoutInMins: S.optional(S.Number),
-          daysOfWeek: S.optional(__S(224, __c14, 0)),
-          hoursOfDay: S.optional(__S(64, __c4, 0)),
-          isCustomActionTimeoutEnabled: S.optional(S.Boolean),
-          leadTimeInWeeks: S.optional(S.Number),
-          months: S.optional(__S(224, __c14, 0)),
-          patchingMode: S.optional(S.String),
-          preference: S.optional(S.String),
-          skipRu: S.optional(S.Boolean),
-          weeksOfMonth: S.optional(__S(64, __c4, 0)),
-        }),
-      ).annotate({ identifier: "MaintenanceWindow" });
-  }
-}
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5785,10 +6054,10 @@ function __c15(j: number): any {
           shape: S.String,
           availabilityZone: S.optional(S.String),
           availabilityZoneId: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           computeCount: S.Number,
-          customerContactsToSendToOCI: S.optional(__S(97, __c6, 1)),
-          maintenanceWindow: S.optional(__S(225, __c14, 1)),
+          customerContactsToSendToOCI: S.optional(__S(113, __c7, 1)),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
           storageCount: S.Number,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           databaseServerType: S.optional(S.String),
@@ -5797,7 +6066,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateCloudExadataInfrastructureInput" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5810,7 +6079,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateCloudExadataInfrastructureOutput" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5819,19 +6088,19 @@ function __c17(j: number): any {
           exascaleDbStorageVaultId: S.optional(S.String),
           vmFileSystemStorageType: S.optional(S.String),
           vmBackupStorageType: S.optional(S.String),
-          fileSystemConfigurationDetails: S.optional(__S(305, __c19, 1)),
+          fileSystemConfigurationDetails: S.optional(__S(337, __c21, 1)),
           cpuCoreCount: S.Number,
           displayName: S.String,
           giVersion: S.String,
           hostname: S.String,
-          sshPublicKeys: __S(80, __c5, 0),
+          sshPublicKeys: __S(1920, __c120, 0),
           odbNetworkId: S.String,
           clusterName: S.optional(S.String),
-          dataCollectionOptions: S.optional(__S(288, __c18, 0)),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(80, __c5, 0)),
-          tags: S.optional(__S(16, __c1, 0)),
+          dbServers: S.optional(__S(1920, __c120, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           isLocalBackupEnabled: S.optional(S.Boolean),
           isSparseDiskgroupEnabled: S.optional(S.Boolean),
           licenseModel: S.optional(S.String),
@@ -5842,18 +6111,9 @@ function __c17(j: number): any {
           scanListenerPortTcp: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCloudVmClusterInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          status: S.optional(S.String),
-          statusReason: S.optional(S.String),
-          cloudVmClusterId: S.String,
-        }),
-      ).annotate({ identifier: "CreateCloudVmClusterOutput" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5865,17 +6125,17 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DataCollectionOptions" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ mountPoint: S.optional(S.String), fileSystemSizeInGBs: S.optional(S.Number) }),
       ).annotate({ identifier: "FileSystemConfigurationDetails" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(336, __c21, 0));
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5888,24 +6148,24 @@ function __c20(j: number): any {
           nodeCount: S.Number,
           odbNetworkId: S.String,
           shape: S.String,
-          sshPublicKeys: __S(80, __c5, 0),
+          sshPublicKeys: __S(1920, __c120, 0),
           totalEcpuCount: S.Number,
           vmFileSystemStorageTotalSizeInGBs: S.Number,
           clusterName: S.optional(S.String),
-          dataCollectionOptions: S.optional(__S(288, __c18, 0)),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           licenseModel: S.optional(S.String),
           scanListenerPortTcp: S.optional(S.Number),
           scanListenerPortTcpSsl: S.optional(S.Number),
           shapeAttribute: S.optional(S.String),
           systemVersion: S.optional(S.String),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           timeZone: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateExadbVmClusterInput" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5919,14 +6179,14 @@ function __c21(j: number): any {
           availabilityZone: S.optional(S.String),
           description: S.optional(S.String),
           isAutoscaleEnabled: S.optional(S.Boolean),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           timeZone: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateExascaleDbStorageVaultInput" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5939,7 +6199,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateExascaleDbStorageVaultOutput" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5959,13 +6219,13 @@ function __c23(j: number): any {
           s3PolicyDocument: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
-          crossRegionS3RestoreSourcesToEnable: S.optional(__S(80, __c5, 0)),
-          tags: S.optional(__S(16, __c1, 0)),
+          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1920, __c120, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateOdbNetworkInput" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5978,7 +6238,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateOdbNetworkOutput" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5986,15 +6246,15 @@ function __c25(j: number): any {
           odbNetworkId: S.String,
           peerNetworkId: S.String,
           displayName: S.optional(S.String),
-          peerNetworkCidrsToBeAdded: S.optional(__S(80, __c5, 0)),
-          peerNetworkRouteTableIds: S.optional(__S(80, __c5, 0)),
+          peerNetworkCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
+          peerNetworkRouteTableIds: S.optional(__S(1920, __c120, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateOdbPeeringConnectionInput" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6007,7 +6267,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateOdbPeeringConnectionOutput" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6017,7 +6277,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteAutonomousDatabaseInput" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6027,7 +6287,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteAutonomousDatabaseBackupInput" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6037,7 +6297,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteCloudAutonomousVmClusterInput" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6047,7 +6307,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteCloudExadataInfrastructureInput" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6057,7 +6317,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteCloudVmClusterInput" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6067,7 +6327,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteExadbVmClusterInput" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6077,7 +6337,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteExascaleDbStorageVaultInput" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6088,7 +6348,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteOdbNetworkInput" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6098,7 +6358,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteOdbPeeringConnectionInput" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,17 +6368,28 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DisassociateIamRoleFromResourceInput" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ exadbVmClusterId: S.String, dbNodeIds: __S(80, __c5, 0) }).pipe(
+        S.Struct({
+          cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+          dbServers: __S(1920, __c120, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DisassociateVirtualMachinesFromCloudVmClusterInput" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ exadbVmClusterId: S.String, dbNodeIds: __S(1920, __c120, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DisassociateVirtualMachinesFromExadbVmClusterInput" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6128,7 +6399,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "FailoverAutonomousDatabaseInput" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6137,12 +6408,12 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "GetAutonomousDatabaseInput" });
     case 1:
-      return S.suspend(() => S.Struct({ autonomousDatabase: __S(668, __c41, 12) })).annotate({
+      return S.suspend(() => S.Struct({ autonomousDatabase: __S(716, __c44, 12) })).annotate({
         identifier: "GetAutonomousDatabaseOutput",
       });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6153,10 +6424,10 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "CustomerManagedAwsSecretConfiguration" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ customerManagedAwsSecret: __S(640, __c40, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ customerManagedAwsSecret: __S(688, __c43, 0) })]);
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6173,16 +6444,16 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseConnectionStringProfile" });
     case 1:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allConnectionStrings: S.optional(__S(16, __c1, 0)),
+          allConnectionStrings: S.optional(__S(48, __c3, 0)),
           dedicated: S.optional(S.String),
           high: S.optional(S.String),
           medium: S.optional(S.String),
           low: S.optional(S.String),
-          profiles: S.optional(__S(657, __c41, 1)),
+          profiles: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "AutonomousDatabaseConnectionStrings" });
     case 3:
@@ -6248,22 +6519,22 @@ function __c41(j: number): any {
       ).annotate({ identifier: "OkvEncryptionKeyConfiguration" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ awsEncryptionKey: __S(133, __c8, 5) }),
-        /*@__PURE__*/ S.Struct({ ociEncryptionKey: __S(663, __c41, 7) }),
-        /*@__PURE__*/ S.Struct({ okvEncryptionKey: __S(664, __c41, 8) }),
+        /*@__PURE__*/ S.Struct({ awsEncryptionKey: __S(149, __c9, 5) }),
+        /*@__PURE__*/ S.Struct({ ociEncryptionKey: __S(711, __c44, 7) }),
+        /*@__PURE__*/ S.Struct({ okvEncryptionKey: __S(712, __c44, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
         S.Struct({
           encryptionKeyProvider: S.optional(S.String),
-          encryptionKeyConfiguration: S.optional(__S(665, __c41, 9)),
+          encryptionKeyConfiguration: S.optional(__S(713, __c44, 9)),
         }),
       ).annotate({ identifier: "EncryptionSummary" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           adminPasswordSource: S.optional(S.String),
-          adminPasswordSourceConfiguration: S.optional(__S(641, __c40, 1)),
+          adminPasswordSourceConfiguration: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "AdminPasswordSourceSummary" });
     case 12:
@@ -6292,30 +6563,30 @@ function __c41(j: number): any {
           isMtlsConnectionRequired: S.optional(S.Boolean),
           autonomousMaintenanceScheduleType: S.optional(S.String),
           netServicesArchitecture: S.optional(S.String),
-          availableUpgradeVersions: S.optional(__S(80, __c5, 0)),
+          availableUpgradeVersions: S.optional(__S(1920, __c120, 0)),
           byolComputeCountLimit: S.optional(S.Number),
-          connectionStringDetails: S.optional(__S(658, __c41, 2)),
+          connectionStringDetails: S.optional(__S(706, __c44, 2)),
           serviceConsoleUrl: S.optional(S.String),
           sqlWebDeveloperUrl: S.optional(S.String),
-          customerContacts: S.optional(__S(97, __c6, 1)),
-          apexDetails: S.optional(__S(659, __c41, 3)),
-          standbyDb: S.optional(__S(660, __c41, 4)),
-          localStandbyDb: S.optional(__S(660, __c41, 4)),
+          customerContacts: S.optional(__S(113, __c7, 1)),
+          apexDetails: S.optional(__S(707, __c44, 3)),
+          standbyDb: S.optional(__S(708, __c44, 4)),
+          localStandbyDb: S.optional(__S(708, __c44, 4)),
           dataSafeStatus: S.optional(S.String),
           databaseManagementStatus: S.optional(S.String),
           operationsInsightsStatus: S.optional(S.String),
           availabilityZone: S.optional(S.String),
           availabilityZoneId: S.optional(S.String),
           maintenanceTargetComponent: S.optional(S.String),
-          connectionUrls: S.optional(__S(661, __c41, 5)),
-          dbToolsDetails: S.optional(__S(132, __c8, 4)),
-          scheduledOperations: S.optional(__S(130, __c8, 2)),
+          connectionUrls: S.optional(__S(709, __c44, 5)),
+          dbToolsDetails: S.optional(__S(148, __c9, 4)),
+          scheduledOperations: S.optional(__S(146, __c9, 2)),
           resourcePoolLeaderId: S.optional(S.String),
           computeCount: S.optional(S.Number),
           computeModel: S.optional(S.String),
           cpuCoreCount: S.optional(S.Number),
           memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
-          provisionableCpus: S.optional(__S(64, __c4, 0)),
+          provisionableCpus: S.optional(__S(96, __c6, 0)),
           isAutoScalingEnabled: S.optional(S.Boolean),
           dataStorageSizeInTBs: S.optional(S.Number),
           dataStorageSizeInGBs: S.optional(S.Number),
@@ -6330,30 +6601,30 @@ function __c41(j: number): any {
           privateEndpoint: S.optional(S.String),
           privateEndpointIp: S.optional(S.String),
           privateEndpointLabel: S.optional(S.String),
-          allowlistedIps: S.optional(__S(80, __c5, 0)),
-          standbyAllowlistedIps: S.optional(__S(80, __c5, 0)),
+          allowlistedIps: S.optional(__S(1920, __c120, 0)),
+          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
           standbyAllowlistedIpsSource: S.optional(S.String),
           isLocalDataGuardEnabled: S.optional(S.Boolean),
           isRemoteDataGuardEnabled: S.optional(S.Boolean),
           localDisasterRecoveryType: S.optional(S.String),
           role: S.optional(S.String),
-          peerDbIds: S.optional(__S(80, __c5, 0)),
+          peerDbIds: S.optional(__S(1920, __c120, 0)),
           failedDataRecoveryInSeconds: S.optional(S.Number),
           localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
-          remoteDisasterRecoveryConfiguration: S.optional(__S(662, __c41, 6)),
+          remoteDisasterRecoveryConfiguration: S.optional(__S(710, __c44, 6)),
           isRefreshableClone: S.optional(S.Boolean),
           refreshableMode: S.optional(S.String),
           refreshableStatus: S.optional(S.String),
           autoRefreshFrequencyInSeconds: S.optional(S.Number),
           autoRefreshPointLagInSeconds: S.optional(S.Number),
           isReconnectCloneEnabled: S.optional(S.Boolean),
-          cloneTableSpaceList: S.optional(__S(64, __c4, 0)),
+          cloneTableSpaceList: S.optional(__S(96, __c6, 0)),
           backupRetentionPeriodInDays: S.optional(S.Number),
-          longTermBackupSchedule: S.optional(__S(672, __c42, 0)),
+          longTermBackupSchedule: S.optional(__S(720, __c45, 0)),
           isBackupRetentionLocked: S.optional(S.Boolean),
           totalBackupStorageSizeInGBs: S.optional(S.Number),
-          resourcePoolSummary: S.optional(__S(128, __c8, 0)),
-          encryptionSummary: S.optional(__S(666, __c41, 10)),
+          resourcePoolSummary: S.optional(__S(144, __c9, 0)),
+          encryptionSummary: S.optional(__S(714, __c44, 10)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           timeOfLastBackup: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           timeMaintenanceBegin: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -6386,12 +6657,12 @@ function __c41(j: number): any {
             T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ),
           timeUndeleted: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          adminPasswordSourceSummary: S.optional(__S(667, __c41, 11)),
+          adminPasswordSourceSummary: S.optional(__S(715, __c44, 11)),
         }),
       ).annotate({ identifier: "AutonomousDatabase" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6404,7 +6675,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "LongTermBackupSchedule" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6414,11 +6685,11 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetAutonomousDatabaseBackupInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ autonomousDatabaseBackup: S.optional(__S(704, __c44, 0)) }),
+        S.Struct({ autonomousDatabaseBackup: S.optional(__S(752, __c47, 0)) }),
       ).annotate({ identifier: "GetAutonomousDatabaseBackupOutput" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6442,7 +6713,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "AutonomousDatabaseBackup" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6454,7 +6725,7 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           passwordSource: S.optional(S.String),
-          passwordSourceConfiguration: S.optional(__S(641, __c40, 1)),
+          passwordSourceConfiguration: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "WalletPasswordSourceSummary" });
     case 2:
@@ -6462,16 +6733,16 @@ function __c45(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           timeRotated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          passwordSourceSummary: S.optional(__S(721, __c45, 1)),
+          passwordSourceSummary: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "AutonomousDatabaseWalletDetails" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ autonomousDatabaseWalletDetails: __S(722, __c45, 2) }),
+        S.Struct({ autonomousDatabaseWalletDetails: __S(770, __c48, 2) }),
       ).annotate({ identifier: "GetAutonomousDatabaseWalletDetailsOutput" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6481,11 +6752,11 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetCloudAutonomousVmClusterInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ cloudAutonomousVmCluster: S.optional(__S(768, __c48, 0)) }),
+        S.Struct({ cloudAutonomousVmCluster: S.optional(__S(816, __c51, 0)) }),
       ).annotate({ identifier: "GetCloudAutonomousVmClusterOutput" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6497,10 +6768,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "IamRole" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(800, __c50, 0));
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6528,7 +6799,7 @@ function __c48(j: number): any {
           dataStorageSizeInGBs: S.optional(S.Number),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(80, __c5, 0)),
+          dbServers: S.optional(__S(1920, __c120, 0)),
           description: S.optional(S.String),
           domain: S.optional(S.String),
           exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
@@ -6537,12 +6808,13 @@ function __c48(j: number): any {
           ociUrl: S.optional(S.String),
           isMtlsEnabledVmCluster: S.optional(S.Boolean),
           licenseModel: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(225, __c14, 1)),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
           maxAcdsLowestScaledValue: S.optional(S.Number),
           memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
           memorySizeInGBs: S.optional(S.Number),
           nodeCount: S.optional(S.Number),
           nonProvisionableAutonomousContainerDatabases: S.optional(S.Number),
+          ocpusLowestScaledValue: S.optional(S.Number),
           provisionableAutonomousContainerDatabases: S.optional(S.Number),
           provisionedAutonomousContainerDatabases: S.optional(S.Number),
           provisionedCpus: S.optional(S.Number),
@@ -6560,12 +6832,12 @@ function __c48(j: number): any {
           ),
           timeZone: S.optional(S.String),
           totalContainerDatabases: S.optional(S.Number),
-          iamRoles: S.optional(__S(753, __c47, 1)),
+          iamRoles: S.optional(__S(801, __c50, 1)),
         }),
       ).annotate({ identifier: "CloudAutonomousVmCluster" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6575,11 +6847,11 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetCloudExadataInfrastructureInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ cloudExadataInfrastructure: S.optional(__S(801, __c50, 1)) }),
+        S.Struct({ cloudExadataInfrastructure: S.optional(__S(849, __c53, 1)) }),
       ).annotate({ identifier: "GetCloudExadataInfrastructureOutput" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6605,12 +6877,12 @@ function __c50(j: number): any {
           availabilityZoneId: S.optional(S.String),
           computeCount: S.optional(S.Number),
           cpuCount: S.optional(S.Number),
-          customerContactsToSendToOCI: S.optional(__S(97, __c6, 1)),
+          customerContactsToSendToOCI: S.optional(__S(113, __c7, 1)),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
           dbServerVersion: S.optional(S.String),
           lastMaintenanceRunId: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(225, __c14, 1)),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
           maxCpuCount: S.optional(S.Number),
           maxDataStorageInTBs: S.optional(S.Number),
           maxDbNodeStorageSizeInGBs: S.optional(S.Number),
@@ -6631,18 +6903,18 @@ function __c50(j: number): any {
           databaseServerType: S.optional(S.String),
           storageServerType: S.optional(S.String),
           computeModel: S.optional(S.String),
-          exascaleConfiguration: S.optional(__S(800, __c50, 0)),
+          exascaleConfiguration: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "CloudExadataInfrastructure" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
-          dbServers: S.optional(__S(80, __c5, 0)),
+          dbServers: S.optional(__S(1920, __c120, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetCloudExadataInfrastructureUnallocatedResourcesInput" });
     case 1:
@@ -6653,11 +6925,11 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CloudAutonomousVmClusterResourceDetails" });
     case 2:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cloudAutonomousVmClusters: S.optional(__S(818, __c51, 2)),
+          cloudAutonomousVmClusters: S.optional(__S(866, __c54, 2)),
           cloudExadataInfrastructureDisplayName: S.optional(S.String),
           exadataStorageInTBs: S.optional(S.Number),
           cloudExadataInfrastructureId: S.optional(S.String),
@@ -6669,12 +6941,12 @@ function __c51(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cloudExadataInfrastructureUnallocatedResources: S.optional(__S(819, __c51, 3)),
+          cloudExadataInfrastructureUnallocatedResources: S.optional(__S(867, __c54, 3)),
         }),
       ).annotate({ identifier: "GetCloudExadataInfrastructureUnallocatedResourcesOutput" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6683,12 +6955,12 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "GetCloudVmClusterInput" });
     case 1:
-      return S.suspend(() => S.Struct({ cloudVmCluster: S.optional(__S(865, __c54, 1)) })).annotate(
+      return S.suspend(() => S.Struct({ cloudVmCluster: S.optional(__S(913, __c57, 1)) })).annotate(
         { identifier: "GetCloudVmClusterOutput" },
       );
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6699,11 +6971,11 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "DbIormConfig" });
     case 1:
-      return S.Array(__S(848, __c53, 0));
+      return S.Array(__S(896, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dbPlans: S.optional(__S(849, __c53, 1)),
+          dbPlans: S.optional(__S(897, __c56, 1)),
           lifecycleDetails: S.optional(S.String),
           lifecycleState: S.optional(S.String),
           objective: S.optional(S.String),
@@ -6711,7 +6983,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ExadataIormConfig" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Array(SensitiveString);
@@ -6730,17 +7002,17 @@ function __c54(j: number): any {
           storageManagementType: S.optional(S.String),
           vmFileSystemStorageType: S.optional(S.String),
           vmBackupStorageType: S.optional(S.String),
-          fileSystemConfigurationDetails: S.optional(__S(305, __c19, 1)),
+          fileSystemConfigurationDetails: S.optional(__S(337, __c21, 1)),
           clusterName: S.optional(S.String),
           cpuCoreCount: S.optional(S.Number),
-          dataCollectionOptions: S.optional(__S(288, __c18, 0)),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(80, __c5, 0)),
+          dbServers: S.optional(__S(1920, __c120, 0)),
           diskRedundancy: S.optional(S.String),
           giVersion: S.optional(S.String),
           hostname: S.optional(S.String),
-          iormConfigCache: S.optional(__S(850, __c53, 2)),
+          iormConfigCache: S.optional(__S(898, __c56, 2)),
           isLocalBackupEnabled: S.optional(S.Boolean),
           isSparseDiskgroupEnabled: S.optional(S.Boolean),
           lastUpdateHistoryEntryId: S.optional(S.String),
@@ -6754,24 +7026,24 @@ function __c54(j: number): any {
           domain: S.optional(S.String),
           scanDnsName: S.optional(S.String),
           scanDnsRecordId: S.optional(S.String),
-          scanIpIds: S.optional(__S(80, __c5, 0)),
+          scanIpIds: S.optional(__S(1920, __c120, 0)),
           shape: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(864, __c54, 0)),
+          sshPublicKeys: S.optional(__S(912, __c57, 0)),
           storageSizeInGBs: S.optional(S.Number),
           systemVersion: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           timeZone: S.optional(S.String),
-          vipIds: S.optional(__S(80, __c5, 0)),
+          vipIds: S.optional(__S(1920, __c120, 0)),
           odbNetworkId: S.optional(S.String),
           odbNetworkArn: S.optional(S.String),
           percentProgress: S.optional(S.Number),
           computeModel: S.optional(S.String),
-          iamRoles: S.optional(__S(753, __c47, 1)),
+          iamRoles: S.optional(__S(801, __c50, 1)),
         }),
       ).annotate({ identifier: "CloudVmCluster" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6815,12 +7087,12 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "DbNode" });
     case 2:
-      return S.suspend(() => S.Struct({ dbNode: S.optional(__S(881, __c55, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ dbNode: S.optional(__S(929, __c58, 1)) })).annotate({
         identifier: "GetDbNodeOutput",
       });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6830,12 +7102,12 @@ function __c56(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetDbServerInput" });
     case 1:
-      return S.suspend(() => S.Struct({ dbServer: S.optional(__S(913, __c57, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ dbServer: S.optional(__S(961, __c60, 1)) })).annotate({
         identifier: "GetDbServerOutput",
       });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6854,7 +7126,7 @@ function __c57(j: number): any {
           statusReason: S.optional(S.String),
           cpuCoreCount: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServerPatchingDetails: S.optional(__S(912, __c57, 0)),
+          dbServerPatchingDetails: S.optional(__S(960, __c60, 0)),
           displayName: S.optional(S.String),
           exadataInfrastructureId: S.optional(S.String),
           ocid: S.optional(S.String),
@@ -6865,15 +7137,15 @@ function __c57(j: number): any {
           memorySizeInGBs: S.optional(S.Number),
           shape: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          vmClusterIds: S.optional(__S(80, __c5, 0)),
+          vmClusterIds: S.optional(__S(1920, __c120, 0)),
           computeModel: S.optional(S.String),
-          autonomousVmClusterIds: S.optional(__S(80, __c5, 0)),
-          autonomousVirtualMachineIds: S.optional(__S(80, __c5, 0)),
+          autonomousVmClusterIds: S.optional(__S(1920, __c120, 0)),
+          autonomousVirtualMachineIds: S.optional(__S(1920, __c120, 0)),
         }),
       ).annotate({ identifier: "DbServer" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6882,12 +7154,12 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "GetExadbVmClusterInput" });
     case 1:
-      return S.suspend(() => S.Struct({ exadbVmCluster: __S(945, __c59, 1) })).annotate({
+      return S.suspend(() => S.Struct({ exadbVmCluster: __S(993, __c62, 1) })).annotate({
         identifier: "GetExadbVmClusterOutput",
       });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ totalSizeInGBs: S.optional(S.Number) })).annotate({
@@ -6899,7 +7171,7 @@ function __c59(j: number): any {
           exadbVmClusterId: S.String,
           clusterName: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dataCollectionOptions: S.optional(__S(288, __c18, 0)),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           displayName: S.optional(S.String),
           domain: S.optional(S.String),
           enabledEcpuCount: S.optional(S.Number),
@@ -6910,8 +7182,8 @@ function __c59(j: number): any {
           gridImageId: S.optional(S.String),
           gridImageType: S.optional(S.String),
           hostname: S.optional(S.String),
-          iamRoles: S.optional(__S(753, __c47, 1)),
-          iormConfigCache: S.optional(__S(850, __c53, 2)),
+          iamRoles: S.optional(__S(801, __c50, 1)),
+          iormConfigCache: S.optional(__S(898, __c56, 2)),
           lastUpdateHistoryEntryId: S.optional(S.String),
           licenseModel: S.optional(S.String),
           listenerPort: S.optional(S.Number),
@@ -6925,26 +7197,26 @@ function __c59(j: number): any {
           percentProgress: S.optional(S.Number),
           scanDnsName: S.optional(S.String),
           scanDnsRecordId: S.optional(S.String),
-          scanIpIds: S.optional(__S(80, __c5, 0)),
+          scanIpIds: S.optional(__S(1920, __c120, 0)),
           scanListenerPortTcp: S.optional(S.Number),
           scanListenerPortTcpSsl: S.optional(S.Number),
           shape: S.optional(S.String),
           shapeAttribute: S.optional(S.String),
-          snapshotFileSystemStorage: S.optional(__S(944, __c59, 0)),
-          sshPublicKeys: S.optional(__S(80, __c5, 0)),
+          snapshotFileSystemStorage: S.optional(__S(992, __c62, 0)),
+          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
           systemVersion: S.optional(S.String),
           timeZone: S.optional(S.String),
           totalEcpuCount: S.optional(S.Number),
-          totalFileSystemStorage: S.optional(__S(944, __c59, 0)),
-          vipIds: S.optional(__S(80, __c5, 0)),
-          vmFileSystemStorage: S.optional(__S(944, __c59, 0)),
+          totalFileSystemStorage: S.optional(__S(992, __c62, 0)),
+          vipIds: S.optional(__S(1920, __c120, 0)),
+          vmFileSystemStorage: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "ExadbVmCluster" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6953,18 +7225,18 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "GetExascaleDbStorageVaultInput" });
     case 1:
-      return S.suspend(() => S.Struct({ exascaleDbStorageVault: __S(993, __c62, 1) })).annotate({
+      return S.suspend(() => S.Struct({ exascaleDbStorageVault: __S(1041, __c65, 1) })).annotate({
         identifier: "GetExascaleDbStorageVaultOutput",
       });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6978,7 +7250,7 @@ function __c62(j: number): any {
         S.Struct({
           exascaleDbStorageVaultId: S.String,
           additionalFlashCacheInPercent: S.optional(S.Number),
-          attachedShapeAttributes: S.optional(__S(976, __c61, 0)),
+          attachedShapeAttributes: S.optional(__S(1024, __c64, 0)),
           autoscaleLimitInGBs: S.optional(S.Number),
           availabilityZone: S.optional(S.String),
           availabilityZoneId: S.optional(S.String),
@@ -6987,11 +7259,11 @@ function __c62(j: number): any {
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          vmClusterArns: S.optional(__S(80, __c5, 0)),
+          vmClusterArns: S.optional(__S(1920, __c120, 0)),
           vmClusterCount: S.optional(S.Number),
-          vmClusterIds: S.optional(__S(80, __c5, 0)),
+          vmClusterIds: S.optional(__S(1920, __c120, 0)),
           exascaleDbStorageVaultArn: S.optional(S.String),
-          highCapacityDatabaseStorage: S.optional(__S(992, __c62, 0)),
+          highCapacityDatabaseStorage: S.optional(__S(1040, __c65, 0)),
           isAutoscaleEnabled: S.optional(S.Boolean),
           ocid: S.optional(S.String),
           ociResourceAnchorName: S.optional(S.String),
@@ -7005,7 +7277,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ExascaleDbStorageVault" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7034,29 +7306,29 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "OciIamRole" });
     case 3:
-      return S.Array(__S(1010, __c63, 2));
+      return S.Array(__S(1058, __c66, 2));
     case 4:
       return S.suspend(() => S.Struct({ errorMessage: S.optional(S.String) })).annotate({
         identifier: "SubscriptionError",
       });
     case 5:
-      return S.Array(__S(1012, __c63, 4));
+      return S.Array(__S(1060, __c66, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           existingTenancyActivationLink: S.optional(S.String),
           newTenancyActivationLink: S.optional(S.String),
-          ociIdentityDomain: S.optional(__S(1009, __c63, 1)),
-          autonomousDatabaseOciIntegrationIamRoles: S.optional(__S(1011, __c63, 3)),
+          ociIdentityDomain: S.optional(__S(1057, __c66, 1)),
+          autonomousDatabaseOciIntegrationIamRoles: S.optional(__S(1059, __c66, 3)),
           linkedOciTenancyId: S.optional(S.String),
           linkedOciCompartmentId: S.optional(S.String),
-          subscriptionErrors: S.optional(__S(1013, __c63, 5)),
+          subscriptionErrors: S.optional(__S(1061, __c66, 5)),
         }),
       ).annotate({ identifier: "GetOciOnboardingStatusOutput" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7065,26 +7337,26 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "GetOdbNetworkInput" });
     case 1:
-      return S.suspend(() => S.Struct({ odbNetwork: S.optional(__S(1051, __c65, 11)) })).annotate({
+      return S.suspend(() => S.Struct({ odbNetwork: S.optional(__S(1099, __c68, 11)) })).annotate({
         identifier: "GetOdbNetworkOutput",
       });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ domainName: S.optional(S.String), ociDnsListenerIp: S.optional(S.String) }),
       ).annotate({ identifier: "OciDnsForwardingConfig" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ vpcEndpointId: S.optional(S.String), vpcEndpointType: S.optional(S.String) }),
       ).annotate({ identifier: "ServiceNetworkEndpoint" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), ipv4Addresses: S.optional(__S(80, __c5, 0)) }),
+        S.Struct({ status: S.optional(S.String), ipv4Addresses: S.optional(__S(1920, __c120, 0)) }),
       ).annotate({ identifier: "ManagedS3BackupAccess" });
     case 4:
       return S.suspend(() =>
@@ -7094,7 +7366,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(80, __c5, 0)),
+          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
           domainName: S.optional(S.String),
           s3PolicyDocument: S.optional(S.String),
         }),
@@ -7103,7 +7375,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(80, __c5, 0)),
+          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
           domainName: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
         }),
@@ -7112,7 +7384,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(80, __c5, 0)),
+          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
           domainName: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
         }),
@@ -7121,25 +7393,25 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           region: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(80, __c5, 0)),
+          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CrossRegionS3RestoreSourcesAccess" });
     case 9:
-      return S.Array(__S(1048, __c65, 8));
+      return S.Array(__S(1096, __c68, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           serviceNetworkArn: S.optional(S.String),
           resourceGatewayArn: S.optional(S.String),
-          managedServicesIpv4Cidrs: S.optional(__S(80, __c5, 0)),
-          serviceNetworkEndpoint: S.optional(__S(1042, __c65, 2)),
-          managedS3BackupAccess: S.optional(__S(1043, __c65, 3)),
-          zeroEtlAccess: S.optional(__S(1044, __c65, 4)),
-          s3Access: S.optional(__S(1045, __c65, 5)),
-          stsAccess: S.optional(__S(1046, __c65, 6)),
-          kmsAccess: S.optional(__S(1047, __c65, 7)),
-          crossRegionS3RestoreSourcesAccess: S.optional(__S(1049, __c65, 9)),
+          managedServicesIpv4Cidrs: S.optional(__S(1920, __c120, 0)),
+          serviceNetworkEndpoint: S.optional(__S(1090, __c68, 2)),
+          managedS3BackupAccess: S.optional(__S(1091, __c68, 3)),
+          zeroEtlAccess: S.optional(__S(1092, __c68, 4)),
+          s3Access: S.optional(__S(1093, __c68, 5)),
+          stsAccess: S.optional(__S(1094, __c68, 6)),
+          kmsAccess: S.optional(__S(1095, __c68, 7)),
+          crossRegionS3RestoreSourcesAccess: S.optional(__S(1097, __c68, 9)),
         }),
       ).annotate({ identifier: "ManagedServices" });
     case 11:
@@ -7156,22 +7428,22 @@ function __c65(j: number): any {
           backupSubnetCidr: S.optional(S.String),
           customDomainName: S.optional(S.String),
           defaultDnsPrefix: S.optional(S.String),
-          peeredCidrs: S.optional(__S(80, __c5, 0)),
+          peeredCidrs: S.optional(__S(1920, __c120, 0)),
           ociNetworkAnchorId: S.optional(S.String),
           ociNetworkAnchorUrl: S.optional(S.String),
           ociResourceAnchorName: S.optional(S.String),
           ociVcnId: S.optional(S.String),
           ociVcnUrl: S.optional(S.String),
-          ociDnsForwardingConfigs: S.optional(__S(1041, __c65, 1)),
+          ociDnsForwardingConfigs: S.optional(__S(1089, __c68, 1)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           percentProgress: S.optional(S.Number),
-          managedServices: S.optional(__S(1050, __c65, 10)),
-          ec2PlacementGroupIds: S.optional(__S(80, __c5, 0)),
+          managedServices: S.optional(__S(1098, __c68, 10)),
+          ec2PlacementGroupIds: S.optional(__S(1920, __c120, 0)),
         }),
       ).annotate({ identifier: "OdbNetwork" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7181,11 +7453,11 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetOdbPeeringConnectionInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ odbPeeringConnection: S.optional(__S(1072, __c67, 0)) }),
+        S.Struct({ odbPeeringConnection: S.optional(__S(1120, __c70, 0)) }),
       ).annotate({ identifier: "GetOdbPeeringConnectionOutput" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7198,14 +7470,14 @@ function __c67(j: number): any {
           odbNetworkArn: S.optional(S.String),
           peerNetworkArn: S.optional(S.String),
           odbPeeringConnectionType: S.optional(S.String),
-          peerNetworkCidrs: S.optional(__S(80, __c5, 0)),
+          peerNetworkCidrs: S.optional(__S(1920, __c120, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           percentProgress: S.optional(S.Number),
         }),
       ).annotate({ identifier: "OdbPeeringConnection" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7216,7 +7488,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "InitializeServiceInput" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7229,17 +7501,17 @@ function __c69(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListAutonomousDatabaseBackupsInput" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(752, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousDatabaseBackups: __S(1105, __c69, 1),
+          autonomousDatabaseBackups: __S(1153, __c72, 1),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseBackupsOutput" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7254,17 +7526,17 @@ function __c70(j: number): any {
         identifier: "AutonomousDatabaseCharacterSetSummary",
       });
     case 2:
-      return S.Array(__S(1121, __c70, 1));
+      return S.Array(__S(1169, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousDatabaseCharacterSets: __S(1122, __c70, 2),
+          autonomousDatabaseCharacterSets: __S(1170, __c73, 2),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseCharacterSetsOutput" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7278,18 +7550,18 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousDatabaseClones: __S(1152, __c72, 0),
+          autonomousDatabaseClones: __S(1200, __c75, 0),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseClonesOutput" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(668, __c41, 12));
+      return S.Array(__S(716, __c44, 12));
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7309,14 +7581,14 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDatabasePeerSummary" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), autonomousDatabasePeers: __S(1170, __c73, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), autonomousDatabasePeers: __S(1218, __c76, 2) }),
       ).annotate({ identifier: "ListAutonomousDatabasePeersOutput" });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7327,11 +7599,11 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ListAutonomousDatabasesInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), autonomousDatabases: __S(1152, __c72, 0) }),
+        S.Struct({ nextToken: S.optional(S.String), autonomousDatabases: __S(1200, __c75, 0) }),
       ).annotate({ identifier: "ListAutonomousDatabasesOutput" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7350,17 +7622,17 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDatabaseVersionSummary" });
     case 2:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1249, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousDatabaseVersions: __S(1202, __c75, 2),
+          autonomousDatabaseVersions: __S(1250, __c78, 2),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseVersionsOutput" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7389,17 +7661,17 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousVirtualMachineSummary" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1265, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousVirtualMachines: __S(1218, __c76, 2),
+          autonomousVirtualMachines: __S(1266, __c79, 2),
         }),
       ).annotate({ identifier: "ListAutonomousVirtualMachinesOutput" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7410,17 +7682,17 @@ function __c77(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCloudAutonomousVmClustersInput" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          cloudAutonomousVmClusters: __S(1233, __c77, 1),
+          cloudAutonomousVmClusters: __S(1281, __c80, 1),
         }),
       ).annotate({ identifier: "ListCloudAutonomousVmClustersOutput" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7430,17 +7702,17 @@ function __c78(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCloudExadataInfrastructuresInput" });
     case 1:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(849, __c53, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          cloudExadataInfrastructures: __S(1249, __c78, 1),
+          cloudExadataInfrastructures: __S(1297, __c81, 1),
         }),
       ).annotate({ identifier: "ListCloudExadataInfrastructuresOutput" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7451,14 +7723,14 @@ function __c79(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCloudVmClustersInput" });
     case 1:
-      return S.Array(__S(865, __c54, 1));
+      return S.Array(__S(913, __c57, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), cloudVmClusters: __S(1265, __c79, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), cloudVmClusters: __S(1313, __c82, 1) }),
       ).annotate({ identifier: "ListCloudVmClustersOutput" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7501,14 +7773,24 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "DbNodeSummary" });
     case 2:
-      return S.Array(__S(1281, __c80, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbNodes: __S(1282, __c80, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), dbNodes: __S(1330, __c83, 2) }),
       ).annotate({ identifier: "ListDbNodesOutput" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1344, __c84, 0));
+  }
+}
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7519,14 +7801,14 @@ function __c81(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDbServersInput" });
     case 1:
-      return S.Array(__S(913, __c57, 1));
+      return S.Array(__S(961, __c60, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbServers: __S(1297, __c81, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), dbServers: __S(1361, __c85, 1) }),
       ).annotate({ identifier: "ListDbServersOutput" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7562,31 +7844,21 @@ function __c82(j: number): any {
           runtimeMinimumCoreCount: S.optional(S.Number),
           shapeFamily: S.optional(S.String),
           shapeType: S.optional(S.String),
-          shapeAttributes: S.optional(__S(976, __c61, 0)),
+          shapeAttributes: S.optional(__S(1024, __c64, 0)),
           name: S.optional(S.String),
           computeModel: S.optional(S.String),
           areServerTypesSupported: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DbSystemShapeSummary" });
     case 2:
-      return S.Array(__S(1313, __c82, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbSystemShapes: __S(1314, __c82, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), dbSystemShapes: __S(1378, __c86, 2) }),
       ).annotate({ identifier: "ListDbSystemShapesOutput" });
   }
 }
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(1328, __c83, 0));
-  }
-}
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7599,14 +7871,14 @@ function __c84(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListExadbVmClustersInput" });
     case 1:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(993, __c62, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), exadbVmClusters: __S(1345, __c84, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), exadbVmClusters: __S(1393, __c87, 1) }),
       ).annotate({ identifier: "ListExadbVmClustersOutput" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7618,14 +7890,14 @@ function __c85(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListExascaleDbStorageVaultsInput" });
     case 1:
-      return S.Array(__S(993, __c62, 1));
+      return S.Array(__S(1041, __c65, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), exascaleDbStorageVaults: __S(1361, __c85, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), exascaleDbStorageVaults: __S(1409, __c88, 1) }),
       ).annotate({ identifier: "ListExascaleDbStorageVaultsOutput" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7652,14 +7924,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "FlexComponentSummary" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1425, __c89, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), flexComponents: __S(1378, __c86, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), flexComponents: __S(1426, __c89, 2) }),
       ).annotate({ identifier: "ListFlexComponentsOutput" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7677,14 +7949,14 @@ function __c87(j: number): any {
         S.Struct({ version: S.String, gridImageId: S.optional(S.String) }),
       ).annotate({ identifier: "GiMinorVersionSummary" });
     case 2:
-      return S.Array(__S(1393, __c87, 1));
+      return S.Array(__S(1441, __c90, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), giMinorVersions: __S(1394, __c87, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), giMinorVersions: __S(1442, __c90, 2) }),
       ).annotate({ identifier: "ListGiMinorVersionsOutput" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7699,14 +7971,14 @@ function __c88(j: number): any {
         identifier: "GiVersionSummary",
       });
     case 2:
-      return S.Array(__S(1409, __c88, 1));
+      return S.Array(__S(1457, __c91, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), giVersions: __S(1410, __c88, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), giVersions: __S(1458, __c91, 2) }),
       ).annotate({ identifier: "ListGiVersionsOutput" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7716,14 +7988,14 @@ function __c89(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListOdbNetworksInput" });
     case 1:
-      return S.Array(__S(1051, __c65, 11));
+      return S.Array(__S(1099, __c68, 11));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), odbNetworks: __S(1425, __c89, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), odbNetworks: __S(1473, __c92, 1) }),
       ).annotate({ identifier: "ListOdbNetworksOutput" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7734,14 +8006,14 @@ function __c90(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListOdbPeeringConnectionsInput" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), odbPeeringConnections: __S(1441, __c90, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), odbPeeringConnections: __S(1489, __c93, 1) }),
       ).annotate({ identifier: "ListOdbPeeringConnectionsOutput" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7757,42 +8029,18 @@ function __c91(j: number): any {
         S.Struct({
           giVersion: S.optional(S.String),
           shape: S.optional(S.String),
-          systemVersions: S.optional(__S(80, __c5, 0)),
+          systemVersions: S.optional(__S(1920, __c120, 0)),
         }),
       ).annotate({ identifier: "SystemVersionSummary" });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), systemVersions: __S(1458, __c91, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), systemVersions: __S(1506, __c94, 2) }),
       ).annotate({ identifier: "ListSystemVersionsOutput" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceArn: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "ListTagsForResourceRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(16, __c1, 0)) })).annotate({
-        identifier: "ListTagsForResourceResponse",
-      });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ autonomousDatabaseId: S.String, isOnlineReboot: S.optional(S.Boolean) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "RebootAutonomousDatabaseInput" });
-  }
-}
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7802,7 +8050,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AcceptMarketplaceRegistrationInput" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -7810,7 +8058,31 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(48, __c3, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ autonomousDatabaseId: S.String, isOnlineReboot: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RebootAutonomousDatabaseInput" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7822,7 +8094,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "RebootDbNodeInput" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7834,7 +8106,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "RebootDbNodeOutput" });
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7845,7 +8117,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "RestoreAutonomousDatabaseInput" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7855,7 +8127,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ShrinkAutonomousDatabaseInput" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7865,7 +8137,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "StartAutonomousDatabaseInput" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7877,7 +8149,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "StartDbNodeInput" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7887,7 +8159,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "StopAutonomousDatabaseInput" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7899,7 +8171,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "StopDbNodeInput" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7909,28 +8181,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "SwitchoverAutonomousDatabaseInput" });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(16, __c1, 0) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(80, __c5, 0),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UntagResourceRequest" });
-  }
-}
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7940,7 +8191,28 @@ function __c107(j: number): any {
       ).annotate({ identifier: "AssociateIamRoleToResourceInput" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tags: __S(48, __c3, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(1920, __c120, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7955,7 +8227,7 @@ function __c108(j: number): any {
           dbName: S.optional(S.String),
           dbVersion: S.optional(S.String),
           dbWorkload: S.optional(S.String),
-          dbToolsDetails: S.optional(__S(132, __c8, 4)),
+          dbToolsDetails: S.optional(__S(148, __c9, 4)),
           databaseEdition: S.optional(S.String),
           licenseModel: S.optional(S.String),
           isAutoScalingEnabled: S.optional(S.Boolean),
@@ -7969,9 +8241,9 @@ function __c108(j: number): any {
           byolComputeCountLimit: S.optional(S.Number),
           localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
           autonomousMaintenanceScheduleType: S.optional(S.String),
-          customerContactsToSendToOCI: S.optional(__S(97, __c6, 1)),
-          scheduledOperations: S.optional(__S(130, __c8, 2)),
-          longTermBackupSchedule: S.optional(__S(672, __c42, 0)),
+          customerContactsToSendToOCI: S.optional(__S(113, __c7, 1)),
+          scheduledOperations: S.optional(__S(146, __c9, 2)),
+          longTermBackupSchedule: S.optional(__S(720, __c45, 0)),
           openMode: S.optional(S.String),
           permissionLevel: S.optional(S.String),
           refreshableMode: S.optional(S.String),
@@ -7979,22 +8251,22 @@ function __c108(j: number): any {
           privateEndpointLabel: S.optional(S.String),
           peerDbId: S.optional(S.String),
           resourcePoolLeaderId: S.optional(S.String),
-          resourcePoolSummary: S.optional(__S(128, __c8, 0)),
+          resourcePoolSummary: S.optional(__S(144, __c9, 0)),
           standbyAllowlistedIpsSource: S.optional(S.String),
-          standbyAllowlistedIps: S.optional(__S(80, __c5, 0)),
-          allowlistedIps: S.optional(__S(80, __c5, 0)),
+          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
+          allowlistedIps: S.optional(__S(1920, __c120, 0)),
           autoRefreshFrequencyInSeconds: S.optional(S.Number),
           autoRefreshPointLagInSeconds: S.optional(S.Number),
           timeOfAutoRefreshStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           encryptionKeyProvider: S.optional(S.String),
-          encryptionKeyConfiguration: S.optional(__S(144, __c9, 0)),
+          encryptionKeyConfiguration: S.optional(__S(160, __c10, 0)),
           adminPasswordSource: S.optional(S.String),
-          adminPasswordSourceConfiguration: S.optional(__S(33, __c2, 1)),
+          adminPasswordSourceConfiguration: S.optional(__S(65, __c4, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateAutonomousDatabaseInput" });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8005,29 +8277,78 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateAutonomousDatabaseBackupInput" });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudAutonomousVmClusterId: S.String.pipe(T.HttpLabel("cloudAutonomousVmClusterId")),
+          autonomousDataStorageSizeInTBs: S.optional(S.Number),
+          cpuCoreCountPerNode: S.optional(S.Number),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          licenseModel: S.optional(S.String),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
+          totalContainerDatabases: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCloudAutonomousVmClusterInput" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
-          maintenanceWindow: S.optional(__S(225, __c14, 1)),
+          displayName: S.optional(S.String),
+          computeCount: S.optional(S.Number),
+          maintenanceWindow: S.optional(__S(241, __c15, 1)),
+          storageCount: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateCloudExadataInfrastructureInput" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCloudExadataInfrastructureStorageCapacityInput" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+          cpuCoreCount: S.optional(S.Number),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
+          dataStorageSizeInTBs: S.optional(S.Number),
+          dbNodeStorageSizeInGBs: S.optional(S.Number),
+          displayName: S.optional(S.String),
+          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
+          licenseModel: S.optional(S.String),
+          memorySizeInGBs: S.optional(S.Number),
+          storageSizeInGBs: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCloudVmClusterInput" });
+  }
+}
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exadbVmClusterId: S.String,
-          dataCollectionOptions: S.optional(__S(288, __c18, 0)),
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           displayName: S.optional(S.String),
           enabledEcpuCount: S.optional(S.Number),
           gridImageId: S.optional(S.String),
           licenseModel: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(80, __c5, 0)),
+          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
           systemVersion: S.optional(S.String),
           totalEcpuCount: S.optional(S.Number),
           updateAction: S.optional(S.String),
@@ -8036,7 +8357,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateExadbVmClusterInput" });
   }
 }
-function __c112(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8048,7 +8369,37 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateExascaleCloudExadataInfrastructureInput" });
   }
 }
-function __c113(j: number): any {
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+          dbServers: __S(1920, __c120, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateVirtualMachinesToCloudVmClusterInput" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          status: S.optional(S.String),
+          statusReason: S.optional(S.String),
+          cloudVmClusterId: S.String,
+        }),
+      ).annotate({ identifier: "AssociateVirtualMachinesToCloudVmClusterOutput" });
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8064,15 +8415,15 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateExascaleDbStorageVaultInput" });
   }
 }
-function __c114(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
           displayName: S.optional(S.String),
-          peeredCidrsToBeAdded: S.optional(__S(80, __c5, 0)),
-          peeredCidrsToBeRemoved: S.optional(__S(80, __c5, 0)),
+          peeredCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
+          peeredCidrsToBeRemoved: S.optional(__S(1920, __c120, 0)),
           s3Access: S.optional(S.String),
           zeroEtlAccess: S.optional(S.String),
           stsAccess: S.optional(S.String),
@@ -8080,46 +8431,23 @@ function __c114(j: number): any {
           s3PolicyDocument: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
-          crossRegionS3RestoreSourcesToEnable: S.optional(__S(80, __c5, 0)),
-          crossRegionS3RestoreSourcesToDisable: S.optional(__S(80, __c5, 0)),
+          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1920, __c120, 0)),
+          crossRegionS3RestoreSourcesToDisable: S.optional(__S(1920, __c120, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOdbNetworkInput" });
   }
 }
-function __c115(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           odbPeeringConnectionId: S.String.pipe(T.HttpLabel("odbPeeringConnectionId")),
           displayName: S.optional(S.String),
-          peerNetworkCidrsToBeAdded: S.optional(__S(80, __c5, 0)),
-          peerNetworkCidrsToBeRemoved: S.optional(__S(80, __c5, 0)),
+          peerNetworkCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
+          peerNetworkCidrsToBeRemoved: S.optional(__S(1920, __c120, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOdbPeeringConnectionInput" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ exadbVmClusterId: S.String, desiredNodeCount: S.Number }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "AssociateVirtualMachinesToExadbVmClusterInput" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          status: S.optional(S.String),
-          statusReason: S.optional(S.String),
-          exadbVmClusterId: S.String,
-        }),
-      ).annotate({ identifier: "AssociateVirtualMachinesToExadbVmClusterOutput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

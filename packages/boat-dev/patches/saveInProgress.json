@@ -1,0 +1,50 @@
+{
+  "description": "Type the 409 `save_in_progress` that saved-snapshot writes get while a save under the same name is still running. The spec documents it on POST /saved-snapshots and DELETE /saved-snapshots/{name}; observed live 2026-11-12 on deleteSavedSnapshot: \"\\\"<name>\\\" is still saving. Wait for it to finish before removing it.\"",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SaveInProgress",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A save under this snapshot name is still running (`save_in_progress`). Wait for getSavedSnapshot to settle at `ready` or `failed`, then retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "save_in_progress"
+              }
+            },
+            {
+              "status": 409,
+              "message": {
+                "includes": "is still saving"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteSavedSnapshot/errors/-",
+      "value": {
+        "target": "com.boat.api#SaveInProgress"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SaveSavedSnapshot/errors/-",
+      "value": {
+        "target": "com.boat.api#SaveInProgress"
+      }
+    }
+  ]
+}

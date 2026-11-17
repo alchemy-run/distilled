@@ -28,13 +28,13 @@ export interface GetDefaultLocationRequest {}
 export type LocationInfoStorageClassesList = Array<string>;
 export interface LocationInfo {
   /** Default [storage class](https://s2.dev/docs/storage-classes) for this location. */
-  default_storage_class?: string | null;
+  default_storage_class?: string | null | undefined;
   /** Location represents a private placement, limited by account. */
   is_private: boolean;
   /** Location name. */
   name: string;
   /** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
-  storage_classes?: LocationInfoStorageClassesList | null;
+  storage_classes?: LocationInfoStorageClassesList | null | undefined;
 }
 export interface ListLocationsRequest {}
 export type ListLocationsResponseBodyList = Array<LocationInfo>;

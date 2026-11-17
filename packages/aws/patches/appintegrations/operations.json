@@ -1,0 +1,166 @@
+{
+  "description": "AppIntegrations: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#CreateApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#CreateDataIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#CreateDataIntegrationAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#CreateEventIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#DeleteApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#DeleteDataIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#DeleteEventIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#GetApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#GetDataIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#GetEventIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListApplicationAssociations/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListApplications/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListDataIntegrationAssociations/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListDataIntegrations/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListEventIntegrationAssociations/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListEventIntegrations/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#UpdateApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#UpdateDataIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#UpdateDataIntegrationAssociation/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appintegrations#UpdateEventIntegration/errors/-",
+      "value": {
+        "target": "com.amazonaws.appintegrations#TooManyRequestsException"
+      }
+    }
+  ]
+}

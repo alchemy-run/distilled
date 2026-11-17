@@ -105,7 +105,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -123,7 +123,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -138,7 +138,7 @@ export type IdentitySource = { identityCenter: IdentityCenter };
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
   identitySource: IdentitySource;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
@@ -147,8 +147,8 @@ export interface CreateApplicationResponse {
 export type UserId = string;
 export type GroupId = string;
 export type IdentityCenterPrincipal =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type Principal = { identityCenter: IdentityCenterPrincipal };
 export type RoleArn = string;
 export interface PrincipalRoleEntitlement {
@@ -178,7 +178,7 @@ export interface GetApplicationRequest {
 export type IdentityCenterApplicationArn = string;
 export interface IdentityCenterDetails {
   instanceArn: string;
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
 export type IdentitySourceDetails = { identityCenter: IdentityCenterDetails };
 export type Status =
@@ -201,11 +201,11 @@ export interface ErrorDetails {
 export interface GetApplicationResponse {
   identitySource: IdentitySourceDetails;
   status: Status;
-  tenantId?: string;
+  tenantId?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  error?: ErrorDetails;
+  tags?: { [key: string]: string | undefined } | undefined;
+  error?: ErrorDetails | undefined;
 }
 export interface GetEntitlementRequest {
   applicationArn: string;
@@ -216,7 +216,7 @@ export interface PrincipalRoleEntitlementDetails {
   principal: Principal;
   roleArn: string;
   account: string;
-  accountName?: string;
+  accountName?: string | undefined;
 }
 export type EntitlementDetails = { principalRole: PrincipalRoleEntitlementDetails };
 export interface GetEntitlementResponse {
@@ -226,43 +226,43 @@ export interface GetEntitlementResponse {
   createdAt: Date;
 }
 export interface ListApplicationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ApplicationSummary {
   applicationArn: string;
-  tenantId?: string;
+  tenantId?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type ApplicationList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applications: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IdentityCenterPrincipalFilter =
-  | { userId: string; groupId?: never }
-  | { userId?: never; groupId: string };
+  | { userId: string; groupId?: undefined }
+  | { userId?: undefined; groupId: string };
 export type PrincipalFilter = { identityCenter: IdentityCenterPrincipalFilter };
 export interface PrincipalRoleEntitlementFilter {
-  principal?: PrincipalFilter;
-  roleArn?: string;
-  account?: string;
+  principal?: PrincipalFilter | undefined;
+  roleArn?: string | undefined;
+  account?: string | undefined;
 }
 export interface EntitlementFilter {
-  principalRole?: PrincipalRoleEntitlementFilter;
+  principalRole?: PrincipalRoleEntitlementFilter | undefined;
 }
 export interface ListEntitlementsRequest {
   applicationArn: string;
   filter: EntitlementFilter;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PrincipalRoleEntitlementSummary {
   principal: Principal;
   roleArn: string;
   account: string;
-  accountName?: string;
+  accountName?: string | undefined;
 }
 export type EntitlementSummary = { principalRole: PrincipalRoleEntitlementSummary };
 export interface EntitlementsListMember {
@@ -273,13 +273,13 @@ export interface EntitlementsListMember {
 export type EntitlementsList = EntitlementsListMember[];
 export interface ListEntitlementsResponse {
   entitlements: EntitlementsListMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;

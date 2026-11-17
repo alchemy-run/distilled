@@ -28,8 +28,8 @@ export type InsightTypeEnum = "trends" | "funnel" | "retention" | "sql";
 export interface MaxToolsCreateAndQueryInsightCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  query?: string;
-  insight_type?: InsightTypeEnum | (string & {});
+  query?: string | undefined;
+  insight_type?: InsightTypeEnum | (string & {}) | undefined;
 }
 export type MaxToolsCreateAndQueryInsightCreateResponseBodyMap = {
   [key: string]: unknown | undefined;

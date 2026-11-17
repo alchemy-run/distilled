@@ -26,48 +26,48 @@ const TELEMETRY = {
 
 export interface BotsInfoRequest {
   /** Bot user to get info on */
-  bot?: string;
+  bot?: string | undefined;
   /** encoded team id or enterprise id where the bot exists, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface BotsInfoResponseBotsItemIcons {
-  emoji?: string;
-  image_36?: string;
-  image_48?: string;
-  image_64?: string;
-  image_72?: string;
+  emoji?: string | undefined;
+  image_36?: string | undefined;
+  image_48?: string | undefined;
+  image_64?: string | undefined;
+  image_72?: string | undefined;
 }
 export interface BotsInfoResponseBotsItem {
   updated: number;
-  name?: string;
-  icons?: BotsInfoResponseBotsItemIcons;
+  name?: string | undefined;
+  icons?: BotsInfoResponseBotsItemIcons | undefined;
   deleted: boolean;
-  app_id?: string;
+  app_id?: string | undefined;
   id: string;
-  is_workflow_bot?: boolean;
-  is_connector_bot?: boolean;
-  is_legacy_workflow_bot?: boolean;
-  user_id?: string;
+  is_workflow_bot?: boolean | undefined;
+  is_connector_bot?: boolean | undefined;
+  is_legacy_workflow_bot?: boolean | undefined;
+  user_id?: string | undefined;
 }
 export type BotsInfoResponseBotsList = Array<BotsInfoResponseBotsItem>;
 export type BotsInfoResponseBotIcons = BotsInfoResponseBotsItemIcons;
 export interface BotsInfoResponseBot {
   updated: number;
-  user_id?: string;
-  name?: string;
-  icons?: BotsInfoResponseBotsItemIcons;
+  user_id?: string | undefined;
+  name?: string | undefined;
+  icons?: BotsInfoResponseBotsItemIcons | undefined;
   deleted: boolean;
-  app_id?: string;
+  app_id?: string | undefined;
   id: string;
-  is_workflow_bot?: boolean;
-  is_connector_bot?: boolean;
-  is_legacy_workflow_bot?: boolean;
+  is_workflow_bot?: boolean | undefined;
+  is_connector_bot?: boolean | undefined;
+  is_legacy_workflow_bot?: boolean | undefined;
 }
 export interface BotsInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  bots?: BotsInfoResponseBotsList;
-  bot?: BotsInfoResponseBot;
+  bots?: BotsInfoResponseBotsList | undefined;
+  bot?: BotsInfoResponseBot | undefined;
 }
 export type BotsInfoError = SlackOpError;
 /** Gets information about a bot user. Required scopes -- bot: `users:read`; user: `users:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `bot_not_found` -- Value passed for `bot` was invalid. - `bots_not_found` -- At least one value passed for `bots` was invalid. - `missing_argument` -- A required argument is missing. - `team_not_found` -- Value passed for `team_id` was invalid. See https://docs.slack.dev/reference/methods/bots.info */

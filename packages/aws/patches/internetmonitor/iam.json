@@ -1,0 +1,15 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.internetmonitor#GetInternetEvent/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:internetmonitor::${Account}:internet-event/*), the call was denied live in the InternetMonitor Bindings suite; the grant stays on *.",
+        "resources": {
+          "internetmonitor:GetInternetEvent": "*"
+        }
+      }
+    }
+  ]
+}

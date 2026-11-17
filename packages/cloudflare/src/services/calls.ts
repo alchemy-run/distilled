@@ -39,6 +39,8 @@ export class CallsAppNotFound
     /*@__PURE__*/ S.TaggedError<CallsAppNotFound>()("CallsAppNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 20007 }],
   ) {}
@@ -48,6 +50,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -57,6 +61,8 @@ export class TurnKeyNotFound
     /*@__PURE__*/ S.TaggedError<TurnKeyNotFound>()("TurnKeyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 20008 }],
   ) {}
@@ -65,7 +71,7 @@ export interface CreateSfuRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A short description of a Realtime SFU app, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSfuResponse {
@@ -84,7 +90,7 @@ export interface CreateTurnRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTurnResponse {
@@ -186,7 +192,7 @@ export interface ListSfusResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SfuListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTurnsRequest {
   /** The account identifier tag. */
@@ -198,7 +204,7 @@ export interface ListTurnsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TurnListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateSfuRequest {
   /** The account identifier tag. */
@@ -206,7 +212,7 @@ export interface UpdateSfuRequest {
   /** A Cloudflare-generated unique identifier for a item. */
   appId: string;
   /** A short description of a Realtime SFU app, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSfuResponse {
@@ -225,7 +231,7 @@ export interface UpdateTurnRequest {
   /** A Cloudflare-generated unique identifier for a item. */
   keyId: string;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTurnResponse {

@@ -1,0 +1,75 @@
+{
+  "description": "Kinesis: Categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#LimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ResourceInUseException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ProvisionedThroughputExceededException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#KMSThrottlingException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#InternalFailureException/traits/distilled.errors#categories",
+      "value": ["ServerError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ResourceNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#InvalidArgumentException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ValidationException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ExpiredIteratorException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#ExpiredNextTokenException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#KMSDisabledException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#KMSInvalidStateException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#KMSNotFoundException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kinesis#KMSOptInRequired/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    }
+  ]
+}

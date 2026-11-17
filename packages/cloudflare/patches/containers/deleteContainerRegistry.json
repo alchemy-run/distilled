@@ -1,0 +1,30 @@
+{
+  "description": "Name the documented registry delete deleteContainerRegistry, like the other containers operations.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesDelete",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerRegistry"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerRegistry/input/target",
+      "value": "com.cloudflare.containers#DeleteContainerRegistryRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesDeleteRequest",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerRegistryRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerRegistry/output/target",
+      "value": "com.cloudflare.containers#DeleteContainerRegistryResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesDeleteResponse",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerRegistryResponse"
+    }
+  ]
+}

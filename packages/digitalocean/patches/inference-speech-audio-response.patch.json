@@ -1,0 +1,23 @@
+{
+  "description": "POST /v1/audio/speech answers 200 with the audio itself (`RIFF....WAVEfmt ...` for a WAV request), not the `{ data: [...] }` JSON the spec lists first among its 200 content types (`application/json`, `audio/mpeg`, `audio/wav`, `audio/mp3`). Return the body as raw bytes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InferenceCreateSpeechAudio",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": { "com.distilled.openapi#rawResponse": {} }
+          }
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#InferenceCreateSpeech/output",
+      "value": { "target": "com.digitalocean.api#InferenceCreateSpeechAudio" }
+    }
+  ]
+}

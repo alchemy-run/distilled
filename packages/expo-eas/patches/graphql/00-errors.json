@@ -1,0 +1,219 @@
+{
+  "description": "EAS error contracts. api.expo.dev reports an error's kind in extensions.errorCode, which core/graphql reads as the code, and reuses the same codes across the whole graph, so every tag is global. The codes and their meanings are the ones the previous Smithy SDK mapped in src/errors.ts (EAS_ERROR_CODE_MAP, ported from distilled v0 and eas-cli). The EAS_BUILD_FREE_TIER_* platform variants share one tag each; the platform is in the error's code.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/EasUpgradeRequired",
+      "value": {
+        "description": "The API client is too old for a backward-incompatible schema change.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "EAS_CLI_UPGRADE_REQUIRED"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasValidationError",
+      "value": {
+        "description": "An argument or input field failed validation.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "VALIDATION_ERROR"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasDeprecatedJobFormat",
+      "value": {
+        "description": "The build was submitted with a deprecated job format.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "TURTLE_DEPRECATED_JOB_FORMAT"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildDownForMaintenance",
+      "value": {
+        "description": "EAS Build is down for maintenance.",
+        "category": "server",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_DOWN_FOR_MAINTENANCE"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildFreeTierDisabled",
+      "value": {
+        "description": "EAS Build is disabled for this free-tier account (on one platform or both).",
+        "category": "quota",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_FREE_TIER_DISABLED"
+          },
+          {
+            "code": "EAS_BUILD_FREE_TIER_DISABLED_IOS"
+          },
+          {
+            "code": "EAS_BUILD_FREE_TIER_DISABLED_ANDROID"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildFreeTierLimitExceeded",
+      "value": {
+        "description": "The free-tier monthly build quota is used up (on one platform or both).",
+        "category": "quota",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_FREE_TIER_LIMIT_EXCEEDED"
+          },
+          {
+            "code": "EAS_BUILD_FREE_TIER_IOS_LIMIT_EXCEEDED"
+          },
+          {
+            "code": "EAS_BUILD_FREE_TIER_ANDROID_LIMIT_EXCEEDED"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildTooManyPendingBuilds",
+      "value": {
+        "description": "The account already has too many pending builds queued.",
+        "category": "throttling",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_TOO_MANY_PENDING_BUILDS"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildResourceClassNotAvailableInFreeTier",
+      "value": {
+        "description": "The selected build resource class is not available on the free tier.",
+        "category": "quota",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_RESOURCE_CLASS_NOT_AVAILABLE_IN_FREE_TIER"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasBuildLegacyResourceClassNotAvailable",
+      "value": {
+        "description": "The requested legacy build resource class is retired.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "EAS_BUILD_LEGACY_RESOURCE_CLASS_NOT_AVAILABLE"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasChannelAlreadyExists",
+      "value": {
+        "description": "An update channel with this name already exists for the app.",
+        "category": "conflict",
+        "matchers": [
+          {
+            "code": "CHANNEL_ALREADY_EXISTS"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasUnauthorizedOperation",
+      "value": {
+        "description": "The token is valid but lacks the role or grant the operation needs.",
+        "category": "auth",
+        "matchers": [
+          {
+            "code": "UNAUTHORIZED_ERROR"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasExperienceNotFound",
+      "value": {
+        "description": "The Expo project referenced by account and slug does not exist.",
+        "category": "notFound",
+        "matchers": [
+          {
+            "code": "EXPERIENCE_NOT_FOUND"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasAppNoDevDomainName",
+      "value": {
+        "description": "The app has no *.expo.app dev domain name yet; assign one first.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "APP_NO_DEV_DOMAIN_NAME"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/EasDevDomainNameTaken",
+      "value": {
+        "description": "Another app already uses the requested dev domain name.",
+        "category": "conflict",
+        "matchers": [
+          {
+            "code": "DEV_DOMAIN_NAME_TAKEN"
+          }
+        ]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "EasUpgradeRequired",
+        "EasValidationError",
+        "EasDeprecatedJobFormat",
+        "EasBuildDownForMaintenance",
+        "EasBuildFreeTierDisabled",
+        "EasBuildFreeTierLimitExceeded",
+        "EasBuildTooManyPendingBuilds",
+        "EasBuildResourceClassNotAvailableInFreeTier",
+        "EasBuildLegacyResourceClassNotAvailable",
+        "EasChannelAlreadyExists",
+        "EasUnauthorizedOperation",
+        "EasExperienceNotFound",
+        "EasAppNoDevDomainName",
+        "EasDevDomainNameTaken"
+      ]
+    }
+  ]
+}

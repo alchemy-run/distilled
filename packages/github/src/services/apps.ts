@@ -52,8 +52,8 @@ export interface AuthorizationApp {
 }
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -72,8 +72,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. */
 export type AppPermissionsActions = "read" | "write";
@@ -147,6 +147,8 @@ export type AppPermissionsOrganizationCustomProperties = "read" | "write" | "adm
 export type AppPermissionsOrganizationCopilotSeatManagement = "read" | "write";
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
+/** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+export type AppPermissionsOrganizationCopilotRequests = "read";
 /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
 export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
@@ -190,131 +192,161 @@ export type AppPermissionsEnterpriseCustomPropertiesForOrganizations = "read" | 
 /** The permissions granted to the fine-grained access token. */
 export interface AppPermissions {
   /** The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. */
-  actions?: AppPermissionsActions | (string & {});
+  actions?: AppPermissionsActions | (string & {}) | undefined;
   /** The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation. */
-  administration?: AppPermissionsAdministration | (string & {});
+  administration?: AppPermissionsAdministration | (string & {}) | undefined;
   /** The level of permission to grant the access token to create and retrieve build artifact metadata records. */
-  artifact_metadata?: AppPermissionsArtifactMetadata | (string & {});
+  artifact_metadata?: AppPermissionsArtifactMetadata | (string & {}) | undefined;
   /** The level of permission to create and retrieve the access token for repository attestations. */
-  attestations?: AppPermissionsAttestations | (string & {});
+  attestations?: AppPermissionsAttestations | (string & {}) | undefined;
   /** The level of permission to grant the access token for checks on code. */
-  checks?: AppPermissionsChecks | (string & {});
+  checks?: AppPermissionsChecks | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage code quality data. */
-  code_quality?: AppPermissionsCodeQuality | (string & {});
+  code_quality?: AppPermissionsCodeQuality | (string & {}) | undefined;
   /** The level of permission to grant the access token to create, edit, delete, and list Codespaces. */
-  codespaces?: AppPermissionsCodespaces | (string & {});
+  codespaces?: AppPermissionsCodespaces | (string & {}) | undefined;
   /** The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges. */
-  contents?: AppPermissionsContents | (string & {});
+  contents?: AppPermissionsContents | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage Dependabot secrets. */
-  dependabot_secrets?: AppPermissionsDependabotSecrets | (string & {});
+  dependabot_secrets?: AppPermissionsDependabotSecrets | (string & {}) | undefined;
   /** The level of permission to grant the access token for deployments and deployment statuses. */
-  deployments?: AppPermissionsDeployments | (string & {});
+  deployments?: AppPermissionsDeployments | (string & {}) | undefined;
   /** The level of permission to grant the access token for discussions and related comments and labels. */
-  discussions?: AppPermissionsDiscussions | (string & {});
+  discussions?: AppPermissionsDiscussions | (string & {}) | undefined;
   /** The level of permission to grant the access token for managing repository environments. */
-  environments?: AppPermissionsEnvironments | (string & {});
+  environments?: AppPermissionsEnvironments | (string & {}) | undefined;
   /** The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones. */
-  issues?: AppPermissionsIssues | (string & {});
+  issues?: AppPermissionsIssues | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage the merge queues for a repository. */
-  merge_queues?: AppPermissionsMergeQueues | (string & {});
+  merge_queues?: AppPermissionsMergeQueues | (string & {}) | undefined;
   /** The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata. */
-  metadata?: AppPermissionsMetadata | (string & {});
+  metadata?: AppPermissionsMetadata | (string & {}) | undefined;
   /** The level of permission to grant the access token for packages published to GitHub Packages. */
-  packages?: AppPermissionsPackages | (string & {});
+  packages?: AppPermissionsPackages | (string & {}) | undefined;
   /** The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds. */
-  pages?: AppPermissionsPages | (string & {});
+  pages?: AppPermissionsPages | (string & {}) | undefined;
   /** The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges. */
-  pull_requests?: AppPermissionsPullRequests | (string & {});
+  pull_requests?: AppPermissionsPullRequests | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and edit custom properties for a repository, when allowed by the property. */
-  repository_custom_properties?: AppPermissionsRepositoryCustomProperties | (string & {});
+  repository_custom_properties?:
+    | AppPermissionsRepositoryCustomProperties
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token to manage the post-receive hooks for a repository. */
-  repository_hooks?: AppPermissionsRepositoryHooks | (string & {});
+  repository_hooks?: AppPermissionsRepositoryHooks | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage repository projects, columns, and cards. */
-  repository_projects?: AppPermissionsRepositoryProjects | (string & {});
+  repository_projects?: AppPermissionsRepositoryProjects | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage secret scanning alerts. */
-  secret_scanning_alerts?: AppPermissionsSecretScanningAlerts | (string & {});
+  secret_scanning_alerts?: AppPermissionsSecretScanningAlerts | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage repository secrets. */
-  secrets?: AppPermissionsSecrets | (string & {});
+  secrets?: AppPermissionsSecrets | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage security events like code scanning alerts. */
-  security_events?: AppPermissionsSecurityEvents | (string & {});
+  security_events?: AppPermissionsSecurityEvents | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage just a single file. */
-  single_file?: AppPermissionsSingleFile | (string & {});
+  single_file?: AppPermissionsSingleFile | (string & {}) | undefined;
   /** The level of permission to grant the access token for commit statuses. */
-  statuses?: AppPermissionsStatuses | (string & {});
+  statuses?: AppPermissionsStatuses | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage Dependabot alerts. */
-  vulnerability_alerts?: AppPermissionsVulnerabilityAlerts | (string & {});
+  vulnerability_alerts?: AppPermissionsVulnerabilityAlerts | (string & {}) | undefined;
   /** The level of permission to grant the access token to update GitHub Actions workflow files. */
-  workflows?: AppPermissionsWorkflows | (string & {});
+  workflows?: AppPermissionsWorkflows | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and edit custom properties for an organization, when allowed by the property. */
   custom_properties_for_organizations?:
     | AppPermissionsCustomPropertiesForOrganizations
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for organization teams and members. */
-  members?: AppPermissionsMembers | (string & {});
+  members?: AppPermissionsMembers | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage access to an organization. */
-  organization_administration?: AppPermissionsOrganizationAdministration | (string & {});
+  organization_administration?:
+    | AppPermissionsOrganizationAdministration
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for custom repository roles management. */
-  organization_custom_roles?: AppPermissionsOrganizationCustomRoles | (string & {});
+  organization_custom_roles?: AppPermissionsOrganizationCustomRoles | (string & {}) | undefined;
   /** The level of permission to grant the access token for custom organization roles management. */
-  organization_custom_org_roles?: AppPermissionsOrganizationCustomOrgRoles | (string & {});
+  organization_custom_org_roles?:
+    | AppPermissionsOrganizationCustomOrgRoles
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for repository custom properties management at the organization level. */
-  organization_custom_properties?: AppPermissionsOrganizationCustomProperties | (string & {});
+  organization_custom_properties?:
+    | AppPermissionsOrganizationCustomProperties
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change. */
   organization_copilot_seat_management?:
     | AppPermissionsOrganizationCopilotSeatManagement
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
   organization_copilot_agent_settings?:
     | AppPermissionsOrganizationCopilotAgentSettings
-    | (string & {});
+    | (string & {})
+    | undefined;
+  /** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+  organization_copilot_requests?:
+    | AppPermissionsOrganizationCopilotRequests
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
   organization_external_properties_for_repos?:
     | AppPermissionsOrganizationExternalPropertiesForRepos
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
-  organization_announcement_banners?: AppPermissionsOrganizationAnnouncementBanners | (string & {});
+  organization_announcement_banners?:
+    | AppPermissionsOrganizationAnnouncementBanners
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token to view events triggered by an activity in an organization. */
-  organization_events?: AppPermissionsOrganizationEvents | (string & {});
+  organization_events?: AppPermissionsOrganizationEvents | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage the post-receive hooks for an organization. */
-  organization_hooks?: AppPermissionsOrganizationHooks | (string & {});
+  organization_hooks?: AppPermissionsOrganizationHooks | (string & {}) | undefined;
   /** The level of permission to grant the access token for viewing and managing fine-grained personal access token requests to an organization. */
   organization_personal_access_tokens?:
     | AppPermissionsOrganizationPersonalAccessTokens
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for viewing and managing fine-grained personal access tokens that have been approved by an organization. */
   organization_personal_access_token_requests?:
     | AppPermissionsOrganizationPersonalAccessTokenRequests
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token for viewing an organization's plan. */
-  organization_plan?: AppPermissionsOrganizationPlan | (string & {});
+  organization_plan?: AppPermissionsOrganizationPlan | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage organization projects and projects public preview (where available). */
-  organization_projects?: AppPermissionsOrganizationProjects | (string & {});
+  organization_projects?: AppPermissionsOrganizationProjects | (string & {}) | undefined;
   /** The level of permission to grant the access token for organization packages published to GitHub Packages. */
-  organization_packages?: AppPermissionsOrganizationPackages | (string & {});
+  organization_packages?: AppPermissionsOrganizationPackages | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage organization secrets. */
-  organization_secrets?: AppPermissionsOrganizationSecrets | (string & {});
+  organization_secrets?: AppPermissionsOrganizationSecrets | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization. */
-  organization_self_hosted_runners?: AppPermissionsOrganizationSelfHostedRunners | (string & {});
+  organization_self_hosted_runners?:
+    | AppPermissionsOrganizationSelfHostedRunners
+    | (string & {})
+    | undefined;
   /** The level of permission to grant the access token to view and manage users blocked by the organization. */
-  organization_user_blocking?: AppPermissionsOrganizationUserBlocking | (string & {});
+  organization_user_blocking?: AppPermissionsOrganizationUserBlocking | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage the email addresses belonging to a user. */
-  email_addresses?: AppPermissionsEmailAddresses | (string & {});
+  email_addresses?: AppPermissionsEmailAddresses | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage the followers belonging to a user. */
-  followers?: AppPermissionsFollowers | (string & {});
+  followers?: AppPermissionsFollowers | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage git SSH keys. */
-  git_ssh_keys?: AppPermissionsGitSshKeys | (string & {});
+  git_ssh_keys?: AppPermissionsGitSshKeys | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage GPG keys belonging to a user. */
-  gpg_keys?: AppPermissionsGpgKeys | (string & {});
+  gpg_keys?: AppPermissionsGpgKeys | (string & {}) | undefined;
   /** The level of permission to grant the access token to view and manage interaction limits on a repository. */
-  interaction_limits?: AppPermissionsInteractionLimits | (string & {});
+  interaction_limits?: AppPermissionsInteractionLimits | (string & {}) | undefined;
   /** The level of permission to grant the access token to manage the profile settings belonging to a user. */
-  profile?: AppPermissionsProfile | (string & {});
+  profile?: AppPermissionsProfile | (string & {}) | undefined;
   /** The level of permission to grant the access token to list and manage repositories a user is starring. */
-  starring?: AppPermissionsStarring | (string & {});
+  starring?: AppPermissionsStarring | (string & {}) | undefined;
   /** The level of permission to grant the access token for organization custom properties management at the enterprise level. */
   enterprise_custom_properties_for_organizations?:
     | AppPermissionsEnterpriseCustomPropertiesForOrganizations
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Describe whether all repositories have been selected or there's a selection involved */
 export type NullableScopedInstallationRepositorySelection = "all" | "selected";
@@ -326,8 +358,8 @@ export interface NullableScopedInstallation {
   /** Describe whether all repositories have been selected or there's a selection involved */
   repository_selection: NullableScopedInstallationRepositorySelection;
   single_file_name: string | null;
-  has_multiple_single_files?: boolean;
-  single_file_paths?: NullableScopedInstallationSingleFilePathsList;
+  has_multiple_single_files?: boolean | undefined;
+  single_file_paths?: NullableScopedInstallationSingleFilePathsList | undefined;
   repositories_url: string;
   account: NullableSimpleUser;
 }
@@ -346,8 +378,8 @@ export interface Authorization {
   updated_at: string;
   created_at: string;
   fingerprint: string | null;
-  user?: NullableSimpleUser | null;
-  installation?: NullableScopedInstallation | null;
+  user?: NullableSimpleUser | null | undefined;
+  installation?: NullableScopedInstallation | null | undefined;
   expires_at: string | null;
 }
 export interface CreateFromManifestRequest {
@@ -356,10 +388,10 @@ export interface CreateFromManifestRequest {
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -374,11 +406,11 @@ export interface Enterprise {
 export type CreateFromManifestResponseOwner = NullableSimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface CreateFromManifestResponsePermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -387,7 +419,7 @@ export interface CreateFromManifestResponse {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
   client_id: string;
   owner: CreateFromManifestResponseOwner;
@@ -403,7 +435,7 @@ export interface CreateFromManifestResponse {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: CreateFromManifestResponseEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
   client_secret: string | Redacted.Redacted<string>;
   webhook_secret: string | Redacted.Redacted<string> | null;
   pem: string;
@@ -416,10 +448,10 @@ export interface CreateInstallationAccessTokenRequest {
   /** The unique identifier of the installation. */
   installation_id: number;
   /** List of repository names that the token should have access to */
-  repositories?: CreateInstallationAccessTokenRequestRepositoriesList;
+  repositories?: CreateInstallationAccessTokenRequestRepositoriesList | undefined;
   /** List of repository IDs that the token should have access to */
-  repository_ids?: CreateInstallationAccessTokenRequestRepositoryIdsList;
-  permissions?: AppPermissions;
+  repository_ids?: CreateInstallationAccessTokenRequestRepositoryIdsList | undefined;
+  permissions?: AppPermissions | undefined;
 }
 export type InstallationTokenRepositorySelection = "all" | "selected";
 /** License Simple */
@@ -429,14 +461,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -451,8 +483,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -464,7 +496,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -524,8 +556,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -536,55 +568,56 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 export type InstallationTokenRepositoriesList = Array<Repository>;
 export type InstallationTokenSingleFilePathsList = Array<string>;
@@ -592,12 +625,12 @@ export type InstallationTokenSingleFilePathsList = Array<string>;
 export interface InstallationToken {
   token: string;
   expires_at: string;
-  permissions?: AppPermissions;
-  repository_selection?: InstallationTokenRepositorySelection;
-  repositories?: InstallationTokenRepositoriesList;
-  single_file?: string;
-  has_multiple_single_files?: boolean;
-  single_file_paths?: InstallationTokenSingleFilePathsList;
+  permissions?: AppPermissions | undefined;
+  repository_selection?: InstallationTokenRepositorySelection | undefined;
+  repositories?: InstallationTokenRepositoriesList | undefined;
+  single_file?: string | undefined;
+  has_multiple_single_files?: boolean | undefined;
+  single_file_paths?: InstallationTokenSingleFilePathsList | undefined;
 }
 export interface DeleteAuthorizationRequest {
   /** The client ID of the GitHub app. */
@@ -629,9 +662,9 @@ export interface Integration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: IntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -645,7 +678,7 @@ export interface Integration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: IntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 export interface GetBySlugRequest {
   app_slug: string;
@@ -670,7 +703,7 @@ export interface Installation {
   repositories_url: string;
   html_url: string;
   app_id: number;
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ID of the user or organization this token is being scoped to. */
   target_id: number;
   target_type: string;
@@ -679,12 +712,12 @@ export interface Installation {
   created_at: string;
   updated_at: string;
   single_file_name: string | null;
-  has_multiple_single_files?: boolean;
-  single_file_paths?: InstallationSingleFilePathsList;
+  has_multiple_single_files?: boolean | undefined;
+  single_file_paths?: InstallationSingleFilePathsList | undefined;
   app_slug: string;
   suspended_by: NullableSimpleUser | null;
   suspended_at: string | null;
-  contact_email?: string | null;
+  contact_email?: string | null | undefined;
 }
 export interface GetOrgInstallationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -719,21 +752,21 @@ export interface MarketplaceListingPlan {
   bullets: MarketplaceListingPlanBulletsList;
 }
 export interface MarketplacePurchaseMarketplacePendingChange {
-  is_installed?: boolean;
-  effective_date?: string;
-  unit_count?: number | null;
-  id?: number;
-  plan?: MarketplaceListingPlan;
+  is_installed?: boolean | undefined;
+  effective_date?: string | undefined;
+  unit_count?: number | null | undefined;
+  id?: number | undefined;
+  plan?: MarketplaceListingPlan | undefined;
 }
 export interface MarketplacePurchaseMarketplacePurchase {
-  billing_cycle?: string;
-  next_billing_date?: string | null;
-  is_installed?: boolean;
-  unit_count?: number | null;
-  on_free_trial?: boolean;
-  free_trial_ends_on?: string | null;
-  updated_at?: string;
-  plan?: MarketplaceListingPlan;
+  billing_cycle?: string | undefined;
+  next_billing_date?: string | null | undefined;
+  is_installed?: boolean | undefined;
+  unit_count?: number | null | undefined;
+  on_free_trial?: boolean | undefined;
+  free_trial_ends_on?: string | null | undefined;
+  updated_at?: string | undefined;
+  plan?: MarketplaceListingPlan | undefined;
 }
 /** Marketplace Purchase */
 export interface MarketplacePurchase {
@@ -741,9 +774,9 @@ export interface MarketplacePurchase {
   type: string;
   id: number;
   login: string;
-  organization_billing_email?: string;
-  email?: string | null;
-  marketplace_pending_change?: MarketplacePurchaseMarketplacePendingChange | null;
+  organization_billing_email?: string | undefined;
+  email?: string | null | undefined;
+  marketplace_pending_change?: MarketplacePurchaseMarketplacePendingChange | null | undefined;
   marketplace_purchase: MarketplacePurchaseMarketplacePurchase;
 }
 export interface GetSubscriptionPlanForAccountStubbedRequest {
@@ -758,10 +791,10 @@ export interface GetWebhookConfigForAppRequest {}
 export type WebhookConfigInsecureSsl = string | number;
 /** Configuration object of the webhook */
 export interface WebhookConfig {
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export interface GetWebhookDeliveryRequest {
   delivery_id: number;
@@ -811,9 +844,9 @@ export interface HookDelivery {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
   /** The URL target of the delivery. */
-  url?: string;
+  url?: string | undefined;
   request: HookDeliveryRequest;
   response: HookDeliveryResponse;
 }
@@ -823,13 +856,13 @@ export interface ListAccountsForPlanRequest {
   /** The unique identifier of the plan. */
   plan_id: number;
   /** The property to sort the results by. */
-  sort?: ListAccountsForPlanRequestSort | (string & {});
+  sort?: ListAccountsForPlanRequestSort | (string & {}) | undefined;
   /** To return the oldest accounts first, set to `asc`. Ignored without the `sort` parameter. */
-  direction?: ListAccountsForPlanRequestDirection | (string & {});
+  direction?: ListAccountsForPlanRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListAccountsForPlanResponseBodyList = Array<MarketplacePurchase>;
 export type ListAccountsForPlanResponse = ListAccountsForPlanResponseBodyList;
@@ -839,13 +872,13 @@ export interface ListAccountsForPlanStubbedRequest {
   /** The unique identifier of the plan. */
   plan_id: number;
   /** The property to sort the results by. */
-  sort?: ListAccountsForPlanStubbedRequestSort | (string & {});
+  sort?: ListAccountsForPlanStubbedRequestSort | (string & {}) | undefined;
   /** To return the oldest accounts first, set to `asc`. Ignored without the `sort` parameter. */
-  direction?: ListAccountsForPlanStubbedRequestDirection | (string & {});
+  direction?: ListAccountsForPlanStubbedRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListAccountsForPlanStubbedResponseBodyList = Array<MarketplacePurchase>;
 export type ListAccountsForPlanStubbedResponse = ListAccountsForPlanStubbedResponseBodyList;
@@ -853,9 +886,9 @@ export interface ListInstallationReposForAuthenticatedUserRequest {
   /** The unique identifier of the installation. */
   installation_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInstallationReposForAuthenticatedUserResponseRepositoriesItemPermissions =
   RepositoryPermissions;
@@ -899,7 +932,7 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -959,8 +992,8 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemTopicsList;
+  is_template?: boolean | undefined;
+  topics?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -971,77 +1004,90 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemPullRequestCreationPolicy;
+  pull_request_creation_policy?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemPullRequestCreationPolicy
+    | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemSquashMergeCommitTitle;
+  squash_merge_commit_title?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemSquashMergeCommitTitle
+    | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemSquashMergeCommitMessage;
+  squash_merge_commit_message?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemSquashMergeCommitMessage
+    | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemMergeCommitTitle;
+  merge_commit_title?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemMergeCommitTitle
+    | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemMergeCommitMessage;
+  merge_commit_message?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemMergeCommitMessage
+    | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. Present for org repos only. */
-  custom_properties?: ListInstallationReposForAuthenticatedUserResponseRepositoriesItemCustomPropertiesMap;
+  custom_properties?:
+    | ListInstallationReposForAuthenticatedUserResponseRepositoriesItemCustomPropertiesMap
+    | undefined;
 }
 export type ListInstallationReposForAuthenticatedUserResponseRepositoriesList =
   Array<ListInstallationReposForAuthenticatedUserResponseRepositoriesItem>;
 export interface ListInstallationReposForAuthenticatedUserResponse {
   total_count: number;
-  repository_selection?: string;
+  repository_selection?: string | undefined;
   repositories: ListInstallationReposForAuthenticatedUserResponseRepositoriesList;
 }
 export interface ListInstallationRequestsForAuthenticatedAppRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type IntegrationInstallationRequestAccount = NullableSimpleUser | Enterprise;
 /** Request to install an integration on a target */
 export interface IntegrationInstallationRequest {
   /** Unique identifier of the request installation. */
   id: number;
-  node_id?: string;
+  node_id?: string | undefined;
   account: IntegrationInstallationRequestAccount;
   requester: NullableSimpleUser;
   created_at: string;
@@ -1052,20 +1098,20 @@ export type ListInstallationRequestsForAuthenticatedAppResponse =
   ListInstallationRequestsForAuthenticatedAppResponseBodyList;
 export interface ListInstallationsRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
-  outdated?: string;
+  since?: string | undefined;
+  outdated?: string | undefined;
 }
 export type ListInstallationsResponseBodyList = Array<Installation>;
 export type ListInstallationsResponse = ListInstallationsResponseBodyList;
 export interface ListInstallationsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInstallationsForAuthenticatedUserResponseInstallationsList = Array<Installation>;
 export interface ListInstallationsForAuthenticatedUserResponse {
@@ -1074,25 +1120,25 @@ export interface ListInstallationsForAuthenticatedUserResponse {
 }
 export interface ListPlansRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPlansResponseBodyList = Array<MarketplaceListingPlan>;
 export type ListPlansResponse = ListPlansResponseBodyList;
 export interface ListPlansStubbedRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPlansStubbedResponseBodyList = Array<MarketplaceListingPlan>;
 export type ListPlansStubbedResponse = ListPlansStubbedResponseBodyList;
 export interface ListReposAccessibleToInstallationRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReposAccessibleToInstallationResponseRepositoriesItemPermissions =
   RepositoryPermissions;
@@ -1135,7 +1181,7 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -1195,8 +1241,8 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: ListReposAccessibleToInstallationResponseRepositoriesItemTopicsList;
+  is_template?: boolean | undefined;
+  topics?: ListReposAccessibleToInstallationResponseRepositoriesItemTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -1207,79 +1253,92 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: ListReposAccessibleToInstallationResponseRepositoriesItemPullRequestCreationPolicy;
+  pull_request_creation_policy?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemPullRequestCreationPolicy
+    | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: ListReposAccessibleToInstallationResponseRepositoriesItemSquashMergeCommitTitle;
+  squash_merge_commit_title?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemSquashMergeCommitTitle
+    | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: ListReposAccessibleToInstallationResponseRepositoriesItemSquashMergeCommitMessage;
+  squash_merge_commit_message?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemSquashMergeCommitMessage
+    | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: ListReposAccessibleToInstallationResponseRepositoriesItemMergeCommitTitle;
+  merge_commit_title?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemMergeCommitTitle
+    | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: ListReposAccessibleToInstallationResponseRepositoriesItemMergeCommitMessage;
+  merge_commit_message?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemMergeCommitMessage
+    | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. Present for org repos only. */
-  custom_properties?: ListReposAccessibleToInstallationResponseRepositoriesItemCustomPropertiesMap;
+  custom_properties?:
+    | ListReposAccessibleToInstallationResponseRepositoriesItemCustomPropertiesMap
+    | undefined;
 }
 export type ListReposAccessibleToInstallationResponseRepositoriesList =
   Array<ListReposAccessibleToInstallationResponseRepositoriesItem>;
 export interface ListReposAccessibleToInstallationResponse {
   total_count: number;
   repositories: ListReposAccessibleToInstallationResponseRepositoriesList;
-  repository_selection?: string;
+  repository_selection?: string | undefined;
 }
 export interface ListSubscriptionsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface MarketplaceAccount {
   url: string;
   id: number;
   type: string;
-  node_id?: string;
+  node_id?: string | undefined;
   login: string;
-  email?: string | null;
-  organization_billing_email?: string | null;
+  email?: string | null | undefined;
+  organization_billing_email?: string | null | undefined;
 }
 /** User Marketplace Purchase */
 export interface UserMarketplacePurchase {
@@ -1297,9 +1356,9 @@ export type ListSubscriptionsForAuthenticatedUserResponse =
   ListSubscriptionsForAuthenticatedUserResponseBodyList;
 export interface ListSubscriptionsForAuthenticatedUserStubbedRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSubscriptionsForAuthenticatedUserStubbedResponseBodyList =
   Array<UserMarketplacePurchase>;
@@ -1308,11 +1367,11 @@ export type ListSubscriptionsForAuthenticatedUserStubbedResponse =
 export type ListWebhookDeliveriesRequestStatus = "success" | "failure";
 export interface ListWebhookDeliveriesRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Returns webhook deliveries filtered by delivery outcome classification based on `status_code` range. A `status` of `success` returns deliveries with a `status_code` in the 200-399 range (inclusive). A `status` of `failure` returns deliveries with a `status_code` in the 400-599 range (inclusive). */
-  status?: ListWebhookDeliveriesRequestStatus | (string & {});
+  status?: ListWebhookDeliveriesRequestStatus | (string & {}) | undefined;
 }
 /** Delivery made by a webhook, without request and response information. */
 export interface HookDeliveryItem {
@@ -1339,7 +1398,7 @@ export interface HookDeliveryItem {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
 }
 export type ListWebhookDeliveriesResponseBodyList = Array<HookDeliveryItem>;
 export type ListWebhookDeliveriesResponse = ListWebhookDeliveriesResponseBodyList;
@@ -1372,14 +1431,14 @@ export interface ScopeTokenRequest {
   /** The access token used to authenticate to the GitHub API. */
   access_token: string | Redacted.Redacted<string>;
   /** The name of the user or organization to scope the user access token to. **Required** unless `target_id` is specified. */
-  target?: string;
+  target?: string | undefined;
   /** The ID of the user or organization to scope the user access token to. **Required** unless `target` is specified. */
-  target_id?: number;
+  target_id?: number | undefined;
   /** The list of repository names to scope the user access token to. `repositories` may not be specified if `repository_ids` is specified. */
-  repositories?: ScopeTokenRequestRepositoriesList;
+  repositories?: ScopeTokenRequestRepositoriesList | undefined;
   /** The list of repository IDs to scope the user access token to. `repository_ids` may not be specified if `repositories` is specified. */
-  repository_ids?: ScopeTokenRequestRepositoryIdsList;
-  permissions?: AppPermissions;
+  repository_ids?: ScopeTokenRequestRepositoryIdsList | undefined;
+  permissions?: AppPermissions | undefined;
 }
 export interface SuspendInstallationRequest {
   /** The unique identifier of the installation. */
@@ -1392,10 +1451,10 @@ export interface UnsuspendInstallationRequest {
 }
 export interface UnsuspendInstallationResponse {}
 export interface UpdateWebhookConfigForAppRequest {
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export type AddRepoToInstallationForAuthenticatedUserError = GithubOpError;
 /** Add a repository to an app installation Add a single repository to an installation. The authenticated user must have admin access to the repository. */
@@ -2235,6 +2294,7 @@ function __c5(j: number): any {
           organization_custom_properties: S.optional(S.String),
           organization_copilot_seat_management: S.optional(S.String),
           organization_copilot_agent_settings: S.optional(S.String),
+          organization_copilot_requests: S.optional(S.String),
           organization_external_properties_for_repos: S.optional(S.String),
           organization_announcement_banners: S.optional(S.String),
           organization_events: S.optional(S.String),

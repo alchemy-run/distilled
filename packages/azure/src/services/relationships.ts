@@ -40,9 +40,9 @@ export interface DeleteDependencyOfRelationshipRequest {
 }
 export interface DeleteDependencyOfRelationshipResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDependencyOfRelationshipsByServiceGroupRequest {
   /** The name of the service group. */
@@ -52,9 +52,9 @@ export interface DeleteDependencyOfRelationshipsByServiceGroupRequest {
 }
 export interface DeleteDependencyOfRelationshipsByServiceGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServiceGroupMemberRelationshipRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -64,16 +64,16 @@ export interface DeleteServiceGroupMemberRelationshipRequest {
 }
 export interface DeleteServiceGroupMemberRelationshipResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** dependencyOf relationship properties. */
 export interface DependencyOfRelationshipPropertiesInput {
   /** The relationship target resource id. */
   targetId: string;
   /** The relationship target tenant id. */
-  targetTenant?: string;
+  targetTenant?: string | undefined;
 }
 export interface DependencyOfRelationshipsByServiceGroupCreateOrUpdateRequest {
   /** The name of the service group. */
@@ -81,7 +81,7 @@ export interface DependencyOfRelationshipsByServiceGroupCreateOrUpdateRequest {
   /** Name of dependencyOf relationship. */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipPropertiesInput;
+  properties?: DependencyOfRelationshipPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -90,17 +90,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The possible origins of a relationship. */
 export type RelationshipOrigins =
@@ -113,7 +113,7 @@ export interface RelationshipOriginInformation {
   /** Identifies the origin type of the relationship. */
   relationshipOriginType: RelationshipOrigins;
   /** The name of the discovery engine that created the relationship. */
-  discoveryEngine?: string;
+  discoveryEngine?: string | undefined;
 }
 /** Provides information about the relationship properties. */
 export interface RelationshipMetadata {
@@ -134,33 +134,33 @@ export type ProvisioningState =
 /** dependencyOf relationship properties. */
 export interface DependencyOfRelationshipProperties {
   /** The relationship source resource id. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The relationship target resource id. */
   targetId: string;
   /** The relationship target tenant id. */
-  targetTenant?: string;
+  targetTenant?: string | undefined;
   /** Information about the origin of the relationship. */
-  originInformation?: RelationshipOriginInformation;
+  originInformation?: RelationshipOriginInformation | undefined;
   /** Metadata about the relationship. */
-  metadata?: RelationshipMetadata;
+  metadata?: RelationshipMetadata | undefined;
   /** The provisioning state of the relationship. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DependencyOfRelationshipsByServiceGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipProperties;
+  properties?: DependencyOfRelationshipProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DependencyOfRelationshipsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -168,23 +168,23 @@ export interface DependencyOfRelationshipsCreateOrUpdateRequest {
   /** Name of dependencyOf relationship. */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipPropertiesInput;
+  properties?: DependencyOfRelationshipPropertiesInput | undefined;
 }
 export interface DependencyOfRelationshipsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipProperties;
+  properties?: DependencyOfRelationshipProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetDependencyOfRelationshipRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -194,15 +194,15 @@ export interface GetDependencyOfRelationshipRequest {
 }
 export interface GetDependencyOfRelationshipResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipProperties;
+  properties?: DependencyOfRelationshipProperties | undefined;
 }
 export interface GetDependencyOfRelationshipsByServiceGroupRequest {
   /** The name of the service group. */
@@ -212,15 +212,15 @@ export interface GetDependencyOfRelationshipsByServiceGroupRequest {
 }
 export interface GetDependencyOfRelationshipsByServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipProperties;
+  properties?: DependencyOfRelationshipProperties | undefined;
 }
 export interface GetServiceGroupMemberRelationshipRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -233,27 +233,27 @@ export interface ServiceGroupMemberRelationshipPropertiesV2 {
   /** The relationship source resource id. Must be a service group. */
   sourceId: string;
   /** The relationship target resource id. Server-derived from the scoped resource. */
-  targetId?: string;
+  targetId?: string | undefined;
   /** The relationship source tenant id. */
-  sourceTenant?: string;
+  sourceTenant?: string | undefined;
   /** Information about the origin of the relationship. */
-  originInformation?: RelationshipOriginInformation;
+  originInformation?: RelationshipOriginInformation | undefined;
   /** Metadata about the relationship. */
-  metadata?: RelationshipMetadata;
+  metadata?: RelationshipMetadata | undefined;
   /** The provisioning state of the relationship. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetServiceGroupMemberRelationshipResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesV2;
+  properties?: ServiceGroupMemberRelationshipPropertiesV2 | undefined;
 }
 export interface ListContainsRelationshipByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -261,35 +261,35 @@ export interface ListContainsRelationshipByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Filters the results by target resource type. Example: properties.metadata.targetType eq 'Microsoft.Compute/virtualMachines' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** contains relationship properties. */
 export interface ContainsRelationshipProperties {
   /** The relationship source resource id. Must be a subscription or resource group. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The relationship target resource id. */
   targetId: string;
   /** The relationship target tenant id. */
-  targetTenant?: string;
+  targetTenant?: string | undefined;
   /** Information about the origin of the relationship. */
-  originInformation?: RelationshipOriginInformation;
+  originInformation?: RelationshipOriginInformation | undefined;
   /** Metadata about the relationship. */
-  metadata?: RelationshipMetadata;
+  metadata?: RelationshipMetadata | undefined;
   /** The provisioning state of the relationship. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Defines a contains relationship resource. */
 export interface ContainsRelationship {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ContainsRelationshipProperties;
+  properties?: ContainsRelationshipProperties | undefined;
 }
 /** The ContainsRelationship items on this page */
 export type ContainsRelationshipListResultValueList = Array<ContainsRelationship>;
@@ -298,13 +298,13 @@ export interface ContainsRelationshipListResult {
   /** The ContainsRelationship items on this page */
   value: ContainsRelationshipListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainsRelationshipBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Filters the results by target resource type. Example: properties.metadata.targetType eq 'Microsoft.Compute/virtualMachines' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListDependencyOfRelationshipByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -313,15 +313,15 @@ export interface ListDependencyOfRelationshipByParentRequest {
 /** Defines a dependencyOf relationship resource. */
 export interface DependencyOfRelationship {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipProperties;
+  properties?: DependencyOfRelationshipProperties | undefined;
 }
 /** The DependencyOfRelationship items on this page */
 export type DependencyOfRelationshipListResultValueList = Array<DependencyOfRelationship>;
@@ -330,7 +330,7 @@ export interface DependencyOfRelationshipListResult {
   /** The DependencyOfRelationship items on this page */
   value: DependencyOfRelationshipListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDependencyOfRelationshipsByServiceGroupRequest {
   /** The name of the service group. */
@@ -340,13 +340,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -355,23 +355,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceGroupMemberRelationshipByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -380,15 +380,15 @@ export interface ListServiceGroupMemberRelationshipByParentRequest {
 /** Defines a ServiceGroupMember relationship resource. */
 export interface ServiceGroupMemberRelationship {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesV2;
+  properties?: ServiceGroupMemberRelationshipPropertiesV2 | undefined;
 }
 /** The ServiceGroupMemberRelationship items on this page */
 export type ServiceGroupMemberRelationshipListResultValueList =
@@ -398,14 +398,14 @@ export interface ServiceGroupMemberRelationshipListResult {
   /** The ServiceGroupMemberRelationship items on this page */
   value: ServiceGroupMemberRelationshipListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** ServiceGroupMember relationship properties (2023-09-01-preview request shape). */
 export interface ServiceGroupMemberRelationshipPropertiesPreviewInput {
   /** The service group the scoped resource joins, e.g. `/providers/Microsoft.Management/serviceGroups/{name}`. */
   targetId: string;
   /** The tenant of the target service group. */
-  targetTenant?: string;
+  targetTenant?: string | undefined;
 }
 export interface ServiceGroupMemberRelationshipsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -413,38 +413,38 @@ export interface ServiceGroupMemberRelationshipsCreateOrUpdateRequest {
   /** Name of ServiceGroupMember relationship. */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesPreviewInput;
+  properties?: ServiceGroupMemberRelationshipPropertiesPreviewInput | undefined;
 }
 /** ServiceGroupMember relationship properties (2023-09-01-preview response shape). */
 export interface ServiceGroupMemberRelationshipPropertiesPreview {
   /** The service group the scoped resource joins. */
-  targetId?: string;
+  targetId?: string | undefined;
   /** The scoped (member) resource id. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The tenant of the target service group. */
-  targetTenant?: string;
+  targetTenant?: string | undefined;
   /** Information about the origin of the relationship. */
-  originInformation?: RelationshipOriginInformation;
+  originInformation?: RelationshipOriginInformation | undefined;
   /** Metadata about the relationship. */
-  metadata?: RelationshipMetadata;
+  metadata?: RelationshipMetadata | undefined;
   /** The provisioning state of the relationship. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ServiceGroupMemberRelationshipsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesPreview;
+  properties?: ServiceGroupMemberRelationshipPropertiesPreview | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteDependencyOfRelationshipError = AzureOpError;
 /** Delete a DependencyOfRelationship */

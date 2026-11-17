@@ -24,7 +24,8 @@ export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
 // Operations (and their request/response types) are importable straight off
-// the package root. Shared HTTP error classes come from ./errors.ts -- the
-// OpenAPI document does not declare per-status responses, so the generated
-// module does not emit matching matcher classes.
+// the package root. The service-local typed error classes shadow the
+// same-named shared ones from ./errors.ts -- the ops actually raise the
+// service-local classes.
 export * from "./services/elasticsearch.ts";
+export { BadRequest, Conflict, NotFound } from "./services/elasticsearch.ts";

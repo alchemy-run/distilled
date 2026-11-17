@@ -35,13 +35,14 @@ export interface ChangeZonePrimaryNameserversRequestPrimaryNameserversItem {
   /** Public IPv4 or IPv6 address of the primary nameserver. Must be unique across all primary nameservers of this zone. */
   address: string;
   /** Port of the primary nameserver. */
-  port?: number;
+  port?: number | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) key to use for the zone transfer. Must be base64 encoded. */
-  tsig_key?: string;
+  tsig_key?: string | undefined;
   /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
   tsig_algorithm?:
     | ChangeZonePrimaryNameserversRequestPrimaryNameserversItemTsigAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Primary nameservers of the [Zone](#tag/zones). */
 export type ChangeZonePrimaryNameserversRequestPrimaryNameserversList =
@@ -95,7 +96,7 @@ export interface ChangeZoneProtectionRequest {
   /** ID or Name of the Zone. */
   id_or_name: string;
   /** Prevents the [Zone](#tag/zones) from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeZoneProtectionResponseActionStatus = "running" | "success" | "error";
@@ -260,13 +261,13 @@ export interface ListZoneActionsRequest {
   /** ID or Name of the Zone. */
   id_or_name: string;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListZoneActionsRequestSortList;
+  sort?: ListZoneActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListZoneActionsRequestStatusList;
+  status?: ListZoneActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListZoneActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -347,15 +348,15 @@ export type ListZonesActionsRequestStatusList = Array<
 >;
 export interface ListZonesActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListZonesActionsRequestIdList;
+  id?: ListZonesActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListZonesActionsRequestSortList;
+  sort?: ListZonesActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListZonesActionsRequestStatusList;
+  status?: ListZonesActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListZonesActionsResponseActionsItemStatus = "running" | "success" | "error";

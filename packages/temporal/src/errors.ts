@@ -28,15 +28,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Temporal error -- returned when nothing else matches the failure. */
 export class UnknownTemporalError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownTemporalError>()("UnknownTemporalError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownTemporalError>()(
+    "UnknownTemporalError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
 export class TemporalParseError

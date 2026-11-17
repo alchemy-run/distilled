@@ -170,12 +170,12 @@ export type IdempotencyToken = string;
 export interface CreateAlertManagerDefinitionRequest {
   workspaceId: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type AlertManagerDefinitionStatusCode = string;
 export interface AlertManagerDefinitionStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateAlertManagerDefinitionResponse {
   status: AlertManagerDefinitionStatus;
@@ -183,18 +183,18 @@ export interface CreateAlertManagerDefinitionResponse {
 export type AnomalyDetectorAlias = string;
 export type AnomalyDetectorEvaluationInterval = number;
 export type AnomalyDetectorMissingDataAction =
-  | { markAsAnomaly: boolean; skip?: never }
-  | { markAsAnomaly?: never; skip: boolean };
+  | { markAsAnomaly: boolean; skip?: undefined }
+  | { markAsAnomaly?: undefined; skip: boolean };
 export type RandomCutForestQuery = string;
 export type IgnoreNearExpected =
-  | { amount: number; ratio?: never }
-  | { amount?: never; ratio: number };
+  | { amount: number; ratio?: undefined }
+  | { amount?: undefined; ratio: number };
 export interface RandomCutForestConfiguration {
   query: string;
-  shingleSize?: number;
-  sampleSize?: number;
-  ignoreNearExpectedFromAbove?: IgnoreNearExpected;
-  ignoreNearExpectedFromBelow?: IgnoreNearExpected;
+  shingleSize?: number | undefined;
+  sampleSize?: number | undefined;
+  ignoreNearExpectedFromAbove?: IgnoreNearExpected | undefined;
+  ignoreNearExpectedFromBelow?: IgnoreNearExpected | undefined;
 }
 export type AnomalyDetectorConfiguration = { randomCutForest: RandomCutForestConfiguration };
 export type PrometheusMetricLabelKey = string;
@@ -206,12 +206,12 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateAnomalyDetectorRequest {
   workspaceId: string;
   alias: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  labels?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorId = string;
 export type AnomalyDetectorArn = string;
@@ -226,24 +226,24 @@ export type AnomalyDetectorStatusCode =
   | (string & {});
 export interface AnomalyDetectorStatus {
   statusCode: AnomalyDetectorStatusCode;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LogGroupArn = string;
 export interface CreateLoggingConfigurationRequest {
   workspaceId: string;
   logGroupArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type LoggingConfigurationStatusCode = string;
 export interface LoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateLoggingConfigurationResponse {
   status: LoggingConfigurationStatus;
@@ -262,12 +262,12 @@ export type LoggingDestinations = LoggingDestination[];
 export interface CreateQueryLoggingConfigurationRequest {
   workspaceId: string;
   destinations: LoggingDestination[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type QueryLoggingConfigurationStatusCode = string;
 export interface QueryLoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateQueryLoggingConfigurationResponse {
   status: QueryLoggingConfigurationStatus;
@@ -278,20 +278,20 @@ export interface CreateRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
   data: Uint8Array;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleGroupsNamespaceArn = string;
 export type RuleGroupsNamespaceStatusCode = string;
 export interface RuleGroupsNamespaceStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScraperAlias = string;
 export type ScrapeConfiguration = { configurationBlob: Uint8Array };
@@ -302,7 +302,7 @@ export type SubnetId = string;
 export type SubnetIds = string[];
 export interface EksConfiguration {
   clusterArn: string;
-  securityGroupIds?: string[];
+  securityGroupIds?: string[] | undefined;
   subnetIds: string[];
 }
 export interface VpcConfiguration {
@@ -310,8 +310,8 @@ export interface VpcConfiguration {
   subnetIds: string[];
 }
 export type Source =
-  | { eksConfiguration: EksConfiguration; vpcConfiguration?: never }
-  | { eksConfiguration?: never; vpcConfiguration: VpcConfiguration };
+  | { eksConfiguration: EksConfiguration; vpcConfiguration?: undefined }
+  | { eksConfiguration?: undefined; vpcConfiguration: VpcConfiguration };
 export type WorkspaceArn = string;
 export interface AmpConfiguration {
   workspaceArn: string;
@@ -321,12 +321,12 @@ export interface CloudWatchConfiguration {
   datasetArn: string;
 }
 export type Destination =
-  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: never }
-  | { ampConfiguration?: never; cloudWatchConfiguration: CloudWatchConfiguration };
+  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: undefined }
+  | { ampConfiguration?: undefined; cloudWatchConfiguration: CloudWatchConfiguration };
 export type IamRoleArn = string;
 export interface RoleConfiguration {
-  sourceRoleArn?: string;
-  targetRoleArn?: string;
+  sourceRoleArn?: string | undefined;
+  targetRoleArn?: string | undefined;
 }
 export type OpenSearchDomainArn = string;
 export interface OpenSearchExporterConfiguration {
@@ -336,22 +336,22 @@ export type MskClusterArn = string;
 export type KafkaExporterFilter = string;
 export interface KafkaExporterConfiguration {
   clusterArn: string;
-  topicFilter?: string;
-  consumerGroupFilter?: string;
+  topicFilter?: string | undefined;
+  consumerGroupFilter?: string | undefined;
 }
 export type ExporterConfiguration =
-  | { openSearchConfiguration: OpenSearchExporterConfiguration; kafkaConfiguration?: never }
-  | { openSearchConfiguration?: never; kafkaConfiguration: KafkaExporterConfiguration };
+  | { openSearchConfiguration: OpenSearchExporterConfiguration; kafkaConfiguration?: undefined }
+  | { openSearchConfiguration?: undefined; kafkaConfiguration: KafkaExporterConfiguration };
 export type ExporterList = ExporterConfiguration[];
 export interface CreateScraperRequest {
-  alias?: string;
+  alias?: string | undefined;
   scrapeConfiguration: ScrapeConfiguration;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export type ScraperId = string;
 export type ScraperArn = string;
@@ -363,15 +363,15 @@ export interface CreateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkspaceAlias = string;
 export type KmsKeyArn = string;
 export interface CreateWorkspaceRequest {
-  alias?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  alias?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type WorkspaceStatusCode = string;
 export interface WorkspaceStatus {
@@ -381,45 +381,45 @@ export interface CreateWorkspaceResponse {
   workspaceId: string;
   arn: string;
   status: WorkspaceStatus;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface DeleteAlertManagerDefinitionRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAlertManagerDefinitionResponse {}
 export interface DeleteAnomalyDetectorRequest {
   workspaceId: string;
   anomalyDetectorId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAnomalyDetectorResponse {}
 export interface DeleteLoggingConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteLoggingConfigurationResponse {}
 export interface DeleteQueryLoggingConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteQueryLoggingConfigurationResponse {}
 export interface DeleteResourcePolicyRequest {
   workspaceId: string;
-  clientToken?: string;
-  revisionId?: string;
+  clientToken?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteRuleGroupsNamespaceResponse {}
 export interface DeleteScraperRequest {
   scraperId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteScraperResponse {
   scraperId: string;
@@ -427,12 +427,12 @@ export interface DeleteScraperResponse {
 }
 export interface DeleteScraperLoggingConfigurationRequest {
   scraperId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteScraperLoggingConfigurationResponse {}
 export interface DeleteWorkspaceRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteWorkspaceResponse {}
 export interface DescribeAlertManagerDefinitionRequest {
@@ -440,7 +440,7 @@ export interface DescribeAlertManagerDefinitionRequest {
 }
 export interface AlertManagerDefinitionDescription {
   status: AlertManagerDefinitionStatus;
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -455,14 +455,14 @@ export interface AnomalyDetectorDescription {
   arn: string;
   anomalyDetectorId: string;
   alias: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
-  configuration?: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
+  configuration?: AnomalyDetectorConfiguration | undefined;
+  labels?: { [key: string]: string | undefined } | undefined;
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeAnomalyDetectorResponse {
   anomalyDetector: AnomalyDetectorDescription;
@@ -510,10 +510,10 @@ export interface RuleGroupsNamespaceDescription {
   arn: string;
   name: string;
   status: RuleGroupsNamespaceStatus;
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRuleGroupsNamespaceResponse {
   ruleGroupsNamespace: RuleGroupsNamespaceDescription;
@@ -523,20 +523,20 @@ export interface DescribeScraperRequest {
 }
 export type StatusReason = string;
 export interface ScraperDescription {
-  alias?: string;
+  alias?: string | undefined;
   scraperId: string;
   arn: string;
   roleArn: string;
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  statusReason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
   scrapeConfiguration: ScrapeConfiguration;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export interface DescribeScraperResponse {
   scraper: ScraperDescription;
@@ -547,17 +547,17 @@ export interface DescribeScraperLoggingConfigurationRequest {
 export type ScraperLoggingConfigurationStatusCode = string;
 export interface ScraperLoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type ScraperLoggingDestination = { cloudWatchLogs: CloudWatchLogDestination };
 export type ScraperComponentType = string;
 export type StringMap = { [key: string]: string | undefined };
 export interface ComponentConfig {
-  options?: { [key: string]: string | undefined };
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface ScraperComponent {
   type: string;
-  config?: ComponentConfig;
+  config?: ComponentConfig | undefined;
 }
 export type ScraperComponents = ScraperComponent[];
 export interface DescribeScraperLoggingConfigurationResponse {
@@ -573,13 +573,13 @@ export interface DescribeWorkspaceRequest {
 export type Uri = string;
 export interface WorkspaceDescription {
   workspaceId: string;
-  alias?: string;
+  alias?: string | undefined;
   arn: string;
   status: WorkspaceStatus;
-  prometheusEndpoint?: string;
+  prometheusEndpoint?: string | undefined;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface DescribeWorkspaceResponse {
   workspace: WorkspaceDescription;
@@ -590,10 +590,10 @@ export interface DescribeWorkspaceConfigurationRequest {
 export type WorkspaceConfigurationStatusCode = string;
 export interface WorkspaceConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface LimitsPerLabelSetEntry {
-  maxSeries?: number;
+  maxSeries?: number | undefined;
 }
 export type LabelName = string;
 export type LabelValue = string;
@@ -605,10 +605,10 @@ export interface LimitsPerLabelSet {
 export type LimitsPerLabelSetList = LimitsPerLabelSet[];
 export interface WorkspaceConfigurationDescription {
   status: WorkspaceConfigurationStatus;
-  limitsPerLabelSet?: LimitsPerLabelSet[];
-  retentionPeriodInDays?: number;
-  outOfOrderTimeWindowInSeconds?: number;
-  ruleQueryOffsetInSeconds?: number;
+  limitsPerLabelSet?: LimitsPerLabelSet[] | undefined;
+  retentionPeriodInDays?: number | undefined;
+  outOfOrderTimeWindowInSeconds?: number | undefined;
+  ruleQueryOffsetInSeconds?: number | undefined;
 }
 export interface DescribeWorkspaceConfigurationResponse {
   workspaceConfiguration: WorkspaceConfigurationDescription;
@@ -620,9 +620,9 @@ export interface GetDefaultScraperConfigurationResponse {
 export type PaginationToken = string;
 export interface ListAnomalyDetectorsRequest {
   workspaceId: string;
-  alias?: string;
-  maxResults?: number;
-  nextToken?: string;
+  alias?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnomalyDetectorSummary {
   arn: string;
@@ -631,18 +631,18 @@ export interface AnomalyDetectorSummary {
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorSummaryList = AnomalyDetectorSummary[];
 export interface ListAnomalyDetectorsResponse {
   anomalyDetectors: AnomalyDetectorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRuleGroupsNamespacesRequest {
   workspaceId: string;
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RuleGroupsNamespaceSummary {
   arn: string;
@@ -650,71 +650,71 @@ export interface RuleGroupsNamespaceSummary {
   status: RuleGroupsNamespaceStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleGroupsNamespaceSummaryList = RuleGroupsNamespaceSummary[];
 export interface ListRuleGroupsNamespacesResponse {
   ruleGroupsNamespaces: RuleGroupsNamespaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type FilterKey = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export type ScraperFilters = { [key: string]: string[] | undefined };
 export interface ListScrapersRequest {
-  filters?: { [key: string]: string[] | undefined };
-  nextToken?: string;
-  maxResults?: number;
+  filters?: { [key: string]: string[] | undefined } | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScraperSummary {
-  alias?: string;
+  alias?: string | undefined;
   scraperId: string;
   arn: string;
   roleArn: string;
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  statusReason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export type ScraperSummaryList = ScraperSummary[];
 export interface ListScrapersResponse {
   scrapers: ScraperSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWorkspacesRequest {
-  nextToken?: string;
-  alias?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  alias?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkspaceSummary {
   workspaceId: string;
-  alias?: string;
+  alias?: string | undefined;
   arn: string;
   status: WorkspaceStatus;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type WorkspaceSummaryList = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
   workspaces: WorkspaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutAlertManagerDefinitionRequest {
   workspaceId: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PutAlertManagerDefinitionResponse {
   status: AlertManagerDefinitionStatus;
@@ -722,23 +722,23 @@ export interface PutAlertManagerDefinitionResponse {
 export interface PutAnomalyDetectorRequest {
   workspaceId: string;
   anomalyDetectorId: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
-  clientToken?: string;
+  labels?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutResourcePolicyRequest {
   workspaceId: string;
   policyDocument: string;
-  clientToken?: string;
-  revisionId?: string;
+  clientToken?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   policyStatus: string;
@@ -748,13 +748,13 @@ export interface PutRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PutRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -770,7 +770,7 @@ export interface UntagResourceResponse {}
 export interface UpdateLoggingConfigurationRequest {
   workspaceId: string;
   logGroupArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateLoggingConfigurationResponse {
   status: LoggingConfigurationStatus;
@@ -778,47 +778,47 @@ export interface UpdateLoggingConfigurationResponse {
 export interface UpdateQueryLoggingConfigurationRequest {
   workspaceId: string;
   destinations: LoggingDestination[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateQueryLoggingConfigurationResponse {
   status: QueryLoggingConfigurationStatus;
 }
 export interface UpdateScraperRequest {
   scraperId: string;
-  alias?: string;
-  scrapeConfiguration?: ScrapeConfiguration;
-  destination?: Destination;
-  roleConfiguration?: RoleConfiguration;
-  clientToken?: string;
-  exporters?: ExporterConfiguration[];
+  alias?: string | undefined;
+  scrapeConfiguration?: ScrapeConfiguration | undefined;
+  destination?: Destination | undefined;
+  roleConfiguration?: RoleConfiguration | undefined;
+  clientToken?: string | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export interface UpdateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateScraperLoggingConfigurationRequest {
   scraperId: string;
   loggingDestination: ScraperLoggingDestination;
-  scraperComponents?: ScraperComponent[];
+  scraperComponents?: ScraperComponent[] | undefined;
 }
 export interface UpdateScraperLoggingConfigurationResponse {
   status: ScraperLoggingConfigurationStatus;
 }
 export interface UpdateWorkspaceAliasRequest {
   workspaceId: string;
-  alias?: string;
-  clientToken?: string;
+  alias?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateWorkspaceAliasResponse {}
 export interface UpdateWorkspaceConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
-  limitsPerLabelSet?: LimitsPerLabelSet[];
-  retentionPeriodInDays?: number;
-  outOfOrderTimeWindowInSeconds?: number;
-  ruleQueryOffsetInSeconds?: number;
+  clientToken?: string | undefined;
+  limitsPerLabelSet?: LimitsPerLabelSet[] | undefined;
+  retentionPeriodInDays?: number | undefined;
+  outOfOrderTimeWindowInSeconds?: number | undefined;
+  ruleQueryOffsetInSeconds?: number | undefined;
 }
 export interface UpdateWorkspaceConfigurationResponse {
   status: WorkspaceConfigurationStatus;

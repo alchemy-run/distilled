@@ -263,7 +263,7 @@ describe("AwsProtocol.call", () => {
 });
 
 describe("S3 InvalidAccessKeyId", () => {
-  // Declared on every S3 operation (patches/s3.json `allOperations`).
+  // Declared on every S3 operation (patches/s3/service.json, a service error).
   // What S3 answers when the request is signed with an access key it does not know.
   const invalidKey: Canned = {
     status: 403,

@@ -1,0 +1,19 @@
+{
+  "description": "Lambda Core: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambdacore#CreateNetworkConnector/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambdacore#OperatorRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambdacore#UpdateNetworkConnector/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambdacore#OperatorRoleNotAssumable"
+      }
+    }
+  ]
+}

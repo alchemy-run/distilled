@@ -38,34 +38,34 @@ export interface GenerateOfferAccessTokenRequest {
   /** Id of the offer */
   offerId: string;
   /** The name of the publisher. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** The region where the disk will be created. */
   edgeMarketPlaceRegion: string;
   /** The region where the disk will be created. */
-  egeMarketPlaceResourceId?: string;
+  egeMarketPlaceResourceId?: string | undefined;
   /** The hyperv version. */
-  hypervGeneration?: string;
+  hypervGeneration?: string | undefined;
   /** The marketplace sku. */
-  marketPlaceSku?: string;
+  marketPlaceSku?: string | undefined;
   /** The marketplace sku version. */
-  marketPlaceSkuVersion?: string;
+  marketPlaceSkuVersion?: string | undefined;
   /** The device sku. */
-  deviceSku?: string;
+  deviceSku?: string | undefined;
   /** The device sku version. */
-  deviceVersion?: string;
+  deviceVersion?: string | undefined;
 }
 /** The disk access token */
 export interface GenerateOfferAccessTokenResponse {
   /** The disk id. */
-  diskId?: string;
+  diskId?: string | undefined;
   /** The access token creation status. */
-  status?: string;
+  status?: string | undefined;
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetOfferRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -80,17 +80,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The offer publisher */
 export interface OfferPublisher {
@@ -106,22 +106,22 @@ export type OfferReleaseType = "Preview" | "GA";
 /** Icon files */
 export interface IconFileUris {
   /** uri of small icon */
-  small?: string;
+  small?: string | undefined;
   /** uri of medium icon */
-  medium?: string;
+  medium?: string | undefined;
   /** uri of wide icon */
-  wide?: string;
+  wide?: string | undefined;
   /** uri of large icon */
-  large?: string;
+  large?: string | undefined;
 }
 /** Terms and conditions */
 export interface TermsAndConditions {
   /** The legal terms and conditions uri */
-  legalTermsUri?: string;
+  legalTermsUri?: string | undefined;
   /** The type of legal terms */
-  legalTermsType?: string;
+  legalTermsType?: string | undefined;
   /** The privacy policy uri */
-  privacyPolicyUri?: string;
+  privacyPolicyUri?: string | undefined;
 }
 /** The category ids */
 export type OfferContentCategoryIdsList = Array<string>;
@@ -132,42 +132,42 @@ export interface OfferContent {
   /** The display name of the offer */
   displayName: string;
   /** The summary */
-  summary?: string;
+  summary?: string | undefined;
   /** The long summary */
-  longSummary?: string;
+  longSummary?: string | undefined;
   /** The description */
-  description?: string;
+  description?: string | undefined;
   /** The offer id */
   offerId: string;
   /** The offer type */
-  offerType?: string;
+  offerType?: string | undefined;
   /** The support uri */
-  supportUri?: string;
+  supportUri?: string | undefined;
   /** The popularity of the offer */
-  popularity?: number;
+  popularity?: number | undefined;
   /** The publisher of the offer */
-  offerPublisher?: OfferPublisher;
+  offerPublisher?: OfferPublisher | undefined;
   /** The availability of the offer */
-  availability?: OfferAvailability;
+  availability?: OfferAvailability | undefined;
   /** The release type of the offer */
-  releaseType?: OfferReleaseType;
+  releaseType?: OfferReleaseType | undefined;
   /** The icon files */
-  iconFileUris?: IconFileUris;
+  iconFileUris?: IconFileUris | undefined;
   /** The terms and conditions */
-  termsAndConditions?: TermsAndConditions;
+  termsAndConditions?: TermsAndConditions | undefined;
   /** The category ids */
-  categoryIds?: OfferContentCategoryIdsList;
+  categoryIds?: OfferContentCategoryIdsList | undefined;
   /** The operating systems */
-  operatingSystems?: OfferContentOperatingSystemsList;
+  operatingSystems?: OfferContentOperatingSystemsList | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** The sku operating system */
 export interface SkuOperatingSystem {
   /** The family of the operating system */
-  family?: string;
+  family?: string | undefined;
   /** The type of the operating system */
-  type?: string;
+  type?: string | undefined;
   /** The name of the operating system */
   name: string;
 }
@@ -178,13 +178,13 @@ export interface MarketplaceSkuVersion {
   /** The name of sku version */
   name: string;
   /** The size of the image */
-  sizeOnDiskInMb?: number;
+  sizeOnDiskInMb?: number | undefined;
   /** The size of the download */
-  minimumDownloadSizeInMb?: number;
+  minimumDownloadSizeInMb?: number | undefined;
   /** The stage name */
-  stageName?: string;
+  stageName?: string | undefined;
   /** The launch type */
-  launchType?: OfferLaunchType;
+  launchType?: OfferLaunchType | undefined;
 }
 /** The marketplace sku version */
 export type MarketplaceSkuMarketplaceSkuVersionsList = Array<MarketplaceSkuVersion>;
@@ -195,50 +195,50 @@ export interface MarketplaceSku {
   /** The marketplace sku id */
   marketplaceSkuId: string;
   /** The type of marketplace sku */
-  type?: string;
+  type?: string | undefined;
   /** The display name of marketplace sku */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The summary */
-  summary?: string;
+  summary?: string | undefined;
   /** The long summary */
-  longSummary?: string;
+  longSummary?: string | undefined;
   /** The description */
-  description?: string;
+  description?: string | undefined;
   /** The generation */
-  generation?: string;
+  generation?: string | undefined;
   /** The display rank of the sku */
-  displayRank?: number;
+  displayRank?: number | undefined;
   /** The operating system supported */
-  operatingSystem?: SkuOperatingSystem;
+  operatingSystem?: SkuOperatingSystem | undefined;
   /** The marketplace sku version */
-  marketplaceSkuVersions?: MarketplaceSkuMarketplaceSkuVersionsList;
+  marketplaceSkuVersions?: MarketplaceSkuMarketplaceSkuVersionsList | undefined;
 }
 /** The marketplace skus */
 export type OfferPropertiesMarketplaceSkusList = Array<MarketplaceSku>;
 /** The offer properties */
 export interface OfferProperties {
   /** The content version */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** The content url */
-  contentUrl?: string;
+  contentUrl?: string | undefined;
   /** The offer content */
   offerContent: OfferContent;
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The marketplace skus */
-  marketplaceSkus?: OfferPropertiesMarketplaceSkusList;
+  marketplaceSkus?: OfferPropertiesMarketplaceSkusList | undefined;
 }
 export interface GetOfferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 export interface GetOfferAccessTokenRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -251,9 +251,9 @@ export interface GetOfferAccessTokenRequest {
 /** The disk access token */
 export interface DiskAccessToken {
   /** The disk id. */
-  diskId?: string;
+  diskId?: string | undefined;
   /** The access token creation status. */
-  status?: string;
+  status?: string | undefined;
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
 }
@@ -266,19 +266,19 @@ export interface GetPublisherRequest {
 /** Publisher properties */
 export interface PublisherProperties {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetPublisherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PublisherProperties;
+  properties?: PublisherProperties | undefined;
 }
 export interface ListOfferBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -287,15 +287,15 @@ export interface ListOfferBySubscriptionRequest {
 /** An offer. */
 export interface Offer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 /** The Offer items on this page */
 export type OfferListResultValueList = Array<Offer>;
@@ -304,33 +304,33 @@ export interface OfferListResult {
   /** The Offer items on this page */
   value: OfferListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOffersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  skip?: number;
+  skip?: number | undefined;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxpagesize?: number | undefined;
   /** Filter the result list using the given expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -339,23 +339,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublisherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -364,15 +364,15 @@ export interface ListPublisherBySubscriptionRequest {
 /** A publisher who provides offers. */
 export interface Publisher {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PublisherProperties;
+  properties?: PublisherProperties | undefined;
 }
 /** The Publisher items on this page */
 export type PublisherListResultValueList = Array<Publisher>;
@@ -381,21 +381,21 @@ export interface PublisherListResult {
   /** The Publisher items on this page */
   value: PublisherListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPublishersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  skip?: number;
+  skip?: number | undefined;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxpagesize?: number | undefined;
   /** Filter the result list using the given expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export type GenerateOfferAccessTokenError = AzureOpError;
 /** A long-running resource action. */

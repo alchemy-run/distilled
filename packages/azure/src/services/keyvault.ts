@@ -43,11 +43,11 @@ export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** The CheckMhsmNameAvailability operation response. */
 export interface CheckMhsmNameAvailabilityResult {
   /** A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason that a managed hsm name could not be used. The reason element is only returned if NameAvailable is false. */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** An error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The type of resource, Microsoft.KeyVault/vaults */
 export type CheckVaultNameAvailabilityRequestType = "Microsoft.KeyVault/vaults";
@@ -62,24 +62,24 @@ export interface CheckVaultNameAvailabilityRequest {
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason that a vault name could not be used. The Reason element is only returned if NameAvailable is false. */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** An error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The tags that will be assigned to the key. */
 export type CreateKeyIfNotExistRequestTagsMap = { [key: string]: string | undefined };
 /** The object attributes managed by the Azure Key Vault service. */
 export interface KeyAttributesInput {
   /** Determines whether or not the object is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Not before date in seconds since 1970-01-01T00:00:00Z. */
-  nbf?: number;
+  nbf?: number | undefined;
   /** Expiry date in seconds since 1970-01-01T00:00:00Z. */
-  exp?: number;
+  exp?: number | undefined;
   /** Indicates if the private key can be exported. */
-  exportable?: boolean;
+  exportable?: boolean | undefined;
 }
 /** The type of the key. For valid values, see JsonWebKeyType. */
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct-HSM";
@@ -98,55 +98,55 @@ export type KeyPropertiesInputKeyOpsList = Array<JsonWebKeyOperation | (string &
 export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 export interface KeyRotationPolicyAttributesInput {
   /** The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
 }
 export interface Trigger {
   /** The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
-  timeAfterCreate?: string;
+  timeAfterCreate?: string | undefined;
   /** The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
-  timeBeforeExpiry?: string;
+  timeBeforeExpiry?: string | undefined;
 }
 /** The type of action. */
 export type KeyRotationPolicyActionType = "rotate" | "notify";
 export interface Action {
   /** The type of action. */
-  type?: KeyRotationPolicyActionType | (string & {});
+  type?: KeyRotationPolicyActionType | (string & {}) | undefined;
 }
 export interface LifetimeAction {
   /** The trigger of key rotation policy lifetimeAction. */
-  trigger?: Trigger;
+  trigger?: Trigger | undefined;
   /** The action of key rotation policy lifetimeAction. */
-  action?: Action;
+  action?: Action | undefined;
 }
 /** The lifetimeActions for key rotation action. */
 export type RotationPolicyInputLifetimeActionsList = Array<LifetimeAction>;
 export interface RotationPolicyInput {
   /** The attributes of key rotation policy. */
-  attributes?: KeyRotationPolicyAttributesInput;
+  attributes?: KeyRotationPolicyAttributesInput | undefined;
   /** The lifetimeActions for key rotation action. */
-  lifetimeActions?: RotationPolicyInputLifetimeActionsList;
+  lifetimeActions?: RotationPolicyInputLifetimeActionsList | undefined;
 }
 export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Blob encoding the policy rules under which the key can be released. */
-  data?: string;
+  data?: string | undefined;
 }
 /** The properties of the key. */
 export interface KeyPropertiesInput {
   /** The attributes of the key. */
-  attributes?: KeyAttributesInput;
+  attributes?: KeyAttributesInput | undefined;
   /** The type of the key. For valid values, see JsonWebKeyType. */
-  kty?: JsonWebKeyType | (string & {});
-  keyOps?: KeyPropertiesInputKeyOpsList;
+  kty?: JsonWebKeyType | (string & {}) | undefined;
+  keyOps?: KeyPropertiesInputKeyOpsList | undefined;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
-  curveName?: JsonWebKeyCurveName | (string & {});
+  curveName?: JsonWebKeyCurveName | (string & {}) | undefined;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: RotationPolicyInput;
+  rotationPolicy?: RotationPolicyInput | undefined;
   /** Key release policy in response. It will be used for both output and input. Omitted if empty */
-  release_policy?: KeyReleasePolicy;
+  release_policy?: KeyReleasePolicy | undefined;
 }
 export interface CreateKeyIfNotExistRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -158,7 +158,7 @@ export interface CreateKeyIfNotExistRequest {
   /** The name of the key to be retrieved. */
   keyName: string;
   /** The tags that will be assigned to the key. */
-  tags?: CreateKeyIfNotExistRequestTagsMap;
+  tags?: CreateKeyIfNotExistRequestTagsMap | undefined;
   /** The properties of the key to be created. */
   properties: KeyPropertiesInput;
 }
@@ -169,17 +169,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval. */
 export type DeletionRecoveryLevel =
@@ -190,74 +190,74 @@ export type DeletionRecoveryLevel =
 /** The object attributes managed by the Azure Key Vault service. */
 export interface KeyAttributes {
   /** Determines whether or not the object is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Not before date in seconds since 1970-01-01T00:00:00Z. */
-  nbf?: number;
+  nbf?: number | undefined;
   /** Expiry date in seconds since 1970-01-01T00:00:00Z. */
-  exp?: number;
+  exp?: number | undefined;
   /** Creation time in seconds since 1970-01-01T00:00:00Z. */
-  created?: number;
+  created?: number | undefined;
   /** Last updated time in seconds since 1970-01-01T00:00:00Z. */
-  updated?: number;
+  updated?: number | undefined;
   /** The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval. */
-  recoveryLevel?: DeletionRecoveryLevel;
+  recoveryLevel?: DeletionRecoveryLevel | undefined;
   /** Indicates if the private key can be exported. */
-  exportable?: boolean;
+  exportable?: boolean | undefined;
 }
 export type KeyPropertiesKeyOpsList = Array<JsonWebKeyOperation>;
 export interface KeyRotationPolicyAttributes {
   /** Creation time in seconds since 1970-01-01T00:00:00Z. */
-  created?: number;
+  created?: number | undefined;
   /** Last updated time in seconds since 1970-01-01T00:00:00Z. */
-  updated?: number;
+  updated?: number | undefined;
   /** The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
 }
 /** The lifetimeActions for key rotation action. */
 export type RotationPolicyLifetimeActionsList = Array<LifetimeAction>;
 export interface RotationPolicy {
   /** The attributes of key rotation policy. */
-  attributes?: KeyRotationPolicyAttributes;
+  attributes?: KeyRotationPolicyAttributes | undefined;
   /** The lifetimeActions for key rotation action. */
-  lifetimeActions?: RotationPolicyLifetimeActionsList;
+  lifetimeActions?: RotationPolicyLifetimeActionsList | undefined;
 }
 /** The properties of the key. */
 export interface KeyProperties {
   /** The attributes of the key. */
-  attributes?: KeyAttributes;
+  attributes?: KeyAttributes | undefined;
   /** The type of the key. For valid values, see JsonWebKeyType. */
-  kty?: JsonWebKeyType;
-  keyOps?: KeyPropertiesKeyOpsList;
+  kty?: JsonWebKeyType | undefined;
+  keyOps?: KeyPropertiesKeyOpsList | undefined;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
-  curveName?: JsonWebKeyCurveName;
+  curveName?: JsonWebKeyCurveName | undefined;
   /** The URI to retrieve the current version of the key. */
-  keyUri?: string;
+  keyUri?: string | undefined;
   /** The URI to retrieve the specific version of the key. */
-  keyUriWithVersion?: string;
+  keyUriWithVersion?: string | undefined;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: RotationPolicy;
+  rotationPolicy?: RotationPolicy | undefined;
   /** Key release policy in response. It will be used for both output and input. Omitted if empty */
-  release_policy?: KeyReleasePolicy;
+  release_policy?: KeyReleasePolicy | undefined;
 }
 /** Resource tags */
 export type CreateKeyIfNotExistResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateKeyIfNotExistResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: KeyProperties;
   /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: CreateKeyIfNotExistResponseTagsMap;
+  tags?: CreateKeyIfNotExistResponseTagsMap | undefined;
 }
 /** The tags that will be assigned to the key. */
 export type CreateManagedHsmKeyIfNotExistRequestTagsMap = { [key: string]: string | undefined };
@@ -272,26 +272,26 @@ export type ManagedHsmLifetimeAction = LifetimeAction;
 export type ManagedHsmRotationPolicyInputLifetimeActionsList = Array<LifetimeAction>;
 export interface ManagedHsmRotationPolicyInput {
   /** The attributes of key rotation policy. */
-  attributes?: KeyRotationPolicyAttributesInput;
+  attributes?: KeyRotationPolicyAttributesInput | undefined;
   /** The lifetimeActions for key rotation action. */
-  lifetimeActions?: ManagedHsmRotationPolicyInputLifetimeActionsList;
+  lifetimeActions?: ManagedHsmRotationPolicyInputLifetimeActionsList | undefined;
 }
 export type ManagedHsmKeyReleasePolicy = KeyReleasePolicy;
 /** The properties of the key. */
 export interface ManagedHsmKeyPropertiesInput {
   /** The attributes of the key. */
-  attributes?: KeyAttributesInput;
+  attributes?: KeyAttributesInput | undefined;
   /** The type of the key. For valid values, see JsonWebKeyType. */
-  kty?: JsonWebKeyType | (string & {});
-  keyOps?: ManagedHsmKeyPropertiesInputKeyOpsList;
+  kty?: JsonWebKeyType | (string & {}) | undefined;
+  keyOps?: ManagedHsmKeyPropertiesInputKeyOpsList | undefined;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
-  curveName?: JsonWebKeyCurveName | (string & {});
+  curveName?: JsonWebKeyCurveName | (string & {}) | undefined;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: ManagedHsmRotationPolicyInput;
+  rotationPolicy?: ManagedHsmRotationPolicyInput | undefined;
   /** Key release policy in response. It will be used for both output and input. Omitted if empty */
-  release_policy?: KeyReleasePolicy;
+  release_policy?: KeyReleasePolicy | undefined;
 }
 export interface CreateManagedHsmKeyIfNotExistRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -303,7 +303,7 @@ export interface CreateManagedHsmKeyIfNotExistRequest {
   /** The name of the key to be created. The value you provide may be copied globally for the purpose of running the service. The value provided should not include personally identifiable or sensitive information. */
   keyName: string;
   /** The tags that will be assigned to the key. */
-  tags?: CreateManagedHsmKeyIfNotExistRequestTagsMap;
+  tags?: CreateManagedHsmKeyIfNotExistRequestTagsMap | undefined;
   /** The properties of the key to be created. */
   properties: ManagedHsmKeyPropertiesInput;
 }
@@ -315,45 +315,45 @@ export type ManagedHsmKeyRotationPolicyAttributes = KeyRotationPolicyAttributes;
 export type ManagedHsmRotationPolicyLifetimeActionsList = Array<LifetimeAction>;
 export interface ManagedHsmRotationPolicy {
   /** The attributes of key rotation policy. */
-  attributes?: KeyRotationPolicyAttributes;
+  attributes?: KeyRotationPolicyAttributes | undefined;
   /** The lifetimeActions for key rotation action. */
-  lifetimeActions?: ManagedHsmRotationPolicyLifetimeActionsList;
+  lifetimeActions?: ManagedHsmRotationPolicyLifetimeActionsList | undefined;
 }
 /** The properties of the key. */
 export interface ManagedHsmKeyProperties {
   /** The attributes of the key. */
-  attributes?: KeyAttributes;
+  attributes?: KeyAttributes | undefined;
   /** The type of the key. For valid values, see JsonWebKeyType. */
-  kty?: JsonWebKeyType;
-  keyOps?: ManagedHsmKeyPropertiesKeyOpsList;
+  kty?: JsonWebKeyType | undefined;
+  keyOps?: ManagedHsmKeyPropertiesKeyOpsList | undefined;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
-  curveName?: JsonWebKeyCurveName;
+  curveName?: JsonWebKeyCurveName | undefined;
   /** The URI to retrieve the current version of the key. */
-  keyUri?: string;
+  keyUri?: string | undefined;
   /** The URI to retrieve the specific version of the key. */
-  keyUriWithVersion?: string;
+  keyUriWithVersion?: string | undefined;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: ManagedHsmRotationPolicy;
+  rotationPolicy?: ManagedHsmRotationPolicy | undefined;
   /** Key release policy in response. It will be used for both output and input. Omitted if empty */
-  release_policy?: KeyReleasePolicy;
+  release_policy?: KeyReleasePolicy | undefined;
 }
 /** Resource tags */
 export type CreateManagedHsmKeyIfNotExistResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateManagedHsmKeyIfNotExistResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: ManagedHsmKeyProperties;
   /** Resource tags */
-  tags?: CreateManagedHsmKeyIfNotExistResponseTagsMap;
+  tags?: CreateManagedHsmKeyIfNotExistResponseTagsMap | undefined;
 }
 export interface DeleteManagedHsmRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -365,9 +365,9 @@ export interface DeleteManagedHsmRequest {
 }
 export interface DeleteManagedHsmResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMHSMPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -382,7 +382,7 @@ export interface DeleteMHSMPrivateEndpointConnectionRequest {
 /** Private endpoint object properties. */
 export interface MHSMPrivateEndpoint {
   /** Full identifier of the private endpoint resource. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus =
@@ -395,11 +395,11 @@ export type ActionsRequired = "None";
 /** An object that represents the approval state of the private link connection. */
 export interface MHSMPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been approved, rejected or removed by the key vault owner. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval or rejection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: ActionsRequired | (string & {});
+  actionsRequired?: ActionsRequired | (string & {}) | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -412,11 +412,11 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection resource. */
 export interface MHSMPrivateEndpointConnectionProperties {
   /** Properties of the private endpoint object. */
-  privateEndpoint?: MHSMPrivateEndpoint;
+  privateEndpoint?: MHSMPrivateEndpoint | undefined;
   /** Approval state of the private link connection. */
-  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionState | undefined;
   /** Provisioning state of the private endpoint connection. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** SKU Family of the managed HSM Pool */
 export type ManagedHsmSkuFamily = "B" | "C";
@@ -448,20 +448,20 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface DeleteMHSMPrivateEndpointConnectionResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** Resource tags. */
 export type DeleteMHSMPrivateEndpointConnectionResponseTagsMap = {
@@ -469,29 +469,29 @@ export type DeleteMHSMPrivateEndpointConnectionResponseTagsMap = {
 };
 export interface DeleteMHSMPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeleteMHSMPrivateEndpointConnectionResponseTagsMap;
+  tags?: DeleteMHSMPrivateEndpointConnectionResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -513,25 +513,25 @@ export type PrivateEndpointConnectionProperties = MHSMPrivateEndpointConnectionP
 export type DeletePrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface DeletePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: DeletePrivateEndpointConnectionResponseTagsMap;
+  tags?: DeletePrivateEndpointConnectionResponseTagsMap | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -556,19 +556,19 @@ export interface GetKeyRequest {
 export type GetKeyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetKeyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: KeyProperties;
   /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetKeyResponseTagsMap;
+  tags?: GetKeyResponseTagsMap | undefined;
 }
 export interface GetKeyVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -586,19 +586,19 @@ export interface GetKeyVersionRequest {
 export type GetKeyVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetKeyVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: KeyProperties;
   /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetKeyVersionResponseTagsMap;
+  tags?: GetKeyVersionResponseTagsMap | undefined;
 }
 export interface GetManagedHsmRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,15 +650,15 @@ export type MHSMNetworkRuleSetVirtualNetworkRulesList = Array<MHSMVirtualNetwork
 /** A set of rules governing the network accessibility of a managed hsm pool. */
 export interface MHSMNetworkRuleSet {
   /** Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'. */
-  bypass?: NetworkRuleBypassOptions | (string & {});
+  bypass?: NetworkRuleBypassOptions | (string & {}) | undefined;
   /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
-  defaultAction?: NetworkRuleAction | (string & {});
+  defaultAction?: NetworkRuleAction | (string & {}) | undefined;
   /** The list of IP address rules. */
-  ipRules?: MHSMNetworkRuleSetIpRulesList;
+  ipRules?: MHSMNetworkRuleSetIpRulesList | undefined;
   /** The list of service tags. */
-  serviceTags?: MHSMNetworkRuleSetServiceTagsList;
+  serviceTags?: MHSMNetworkRuleSetServiceTagsList | undefined;
   /** The list of virtual network rules. */
-  virtualNetworkRules?: MHSMNetworkRuleSetVirtualNetworkRulesList;
+  virtualNetworkRules?: MHSMNetworkRuleSetVirtualNetworkRulesList | undefined;
 }
 /** The current provisioning state. */
 export type GeoReplicationRegionProvisioningState =
@@ -671,22 +671,22 @@ export type GeoReplicationRegionProvisioningState =
 /** A region that this managed HSM Pool has been extended to. */
 export interface MHSMGeoReplicatedRegion {
   /** Name of the geo replicated region. */
-  name?: string;
+  name?: string | undefined;
   /** Provisioning state of the geo replicated region. */
-  provisioningState?: GeoReplicationRegionProvisioningState;
+  provisioningState?: GeoReplicationRegionProvisioningState | undefined;
   /** A boolean value that indicates whether the region is the primary region or a secondary region. */
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** List of all regions associated with the managed hsm pool. */
 export type ManagedHsmPropertiesRegionsList = Array<MHSMGeoReplicatedRegion>;
 /** Private endpoint connection item. */
 export interface MHSMPrivateEndpointConnectionItem {
   /** Id of private endpoint connection. */
-  id?: string;
+  id?: string | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** Private endpoint connection properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections associated with the managed hsm pool. */
 export type ManagedHsmPropertiesPrivateEndpointConnectionsList =
@@ -698,42 +698,42 @@ export type ActivationStatus = "Active" | "NotActivated" | "Unknown" | "Failed";
 /** The security domain properties of the managed hsm. */
 export interface ManagedHSMSecurityDomainProperties {
   /** Activation Status */
-  activationStatus?: ActivationStatus;
+  activationStatus?: ActivationStatus | undefined;
   /** Activation Status Message. */
-  activationStatusMessage?: string;
+  activationStatusMessage?: string | undefined;
 }
 /** Properties of the managed HSM Pool */
 export interface ManagedHsmProperties {
   /** The Azure Active Directory tenant ID that should be used for authenticating requests to the managed HSM pool. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Array of initial administrators object ids for this managed hsm pool. */
-  initialAdminObjectIds?: ManagedHsmPropertiesInitialAdminObjectIdsList;
+  initialAdminObjectIds?: ManagedHsmPropertiesInitialAdminObjectIdsList | undefined;
   /** The URI of the managed hsm pool for performing operations on keys. */
-  hsmUri?: string;
+  hsmUri?: string | undefined;
   /** Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. Soft delete is enabled by default for all managed HSMs and is immutable. */
-  enableSoftDelete?: boolean;
+  enableSoftDelete?: boolean | undefined;
   /** Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. Enabling this functionality is irreversible. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** The create mode to indicate whether the resource is being created or is being recovered from a deleted resource. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** Resource Status Message. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Rules governing the accessibility of the key vault from specific network locations. */
-  networkAcls?: MHSMNetworkRuleSet;
+  networkAcls?: MHSMNetworkRuleSet | undefined;
   /** List of all regions associated with the managed hsm pool. */
-  regions?: ManagedHsmPropertiesRegionsList;
+  regions?: ManagedHsmPropertiesRegionsList | undefined;
   /** List of private endpoint connections associated with the managed hsm pool. */
-  privateEndpointConnections?: ManagedHsmPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ManagedHsmPropertiesPrivateEndpointConnectionsList | undefined;
   /** Control permission to the managed HSM from public networks. */
-  publicNetworkAccess?: ManagedHsmPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ManagedHsmPropertiesPublicNetworkAccess | undefined;
   /** The scheduled purge date in UTC. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** Managed HSM security domain properties. */
-  securityDomainProperties?: ManagedHSMSecurityDomainProperties;
+  securityDomainProperties?: ManagedHSMSecurityDomainProperties | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetManagedHsmResponseIdentity = DeleteMHSMPrivateEndpointConnectionResponseIdentity;
@@ -741,23 +741,23 @@ export type GetManagedHsmResponseIdentity = DeleteMHSMPrivateEndpointConnectionR
 export type GetManagedHsmResponseTagsMap = { [key: string]: string | undefined };
 export interface GetManagedHsmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmProperties;
+  properties?: ManagedHsmProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetManagedHsmResponseTagsMap;
+  tags?: GetManagedHsmResponseTagsMap | undefined;
 }
 export interface GetManagedHsmDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -772,29 +772,29 @@ export type DeletedManagedHsmPropertiesTagsMap = { [key: string]: string | undef
 /** Properties of the deleted managed HSM. */
 export interface DeletedManagedHsmProperties {
   /** The resource id of the original managed HSM. */
-  mhsmId?: string;
+  mhsmId?: string | undefined;
   /** The location of the original managed HSM. */
-  location?: string;
+  location?: string | undefined;
   /** The deleted date. */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** The scheduled purged date. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** Purge protection status of the original managed HSM. */
-  purgeProtectionEnabled?: boolean;
+  purgeProtectionEnabled?: boolean | undefined;
   /** Tags of the original managed HSM. */
-  tags?: DeletedManagedHsmPropertiesTagsMap;
+  tags?: DeletedManagedHsmPropertiesTagsMap | undefined;
 }
 export interface GetManagedHsmDeletedResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the deleted managed HSM */
-  properties?: DeletedManagedHsmProperties;
+  properties?: DeletedManagedHsmProperties | undefined;
 }
 export interface GetManagedHsmKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -810,17 +810,17 @@ export interface GetManagedHsmKeyRequest {
 export type GetManagedHsmKeyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetManagedHsmKeyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: ManagedHsmKeyProperties;
   /** Resource tags */
-  tags?: GetManagedHsmKeyResponseTagsMap;
+  tags?: GetManagedHsmKeyResponseTagsMap | undefined;
 }
 export interface GetManagedHsmKeyVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -838,17 +838,17 @@ export interface GetManagedHsmKeyVersionRequest {
 export type GetManagedHsmKeyVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetManagedHsmKeyVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: ManagedHsmKeyProperties;
   /** Resource tags */
-  tags?: GetManagedHsmKeyVersionResponseTagsMap;
+  tags?: GetManagedHsmKeyVersionResponseTagsMap | undefined;
 }
 export interface GetMHSMPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -867,25 +867,25 @@ export type GetMHSMPrivateEndpointConnectionResponseIdentity =
 export type GetMHSMPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMHSMPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetMHSMPrivateEndpointConnectionResponseTagsMap;
+  tags?: GetMHSMPrivateEndpointConnectionResponseTagsMap | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -901,21 +901,21 @@ export interface GetPrivateEndpointConnectionRequest {
 export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: GetPrivateEndpointConnectionResponseTagsMap;
+  tags?: GetPrivateEndpointConnectionResponseTagsMap | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -930,46 +930,46 @@ export interface GetSecretRequest {
 /** The object attributes managed by the KeyVault service. */
 export interface Attributes {
   /** Determines whether the object is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Not before date in seconds since 1970-01-01T00:00:00Z. */
-  nbf?: number;
+  nbf?: number | undefined;
   /** Expiry date in seconds since 1970-01-01T00:00:00Z. */
-  exp?: number;
+  exp?: number | undefined;
   /** Creation time in seconds since 1970-01-01T00:00:00Z. */
-  created?: number;
+  created?: number | undefined;
   /** Last updated time in seconds since 1970-01-01T00:00:00Z. */
-  updated?: number;
+  updated?: number | undefined;
 }
 /** Properties of the secret */
 export interface SecretProperties {
   /** The value of the secret. NOTE: 'value' will never be returned from the service, as APIs using this model are is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets. */
-  value?: string;
+  value?: string | undefined;
   /** The content type of the secret. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The attributes of the secret. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** The URI to retrieve the current version of the secret. */
-  secretUri?: string;
+  secretUri?: string | undefined;
   /** The URI to retrieve the specific version of the secret. */
-  secretUriWithVersion?: string;
+  secretUriWithVersion?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type GetSecretResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the secret */
   properties: SecretProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: GetSecretResponseTagsMap;
+  tags?: GetSecretResponseTagsMap | undefined;
 }
 export interface GetVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1067,13 +1067,13 @@ export type PermissionsStorageList = Array<StoragePermissions | (string & {})>;
 /** Permissions the identity has for keys, secrets, certificates and storage. */
 export interface Permissions {
   /** Permissions to keys */
-  keys?: PermissionsKeysList;
+  keys?: PermissionsKeysList | undefined;
   /** Permissions to secrets */
-  secrets?: PermissionsSecretsList;
+  secrets?: PermissionsSecretsList | undefined;
   /** Permissions to certificates */
-  certificates?: PermissionsCertificatesList;
+  certificates?: PermissionsCertificatesList | undefined;
   /** Permissions to storage accounts */
-  storage?: PermissionsStorageList;
+  storage?: PermissionsStorageList | undefined;
 }
 /** An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. */
 export interface AccessPolicyEntry {
@@ -1082,7 +1082,7 @@ export interface AccessPolicyEntry {
   /** The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. */
   objectId: string;
   /** Application ID of the client making request on behalf of a principal */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Permissions the identity has for keys, secrets and certificates. */
   permissions: Permissions;
 }
@@ -1097,20 +1097,20 @@ export interface VirtualNetworkRule {
   /** Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. */
   id: string;
   /** Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured. */
-  ignoreMissingVnetServiceEndpoint?: boolean;
+  ignoreMissingVnetServiceEndpoint?: boolean | undefined;
 }
 /** The list of virtual network rules. */
 export type NetworkRuleSetVirtualNetworkRulesList = Array<VirtualNetworkRule>;
 /** A set of rules governing the network accessibility of a vault. */
 export interface NetworkRuleSet {
   /** Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'. */
-  bypass?: NetworkRuleBypassOptions | (string & {});
+  bypass?: NetworkRuleBypassOptions | (string & {}) | undefined;
   /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
-  defaultAction?: NetworkRuleAction | (string & {});
+  defaultAction?: NetworkRuleAction | (string & {}) | undefined;
   /** The list of IP address rules. */
-  ipRules?: NetworkRuleSetIpRulesList;
+  ipRules?: NetworkRuleSetIpRulesList | undefined;
   /** The list of virtual network rules. */
-  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList;
+  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList | undefined;
 }
 /** Provisioning state of the vault. */
 export type VaultProvisioningState = "Succeeded" | "RegisteringDns";
@@ -1126,53 +1126,53 @@ export interface VaultProperties {
   /** SKU details */
   sku: Sku;
   /** An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not required. Otherwise, access policies are required. */
-  accessPolicies?: VaultPropertiesAccessPoliciesList;
+  accessPolicies?: VaultPropertiesAccessPoliciesList | undefined;
   /** The URI of the vault for performing operations on keys and secrets. */
-  vaultUri?: string;
+  vaultUri?: string | undefined;
   /** The resource id of HSM Pool. */
-  hsmPoolResourceId?: string;
+  hsmPoolResourceId?: string | undefined;
   /** Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault. */
-  enabledForDeployment?: boolean;
+  enabledForDeployment?: boolean | undefined;
   /** Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys. */
-  enabledForDiskEncryption?: boolean;
+  enabledForDiskEncryption?: boolean | undefined;
   /** Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. */
-  enabledForTemplateDeployment?: boolean;
+  enabledForTemplateDeployment?: boolean | undefined;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it cannot be reverted to false. */
-  enableSoftDelete?: boolean;
+  enableSoftDelete?: boolean | undefined;
   /** softDelete data retention days. It accepts >=7 and <=90. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
-  enableRbacAuthorization?: boolean;
+  enableRbacAuthorization?: boolean | undefined;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** Rules governing the accessibility of the key vault from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** Provisioning state of the vault. */
-  provisioningState?: VaultProvisioningState;
+  provisioningState?: VaultProvisioningState | undefined;
   /** List of private endpoint connections associated with the key vault. */
-  privateEndpointConnections?: VaultPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: VaultPropertiesPrivateEndpointConnectionsList | undefined;
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type GetVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
   properties: VaultProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: GetVaultResponseTagsMap;
+  tags?: GetVaultResponseTagsMap | undefined;
 }
 export interface GetVaultDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1187,29 +1187,29 @@ export type DeletedVaultPropertiesTagsMap = { [key: string]: string | undefined 
 /** Properties of the deleted vault. */
 export interface DeletedVaultProperties {
   /** The resource id of the original vault. */
-  vaultId?: string;
+  vaultId?: string | undefined;
   /** The location of the original vault. */
-  location?: string;
+  location?: string | undefined;
   /** The deleted date. */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** The scheduled purged date. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** Tags of the original vault. */
-  tags?: DeletedVaultPropertiesTagsMap;
+  tags?: DeletedVaultPropertiesTagsMap | undefined;
   /** Purge protection status of the original vault. */
-  purgeProtectionEnabled?: boolean;
+  purgeProtectionEnabled?: boolean | undefined;
 }
 export interface GetVaultDeletedResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
-  properties?: DeletedVaultProperties;
+  properties?: DeletedVaultProperties | undefined;
 }
 export interface ListKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1224,19 +1224,19 @@ export type KeyTagsMap = { [key: string]: string | undefined };
 /** The key resource. */
 export interface Key {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: KeyProperties;
   /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: KeyTagsMap;
+  tags?: KeyTagsMap | undefined;
 }
 /** The Key items on this page */
 export type KeyListResultValueList = Array<Key>;
@@ -1245,7 +1245,7 @@ export interface KeyListResult {
   /** The Key items on this page */
   value: KeyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKeyVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1263,7 +1263,7 @@ export interface ListManagedHsmByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ManagedHsmIdentity = DeleteMHSMPrivateEndpointConnectionResponseIdentity;
@@ -1272,23 +1272,23 @@ export type ManagedHsmTagsMap = { [key: string]: string | undefined };
 /** Resource information with extended details. */
 export interface ManagedHsm {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmProperties;
+  properties?: ManagedHsmProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ManagedHsmTagsMap;
+  tags?: ManagedHsmTagsMap | undefined;
 }
 /** The ManagedHsm items on this page */
 export type ManagedHsmListResultValueList = Array<ManagedHsm>;
@@ -1297,13 +1297,13 @@ export interface ManagedHsmListResult {
   /** The ManagedHsm items on this page */
   value: ManagedHsmListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedHsmBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListManagedHsmDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1312,15 +1312,15 @@ export interface ListManagedHsmDeletedRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DeletedManagedHsm {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the deleted managed HSM */
-  properties?: DeletedManagedHsmProperties;
+  properties?: DeletedManagedHsmProperties | undefined;
 }
 /** The DeletedManagedHsm items on this page */
 export type DeletedManagedHsmListResultValueList = Array<DeletedManagedHsm>;
@@ -1329,7 +1329,7 @@ export interface DeletedManagedHsmListResult {
   /** The DeletedManagedHsm items on this page */
   value: DeletedManagedHsmListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedHsmKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1344,17 +1344,17 @@ export type ManagedHsmKeyTagsMap = { [key: string]: string | undefined };
 /** The key resource. */
 export interface ManagedHsmKey {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the key. */
   properties: ManagedHsmKeyProperties;
   /** Resource tags */
-  tags?: ManagedHsmKeyTagsMap;
+  tags?: ManagedHsmKeyTagsMap | undefined;
 }
 /** The ManagedHsmKey items on this page */
 export type ManagedHsmKeyListResultValueList = Array<ManagedHsmKey>;
@@ -1363,7 +1363,7 @@ export interface ManagedHsmKeyListResult {
   /** The ManagedHsmKey items on this page */
   value: ManagedHsmKeyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedHsmKeyVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1391,25 +1391,25 @@ export type MHSMPrivateEndpointConnectionTagsMap = { [key: string]: string | und
 /** Private endpoint connection resource. */
 export interface MHSMPrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: MHSMPrivateEndpointConnectionTagsMap;
+  tags?: MHSMPrivateEndpointConnectionTagsMap | undefined;
 }
 /** The MhsmPrivateEndpointConnection items on this page */
 export type MHSMPrivateEndpointConnectionsListResultValueList =
@@ -1419,7 +1419,7 @@ export interface MHSMPrivateEndpointConnectionsListResult {
   /** The MhsmPrivateEndpointConnection items on this page */
   value: MHSMPrivateEndpointConnectionsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMHSMPrivateLinkResourceByMHSMResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1438,41 +1438,41 @@ export type MHSMPrivateLinkResourcePropertiesRequiredZoneNamesList = Array<strin
 /** Properties of a private link resource. */
 export interface MHSMPrivateLinkResourceProperties {
   /** Group identifier of private link resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required member names of private link resource. */
-  requiredMembers?: MHSMPrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: MHSMPrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required DNS zone names of the the private link resource. */
-  requiredZoneNames?: MHSMPrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: MHSMPrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type MHSMPrivateLinkResourceIdentity = DeleteMHSMPrivateEndpointConnectionResponseIdentity;
 /** A private link resource */
 export interface MHSMPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MHSMPrivateLinkResourceTagsMap;
+  tags?: MHSMPrivateLinkResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: MHSMPrivateLinkResourceProperties;
+  properties?: MHSMPrivateLinkResourceProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
 }
 /** Array of private link resources */
 export type MHSMPrivateLinkResourceListResultValueList = Array<MHSMPrivateLinkResource>;
 /** A list of private link resources */
 export interface MHSMPrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: MHSMPrivateLinkResourceListResultValueList;
+  value?: MHSMPrivateLinkResourceListResultValueList | undefined;
 }
 export interface ListMHSMRegionByResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1489,28 +1489,28 @@ export interface MHSMRegionsListResult {
   /** The MhsmGeoReplicatedRegion items on this page */
   value: MHSMRegionsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Key Vault. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Log specification of operation. */
 export interface LogSpecification {
   /** Name of log specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of log specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of specification. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Log specifications of operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1521,65 +1521,65 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Type of operation: get, read, delete, etc. */
 export interface DimensionProperties {
   /** Name of dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Property to specify whether the dimension should be exported for Shoebox. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** The dimensions of metric */
 export type MetricSpecificationDimensionsList = Array<DimensionProperties>;
 /** Metric specification of operation. */
 export interface MetricSpecification {
   /** Name of metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The metric unit. Possible values include: 'Bytes', 'Count', 'Milliseconds'. */
-  unit?: string;
+  unit?: string | undefined;
   /** The metric aggregation type. Possible values include: 'Average', 'Count', 'Total'. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The supported aggregation types for the metrics. */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** The supported time grain types for the metrics. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** The metric lock aggregation type. */
-  lockAggregationType?: string;
+  lockAggregationType?: string | undefined;
   /** The dimensions of metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Property to specify whether to fill gap with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** The internal metric name. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
 }
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** One property of operation, include log specifications. */
 export interface ServiceSpecification {
   /** Log specifications of operation. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Metric specifications of operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
   /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Key Vault REST API operation definition. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The origin of operations. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of operation, include metric specifications. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
   /** Property to specify whether the action is a data action. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** List of Storage operations supported by the Storage resource provider. */
 export type OperationListResultValueList = Array<Operation>;
@@ -1588,7 +1588,7 @@ export interface OperationListResult {
   /** List of Storage operations supported by the Storage resource provider. */
   value: OperationListResultValueList;
   /** The URL to get the next set of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1603,21 +1603,21 @@ export type PrivateEndpointConnectionTagsMap = { [key: string]: string | undefin
 /** Private endpoint connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: PrivateEndpointConnectionTagsMap;
+  tags?: PrivateEndpointConnectionTagsMap | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1626,7 +1626,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1643,37 +1643,37 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** Group identifier of private link resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required member names of private link resource. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required DNS zone names of the the private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type PrivateLinkResourceTagsMap = { [key: string]: string | undefined };
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: PrivateLinkResourceTagsMap;
+  tags?: PrivateLinkResourceTagsMap | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
 }
 export interface ListSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1683,26 +1683,26 @@ export interface ListSecretsRequest {
   /** The name of the vault. */
   vaultName: string;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type SecretTagsMap = { [key: string]: string | undefined };
 /** Resource information with extended details. */
 export interface Secret {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the secret */
   properties: SecretProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: SecretTagsMap;
+  tags?: SecretTagsMap | undefined;
 }
 /** The Secret items on this page */
 export type SecretListResultValueList = Array<Secret>;
@@ -1711,7 +1711,7 @@ export interface SecretListResult {
   /** The Secret items on this page */
   value: SecretListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVaultByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1719,26 +1719,26 @@ export interface ListVaultByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type VaultTagsMap = { [key: string]: string | undefined };
 /** Resource information with extended details. */
 export interface Vault {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
   properties: VaultProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: VaultTagsMap;
+  tags?: VaultTagsMap | undefined;
 }
 /** The Vault items on this page */
 export type VaultListResultValueList = Array<Vault>;
@@ -1747,13 +1747,13 @@ export interface VaultListResult {
   /** The Vault items on this page */
   value: VaultListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVaultBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListVaultDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1762,15 +1762,15 @@ export interface ListVaultDeletedRequest {
 /** Deleted vault information with extended details. */
 export interface DeletedVault {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
-  properties?: DeletedVaultProperties;
+  properties?: DeletedVaultProperties | undefined;
 }
 /** The DeletedVault items on this page */
 export type DeletedVaultListResultValueList = Array<DeletedVault>;
@@ -1779,7 +1779,7 @@ export interface DeletedVaultListResult {
   /** The DeletedVault items on this page */
   value: DeletedVaultListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListVaultsRequestFilter = "resourceType eq 'Microsoft.KeyVault/vaults'";
 export interface ListVaultsRequest {
@@ -1788,22 +1788,22 @@ export interface ListVaultsRequest {
   /** The filter to apply on the operation. */
   _filter: ListVaultsRequestFilter | (string & {});
   /** Maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type ResourceListResultValueItemTagsMap = { [key: string]: string | undefined };
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface ResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResourceListResultValueItemTagsMap;
+  tags?: ResourceListResultValueItemTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
 }
@@ -1814,16 +1814,16 @@ export interface ResourceListResult {
   /** The list of vault resources. */
   value: ResourceListResultValueList;
   /** The URL to get the next set of vault resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Array of initial administrators object ids for this managed hsm pool. */
 export type ManagedHsmPropertiesInputInitialAdminObjectIdsList = Array<string>;
 /** A region that this managed HSM Pool has been extended to. */
 export interface MHSMGeoReplicatedRegionInput {
   /** Name of the geo replicated region. */
-  name?: string;
+  name?: string | undefined;
   /** A boolean value that indicates whether the region is the primary region or a secondary region. */
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** List of all regions associated with the managed hsm pool. */
 export type ManagedHsmPropertiesInputRegionsList = Array<MHSMGeoReplicatedRegionInput>;
@@ -1832,23 +1832,23 @@ export type ManagedHsmPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled
 /** Properties of the managed HSM Pool */
 export interface ManagedHsmPropertiesInput {
   /** The Azure Active Directory tenant ID that should be used for authenticating requests to the managed HSM pool. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Array of initial administrators object ids for this managed hsm pool. */
-  initialAdminObjectIds?: ManagedHsmPropertiesInputInitialAdminObjectIdsList;
+  initialAdminObjectIds?: ManagedHsmPropertiesInputInitialAdminObjectIdsList | undefined;
   /** Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. Soft delete is enabled by default for all managed HSMs and is immutable. */
-  enableSoftDelete?: boolean;
+  enableSoftDelete?: boolean | undefined;
   /** Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. Enabling this functionality is irreversible. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** The create mode to indicate whether the resource is being created or is being recovered from a deleted resource. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** Rules governing the accessibility of the key vault from specific network locations. */
-  networkAcls?: MHSMNetworkRuleSet;
+  networkAcls?: MHSMNetworkRuleSet | undefined;
   /** List of all regions associated with the managed hsm pool. */
-  regions?: ManagedHsmPropertiesInputRegionsList;
+  regions?: ManagedHsmPropertiesInputRegionsList | undefined;
   /** Control permission to the managed HSM from public networks. */
-  publicNetworkAccess?: ManagedHsmPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: ManagedHsmPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -1859,7 +1859,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedHsmsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Resource tags. */
 export type ManagedHsmsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1871,15 +1871,15 @@ export interface ManagedHsmsCreateOrUpdateRequest {
   /** The name of the managed HSM Pool. */
   name: string;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmPropertiesInput;
+  properties?: ManagedHsmPropertiesInput | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedHsmsCreateOrUpdateRequestIdentity;
+  identity?: ManagedHsmsCreateOrUpdateRequestIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ManagedHsmsCreateOrUpdateRequestTagsMap;
+  tags?: ManagedHsmsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ManagedHsmsCreateOrUpdateResponseIdentity =
@@ -1888,27 +1888,27 @@ export type ManagedHsmsCreateOrUpdateResponseIdentity =
 export type ManagedHsmsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ManagedHsmsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmProperties;
+  properties?: ManagedHsmProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ManagedHsmsCreateOrUpdateResponseTagsMap;
+  tags?: ManagedHsmsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PurgeManagedHsmDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1920,9 +1920,9 @@ export interface PurgeManagedHsmDeletedRequest {
 }
 export interface PurgeManagedHsmDeletedResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PurgeVaultDeletedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1934,18 +1934,18 @@ export interface PurgeVaultDeletedRequest {
 }
 export interface PurgeVaultDeletedResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Private endpoint object properties. */
 export type MHSMPrivateEndpointInput = UserAssignedIdentityInput;
 /** Properties of the private endpoint connection resource. */
 export interface MHSMPrivateEndpointConnectionPropertiesInput {
   /** Properties of the private endpoint object. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** Approval state of the private link connection. */
-  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PutMHSMPrivateEndpointConnectionRequestIdentity =
@@ -1962,17 +1962,17 @@ export interface PutMHSMPrivateEndpointConnectionRequest {
   /** Name of the private endpoint connection associated with the managed hsm pool. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionPropertiesInput;
+  properties?: MHSMPrivateEndpointConnectionPropertiesInput | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedHsmsCreateOrUpdateRequestIdentity;
+  identity?: ManagedHsmsCreateOrUpdateRequestIdentity | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: PutMHSMPrivateEndpointConnectionRequestTagsMap;
+  tags?: PutMHSMPrivateEndpointConnectionRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PutMHSMPrivateEndpointConnectionResponseIdentity =
@@ -1981,29 +1981,29 @@ export type PutMHSMPrivateEndpointConnectionResponseIdentity =
 export type PutMHSMPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface PutMHSMPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: PutMHSMPrivateEndpointConnectionResponseTagsMap;
+  tags?: PutMHSMPrivateEndpointConnectionResponseTagsMap | undefined;
   /** (specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Private endpoint object properties. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
@@ -2019,53 +2019,53 @@ export interface PutPrivateEndpointConnectionRequest {
   /** Name of the private endpoint connection associated with the key vault. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionPropertiesInput;
+  properties?: MHSMPrivateEndpointConnectionPropertiesInput | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type PutPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface PutPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MHSMPrivateEndpointConnectionProperties | undefined;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: PutPrivateEndpointConnectionResponseTagsMap;
+  tags?: PutPrivateEndpointConnectionResponseTagsMap | undefined;
   /** Modified whenever there is a change in the state of private endpoint connection. */
-  etag?: string;
+  etag?: string | undefined;
   /** (specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags that will be assigned to the secret. */
 export type SecretsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The object attributes managed by the KeyVault service. */
 export interface AttributesInput {
   /** Determines whether the object is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Not before date in seconds since 1970-01-01T00:00:00Z. */
-  nbf?: number;
+  nbf?: number | undefined;
   /** Expiry date in seconds since 1970-01-01T00:00:00Z. */
-  exp?: number;
+  exp?: number | undefined;
 }
 /** Properties of the secret */
 export interface SecretPropertiesInput {
   /** The value of the secret. NOTE: 'value' will never be returned from the service, as APIs using this model are is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets. */
-  value?: string;
+  value?: string | undefined;
   /** The content type of the secret. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The attributes of the secret. */
-  attributes?: AttributesInput;
+  attributes?: AttributesInput | undefined;
 }
 export interface SecretsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2077,7 +2077,7 @@ export interface SecretsCreateOrUpdateRequest {
   /** The name of the secret. */
   secretName: string;
   /** The tags that will be assigned to the secret. */
-  tags?: SecretsCreateOrUpdateRequestTagsMap;
+  tags?: SecretsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the secret */
   properties: SecretPropertiesInput;
 }
@@ -2085,19 +2085,19 @@ export interface SecretsCreateOrUpdateRequest {
 export type SecretsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SecretsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the secret */
   properties: SecretProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: SecretsCreateOrUpdateResponseTagsMap;
+  tags?: SecretsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateManagedHsmRequestIdentity = ManagedHsmsCreateOrUpdateRequestIdentity;
@@ -2111,15 +2111,15 @@ export interface UpdateManagedHsmRequest {
   /** The name of the managed HSM Pool. */
   name: string;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmPropertiesInput;
+  properties?: ManagedHsmPropertiesInput | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManagedHsmsCreateOrUpdateRequestIdentity;
+  identity?: ManagedHsmsCreateOrUpdateRequestIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedHsmRequestTagsMap;
+  tags?: UpdateManagedHsmRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateManagedHsmResponseIdentity = DeleteMHSMPrivateEndpointConnectionResponseIdentity;
@@ -2127,38 +2127,38 @@ export type UpdateManagedHsmResponseIdentity = DeleteMHSMPrivateEndpointConnecti
 export type UpdateManagedHsmResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedHsmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the managed HSM */
-  properties?: ManagedHsmProperties;
+  properties?: ManagedHsmProperties | undefined;
   /** SKU details */
-  sku?: ManagedHsmSku;
+  sku?: ManagedHsmSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity;
+  identity?: DeleteMHSMPrivateEndpointConnectionResponseIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedHsmResponseTagsMap;
+  tags?: UpdateManagedHsmResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags that will be assigned to the secret. */
 export type UpdateSecretRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the secret */
 export interface SecretPatchPropertiesInput {
   /** The value of the secret. */
-  value?: string;
+  value?: string | undefined;
   /** The content type of the secret. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The attributes of the secret. */
-  attributes?: AttributesInput;
+  attributes?: AttributesInput | undefined;
 }
 export interface UpdateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2170,27 +2170,27 @@ export interface UpdateSecretRequest {
   /** The name of the secret. */
   secretName: string;
   /** The tags that will be assigned to the secret. */
-  tags?: UpdateSecretRequestTagsMap;
+  tags?: UpdateSecretRequestTagsMap | undefined;
   /** Properties of the secret */
-  properties?: SecretPatchPropertiesInput;
+  properties?: SecretPatchPropertiesInput | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type UpdateSecretResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the secret */
   properties: SecretProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: UpdateSecretResponseTagsMap;
+  tags?: UpdateSecretResponseTagsMap | undefined;
 }
 /** The tags that will be assigned to the key vault. */
 export type UpdateVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -2199,31 +2199,31 @@ export type VaultPatchPropertiesAccessPoliciesList = Array<AccessPolicyEntry>;
 /** Properties of the vault */
 export interface VaultPatchProperties {
   /** The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** SKU details */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. */
-  accessPolicies?: VaultPatchPropertiesAccessPoliciesList;
+  accessPolicies?: VaultPatchPropertiesAccessPoliciesList | undefined;
   /** Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault. */
-  enabledForDeployment?: boolean;
+  enabledForDeployment?: boolean | undefined;
   /** Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys. */
-  enabledForDiskEncryption?: boolean;
+  enabledForDiskEncryption?: boolean | undefined;
   /** Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. */
-  enabledForTemplateDeployment?: boolean;
+  enabledForTemplateDeployment?: boolean | undefined;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. Once set to true, it cannot be reverted to false. */
-  enableSoftDelete?: boolean;
+  enableSoftDelete?: boolean | undefined;
   /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
-  enableRbacAuthorization?: boolean;
+  enableRbacAuthorization?: boolean | undefined;
   /** softDelete data retention days. It accepts >=7 and <=90. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** A collection of rules governing the accessibility of the vault from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
 }
 export interface UpdateVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2233,27 +2233,27 @@ export interface UpdateVaultRequest {
   /** The name of the vault. */
   vaultName: string;
   /** The tags that will be assigned to the key vault. */
-  tags?: UpdateVaultRequestTagsMap;
+  tags?: UpdateVaultRequestTagsMap | undefined;
   /** Properties of the vault */
-  properties?: VaultPatchProperties;
+  properties?: VaultPatchProperties | undefined;
 }
 /** Tags assigned to the key vault resource. */
 export type UpdateVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
   properties: VaultProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: UpdateVaultResponseTagsMap;
+  tags?: UpdateVaultResponseTagsMap | undefined;
 }
 export type UpdateVaultAccessPolicyRequestOperationKind = "add" | "replace" | "remove";
 /** An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. */
@@ -2278,13 +2278,13 @@ export interface UpdateVaultAccessPolicyRequest {
 /** Parameters for updating the access policy in a vault */
 export interface VaultAccessPolicyParameters {
   /** The resource id of the access policy. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name of the access policy. */
-  name?: string;
+  name?: string | undefined;
   /** The resource name of the access policy. */
-  type?: string;
+  type?: string | undefined;
   /** The resource type of the access policy. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the access policy */
   properties: VaultAccessPolicyProperties;
 }
@@ -2299,31 +2299,31 @@ export interface VaultPropertiesInput {
   /** SKU details */
   sku: Sku;
   /** An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not required. Otherwise, access policies are required. */
-  accessPolicies?: VaultPropertiesInputAccessPoliciesList;
+  accessPolicies?: VaultPropertiesInputAccessPoliciesList | undefined;
   /** The URI of the vault for performing operations on keys and secrets. */
-  vaultUri?: string;
+  vaultUri?: string | undefined;
   /** Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault. */
-  enabledForDeployment?: boolean;
+  enabledForDeployment?: boolean | undefined;
   /** Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys. */
-  enabledForDiskEncryption?: boolean;
+  enabledForDiskEncryption?: boolean | undefined;
   /** Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. */
-  enabledForTemplateDeployment?: boolean;
+  enabledForTemplateDeployment?: boolean | undefined;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it cannot be reverted to false. */
-  enableSoftDelete?: boolean;
+  enableSoftDelete?: boolean | undefined;
   /** softDelete data retention days. It accepts >=7 and <=90. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
-  enableRbacAuthorization?: boolean;
+  enableRbacAuthorization?: boolean | undefined;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** Rules governing the accessibility of the key vault from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** Provisioning state of the vault. */
-  provisioningState?: VaultProvisioningState | (string & {});
+  provisioningState?: VaultProvisioningState | (string & {}) | undefined;
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
 }
 export interface VaultsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2335,7 +2335,7 @@ export interface VaultsCreateOrUpdateRequest {
   /** The supported Azure location where the key vault should be created. */
   location: string;
   /** The tags that will be assigned to the key vault. */
-  tags?: VaultsCreateOrUpdateRequestTagsMap;
+  tags?: VaultsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the vault */
   properties: VaultPropertiesInput;
 }
@@ -2343,23 +2343,23 @@ export interface VaultsCreateOrUpdateRequest {
 export type VaultsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VaultsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the vault */
   properties: VaultProperties;
   /** Azure location of the key vault resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags assigned to the key vault resource. */
-  tags?: VaultsCreateOrUpdateResponseTagsMap;
+  tags?: VaultsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckManagedHsmMhsmNameAvailabilityError = AzureOpError;
 /** Checks that the managed hsm name is valid and is not already in use. */

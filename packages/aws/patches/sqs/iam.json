@@ -1,0 +1,21 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CancelMessageMoveTask/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
+        "remove": ["sqs:DeleteMessage", "sqs:GetQueueAttributes", "sqs:ReceiveMessage"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ListMessageMoveTasks/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
+        "remove": ["sqs:GetQueueAttributes"]
+      }
+    }
+  ]
+}

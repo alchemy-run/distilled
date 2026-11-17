@@ -1,0 +1,89 @@
+{
+  "description": "The engine answers `400` with \"The storage host could not finish the command (command_capacity); its outcome may be unknown.\" when its storage host has no capacity for the command, seen while deleting a pool on a loaded control plane (rivet-engine 3.0.0-preview.4 on GCP). Type it as a retryable StorageCommandCapacity on every operation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#StorageCommandCapacity",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 503,
+          "smithy.api#retryable": {
+            "throttling": true
+          },
+          "smithy.api#documentation": "The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "(command_capacity)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsList/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsCreate/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsGetOrCreate/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsListNames/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsGet/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsDelete/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsSleep/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.actors#ActorsReschedule/errors/-",
+      "value": {
+        "target": "com.rivet.actors#StorageCommandCapacity"
+      }
+    }
+  ]
+}

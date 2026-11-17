@@ -36,18 +36,18 @@ export interface CheckDomainAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Name of the object. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything. */
 export type DomainType = "Regular" | "SoftDeleted";
 /** Domain availability check result. */
 export interface DomainAvailabilityCheckResult {
   /** Name of the domain. */
-  name?: string;
+  name?: string | undefined;
   /** <code>true</code> if domain can be purchased using CreateDomain API; otherwise, <code>false</code>. */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything. */
-  domainType?: DomainType;
+  domainType?: DomainType | undefined;
 }
 export interface DeleteDomainRequest {
   /** The ID of the target subscription. */
@@ -57,7 +57,7 @@ export interface DeleteDomainRequest {
   /** Name of the domain. */
   domainName: string;
   /** Specify <code>true</code> to delete the domain immediately. The default is <code>false</code> which deletes the domain after 24 hours. */
-  forceHardDeleteDomain?: boolean;
+  forceHardDeleteDomain?: boolean | undefined;
 }
 export interface DeleteDomainResponse {}
 export interface DeleteDomainOwnershipIdentifierRequest {
@@ -78,7 +78,7 @@ export interface Address {
   /** First line of an Address. */
   address1: string;
   /** The second line of the Address. Optional. */
-  address2?: string;
+  address2?: string | undefined;
   /** The city for the address. */
   city: string;
   /** The country for the address. */
@@ -91,21 +91,21 @@ export interface Address {
 /** Contact information for domain registration. If 'Domain Privacy' option is not selected then the contact information is made publicly available through the Whois directories as per ICANN requirements. */
 export interface Contact {
   /** Mailing address. */
-  addressMailing?: Address;
+  addressMailing?: Address | undefined;
   /** Email address. */
   email: string;
   /** Fax number. */
-  fax?: string;
+  fax?: string | undefined;
   /** Job title. */
-  jobTitle?: string;
+  jobTitle?: string | undefined;
   /** First name. */
   nameFirst: string;
   /** Last name. */
   nameLast: string;
   /** Middle name. */
-  nameMiddle?: string;
+  nameMiddle?: string | undefined;
   /** Organization contact belongs to. */
-  organization?: string;
+  organization?: string | undefined;
   /** Phone number. */
   phone: string;
 }
@@ -114,11 +114,11 @@ export type DomainPurchaseConsentAgreementKeysList = Array<string>;
 /** Domain purchase consent object, representing acceptance of applicable legal agreements. */
 export interface DomainPurchaseConsent {
   /** List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource. */
-  agreementKeys?: DomainPurchaseConsentAgreementKeysList;
+  agreementKeys?: DomainPurchaseConsentAgreementKeysList | undefined;
   /** Client IP address. */
-  agreedBy?: string;
+  agreedBy?: string | undefined;
   /** Timestamp when the agreements were accepted. */
-  agreedAt?: string;
+  agreedAt?: string | undefined;
 }
 /** Current DNS type */
 export type DnsType = "AzureDns" | "DefaultDomainRegistrarDns";
@@ -133,19 +133,19 @@ export interface DomainPropertiesInput {
   /** Technical contact. */
   contactTech: Contact;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
-  privacy?: boolean;
+  privacy?: boolean | undefined;
   /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Legal agreement consent. */
   consent: DomainPurchaseConsent;
   /** Current DNS type */
-  dnsType?: DnsType | (string & {});
+  dnsType?: DnsType | (string & {}) | undefined;
   /** Azure DNS Zone to use */
-  dnsZoneId?: string;
+  dnsZoneId?: string | undefined;
   /** Target DNS type (would be used for migration) */
-  targetDnsType?: DnsType | (string & {});
+  targetDnsType?: DnsType | (string & {}) | undefined;
   /** Authorization code for the domain. */
-  authCode?: string;
+  authCode?: string | undefined;
 }
 export interface DomainsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -155,13 +155,13 @@ export interface DomainsCreateOrUpdateRequest {
   /** Name of the domain. */
   domainName: string;
   /** Resource tags. */
-  tags?: DomainsCreateOrUpdateRequestTagsMap;
+  tags?: DomainsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainPropertiesInput;
+  properties?: DomainPropertiesInput | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -170,17 +170,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type DomainsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -222,17 +222,17 @@ export type HostNameType = "Verified" | "Managed";
 /** Details of a hostname derived from a domain. */
 export interface HostName {
   /** Name of the hostname. */
-  name?: string;
+  name?: string | undefined;
   /** List of apps the hostname is assigned to. This list will have more than one app only if the hostname is pointing to a Traffic Manager. */
-  siteNames?: HostNameSiteNamesList;
+  siteNames?: HostNameSiteNamesList | undefined;
   /** Name of the Azure resource the hostname is assigned to. If it is assigned to a Traffic Manager then it will be the Traffic Manager name otherwise it will be the app name. */
-  azureResourceName?: string;
+  azureResourceName?: string | undefined;
   /** Type of the Azure resource the hostname is assigned to. */
-  azureResourceType?: AzureResourceType;
+  azureResourceType?: AzureResourceType | undefined;
   /** Type of the DNS record. */
-  customHostNameDnsRecordType?: CustomHostNameDnsRecordType;
+  customHostNameDnsRecordType?: CustomHostNameDnsRecordType | undefined;
   /** Type of the hostname. */
-  hostNameType?: HostNameType;
+  hostNameType?: HostNameType | undefined;
 }
 /** All hostnames derived from the domain and assigned to Azure resources. */
 export type DomainPropertiesManagedHostNamesList = Array<HostName>;
@@ -254,62 +254,62 @@ export interface DomainProperties {
   /** Technical contact. */
   contactTech: Contact;
   /** Domain registration status. */
-  registrationStatus?: DomainStatus;
+  registrationStatus?: DomainStatus | undefined;
   /** Domain provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Name servers. */
-  nameServers?: DomainPropertiesNameServersList;
+  nameServers?: DomainPropertiesNameServersList | undefined;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
-  privacy?: boolean;
+  privacy?: boolean | undefined;
   /** Domain creation timestamp. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Domain expiration timestamp. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Timestamp when the domain was renewed last time. */
-  lastRenewedTime?: string;
+  lastRenewedTime?: string | undefined;
   /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and \n it is hosted on name servers Azure has programmatic access to. */
-  readyForDnsRecordManagement?: boolean;
+  readyForDnsRecordManagement?: boolean | undefined;
   /** All hostnames derived from the domain and assigned to Azure resources. */
-  managedHostNames?: DomainPropertiesManagedHostNamesList;
+  managedHostNames?: DomainPropertiesManagedHostNamesList | undefined;
   /** Legal agreement consent. */
   consent: DomainPurchaseConsent;
   /** Reasons why domain is not renewable. */
-  domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsList;
+  domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsList | undefined;
   /** Current DNS type */
-  dnsType?: DnsType;
+  dnsType?: DnsType | undefined;
   /** Azure DNS Zone to use */
-  dnsZoneId?: string;
+  dnsZoneId?: string | undefined;
   /** Target DNS type (would be used for migration) */
-  targetDnsType?: DnsType;
+  targetDnsType?: DnsType | undefined;
   /** Authorization code for the domain. */
-  authCode?: string;
+  authCode?: string | undefined;
 }
 export interface DomainsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DomainsCreateOrUpdateResponseTagsMap;
+  tags?: DomainsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** DomainOwnershipIdentifier resource specific properties */
 export interface DomainOwnershipIdentifierProperties {
   /** Ownership Id. */
-  ownershipId?: string;
+  ownershipId?: string | undefined;
 }
 export interface DomainsCreateOrUpdateOwnershipIdentifierRequest {
   /** The ID of the target subscription. */
@@ -321,23 +321,23 @@ export interface DomainsCreateOrUpdateOwnershipIdentifierRequest {
   /** Name of identifier. */
   name: string;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface DomainsCreateOrUpdateOwnershipIdentifierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetDomainRequest {
   /** The ID of the target subscription. */
@@ -351,21 +351,21 @@ export interface GetDomainRequest {
 export type GetDomainResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDomainResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDomainResponseTagsMap;
+  tags?: GetDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetDomainControlCenterSsoRequestRequest {
   /** The ID of the target subscription. */
@@ -374,11 +374,11 @@ export interface GetDomainControlCenterSsoRequestRequest {
 /** Single sign-on request information for domain management. */
 export interface DomainControlCenterSsoRequest {
   /** URL where the single sign-on request is to be made. */
-  url?: string;
+  url?: string | undefined;
   /** Post parameter key. */
-  postParameterKey?: string;
+  postParameterKey?: string | undefined;
   /** Post parameter value. Client should use 'application/x-www-form-urlencoded' encoding for this value. */
-  postParameterValue?: string;
+  postParameterValue?: string | undefined;
 }
 export interface GetDomainOwnershipIdentifierRequest {
   /** The ID of the target subscription. */
@@ -392,17 +392,17 @@ export interface GetDomainOwnershipIdentifierRequest {
 }
 export interface GetDomainOwnershipIdentifierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetTopLevelDomainRequest {
   /** The ID of the target subscription. */
@@ -413,21 +413,21 @@ export interface GetTopLevelDomainRequest {
 /** TopLevelDomain resource specific properties */
 export interface TopLevelDomainProperties {
   /** If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>. */
-  privacy?: boolean;
+  privacy?: boolean | undefined;
 }
 export interface GetTopLevelDomainResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** TopLevelDomain resource specific properties */
-  properties?: TopLevelDomainProperties;
+  properties?: TopLevelDomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListDomainByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -440,21 +440,21 @@ export type DomainTagsMap = { [key: string]: string | undefined };
 /** Information about a domain. */
 export interface Domain {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DomainTagsMap;
+  tags?: DomainTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The Domain items on this page */
 export type DomainCollectionValueList = Array<Domain>;
@@ -463,7 +463,7 @@ export interface DomainCollection {
   /** The Domain items on this page */
   value: DomainCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainOwnershipIdentifiersRequest {
   /** The ID of the target subscription. */
@@ -476,17 +476,17 @@ export interface ListDomainOwnershipIdentifiersRequest {
 /** Domain ownership Identifier. */
 export interface DomainOwnershipIdentifier {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The DomainOwnershipIdentifier items on this page */
 export type DomainOwnershipIdentifierCollectionValueList = Array<DomainOwnershipIdentifier>;
@@ -495,20 +495,20 @@ export interface DomainOwnershipIdentifierCollection {
   /** The DomainOwnershipIdentifier items on this page */
   value: DomainOwnershipIdentifierCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainRecommendationsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Keywords to be used for generating domain recommendations. */
-  keywords?: string;
+  keywords?: string | undefined;
   /** Maximum number of recommendations. */
-  maxDomainRecommendations?: number;
+  maxDomainRecommendations?: number | undefined;
 }
 /** Identifies an object. */
 export interface NameIdentifier {
   /** Name of the object. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The NameIdentifier items on this page */
 export type NameIdentifierCollectionValueList = Array<NameIdentifier>;
@@ -517,39 +517,39 @@ export interface NameIdentifierCollection {
   /** The NameIdentifier items on this page */
   value: NameIdentifierCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainRegistrationProviderOperationsRequest {}
 /** Meta data about operation used for display in portal. */
 export interface CsmOperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource type. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, where instance name is dimension of the metric HTTP request */
 export interface Dimension {
   /** Name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Dimension of the internal name. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** Dimension to be exported for shoebox. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Resource metric dimensions. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Retention policy of a resource metric. */
 export interface MetricAvailability {
   /** Metric availability time grain. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Metric availability blob duration. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Resource metric availability. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
@@ -560,79 +560,79 @@ export type MetricSpecificationSupportedAggregationTypesList = Array<string>;
 /** Definition of a single resource metric. */
 export interface MetricSpecification {
   /** Name of the resource metric. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the resource metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the resource metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Resource metric unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** Resource metric aggregation type. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Resource metric supported aggregation types. */
-  supportsInstanceLevelAggregation?: boolean;
+  supportsInstanceLevelAggregation?: boolean | undefined;
   /** Resource metric supported time grain types. */
-  enableRegionalMdmAccount?: boolean;
+  enableRegionalMdmAccount?: boolean | undefined;
   /** Resource metric source MDM account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** Resource metric source MDM namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Resource metric filter pattern. */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** Resource metric fill gap with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Resource metric is internal. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
   /** Resource metric dimensions. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Resource metric category. */
-  category?: string;
+  category?: string | undefined;
   /** Resource metric availability. */
-  availabilities?: MetricSpecificationAvailabilitiesList;
+  availabilities?: MetricSpecificationAvailabilitiesList | undefined;
   /** Resource metric supported time grain types. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** Resource metric supported aggregation types. */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
 }
 /** Resource metrics service name. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Log Definition of a single resource metric. */
 export interface LogSpecification {
   /** Name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the log. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of the log. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
   /** Log filtered pattern of the log. */
-  logFilterPattern?: string;
+  logFilterPattern?: string | undefined;
 }
 /** Resource logs service provided by Microsoft.Insights resource provider. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Resource metrics service provided by Microsoft.Insights resource provider. */
 export interface ServiceSpecification {
   /** Resource metrics service name. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Resource logs service provided by Microsoft.Insights resource provider. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Properties available for a Microsoft.Web resource provider operation. */
 export interface CsmOperationDescriptionProperties {
   /** Resource metrics service provided by Microsoft.Insights resource provider. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Description of an operation available for Microsoft.Web resource provider. */
 export interface CsmOperationDescription {
   /** Operation name, e.g. Microsoft.Web/sites/write. */
-  name?: string;
+  name?: string | undefined;
   /** Operation display name. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Meta data about operation used for display in portal. */
-  display?: CsmOperationDisplay;
+  display?: CsmOperationDisplay | undefined;
   /** Origin of the operation, e.g. "system" or "user". */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties available for a Microsoft.Web resource provider operation. */
-  properties?: CsmOperationDescriptionProperties;
+  properties?: CsmOperationDescriptionProperties | undefined;
 }
 /** Collection of resources. */
 export type CsmOperationCollectionValueList = Array<CsmOperationDescription>;
@@ -641,7 +641,7 @@ export interface CsmOperationCollection {
   /** Collection of resources. */
   value: CsmOperationCollectionValueList;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDomainsRequest {
   /** The ID of the target subscription. */
@@ -653,9 +653,9 @@ export interface ListTopLevelDomainAgreementsRequest {
   /** Name of the top-level domain. */
   name: string;
   /** If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>. */
-  includePrivacy?: boolean;
+  includePrivacy?: boolean | undefined;
   /** If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>. */
-  forTransfer?: boolean;
+  forTransfer?: boolean | undefined;
 }
 /** Legal agreement for a top level domain. */
 export interface TldLegalAgreement {
@@ -666,7 +666,7 @@ export interface TldLegalAgreement {
   /** Agreement details. */
   content: string;
   /** URL where a copy of the agreement details is hosted. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The TldLegalAgreement items on this page */
 export type TldLegalAgreementCollectionValueList = Array<TldLegalAgreement>;
@@ -675,7 +675,7 @@ export interface TldLegalAgreementCollection {
   /** The TldLegalAgreement items on this page */
   value: TldLegalAgreementCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTopLevelDomainsRequest {
   /** The ID of the target subscription. */
@@ -684,17 +684,17 @@ export interface ListTopLevelDomainsRequest {
 /** A top level domain object. */
 export interface TopLevelDomain {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** TopLevelDomain resource specific properties */
-  properties?: TopLevelDomainProperties;
+  properties?: TopLevelDomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The TopLevelDomain items on this page */
 export type TopLevelDomainCollectionValueList = Array<TopLevelDomain>;
@@ -703,7 +703,7 @@ export interface TopLevelDomainCollection {
   /** The TopLevelDomain items on this page */
   value: TopLevelDomainCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RenewDomainRequest {
   /** The ID of the target subscription. */
@@ -726,21 +726,21 @@ export interface TransferDomainOutRequest {
 export type TransferDomainOutResponseTagsMap = { [key: string]: string | undefined };
 export interface TransferDomainOutResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TransferDomainOutResponseTagsMap;
+  tags?: TransferDomainOutResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** DomainPatchResource resource specific properties */
 export type DomainPatchResourcePropertiesInput = DomainPropertiesInput;
@@ -752,29 +752,29 @@ export interface UpdateDomainRequest {
   /** Name of the domain. */
   domainName: string;
   /** Kind of resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** DomainPatchResource resource specific properties */
-  properties?: DomainPropertiesInput;
+  properties?: DomainPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateDomainResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDomainResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDomainResponseTagsMap;
+  tags?: UpdateDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Domain resource specific properties */
-  properties?: DomainProperties;
+  properties?: DomainProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface UpdateDomainOwnershipIdentifierRequest {
   /** The ID of the target subscription. */
@@ -786,23 +786,23 @@ export interface UpdateDomainOwnershipIdentifierRequest {
   /** Name of identifier. */
   name: string;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface UpdateDomainOwnershipIdentifierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DomainOwnershipIdentifier resource specific properties */
-  properties?: DomainOwnershipIdentifierProperties;
+  properties?: DomainOwnershipIdentifierProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type CheckDomainAvailabilityError = AzureOpError;
 /** Check if a domain is available for registration. Description for Check if a domain is available for registration. */

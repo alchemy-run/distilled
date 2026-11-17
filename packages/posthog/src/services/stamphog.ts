@@ -23,28 +23,40 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** * `all` - all * `label` - label */
+/** * `all` - All pull requests * `label` - Labeled pull requests */
 export type ReviewModeEnum = "all" | "label";
+/** * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+export type RoutingModeEnum = "off" | "always" | "fallback";
+/** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+export type CreateStamphogRepoConfigRequestRoutingForkLabelsMap = {
+  [key: string]: string | undefined;
+};
 export interface CreateStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
-  /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  digest_enabled?: boolean | undefined;
+  /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
+  /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
+  /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+  routing_fork_labels?: CreateStamphogRepoConfigRequestRoutingForkLabelsMap | undefined;
 }
+/** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. */
+export type StamphogRepoConfigRoutingForkLabelsMap = { [key: string]: string | undefined };
 export interface StamphogRepoConfig {
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
@@ -52,12 +64,16 @@ export interface StamphogRepoConfig {
   /** Provider app installation ID that authorizes API calls for this repo. Set only by the verified sync_installation flow; ignored on direct writes. */
   installation_id: string;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. Requires 'enabled', since the digest reports what stamphog approved. */
-  digest_enabled?: boolean;
-  /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
+  digest_enabled?: boolean | undefined;
+  /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
   review_mode: ReviewModeEnum;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
-  /** The caller's access level on the stamphog resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode or trigger_label. */
+  trigger_label?: string | undefined;
+  /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  routing_mode: RoutingModeEnum;
+  /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. */
+  routing_fork_labels: StamphogRepoConfigRoutingForkLabelsMap;
+  /** The caller's access level on the stamphog resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode, trigger_label, routing_mode or routing_fork_labels. */
   user_access_level: string | null;
   created_at: string;
   updated_at: string;
@@ -66,7 +82,7 @@ export interface CreateStamphogRepoConfigsSyncInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub App installation ID from the fresh-install Setup URL redirect. Optional: absent or blank means discover the caller's installations from the OAuth code instead (authorize-first flow). The id is not trusted on its own -- ownership is always proven via the code. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** GitHub user-to-server OAuth code from the post-install redirect (present when the App has 'Request user authorization during installation' enabled). Exchanged server-side to prove the caller owns the installation before its repos are bound. */
   code: string;
   /** Signed state token minted by install_info and round-tripped through GitHub's install redirect. Binds the callback to the team and user that started the flow, so a stolen installation_id + code can't be replayed against another team's session. */
@@ -267,6 +283,34 @@ export interface GetStamphogPullRequestRequest {
   project_id: string;
   id: string;
 }
+/** * `waiting` - Waiting for stamphog's verdict * `routing` - Routing * `requested` - Requested * `done` - Done */
+export type RoutingStatusEnum = "waiting" | "routing" | "requested" | "done";
+/** * `full` - Every owner * `pinned` - Pinned owners only */
+export type RoutingScopeEnum = "full" | "pinned";
+export interface StamphogPullRequestRouting {
+  /** The phase of the latest routing record: 'waiting' (fallback mode, the head waits for stamphog's verdict or the safety net), 'routing' (a task holds the claim and requested nobody yet), 'requested' (the review requests went out, the routing comment is not finished) or 'done'. * `waiting` - Waiting for stamphog's verdict * `routing` - Routing * `requested` - Requested * `done` - Done */
+  status: RoutingStatusEnum;
+  /** The repository's routing_mode when the record was written. Compare with the pull request's routing_mode. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  mode: RoutingModeEnum;
+  /** 'full', or 'pinned' when a stamphog approval asks only the owners of sensitive and new paths. Null while the record waits. * `full` - Every owner * `pinned` - Pinned owners only */
+  scope: RoutingScopeEnum | null;
+  /** The head commit the record is for. It can be older than the pull request head. */
+  head_sha: string;
+  /** What started the record: 'opened', 'ready_for_review', 'verdict:<outcome>' or 'safety_net'. */
+  trigger: string;
+  /** True when a 'routing' or 'requested' claim is older than the takeover limit. The task can still be alive, and a later delivery does not always finish an expired 'requested' claim. */
+  claim_expired: boolean;
+  /** When the head started to wait for stamphog's verdict. Null unless waiting. */
+  waiting_since: string | null;
+  /** When a task claimed the pull request for this record. */
+  claimed_at: string | null;
+  /** When the claim planned its requests. Null until the plan is saved. */
+  routed_at: string | null;
+  /** The head that a full routing of this pull request requested owners for, blank if none. Fallback mode routes in full at most once per pull request. */
+  full_routed_head: string;
+  /** The latest approved head whose pinned owners were requested, blank if none. */
+  pinned_routed_head: string;
+}
 export interface StamphogPullRequest {
   id: string;
   /** Full name of the repository this pull request belongs to. */
@@ -293,6 +337,10 @@ export interface StamphogPullRequest {
   deletions: number;
   /** Files changed, recorded when the pull request merges. */
   changed_files: number;
+  /** The repository's routing_mode now. 'off' means reviewer routing does not run for new events. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  routing_mode: RoutingModeEnum;
+  /** The latest reviewer routing record of the pull request, or null when routing never wrote one: routing is off, the pull request is still a draft, or no routing event arrived yet. Use the routing runs list for the owners each run requested or cut. */
+  routing: StamphogPullRequestRouting | null;
   /** When this pull request was first captured. */
   created_at: string;
   /** When this pull request was last updated. */
@@ -307,9 +355,9 @@ export interface GetStamphogRepoConfigsAvailableRepositoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of repositories to return. Defaults to 50, at most 200. */
-  limit?: number;
+  limit?: number | undefined;
   /** Case-insensitive substring to match against the repository full name, e.g. 'posthog'. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation. */
 export type StamphogAvailableRepositoriesRepositoriesList = Array<string>;
@@ -322,60 +370,185 @@ export interface StamphogAvailableRepositories {
   /** Whether a project member connected a GitHub installation yet. False means GitHub must be connected before any repository can be added. True with a total_count of 0 and no search means no repository is left to add. */
   has_installation: boolean;
 }
+export interface GetStamphogRepoConfigsOwnersFileRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+/** * `found` - Found * `missing` - Missing * `unavailable` - Unavailable */
+export type OwnersFileStatusEnum = "found" | "missing" | "unavailable";
+/** Whether a repository can use reviewer requests, which read ownership from its owners.yaml. */
+export interface StamphogOwnersFile {
+  /** Whether the default branch has a root owners.yaml: 'found', 'missing', or 'unavailable' when the check could not ask GitHub (no installation, or GitHub answered with an error). * `found` - Found * `missing` - Missing * `unavailable` - Unavailable */
+  owners_file: OwnersFileStatusEnum;
+}
 export interface GetStamphogReviewRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
 }
+export interface GetStamphogRoutingRunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+/** * `single_candidate` - Single candidate * `fork` - Fork * `nothing_cuttable` - Nothing cuttable * `no_answer` - No answer * `stamphog_approved` - Stamphog approved * `files_truncated` - Files truncated */
+export type LlmSkipReasonEnum =
+  | "single_candidate"
+  | "fork"
+  | "nothing_cuttable"
+  | "no_answer"
+  | "stamphog_approved"
+  | "files_truncated";
+/** * `requested` - Requested * `labeled` - Labeled * `refused` - Refused by GitHub * `cut` - Cut * `not_requested` - Not requested * `already_requested` - Already requested */
+export type RoutingOwnerOutcomeEnum =
+  | "requested"
+  | "labeled"
+  | "refused"
+  | "cut"
+  | "not_requested"
+  | "already_requested";
+/** * `sensitive` - Owns a sensitive path * `new_path` - Owns a new path * `largest_owner` - Has the largest part * `diff_not_seen` - Diff not shown to the model * `cut_skipped` - Cut step skipped * `model_kept` - Kept by the model * `model_cut` - Cut by the model * `stamphog_approved` - Stamphog approved */
+export type RoutingOwnerReasonEnum =
+  | "sensitive"
+  | "new_path"
+  | "largest_owner"
+  | "diff_not_seen"
+  | "cut_skipped"
+  | "model_kept"
+  | "model_cut"
+  | "stamphog_approved";
+/** * `sensitive` - Sensitive path * `new_path` - New path */
+export type PinReasonEnum = "sensitive" | "new_path";
+export interface StamphogRoutingPin {
+  /** Why the path pins its owner. * `sensitive` - Sensitive path * `new_path` - New path */
+  reason: PinReasonEnum;
+  /** The changed path, or the new directory, that pinned the owner. */
+  path: string;
+}
+/** The changed paths that pinned the owner, so no cut could remove them. */
+export type StamphogRoutingRunOwnerDetailPinsList = Array<StamphogRoutingPin>;
+/** * `team` - Team * `person` - Person */
+export type OwnerKindEnum = "team" | "person";
+export interface StamphogRoutingFile {
+  /** The changed path. */
+  path: string;
+  /** The path before a rename. Null for any other change. */
+  previous_path?: string | null | undefined;
+  /** GitHub's file status, such as 'added', 'modified', 'removed' or 'renamed'. */
+  status?: string | undefined;
+  /** Added lines. */
+  additions?: number | undefined;
+  /** Deleted lines. */
+  deletions?: number | undefined;
+  /** Repo-relative path of the ownership file, read at the run's owners_sha, whose `owners` list names this owner for the file. Null when only an additions declaration made the owner a candidate (see the owner's `new_path` pins), or when the run is older than this field. */
+  owners_source?: string | null | undefined;
+}
+/** Every changed file this owner owns, which is what made them a candidate. Patches are not kept. */
+export type StamphogRoutingRunOwnerDetailFilesList = Array<StamphogRoutingFile>;
+export interface StamphogRoutingRunOwnerDetail {
+  /** What the run did with the owner: 'requested', 'labeled' (a fork label instead of a request), 'refused' (GitHub refused the request or the label), 'cut', 'not_requested' (stamphog approved and the owner is not pinned) or 'already_requested' (an earlier run asked this pinned owner). * `requested` - Requested * `labeled` - Labeled * `refused` - Refused by GitHub * `cut` - Cut * `not_requested` - Not requested * `already_requested` - Already requested */
+  outcome: RoutingOwnerOutcomeEnum;
+  /** Why: 'sensitive' or 'new_path' (pinned, never cut), 'largest_owner' (a pull request keeps at least one reviewer), 'diff_not_seen' (the model did not see all of the owner's diff), 'cut_skipped' (no model call, see llm_skipped on the run), 'model_kept', 'model_cut' or 'stamphog_approved'. * `sensitive` - Owns a sensitive path * `new_path` - Owns a new path * `largest_owner` - Has the largest part * `diff_not_seen` - Diff not shown to the model * `cut_skipped` - Cut step skipped * `model_kept` - Kept by the model * `model_cut` - Cut by the model * `stamphog_approved` - Stamphog approved */
+  reason: RoutingOwnerReasonEnum;
+  /** The changed paths that pinned the owner, so no cut could remove them. */
+  pins: StamphogRoutingRunOwnerDetailPinsList;
+  /** Whether the owner is a GitHub team or a person. * `team` - Team * `person` - Person */
+  kind: OwnerKindEnum;
+  /** Every changed file this owner owns, which is what made them a candidate. Patches are not kept. */
+  files: StamphogRoutingRunOwnerDetailFilesList;
+  /** The owner as owners.yaml spells it: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
+  owner: string;
+  /** The model's one-line reason to cut this owner. Also set when a guard kept the owner anyway. Blank when the model proposed no cut for them. */
+  model_reason?: string | undefined;
+  /** Changed lines in the files this owner owns. */
+  lines?: number | undefined;
+  /** Changed files this owner owns. */
+  file_count?: number | undefined;
+}
+/** The run's decision for every owner of the changed code, with the files each owner owns. */
+export type StamphogRoutingRunDetailOwnersList = Array<StamphogRoutingRunOwnerDetail>;
+export interface StamphogRoutingRunDetail {
+  /** ID of the routing run. */
+  id: string;
+  /** Full name of the repository. */
+  repository: string;
+  /** Pull request number. */
+  pr_number: number;
+  /** The head commit the run routed. */
+  head_sha: string;
+  /** The repository's routing_mode when the run made its requests. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  mode: RoutingModeEnum;
+  /** What started the run: 'opened', 'ready_for_review', 'verdict:<outcome>' or 'safety_net'. */
+  trigger: string;
+  /** 'full', or 'pinned' when a stamphog approval asked only the owners of sensitive and new paths. * `full` - Every owner * `pinned` - Pinned owners only */
+  scope: RoutingScopeEnum;
+  /** Whether the pull request came from a fork, which skips the model. */
+  fork?: boolean | undefined;
+  /** Why the cut step made no model call. Null when it made one. * `single_candidate` - Single candidate * `fork` - Fork * `nothing_cuttable` - Nothing cuttable * `no_answer` - No answer * `stamphog_approved` - Stamphog approved * `files_truncated` - Files truncated */
+  llm_skipped: LlmSkipReasonEnum | null;
+  /** The model the cut request reached. Blank when no request reached the gateway. */
+  model?: string | undefined;
+  /** Whether GitHub listed fewer files than the pull request changes, so owners may be missing. */
+  files_truncated?: boolean | undefined;
+  /** Whether the new-path lookup worked. When false, owners of new paths may not be pinned. */
+  additions_resolved?: boolean | undefined;
+  /** The default-branch commit whose owners.yaml files decided the owners. Blank when unknown. */
+  owners_sha?: string | undefined;
+  /** The run's decision for every owner of the changed code, with the files each owner owns. */
+  owners: StamphogRoutingRunDetailOwnersList;
+  /** When the run made its requests. */
+  created_at?: string | null | undefined;
+}
 export interface ListStamphogDigestRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by the Slack channel the digest was posted to, e.g. 'C012AB3CD'. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
 }
 export type PaginatedDigestRunListResultsList = Array<DigestRun>;
 export interface PaginatedDigestRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDigestRunListResultsList;
 }
 export interface ListStamphogPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by merge state: true for merged pull requests, false for unmerged. */
-  merged?: boolean;
+  merged?: boolean | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
 }
 export type PaginatedStamphogPullRequestListResultsList = Array<StamphogPullRequest>;
 export interface PaginatedStamphogPullRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogPullRequestListResultsList;
 }
 export interface ListStamphogRepoConfigsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedStamphogRepoConfigListResultsList = Array<StamphogRepoConfig>;
 export interface PaginatedStamphogRepoConfigList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogRepoConfigListResultsList;
 }
 export type ListStamphogReviewRunsRequestTrigger = "all" | "label" | "manual" | "self_driving";
@@ -383,24 +556,125 @@ export interface ListStamphogReviewRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** Filter by repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Filter by review run status. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by what caused the run. Leave it unset to include runs from every trigger. 'all' is not a wildcard: it matches only runs in repos that review every pull request event. The other values: 'label' (the repo's trigger label opted the PR in), 'manual' (someone requested the review through the API or MCP), and 'self_driving' (stamphog reviewed a bot-authored PR from the inbox). */
-  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {});
+  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {}) | undefined;
 }
 export type PaginatedReviewRunListResultsList = Array<ReviewRun>;
 export interface PaginatedReviewRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReviewRunListResultsList;
+}
+export type ListStamphogRoutingRunsRequestOutcome =
+  | "requested"
+  | "labeled"
+  | "refused"
+  | "cut"
+  | "not_requested"
+  | "already_requested";
+export type ListStamphogRoutingRunsRequestReason =
+  | "sensitive"
+  | "new_path"
+  | "largest_owner"
+  | "diff_not_seen"
+  | "cut_skipped"
+  | "model_kept"
+  | "model_cut"
+  | "stamphog_approved";
+export interface ListStamphogRoutingRunsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Keep only runs created at or after this time (ISO 8601). */
+  created_after?: string | undefined;
+  /** Keep only runs created before this time (ISO 8601). */
+  created_before?: string | undefined;
+  /** Keep only runs on this head commit. Pass the full 40-character SHA. */
+  head_sha?: string | undefined;
+  /** Number of results to return per page. */
+  limit?: number | undefined;
+  /** The initial index from which to return the results. */
+  offset?: number | undefined;
+  /** Keep only runs where an owner got this outcome. With `owner`, that owner must have it, so `owner=team-devex&outcome=cut` lists the runs that cut team-devex. * `requested` - Requested * `labeled` - Labeled * `refused` - Refused by GitHub * `cut` - Cut * `not_requested` - Not requested * `already_requested` - Already requested */
+  outcome?: ListStamphogRoutingRunsRequestOutcome | (string & {}) | undefined;
+  /** Keep only runs that decided about this owner, spelled as in owners.yaml: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
+  owner?: string | undefined;
+  /** Filter by pull request number. */
+  pr_number?: number | undefined;
+  /** Keep only runs where an owner was kept or cut for this reason. With `owner`, that owner must have it. * `sensitive` - Owns a sensitive path * `new_path` - Owns a new path * `largest_owner` - Has the largest part * `diff_not_seen` - Diff not shown to the model * `cut_skipped` - Cut step skipped * `model_kept` - Kept by the model * `model_cut` - Cut by the model * `stamphog_approved` - Stamphog approved */
+  reason?: ListStamphogRoutingRunsRequestReason | (string & {}) | undefined;
+  /** Filter by repository full name, e.g. 'PostHog/posthog'. */
+  repository?: string | undefined;
+}
+/** The changed paths that pinned the owner, so no cut could remove them. */
+export type StamphogRoutingRunOwnerPinsList = Array<StamphogRoutingPin>;
+export interface StamphogRoutingRunOwner {
+  /** What the run did with the owner: 'requested', 'labeled' (a fork label instead of a request), 'refused' (GitHub refused the request or the label), 'cut', 'not_requested' (stamphog approved and the owner is not pinned) or 'already_requested' (an earlier run asked this pinned owner). * `requested` - Requested * `labeled` - Labeled * `refused` - Refused by GitHub * `cut` - Cut * `not_requested` - Not requested * `already_requested` - Already requested */
+  outcome: RoutingOwnerOutcomeEnum;
+  /** Why: 'sensitive' or 'new_path' (pinned, never cut), 'largest_owner' (a pull request keeps at least one reviewer), 'diff_not_seen' (the model did not see all of the owner's diff), 'cut_skipped' (no model call, see llm_skipped on the run), 'model_kept', 'model_cut' or 'stamphog_approved'. * `sensitive` - Owns a sensitive path * `new_path` - Owns a new path * `largest_owner` - Has the largest part * `diff_not_seen` - Diff not shown to the model * `cut_skipped` - Cut step skipped * `model_kept` - Kept by the model * `model_cut` - Cut by the model * `stamphog_approved` - Stamphog approved */
+  reason: RoutingOwnerReasonEnum;
+  /** The changed paths that pinned the owner, so no cut could remove them. */
+  pins: StamphogRoutingRunOwnerPinsList;
+  /** Whether the owner is a GitHub team or a person. * `team` - Team * `person` - Person */
+  kind: OwnerKindEnum;
+  /** The owner as owners.yaml spells it: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
+  owner: string;
+  /** The model's one-line reason to cut this owner. Also set when a guard kept the owner anyway. Blank when the model proposed no cut for them. */
+  model_reason?: string | undefined;
+  /** Changed lines in the files this owner owns. */
+  lines?: number | undefined;
+  /** Changed files this owner owns. */
+  file_count?: number | undefined;
+}
+/** The run's decision for every owner of the changed code. */
+export type StamphogRoutingRunOwnersList = Array<StamphogRoutingRunOwner>;
+export interface StamphogRoutingRun {
+  /** ID of the routing run. */
+  id: string;
+  /** Full name of the repository. */
+  repository: string;
+  /** Pull request number. */
+  pr_number: number;
+  /** The head commit the run routed. */
+  head_sha: string;
+  /** The repository's routing_mode when the run made its requests. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  mode: RoutingModeEnum;
+  /** What started the run: 'opened', 'ready_for_review', 'verdict:<outcome>' or 'safety_net'. */
+  trigger: string;
+  /** 'full', or 'pinned' when a stamphog approval asked only the owners of sensitive and new paths. * `full` - Every owner * `pinned` - Pinned owners only */
+  scope: RoutingScopeEnum;
+  /** Whether the pull request came from a fork, which skips the model. */
+  fork?: boolean | undefined;
+  /** Why the cut step made no model call. Null when it made one. * `single_candidate` - Single candidate * `fork` - Fork * `nothing_cuttable` - Nothing cuttable * `no_answer` - No answer * `stamphog_approved` - Stamphog approved * `files_truncated` - Files truncated */
+  llm_skipped: LlmSkipReasonEnum | null;
+  /** The model the cut request reached. Blank when no request reached the gateway. */
+  model?: string | undefined;
+  /** Whether GitHub listed fewer files than the pull request changes, so owners may be missing. */
+  files_truncated?: boolean | undefined;
+  /** Whether the new-path lookup worked. When false, owners of new paths may not be pinned. */
+  additions_resolved?: boolean | undefined;
+  /** The default-branch commit whose owners.yaml files decided the owners. Blank when unknown. */
+  owners_sha?: string | undefined;
+  /** The run's decision for every owner of the changed code. */
+  owners: StamphogRoutingRunOwnersList;
+  /** When the run made its requests. */
+  created_at?: string | null | undefined;
+}
+export type PaginatedStamphogRoutingRunListResultsList = Array<StamphogRoutingRun>;
+export interface PaginatedStamphogRoutingRunList {
+  count: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results: PaginatedStamphogRoutingRunListResultsList;
 }
 export interface StamphogRepoConfigsAddRepositoryCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -427,39 +701,55 @@ export interface StamphogInstallInfo {
   /** GitHub authorize URL (github.com/login/oauth/authorize). GitHub's redirect after configuring an existing installation carries no OAuth code, so the client passes through this URL once: an installed App redirects straight back with a code, which sync_installation uses to prove ownership. Blank if the App client id is unconfigured. */
   authorize_url: string;
 }
+/** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+export type UpdateStamphogRepoConfigRequestRoutingForkLabelsMap = {
+  [key: string]: string | undefined;
+};
 export interface UpdateStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
-  /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  digest_enabled?: boolean | undefined;
+  /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
+  /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
+  /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+  routing_fork_labels?: UpdateStamphogRepoConfigRequestRoutingForkLabelsMap | undefined;
 }
+/** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+export type UpdateStamphogRepoConfigsPartialRequestRoutingForkLabelsMap = {
+  [key: string]: string | undefined;
+};
 export interface UpdateStamphogRepoConfigsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
-  /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  digest_enabled?: boolean | undefined;
+  /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
+  /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
+  /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
+  routing_fork_labels?: UpdateStamphogRepoConfigsPartialRequestRoutingForkLabelsMap | undefined;
 }
 export type CreateStamphogRepoConfigError = PosthogOpError;
 /** Per-repo stamphog settings -- enable/disable review, GitHub App installation, policy overrides. */
@@ -470,7 +760,7 @@ export const createStamphogRepoConfig: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateStamphogRepoConfigRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StamphogRepoConfig>,
+  output: __S(9, __c1, 1) as any as S.Schema<StamphogRepoConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -486,8 +776,8 @@ export const createStamphogRepoConfigsSyncInstallation: API.OperationMethod<
   CreateStamphogRepoConfigsSyncInstallationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateStamphogRepoConfigsSyncInstallationRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<StamphogSyncInstallationResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateStamphogRepoConfigsSyncInstallationRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<StamphogSyncInstallationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -503,8 +793,8 @@ export const createStamphogReviewRun: API.OperationMethod<
   CreateStamphogReviewRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateStamphogReviewRunRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<ReviewRequestResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateStamphogReviewRunRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<ReviewRequestResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -520,8 +810,8 @@ export const getStamphogDigestRun: API.OperationMethod<
   GetStamphogDigestRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetStamphogDigestRunRequest>,
-  output: __S(63, __c15, 3) as any as S.Schema<DigestRun>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetStamphogDigestRunRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<DigestRun>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -537,8 +827,8 @@ export const getStamphogPullRequest: API.OperationMethod<
   GetStamphogPullRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetStamphogPullRequestRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<StamphogPullRequest>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetStamphogPullRequestRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<StamphogPullRequest>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -554,8 +844,8 @@ export const getStamphogRepoConfig: API.OperationMethod<
   GetStamphogRepoConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetStamphogRepoConfigRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StamphogRepoConfig>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetStamphogRepoConfigRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<StamphogRepoConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -571,13 +861,30 @@ export const getStamphogRepoConfigsAvailableRepository: API.OperationMethod<
   GetStamphogRepoConfigsAvailableRepositoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<GetStamphogRepoConfigsAvailableRepositoryRequest>,
-  output: __S(77, __c19, 1) as any as S.Schema<StamphogAvailableRepositories>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetStamphogRepoConfigsAvailableRepositoryRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<StamphogAvailableRepositories>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStamphogRepoConfigsAvailableRepository",
+}));
+
+export type GetStamphogRepoConfigsOwnersFileError = PosthogOpError;
+/** Check whether the repository's default branch has a root owners.yaml. Reviewer requests (routing_mode) read the code owners from it. Makes one GitHub call, so ask only when needed. */
+export const getStamphogRepoConfigsOwnersFile: API.OperationMethod<
+  GetStamphogRepoConfigsOwnersFileRequest,
+  StamphogOwnersFile,
+  GetStamphogRepoConfigsOwnersFileError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(184, __c23, 0) as any as S.Schema<GetStamphogRepoConfigsOwnersFileRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<StamphogOwnersFile>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogRepoConfigsOwnersFile",
 }));
 
 export type GetStamphogReviewRunError = PosthogOpError;
@@ -588,13 +895,30 @@ export const getStamphogReviewRun: API.OperationMethod<
   GetStamphogReviewRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<GetStamphogReviewRunRequest>,
-  output: __S(55, __c13, 3) as any as S.Schema<ReviewRun>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetStamphogReviewRunRequest>,
+  output: __S(131, __c16, 3) as any as S.Schema<ReviewRun>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStamphogReviewRun",
+}));
+
+export type GetStamphogRoutingRunError = PosthogOpError;
+/** One reviewer routing run, with every changed file each owner owns. */
+export const getStamphogRoutingRun: API.OperationMethod<
+  GetStamphogRoutingRunRequest,
+  StamphogRoutingRunDetail,
+  GetStamphogRoutingRunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(200, __c25, 0) as any as S.Schema<GetStamphogRoutingRunRequest>,
+  output: __S(205, __c25, 5) as any as S.Schema<StamphogRoutingRunDetail>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogRoutingRun",
 }));
 
 export type ListStamphogDigestRunsError = PosthogOpError;
@@ -605,8 +929,8 @@ export const listStamphogDigestRuns: API.OperationMethod<
   ListStamphogDigestRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<ListStamphogDigestRunsRequest>,
-  output: __S(86, __c21, 2) as any as S.Schema<PaginatedDigestRunList>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListStamphogDigestRunsRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<PaginatedDigestRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -622,8 +946,8 @@ export const listStamphogPullRequests: API.OperationMethod<
   ListStamphogPullRequestsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<ListStamphogPullRequestsRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<PaginatedStamphogPullRequestList>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListStamphogPullRequestsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<PaginatedStamphogPullRequestList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -639,8 +963,8 @@ export const listStamphogRepoConfigs: API.OperationMethod<
   ListStamphogRepoConfigsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListStamphogRepoConfigsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<PaginatedStamphogRepoConfigList>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListStamphogRepoConfigsRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<PaginatedStamphogRepoConfigList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -656,13 +980,30 @@ export const listStamphogReviewRuns: API.OperationMethod<
   ListStamphogReviewRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListStamphogReviewRunsRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<PaginatedReviewRunList>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListStamphogReviewRunsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<PaginatedReviewRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStamphogReviewRuns",
+}));
+
+export type ListStamphogRoutingRunsError = PosthogOpError;
+/** List reviewer routing runs, newest first. Each run holds its decision for every owner of the changed code: requested, cut, or not asked, with the reason. Filter by owner to answer why a team or person was or was not asked to review. Get one run for the files each owner owns. */
+export const listStamphogRoutingRuns: API.OperationMethod<
+  ListStamphogRoutingRunsRequest,
+  PaginatedStamphogRoutingRunList,
+  ListStamphogRoutingRunsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<ListStamphogRoutingRunsRequest>,
+  output: __S(77, __c9, 5) as any as S.Schema<PaginatedStamphogRoutingRunList>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStamphogRoutingRuns",
 }));
 
 export type StamphogRepoConfigsAddRepositoryCreateError = PosthogOpError;
@@ -673,8 +1014,8 @@ export const stamphogRepoConfigsAddRepositoryCreate: API.OperationMethod<
   StamphogRepoConfigsAddRepositoryCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<StamphogRepoConfigsAddRepositoryCreateRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StamphogRepoConfig>,
+  input: __S(80, __c10, 0) as any as S.Schema<StamphogRepoConfigsAddRepositoryCreateRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<StamphogRepoConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -690,8 +1031,8 @@ export const stamphogRepoConfigsDestroy: API.OperationMethod<
   StamphogRepoConfigsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<StamphogRepoConfigsDestroyRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<StamphogRepoConfigsDestroyResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<StamphogRepoConfigsDestroyRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<StamphogRepoConfigsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -707,8 +1048,8 @@ export const stamphogRepoConfigsInstallInfoRetrieve: API.OperationMethod<
   StamphogRepoConfigsInstallInfoRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<StamphogRepoConfigsInstallInfoRetrieveRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<StamphogInstallInfo>,
+  input: __S(96, __c12, 0) as any as S.Schema<StamphogRepoConfigsInstallInfoRetrieveRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<StamphogInstallInfo>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -724,8 +1065,8 @@ export const updateStamphogRepoConfig: API.OperationMethod<
   UpdateStamphogRepoConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<UpdateStamphogRepoConfigRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StamphogRepoConfig>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateStamphogRepoConfigRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<StamphogRepoConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -741,8 +1082,8 @@ export const updateStamphogRepoConfigsPartial: API.OperationMethod<
   UpdateStamphogRepoConfigsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<UpdateStamphogRepoConfigsPartialRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StamphogRepoConfig>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateStamphogRepoConfigsPartialRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<StamphogRepoConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -763,6 +1104,8 @@ function __c0(j: number): any {
           digest_enabled: S.optional(S.Boolean),
           review_mode: S.optional(S.String),
           trigger_label: S.optional(S.String),
+          routing_mode: S.optional(S.String),
+          routing_fork_labels: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -776,6 +1119,8 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -786,6 +1131,8 @@ function __c1(j: number): any {
           digest_enabled: S.optional(S.Boolean),
           review_mode: S.String,
           trigger_label: S.optional(S.String),
+          routing_mode: S.String,
+          routing_fork_labels: __S(8, __c1, 0),
           user_access_level: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -818,15 +1165,15 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "StamphogDiscoveredInstallation" });
     case 2:
-      return S.Array(__S(9, __c2, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          synced: __S(12, __c3, 0),
-          skipped: __S(16, __c4, 0),
+          synced: __S(24, __c3, 0),
+          skipped: __S(32, __c4, 0),
           available_count: S.Number,
           app_not_installed: S.Boolean,
-          installations: __S(10, __c2, 2),
+          installations: __S(18, __c2, 2),
         }),
       ).annotate({ identifier: "StamphogSyncInstallationResponse" });
   }
@@ -834,7 +1181,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(9, __c1, 1));
   }
 }
 function __c4(j: number): any {
@@ -844,6 +1191,67 @@ function __c4(j: number): any {
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          slack_channel_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/stamphog/digest_runs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListStamphogDigestRunsRequest" });
+    case 1:
+      return S.Array(__S(147, __c18, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(41, __c5, 1),
+        }),
+      ).annotate({ identifier: "PaginatedDigestRunList" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          merged: S.optional(S.Boolean.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          pr_number: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/stamphog/pull_requests/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListStamphogPullRequestsRequest" });
+    case 1:
+      return S.Array(__S(161, __c20, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(49, __c6, 1),
+        }),
+      ).annotate({ identifier: "PaginatedStamphogPullRequestList" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -865,12 +1273,12 @@ function __c5(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(12, __c3, 0),
+          results: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "PaginatedStamphogRepoConfigList" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -891,19 +1299,91 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListStamphogReviewRunsRequest" });
     case 1:
-      return S.Array(__S(55, __c13, 3));
+      return S.Array(__S(131, __c16, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(25, __c6, 1),
+          results: __S(65, __c8, 1),
         }),
       ).annotate({ identifier: "PaginatedReviewRunList" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          created_after: S.optional(S.String.pipe(T.Query())),
+          created_before: S.optional(S.String.pipe(T.Query())),
+          head_sha: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          outcome: S.optional(S.String.pipe(T.Query())),
+          owner: S.optional(S.String.pipe(T.Query())),
+          pr_number: S.optional(S.Number.pipe(T.Query())),
+          reason: S.optional(S.String.pipe(T.Query())),
+          repository: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/stamphog/routing_runs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListStamphogRoutingRunsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          outcome: S.String,
+          reason: S.String,
+          pins: __S(209, __c26, 1),
+          kind: S.String,
+          owner: S.String,
+          model_reason: S.optional(S.String),
+          lines: S.optional(S.Number),
+          file_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StamphogRoutingRunOwner" });
+    case 2:
+      return S.Array(__S(73, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          repository: S.String,
+          pr_number: S.Number,
+          head_sha: S.String,
+          mode: S.String,
+          trigger: S.String,
+          scope: S.String,
+          fork: S.optional(S.Boolean),
+          llm_skipped: S.NullOr(S.String),
+          model: S.optional(S.String),
+          files_truncated: S.optional(S.Boolean),
+          additions_resolved: S.optional(S.Boolean),
+          owners_sha: S.optional(S.String),
+          owners: __S(74, __c9, 2),
+          created_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "StamphogRoutingRun" });
+    case 4:
+      return S.Array(__S(75, __c9, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(76, __c9, 4),
+        }),
+      ).annotate({ identifier: "PaginatedStamphogRoutingRunList" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -920,7 +1400,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "StamphogRepoConfigsAddRepositoryCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -941,7 +1421,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -965,7 +1445,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "StamphogInstallInfo" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -978,6 +1458,8 @@ function __c10(j: number): any {
           digest_enabled: S.optional(S.Boolean),
           review_mode: S.optional(S.String),
           trigger_label: S.optional(S.String),
+          routing_mode: S.optional(S.String),
+          routing_fork_labels: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -988,7 +1470,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateStamphogRepoConfigRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1001,6 +1483,8 @@ function __c11(j: number): any {
           digest_enabled: S.optional(S.Boolean),
           review_mode: S.optional(S.String),
           trigger_label: S.optional(S.String),
+          routing_mode: S.optional(S.String),
+          routing_fork_labels: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1011,7 +1495,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateStamphogRepoConfigsPartialRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1030,13 +1514,13 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          run: __S(55, __c13, 3),
+          run: __S(131, __c16, 3),
           created: S.Boolean,
         }),
       ).annotate({ identifier: "ReviewRequestResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1056,7 +1540,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reasoning: S.NullOr(S.String),
-          showstoppers: S.NullOr(__S(16, __c4, 0)),
+          showstoppers: S.NullOr(__S(32, __c4, 0)),
           review_body: S.NullOr(S.String),
           change_summary: S.NullOr(S.String),
         }),
@@ -1077,9 +1561,9 @@ function __c13(j: number): any {
           trigger: S.String,
           status: S.String,
           verdict: S.String,
-          gate_result: __S(52, __c13, 0),
-          output: __S(53, __c13, 1),
-          reasoning: S.NullOr(__S(54, __c13, 2)),
+          gate_result: __S(128, __c16, 0),
+          output: __S(129, __c16, 1),
+          reasoning: S.NullOr(__S(130, __c16, 2)),
           error: S.String,
           posted_review_id: S.NullOr(S.Number),
           verdict_posted_at: S.NullOr(S.String),
@@ -1091,7 +1575,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ReviewRun" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1108,7 +1592,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetStamphogDigestRunRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1122,12 +1606,12 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "DigestSummaryPR" });
     case 1:
-      return S.Array(__S(60, __c15, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           headline: S.String,
-          prs: __S(61, __c15, 1),
+          prs: __S(145, __c18, 1),
         }),
       ).annotate({ identifier: "DigestSummary" });
     case 3:
@@ -1140,7 +1624,7 @@ function __c15(j: number): any {
           resolution_source: S.String,
           status: S.String,
           pr_count: S.Number,
-          summary: __S(62, __c15, 2),
+          summary: __S(146, __c18, 2),
           slack_message_ts: S.String,
           error: S.String,
           created_at: S.String,
@@ -1149,7 +1633,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DigestRun" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1166,9 +1650,25 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetStamphogPullRequestRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          mode: S.String,
+          scope: S.NullOr(S.String),
+          head_sha: S.String,
+          trigger: S.String,
+          claim_expired: S.Boolean,
+          waiting_since: S.NullOr(S.String),
+          claimed_at: S.NullOr(S.String),
+          routed_at: S.NullOr(S.String),
+          full_routed_head: S.String,
+          pinned_routed_head: S.String,
+        }),
+      ).annotate({ identifier: "StamphogPullRequestRouting" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -1184,13 +1684,15 @@ function __c17(j: number): any {
           additions: S.Number,
           deletions: S.Number,
           changed_files: S.Number,
+          routing_mode: S.String,
+          routing: S.NullOr(__S(160, __c20, 0)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "StamphogPullRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1207,7 +1709,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetStamphogRepoConfigRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1226,14 +1728,37 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: __S(16, __c4, 0),
+          repositories: __S(32, __c4, 0),
           total_count: S.Number,
           has_installation: S.Boolean,
         }),
       ).annotate({ identifier: "StamphogAvailableRepositories" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/stamphog/repo_configs/{id}/owners_file/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetStamphogRepoConfigsOwnersFileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          owners_file: S.String,
+        }),
+      ).annotate({ identifier: "StamphogOwnersFile" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1250,65 +1775,83 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetStamphogReviewRunRequest" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          slack_channel_id: S.optional(S.String.pipe(T.Query())),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/stamphog/digest_runs/",
+            uri: "/api/projects/{project_id}/stamphog/routing_runs/{id}/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListStamphogDigestRunsRequest" });
+      ).annotate({ identifier: "GetStamphogRoutingRunRequest" });
     case 1:
-      return S.Array(__S(63, __c15, 3));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(85, __c21, 1),
+          path: S.String,
+          previous_path: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          additions: S.optional(S.Number),
+          deletions: S.optional(S.Number),
+          owners_source: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "PaginatedDigestRunList" });
+      ).annotate({ identifier: "StamphogRoutingFile" });
+    case 2:
+      return S.Array(__S(201, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          outcome: S.String,
+          reason: S.String,
+          pins: __S(209, __c26, 1),
+          kind: S.String,
+          files: __S(202, __c25, 2),
+          owner: S.String,
+          model_reason: S.optional(S.String),
+          lines: S.optional(S.Number),
+          file_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StamphogRoutingRunOwnerDetail" });
+    case 4:
+      return S.Array(__S(203, __c25, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          repository: S.String,
+          pr_number: S.Number,
+          head_sha: S.String,
+          mode: S.String,
+          trigger: S.String,
+          scope: S.String,
+          fork: S.optional(S.Boolean),
+          llm_skipped: S.NullOr(S.String),
+          model: S.optional(S.String),
+          files_truncated: S.optional(S.Boolean),
+          additions_resolved: S.optional(S.Boolean),
+          owners_sha: S.optional(S.String),
+          owners: __S(204, __c25, 4),
+          created_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "StamphogRoutingRunDetail" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          merged: S.optional(S.Boolean.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          pr_number: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/stamphog/pull_requests/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListStamphogPullRequestsRequest" });
-    case 1:
-      return S.Array(__S(68, __c17, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(89, __c22, 1),
+          reason: S.String,
+          path: S.String,
         }),
-      ).annotate({ identifier: "PaginatedStamphogPullRequestList" });
+      ).annotate({ identifier: "StamphogRoutingPin" });
+    case 1:
+      return S.Array(__S(208, __c26, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -30,174 +30,197 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export type GetCategoryRequestLanguage = "en" | "de";
 export interface GetCategoryRequest {
   /** The unique identifier for a category. */
   categoryId: string;
   /** The language to retrieve the data in, available for en and de */
-  language?: GetCategoryRequestLanguage | (string & {});
+  language?: GetCategoryRequestLanguage | (string & {}) | undefined;
 }
 export interface PublicCategory {
   /** Description of the category */
-  description?: string;
+  description?: string | undefined;
   /** The unique identifier for the category, which is object id from the DB */
-  id?: string | null;
+  id?: string | null | undefined;
   /** URI of the category image */
-  image?: string;
+  image?: string | undefined;
   /** Language of the category */
-  language?: string;
+  language?: string | undefined;
   /** Category name */
-  name?: string;
+  name?: string | undefined;
   /** Date when the current version was approved and became valid in PIM */
-  validStart?: string;
+  validStart?: string | undefined;
   /** Number of the revision from PIM */
-  version?: string;
+  version?: string | undefined;
 }
 export type GetProductRequestLanguage = "en" | "de";
 export interface GetProductRequest {
   /** The unique identifier for a product. */
   productId: string;
   /** The language to retrieve the data in, available for en and de */
-  language?: GetProductRequestLanguage | (string & {});
+  language?: GetProductRequestLanguage | (string & {}) | undefined;
 }
 /** Api identifier */
 export type PublicProductApiIdentifierList = Array<string>;
 export interface PublicProduct {
   /** Api identifier */
-  apiIdentifier?: PublicProductApiIdentifierList;
+  apiIdentifier?: PublicProductApiIdentifierList | undefined;
   /** The unique identifier for the category, which is object id from the DB */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
   /** Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`) */
-  categoryName?: string | null;
+  categoryName?: string | null | undefined;
   /** Description of the product */
-  description?: string;
+  description?: string | undefined;
   /** Unique identifier of the product, which is object id from the DB */
-  id?: string | null;
+  id?: string | null | undefined;
   /** URI of the category image */
-  image?: string;
+  image?: string | undefined;
   /** Language of the product */
-  language?: string;
+  language?: string | undefined;
   /** Extended name of the product */
-  longName?: string;
+  longName?: string | undefined;
   /** An abbreviated name of the product */
-  shortName?: string;
+  shortName?: string | undefined;
   /** Date when the current version was approved and became valid in PIM */
-  validStart?: string;
+  validStart?: string | undefined;
   /** Number of the revision from PIM */
-  version?: string;
+  version?: string | undefined;
 }
 export type GetProductMarketingDataRequestLanguage = "en" | "de";
 export interface GetProductMarketingDataRequest {
   /** The unique identifier for a product. */
   productId: string;
   /** The language to retrieve the data in, available for en and de */
-  language?: GetProductMarketingDataRequestLanguage | (string & {});
+  language?: GetProductMarketingDataRequestLanguage | (string & {}) | undefined;
 }
 export interface MarketingAdvantage {
   /** Name of the advantage */
-  advantage?: string;
+  advantage?: string | undefined;
   /** Description of the advantage */
-  position?: number;
+  position?: number | undefined;
 }
 /** List of advantages of the product */
 export type PublicMarketingDataAdvantagesList = Array<MarketingAdvantage>;
 export interface MarketingApplication {
   /** Description of the application */
-  application?: string;
+  application?: string | undefined;
   /** Title of the application */
-  applicationTitle?: string;
+  applicationTitle?: string | undefined;
   /** Position of the application */
-  position?: number;
+  position?: number | undefined;
 }
 /** List of applications provided by the product */
 export type PublicMarketingDataApplicationsList = Array<MarketingApplication>;
 export interface MarketingFunction {
   /** Name of the function */
-  function?: string;
+  function?: string | undefined;
   /** Position of the function */
-  position?: number;
+  position?: number | undefined;
 }
 /** List of functions provided by the product */
 export type PublicMarketingDataFunctionsList = Array<MarketingFunction>;
 export interface PublicMarketingData {
   /** List of advantages of the product */
-  advantages?: PublicMarketingDataAdvantagesList;
+  advantages?: PublicMarketingDataAdvantagesList | undefined;
   /** List of applications provided by the product */
-  applications?: PublicMarketingDataApplicationsList;
+  applications?: PublicMarketingDataApplicationsList | undefined;
   /** List of functions provided by the product */
-  functions?: PublicMarketingDataFunctionsList;
+  functions?: PublicMarketingDataFunctionsList | undefined;
   /** Short description of what the product delivers */
-  headline?: string;
+  headline?: string | undefined;
   /** Unique identifier of the marketing product, which is object id from the DB */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Basic information of the product */
-  introductoryText?: string;
+  introductoryText?: string | undefined;
   /** Language of the marketing data */
-  language?: string;
+  language?: string | undefined;
   /** Extended name of the product */
-  longName?: string;
+  longName?: string | undefined;
   /** An abbreviated name of the product */
-  shortName?: string;
+  shortName?: string | undefined;
   /** Internal ID of the product in PIM */
-  stId?: string;
+  stId?: string | undefined;
   /** Date when the current version was approved and became valid in PIM */
-  validStart?: string;
+  validStart?: string | undefined;
   /** Number of the revision from PIM */
-  version?: string;
+  version?: string | undefined;
 }
 export type GetSKURequestLanguage = "en" | "de";
 export interface GetSKURequest {
   /** The unique identifier for a SKU. */
   skuId: string;
   /** The language to retrieve the data in, available for en and de */
-  language?: GetSKURequestLanguage | (string & {});
+  language?: GetSKURequestLanguage | (string & {}) | undefined;
 }
 export interface FinOpsFocus {
   /** FinOps Focus service category */
-  serviceCategory?: string;
+  serviceCategory?: string | undefined;
   /** FinOps Focus service subcategory */
-  serviceSubCategory?: string;
+  serviceSubCategory?: string | undefined;
 }
 /** Prices' currency code regarding ISO4217 */
 export type CurrencyCodes = "EUR" | "USD" | "GBP";
 /** Prices' currency symbol */
 export type CurrencySymbols = "\u20ac" | "$";
 export interface Price {
-  currencyCode?: CurrencyCodes;
-  currencySymbol?: CurrencySymbols | null;
+  currencyCode?: CurrencyCodes | undefined;
+  currencySymbol?: CurrencySymbols | null | undefined;
   /** Monthly price value that is valid at request time, shown with full precision */
-  monthlyPrice?: string | null;
+  monthlyPrice?: string | null | undefined;
+  /** Price ID */
+  priceId?: string | null | undefined;
   /** Used in Portal rounded to the minimal usable precision 2 digits after 0 */
-  roundedMonthlyPrice?: string;
+  roundedMonthlyPrice?: string | undefined;
   /** Used in Portal rounded to the minimal usable precision 2 digits after 0 */
-  roundedValue?: string;
-  validFrom?: string;
+  roundedValue?: string | undefined;
+  validFrom?: string | undefined;
   /** Price value that is valid at request time, shown with full precision with 11 decimals */
-  value?: string;
+  value?: string | undefined;
   /** Price as integer representation 1e11 */
-  valueAsInt?: number;
+  valueAsInt?: number | undefined;
 }
 /** List of prices */
 export type GetSKUResponsePricesList = Array<Price>;
@@ -208,173 +231,173 @@ export type PublicDatabaseSpecificAttributesPerformanceClassesList = Array<strin
 export interface PublicDatabaseSpecificAttributes {
   discriminator: string;
   /** diskStoragePerNode */
-  diskStoragePerNode?: string | null;
+  diskStoragePerNode?: string | null | undefined;
   /** Flavor */
-  flavor?: string | null;
+  flavor?: string | null | undefined;
   /** Nodes */
-  nodes?: number | null;
+  nodes?: number | null | undefined;
   /** Performance Classes */
-  performanceClasses?: PublicDatabaseSpecificAttributesPerformanceClassesList;
+  performanceClasses?: PublicDatabaseSpecificAttributesPerformanceClassesList | undefined;
   /** RAM (in GB) */
-  ram?: number | null;
+  ram?: number | null | undefined;
   /** Max Storage in Gb */
-  storageMaxGb?: number | null;
+  storageMaxGb?: number | null | undefined;
   /** Min Storage in Gb */
-  storageMinGb?: number | null;
+  storageMinGb?: number | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Number of vCPU */
-  vCPU?: number | null;
+  vCPU?: number | null | undefined;
 }
 export interface ArchivingSpecificAttributes {
   discriminator: string;
   /** metro */
-  metro?: boolean | null;
+  metro?: boolean | null | undefined;
 }
 export interface ComputeEngineSpecificAttributes {
   discriminator: string;
   /** Flavor */
-  flavor?: string | null;
+  flavor?: string | null | undefined;
   /** Hardware */
-  hardware?: string | null;
+  hardware?: string | null | undefined;
   /** metro */
-  metro?: boolean | null;
+  metro?: boolean | null | undefined;
   /** Operating System (e.g. `windows`, `windows-managed`) */
-  os?: string | null;
+  os?: string | null | undefined;
   /** RAM (in GB) */
-  ram?: number | null;
+  ram?: number | null | undefined;
   /** Number of vCPU */
-  vCPU?: number | null;
+  vCPU?: number | null | undefined;
 }
 export type ComputeEngineGPUSpecificAttributes = ComputeEngineSpecificAttributes;
 export interface NetworkSpecificAttributes {
   /** Connection limit per Load Balancer */
-  connectionLimitPerLoadBalancer?: number | null;
+  connectionLimitPerLoadBalancer?: number | null | undefined;
   discriminator: string;
   /** Maximum Bandwidth */
-  maxBandWidth?: number | null;
+  maxBandWidth?: number | null | undefined;
   /** Maximum Connections */
-  maxConnections?: number | null;
+  maxConnections?: number | null | undefined;
   /** Plan ID */
-  planId?: string | null;
+  planId?: string | null | undefined;
   /** Record limit per zone */
-  recordLimitPerZone?: number | null;
+  recordLimitPerZone?: number | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface MessagingSpecificAttributes {
   discriminator: string;
   /** diskStoragePerNode */
-  diskStoragePerNode?: string | null;
+  diskStoragePerNode?: string | null | undefined;
   /** Nodes */
-  nodes?: number | null;
+  nodes?: number | null | undefined;
   /** RAM (in GB) */
-  ram?: number | null;
+  ram?: number | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Number of vCPU */
-  vCPU?: number | null;
+  vCPU?: number | null | undefined;
 }
 export interface LoggingAndMonitoringSpecificAttributes {
   discriminator: string;
   /** diskStoragePerNode */
-  diskStoragePerNode?: string | null;
+  diskStoragePerNode?: string | null | undefined;
   /** metricPerMin */
-  metricPerMin?: number | null;
+  metricPerMin?: number | null | undefined;
   /** Nodes */
-  nodes?: number | null;
+  nodes?: number | null | undefined;
   /** Targets */
-  targets?: number | null;
+  targets?: number | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type ConfidentialComputingSpecificAttributes = ComputeEngineSpecificAttributes;
 export interface StorageSpecificAttributes {
   /** Storage Class type */
-  class?: string | null;
+  class?: string | null | undefined;
   discriminator: string;
   /** Storage maxIOPerSec */
-  maxIOPerSec?: number | null;
+  maxIOPerSec?: number | null | undefined;
   /** Storage maxTroughInMB */
-  maxTroughInMB?: number | null;
+  maxTroughInMB?: number | null | undefined;
   /** metro */
-  metro?: boolean | null;
+  metro?: boolean | null | undefined;
   /** Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`) */
-  storage?: string | null;
+  storage?: string | null | undefined;
   /** Type (e.g. 'capacity', 'input') */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface DataAndAI {
   discriminator: string;
   /** Type (e.g. `capacity`, `performance`) */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface RuntimeSpecificAttributes {
   discriminator: string;
   /** Plan ID */
-  planId?: string | null;
+  planId?: string | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 /** Communication Channel */
 export type SupportSpecificAttributesCommunicationChannelList = Array<string>;
 export interface SupportSpecificAttributes {
   /** Communication Channel */
-  communicationChannel?: SupportSpecificAttributesCommunicationChannelList;
+  communicationChannel?: SupportSpecificAttributesCommunicationChannelList | undefined;
   /** Contract notice period in days */
-  contractNoticePeriodInDays?: number | null;
+  contractNoticePeriodInDays?: number | null | undefined;
   discriminator: string;
   /** Escalation availability BC INC */
-  escalationAvailabilityBCINC?: string | null;
+  escalationAvailabilityBCINC?: string | null | undefined;
   /** Escalation availability INC */
-  escalationAvailabilityINC?: string | null;
+  escalationAvailabilityINC?: string | null | undefined;
   /** Escalation availability for Service Requests */
-  escalationAvailabilitySR?: string | null;
+  escalationAvailabilitySR?: string | null | undefined;
   /** Escalation threshold BC INC (in minutes) */
-  escalationThresholdBCINCInMins?: number | null;
+  escalationThresholdBCINCInMins?: number | null | undefined;
   /** Escalation threshold INC (in minutes) */
-  escalationThresholdINCInMins?: number | null;
+  escalationThresholdINCInMins?: number | null | undefined;
   /** Escalation threshold for Service Requests */
-  escalationThresholdSRInMins?: number | null;
+  escalationThresholdSRInMins?: number | null | undefined;
   /** Financial Penalty for SLA Violation <80 (in %) */
-  finPenaltySLAVio80Pct?: number | null;
+  finPenaltySLAVio80Pct?: number | null | undefined;
   /** Financial Penalty for SLA Violation <90 - 80 (in %) */
-  finPenaltySLAVio90_80Pct?: number | null;
+  finPenaltySLAVio90_80Pct?: number | null | undefined;
   /** Initial runtime in months */
-  initialRuntimeInMonths?: number | null;
+  initialRuntimeInMonths?: number | null | undefined;
   /** Lead time in workdays */
-  leadTimeInWorkDays?: number | null;
+  leadTimeInWorkDays?: number | null | undefined;
   /** Location */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Project notice period in workdays */
-  projectNoticePeriodInWorkDays?: number | null;
+  projectNoticePeriodInWorkDays?: number | null | undefined;
   /** Reaction time (in minutes) */
-  reactionTimeInMins?: number | null;
+  reactionTimeInMins?: number | null | undefined;
   /** Repeated runtime in months */
-  repeatedRuntimeInMonths?: number | null;
+  repeatedRuntimeInMonths?: number | null | undefined;
   /** Response time BC INC (in minutes) */
-  responseTimeBCINCInMins?: number | null;
+  responseTimeBCINCInMins?: number | null | undefined;
   /** Response time INC (in minutes) */
-  responseTimeINCInMins?: number | null;
+  responseTimeINCInMins?: number | null | undefined;
   /** Response time (in minutes) for Service Requests */
-  responseTimeSRInMins?: number | null;
+  responseTimeSRInMins?: number | null | undefined;
   /** Service hours BC INC */
-  serviceHoursBCINC?: string | null;
+  serviceHoursBCINC?: string | null | undefined;
   /** Service hours INC */
-  serviceHoursINC?: string | null;
+  serviceHoursINC?: string | null | undefined;
   /** Service hours for Service Requests */
-  serviceHoursSR?: string | null;
+  serviceHoursSR?: string | null | undefined;
   /** SLA goal in percentage */
-  slaGoalInPercentage?: number | null;
+  slaGoalInPercentage?: number | null | undefined;
 }
 export interface DeveloperPlatformSpecificAttributes {
   discriminator: string;
   /** diskStoragePerNode */
-  diskStoragePerNode?: string | null;
+  diskStoragePerNode?: string | null | undefined;
   /** Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`) */
-  storage?: string | null;
+  storage?: string | null | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type GetSKUResponseProductSpecificAttributes =
   | PublicDatabaseSpecificAttributes
@@ -392,9 +415,9 @@ export type GetSKUResponseProductSpecificAttributes =
   | DeveloperPlatformSpecificAttributes;
 export interface PublicSavingsPlan {
   /** Discount percentage for the savings plan */
-  discount?: number;
+  discount?: number | undefined;
   /** Number of years the savings plan is valid */
-  validityPeriodInYears?: number;
+  validityPeriodInYears?: number | undefined;
 }
 export type GetSKUResponseSavingsPlansList = Array<PublicSavingsPlan>;
 export interface GetSKUResponse {
@@ -402,25 +425,37 @@ export interface GetSKUResponse {
   categoryId: string | null;
   /** Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`) */
   categoryName: string | null;
+  /** Charge description */
+  chargeDescription?: string | null | undefined;
   /** CPU overprovisioning */
-  cpuOverprovisioning?: boolean | null;
+  cpuOverprovisioning?: boolean | null | undefined;
+  /** Conversion of the quantity value from the quantity input unit to the invoice unit. */
+  denominator: number;
   /** Attribute that indicates if product is deprecated or not. */
   deprecated: string | null;
   /** Documentation URL */
   documentation: string | null;
   finOpsFocus: FinOpsFocus;
+  /** The unit displayed in the Focus Report. */
+  focusConsumedUnit: string;
+  /** The documentation in the Focus Report. */
+  focusDocumentation?: string | null | undefined;
   /** Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to. */
   generalProductGroup: string | null;
+  /** Aggregation logic to be applied to the sent events within the metering bucket (currently 1 day) */
+  hourlyAggregation: string;
   /** SKU ID \ Complete SAP article number with prefix. Will be shown on the invoice like this */
   id: string;
   /** Language of sku */
-  language?: string;
+  language?: string | undefined;
   /** Name of license */
-  licenseName?: string | null;
+  licenseName?: string | null | undefined;
   /** State of the SKU following the mandatory product's maturity model progress (e.g. `beta`, `ga`) */
   maturityModelState: string | null;
+  /** Defines which type of calculation is applied. Either discrete (point-in-time) or continuously (continuous). */
+  meteringType: string;
   /** Metric of service */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** How the line item will appear on the bill */
   name: string | null;
   /** Attribute that indicates if PriceList is visible or not. */
@@ -431,18 +466,20 @@ export interface GetSKUResponse {
   productId: string | null;
   /** Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`) */
   productName: string | null;
+  /** The unit sent in the quantity field of the Consumption API and Metering API. */
+  quantityInputUnit: string;
   /** Rate type of service */
-  rateType?: string | null;
+  rateType?: string | null | undefined;
   /** Region of sku */
   region: string;
   /** List of unique service look up ids (ASCII ordered, ascending) */
-  serviceId?: GetSKUResponseServiceIdList;
+  serviceId?: GetSKUResponseServiceIdList | undefined;
   /** Technical differentiation */
-  technicalProductGroup?: string | null;
+  technicalProductGroup?: string | null | undefined;
   /** Tier max value */
-  tierMaxValue?: number | null;
+  tierMaxValue?: number | null | undefined;
   /** Tier min value */
-  tierMinValue?: number | null;
+  tierMinValue?: number | null | undefined;
   /** Service name */
   title: string;
   /** The unit of measurement for the invoiced items, as to be displayed on the invoice. */
@@ -453,15 +490,15 @@ export interface GetSKUResponse {
   validStart: string;
   /** Number of the revision from PIM */
   version: string;
-  productSpecificAttributes?: GetSKUResponseProductSpecificAttributes;
-  savingsPlans?: GetSKUResponseSavingsPlansList;
+  productSpecificAttributes?: GetSKUResponseProductSpecificAttributes | undefined;
+  savingsPlans?: GetSKUResponseSavingsPlansList | undefined;
 }
 export type GetSTAXSKURequestLanguage = "en" | "de";
 export interface GetSTAXSKURequest {
   /** The unique identifier for a SKU. */
   skuId: string;
   /** The language to retrieve the data in, available for en and de */
-  language?: GetSTAXSKURequestLanguage | (string & {});
+  language?: GetSTAXSKURequestLanguage | (string & {}) | undefined;
 }
 /** List of prices */
 export type GetSTAXSKUResponsePricesList = Array<Price>;
@@ -487,25 +524,37 @@ export interface GetSTAXSKUResponse {
   categoryId: string | null;
   /** Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`) */
   categoryName: string | null;
+  /** Charge description */
+  chargeDescription?: string | null | undefined;
   /** CPU overprovisioning */
-  cpuOverprovisioning?: boolean | null;
+  cpuOverprovisioning?: boolean | null | undefined;
+  /** Conversion of the quantity value from the quantity input unit to the invoice unit. */
+  denominator: number;
   /** Attribute that indicates if product is deprecated or not. */
   deprecated: string | null;
   /** Documentation URL */
   documentation: string | null;
   finOpsFocus: FinOpsFocus;
+  /** The unit displayed in the Focus Report. */
+  focusConsumedUnit: string;
+  /** The documentation in the Focus Report. */
+  focusDocumentation?: string | null | undefined;
   /** Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to. */
   generalProductGroup: string | null;
+  /** Aggregation logic to be applied to the sent events within the metering bucket (currently 1 day) */
+  hourlyAggregation: string;
   /** SKU ID \ Complete SAP article number with prefix. Will be shown on the invoice like this */
   id: string;
   /** Language of sku */
-  language?: string;
+  language?: string | undefined;
   /** Name of license */
-  licenseName?: string | null;
+  licenseName?: string | null | undefined;
   /** State of the SKU following the mandatory product's maturity model progress (e.g. `beta`, `ga`) */
   maturityModelState: string | null;
+  /** Defines which type of calculation is applied. Either discrete (point-in-time) or continuously (continuous). */
+  meteringType: string;
   /** Metric of service */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** How the line item will appear on the bill */
   name: string | null;
   /** Attribute that indicates if PriceList is visible or not. */
@@ -516,18 +565,20 @@ export interface GetSTAXSKUResponse {
   productId: string | null;
   /** Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`) */
   productName: string | null;
+  /** The unit sent in the quantity field of the Consumption API and Metering API. */
+  quantityInputUnit: string;
   /** Rate type of service */
-  rateType?: string | null;
+  rateType?: string | null | undefined;
   /** Region of sku */
   region: string;
   /** List of unique service look up ids (ASCII ordered, ascending) */
-  serviceId?: GetSTAXSKUResponseServiceIdList;
+  serviceId?: GetSTAXSKUResponseServiceIdList | undefined;
   /** Technical differentiation */
-  technicalProductGroup?: string | null;
+  technicalProductGroup?: string | null | undefined;
   /** Tier max value */
-  tierMaxValue?: number | null;
+  tierMaxValue?: number | null | undefined;
   /** Tier min value */
-  tierMinValue?: number | null;
+  tierMinValue?: number | null | undefined;
   /** Service name */
   title: string;
   /** The unit of measurement for the invoiced items, as to be displayed on the invoice. */
@@ -538,82 +589,82 @@ export interface GetSTAXSKUResponse {
   validStart: string;
   /** Number of the revision from PIM */
   version: string;
-  productSpecificAttributes?: GetSTAXSKUResponseProductSpecificAttributes;
-  savingsPlans?: GetSTAXSKUResponseSavingsPlansList;
+  productSpecificAttributes?: GetSTAXSKUResponseProductSpecificAttributes | undefined;
+  savingsPlans?: GetSTAXSKUResponseSavingsPlansList | undefined;
 }
 export type ListCategoriesRequestLanguage = "en" | "de";
 export interface ListCategoriesRequest {
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The category's name to retrieve the data for */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListCategoriesRequestLanguage | (string & {});
+  language?: ListCategoriesRequestLanguage | (string & {}) | undefined;
 }
 export type ListCategoriesResponseDataList = Array<PublicCategory>;
 export interface MetaInformation {
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
   /** The number of items per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListCategoriesResponse {
-  data?: ListCategoriesResponseDataList;
-  meta?: MetaInformation;
+  data?: ListCategoriesResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListCategoryProductsRequestLanguage = "en" | "de";
 export interface ListCategoryProductsRequest {
   /** The unique identifier for a category. */
   categoryId: string;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The product's name to retrieve the data for */
-  productName?: string;
+  productName?: string | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListCategoryProductsRequestLanguage | (string & {});
+  language?: ListCategoryProductsRequestLanguage | (string & {}) | undefined;
 }
 export type ListCategoryProductsResponseDataList = Array<PublicProduct>;
 export interface ListCategoryProductsResponse {
-  data?: ListCategoryProductsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListCategoryProductsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListMarketingDataRequestLanguage = "en" | "de";
 export interface ListMarketingDataRequest {
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListMarketingDataRequestLanguage | (string & {});
+  language?: ListMarketingDataRequestLanguage | (string & {}) | undefined;
   /** The product's name to retrieve the data for */
-  productName?: string;
+  productName?: string | undefined;
 }
 export type ListMarketingDataResponseDataList = Array<PublicMarketingData>;
 export interface ListMarketingDataResponse {
-  data?: ListMarketingDataResponseDataList;
-  meta?: MetaInformation;
+  data?: ListMarketingDataResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListProductsRequestLanguage = "en" | "de";
 export interface ListProductsRequest {
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The category's name to retrieve the data for */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** The product's name to retrieve the data for */
-  productName?: string;
+  productName?: string | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListProductsRequestLanguage | (string & {});
+  language?: ListProductsRequestLanguage | (string & {}) | undefined;
 }
 export type ListProductsResponseDataList = Array<PublicProduct>;
 export interface ListProductsResponse {
-  data?: ListProductsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListProductsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListProductSKUsRequestLanguage = "en" | "de";
 export type ListProductSKUsRequestRegionList = Array<string>;
@@ -621,15 +672,15 @@ export interface ListProductSKUsRequest {
   /** The unique identifier for a product. */
   productId: string;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListProductSKUsRequestLanguage | (string & {});
+  language?: ListProductSKUsRequestLanguage | (string & {}) | undefined;
   /** The SKU's name to retrieve the data for */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The region to retrieve the data in */
-  region?: ListProductSKUsRequestRegionList;
+  region?: ListProductSKUsRequestRegionList | undefined;
 }
 /** List of prices */
 export type PublicSKUPricesList = Array<Price>;
@@ -655,25 +706,37 @@ export interface PublicSKU {
   categoryId: string | null;
   /** Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`) */
   categoryName: string | null;
+  /** Charge description */
+  chargeDescription?: string | null | undefined;
   /** CPU overprovisioning */
-  cpuOverprovisioning?: boolean | null;
+  cpuOverprovisioning?: boolean | null | undefined;
+  /** Conversion of the quantity value from the quantity input unit to the invoice unit. */
+  denominator: number;
   /** Attribute that indicates if product is deprecated or not. */
   deprecated: string | null;
   /** Documentation URL */
   documentation: string | null;
   finOpsFocus: FinOpsFocus;
+  /** The unit displayed in the Focus Report. */
+  focusConsumedUnit: string;
+  /** The documentation in the Focus Report. */
+  focusDocumentation?: string | null | undefined;
   /** Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to. */
   generalProductGroup: string | null;
+  /** Aggregation logic to be applied to the sent events within the metering bucket (currently 1 day) */
+  hourlyAggregation: string;
   /** SKU ID \ Complete SAP article number with prefix. Will be shown on the invoice like this */
   id: string;
   /** Language of sku */
-  language?: string;
+  language?: string | undefined;
   /** Name of license */
-  licenseName?: string | null;
+  licenseName?: string | null | undefined;
   /** State of the SKU following the mandatory product's maturity model progress (e.g. `beta`, `ga`) */
   maturityModelState: string | null;
+  /** Defines which type of calculation is applied. Either discrete (point-in-time) or continuously (continuous). */
+  meteringType: string;
   /** Metric of service */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** How the line item will appear on the bill */
   name: string | null;
   /** Attribute that indicates if PriceList is visible or not. */
@@ -684,18 +747,20 @@ export interface PublicSKU {
   productId: string | null;
   /** Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`) */
   productName: string | null;
+  /** The unit sent in the quantity field of the Consumption API and Metering API. */
+  quantityInputUnit: string;
   /** Rate type of service */
-  rateType?: string | null;
+  rateType?: string | null | undefined;
   /** Region of sku */
   region: string;
   /** List of unique service look up ids (ASCII ordered, ascending) */
-  serviceId?: PublicSKUServiceIdList;
+  serviceId?: PublicSKUServiceIdList | undefined;
   /** Technical differentiation */
-  technicalProductGroup?: string | null;
+  technicalProductGroup?: string | null | undefined;
   /** Tier max value */
-  tierMaxValue?: number | null;
+  tierMaxValue?: number | null | undefined;
   /** Tier min value */
-  tierMinValue?: number | null;
+  tierMinValue?: number | null | undefined;
   /** Service name */
   title: string;
   /** The unit of measurement for the invoiced items, as to be displayed on the invoice. */
@@ -706,13 +771,13 @@ export interface PublicSKU {
   validStart: string;
   /** Number of the revision from PIM */
   version: string;
-  productSpecificAttributes?: PublicSKUProductSpecificAttributes;
-  savingsPlans?: PublicSKUSavingsPlansList;
+  productSpecificAttributes?: PublicSKUProductSpecificAttributes | undefined;
+  savingsPlans?: PublicSKUSavingsPlansList | undefined;
 }
 export type ListProductSKUsResponseDataList = Array<PublicSKU>;
 export interface ListProductSKUsResponse {
-  data?: ListProductSKUsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListProductSKUsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListProductSTAXSKUsRequestLanguage = "en" | "de";
 export type ListProductSTAXSKUsRequestRegionList = Array<string>;
@@ -720,200 +785,223 @@ export interface ListProductSTAXSKUsRequest {
   /** The unique identifier for a product. */
   productId: string;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListProductSTAXSKUsRequestLanguage | (string & {});
+  language?: ListProductSTAXSKUsRequestLanguage | (string & {}) | undefined;
   /** The SKU's name to retrieve the data for */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The region to retrieve the data in */
-  region?: ListProductSTAXSKUsRequestRegionList;
+  region?: ListProductSTAXSKUsRequestRegionList | undefined;
 }
 export type ListProductSTAXSKUsResponseDataList = Array<PublicSKU>;
 export interface ListProductSTAXSKUsResponse {
-  data?: ListProductSTAXSKUsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListProductSTAXSKUsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListSKUsRequestLanguage = "en" | "de";
 export type ListSKUsRequestRegionList = Array<string>;
 export interface ListSKUsRequest {
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListSKUsRequestLanguage | (string & {});
+  language?: ListSKUsRequestLanguage | (string & {}) | undefined;
   /** The category's name to retrieve the data for */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** The product's name to retrieve the data for */
-  productName?: string;
+  productName?: string | undefined;
   /** The SKU's name to retrieve the data for */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The region to retrieve the data in */
-  region?: ListSKUsRequestRegionList;
+  region?: ListSKUsRequestRegionList | undefined;
 }
 export type ListSKUsResponseDataList = Array<PublicSKU>;
 export interface ListSKUsResponse {
-  data?: ListSKUsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListSKUsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type ListSTAXSKUsRequestLanguage = "en" | "de";
 export type ListSTAXSKUsRequestRegionList = Array<string>;
 export interface ListSTAXSKUsRequest {
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The language to retrieve the data in, available for en and de */
-  language?: ListSTAXSKUsRequestLanguage | (string & {});
+  language?: ListSTAXSKUsRequestLanguage | (string & {}) | undefined;
   /** The category's name to retrieve the data for */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** The product's name to retrieve the data for */
-  productName?: string;
+  productName?: string | undefined;
   /** The SKU's name to retrieve the data for */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The region to retrieve the data in */
-  region?: ListSTAXSKUsRequestRegionList;
+  region?: ListSTAXSKUsRequestRegionList | undefined;
 }
 export type ListSTAXSKUsResponseDataList = Array<PublicSKU>;
 export interface ListSTAXSKUsResponse {
-  data?: ListSTAXSKUsResponseDataList;
-  meta?: MetaInformation;
+  data?: ListSTAXSKUsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
 }
 export type SearchSKUsRequestLanguage = "en" | "de";
 export interface SearchSKUsRequest {
   /** The language to retrieve the data in, available for en and de */
-  language?: SearchSKUsRequestLanguage | (string & {});
+  language?: SearchSKUsRequestLanguage | (string & {}) | undefined;
   /** The number of items to retrieve per page */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The cursor base64 encoded is used to retrieve the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`) */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** Storage Class type */
-  class?: string;
+  class?: string | undefined;
   /** Communication Channel */
-  communicationChannel?: string;
+  communicationChannel?: string | undefined;
   /** Connection limit per Load Balancer */
-  connectionLimitPerLoadBalancer?: number;
+  connectionLimitPerLoadBalancer?: number | undefined;
   /** Contract notice period in days */
-  contractNoticePeriodInDays?: number | null;
+  contractNoticePeriodInDays?: number | null | undefined;
+  /** Conversion of the quantity value from the quantity input unit to the invoice unit. */
+  denominator?: number | undefined;
   /** Attribute that indicates if product is deprecated or not. */
-  deprecated?: string;
+  deprecated?: string | undefined;
   /** diskStoragePerNode */
-  diskStoragePerNode?: string;
+  diskStoragePerNode?: string | undefined;
   /** Documentation URL */
-  documentation?: string;
+  documentation?: string | undefined;
   /** Escalation availability BC INC */
-  escalationAvailabilityBCINC?: string | null;
+  escalationAvailabilityBCINC?: string | null | undefined;
   /** Escalation availability INC */
-  escalationAvailabilityINC?: string | null;
+  escalationAvailabilityINC?: string | null | undefined;
   /** Escalation availability for Service Requests */
-  escalationAvailabilitySR?: string | null;
+  escalationAvailabilitySR?: string | null | undefined;
   /** Escalation threshold BC INC (in minutes) */
-  escalationThresholdBCINCInMins?: number | null;
+  escalationThresholdBCINCInMins?: number | null | undefined;
   /** Escalation threshold INC (in minutes) */
-  escalationThresholdINCInMins?: number | null;
+  escalationThresholdINCInMins?: number | null | undefined;
   /** Escalation threshold for Service Requests */
-  escalationThresholdSRInMins?: number | null;
+  escalationThresholdSRInMins?: number | null | undefined;
   /** Financial Penalty for SLA Violation <80 (in %) */
-  finPenaltySLAVio80Pct?: number | null;
+  finPenaltySLAVio80Pct?: number | null | undefined;
   /** Financial Penalty for SLA Violation <90 - 80 (in %) */
-  finPenaltySLAVio90_80Pct?: number | null;
+  finPenaltySLAVio90_80Pct?: number | null | undefined;
   /** Flavor */
-  flavor?: string;
+  flavor?: string | undefined;
+  /** The unit displayed in the Focus Report. */
+  focusConsumedUnit?: string | undefined;
+  /** The documentation in the Focus Report. */
+  focusDocumentation?: string | null | undefined;
   /** Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to. */
-  generalProductGroup?: string;
+  generalProductGroup?: string | undefined;
   /** Hardware */
-  hardware?: string;
+  hardware?: string | undefined;
+  /** Aggregation logic to be applied to the sent events within the metering bucket (currently 1 day) */
+  hourlyAggregation?: string | undefined;
   /** Initial runtime in months */
-  initialRuntimeInMonths?: number | null;
+  initialRuntimeInMonths?: number | null | undefined;
   /** Lead time in workdays */
-  leadTimeInWorkDays?: number | null;
+  leadTimeInWorkDays?: number | null | undefined;
   /** Location */
-  location?: string | null;
+  location?: string | null | undefined;
   /** State of the SKU following the mandatory product's maturity model progress (e.g. `beta`, `ga`) */
-  maturityModelState?: string;
+  maturityModelState?: string | undefined;
   /** Storage maxIOPerSec */
-  maxIOPerSec?: number;
+  maxIOPerSec?: number | undefined;
   /** Storage maxTroughInMB */
-  maxTroughInMB?: number;
+  maxTroughInMB?: number | undefined;
+  /** Defines which type of calculation is applied. Either discrete (point-in-time) or continuously (continuous). */
+  meteringType?: string | undefined;
   /** metricPerMin */
-  metricPerMin?: number;
+  metricPerMin?: number | undefined;
   /** metro */
-  metro?: boolean;
+  metro?: boolean | undefined;
   /** Monthly price value that is valid at request time, shown with full precision */
-  monthlyPrice?: string;
+  monthlyPrice?: string | undefined;
   /** How the line item will appear on the bill */
-  name?: string;
+  name?: string | undefined;
   /** Nodes */
-  nodes?: number;
+  nodes?: number | undefined;
   /** Operating System (e.g. `windows`, `windows-managed`) */
-  os?: string;
+  os?: string | undefined;
   /** Attribute that indicates if PriceList is visible or not. */
-  priceListVisibility?: string;
+  priceListVisibility?: string | undefined;
   /** Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`) */
-  productName?: string;
+  productName?: string | undefined;
   /** Project notice period in workdays */
-  projectNoticePeriodInWorkDays?: number | null;
+  projectNoticePeriodInWorkDays?: number | null | undefined;
+  /** Quantity input unit */
+  quantityInputUnit?: string | undefined;
   /** RAM (in GB) */
-  ram?: number;
+  ram?: number | undefined;
   /** Reaction time (in minutes) */
-  reactionTimeInMins?: number | null;
+  reactionTimeInMins?: number | null | undefined;
   /** Record limit per zone */
-  recordLimitPerZone?: number;
+  recordLimitPerZone?: number | undefined;
   /** Region of sku */
-  region?: string;
+  region?: string | undefined;
   /** Repeated runtime in months */
-  repeatedRuntimeInMonths?: number | null;
+  repeatedRuntimeInMonths?: number | null | undefined;
   /** Response time BC INC (in minutes) */
-  responseTimeBCINCInMins?: number | null;
+  responseTimeBCINCInMins?: number | null | undefined;
   /** Response time INC (in minutes) */
-  responseTimeINCInMins?: number | null;
+  responseTimeINCInMins?: number | null | undefined;
   /** Response time (in minutes) for Service Requests */
-  responseTimeSRInMins?: number | null;
+  responseTimeSRInMins?: number | null | undefined;
   /** Service hours BC INC */
-  serviceHoursBCINC?: string | null;
+  serviceHoursBCINC?: string | null | undefined;
   /** Service hours INC */
-  serviceHoursINC?: string | null;
+  serviceHoursINC?: string | null | undefined;
   /** Service hours for Service Requests */
-  serviceHoursSR?: string | null;
+  serviceHoursSR?: string | null | undefined;
   /** List of unique service look up ids (ASCII ordered, ascending) */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** SKU ID \ Complete SAP article number with prefix. Will be shown on the invoice like this */
-  sku?: string;
+  sku?: string | undefined;
   /** SLA goal in percentage */
-  slaGoalInPercentage?: number | null;
+  slaGoalInPercentage?: number | null | undefined;
   /** Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`) */
-  storage?: string;
+  storage?: string | undefined;
   /** Max Storage in Gb */
-  storageMaxGb?: number;
+  storageMaxGb?: number | undefined;
   /** Min Storage in Gb */
-  storageMinGb?: number;
+  storageMinGb?: number | undefined;
   /** Targets */
-  targets?: number;
+  targets?: number | undefined;
   /** Technical differentiation */
-  technicalProductGroup?: string;
+  technicalProductGroup?: string | undefined;
   /** Service name */
-  title?: string;
+  title?: string | undefined;
   /** Type (e.g. `single`, `replica`) */
-  type?: string;
+  type?: string | undefined;
   /** The unit of measurement for the invoiced items, as to be displayed on the invoice. */
-  unit?: string;
+  unit?: string | undefined;
   /** Unit billing */
-  unitBilling?: string;
+  unitBilling?: string | undefined;
   /** Number of vCPU */
-  vCPU?: number;
+  vCPU?: number | undefined;
   /** Price valid from */
-  validFrom?: string;
+  validFrom?: string | undefined;
   /** Price value that is valid at request time, shown with full precision with 11 decimals */
-  value?: string;
+  value?: string | undefined;
 }
 export type SearchSKUsResponseDataList = Array<PublicSKU>;
 export interface SearchSKUsResponse {
-  data?: SearchSKUsResponseDataList;
-  meta?: MetaInformation;
+  data?: SearchSKUsResponseDataList | undefined;
+  meta?: MetaInformation | undefined;
+}
+export type ErrorDetailsItemMap = { [key: string]: unknown | undefined };
+/** Additional common information */
+export type ErrorDetailsList = Array<ErrorDetailsItemMap>;
+export interface Error {
+  /** HTTP status code */
+  code: number;
+  /** Additional common information */
+  details?: ErrorDetailsList | undefined;
+  /** Error description */
+  message: string;
 }
 export type GetCategoryError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get category by ID Retrieves a specific category by its ID, available for general public. */
@@ -923,8 +1011,8 @@ export const getCategory: API.OperationMethod<
   GetCategoryError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetCategoryRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<PublicCategory>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCategoryRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<PublicCategory>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -940,8 +1028,8 @@ export const getProduct: API.OperationMethod<
   GetProductError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetProductRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<PublicProduct>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetProductRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<PublicProduct>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -957,8 +1045,8 @@ export const getProductMarketingData: API.OperationMethod<
   GetProductMarketingDataError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetProductMarketingDataRequest>,
-  output: __S(118, __c14, 6) as any as S.Schema<PublicMarketingData>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetProductMarketingDataRequest>,
+  output: __S(126, __c15, 6) as any as S.Schema<PublicMarketingData>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -974,8 +1062,8 @@ export const getSKU: API.OperationMethod<
   GetSKUError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetSKURequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GetSKUResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetSKURequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetSKUResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -991,8 +1079,8 @@ export const getSTAXSKU: API.OperationMethod<
   GetSTAXSKUError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetSTAXSKURequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<GetSTAXSKUResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetSTAXSKURequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetSTAXSKUResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1008,8 +1096,8 @@ export const listCategories: API.OperationMethod<
   ListCategoriesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListCategoriesRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListCategoriesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListCategoriesRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListCategoriesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1025,8 +1113,8 @@ export const listCategoryProducts: API.OperationMethod<
   ListCategoryProductsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListCategoryProductsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListCategoryProductsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListCategoryProductsRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ListCategoryProductsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1130,8 @@ export const listMarketingData: API.OperationMethod<
   ListMarketingDataError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListMarketingDataRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListMarketingDataResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ListMarketingDataRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<ListMarketingDataResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1059,8 +1147,8 @@ export const listProducts: API.OperationMethod<
   ListProductsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListProductsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListProductsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListProductsRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ListProductsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1076,8 +1164,8 @@ export const listProductSKUs: API.OperationMethod<
   ListProductSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListProductSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListProductSKUsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListProductSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListProductSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1093,8 +1181,8 @@ export const listProductSTAXSKUs: API.OperationMethod<
   ListProductSTAXSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListProductSTAXSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListProductSTAXSKUsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListProductSTAXSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListProductSTAXSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1110,8 +1198,8 @@ export const listSKUs: API.OperationMethod<
   ListSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListSKUsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListSKUsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1127,8 +1215,8 @@ export const listSTAXSKUs: API.OperationMethod<
   ListSTAXSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListSTAXSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListSTAXSKUsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListSTAXSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListSTAXSKUsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1144,8 +1232,8 @@ export const searchSKUs: API.OperationMethod<
   SearchSKUsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<SearchSKUsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<SearchSKUsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<SearchSKUsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<SearchSKUsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1155,6 +1243,22 @@ export const searchSKUs: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          details: S.optional(__S(1, __c0, 1)),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1173,17 +1277,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListMarketingDataRequest" });
     case 1:
-      return S.Array(__S(118, __c14, 6));
+      return S.Array(__S(126, __c15, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1, __c0, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(9, __c1, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListMarketingDataResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1204,7 +1308,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListProductsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1214,7 +1318,7 @@ function __c2(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1226,31 +1330,38 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListProductSKUsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           categoryId: S.NullOr(S.String),
           categoryName: S.NullOr(S.String),
+          chargeDescription: S.optional(S.NullOr(S.String)),
           cpuOverprovisioning: S.optional(S.NullOr(S.Boolean)),
+          denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
+          focusConsumedUnit: S.String,
+          focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
+          hourlyAggregation: S.String,
           id: S.String,
           language: S.optional(S.String),
           licenseName: S.optional(S.NullOr(S.String)),
           maturityModelState: S.NullOr(S.String),
+          meteringType: S.String,
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
+          quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1260,21 +1371,21 @@ function __c3(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "PublicSKU" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(25, __c3, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(33, __c4, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListProductSKUsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1284,7 +1395,7 @@ function __c4(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1294,29 +1405,6 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProductSTAXSKUsRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          language: S.optional(S.String.pipe(T.Query())),
-          categoryName: S.optional(S.String.pipe(T.Query())),
-          productName: S.optional(S.String.pipe(T.Query())),
-          skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/skus",
-            code: 200,
-            baseUrl: "https://pim.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSKUsRequest" });
   }
 }
 function __c6(j: number): any {
@@ -1330,7 +1418,30 @@ function __c6(j: number): any {
           categoryName: S.optional(S.String.pipe(T.Query())),
           productName: S.optional(S.String.pipe(T.Query())),
           skuName: S.optional(S.String.pipe(T.Query())),
-          region: S.optional(__S(88, __c11, 0).pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/skus",
+            code: 200,
+            baseUrl: "https://pim.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListSKUsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          language: S.optional(S.String.pipe(T.Query())),
+          categoryName: S.optional(S.String.pipe(T.Query())),
+          productName: S.optional(S.String.pipe(T.Query())),
+          skuName: S.optional(S.String.pipe(T.Query())),
+          region: S.optional(__S(96, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1342,7 +1453,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListSTAXSKUsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1355,6 +1466,7 @@ function __c7(j: number): any {
           communicationChannel: S.optional(S.String),
           connectionLimitPerLoadBalancer: S.optional(S.Number),
           contractNoticePeriodInDays: S.optional(S.NullOr(S.Number)),
+          denominator: S.optional(S.Number),
           deprecated: S.optional(S.String),
           diskStoragePerNode: S.optional(S.String),
           documentation: S.optional(S.String),
@@ -1369,14 +1481,18 @@ function __c7(j: number): any {
             S.NullOr(S.Number).pipe(T.Body("finPenaltySLAVio90-80Pct")),
           ),
           flavor: S.optional(S.String),
+          focusConsumedUnit: S.optional(S.String),
+          focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.optional(S.String),
           hardware: S.optional(S.String),
+          hourlyAggregation: S.optional(S.String),
           initialRuntimeInMonths: S.optional(S.NullOr(S.Number)),
           leadTimeInWorkDays: S.optional(S.NullOr(S.Number)),
           location: S.optional(S.NullOr(S.String)),
           maturityModelState: S.optional(S.String),
           maxIOPerSec: S.optional(S.Number),
           maxTroughInMB: S.optional(S.Number),
+          meteringType: S.optional(S.String),
           metricPerMin: S.optional(S.Number),
           metro: S.optional(S.Boolean),
           monthlyPrice: S.optional(S.String),
@@ -1386,6 +1502,7 @@ function __c7(j: number): any {
           priceListVisibility: S.optional(S.String),
           productName: S.optional(S.String),
           projectNoticePeriodInWorkDays: S.optional(S.NullOr(S.Number)),
+          quantityInputUnit: S.optional(S.String),
           ram: S.optional(S.Number),
           reactionTimeInMins: S.optional(S.NullOr(S.Number)),
           recordLimitPerZone: S.optional(S.Number),
@@ -1423,7 +1540,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SearchSKUsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1441,7 +1558,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetCategoryRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1457,7 +1574,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PublicCategory" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1475,18 +1592,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProductRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiIdentifier: S.optional(__S(88, __c11, 0)),
+          apiIdentifier: S.optional(__S(96, __c12, 0)),
           categoryId: S.optional(S.NullOr(S.String)),
           categoryName: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
@@ -1501,7 +1618,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PublicProduct" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1519,7 +1636,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProductMarketingDataRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1529,7 +1646,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingAdvantage" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1539,7 +1656,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingApplication" });
     case 3:
-      return S.Array(__S(114, __c14, 2));
+      return S.Array(__S(122, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1548,13 +1665,13 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MarketingFunction" });
     case 5:
-      return S.Array(__S(116, __c14, 4));
+      return S.Array(__S(124, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          advantages: S.optional(__S(113, __c14, 1)),
-          applications: S.optional(__S(115, __c14, 3)),
-          functions: S.optional(__S(117, __c14, 5)),
+          advantages: S.optional(__S(121, __c15, 1)),
+          applications: S.optional(__S(123, __c15, 3)),
+          functions: S.optional(__S(125, __c15, 5)),
           headline: S.optional(S.String),
           id: S.optional(S.NullOr(S.String)),
           introductoryText: S.optional(S.String),
@@ -1568,7 +1685,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PublicMarketingData" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1589,24 +1706,31 @@ function __c15(j: number): any {
         S.Struct({
           categoryId: S.NullOr(S.String),
           categoryName: S.NullOr(S.String),
+          chargeDescription: S.optional(S.NullOr(S.String)),
           cpuOverprovisioning: S.optional(S.NullOr(S.Boolean)),
+          denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
+          focusConsumedUnit: S.String,
+          focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
+          hourlyAggregation: S.String,
           id: S.String,
           language: S.optional(S.String),
           licenseName: S.optional(S.NullOr(S.String)),
           maturityModelState: S.NullOr(S.String),
+          meteringType: S.String,
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
+          quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1616,12 +1740,12 @@ function __c15(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "GetSKUResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1636,6 +1760,7 @@ function __c16(j: number): any {
           currencyCode: S.optional(S.String),
           currencySymbol: S.optional(S.NullOr(S.String)),
           monthlyPrice: S.optional(S.NullOr(S.String)),
+          priceId: S.optional(S.NullOr(S.String)),
           roundedMonthlyPrice: S.optional(S.String),
           roundedValue: S.optional(S.String),
           validFrom: S.optional(S.String),
@@ -1644,7 +1769,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Price" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1653,10 +1778,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "PublicSavingsPlan" });
     case 4:
-      return S.Array(__S(131, __c16, 3));
+      return S.Array(__S(139, __c17, 3));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1677,24 +1802,31 @@ function __c17(j: number): any {
         S.Struct({
           categoryId: S.NullOr(S.String),
           categoryName: S.NullOr(S.String),
+          chargeDescription: S.optional(S.NullOr(S.String)),
           cpuOverprovisioning: S.optional(S.NullOr(S.Boolean)),
+          denominator: S.Number,
           deprecated: S.NullOr(S.String),
           documentation: S.NullOr(S.String),
-          finOpsFocus: __S(128, __c16, 0),
+          finOpsFocus: __S(136, __c17, 0),
+          focusConsumedUnit: S.String,
+          focusDocumentation: S.optional(S.NullOr(S.String)),
           generalProductGroup: S.NullOr(S.String),
+          hourlyAggregation: S.String,
           id: S.String,
           language: S.optional(S.String),
           licenseName: S.optional(S.NullOr(S.String)),
           maturityModelState: S.NullOr(S.String),
+          meteringType: S.String,
           metric: S.optional(S.NullOr(S.String)),
           name: S.NullOr(S.String),
           priceListVisibility: S.NullOr(S.String),
-          prices: __S(130, __c16, 2),
+          prices: __S(138, __c17, 2),
           productId: S.NullOr(S.String),
           productName: S.NullOr(S.String),
+          quantityInputUnit: S.String,
           rateType: S.optional(S.NullOr(S.String)),
           region: S.String,
-          serviceId: S.optional(__S(88, __c11, 0)),
+          serviceId: S.optional(__S(96, __c12, 0)),
           technicalProductGroup: S.optional(S.NullOr(S.String)),
           tierMaxValue: S.optional(S.NullOr(S.Number)),
           tierMinValue: S.optional(S.NullOr(S.Number)),
@@ -1704,12 +1836,12 @@ function __c17(j: number): any {
           validStart: S.String,
           version: S.String,
           productSpecificAttributes: S.optional(S.Unknown),
-          savingsPlans: S.optional(__S(132, __c16, 4)),
+          savingsPlans: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "GetSTAXSKUResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1728,17 +1860,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListCategoriesRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(145, __c18, 1)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(153, __c19, 1)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListCategoriesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1749,7 +1881,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "MetaInformation" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1770,15 +1902,15 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListCategoryProductsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(104, __c13, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(168, __c21, 0)),
-          meta: S.optional(__S(152, __c19, 0)),
+          data: S.optional(__S(176, __c22, 0)),
+          meta: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "ListCategoryProductsResponse" });
   }

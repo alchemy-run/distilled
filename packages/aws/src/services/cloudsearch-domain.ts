@@ -116,93 +116,93 @@ export type Sort = string;
 export type Start = number;
 export type Stat = string;
 export interface SearchRequest {
-  cursor?: string;
-  expr?: string;
-  facet?: string;
-  filterQuery?: string;
-  highlight?: string;
-  partial?: boolean;
+  cursor?: string | undefined;
+  expr?: string | undefined;
+  facet?: string | undefined;
+  filterQuery?: string | undefined;
+  highlight?: string | undefined;
+  partial?: boolean | undefined;
   query: string;
-  queryOptions?: string;
-  queryParser?: QueryParser;
-  return?: string;
-  size?: number;
-  sort?: string;
-  start?: number;
-  stats?: string;
+  queryOptions?: string | undefined;
+  queryParser?: QueryParser | undefined;
+  return?: string | undefined;
+  size?: number | undefined;
+  sort?: string | undefined;
+  start?: number | undefined;
+  stats?: string | undefined;
 }
 export interface SearchStatus {
-  timems?: number;
-  rid?: string;
+  timems?: number | undefined;
+  rid?: string | undefined;
 }
 export type FieldValue = string[];
 export type Fields = { [key: string]: string[] | undefined };
 export type Exprs = { [key: string]: string | undefined };
 export type Highlights = { [key: string]: string | undefined };
 export interface Hit {
-  id?: string;
-  fields?: { [key: string]: string[] | undefined };
-  exprs?: { [key: string]: string | undefined };
-  highlights?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  fields?: { [key: string]: string[] | undefined } | undefined;
+  exprs?: { [key: string]: string | undefined } | undefined;
+  highlights?: { [key: string]: string | undefined } | undefined;
 }
 export type HitList = Hit[];
 export interface Hits {
-  found?: number;
-  start?: number;
-  cursor?: string;
-  hit?: Hit[];
+  found?: number | undefined;
+  start?: number | undefined;
+  cursor?: string | undefined;
+  hit?: Hit[] | undefined;
 }
 export interface Bucket {
-  value?: string;
-  count?: number;
+  value?: string | undefined;
+  count?: number | undefined;
 }
 export type BucketList = Bucket[];
 export interface BucketInfo {
-  buckets?: Bucket[];
+  buckets?: Bucket[] | undefined;
 }
 export type Facets = { [key: string]: BucketInfo | undefined };
 export interface FieldStats {
-  min?: string;
-  max?: string;
-  count?: number;
-  missing?: number;
-  sum?: number;
-  sumOfSquares?: number;
-  mean?: string;
-  stddev?: number;
+  min?: string | undefined;
+  max?: string | undefined;
+  count?: number | undefined;
+  missing?: number | undefined;
+  sum?: number | undefined;
+  sumOfSquares?: number | undefined;
+  mean?: string | undefined;
+  stddev?: number | undefined;
 }
 export type Stats = { [key: string]: FieldStats | undefined };
 export interface SearchResponse {
-  status?: SearchStatus;
-  hits?: Hits;
-  facets?: { [key: string]: BucketInfo | undefined };
-  stats?: { [key: string]: FieldStats | undefined };
+  status?: SearchStatus | undefined;
+  hits?: Hits | undefined;
+  facets?: { [key: string]: BucketInfo | undefined } | undefined;
+  stats?: { [key: string]: FieldStats | undefined } | undefined;
 }
 export type Suggester = string;
 export type SuggestionsSize = number;
 export interface SuggestRequest {
   query: string;
   suggester: string;
-  size?: number;
+  size?: number | undefined;
 }
 export interface SuggestStatus {
-  timems?: number;
-  rid?: string;
+  timems?: number | undefined;
+  rid?: string | undefined;
 }
 export interface SuggestionMatch {
-  suggestion?: string;
-  score?: number;
-  id?: string;
+  suggestion?: string | undefined;
+  score?: number | undefined;
+  id?: string | undefined;
 }
 export type Suggestions = SuggestionMatch[];
 export interface SuggestModel {
-  query?: string;
-  found?: number;
-  suggestions?: SuggestionMatch[];
+  query?: string | undefined;
+  found?: number | undefined;
+  suggestions?: SuggestionMatch[] | undefined;
 }
 export interface SuggestResponse {
-  status?: SuggestStatus;
-  suggest?: SuggestModel;
+  status?: SuggestStatus | undefined;
+  suggest?: SuggestModel | undefined;
 }
 export type ContentType = "application/json" | "application/xml" | (string & {});
 export interface UploadDocumentsRequest {
@@ -212,14 +212,14 @@ export interface UploadDocumentsRequest {
 export type Adds = number;
 export type Deletes = number;
 export interface DocumentServiceWarning {
-  message?: string;
+  message?: string | undefined;
 }
 export type DocumentServiceWarnings = DocumentServiceWarning[];
 export interface UploadDocumentsResponse {
-  status?: string;
-  adds?: number;
-  deletes?: number;
-  warnings?: DocumentServiceWarning[];
+  status?: string | undefined;
+  adds?: number | undefined;
+  deletes?: number | undefined;
+  warnings?: DocumentServiceWarning[] | undefined;
 }
 export type SearchError = SearchException | CommonErrors;
 /**

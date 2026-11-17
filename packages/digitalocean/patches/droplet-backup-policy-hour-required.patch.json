@@ -1,0 +1,25 @@
+{
+  "description": "A droplet backup policy the API accepts must carry `hour`: `{ type: \"change_backup_policy\", backup_policy: { plan: \"weekly\", weekday: \"SUN\" } }` and `{ plan: \"daily\" }` return 400 \"Your request body was malformed.\", the same with `hour: 8` is accepted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletSingleCreateInputBackupPolicy/members/hour/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletMultiCreateInputBackupPolicy/members/hour/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletActionEnableBackupsInputBackupPolicy/members/hour/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DropletActionChangeBackupPolicyInputBackupPolicy/members/hour/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

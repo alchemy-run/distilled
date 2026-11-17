@@ -31,27 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface GetUserRequest {
   /** The unique identifier of the 1Password account, a 26-character uppercase ID. A malformed ID returns `400 Bad Request`. */
@@ -64,27 +85,27 @@ export type UserV1UserState = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
 /** A user within a 1Password account. */
 export interface UserV1User {
   /** The unique identifier (UUID) of the user. */
-  id?: string;
+  id?: string | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The display name of the user. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The current state of the user. Omitted when the user is neither active nor suspended, for example while pending confirmation or in account recovery. */
-  state?: UserV1UserState;
+  state?: UserV1UserState | undefined;
   /** The date and time the user was created, in RFC 3339 format. */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The resource path of the user. Format: `accounts/{account}/users/{user}` */
-  path?: string;
+  path?: string | undefined;
 }
 export interface ListUsersRequest {
   /** The unique identifier of the 1Password account, a 26-character uppercase ID. A malformed ID returns `400 Bad Request`. */
   account: string;
   /** Filter users by state. Supported values (case-sensitive): `user.isActive()` or `user.isSuspended()`. Omit or leave empty to return both active and suspended users. Any other value returns `400 Bad Request` with an `invalid_argument` error. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of users to return per page. Defaults to 100 when omitted or set to 0. The maximum is 1000; values greater than 1000 are limited to 1000, and negative values return `400 Bad Request`. Ignored when `page_token` is provided. */
-  max_page_size?: number;
+  max_page_size?: number | undefined;
   /** The pagination token that identifies the page of results to return. Use the `next_page_token` value from a previous response, and send the same `filter` value as the original request. Tokens are opaque and don't expire. */
-  page_token?: string;
+  page_token?: string | undefined;
 }
 /** The list of users returned for this page. Only active and suspended users are included. */
 export type UserV1ListUsersResponseResultsList = Array<UserV1User>;
@@ -93,7 +114,7 @@ export interface UserV1ListUsersResponse {
   /** The list of users returned for this page. Only active and suspended users are included. */
   results: UserV1ListUsersResponseResultsList;
   /** An opaque token to retrieve the next page of results. Pass it in the `page_token` query parameter of the next request. Omitted when there are no more results. A page with no results is returned as an empty object (`{}`). */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
 }
 export interface ReactivateUserRequest {
   /** The unique identifier of the 1Password account, a 26-character uppercase ID. A malformed ID returns `400 Bad Request`. */
@@ -107,6 +128,13 @@ export interface SuspendUserRequest {
   /** The unique identifier of the user, a 26-character uppercase ID. A malformed ID returns `400 Bad Request`. */
   user: string;
 }
+/** An error response with a machine-readable `code` and a human-readable `message`. This format is provisional and may change in a future release. */
+export interface Error {
+  /** A machine-readable error code, for example `invalid_argument`, `failed_precondition`, `unauthenticated`, `permission_denied`, `not_found`, `resource_exhausted`, `internal`, or `unavailable`. */
+  code: string;
+  /** A human-readable description of the error. */
+  message: string;
+}
 export type GetUserError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
 /** Get a user Retrieve a single user in a 1Password account by their unique identifier. */
 export const getUser: API.OperationMethod<
@@ -115,8 +143,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   UsersOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<UserV1User>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<UserV1User>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
@@ -134,8 +162,8 @@ export const listUsers: API.PaginatedOperationMethod<
   UserV1User
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(10, __c2, 2) as any as S.Schema<UserV1ListUsersResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(14, __c3, 2) as any as S.Schema<UserV1ListUsersResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
     protocol: UsersProtocol,
     retry: Retry.Retry,
@@ -160,8 +188,8 @@ export const reactivateUser: API.OperationMethod<
   ReactivateUserError,
   UsersOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ReactivateUserRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<UserV1User>,
+  input: __S(16, __c4, 0) as any as S.Schema<ReactivateUserRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<UserV1User>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
@@ -177,8 +205,8 @@ export const suspendUser: API.OperationMethod<
   SuspendUserError,
   UsersOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<SuspendUserRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<UserV1User>,
+  input: __S(20, __c5, 0) as any as S.Schema<SuspendUserRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<UserV1User>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
@@ -192,13 +220,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account: S.String.pipe(T.Label()),
           user: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/accounts/{account}/users/{user}", code: 200 })),
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -213,7 +252,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UserV1User" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -225,17 +264,17 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/accounts/{account}/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(9, __c2, 1),
+          results: __S(13, __c3, 1),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserV1ListUsersResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -252,7 +291,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ReactivateUserRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

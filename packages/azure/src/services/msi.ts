@@ -73,7 +73,7 @@ export interface FederatedIdentityCredentialsCreateOrUpdateRequest {
   /** The name of the federated identity credential resource. */
   federatedIdentityCredentialResourceName: string;
   /** The properties associated with the federated identity credential. */
-  properties?: FederatedIdentityCredentialProperties;
+  properties?: FederatedIdentityCredentialProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -82,29 +82,29 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface FederatedIdentityCredentialsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the federated identity credential. */
-  properties?: FederatedIdentityCredentialProperties;
+  properties?: FederatedIdentityCredentialProperties | undefined;
 }
 export interface GetFederatedIdentityCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -118,15 +118,15 @@ export interface GetFederatedIdentityCredentialsRequest {
 }
 export interface GetFederatedIdentityCredentialsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the federated identity credential. */
-  properties?: FederatedIdentityCredentialProperties;
+  properties?: FederatedIdentityCredentialProperties | undefined;
 }
 export interface GetSystemAssignedIdentityByScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -135,28 +135,28 @@ export interface GetSystemAssignedIdentityByScopeRequest {
 /** The properties associated with the system assigned identity. */
 export interface SystemAssignedIdentityProperties {
   /** The id of the tenant which the identity belongs to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The id of the service principal object associated with the created identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The id of the app associated with the identity. This is a random generated UUID by MSI. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials. */
-  clientSecretUrl?: string;
+  clientSecretUrl?: string | undefined;
 }
 export type GetSystemAssignedIdentityByScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSystemAssignedIdentityByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the identity. */
-  properties?: SystemAssignedIdentityProperties;
+  properties?: SystemAssignedIdentityProperties | undefined;
   location: string;
-  tags?: GetSystemAssignedIdentityByScopeResponseTagsMap;
+  tags?: GetSystemAssignedIdentityByScopeResponseTagsMap | undefined;
 }
 export interface GetUserAssignedIdentityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -173,29 +173,29 @@ export type IsolationScope = "None" | "Regional";
 /** The properties associated with the user assigned identity. */
 export interface UserAssignedIdentityProperties {
   /** The id of the tenant which the identity belongs to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The id of the service principal object associated with the created identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The id of the app associated with the identity. This is a random generated UUID by MSI. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Enum to configure regional restrictions on identity assignment, as necessary. */
-  isolationScope?: IsolationScope | (string & {});
+  isolationScope?: IsolationScope | (string & {}) | undefined;
 }
 export interface GetUserAssignedIdentityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetUserAssignedIdentityResponseTagsMap;
+  tags?: GetUserAssignedIdentityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 export interface ListFederatedIdentityCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -205,22 +205,22 @@ export interface ListFederatedIdentityCredentialsRequest {
   /** The name of the identity resource. */
   resourceName: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Describes a federated identity credential. */
 export interface FederatedIdentityCredential {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated with the federated identity credential. */
-  properties?: FederatedIdentityCredentialProperties;
+  properties?: FederatedIdentityCredentialProperties | undefined;
 }
 /** The FederatedIdentityCredential items on this page */
 export type FederatedIdentityCredentialsListResultValueList = Array<FederatedIdentityCredential>;
@@ -229,26 +229,26 @@ export interface FederatedIdentityCredentialsListResult {
   /** The FederatedIdentityCredential items on this page */
   value: FederatedIdentityCredentialsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -257,7 +257,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserAssignedIdentityByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -270,19 +270,19 @@ export type IdentityTagsMap = { [key: string]: string | undefined };
 /** Describes an identity resource. */
 export interface Identity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IdentityTagsMap;
+  tags?: IdentityTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 /** The Identity items on this page */
 export type UserAssignedIdentitiesListResultValueList = Array<Identity>;
@@ -291,7 +291,7 @@ export interface UserAssignedIdentitiesListResult {
   /** The Identity items on this page */
   value: UserAssignedIdentitiesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserAssignedIdentityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -307,29 +307,29 @@ export interface UpdateUserAssignedIdentityRequest {
   /** The name of the identity resource. */
   resourceName: string;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateUserAssignedIdentityRequestTagsMap;
+  tags?: UpdateUserAssignedIdentityRequestTagsMap | undefined;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateUserAssignedIdentityResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateUserAssignedIdentityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateUserAssignedIdentityResponseTagsMap;
+  tags?: UpdateUserAssignedIdentityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 /** Resource tags. */
 export type UserAssignedIdentitiesCreateOrUpdateRequestTagsMap = {
@@ -343,11 +343,11 @@ export interface UserAssignedIdentitiesCreateOrUpdateRequest {
   /** The name of the identity resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UserAssignedIdentitiesCreateOrUpdateRequestTagsMap;
+  tags?: UserAssignedIdentitiesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 /** Resource tags. */
 export type UserAssignedIdentitiesCreateOrUpdateResponseTagsMap = {
@@ -355,19 +355,19 @@ export type UserAssignedIdentitiesCreateOrUpdateResponseTagsMap = {
 };
 export interface UserAssignedIdentitiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UserAssignedIdentitiesCreateOrUpdateResponseTagsMap;
+  tags?: UserAssignedIdentitiesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  properties?: UserAssignedIdentityProperties | undefined;
 }
 export type DeleteFederatedIdentityCredentialsError = AzureOpError;
 /** Deletes the federated identity credential. */

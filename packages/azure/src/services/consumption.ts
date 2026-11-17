@@ -46,7 +46,7 @@ export interface BudgetTimePeriod {
   /** The start date for the budget. */
   startDate: string;
   /** The end date for the budget. If not provided, we default this to 10 years from the start date. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** The operator to use for comparison. */
 export type BudgetOperatorType = "In";
@@ -64,20 +64,20 @@ export interface BudgetComparisonExpression {
 /** The Dimensions or Tags to filter a budget by. */
 export interface BudgetFilterProperties {
   /** Has comparison expression for a dimension */
-  dimensions?: BudgetComparisonExpression;
+  dimensions?: BudgetComparisonExpression | undefined;
   /** Has comparison expression for a tag */
-  tags?: BudgetComparisonExpression;
+  tags?: BudgetComparisonExpression | undefined;
 }
 /** The logical "AND" expression. Must have at least 2 items. */
 export type BudgetFilterAndList = Array<BudgetFilterProperties>;
 /** May be used to filter budgets by resource group, resource, or meter. */
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
-  and?: BudgetFilterAndList;
+  and?: BudgetFilterAndList | undefined;
   /** Has comparison expression for a dimension */
-  dimensions?: BudgetComparisonExpression;
+  dimensions?: BudgetComparisonExpression | undefined;
   /** Has comparison expression for a tag */
-  tags?: BudgetComparisonExpression;
+  tags?: BudgetComparisonExpression | undefined;
 }
 /** The comparison operator. */
 export type OperatorType = "EqualTo" | "GreaterThan" | "GreaterThanOrEqualTo";
@@ -123,13 +123,13 @@ export interface Notification {
   /** Email addresses to send the budget notification to when the threshold is exceeded. Must have at least one contact email or contact group specified at the Subscription or Resource Group scopes. All other scopes must have at least one contact email specified. */
   contactEmails: NotificationContactEmailsList;
   /** Contact roles to send the budget notification to when the threshold is exceeded. */
-  contactRoles?: NotificationContactRolesList;
+  contactRoles?: NotificationContactRolesList | undefined;
   /** Action groups to send the budget notification to when the threshold is exceeded. Must be provided as a fully qualified Azure resource id. Only supported at Subscription or Resource Group scopes. */
-  contactGroups?: NotificationContactGroupsList;
+  contactGroups?: NotificationContactGroupsList | undefined;
   /** The type of threshold */
-  thresholdType?: NotificationThresholdType | (string & {});
+  thresholdType?: NotificationThresholdType | (string & {}) | undefined;
   /** Language in which the recipient will receive the notification */
-  locale?: CultureCode | (string & {});
+  locale?: CultureCode | (string & {}) | undefined;
 }
 /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
 export type BudgetPropertiesInputNotificationsMap = { [key: string]: Notification | undefined };
@@ -144,9 +144,9 @@ export interface BudgetPropertiesInput {
   /** Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should be selected within the timegrain period. There are no restrictions on the end date. */
   timePeriod: BudgetTimePeriod;
   /** May be used to filter budgets by user-specified dimensions and/or tags. */
-  filter?: BudgetFilter;
+  filter?: BudgetFilter | undefined;
   /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
-  notifications?: BudgetPropertiesInputNotificationsMap;
+  notifications?: BudgetPropertiesInputNotificationsMap | undefined;
 }
 export interface BudgetsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -154,9 +154,9 @@ export interface BudgetsCreateOrUpdateRequest {
   /** Budget Name. */
   budgetName: string;
   /** The properties of the budget. */
-  properties?: BudgetPropertiesInput;
+  properties?: BudgetPropertiesInput | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -165,33 +165,33 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The current amount of cost which is being tracked for a budget. */
 export interface CurrentSpend {
   /** The total amount of cost which is being tracked by the budget. */
-  amount?: number;
+  amount?: number | undefined;
   /** The unit of measure for the budget amount. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
 export type BudgetPropertiesNotificationsMap = { [key: string]: Notification | undefined };
 /** The forecasted cost which is being tracked for a budget. */
 export interface ForecastSpend {
   /** The forecasted cost for the total time period which is being tracked by the budget. This value is only provided if the budget contains a forecast alert type. */
-  amount?: number;
+  amount?: number | undefined;
   /** The unit of measure for the budget amount. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** The properties of the budget. */
 export interface BudgetProperties {
@@ -204,27 +204,27 @@ export interface BudgetProperties {
   /** Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should be selected within the timegrain period. There are no restrictions on the end date. */
   timePeriod: BudgetTimePeriod;
   /** May be used to filter budgets by user-specified dimensions and/or tags. */
-  filter?: BudgetFilter;
+  filter?: BudgetFilter | undefined;
   /** The current amount of cost which is being tracked for a budget. */
-  currentSpend?: CurrentSpend;
+  currentSpend?: CurrentSpend | undefined;
   /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
-  notifications?: BudgetPropertiesNotificationsMap;
+  notifications?: BudgetPropertiesNotificationsMap | undefined;
   /** The forecasted cost which is being tracked for a budget. */
-  forecastSpend?: ForecastSpend;
+  forecastSpend?: ForecastSpend | undefined;
 }
 export interface BudgetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface DeleteBudgetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -244,43 +244,43 @@ export type OperationStatusType = "Running" | "Completed" | "Failed";
 /** The properties of the price sheet download. */
 export interface PricesheetDownloadProperties {
   /** The link (url) to download the pricesheet. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** Download link validity. */
-  validTill?: string;
+  validTill?: string | undefined;
 }
 /** The status of the long running operation. */
 export interface OperationStatus {
   /** The status of the long running operation. */
-  status?: OperationStatusType;
+  status?: OperationStatusType | undefined;
   /** The properties of the resource generated. */
-  properties?: PricesheetDownloadProperties;
+  properties?: PricesheetDownloadProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetAggregatedCostByManagementGroupRequest {
   /** Order Id of the reservation */
   managementGroupId: string;
   /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and 'ge' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type ManagementGroupAggregatedCostResultTagsMap = { [key: string]: string | undefined };
 /** A management group aggregated cost resource. */
 export interface ManagementGroupAggregatedCostResult {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Management Group Aggregated Cost. */
-  properties?: ManagementGroupAggregatedCostProperties;
+  properties?: ManagementGroupAggregatedCostProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: ManagementGroupAggregatedCostResultTagsMap;
+  tags?: ManagementGroupAggregatedCostResultTagsMap | undefined;
 }
 /** Children of a management group */
 export type ManagementGroupAggregatedCostPropertiesChildrenList =
@@ -292,25 +292,29 @@ export type ManagementGroupAggregatedCostPropertiesExcludedSubscriptionsList = A
 /** The properties of the Management Group Aggregated Cost. */
 export interface ManagementGroupAggregatedCostProperties {
   /** The id of the billing period resource that the aggregated cost belongs to. */
-  billingPeriodId?: string;
+  billingPeriodId?: string | undefined;
   /** The start of the date time range covered by aggregated cost. */
-  usageStart?: string;
+  usageStart?: string | undefined;
   /** The end of the date time range covered by the aggregated cost. */
-  usageEnd?: string;
+  usageEnd?: string | undefined;
   /** Azure Charges. */
-  azureCharges?: number;
+  azureCharges?: number | undefined;
   /** Marketplace Charges. */
-  marketplaceCharges?: number;
+  marketplaceCharges?: number | undefined;
   /** Charges Billed Separately. */
-  chargesBilledSeparately?: number;
+  chargesBilledSeparately?: number | undefined;
   /** The ISO currency in which the meter is charged, for example, USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** Children of a management group */
-  children?: ManagementGroupAggregatedCostPropertiesChildrenList;
+  children?: ManagementGroupAggregatedCostPropertiesChildrenList | undefined;
   /** List of subscription Guids included in the calculation of aggregated cost */
-  includedSubscriptions?: ManagementGroupAggregatedCostPropertiesIncludedSubscriptionsList;
+  includedSubscriptions?:
+    | ManagementGroupAggregatedCostPropertiesIncludedSubscriptionsList
+    | undefined;
   /** List of subscription Guids excluded from the calculation of aggregated cost */
-  excludedSubscriptions?: ManagementGroupAggregatedCostPropertiesExcludedSubscriptionsList;
+  excludedSubscriptions?:
+    | ManagementGroupAggregatedCostPropertiesExcludedSubscriptionsList
+    | undefined;
 }
 /** Resource tags. */
 export type GetAggregatedCostByManagementGroupResponseTagsMap = {
@@ -318,19 +322,19 @@ export type GetAggregatedCostByManagementGroupResponseTagsMap = {
 };
 export interface GetAggregatedCostByManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Management Group Aggregated Cost. */
-  properties?: ManagementGroupAggregatedCostProperties;
+  properties?: ManagementGroupAggregatedCostProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetAggregatedCostByManagementGroupResponseTagsMap;
+  tags?: GetAggregatedCostByManagementGroupResponseTagsMap | undefined;
 }
 export interface GetAggregatedCostForBillingPeriodByManagementGroupRequest {
   /** Order Id of the reservation */
@@ -344,19 +348,19 @@ export type GetAggregatedCostForBillingPeriodByManagementGroupResponseTagsMap = 
 };
 export interface GetAggregatedCostForBillingPeriodByManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Management Group Aggregated Cost. */
-  properties?: ManagementGroupAggregatedCostProperties;
+  properties?: ManagementGroupAggregatedCostProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetAggregatedCostForBillingPeriodByManagementGroupResponseTagsMap;
+  tags?: GetAggregatedCostForBillingPeriodByManagementGroupResponseTagsMap | undefined;
 }
 export interface GetBalanceByBillingAccountRequest {
   /** BillingAccount ID */
@@ -366,73 +370,73 @@ export interface GetBalanceByBillingAccountRequest {
 export type BillingFrequency = "Month" | "Quarter" | "Year";
 export interface BalancePropertiesNewPurchasesDetailsItem {
   /** the name of new purchase. */
-  name?: string;
+  name?: string | undefined;
   /** the value of new purchase. */
-  value?: number;
+  value?: number | undefined;
 }
 /** List of new purchases. */
 export type BalancePropertiesNewPurchasesDetailsList =
   Array<BalancePropertiesNewPurchasesDetailsItem>;
 export interface BalancePropertiesAdjustmentDetailsItem {
   /** the name of new adjustment. */
-  name?: string;
+  name?: string | undefined;
   /** the value of new adjustment. */
-  value?: number;
+  value?: number | undefined;
 }
 /** List of Adjustments (Promo credit, SIE credit etc.). */
 export type BalancePropertiesAdjustmentDetailsList = Array<BalancePropertiesAdjustmentDetailsItem>;
 /** The properties of the balance. */
 export interface BalanceProperties {
   /** The ISO currency in which the meter is charged, for example, USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** The beginning balance for the billing period. */
-  beginningBalance?: number;
+  beginningBalance?: number | undefined;
   /** The ending balance for the billing period (for open periods this will be updated daily). */
-  endingBalance?: number;
+  endingBalance?: number | undefined;
   /** Total new purchase amount. */
-  newPurchases?: number;
+  newPurchases?: number | undefined;
   /** Total adjustment amount. */
-  adjustments?: number;
+  adjustments?: number | undefined;
   /** Total Commitment usage. */
-  utilized?: number;
+  utilized?: number | undefined;
   /** Overage for Azure services. */
-  serviceOverage?: number;
+  serviceOverage?: number | undefined;
   /** Charges Billed separately. */
-  chargesBilledSeparately?: number;
+  chargesBilledSeparately?: number | undefined;
   /** serviceOverage + chargesBilledSeparately. */
-  totalOverage?: number;
+  totalOverage?: number | undefined;
   /** Azure service commitment + total Overage. */
-  totalUsage?: number;
+  totalUsage?: number | undefined;
   /** Total charges for Azure Marketplace. */
-  azureMarketplaceServiceCharges?: number;
+  azureMarketplaceServiceCharges?: number | undefined;
   /** The billing frequency. */
-  billingFrequency?: BillingFrequency;
+  billingFrequency?: BillingFrequency | undefined;
   /** Price is hidden or not. */
-  priceHidden?: boolean;
+  priceHidden?: boolean | undefined;
   /** Overage Refunds */
-  overageRefund?: number;
+  overageRefund?: number | undefined;
   /** List of new purchases. */
-  newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsList;
+  newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsList | undefined;
   /** List of Adjustments (Promo credit, SIE credit etc.). */
-  adjustmentDetails?: BalancePropertiesAdjustmentDetailsList;
+  adjustmentDetails?: BalancePropertiesAdjustmentDetailsList | undefined;
 }
 /** Resource tags. */
 export type GetBalanceByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBalanceByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the balance. */
-  properties?: BalanceProperties;
+  properties?: BalanceProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetBalanceByBillingAccountResponseTagsMap;
+  tags?: GetBalanceByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetBalanceForBillingPeriodByBillingAccountRequest {
   /** BillingAccount ID */
@@ -446,19 +450,19 @@ export type GetBalanceForBillingPeriodByBillingAccountResponseTagsMap = {
 };
 export interface GetBalanceForBillingPeriodByBillingAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the balance. */
-  properties?: BalanceProperties;
+  properties?: BalanceProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetBalanceForBillingPeriodByBillingAccountResponseTagsMap;
+  tags?: GetBalanceForBillingPeriodByBillingAccountResponseTagsMap | undefined;
 }
 export interface GetBudgetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -468,17 +472,17 @@ export interface GetBudgetRequest {
 }
 export interface GetBudgetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetCreditRequest {
   /** BillingAccount ID */
@@ -489,167 +493,167 @@ export interface GetCreditRequest {
 /** The amount plus currency . */
 export interface Amount {
   /** Amount currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Amount. */
-  value?: number;
+  value?: number | undefined;
 }
 /** The amount with exchange rate. */
 export interface AmountWithExchangeRate {
   /** Amount currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Amount. */
-  value?: number;
+  value?: number | undefined;
   /** The exchange rate. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** The exchange rate month. */
-  exchangeRateMonth?: number;
+  exchangeRateMonth?: number | undefined;
 }
 /** Summary of credit balances. */
 export interface CreditBalanceSummary {
   /** Estimated balance. */
-  estimatedBalance?: Amount;
+  estimatedBalance?: Amount | undefined;
   /** Current balance. */
-  currentBalance?: Amount;
+  currentBalance?: Amount | undefined;
   /** Estimated balance in billing currency. */
-  estimatedBalanceInBillingCurrency?: AmountWithExchangeRate;
+  estimatedBalanceInBillingCurrency?: AmountWithExchangeRate | undefined;
 }
 /** The reseller properties. */
 export interface Reseller {
   /** The reseller property ID. */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** The reseller property description. */
-  resellerDescription?: string;
+  resellerDescription?: string | undefined;
 }
 /** The properties of the credit summary. */
 export interface CreditSummaryProperties {
   /** Summary of balances associated with this credit summary. */
-  balanceSummary?: CreditBalanceSummary;
+  balanceSummary?: CreditBalanceSummary | undefined;
   /** Pending credit adjustments. */
-  pendingCreditAdjustments?: Amount;
+  pendingCreditAdjustments?: Amount | undefined;
   /** Expired credit. */
-  expiredCredit?: Amount;
+  expiredCredit?: Amount | undefined;
   /** Pending eligible charges. */
-  pendingEligibleCharges?: Amount;
+  pendingEligibleCharges?: Amount | undefined;
   /** The credit currency. */
-  creditCurrency?: string;
+  creditCurrency?: string | undefined;
   /** The billing currency. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** Credit's reseller. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
   /** If true, the listed details are based on an estimation and it will be subjected to change. */
-  isEstimatedBalance?: boolean;
+  isEstimatedBalance?: boolean | undefined;
   /** The eTag for the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** A list of Tag. */
 export type GetCreditResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCreditResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the credit summary. */
-  properties?: CreditSummaryProperties;
+  properties?: CreditSummaryProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A list of Tag. */
-  tags?: GetCreditResponseTagsMap;
+  tags?: GetCreditResponseTagsMap | undefined;
 }
 export interface GetPriceSheetRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** May be used to expand the properties/meterDetails within a price sheet. By default, these fields are not included when returning price sheet. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** May be used to limit the number of results to the top N results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The properties of the meter detail. */
 export interface MeterDetails {
   /** The name of the meter, within the given meter category */
-  meterName?: string;
+  meterName?: string | undefined;
   /** The category of the meter, for example, 'Cloud services', 'Networking', etc.. */
-  meterCategory?: string;
+  meterCategory?: string | undefined;
   /** The subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc.. */
-  meterSubCategory?: string;
+  meterSubCategory?: string | undefined;
   /** The unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc. */
-  unit?: string;
+  unit?: string | undefined;
   /** The location in which the Azure service is available. */
-  meterLocation?: string;
+  meterLocation?: string | undefined;
   /** The total included quantity associated with the offer. */
-  totalIncludedQuantity?: number;
+  totalIncludedQuantity?: number | undefined;
   /** The pretax listing price. */
-  pretaxStandardRate?: number;
+  pretaxStandardRate?: number | undefined;
   /** The name of the service. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The service tier. */
-  serviceTier?: string;
+  serviceTier?: string | undefined;
 }
 /** The properties of the SavingsPlan. */
 export interface SavingsPlan {
   /** SavingsPlan term */
-  term?: string;
+  term?: string | undefined;
   /** SavingsPlan Market Price */
-  marketPrice?: number;
+  marketPrice?: number | undefined;
   /** SavingsPlan Effective Price */
-  effectivePrice?: number;
+  effectivePrice?: number | undefined;
 }
 /** The properties of the price sheet. */
 export interface PriceSheetProperties {
   /** The id of the billing period resource that the usage belongs to. */
-  billingPeriodId?: string;
+  billingPeriodId?: string | undefined;
   /** The meter id (GUID) */
-  meterId?: string;
+  meterId?: string | undefined;
   /** The details about the meter. By default this is not populated, unless it's specified in $expand. */
-  meterDetails?: MeterDetails;
+  meterDetails?: MeterDetails | undefined;
   /** Unit of measure */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
   /** Included quality for an offer */
-  includedQuantity?: number;
+  includedQuantity?: number | undefined;
   /** Part Number */
-  partNumber?: string;
+  partNumber?: string | undefined;
   /** Unit Price */
-  unitPrice?: number;
+  unitPrice?: number | undefined;
   /** Currency Code */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Offer Id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** SavingsPlan Details */
-  savingsPlan?: SavingsPlan;
+  savingsPlan?: SavingsPlan | undefined;
 }
 /** Price sheet */
 export type PriceSheetModelPricesheetsList = Array<PriceSheetProperties>;
 /** price sheet result. It contains the pricesheet associated with billing period */
 export interface PriceSheetModel {
   /** Price sheet */
-  pricesheets?: PriceSheetModelPricesheetsList;
+  pricesheets?: PriceSheetModelPricesheetsList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Pricesheet download details. */
-  download?: MeterDetails;
+  download?: MeterDetails | undefined;
 }
 /** Resource tags. */
 export type GetPriceSheetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPriceSheetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** price sheet result. It contains the pricesheet associated with billing period */
-  properties?: PriceSheetModel;
+  properties?: PriceSheetModel | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetPriceSheetResponseTagsMap;
+  tags?: GetPriceSheetResponseTagsMap | undefined;
 }
 export interface GetPriceSheetByBillingPeriodRequest {
   /** The ID of the target subscription. */
@@ -657,29 +661,29 @@ export interface GetPriceSheetByBillingPeriodRequest {
   /** Billing Period Name. */
   billingPeriodName: string;
   /** May be used to expand the properties/meterDetails within a price sheet. By default, these fields are not included when returning price sheet. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** May be used to limit the number of results to the top N results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type GetPriceSheetByBillingPeriodResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPriceSheetByBillingPeriodResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** price sheet result. It contains the pricesheet associated with billing period */
-  properties?: PriceSheetModel;
+  properties?: PriceSheetModel | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetPriceSheetByBillingPeriodResponseTagsMap;
+  tags?: GetPriceSheetByBillingPeriodResponseTagsMap | undefined;
 }
 export type GetReservationRecommendationDetailRequestScope =
   | "Single"
@@ -704,43 +708,43 @@ export interface GetReservationRecommendationDetailRequest {
   /** Filter the products for which reservation recommendation results are generated. Examples: Standard_DS1_v2 (for VM), Premium_SSD_Managed_Disks_P30 (for Managed Disks) */
   product: string;
   /** Used to filter reservation recommendation details by: properties/subscriptionId can be specified for billing account and billing profile paths. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Specify the management group ID. Required when recommendation scope is 'ManagementGroup'. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
 }
 /** List of subscriptions for which the reservation is applied. */
 export type ReservationRecommendationDetailsResourcePropertiesAppliedScopesList = Array<string>;
 /** Details of the resource. */
 export interface ReservationRecommendationDetailsResourceProperties {
   /** List of subscriptions for which the reservation is applied. */
-  appliedScopes?: ReservationRecommendationDetailsResourcePropertiesAppliedScopesList;
+  appliedScopes?: ReservationRecommendationDetailsResourcePropertiesAppliedScopesList | undefined;
   /** On-demand rate of the resource. Most resources use hourly rates, except for BlockBlob, ManagedDisk, Backup, and Azure Files, which use monthly rates. Only hardware rates are included; software rates are excluded. Note: there could be new resources that use hourly rates in the future. */
-  onDemandRate?: number;
+  onDemandRate?: number | undefined;
   /** Azure product ex: Standard_E8s_v3 etc. */
-  product?: string;
+  product?: string | undefined;
   /** Azure resource region ex:EastUS, WestUS etc. */
-  region?: string;
+  region?: string | undefined;
   /** Hourly reservation rate of the resource. Varies based on the term. */
-  reservationRate?: number;
+  reservationRate?: number | undefined;
   /** The azure resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 /** Details of estimated savings. The costs and savings are estimated for the term. */
 export interface ReservationRecommendationDetailsCalculatedSavingsProperties {
   /** The cost without reservation. Includes hardware and software cost. */
-  onDemandCost?: number;
+  onDemandCost?: number | undefined;
   /** The estimated cost for resource meters that are not covered by the reservation and are billed at pay-as-you-go rates. */
-  overageCost?: number;
+  overageCost?: number | undefined;
   /** The quantity for calculated savings. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Hardware cost of the resources covered by the reservation. */
-  reservationCost?: number;
+  reservationCost?: number | undefined;
   /** Reservation cost + software cost of the resources covered by the reservation + overage cost. */
-  totalReservationCost?: number;
+  totalReservationCost?: number | undefined;
   /** The number of reserved units used to calculate savings. Always 1 for virtual machines. */
-  reservedUnitCount?: number;
+  reservedUnitCount?: number | undefined;
   /** The amount saved by purchasing the recommended quantity of reservation. This is equal to onDemandCost - totalReservationCost. */
-  savings?: number;
+  savings?: number | undefined;
 }
 /** List of calculated savings. */
 export type ReservationRecommendationDetailsSavingsPropertiesCalculatedSavingsList =
@@ -748,58 +752,60 @@ export type ReservationRecommendationDetailsSavingsPropertiesCalculatedSavingsLi
 /** Details of the estimated savings. */
 export interface ReservationRecommendationDetailsSavingsProperties {
   /** List of calculated savings. */
-  calculatedSavings?: ReservationRecommendationDetailsSavingsPropertiesCalculatedSavingsList;
+  calculatedSavings?:
+    | ReservationRecommendationDetailsSavingsPropertiesCalculatedSavingsList
+    | undefined;
   /** Number of days of usage to look back used for computing the recommendation. */
-  lookBackPeriod?: number;
+  lookBackPeriod?: number | undefined;
   /** Number of recommended units of the resource. */
-  recommendedQuantity?: number;
+  recommendedQuantity?: number | undefined;
   /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
-  reservationOrderTerm?: string;
+  reservationOrderTerm?: string | undefined;
   /** Type of savings, ex: instance. */
-  savingsType?: string;
+  savingsType?: string | undefined;
   /** Measurement unit ex: hour etc. */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
 }
 /** The breakdown of historical resource usage. The values are in the order of usage between the firstConsumptionDate and the lastConsumptionDate. */
 export type ReservationRecommendationDetailsUsagePropertiesUsageDataList = Array<number>;
 /** Details about historical usage data that has been used for computing the recommendation. */
 export interface ReservationRecommendationDetailsUsageProperties {
   /** The first usage date used for looking back for computing the recommendation. */
-  firstConsumptionDate?: string;
+  firstConsumptionDate?: string | undefined;
   /** The last usage date used for looking back for computing the recommendation. */
-  lastConsumptionDate?: string;
+  lastConsumptionDate?: string | undefined;
   /** What the usage data values represent ex: virtual machine instance. */
-  lookBackUnitType?: string;
+  lookBackUnitType?: string | undefined;
   /** The breakdown of historical resource usage. The values are in the order of usage between the firstConsumptionDate and the lastConsumptionDate. */
-  usageData?: ReservationRecommendationDetailsUsagePropertiesUsageDataList;
+  usageData?: ReservationRecommendationDetailsUsagePropertiesUsageDataList | undefined;
   /** The grain of the values represented in the usage data ex: hourly. */
-  usageGrain?: string;
+  usageGrain?: string | undefined;
 }
 /** Details about projected usage data that has been used for computing the recommendation. */
 export interface ReservationRecommendationDetailsProjectedUsageProperties {
   /** Total projected retail usage in commitment units (CUs). */
-  totalRetailUsageInCUs?: number;
+  totalRetailUsageInCUs?: number | undefined;
 }
 /** The properties of the reservation recommendation. */
 export interface ReservationRecommendationDetailsProperties {
   /** An ISO 4217 currency code identifier for the costs and savings */
-  currency?: string;
+  currency?: string | undefined;
   /** Resource specific properties. */
-  resource?: ReservationRecommendationDetailsResourceProperties;
+  resource?: ReservationRecommendationDetailsResourceProperties | undefined;
   /** Resource Group. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Savings information for the recommendation. */
-  savings?: ReservationRecommendationDetailsSavingsProperties;
+  savings?: ReservationRecommendationDetailsSavingsProperties | undefined;
   /** Scope of the reservation, ex: Single or Shared. */
-  scope?: string;
+  scope?: string | undefined;
   /** Historical usage details used to calculate the estimated savings. */
-  usage?: ReservationRecommendationDetailsUsageProperties;
+  usage?: ReservationRecommendationDetailsUsageProperties | undefined;
   /** Management group id associated with management group scoped recommendation. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** The tenant ID associated with the management group. Populated only when managementGroupId is populated. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Projected usage details used for generating the recommendation. */
-  projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties;
+  projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties | undefined;
 }
 /** Resource tags. */
 export type GetReservationRecommendationDetailResponseTagsMap = {
@@ -807,23 +813,23 @@ export type GetReservationRecommendationDetailResponseTagsMap = {
 };
 export interface GetReservationRecommendationDetailResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource Location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource sku */
-  sku?: string;
+  sku?: string | undefined;
   /** The properties of the reservation recommendation. */
-  properties?: ReservationRecommendationDetailsProperties;
+  properties?: ReservationRecommendationDetailsProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetReservationRecommendationDetailResponseTagsMap;
+  tags?: GetReservationRecommendationDetailResponseTagsMap | undefined;
 }
 export interface GetTagRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -834,34 +840,34 @@ export type TagValueList = Array<string>;
 /** The tag resource. */
 export interface Tag {
   /** Tag key. */
-  key?: string;
+  key?: string | undefined;
   /** Tag values. */
-  value?: TagValueList;
+  value?: TagValueList | undefined;
 }
 /** A list of Tag. */
 export type TagPropertiesTagsList = Array<Tag>;
 /** The properties of the tag. */
 export interface TagProperties {
   /** A list of Tag. */
-  tags?: TagPropertiesTagsList;
+  tags?: TagPropertiesTagsList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The link (url) to the previous page of results. */
-  previousLink?: string;
+  previousLink?: string | undefined;
 }
 export interface GetTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the tag. */
-  properties?: TagProperties;
+  properties?: TagProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ListBudgetsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -870,68 +876,135 @@ export interface ListBudgetsRequest {
 /** A budget resource. */
 export interface Budget {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the budget. */
-  properties?: BudgetProperties;
+  properties?: BudgetProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of budgets. */
 export type BudgetsListResultValueList = Array<Budget>;
 /** Result of listing budgets. It contains a list of available budgets in the scope provided. */
 export interface BudgetsListResult {
   /** The list of budgets. */
-  value?: BudgetsListResultValueList;
+  value?: BudgetsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListChargesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** Start date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** End date */
-  endDate?: string;
+  endDate?: string | undefined;
   /** May be used to filter charges by properties/usageEnd (Utc time), properties/usageStart (Utc time). The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to group charges for billingAccount scope by properties/billingProfileId, properties/invoiceSectionId, properties/customerId (specific for Partner Led), or for billingProfile scope by properties/invoiceSectionId. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 /** Specifies the kind of charge summary. */
-export type ChargeSummaryKind = "legacy" | "modern";
-/** A charge summary resource. */
-export interface ChargeSummary {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Specifies the kind of charge summary. */
-  kind: ChargeSummaryKind;
-  /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+export type LegacyChargeSummaryKind = "legacy";
+/** The properties of legacy charge summary. */
+export interface LegacyChargeSummaryProperties {
+  /** The id of the billing period resource that the charge belongs to. */
+  billingPeriodId?: string | undefined;
+  /** Usage start date. */
+  usageStart?: string | undefined;
+  /** Usage end date. */
+  usageEnd?: string | undefined;
+  /** Azure Charges. */
+  azureCharges?: number | undefined;
+  /** Charges Billed separately. */
+  chargesBilledSeparately?: number | undefined;
+  /** Marketplace Charges. */
+  azureMarketplaceCharges?: number | undefined;
+  /** Currency Code */
+  currency?: string | undefined;
 }
+/** Legacy charge summary. */
+export interface LegacyChargeSummary {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Specifies the kind of charge summary. */
+  kind: LegacyChargeSummaryKind;
+  /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
+  eTag?: string | undefined;
+  /** Properties for legacy charge summary */
+  properties: LegacyChargeSummaryProperties;
+}
+/** Specifies the kind of charge summary. */
+export type ModernChargeSummaryKind = "modern";
+/** The properties of modern charge summary. */
+export interface ModernChargeSummaryProperties {
+  /** The id of the billing period resource that the charge belongs to. */
+  billingPeriodId?: string | undefined;
+  /** Usage start date. */
+  usageStart?: string | undefined;
+  /** Usage end date. */
+  usageEnd?: string | undefined;
+  /** Azure Charges. */
+  azureCharges?: Amount | undefined;
+  /** Charges Billed separately. */
+  chargesBilledSeparately?: Amount | undefined;
+  /** Marketplace Charges. */
+  marketplaceCharges?: Amount | undefined;
+  /** Billing Account Id */
+  billingAccountId?: string | undefined;
+  /** Billing Profile Id */
+  billingProfileId?: string | undefined;
+  /** Invoice Section Id */
+  invoiceSectionId?: string | undefined;
+  /** Customer Id */
+  customerId?: string | undefined;
+  /** Is charge Invoiced */
+  isInvoiced?: boolean | undefined;
+  /** Subscription guid. */
+  subscriptionId?: string | undefined;
+}
+/** Modern charge summary. */
+export interface ModernChargeSummary {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Specifies the kind of charge summary. */
+  kind: ModernChargeSummaryKind;
+  /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
+  eTag?: string | undefined;
+  /** Properties for modern charge summary */
+  properties: ModernChargeSummaryProperties;
+}
+/** A charge summary resource. */
+export type ChargeSummary = LegacyChargeSummary | ModernChargeSummary;
 /** The list of charge summary */
 export type ChargesListResultValueList = Array<ChargeSummary>;
 /** Result of listing charge summary. */
 export interface ChargesListResult {
   /** The list of charge summary */
-  value?: ChargesListResultValueList;
+  value?: ChargesListResultValueList | undefined;
 }
 export interface ListEventByBillingAccountRequest {
   /** BillingAccount ID */
   billingAccountId: string;
   /** May be used to filter the events by lotId, lotSource etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Identifies the type of the event. */
 export type EventType =
@@ -946,81 +1019,81 @@ export type EventType =
 /** The event properties. */
 export interface EventProperties {
   /** The date of the event. */
-  transactionDate?: string;
+  transactionDate?: string | undefined;
   /** The description of the event. */
-  description?: string;
+  description?: string | undefined;
   /** The amount of new credit or commitment for NewCredit or SettleCharges event. */
-  newCredit?: Amount;
+  newCredit?: Amount | undefined;
   /** The amount of balance adjustment. The property is not available for ConsumptionCommitment lots. */
-  adjustments?: Amount;
+  adjustments?: Amount | undefined;
   /** The amount of expired credit or commitment for NewCredit or SettleCharges event. */
-  creditExpired?: Amount;
+  creditExpired?: Amount | undefined;
   /** The amount of charges for events of type SettleCharges and PendingEligibleCharges. */
-  charges?: Amount;
+  charges?: Amount | undefined;
   /** The balance after the event, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment */
-  closedBalance?: Amount;
+  closedBalance?: Amount | undefined;
   /** Identifier of the billing account. */
-  billingAccountId?: string;
+  billingAccountId?: string | undefined;
   /** Name of the billing account. */
-  billingAccountDisplayName?: string;
+  billingAccountDisplayName?: string | undefined;
   /** Identifies the type of the event. */
-  eventType?: EventType;
+  eventType?: EventType | undefined;
   /** The number which uniquely identifies the invoice on which the event was billed. This will be empty for unbilled events. */
-  invoiceNumber?: string;
+  invoiceNumber?: string | undefined;
   /** The ID that uniquely identifies the billing profile for which the event happened. The property is only available for billing account of type MicrosoftCustomerAgreement. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** The display name of the billing profile for which the event happened. The property is only available for billing account of type MicrosoftCustomerAgreement. */
-  billingProfileDisplayName?: string;
+  billingProfileDisplayName?: string | undefined;
   /** The ID that uniquely identifies the lot for which the event happened. */
-  lotId?: string;
+  lotId?: string | undefined;
   /** Identifies the source of the lot for which the event happened. */
-  lotSource?: string;
+  lotSource?: string | undefined;
   /** Amount of canceled credit. */
-  canceledCredit?: Amount;
+  canceledCredit?: Amount | undefined;
   /** The credit currency of the event. */
-  creditCurrency?: string;
+  creditCurrency?: string | undefined;
   /** The billing currency of the event. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** The reseller of the event. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
   /** The amount of expired credit or commitment for NewCredit or SettleCharges event in billing currency. */
-  creditExpiredInBillingCurrency?: AmountWithExchangeRate;
+  creditExpiredInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The amount of new credit or commitment for NewCredit or SettleCharges event in billing currency. */
-  newCreditInBillingCurrency?: AmountWithExchangeRate;
+  newCreditInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The amount of balance adjustment in billing currency. */
-  adjustmentsInBillingCurrency?: AmountWithExchangeRate;
+  adjustmentsInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The amount of charges for events of type SettleCharges and PendingEligibleCharges in billing currency. */
-  chargesInBillingCurrency?: AmountWithExchangeRate;
+  chargesInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The balance in billing currency after the event, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment */
-  closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+  closedBalanceInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** If true, the listed details are based on an estimation and it will be subjected to change. */
-  isEstimatedBalance?: boolean;
+  isEstimatedBalance?: boolean | undefined;
   /** The eTag for the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** An event summary resource. */
 export interface EventSummary {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The event properties. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
   /** The eTag for the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of event summary. */
 export type EventsValueList = Array<EventSummary>;
 /** Result of listing event summary. */
 export interface Events {
   /** The list of event summary. */
-  value?: EventsValueList;
+  value?: EventsValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventByBillingProfileRequest {
   /** BillingAccount ID */
@@ -1036,7 +1109,7 @@ export interface ListLotByBillingAccountRequest {
   /** BillingAccount ID */
   billingAccountId: string;
   /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The source of the lot. */
 export type LotSource = "PurchasedCredit" | "PromotionalCredit" | "ConsumptionCommitment";
@@ -1047,63 +1120,63 @@ export type OrganizationType = "Primary" | "Contributor";
 /** The lot properties. */
 export interface LotProperties {
   /** The original amount of a lot, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment */
-  originalAmount?: Amount;
+  originalAmount?: Amount | undefined;
   /** The balance as of the last invoice. */
-  closedBalance?: Amount;
+  closedBalance?: Amount | undefined;
   /** The source of the lot. */
-  source?: LotSource;
+  source?: LotSource | undefined;
   /** The date when the lot became effective. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The expiration date of a lot. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The po number of the invoice on which the lot was added. This property is not available for ConsumptionCommitment lots. */
-  poNumber?: string;
+  poNumber?: string | undefined;
   /** The date when the lot was added. */
-  purchasedDate?: string;
+  purchasedDate?: string | undefined;
   /** The status of the lot. */
-  status?: Status;
+  status?: Status | undefined;
   /** The currency of the lot. */
-  creditCurrency?: string;
+  creditCurrency?: string | undefined;
   /** The billing currency of the lot. */
-  billingCurrency?: string;
+  billingCurrency?: string | undefined;
   /** The original amount of a lot in billing currency, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment */
-  originalAmountInBillingCurrency?: AmountWithExchangeRate;
+  originalAmountInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The balance as of the last invoice in billing currency. */
-  closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+  closedBalanceInBillingCurrency?: AmountWithExchangeRate | undefined;
   /** The reseller of the lot. */
-  reseller?: Reseller;
+  reseller?: Reseller | undefined;
   /** If true, the listed details are based on an estimation and it will be subjected to change. */
-  isEstimatedBalance?: boolean;
+  isEstimatedBalance?: boolean | undefined;
   /** The eTag for the resource. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The organization type of the lot. */
-  OrganizationType?: OrganizationType;
+  OrganizationType?: OrganizationType | undefined;
   /** Amount consumed from the commitment. */
-  usedAmount?: Amount;
+  usedAmount?: Amount | undefined;
 }
 /** A lot summary resource. */
 export interface LotSummary {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The lot properties. */
-  properties?: LotProperties;
+  properties?: LotProperties | undefined;
   /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The list of lot summary. */
 export type LotsValueList = Array<LotSummary>;
 /** Result of listing lot summary. */
 export interface Lots {
   /** The list of lot summary. */
-  value?: LotsValueList;
+  value?: LotsValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLotByBillingProfileRequest {
   /** BillingAccount ID */
@@ -1117,199 +1190,556 @@ export interface ListLotByCustomerRequest {
   /** Customer ID */
   customerId: string;
   /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListMarketplacesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** May be used to filter marketplaces by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to limit the number of results to the most recent N marketplaces. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** The properties of the marketplace usage detail. */
 export interface MarketplaceProperties {
   /** The id of the billing period resource that the usage belongs to. */
-  billingPeriodId?: string;
+  billingPeriodId?: string | undefined;
   /** The start of the date time range covered by the usage detail. */
-  usageStart?: string;
+  usageStart?: string | undefined;
   /** The end of the date time range covered by the usage detail. */
-  usageEnd?: string;
+  usageEnd?: string | undefined;
   /** The marketplace resource rate. */
-  resourceRate?: number;
+  resourceRate?: number | undefined;
   /** The type of offer. */
-  offerName?: string;
+  offerName?: string | undefined;
   /** The name of resource group. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Additional information. */
-  additionalInfo?: string;
+  additionalInfo?: string | undefined;
   /** The order number. */
-  orderNumber?: string;
+  orderNumber?: string | undefined;
   /** The name of the resource instance that the usage is about. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The uri of the resource instance that the usage is about. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The ISO currency in which the meter is charged, for example, USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** The quantity of usage. */
-  consumedQuantity?: number;
+  consumedQuantity?: number | undefined;
   /** The unit of measure. */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
   /** The amount of cost before tax. */
-  pretaxCost?: number;
+  pretaxCost?: number | undefined;
   /** The estimated usage is subject to change. */
-  isEstimated?: boolean;
+  isEstimated?: boolean | undefined;
   /** The meter id (GUID). */
-  meterId?: string;
+  meterId?: string | undefined;
   /** Subscription guid. */
-  subscriptionGuid?: string;
+  subscriptionGuid?: string | undefined;
   /** Subscription name. */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
   /** Account name. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Department name. */
-  departmentName?: string;
+  departmentName?: string | undefined;
   /** Consumed service name. */
-  consumedService?: string;
+  consumedService?: string | undefined;
   /** The cost center of this department if it is a department and a costcenter exists */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** Additional details of this usage item. By default this is not populated, unless it's specified in $expand. */
-  additionalProperties?: string;
+  additionalProperties?: string | undefined;
   /** The name of publisher. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** The name of plan. */
-  planName?: string;
+  planName?: string | undefined;
   /** Flag indicating whether this is a recurring charge or not. */
-  isRecurringCharge?: boolean;
+  isRecurringCharge?: boolean | undefined;
 }
 /** Resource tags. */
 export type MarketplaceTagsMap = { [key: string]: string | undefined };
 /** A marketplace resource. */
 export interface Marketplace {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the marketplace usage detail. */
-  properties?: MarketplaceProperties;
+  properties?: MarketplaceProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: MarketplaceTagsMap;
+  tags?: MarketplaceTagsMap | undefined;
 }
 /** The list of marketplaces. */
 export type MarketplacesListResultValueList = Array<Marketplace>;
 /** Result of listing marketplaces. It contains a list of available marketplaces in reverse chronological order by billing period. */
 export interface MarketplacesListResult {
   /** The list of marketplaces. */
-  value?: MarketplacesListResultValueList;
+  value?: MarketplacesListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Consumption. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: UsageDetail, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Consumption REST API operation. */
 export interface Operation {
   /** Operation Id. */
-  id?: string;
+  id?: string | undefined;
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of consumption operations supported by the Microsoft.Consumption resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of consumption operations supported by the Microsoft.Consumption resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationRecommendationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceScope: string;
   /** May be used to filter reservationRecommendations by: properties/scope with allowed values ['Single', 'Shared'] and default value 'Single'; properties/resourceType with allowed values ['VirtualMachines', 'SQLDatabases', 'PostgreSQL', 'ManagedDisk', 'MySQL', 'RedHat', 'MariaDB', 'RedisCache', 'CosmosDB', 'SqlDataWarehouse', 'SUSELinux', 'AppService', 'BlockBlob', 'AzureDataExplorer', 'VMwareCloudSimple'] and default value 'VirtualMachines'; and properties/lookBackPeriod with allowed values ['Last7Days', 'Last30Days', 'Last60Days'] and default value 'Last7Days'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The type of identity that created the resource. */
-export type ReservationRecommendationSystemDataCreatedByType =
+export type LegacyReservationRecommendationSystemDataCreatedByType =
   | "User"
   | "Application"
   | "ManagedIdentity"
   | "Key";
 /** The type of identity that last modified the resource. */
-export type ReservationRecommendationSystemDataLastModifiedByType =
+export type LegacyReservationRecommendationSystemDataLastModifiedByType =
   | "User"
   | "Application"
   | "ManagedIdentity"
   | "Key";
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface ReservationRecommendationSystemData {
+export interface LegacyReservationRecommendationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ReservationRecommendationSystemDataCreatedByType;
+  createdByType?: LegacyReservationRecommendationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ReservationRecommendationSystemDataLastModifiedByType;
+  lastModifiedByType?: LegacyReservationRecommendationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
-export type ReservationRecommendationTagsMap = { [key: string]: string | undefined };
+export type LegacyReservationRecommendationTagsMap = { [key: string]: string | undefined };
 /** Specifies the kind of reservation recommendation. */
-export type ReservationRecommendationKind = "legacy" | "modern";
-/** A reservation recommendation resource. */
-export interface ReservationRecommendation {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ReservationRecommendationSystemData;
-  /** Resource location */
-  location?: string;
-  /** Resource sku */
-  sku?: string;
-  /** The etag for the resource. */
-  etag?: string;
-  /** Resource tags. */
-  tags?: ReservationRecommendationTagsMap;
-  /** Specifies the kind of reservation recommendation. */
-  kind: ReservationRecommendationKind;
+export type LegacyReservationRecommendationKind = "legacy";
+/** Shared or single recommendation. */
+export type LegacyManagementGroupScopeReservationRecommendationPropertiesScope = "ManagementGroup";
+/** The Sku property */
+export interface SkuProperty {
+  /** The name of sku property. */
+  name?: string | undefined;
+  /** The value of sku property. */
+  value?: string | undefined;
 }
+/** List of sku properties */
+export type LegacyManagementGroupScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the legacy reservation recommendation for management group scope. */
+export interface LegacyManagementGroupScopeReservationRecommendationProperties {
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: string | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** The azure resource type. */
+  resourceType?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: number | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: number | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: number | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: LegacyManagementGroupScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?:
+    | LegacyManagementGroupScopeReservationRecommendationPropertiesSkuPropertiesList
+    | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+  /** Management group id associated with management group scoped recommendation. */
+  managementGroupId: string;
+  /** The tenant ID associated with the management group. */
+  tenantId: string;
+}
+/** Shared or single recommendation. */
+export type LegacySharedScopeReservationRecommendationPropertiesScope = "Shared";
+/** List of sku properties */
+export type LegacySharedScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the reservation recommendation. */
+export interface LegacySharedScopeReservationRecommendationProperties {
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: string | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** The azure resource type. */
+  resourceType?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: number | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: number | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: number | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: LegacySharedScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?: LegacySharedScopeReservationRecommendationPropertiesSkuPropertiesList | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+}
+/** Shared or single recommendation. */
+export type LegacySingleScopeReservationRecommendationPropertiesScope = "Single";
+/** List of sku properties */
+export type LegacySingleScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the legacy reservation recommendation for single scope. */
+export interface LegacySingleScopeReservationRecommendationProperties {
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: string | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** The azure resource type. */
+  resourceType?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: number | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: number | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: number | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: LegacySingleScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?: LegacySingleScopeReservationRecommendationPropertiesSkuPropertiesList | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+  /** Subscription id associated with single scoped recommendation. */
+  subscriptionId?: string | undefined;
+}
+/** The properties of the reservation recommendation. */
+export type LegacyReservationRecommendationProperties =
+  | LegacyManagementGroupScopeReservationRecommendationProperties
+  | LegacySharedScopeReservationRecommendationProperties
+  | LegacySingleScopeReservationRecommendationProperties;
+/** Legacy reservation recommendation. */
+export interface LegacyReservationRecommendation {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: LegacyReservationRecommendationSystemData | undefined;
+  /** Resource location */
+  location?: string | undefined;
+  /** Resource sku */
+  sku?: string | undefined;
+  /** The etag for the resource. */
+  etag?: string | undefined;
+  /** Resource tags. */
+  tags?: LegacyReservationRecommendationTagsMap | undefined;
+  /** Specifies the kind of reservation recommendation. */
+  kind: LegacyReservationRecommendationKind;
+  /** Properties for legacy reservation recommendation */
+  properties: LegacyReservationRecommendationProperties;
+}
+/** The type of identity that created the resource. */
+export type ModernReservationRecommendationSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type ModernReservationRecommendationSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface ModernReservationRecommendationSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string | undefined;
+  /** The type of identity that created the resource. */
+  createdByType?: ModernReservationRecommendationSystemDataCreatedByType | undefined;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string | undefined;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string | undefined;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: ModernReservationRecommendationSystemDataLastModifiedByType | undefined;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string | undefined;
+}
+/** Resource tags. */
+export type ModernReservationRecommendationTagsMap = { [key: string]: string | undefined };
+/** Specifies the kind of reservation recommendation. */
+export type ModernReservationRecommendationKind = "modern";
+/** Shared or single recommendation. */
+export type ModernManagementGroupScopeReservationRecommendationPropertiesScope = "ManagementGroup";
+/** List of sku properties */
+export type ModernManagementGroupScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the modern reservation recommendation for management group scope. */
+export interface ModernManagementGroupScopeReservationRecommendationProperties {
+  /** Resource Location. */
+  location?: string | undefined;
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: number | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: Amount | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** Resource type. */
+  resourceType?: string | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: Amount | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: Amount | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: ModernManagementGroupScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?:
+    | ModernManagementGroupScopeReservationRecommendationPropertiesSkuPropertiesList
+    | undefined;
+  /** This is the ARM Sku name. */
+  skuName?: string | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+  /** Management group id associated with management group scoped recommendation. */
+  managementGroupId: string;
+  /** The tenant ID associated with the management group. */
+  tenantId: string;
+}
+/** Shared or single recommendation. */
+export type ModernSharedScopeReservationRecommendationPropertiesScope = "Shared";
+/** List of sku properties */
+export type ModernSharedScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the reservation recommendation. */
+export interface ModernSharedScopeReservationRecommendationProperties {
+  /** Resource Location. */
+  location?: string | undefined;
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: number | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: Amount | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** Resource type. */
+  resourceType?: string | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: Amount | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: Amount | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: ModernSharedScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?: ModernSharedScopeReservationRecommendationPropertiesSkuPropertiesList | undefined;
+  /** This is the ARM Sku name. */
+  skuName?: string | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+}
+/** Shared or single recommendation. */
+export type ModernSingleScopeReservationRecommendationPropertiesScope = "Single";
+/** List of sku properties */
+export type ModernSingleScopeReservationRecommendationPropertiesSkuPropertiesList =
+  Array<SkuProperty>;
+/** The properties of the modern reservation recommendation for single scope. */
+export interface ModernSingleScopeReservationRecommendationProperties {
+  /** Resource Location. */
+  location?: string | undefined;
+  /** The number of days of usage to look back for recommendation. */
+  lookBackPeriod?: number | undefined;
+  /** The instance Flexibility Ratio. */
+  instanceFlexibilityRatio?: number | undefined;
+  /** The instance Flexibility Group. */
+  instanceFlexibilityGroup?: string | undefined;
+  /** The normalized Size. */
+  normalizedSize?: string | undefined;
+  /** The recommended Quantity Normalized. */
+  recommendedQuantityNormalized?: number | undefined;
+  /** The meter id (GUID) */
+  meterId?: string | undefined;
+  /** Term period of the reservation. ex: P1M, P1Y or P3Y. */
+  term?: string | undefined;
+  /** The total amount of cost without reserved instances. */
+  costWithNoReservedInstances?: Amount | undefined;
+  /** Recommended quality for reserved instances. */
+  recommendedQuantity?: number | undefined;
+  /** Resource type. */
+  resourceType?: string | undefined;
+  /** The total amount of cost with reserved instances. */
+  totalCostWithReservedInstances?: Amount | undefined;
+  /** Total estimated savings with reserved instances. */
+  netSavings?: Amount | undefined;
+  /** The usage date for looking back. */
+  firstUsageDate?: string | undefined;
+  /** Shared or single recommendation. */
+  scope: ModernSingleScopeReservationRecommendationPropertiesScope;
+  /** List of sku properties */
+  skuProperties?: ModernSingleScopeReservationRecommendationPropertiesSkuPropertiesList | undefined;
+  /** This is the ARM Sku name. */
+  skuName?: string | undefined;
+  /** The last usage date used for looking back for computing the recommendation. */
+  lastUsageDate?: string | undefined;
+  /** The total hours for which the cost is covered. */
+  totalHours?: number | undefined;
+  /** Subscription ID associated with single scoped recommendation. */
+  subscriptionId?: string | undefined;
+}
+/** The properties of the reservation recommendation. */
+export type ModernReservationRecommendationProperties =
+  | ModernManagementGroupScopeReservationRecommendationProperties
+  | ModernSharedScopeReservationRecommendationProperties
+  | ModernSingleScopeReservationRecommendationProperties;
+/** Modern reservation recommendation. */
+export interface ModernReservationRecommendation {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: ModernReservationRecommendationSystemData | undefined;
+  /** Resource location */
+  location?: string | undefined;
+  /** Resource sku */
+  sku?: string | undefined;
+  /** The etag for the resource. */
+  etag?: string | undefined;
+  /** Resource tags. */
+  tags?: ModernReservationRecommendationTagsMap | undefined;
+  /** Specifies the kind of reservation recommendation. */
+  kind: ModernReservationRecommendationKind;
+  /** Properties for modern reservation recommendation */
+  properties: ModernReservationRecommendationProperties;
+}
+/** A reservation recommendation resource. */
+export type ReservationRecommendation =
+  | LegacyReservationRecommendation
+  | ModernReservationRecommendation;
 /** The list of reservation recommendations. */
 export type ReservationRecommendationsListResultValueList = Array<ReservationRecommendation>;
 /** Result of listing reservation recommendations. */
 export interface ReservationRecommendationsListResult {
   /** The list of reservation recommendations. */
-  value?: ReservationRecommendationsListResultValueList;
+  value?: ReservationRecommendationsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The link (url) to the previous page of results. */
-  previousLink?: string;
+  previousLink?: string | undefined;
 }
 export interface ListReservationsDetailByReservationOrderRequest {
   /** Order Id of the reservation */
@@ -1320,69 +1750,69 @@ export interface ListReservationsDetailByReservationOrderRequest {
 /** The properties of the reservation detail. */
 export interface ReservationDetailProperties {
   /** The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** The instance Flexibility Ratio. */
-  instanceFlexibilityRatio?: string;
+  instanceFlexibilityRatio?: string | undefined;
   /** The instance Flexibility Group. */
-  instanceFlexibilityGroup?: string;
+  instanceFlexibilityGroup?: string | undefined;
   /** The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** This is the total hours reserved for the day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days. */
-  reservedHours?: number;
+  reservedHours?: number | undefined;
   /** The date on which consumption occurred. */
-  usageDate?: string;
+  usageDate?: string | undefined;
   /** This is the total hours used by the instance. */
-  usedHours?: number;
+  usedHours?: number | undefined;
   /** This identifier is the name of the resource or the fully qualified Resource ID. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** This is the total count of instances that are reserved for the reservationId. */
-  totalReservedQuantity?: number;
+  totalReservedQuantity?: number | undefined;
   /** The reservation kind. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Resource tags. */
 export type ReservationDetailTagsMap = { [key: string]: string | undefined };
 /** reservation detail resource. */
 export interface ReservationDetail {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the reservation detail. */
-  properties?: ReservationDetailProperties;
+  properties?: ReservationDetailProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: ReservationDetailTagsMap;
+  tags?: ReservationDetailTagsMap | undefined;
 }
 /** The list of reservation details. */
 export type ReservationDetailsListResultValueList = Array<ReservationDetail>;
 /** Result of listing reservation details. */
 export interface ReservationDetailsListResult {
   /** The list of reservation details. */
-  value?: ReservationDetailsListResultValueList;
+  value?: ReservationDetailsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationsDetailsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceScope: string;
   /** Start date. Only applicable when querying with billing profile */
-  startDate?: string;
+  startDate?: string | undefined;
   /** End date. Only applicable when querying with billing profile */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and 'ge'. Not applicable when querying with billing profile */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Reservation Id GUID. Only valid if reservationOrderId is also provided. Filter to a specific reservation */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Reservation Order Id GUID. Required if reservationId is provided. Filter to a specific reservation order */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
 }
 export type ListReservationsSummariesRequestGrain = "daily" | "monthly";
 export interface ListReservationsSummariesRequest {
@@ -1391,76 +1821,76 @@ export interface ListReservationsSummariesRequest {
   /** Can be daily or monthly */
   grain: ListReservationsSummariesRequestGrain | (string & {});
   /** Start date. Only applicable when querying with billing profile */
-  startDate?: string;
+  startDate?: string | undefined;
   /** End date. Only applicable when querying with billing profile */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and 'ge'. Not applicable when querying with billing profile */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Reservation Id GUID. Only valid if reservationOrderId is also provided. Filter to a specific reservation */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Reservation Order Id GUID. Required if reservationId is provided. Filter to a specific reservation order */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
 }
 /** The properties of the reservation summary. */
 export interface ReservationSummaryProperties {
   /** The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** This is the total hours reserved. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days */
-  reservedHours?: number;
+  reservedHours?: number | undefined;
   /** Data corresponding to the utilization record. If the grain of data is monthly, it will be first day of month. */
-  usageDate?: string;
+  usageDate?: string | undefined;
   /** Total used hours by the reservation */
-  usedHours?: number;
+  usedHours?: number | undefined;
   /** This is the minimum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 10%, this field will return 10% for that day */
-  minUtilizationPercentage?: number;
+  minUtilizationPercentage?: number | undefined;
   /** This is average utilization for the entire time range. (day or month depending on the grain) */
-  avgUtilizationPercentage?: number;
+  avgUtilizationPercentage?: number | undefined;
   /** This is the maximum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 100%, this field will return 100% for that day. */
-  maxUtilizationPercentage?: number;
+  maxUtilizationPercentage?: number | undefined;
   /** The reservation kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** This is the purchased quantity for the reservationId. */
-  purchasedQuantity?: number;
+  purchasedQuantity?: number | undefined;
   /** This is the remaining quantity for the reservationId. */
-  remainingQuantity?: number;
+  remainingQuantity?: number | undefined;
   /** This is the total count of instances that are reserved for the reservationId. */
-  totalReservedQuantity?: number;
+  totalReservedQuantity?: number | undefined;
   /** This is the used quantity for the reservationId. */
-  usedQuantity?: number;
+  usedQuantity?: number | undefined;
   /** This is the utilized percentage for the reservation Id. */
-  utilizedPercentage?: number;
+  utilizedPercentage?: number | undefined;
 }
 /** Resource tags. */
 export type ReservationSummaryTagsMap = { [key: string]: string | undefined };
 /** reservation summary resource. */
 export interface ReservationSummary {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the reservation summary. */
-  properties?: ReservationSummaryProperties;
+  properties?: ReservationSummaryProperties | undefined;
   /** The etag for the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: ReservationSummaryTagsMap;
+  tags?: ReservationSummaryTagsMap | undefined;
 }
 /** The list of reservation summaries. */
 export type ReservationSummariesListResultValueList = Array<ReservationSummary>;
 /** Result of listing reservation summaries. */
 export interface ReservationSummariesListResult {
   /** The list of reservation summaries. */
-  value?: ReservationSummariesListResultValueList;
+  value?: ReservationSummariesListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListReservationsSummaryByReservationOrderRequestGrain = "daily" | "monthly";
 export interface ListReservationsSummaryByReservationOrderRequest {
@@ -1469,7 +1899,7 @@ export interface ListReservationsSummaryByReservationOrderRequest {
   /** Can be daily or monthly */
   grain: ListReservationsSummaryByReservationOrderRequestGrain | (string & {});
   /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and 'ge' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListReservationTransactionByBillingProfileRequest {
   /** BillingAccount ID */
@@ -1477,206 +1907,490 @@ export interface ListReservationTransactionByBillingProfileRequest {
   /** Azure Billing Profile ID. */
   billingProfileId: string;
   /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and 'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The properties of a modern reservation transaction. */
 export interface ModernReservationTransactionProperties {
   /** The charge of the transaction. */
-  amount?: number;
+  amount?: number | undefined;
   /** This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records. */
-  armSkuName?: string;
+  armSkuName?: string | undefined;
   /** The billing frequency, which can be either one-time or recurring. */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** Billing profile Id. */
-  billingProfileId?: string;
+  billingProfileId?: string | undefined;
   /** Billing profile name. */
-  billingProfileName?: string;
+  billingProfileName?: string | undefined;
   /** The ISO currency in which the transaction is charged, for example, USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** The description of the transaction. */
-  description?: string;
+  description?: string | undefined;
   /** The date of the transaction */
-  eventDate?: string;
+  eventDate?: string | undefined;
   /** The type of the transaction (Purchase, Cancel or Refund). */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Invoice Number */
-  invoice?: string;
+  invoice?: string | undefined;
   /** Invoice Id as on the invoice where the specific transaction appears. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
   /** Invoice Section Id */
-  invoiceSectionId?: string;
+  invoiceSectionId?: string | undefined;
   /** Invoice Section Name. */
-  invoiceSectionName?: string;
+  invoiceSectionName?: string | undefined;
   /** The subscription guid that makes the transaction. */
-  purchasingSubscriptionGuid?: string;
+  purchasingSubscriptionGuid?: string | undefined;
   /** The subscription name that makes the transaction. */
-  purchasingSubscriptionName?: string;
+  purchasingSubscriptionName?: string | undefined;
   /** The quantity of the transaction. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The region of the transaction. */
-  region?: string;
+  region?: string | undefined;
   /** The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** The name of the reservation order. */
-  reservationOrderName?: string;
+  reservationOrderName?: string | undefined;
   /** This is the term of the transaction. */
-  term?: string;
+  term?: string | undefined;
 }
 /** Resource tags. */
 export type ModernReservationTransactionTagsList = Array<string>;
 /** Modern Reservation transaction resource. */
 export interface ModernReservationTransaction {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a modern reservation transaction. */
   properties: ModernReservationTransactionProperties;
   /** Resource tags. */
-  tags?: ModernReservationTransactionTagsList;
+  tags?: ModernReservationTransactionTagsList | undefined;
 }
 /** The list of reservation recommendations. */
 export type ModernReservationTransactionsListResultValueList = Array<ModernReservationTransaction>;
 /** Result of listing reservation recommendations. */
 export interface ModernReservationTransactionsListResult {
   /** The list of reservation recommendations. */
-  value?: ModernReservationTransactionsListResultValueList;
+  value?: ModernReservationTransactionsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationTransactionsRequest {
   /** BillingAccount ID */
   billingAccountId: string;
   /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and 'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for the entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Applies mark up to the transactions if the caller is a partner. */
-  useMarkupIfPartner?: boolean;
+  useMarkupIfPartner?: boolean | undefined;
   /** Preview markup percentage to be applied. */
-  previewMarkupPercentage?: number;
+  previewMarkupPercentage?: number | undefined;
 }
 /** The properties of a legacy reservation transaction. */
 export interface LegacyReservationTransactionProperties {
   /** The date of the transaction */
-  eventDate?: string;
+  eventDate?: string | undefined;
   /** The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations. */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** The description of the transaction. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the transaction (Purchase, Cancel or Refund). */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The quantity of the transaction. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The charge of the transaction. */
-  amount?: number;
+  amount?: number | undefined;
   /** The ISO currency in which the transaction is charged, for example, USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** The name of the reservation order. */
-  reservationOrderName?: string;
+  reservationOrderName?: string | undefined;
   /** The purchasing enrollment. */
-  purchasingEnrollment?: string;
+  purchasingEnrollment?: string | undefined;
   /** The subscription guid that makes the transaction. */
-  purchasingSubscriptionGuid?: string;
+  purchasingSubscriptionGuid?: string | undefined;
   /** The subscription name that makes the transaction. */
-  purchasingSubscriptionName?: string;
+  purchasingSubscriptionName?: string | undefined;
   /** This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records. */
-  armSkuName?: string;
+  armSkuName?: string | undefined;
   /** This is the term of the transaction. */
-  term?: string;
+  term?: string | undefined;
   /** The region of the transaction. */
-  region?: string;
+  region?: string | undefined;
   /** The name of the account that makes the transaction. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The email of the account owner that makes the transaction. */
-  accountOwnerEmail?: string;
+  accountOwnerEmail?: string | undefined;
   /** The department name. */
-  departmentName?: string;
+  departmentName?: string | undefined;
   /** The cost center of this department if it is a department and a cost center is provided. */
-  costCenter?: string;
+  costCenter?: string | undefined;
   /** The current enrollment. */
-  currentEnrollment?: string;
+  currentEnrollment?: string | undefined;
   /** The billing frequency, which can be either one-time or recurring. */
-  billingFrequency?: string;
+  billingFrequency?: string | undefined;
   /** The billing month(yyyyMMdd), on which the event initiated. */
-  billingMonth?: number;
+  billingMonth?: number | undefined;
   /** The monetary commitment amount at the enrollment scope. */
-  monetaryCommitment?: number;
+  monetaryCommitment?: number | undefined;
   /** The overage amount at the enrollment scope. */
-  overage?: number;
+  overage?: number | undefined;
 }
 /** Resource tags. */
 export type ReservationTransactionTagsList = Array<string>;
 /** Reservation transaction resource. */
 export interface ReservationTransaction {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a legacy reservation transaction. */
-  properties?: LegacyReservationTransactionProperties;
+  properties?: LegacyReservationTransactionProperties | undefined;
   /** Resource tags. */
-  tags?: ReservationTransactionTagsList;
+  tags?: ReservationTransactionTagsList | undefined;
 }
 /** The list of reservation recommendations. */
 export type ReservationTransactionsListResultValueList = Array<ReservationTransaction>;
 /** Result of listing reservation recommendations. */
 export interface ReservationTransactionsListResult {
   /** The list of reservation recommendations. */
-  value?: ReservationTransactionsListResultValueList;
+  value?: ReservationTransactionsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListUsageDetailsRequestMetric = "actualcost" | "amortizedcost" | "usage";
 export interface ListUsageDetailsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** May be used to expand the properties/additionalInfo or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** May be used to filter usageDetails by properties/resourceGroup, properties/resourceName, properties/resourceId, properties/chargeType, properties/reservationId, properties/publisherType or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). PublisherType Filter accepts two values azure and marketplace and it is currently supported for Web Direct Offer Type */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
   /** Allows to select different type of cost/usage records. */
-  metric?: ListUsageDetailsRequestMetric | (string & {});
+  metric?: ListUsageDetailsRequestMetric | (string & {}) | undefined;
 }
 /** Specifies the kind of usage details. */
-export type UsageDetailsKind = "legacy" | "modern";
+export type LegacyUsageDetailKind = "legacy";
 /** Resource tags. */
-export type UsageDetailTagsMap = { [key: string]: string | undefined };
-/** An usage detail resource. */
-export interface UsageDetail {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Specifies the kind of usage details. */
-  kind: UsageDetailsKind;
-  /** The etag for the resource. */
-  etag?: string;
-  /** Resource tags. */
-  tags?: UsageDetailTagsMap;
+export type LegacyUsageDetailTagsMap = { [key: string]: string | undefined };
+/** The properties of the meter detail. */
+export interface MeterDetailsResponse {
+  /** The name of the meter, within the given meter category */
+  meterName?: string | undefined;
+  /** The category of the meter, for example, 'Cloud services', 'Networking', etc.. */
+  meterCategory?: string | undefined;
+  /** The subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc.. */
+  meterSubCategory?: string | undefined;
+  /** The unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc. */
+  unitOfMeasure?: string | undefined;
+  /** The service family. */
+  serviceFamily?: string | undefined;
 }
+/** Identifier that indicates how the meter is priced. */
+export type PricingModelType = "On Demand" | "Reservation" | "Spot";
+/** The properties of the legacy usage detail. */
+export interface LegacyUsageDetailProperties {
+  /** Billing Account identifier. */
+  billingAccountId?: string | undefined;
+  /** Billing Account Name. */
+  billingAccountName?: string | undefined;
+  /** The billing period start date. */
+  billingPeriodStartDate?: string | undefined;
+  /** The billing period end date. */
+  billingPeriodEndDate?: string | undefined;
+  /** Billing Profile identifier. */
+  billingProfileId?: string | undefined;
+  /** Billing Profile Name. */
+  billingProfileName?: string | undefined;
+  /** Account Owner Id. */
+  accountOwnerId?: string | undefined;
+  /** Account Name. */
+  accountName?: string | undefined;
+  /** Subscription guid. */
+  subscriptionId?: string | undefined;
+  /** Subscription name. */
+  subscriptionName?: string | undefined;
+  /** Date for the usage record. */
+  date?: string | undefined;
+  /** Product name for the consumed service or purchase. Not available for Marketplace. */
+  product?: string | undefined;
+  /** Part Number of the service used. Can be used to join with the price sheet. Not available for marketplace. */
+  partNumber?: string | undefined;
+  /** The meter id (GUID). Not available for marketplace. For reserved instance this represents the primary meter for which the reservation was purchased. For the actual VM Size for which the reservation is purchased see productOrderName. */
+  meterId?: string | undefined;
+  /** The details about the meter. By default this is not populated, unless it's specified in $expand. */
+  meterDetails?: MeterDetailsResponse | undefined;
+  /** The usage quantity. */
+  quantity?: number | undefined;
+  /** Effective Price that's charged for the usage. */
+  effectivePrice?: number | undefined;
+  /** The amount of cost before tax. */
+  cost?: number | undefined;
+  /** Unit Price is the price applicable to you. (your EA or other contract price). */
+  unitPrice?: number | undefined;
+  /** Billing Currency. */
+  billingCurrency?: string | undefined;
+  /** Resource Location. */
+  resourceLocation?: string | undefined;
+  /** Consumed service name. Name of the azure resource provider that emits the usage or was purchased. This value is not provided for marketplace usage. */
+  consumedService?: string | undefined;
+  /** Unique identifier of the Azure Resource Manager usage detail resource. */
+  resourceId?: string | undefined;
+  /** Resource Name. */
+  resourceName?: string | undefined;
+  /** Service-specific metadata. */
+  serviceInfo1?: string | undefined;
+  /** Legacy field with optional service-specific metadata. */
+  serviceInfo2?: string | undefined;
+  /** Additional details of this usage item. By default this is not populated, unless it's specified in $expand. Use this field to get usage line item specific details such as the actual VM Size (ServiceType) or the ratio in which the reservation discount is applied. */
+  additionalInfo?: string | undefined;
+  /** Invoice Section Name. */
+  invoiceSection?: string | undefined;
+  /** The cost center of this department if it is a department and a cost center is provided. */
+  costCenter?: string | undefined;
+  /** Resource Group Name. */
+  resourceGroup?: string | undefined;
+  /** ARM resource id of the reservation. Only applies to records relevant to reservations. */
+  reservationId?: string | undefined;
+  /** User provided display name of the reservation. Last known name for a particular day is populated in the daily data. Only applies to records relevant to reservations. */
+  reservationName?: string | undefined;
+  /** Product Order Id. For reservations this is the Reservation Order ID. */
+  productOrderId?: string | undefined;
+  /** Product Order Name. For reservations this is the SKU that was purchased. */
+  productOrderName?: string | undefined;
+  /** Offer Id. Ex: MS-AZR-0017P, MS-AZR-0148P. */
+  offerId?: string | undefined;
+  /** Is Azure Credit Eligible. */
+  isAzureCreditEligible?: boolean | undefined;
+  /** Term (in months). 1 month for monthly recurring purchase. 12 months for a 1 year reservation. 36 months for a 3 year reservation. */
+  term?: string | undefined;
+  /** Publisher Name. */
+  publisherName?: string | undefined;
+  /** Publisher Type. */
+  publisherType?: string | undefined;
+  /** Plan Name. */
+  planName?: string | undefined;
+  /** Indicates a charge represents credits, usage, a Marketplace purchase, a reservation fee, or a refund. */
+  chargeType?: string | undefined;
+  /** Indicates how frequently this charge will occur. OneTime for purchases which only happen once, Monthly for fees which recur every month, and UsageBased for charges based on how much a service is used. */
+  frequency?: string | undefined;
+  /** Retail price for the resource. */
+  payGPrice?: number | undefined;
+  /** Unique identifier for the applicable benefit. */
+  benefitId?: string | undefined;
+  /** Name of the applicable benefit. */
+  benefitName?: string | undefined;
+  /** Identifier that indicates how the meter is priced. */
+  pricingModel?: PricingModelType | undefined;
+}
+/** Legacy usage detail. */
+export interface LegacyUsageDetail {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Specifies the kind of usage details. */
+  kind: LegacyUsageDetailKind;
+  /** The etag for the resource. */
+  etag?: string | undefined;
+  /** Resource tags. */
+  tags?: LegacyUsageDetailTagsMap | undefined;
+  /** Properties for legacy usage details */
+  properties: LegacyUsageDetailProperties;
+}
+/** Specifies the kind of usage details. */
+export type ModernUsageDetailKind = "modern";
+/** Resource tags. */
+export type ModernUsageDetailTagsMap = { [key: string]: string | undefined };
+/** The properties of the usage detail. */
+export interface ModernUsageDetailProperties {
+  /** Billing Account identifier. */
+  billingAccountId?: string | undefined;
+  /** Effective Price that's charged for the usage. */
+  effectivePrice?: number | undefined;
+  /** Identifier that indicates how the meter is priced */
+  pricingModel?: PricingModelType | undefined;
+  /** Name of the Billing Account. */
+  billingAccountName?: string | undefined;
+  /** Billing Period Start Date as in the invoice. */
+  billingPeriodStartDate?: string | undefined;
+  /** Billing Period End Date as in the invoice. */
+  billingPeriodEndDate?: string | undefined;
+  /** Identifier for the billing profile that groups costs across invoices in the a singular billing currency across across the customers who have onboarded the Microsoft customer agreement and the customers in CSP who have made entitlement purchases like SaaS, Marketplace, RI, etc. */
+  billingProfileId?: string | undefined;
+  /** Name of the billing profile that groups costs across invoices in the a singular billing currency across across the customers who have onboarded the Microsoft customer agreement and the customers in CSP who have made entitlement purchases like SaaS, Marketplace, RI, etc. */
+  billingProfileName?: string | undefined;
+  /** Unique Microsoft generated identifier for the Azure Subscription. */
+  subscriptionGuid?: string | undefined;
+  /** Name of the Azure Subscription. */
+  subscriptionName?: string | undefined;
+  /** Date for the usage record. */
+  date?: string | undefined;
+  /** Name of the product that has accrued charges by consumption or purchase as listed in the invoice. Not available for Marketplace. */
+  product?: string | undefined;
+  /** The meter id (GUID). Not available for marketplace. For reserved instance this represents the primary meter for which the reservation was purchased. For the actual VM Size for which the reservation is purchased see productOrderName. */
+  meterId?: string | undefined;
+  /** Identifies the name of the meter against which consumption is measured. */
+  meterName?: string | undefined;
+  /** Identifies the location of the datacenter for certain services that are priced based on datacenter location. */
+  meterRegion?: string | undefined;
+  /** Identifies the top-level service for the usage. */
+  meterCategory?: string | undefined;
+  /** Defines the type or sub-category of Azure service that can affect the rate. */
+  meterSubCategory?: string | undefined;
+  /** List the service family for the product purchased or charged (Example: Storage ; Compute). */
+  serviceFamily?: string | undefined;
+  /** Measure the quantity purchased or consumed.The amount of the meter used during the billing period. */
+  quantity?: number | undefined;
+  /** Identifies the Unit that the service is charged in. For example, GB, hours, 10,000 s. */
+  unitOfMeasure?: string | undefined;
+  /** Instance Name. */
+  instanceName?: string | undefined;
+  /** Estimated extendedCost or blended cost before tax in USD. */
+  costInUSD?: number | undefined;
+  /** Unit Price is the price applicable to you. (your EA or other contract price). */
+  unitPrice?: number | undefined;
+  /** The currency defining the billed cost. */
+  billingCurrencyCode?: string | undefined;
+  /** Name of the resource location. */
+  resourceLocation?: string | undefined;
+  /** Consumed service name. Name of the azure resource provider that emits the usage or was purchased. This value is not provided for marketplace usage. */
+  consumedService?: string | undefined;
+  /** Service-specific metadata. */
+  serviceInfo1?: string | undefined;
+  /** Legacy field with optional service-specific metadata. */
+  serviceInfo2?: string | undefined;
+  /** Additional details of this usage item. Use this field to get usage line item specific details such as the actual VM Size (ServiceType) or the ratio in which the reservation discount is applied. */
+  additionalInfo?: string | undefined;
+  /** Identifier of the project that is being charged in the invoice. Not applicable for Microsoft Customer Agreements onboarded by partners. */
+  invoiceSectionId?: string | undefined;
+  /** Name of the project that is being charged in the invoice. Not applicable for Microsoft Customer Agreements onboarded by partners. */
+  invoiceSectionName?: string | undefined;
+  /** The cost center of this department if it is a department and a cost center is provided. */
+  costCenter?: string | undefined;
+  /** Name of the Azure resource group used for cohesive lifecycle management of resources. */
+  resourceGroup?: string | undefined;
+  /** ARM resource id of the reservation. Only applies to records relevant to reservations. */
+  reservationId?: string | undefined;
+  /** User provided display name of the reservation. Last known name for a particular day is populated in the daily data. Only applies to records relevant to reservations. */
+  reservationName?: string | undefined;
+  /** The identifier for the asset or Azure plan name that the subscription belongs to. For example: Azure Plan. For reservations this is the Reservation Order ID. */
+  productOrderId?: string | undefined;
+  /** Product Order Name. For reservations this is the SKU that was purchased. */
+  productOrderName?: string | undefined;
+  /** Determines if the cost is eligible to be paid for using Azure credits. */
+  isAzureCreditEligible?: boolean | undefined;
+  /** Term (in months). Displays the term for the validity of the offer. For example. In case of reserved instances it displays 12 months for yearly term of reserved instance. For one time purchases or recurring purchases, the terms displays 1 month; This is not applicable for Azure consumption. */
+  term?: string | undefined;
+  /** Name of the publisher of the service including Microsoft or Third Party publishers. */
+  publisherName?: string | undefined;
+  /** Type of publisher that identifies if the publisher is first party, third party reseller or third party agency. */
+  publisherType?: string | undefined;
+  /** Indicates a charge represents credits, usage, a Marketplace purchase, a reservation fee, or a refund. */
+  chargeType?: string | undefined;
+  /** Indicates how frequently this charge will occur. OneTime for purchases which only happen once, Monthly for fees which recur every month, and UsageBased for charges based on how much a service is used. */
+  frequency?: string | undefined;
+  /** ExtendedCost or blended cost before tax in billed currency. */
+  costInBillingCurrency?: number | undefined;
+  /** ExtendedCost or blended cost before tax in pricing currency to correlate with prices. */
+  costInPricingCurrency?: number | undefined;
+  /** Exchange rate used in conversion from pricing currency to billing currency. */
+  exchangeRate?: string | undefined;
+  /** Date on which exchange rate used in conversion from pricing currency to billing currency. */
+  exchangeRateDate?: string | undefined;
+  /** Invoice ID as on the invoice where the specific transaction appears. */
+  invoiceId?: string | undefined;
+  /** Reference to an original invoice there is a refund (negative cost). This is populated only when there is a refund. */
+  previousInvoiceId?: string | undefined;
+  /** Pricing Billing Currency. */
+  pricingCurrencyCode?: string | undefined;
+  /** Identifier for the product that has accrued charges by consumption or purchase . This is the concatenated key of productId and SkuId in partner center. */
+  productIdentifier?: string | undefined;
+  /** Resource Location Normalized. */
+  resourceLocationNormalized?: string | undefined;
+  /** Start date for the rating period when the service usage was rated for charges. The prices for Azure services are determined for the rating period. */
+  servicePeriodStartDate?: string | undefined;
+  /** End date for the period when the service usage was rated for charges. The prices for Azure services are determined based on the rating period. */
+  servicePeriodEndDate?: string | undefined;
+  /** Identifier of the customer's AAD tenant. */
+  customerTenantId?: string | undefined;
+  /** Name of the customer's AAD tenant. */
+  customerName?: string | undefined;
+  /** Identifier for the partner's AAD tenant. */
+  partnerTenantId?: string | undefined;
+  /** Name of the partner' AAD tenant. */
+  partnerName?: string | undefined;
+  /** MPNId for the reseller associated with the subscription. */
+  resellerMpnId?: string | undefined;
+  /** Reseller Name. */
+  resellerName?: string | undefined;
+  /** Publisher Id. */
+  publisherId?: string | undefined;
+  /** Market Price that's charged for the usage. */
+  marketPrice?: number | undefined;
+  /** Exchange Rate from pricing currency to billing currency. */
+  exchangeRatePricingToBilling?: number | undefined;
+  /** The amount of PayG cost before tax in billing currency. */
+  paygCostInBillingCurrency?: number | undefined;
+  /** The amount of PayG cost before tax in US Dollar currency. */
+  paygCostInUSD?: number | undefined;
+  /** Rate of discount applied if there is a partner earned credit (PEC) based on partner admin link access. */
+  partnerEarnedCreditRate?: number | undefined;
+  /** Flag to indicate if partner earned credit has been applied or not. */
+  partnerEarnedCreditApplied?: string | undefined;
+  /** Retail price for the resource. */
+  payGPrice?: number | undefined;
+  /** Unique identifier for the applicable benefit. */
+  benefitId?: string | undefined;
+  /** Name of the applicable benefit. */
+  benefitName?: string | undefined;
+  /** Identifier for Product Category or Line Of Business, Ex - Azure, Microsoft 365, AWS e.t.c */
+  provider?: string | undefined;
+  /** Name for Cost Allocation Rule. */
+  costAllocationRuleName?: string | undefined;
+}
+/** Modern usage detail. */
+export interface ModernUsageDetail {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Specifies the kind of usage details. */
+  kind: ModernUsageDetailKind;
+  /** The etag for the resource. */
+  etag?: string | undefined;
+  /** Resource tags. */
+  tags?: ModernUsageDetailTagsMap | undefined;
+  /** Properties for modern usage details */
+  properties: ModernUsageDetailProperties;
+}
+/** An usage detail resource. */
+export type UsageDetail = LegacyUsageDetail | ModernUsageDetail;
 /** The list of usage details. */
 export type UsageDetailsListResultValueList = Array<UsageDetail>;
 /** Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period. */
 export interface UsageDetailsListResult {
   /** The list of usage details. */
-  value?: UsageDetailsListResultValueList;
+  value?: UsageDetailsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ReservationsDetailsListByReservationOrderAndReservationRequest {
   /** Order Id of the reservation */
@@ -1697,7 +2411,7 @@ export interface ReservationsSummariesListByReservationOrderAndReservationReques
   /** Can be daily or monthly */
   grain: ReservationsSummariesListByReservationOrderAndReservationRequestGrain | (string & {});
   /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and 'ge' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type BudgetsCreateOrUpdateError = AzureOpError;
 /** The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation. */
@@ -1877,8 +2591,8 @@ export const GetPriceSheet: API.OperationMethod<
   GetPriceSheetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetPriceSheetRequest>,
-  output: __S(693, __c43, 5) as any as S.Schema<GetPriceSheetResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetPriceSheetRequest>,
+  output: __S(709, __c44, 5) as any as S.Schema<GetPriceSheetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1895,7 +2609,7 @@ export const GetPriceSheetByBillingPeriod: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetPriceSheetByBillingPeriodRequest>,
-  output: __S(693, __c43, 5) as any as S.Schema<GetPriceSheetByBillingPeriodResponse>,
+  output: __S(709, __c44, 5) as any as S.Schema<GetPriceSheetByBillingPeriodResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1975,7 +2689,7 @@ export const ListCharges: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListChargesRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<ChargesListResult>,
+  output: __S(151, __c9, 7) as any as S.Schema<ChargesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2117,7 +2831,7 @@ export const ListReservationRecommendations: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListReservationRecommendationsRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<ReservationRecommendationsListResult>,
+  output: __S(335, __c20, 15) as any as S.Schema<ReservationRecommendationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2251,7 +2965,7 @@ export const ListUsageDetails: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListUsageDetailsRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<UsageDetailsListResult>,
+  output: __S(472, __c29, 8) as any as S.Schema<UsageDetailsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2679,20 +3393,64 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          billingPeriodId: S.optional(S.String),
+          usageStart: S.optional(S.String),
+          usageEnd: S.optional(S.String),
+          azureCharges: S.optional(S.Number),
+          chargesBilledSeparately: S.optional(S.Number),
+          azureMarketplaceCharges: S.optional(S.Number),
+          currency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LegacyChargeSummaryProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
           kind: S.String,
           eTag: S.optional(S.String),
+          properties: __S(145, __c9, 1),
         }),
-      ).annotate({ identifier: "ChargeSummary" });
-    case 2:
-      return S.Array(__S(145, __c9, 1));
+      ).annotate({ identifier: "LegacyChargeSummary" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(146, __c9, 2)),
+          billingPeriodId: S.optional(S.String),
+          usageStart: S.optional(S.String),
+          usageEnd: S.optional(S.String),
+          azureCharges: S.optional(__S(656, __c41, 0)),
+          chargesBilledSeparately: S.optional(__S(656, __c41, 0)),
+          marketplaceCharges: S.optional(__S(656, __c41, 0)),
+          billingAccountId: S.optional(S.String),
+          billingProfileId: S.optional(S.String),
+          invoiceSectionId: S.optional(S.String),
+          customerId: S.optional(S.String),
+          isInvoiced: S.optional(S.Boolean),
+          subscriptionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModernChargeSummaryProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          kind: S.String,
+          eTag: S.optional(S.String),
+          properties: __S(147, __c9, 3),
+        }),
+      ).annotate({ identifier: "ModernChargeSummary" });
+    case 5:
+      return S.Union([__S(146, __c9, 2), __S(148, __c9, 4)]);
+    case 6:
+      return S.Array(__S(149, __c9, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(150, __c9, 6)),
         }),
       ).annotate({ identifier: "ChargesListResult" });
   }
@@ -2738,12 +3496,12 @@ function __c11(j: number): any {
           canceledCredit: S.optional(__S(656, __c41, 0)),
           creditCurrency: S.optional(S.String),
           billingCurrency: S.optional(S.String),
-          reseller: S.optional(__S(658, __c41, 2)),
-          creditExpiredInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          newCreditInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          adjustmentsInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          chargesInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          closedBalanceInBillingCurrency: S.optional(__S(657, __c41, 1)),
+          reseller: S.optional(__S(673, __c42, 1)),
+          creditExpiredInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          newCreditInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          adjustmentsInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          chargesInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          closedBalanceInBillingCurrency: S.optional(__S(672, __c42, 0)),
           isEstimatedBalance: S.optional(S.Boolean),
           eTag: S.optional(S.String),
         }),
@@ -2823,9 +3581,9 @@ function __c14(j: number): any {
           status: S.optional(S.String),
           creditCurrency: S.optional(S.String),
           billingCurrency: S.optional(S.String),
-          originalAmountInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          closedBalanceInBillingCurrency: S.optional(__S(657, __c41, 1)),
-          reseller: S.optional(__S(658, __c41, 2)),
+          originalAmountInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          closedBalanceInBillingCurrency: S.optional(__S(672, __c42, 0)),
+          reseller: S.optional(__S(673, __c42, 1)),
           isEstimatedBalance: S.optional(S.Boolean),
           eTag: S.optional(S.String),
           OrganizationType: S.optional(S.String),
@@ -3056,6 +3814,86 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SkuProperty" });
+    case 2:
+      return S.Array(__S(321, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          lookBackPeriod: S.optional(S.String),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(S.Number),
+          recommendedQuantity: S.optional(S.Number),
+          totalCostWithReservedInstances: S.optional(S.Number),
+          netSavings: S.optional(S.Number),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          managementGroupId: S.String,
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "LegacyManagementGroupScopeReservationRecommendationProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          lookBackPeriod: S.optional(S.String),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(S.Number),
+          recommendedQuantity: S.optional(S.Number),
+          totalCostWithReservedInstances: S.optional(S.Number),
+          netSavings: S.optional(S.Number),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LegacySharedScopeReservationRecommendationProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          lookBackPeriod: S.optional(S.String),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(S.Number),
+          recommendedQuantity: S.optional(S.Number),
+          totalCostWithReservedInstances: S.optional(S.Number),
+          netSavings: S.optional(S.Number),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          subscriptionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LegacySingleScopeReservationRecommendationProperties" });
+    case 6:
+      return S.Union([__S(323, __c20, 3), __S(324, __c20, 4), __S(325, __c20, 5)]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -3065,14 +3903,109 @@ function __c20(j: number): any {
           etag: S.optional(S.String),
           tags: S.optional(__S(512, __c32, 0)),
           kind: S.String,
+          properties: __S(326, __c20, 6),
         }),
-      ).annotate({ identifier: "ReservationRecommendation" });
-    case 2:
-      return S.Array(__S(321, __c20, 1));
-    case 3:
+      ).annotate({ identifier: "LegacyReservationRecommendation" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(322, __c20, 2)),
+          location: S.optional(S.String),
+          lookBackPeriod: S.optional(S.Number),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(__S(656, __c41, 0)),
+          recommendedQuantity: S.optional(S.Number),
+          resourceType: S.optional(S.String),
+          totalCostWithReservedInstances: S.optional(__S(656, __c41, 0)),
+          netSavings: S.optional(__S(656, __c41, 0)),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          skuName: S.optional(S.String),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          managementGroupId: S.String,
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "ModernManagementGroupScopeReservationRecommendationProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          lookBackPeriod: S.optional(S.Number),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(__S(656, __c41, 0)),
+          recommendedQuantity: S.optional(S.Number),
+          resourceType: S.optional(S.String),
+          totalCostWithReservedInstances: S.optional(__S(656, __c41, 0)),
+          netSavings: S.optional(__S(656, __c41, 0)),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          skuName: S.optional(S.String),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ModernSharedScopeReservationRecommendationProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          lookBackPeriod: S.optional(S.Number),
+          instanceFlexibilityRatio: S.optional(S.Number),
+          instanceFlexibilityGroup: S.optional(S.String),
+          normalizedSize: S.optional(S.String),
+          recommendedQuantityNormalized: S.optional(S.Number),
+          meterId: S.optional(S.String),
+          term: S.optional(S.String),
+          costWithNoReservedInstances: S.optional(__S(656, __c41, 0)),
+          recommendedQuantity: S.optional(S.Number),
+          resourceType: S.optional(S.String),
+          totalCostWithReservedInstances: S.optional(__S(656, __c41, 0)),
+          netSavings: S.optional(__S(656, __c41, 0)),
+          firstUsageDate: S.optional(S.String),
+          scope: S.String,
+          skuProperties: S.optional(__S(322, __c20, 2)),
+          skuName: S.optional(S.String),
+          lastUsageDate: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          subscriptionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModernSingleScopeReservationRecommendationProperties" });
+    case 11:
+      return S.Union([__S(328, __c20, 8), __S(329, __c20, 9), __S(330, __c20, 10)]);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          location: S.optional(S.String),
+          sku: S.optional(S.String),
+          etag: S.optional(S.String),
+          tags: S.optional(__S(512, __c32, 0)),
+          kind: S.String,
+          properties: __S(331, __c20, 11),
+        }),
+      ).annotate({ identifier: "ModernReservationRecommendation" });
+    case 13:
+      return S.Union([__S(327, __c20, 7), __S(332, __c20, 12)]);
+    case 14:
+      return S.Array(__S(333, __c20, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(334, __c20, 14)),
           nextLink: S.optional(S.String),
           previousLink: S.optional(S.String),
         }),
@@ -3402,6 +4335,67 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          meterName: S.optional(S.String),
+          meterCategory: S.optional(S.String),
+          meterSubCategory: S.optional(S.String),
+          unitOfMeasure: S.optional(S.String),
+          serviceFamily: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MeterDetailsResponse" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          billingAccountId: S.optional(S.String),
+          billingAccountName: S.optional(S.String),
+          billingPeriodStartDate: S.optional(S.String),
+          billingPeriodEndDate: S.optional(S.String),
+          billingProfileId: S.optional(S.String),
+          billingProfileName: S.optional(S.String),
+          accountOwnerId: S.optional(S.String),
+          accountName: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          subscriptionName: S.optional(S.String),
+          date: S.optional(S.String),
+          product: S.optional(S.String),
+          partNumber: S.optional(S.String),
+          meterId: S.optional(S.String),
+          meterDetails: S.optional(__S(465, __c29, 1)),
+          quantity: S.optional(S.Number),
+          effectivePrice: S.optional(S.Number),
+          cost: S.optional(S.Number),
+          unitPrice: S.optional(S.Number),
+          billingCurrency: S.optional(S.String),
+          resourceLocation: S.optional(S.String),
+          consumedService: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          serviceInfo1: S.optional(S.String),
+          serviceInfo2: S.optional(S.String),
+          additionalInfo: S.optional(S.String),
+          invoiceSection: S.optional(S.String),
+          costCenter: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+          reservationId: S.optional(S.String),
+          reservationName: S.optional(S.String),
+          productOrderId: S.optional(S.String),
+          productOrderName: S.optional(S.String),
+          offerId: S.optional(S.String),
+          isAzureCreditEligible: S.optional(S.Boolean),
+          term: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          publisherType: S.optional(S.String),
+          planName: S.optional(S.String),
+          chargeType: S.optional(S.String),
+          frequency: S.optional(S.String),
+          payGPrice: S.optional(S.Number),
+          benefitId: S.optional(S.String),
+          benefitName: S.optional(S.String),
+          pricingModel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LegacyUsageDetailProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -3409,14 +4403,107 @@ function __c29(j: number): any {
           kind: S.String,
           etag: S.optional(S.String),
           tags: S.optional(__S(512, __c32, 0)),
+          properties: __S(466, __c29, 2),
         }),
-      ).annotate({ identifier: "UsageDetail" });
-    case 2:
-      return S.Array(__S(465, __c29, 1));
-    case 3:
+      ).annotate({ identifier: "LegacyUsageDetail" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(466, __c29, 2)),
+          billingAccountId: S.optional(S.String),
+          effectivePrice: S.optional(S.Number),
+          pricingModel: S.optional(S.String),
+          billingAccountName: S.optional(S.String),
+          billingPeriodStartDate: S.optional(S.String),
+          billingPeriodEndDate: S.optional(S.String),
+          billingProfileId: S.optional(S.String),
+          billingProfileName: S.optional(S.String),
+          subscriptionGuid: S.optional(S.String),
+          subscriptionName: S.optional(S.String),
+          date: S.optional(S.String),
+          product: S.optional(S.String),
+          meterId: S.optional(S.String),
+          meterName: S.optional(S.String),
+          meterRegion: S.optional(S.String),
+          meterCategory: S.optional(S.String),
+          meterSubCategory: S.optional(S.String),
+          serviceFamily: S.optional(S.String),
+          quantity: S.optional(S.Number),
+          unitOfMeasure: S.optional(S.String),
+          instanceName: S.optional(S.String),
+          costInUSD: S.optional(S.Number),
+          unitPrice: S.optional(S.Number),
+          billingCurrencyCode: S.optional(S.String),
+          resourceLocation: S.optional(S.String),
+          consumedService: S.optional(S.String),
+          serviceInfo1: S.optional(S.String),
+          serviceInfo2: S.optional(S.String),
+          additionalInfo: S.optional(S.String),
+          invoiceSectionId: S.optional(S.String),
+          invoiceSectionName: S.optional(S.String),
+          costCenter: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+          reservationId: S.optional(S.String),
+          reservationName: S.optional(S.String),
+          productOrderId: S.optional(S.String),
+          productOrderName: S.optional(S.String),
+          isAzureCreditEligible: S.optional(S.Boolean),
+          term: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          publisherType: S.optional(S.String),
+          chargeType: S.optional(S.String),
+          frequency: S.optional(S.String),
+          costInBillingCurrency: S.optional(S.Number),
+          costInPricingCurrency: S.optional(S.Number),
+          exchangeRate: S.optional(S.String),
+          exchangeRateDate: S.optional(S.String),
+          invoiceId: S.optional(S.String),
+          previousInvoiceId: S.optional(S.String),
+          pricingCurrencyCode: S.optional(S.String),
+          productIdentifier: S.optional(S.String),
+          resourceLocationNormalized: S.optional(S.String),
+          servicePeriodStartDate: S.optional(S.String),
+          servicePeriodEndDate: S.optional(S.String),
+          customerTenantId: S.optional(S.String),
+          customerName: S.optional(S.String),
+          partnerTenantId: S.optional(S.String),
+          partnerName: S.optional(S.String),
+          resellerMpnId: S.optional(S.String),
+          resellerName: S.optional(S.String),
+          publisherId: S.optional(S.String),
+          marketPrice: S.optional(S.Number),
+          exchangeRatePricingToBilling: S.optional(S.Number),
+          paygCostInBillingCurrency: S.optional(S.Number),
+          paygCostInUSD: S.optional(S.Number),
+          partnerEarnedCreditRate: S.optional(S.Number),
+          partnerEarnedCreditApplied: S.optional(S.String),
+          payGPrice: S.optional(S.Number),
+          benefitId: S.optional(S.String),
+          benefitName: S.optional(S.String),
+          provider: S.optional(S.String),
+          costAllocationRuleName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModernUsageDetailProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          kind: S.String,
+          etag: S.optional(S.String),
+          tags: S.optional(__S(512, __c32, 0)),
+          properties: __S(468, __c29, 4),
+        }),
+      ).annotate({ identifier: "ModernUsageDetail" });
+    case 6:
+      return S.Union([__S(467, __c29, 3), __S(469, __c29, 5)]);
+    case 7:
+      return S.Array(__S(470, __c29, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(471, __c29, 7)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageDetailsListResult" });
@@ -3670,7 +4757,7 @@ function __c40(j: number): any {
         S.Struct({
           estimatedBalance: S.optional(__S(656, __c41, 0)),
           currentBalance: S.optional(__S(656, __c41, 0)),
-          estimatedBalanceInBillingCurrency: S.optional(__S(657, __c41, 1)),
+          estimatedBalanceInBillingCurrency: S.optional(__S(672, __c42, 0)),
         }),
       ).annotate({ identifier: "CreditBalanceSummary" });
     case 2:
@@ -3682,7 +4769,7 @@ function __c40(j: number): any {
           pendingEligibleCharges: S.optional(__S(656, __c41, 0)),
           creditCurrency: S.optional(S.String),
           billingCurrency: S.optional(S.String),
-          reseller: S.optional(__S(658, __c41, 2)),
+          reseller: S.optional(__S(673, __c42, 1)),
           isEstimatedBalance: S.optional(S.Boolean),
           eTag: S.optional(S.String),
         }),
@@ -3710,7 +4797,11 @@ function __c41(j: number): any {
           value: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Amount" });
-    case 1:
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           currency: S.optional(S.String),
@@ -3719,7 +4810,7 @@ function __c41(j: number): any {
           exchangeRateMonth: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AmountWithExchangeRate" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           resellerId: S.optional(S.String),
@@ -3728,7 +4819,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "Reseller" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3748,7 +4839,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetPriceSheetRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3777,24 +4868,24 @@ function __c43(j: number): any {
         S.Struct({
           billingPeriodId: S.optional(S.String),
           meterId: S.optional(S.String),
-          meterDetails: S.optional(__S(688, __c43, 0)),
+          meterDetails: S.optional(__S(704, __c44, 0)),
           unitOfMeasure: S.optional(S.String),
           includedQuantity: S.optional(S.Number),
           partNumber: S.optional(S.String),
           unitPrice: S.optional(S.Number),
           currencyCode: S.optional(S.String),
           offerId: S.optional(S.String),
-          savingsPlan: S.optional(__S(689, __c43, 1)),
+          savingsPlan: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "PriceSheetProperties" });
     case 3:
-      return S.Array(__S(690, __c43, 2));
+      return S.Array(__S(706, __c44, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          pricesheets: S.optional(__S(691, __c43, 3)),
+          pricesheets: S.optional(__S(707, __c44, 3)),
           nextLink: S.optional(S.String),
-          download: S.optional(__S(688, __c43, 0)),
+          download: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "PriceSheetModel" });
     case 5:
@@ -3804,7 +4895,7 @@ function __c43(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(692, __c43, 4)),
+          properties: S.optional(__S(708, __c44, 4)),
           etag: S.optional(S.String),
           tags: S.optional(__S(512, __c32, 0)),
         }),

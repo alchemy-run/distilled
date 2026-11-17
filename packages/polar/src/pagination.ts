@@ -18,7 +18,9 @@ export const paginatePolar: Pagination.PaginationStrategy = (operation, input, p
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return Stream.die(new Error("Polar page pagination requires inputToken and outputToken"));
+    return Pagination.missingPaginationConfig(
+      "Polar page pagination requires inputToken and outputToken",
+    );
   }
 
   type State = { page: number; done: boolean };

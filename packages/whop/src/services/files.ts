@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CompleteFileRequestMultipartPartsItem {
   /** The `ETag` response header from the part's upload. */
@@ -68,7 +89,7 @@ export interface CompleteFileRequest {
   /** The ID of the multipart upload, returned by Create File. */
   multipart_upload_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface FileMultipartUrl {
   /** The 1-based index of this part within the multipart upload. */
@@ -91,20 +112,20 @@ export interface File {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: FileUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -114,15 +135,15 @@ export interface File {
 export type CreateFileRequestVisibility = "public" | "private";
 export interface CreateFileRequest {
   /** The file's size in bytes. Required when `multipart` is `true`. Multipart uploads support at most 10,000 parts of 5MB each (about 50 GB). */
-  byte_size?: number;
+  byte_size?: number | undefined;
   /** The name of the file including its extension, e.g. `terms.pdf`. */
   filename: string;
   /** Upload the file in 5MB parts. Required for files larger than 5GB; useful above ~100MB. The file must be larger than 5MB. */
-  multipart?: boolean;
+  multipart?: boolean | undefined;
   /** `public` files are served via an unsigned CDN URL -- use for assets anyone may see. `private` files are served via a signed, expiring URL -- use for sensitive documents. Defaults to `private`. */
-  visibility?: CreateFileRequestVisibility | (string & {});
+  visibility?: CreateFileRequestVisibility | (string & {}) | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetFileRequest {
   /** The unique identifier of the file, prefixed `file_`. */
@@ -135,17 +156,17 @@ export interface ListFilesRequest {
   /** The files to return, each prefixed `file_`. Repeat the parameter to pass several, up to 250 per request. Batches of up to 100 answer in one page by default; larger batches page at up to 100 per response. */
   file_ids: ListFilesRequestFileIdsList;
   /** The field to sort by. */
-  order?: ListFilesRequestOrder | (string & {});
+  order?: ListFilesRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListFilesRequestDirection | (string & {});
+  direction?: ListFilesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListFilesResponseDataList = Array<File>;
 export interface ListFilesResponsePageInfo {
@@ -158,6 +179,17 @@ export interface ListFilesResponse {
   data: ListFilesResponseDataList;
   page_info: ListFilesResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CompleteFileError = BadRequest | NotFound | Conflict | WhopOpError;
 /** Complete File Multipart Upload Assembles the parts of a multipart upload after every part has been PUT to its presigned URL. Pass the `multipart_upload_id` from Create File and each part's `ETag` response header. For a step-by-step walkthrough of multipart uploads, see the [direct file uploads guide](/developer/guides/direct-file-uploads). */
 export const completeFile: API.OperationMethod<
@@ -166,8 +198,8 @@ export const completeFile: API.OperationMethod<
   CompleteFileError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CompleteFileRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<File>,
+  input: __S(10, __c1, 2) as any as S.Schema<CompleteFileRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<File>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -183,8 +215,8 @@ export const createFile: API.OperationMethod<
   CreateFileError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateFileRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<File>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateFileRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<File>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -196,8 +228,8 @@ export type GetFileError = NotFound | WhopOpError;
 /** Retrieve File Retrieves a file you uploaded -- poll it after uploading the bytes to see `upload_status` become `ready`. Only the creator can retrieve a file this way; a file attached to another resource is read through that resource. */
 export const getFile: API.OperationMethod<GetFileRequest, File, GetFileError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(24, __c3, 0) as any as S.Schema<GetFileRequest>,
-    output: __S(10, __c1, 2) as any as S.Schema<File>,
+    input: __S(32, __c4, 0) as any as S.Schema<GetFileRequest>,
+    output: __S(18, __c2, 2) as any as S.Schema<File>,
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -215,8 +247,8 @@ export const listFiles: API.PaginatedOperationMethod<
   File
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(33, __c4, 1) as any as S.Schema<ListFilesRequest>,
-    output: __S(36, __c4, 4) as any as S.Schema<ListFilesResponse>,
+    input: __S(41, __c5, 1) as any as S.Schema<ListFilesRequest>,
+    output: __S(44, __c5, 4) as any as S.Schema<ListFilesResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -240,24 +272,42 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           etag: S.String,
           part_number: S.Number,
         }),
       ).annotate({ identifier: "CompleteFileRequestMultipartPartsItem" });
     case 1:
-      return S.Array(__S(0, __c0, 0));
+      return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          multipart_parts: __S(1, __c0, 1),
+          multipart_parts: __S(9, __c1, 1),
           multipart_upload_id: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/files/{id}/complete", code: 200 })),
       ).annotate({ identifier: "CompleteFileRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -267,7 +317,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "FileMultipartUrl" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -277,7 +327,7 @@ function __c1(j: number): any {
           id: S.String,
           multipart_chunk_size: S.optional(S.NullOr(S.Number)),
           multipart_upload_id: S.optional(S.NullOr(S.String)),
-          multipart_upload_urls: S.optional(S.NullOr(__S(9, __c1, 1))),
+          multipart_upload_urls: S.optional(S.NullOr(__S(17, __c2, 1))),
           object: S.String,
           size: S.NullOr(S.Number),
           upload_headers: S.optional(S.Unknown),
@@ -289,7 +339,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "File" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -303,7 +353,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateFileRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -313,14 +363,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetFileRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          file_ids: __S(32, __c4, 0).pipe(T.Query()),
+          file_ids: __S(40, __c5, 0).pipe(T.Query()),
           order: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           first: S.optional(S.Number.pipe(T.Query())),
@@ -330,7 +380,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
       ).annotate({ identifier: "ListFilesRequest" });
     case 2:
-      return S.Array(__S(10, __c1, 2));
+      return S.Array(__S(18, __c2, 2));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -343,8 +393,8 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(34, __c4, 2),
-          page_info: __S(35, __c4, 3),
+          data: __S(42, __c5, 2),
+          page_info: __S(43, __c5, 3),
         }),
       ).annotate({ identifier: "ListFilesResponse" });
   }

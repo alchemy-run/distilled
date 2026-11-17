@@ -132,7 +132,7 @@ export class InternalServiceException
     "InternalServiceException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
@@ -217,47 +217,52 @@ export class WorkUnitsNotReadyYetException
     /*@__PURE__*/ T.HttpError(420),
   ) {}
 export type CatalogIdString = string;
+export type AnyResourceSupportedTypes = "TABLE" | (string & {});
+export interface AnyResource {
+  CatalogId?: string | undefined;
+  ResourceType: AnyResourceSupportedTypes;
+}
 export interface CatalogResource {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type NameString = string;
 export interface DatabaseResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface TableWildcard {}
 export interface TableResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableWildcard?: TableWildcard;
+  Name?: string | undefined;
+  TableWildcard?: TableWildcard | undefined;
 }
 export type ColumnNames = string[];
 export interface ColumnWildcard {
-  ExcludedColumnNames?: string[];
+  ExcludedColumnNames?: string[] | undefined;
 }
 export interface TableWithColumnsResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  ColumnNames?: string[];
-  ColumnWildcard?: ColumnWildcard;
+  ColumnNames?: string[] | undefined;
+  ColumnWildcard?: ColumnWildcard | undefined;
 }
 export type ResourceArnString = string;
 export interface DataLocationResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceArn: string;
 }
 export interface DataCellsFilterResource {
-  TableCatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  Name?: string;
+  TableCatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Name?: string | undefined;
 }
 export type LFTagValue = string;
 export type TagValueList = string[];
 export interface LFTagKeyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
@@ -269,54 +274,63 @@ export interface LFTag {
 }
 export type Expression = LFTag[];
 export interface LFTagPolicyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceType: ResourceType;
-  Expression?: LFTag[];
-  ExpressionName?: string;
+  Expression?: LFTag[] | undefined;
+  ExpressionName?: string | undefined;
 }
 export interface LFTagExpressionResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface RLSPolicyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
+export interface UserDefinedFunctionWildcard {}
+export interface UserDefinedFunctionResource {
+  CatalogId?: string | undefined;
+  DatabaseName: string;
+  Name?: string | undefined;
+  UserDefinedFunctionWildcard?: UserDefinedFunctionWildcard | undefined;
+}
 export interface Resource {
-  Catalog?: CatalogResource;
-  Database?: DatabaseResource;
-  Table?: TableResource;
-  TableWithColumns?: TableWithColumnsResource;
-  DataLocation?: DataLocationResource;
-  DataCellsFilter?: DataCellsFilterResource;
-  LFTag?: LFTagKeyResource;
-  LFTagPolicy?: LFTagPolicyResource;
-  LFTagExpression?: LFTagExpressionResource;
-  RLSPolicy?: RLSPolicyResource;
+  AnyResource?: AnyResource | undefined;
+  Catalog?: CatalogResource | undefined;
+  Database?: DatabaseResource | undefined;
+  Table?: TableResource | undefined;
+  TableWithColumns?: TableWithColumnsResource | undefined;
+  DataLocation?: DataLocationResource | undefined;
+  DataCellsFilter?: DataCellsFilterResource | undefined;
+  LFTag?: LFTagKeyResource | undefined;
+  LFTagPolicy?: LFTagPolicyResource | undefined;
+  LFTagExpression?: LFTagExpressionResource | undefined;
+  RLSPolicy?: RLSPolicyResource | undefined;
+  UserDefinedFunction?: UserDefinedFunctionResource | undefined;
 }
 export interface LFTagPair {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
 export type LFTagsList = LFTagPair[];
 export interface AddLFTagsToResourceRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
   LFTags: LFTagPair[];
 }
 export type DescriptionString = string;
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface LFTagError {
-  LFTag?: LFTagPair;
-  Error?: ErrorDetail;
+  LFTag?: LFTagPair | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type LFTagErrors = LFTagError[];
 export interface AddLFTagsToResourceResponse {
-  Failures?: LFTagError[];
+  Failures?: LFTagError[] | undefined;
 }
 export type SAMLAssertionString = string;
 export type IAMRoleArn = string;
@@ -326,32 +340,32 @@ export interface AssumeDecoratedRoleWithSAMLRequest {
   SAMLAssertion: string;
   RoleArn: string;
   PrincipalArn: string;
-  DurationSeconds?: number;
+  DurationSeconds?: number | undefined;
 }
 export type AccessKeyIdString = string;
 export type SecretAccessKeyString = string;
 export type SessionTokenString = string;
 export type ExpirationTimestamp = Date;
 export interface AssumeDecoratedRoleWithSAMLResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export type DataLakePrincipalString = string;
 export interface DataLakePrincipal {
-  DataLakePrincipalIdentifier?: string;
+  DataLakePrincipalIdentifier?: string | undefined;
 }
 export type ExpressionString = string;
 export interface Condition {
-  Expression?: string;
+  Expression?: string | undefined;
 }
 export interface AttachRLSPolicyRequest {
   Name: string;
   Resource: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  SetDefault?: boolean;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  SetDefault?: boolean | undefined;
 }
 export interface AttachRLSPolicyResponse {}
 export type Identifier = string;
@@ -372,35 +386,36 @@ export type Permission =
   | "CREATE_LF_TAG_EXPRESSION"
   | "CREATE_CATALOG"
   | "SUPER_USER"
+  | "EXECUTE"
   | (string & {});
 export type PermissionList = Permission[];
 export interface BatchPermissionsRequestEntry {
   Id: string;
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Permissions?: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Permissions?: Permission[] | undefined;
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export type BatchPermissionsRequestEntryList = BatchPermissionsRequestEntry[];
 export interface BatchGrantPermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Entries: BatchPermissionsRequestEntry[];
 }
 export interface BatchPermissionsFailureEntry {
-  RequestEntry?: BatchPermissionsRequestEntry;
-  Error?: ErrorDetail;
+  RequestEntry?: BatchPermissionsRequestEntry | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type BatchPermissionsFailureList = BatchPermissionsFailureEntry[];
 export interface BatchGrantPermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
+  Failures?: BatchPermissionsFailureEntry[] | undefined;
 }
 export interface BatchRevokePermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Entries: BatchPermissionsRequestEntry[];
 }
 export interface BatchRevokePermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
+  Failures?: BatchPermissionsFailureEntry[] | undefined;
 }
 export type TransactionIdString = string;
 export interface CancelTransactionRequest {
@@ -417,13 +432,13 @@ export type TransactionStatus =
   | "COMMIT_IN_PROGRESS"
   | (string & {});
 export interface CommitTransactionResponse {
-  TransactionStatus?: TransactionStatus;
+  TransactionStatus?: TransactionStatus | undefined;
 }
 export type PredicateString = string;
 export interface AllRowsWildcard {}
 export interface RowFilter {
-  FilterExpression?: string;
-  AllRowsWildcard?: AllRowsWildcard;
+  FilterExpression?: string | undefined;
+  AllRowsWildcard?: AllRowsWildcard | undefined;
 }
 export type VersionString = string;
 export interface DataCellsFilter {
@@ -431,10 +446,10 @@ export interface DataCellsFilter {
   DatabaseName: string;
   TableName: string;
   Name: string;
-  RowFilter?: RowFilter;
-  ColumnNames?: string[];
-  ColumnWildcard?: ColumnWildcard;
-  VersionId?: string;
+  RowFilter?: RowFilter | undefined;
+  ColumnNames?: string[] | undefined;
+  ColumnWildcard?: ColumnWildcard | undefined;
+  VersionId?: string | undefined;
 }
 export interface CreateDataCellsFilterRequest {
   TableData: DataCellsFilter;
@@ -458,39 +473,39 @@ export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export type ServiceIntegrationUnion = { Redshift: RedshiftScopeUnion[] };
 export type ServiceIntegrationList = ServiceIntegrationUnion[];
 export interface CreateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
+  CatalogId?: string | undefined;
+  InstanceArn?: string | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateLakeFormationIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export interface CreateLakeFormationOptInRequest {
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Condition?: Condition;
+  Condition?: Condition | undefined;
 }
 export interface CreateLakeFormationOptInResponse {}
 export interface CreateLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
 export interface CreateLFTagResponse {}
 export interface CreateLFTagExpressionRequest {
   Name: string;
-  Description?: string;
-  CatalogId?: string;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface CreateLFTagExpressionResponse {}
 export type ColumnTypeString = string;
 export interface Column {
   Name: string;
-  Type?: string;
+  Type?: string | undefined;
 }
 export type ColumnList = Column[];
 export interface CreateRLSPolicyRequest {
@@ -500,41 +515,41 @@ export interface CreateRLSPolicyRequest {
 }
 export interface CreateRLSPolicyResponse {}
 export interface DeleteDataCellsFilterRequest {
-  TableCatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  Name?: string;
+  TableCatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Name?: string | undefined;
 }
 export interface DeleteDataCellsFilterResponse {}
 export interface DeleteLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface DeleteLakeFormationIdentityCenterConfigurationResponse {}
 export interface DeleteLakeFormationOptInRequest {
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Condition?: Condition;
+  Condition?: Condition | undefined;
 }
 export interface DeleteLakeFormationOptInResponse {}
 export interface DeleteLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
 }
 export interface DeleteLFTagResponse {}
 export interface DeleteLFTagExpressionRequest {
   Name: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface DeleteLFTagExpressionResponse {}
 export type URI = string;
 export type ETagString = string;
 export interface VirtualObject {
   Uri: string;
-  ETag?: string;
+  ETag?: string | undefined;
 }
 export type VirtualObjectList = VirtualObject[];
 export interface DeleteObjectsOnCancelRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   TransactionId: string;
@@ -550,17 +565,17 @@ export interface DeregisterResourceRequest {
 }
 export interface DeregisterResourceResponse {}
 export interface DescribeLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export type RAMResourceShareArn = string;
 export interface DescribeLakeFormationIdentityCenterConfigurationResponse {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ApplicationArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ResourceShare?: string;
+  CatalogId?: string | undefined;
+  InstanceArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
+  ResourceShare?: string | undefined;
 }
 export interface DescribeResourceRequest {
   ResourceArn: string;
@@ -573,40 +588,40 @@ export type VerificationStatus =
   | (string & {});
 export type AccountIdString = string;
 export interface ResourceInfo {
-  ResourceArn?: string;
-  RoleArn?: string;
-  LastModified?: Date;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-  VerificationStatus?: VerificationStatus;
-  ExpectedResourceOwnerAccount?: string;
+  ResourceArn?: string | undefined;
+  RoleArn?: string | undefined;
+  LastModified?: Date | undefined;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  WithPrivilegedAccess?: boolean | undefined;
+  VerificationStatus?: VerificationStatus | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface DescribeResourceResponse {
-  ResourceInfo?: ResourceInfo;
+  ResourceInfo?: ResourceInfo | undefined;
 }
 export interface DescribeTransactionRequest {
   TransactionId: string;
 }
 export interface TransactionDescription {
-  TransactionId?: string;
-  TransactionStatus?: TransactionStatus;
-  TransactionStartTime?: Date;
-  TransactionEndTime?: Date;
+  TransactionId?: string | undefined;
+  TransactionStatus?: TransactionStatus | undefined;
+  TransactionStartTime?: Date | undefined;
+  TransactionEndTime?: Date | undefined;
 }
 export interface DescribeTransactionResponse {
-  TransactionDescription?: TransactionDescription;
+  TransactionDescription?: TransactionDescription | undefined;
 }
 export interface DetachRLSPolicyRequest {
   Name: string;
   Resource: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  RemoveDefault?: boolean;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  RemoveDefault?: boolean | undefined;
 }
 export interface DetachRLSPolicyResponse {}
 export interface ExtendTransactionRequest {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface ExtendTransactionResponse {}
 export interface GetDataCellsFilterRequest {
@@ -616,19 +631,19 @@ export interface GetDataCellsFilterRequest {
   Name: string;
 }
 export interface GetDataCellsFilterResponse {
-  DataCellsFilter?: DataCellsFilter;
+  DataCellsFilter?: DataCellsFilter | undefined;
 }
 export interface GetDataLakePrincipalRequest {}
 export type IdentityString = string;
 export interface GetDataLakePrincipalResponse {
-  Identity?: string;
+  Identity?: string | undefined;
 }
 export interface GetDataLakeSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface PrincipalPermissions {
-  Principal?: DataLakePrincipal;
-  Permissions?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export type KeyString = string;
@@ -637,65 +652,76 @@ export type ParametersMap = { [key: string]: string | undefined };
 export type TrustedResourceOwners = string[];
 export type AuthorizedSessionTagValueList = string[];
 export interface DataLakeSettings {
-  DataLakeAdmins?: DataLakePrincipal[];
-  ReadOnlyAdmins?: DataLakePrincipal[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  Parameters?: { [key: string]: string | undefined };
-  TrustedResourceOwners?: string[];
-  AllowExternalDataFiltering?: boolean;
-  AllowFullTableExternalDataAccess?: boolean;
-  ExternalDataFilteringAllowList?: DataLakePrincipal[];
-  AuthorizedSessionTagValueList?: string[];
+  DataLakeAdmins?: DataLakePrincipal[] | undefined;
+  ReadOnlyAdmins?: DataLakePrincipal[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TrustedResourceOwners?: string[] | undefined;
+  AllowExternalDataFiltering?: boolean | undefined;
+  AllowFullTableExternalDataAccess?: boolean | undefined;
+  ExternalDataFilteringAllowList?: DataLakePrincipal[] | undefined;
+  AuthorizedSessionTagValueList?: string[] | undefined;
 }
 export interface GetDataLakeSettingsResponse {
-  DataLakeSettings?: DataLakeSettings;
+  DataLakeSettings?: DataLakeSettings | undefined;
 }
 export type Token = string;
 export type PageSize = number;
 export interface GetEffectivePermissionsForPathRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceShareList = string[];
 export interface DetailsMap {
-  ResourceShare?: string[];
+  ResourceShare?: string[] | undefined;
 }
 export interface PrincipalResourcePermissions {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Condition?: Condition;
-  Permissions?: Permission[];
-  PermissionsWithGrantOption?: Permission[];
-  AdditionalDetails?: DetailsMap;
-  LastUpdated?: Date;
-  LastUpdatedBy?: string;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Condition?: Condition | undefined;
+  Permissions?: Permission[] | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
+  AdditionalDetails?: DetailsMap | undefined;
+  LastUpdated?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
 }
 export type PrincipalResourcePermissionsList = PrincipalResourcePermissions[];
 export interface GetEffectivePermissionsForPathResponse {
-  Permissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
+  Permissions?: PrincipalResourcePermissions[] | undefined;
+  NextToken?: string | undefined;
+}
+export type ResourceArnList = string[];
+export type SessionDurationSecondInteger = number;
+export interface GetGlueFunctionSessionContextRequest {
+  UserDefinedFunctionArns: string[];
+  DurationSeconds?: number | undefined;
+}
+export type SessionContextIdString = string;
+export interface GetGlueFunctionSessionContextResponse {
+  SessionContextId?: string | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
 }
 export interface GetLFTagResponse {
-  CatalogId?: string;
-  TagKey?: string;
-  TagValues?: string[];
+  CatalogId?: string | undefined;
+  TagKey?: string | undefined;
+  TagValues?: string[] | undefined;
 }
 export interface GetLFTagExpressionRequest {
   Name: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface GetLFTagExpressionResponse {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
+  Expression?: LFTag[] | undefined;
 }
 export type GetQueryStateRequestQueryIdString = string;
 export interface GetQueryStateRequest {
@@ -710,7 +736,7 @@ export type QueryStateString =
   | "EXPIRED"
   | (string & {});
 export interface GetQueryStateResponse {
-  Error?: string;
+  Error?: string | undefined;
   State: QueryStateString;
 }
 export type GetQueryStatisticsRequestQueryIdString = string;
@@ -721,101 +747,111 @@ export type NumberOfMilliseconds = number;
 export type NumberOfBytes = number;
 export type NumberOfItems = number;
 export interface ExecutionStatistics {
-  AverageExecutionTimeMillis?: number;
-  DataScannedBytes?: number;
-  WorkUnitsExecutedCount?: number;
+  AverageExecutionTimeMillis?: number | undefined;
+  DataScannedBytes?: number | undefined;
+  WorkUnitsExecutedCount?: number | undefined;
 }
 export interface PlanningStatistics {
-  EstimatedDataToScanBytes?: number;
-  PlanningTimeMillis?: number;
-  QueueTimeMillis?: number;
-  WorkUnitsGeneratedCount?: number;
+  EstimatedDataToScanBytes?: number | undefined;
+  PlanningTimeMillis?: number | undefined;
+  QueueTimeMillis?: number | undefined;
+  WorkUnitsGeneratedCount?: number | undefined;
 }
 export interface GetQueryStatisticsResponse {
-  ExecutionStatistics?: ExecutionStatistics;
-  PlanningStatistics?: PlanningStatistics;
-  QuerySubmissionTime?: Date;
+  ExecutionStatistics?: ExecutionStatistics | undefined;
+  PlanningStatistics?: PlanningStatistics | undefined;
+  QuerySubmissionTime?: Date | undefined;
 }
 export type BooleanNullable = boolean;
 export interface GetResourceLFTagsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
-  ShowAssignedLFTags?: boolean;
+  ShowAssignedLFTags?: boolean | undefined;
 }
 export interface ColumnLFTag {
-  Name?: string;
-  LFTags?: LFTagPair[];
+  Name?: string | undefined;
+  LFTags?: LFTagPair[] | undefined;
 }
 export type ColumnLFTagsList = ColumnLFTag[];
 export interface GetResourceLFTagsResponse {
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
+  LFTagOnDatabase?: LFTagPair[] | undefined;
+  LFTagsOnTable?: LFTagPair[] | undefined;
+  LFTagsOnColumns?: ColumnLFTag[] | undefined;
 }
 export interface GetRLSPolicyRequest {
   Name: string;
 }
 export interface RLSPolicy {
-  CatalogId?: string;
-  Name?: string;
-  AttachmentColumns?: Column[];
-  FilterExpression?: string;
+  CatalogId?: string | undefined;
+  Name?: string | undefined;
+  AttachmentColumns?: Column[] | undefined;
+  FilterExpression?: string | undefined;
 }
 export interface GetRLSPolicyResponse {
-  RLSPolicy?: RLSPolicy;
+  RLSPolicy?: RLSPolicy | undefined;
 }
 export type TokenString = string;
 export interface GetTableObjectsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  PartitionPredicate?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  PartitionPredicate?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PartitionValueString = string;
 export type PartitionValuesList = string[];
 export type ObjectSize = number;
 export interface TableObject {
-  Uri?: string;
-  ETag?: string;
-  Size?: number;
+  Uri?: string | undefined;
+  ETag?: string | undefined;
+  Size?: number | undefined;
 }
 export type TableObjectList = TableObject[];
 export interface PartitionObjects {
-  PartitionValues?: string[];
-  Objects?: TableObject[];
+  PartitionValues?: string[] | undefined;
+  Objects?: TableObject[] | undefined;
 }
 export type PartitionedTableObjectsList = PartitionObjects[];
 export interface GetTableObjectsResponse {
-  Objects?: PartitionObjects[];
-  NextToken?: string;
+  Objects?: PartitionObjects[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AuditContextString = string;
 export interface AuditContext {
-  AdditionalAuditContext?: string;
+  AdditionalAuditContext?: string | undefined;
 }
 export type PathString = string;
 export type PathStringList = string[];
 export type CredentialsScope = "READ" | "READWRITE" | (string & {});
 export interface GetTemporaryDataLocationCredentialsRequest {
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  DataLocations?: string[];
-  CredentialsScope?: CredentialsScope;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  DataLocations?: string[] | undefined;
+  CredentialsScope?: CredentialsScope | undefined;
 }
 export interface TemporaryCredentials {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetTemporaryDataLocationCredentialsResponse {
-  Credentials?: TemporaryCredentials;
-  AccessibleDataLocations?: string[];
-  CredentialsScope?: CredentialsScope;
+  Credentials?: TemporaryCredentials | undefined;
+  AccessibleDataLocations?: string[] | undefined;
+  CredentialsScope?: CredentialsScope | undefined;
+}
+export interface GetTemporaryGlueFunctionCredentialsRequest {
+  UserDefinedFunctionArn: string;
+  AuditContext?: AuditContext | undefined;
+}
+export interface GetTemporaryGlueFunctionCredentialsResponse {
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | undefined;
+  SessionToken?: string | undefined;
+  Expiration?: Date | undefined;
 }
 export type ValueString = string;
 export type ValueStringList = string[];
@@ -832,16 +868,16 @@ export type PermissionTypeList = PermissionType[];
 export interface GetTemporaryGluePartitionCredentialsRequest {
   TableArn: string;
   Partition: PartitionValueList;
-  Permissions?: Permission[];
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionType[];
+  Permissions?: Permission[] | undefined;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  SupportedPermissionTypes?: PermissionType[] | undefined;
 }
 export interface GetTemporaryGluePartitionCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export type HashString = string;
 export type NullableString = string;
@@ -849,27 +885,27 @@ export type ContextKey = string;
 export type ContextValue = string;
 export type AdditionalContextMap = { [key: string]: string | undefined };
 export interface QuerySessionContext {
-  QueryId?: string;
-  QueryStartTime?: Date;
-  ClusterId?: string;
-  QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string | undefined };
+  QueryId?: string | undefined;
+  QueryStartTime?: Date | undefined;
+  ClusterId?: string | undefined;
+  QueryAuthorizationId?: string | undefined;
+  AdditionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTemporaryGlueTableCredentialsRequest {
   TableArn: string;
-  Permissions?: Permission[];
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionType[];
-  S3Path?: string;
-  QuerySessionContext?: QuerySessionContext;
+  Permissions?: Permission[] | undefined;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  SupportedPermissionTypes?: PermissionType[] | undefined;
+  S3Path?: string | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface GetTemporaryGlueTableCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
-  VendedS3Path?: string[];
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
+  VendedS3Path?: string[] | undefined;
 }
 export type GetWorkUnitResultsRequestQueryIdString = string;
 export type GetWorkUnitResultsRequestWorkUnitIdLong = number;
@@ -882,12 +918,12 @@ export interface GetWorkUnitResultsRequest {
   WorkUnitToken: string | redacted.Redacted<string>;
 }
 export interface GetWorkUnitResultsResponse {
-  ResultStream?: T.StreamingOutputBody;
+  ResultStream?: T.StreamingOutputBody | undefined;
 }
 export type GetWorkUnitsRequestQueryIdString = string;
 export interface GetWorkUnitsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
   QueryId: string;
 }
 export type QueryIdString = string;
@@ -900,75 +936,76 @@ export interface WorkUnitRange {
 }
 export type WorkUnitRangeList = WorkUnitRange[];
 export interface GetWorkUnitsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   QueryId: string;
   WorkUnitRanges: WorkUnitRange[];
 }
 export interface GrantPermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Principal: DataLakePrincipal;
   Resource: Resource;
   Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export interface GrantPermissionsResponse {}
 export interface ListDataCellsFilterRequest {
-  Table?: TableResource;
-  NextToken?: string;
-  MaxResults?: number;
+  Table?: TableResource | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DataCellsFilterList = DataCellsFilter[];
 export interface ListDataCellsFilterResponse {
-  DataCellsFilters?: DataCellsFilter[];
-  NextToken?: string;
+  DataCellsFilters?: DataCellsFilter[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLakeFormationOptInsRequest {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  MaxResults?: number;
-  NextToken?: string;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LakeFormationOptInsInfo {
-  Resource?: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  LastModified?: Date;
-  LastUpdatedBy?: string;
+  Resource?: Resource | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  LastModified?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
 }
 export type LakeFormationOptInsInfoList = LakeFormationOptInsInfo[];
 export interface ListLakeFormationOptInsResponse {
-  LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[];
-  NextToken?: string;
+  LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLFTagExpressionsRequest {
-  CatalogId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LFTagExpression {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
+  Expression?: LFTag[] | undefined;
 }
 export type LFTagExpressionsList = LFTagExpression[];
 export interface ListLFTagExpressionsResponse {
-  LFTagExpressions?: LFTagExpression[];
-  NextToken?: string;
+  LFTagExpressions?: LFTagExpression[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceShareType = "FOREIGN" | "ALL" | (string & {});
 export interface ListLFTagsRequest {
-  CatalogId?: string;
-  ResourceShareType?: ResourceShareType;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLFTagsResponse {
-  LFTags?: LFTagPair[];
-  NextToken?: string;
+  LFTags?: LFTagPair[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DataLakeResourceType =
+  | "ANY_RESOURCE"
   | "CATALOG"
   | "DATABASE"
   | "TABLE"
@@ -978,20 +1015,21 @@ export type DataLakeResourceType =
   | "LF_TAG_POLICY_DATABASE"
   | "LF_TAG_POLICY_TABLE"
   | "LF_NAMED_TAG_EXPRESSION"
+  | "USER_DEFINED_FUNCTION"
   | (string & {});
 export type TrueFalseString = string;
 export interface ListPermissionsRequest {
-  CatalogId?: string;
-  Principal?: DataLakePrincipal;
-  ResourceType?: DataLakeResourceType;
-  Resource?: Resource;
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeRelated?: string;
+  CatalogId?: string | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  ResourceType?: DataLakeResourceType | undefined;
+  Resource?: Resource | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncludeRelated?: string | undefined;
 }
 export interface ListPermissionsResponse {
-  PrincipalResourcePermissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
+  PrincipalResourcePermissions?: PrincipalResourcePermissions[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FieldNameString = "RESOURCE_ARN" | "ROLE_ARN" | "LAST_MODIFIED" | (string & {});
 export type ComparisonOperator =
@@ -1010,74 +1048,74 @@ export type ComparisonOperator =
 export type StringValue = string;
 export type StringValueList = string[];
 export interface FilterCondition {
-  Field?: FieldNameString;
-  ComparisonOperator?: ComparisonOperator;
-  StringValueList?: string[];
+  Field?: FieldNameString | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  StringValueList?: string[] | undefined;
 }
 export type FilterConditionList = FilterCondition[];
 export interface ListResourcesRequest {
-  FilterConditionList?: FilterCondition[];
-  MaxResults?: number;
-  NextToken?: string;
+  FilterConditionList?: FilterCondition[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceInfoList = ResourceInfo[];
 export interface ListResourcesResponse {
-  ResourceInfoList?: ResourceInfo[];
-  NextToken?: string;
+  ResourceInfoList?: ResourceInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRLSPoliciesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RLSPolicyList = RLSPolicy[];
 export interface ListRLSPoliciesResponse {
-  RLSPolicies?: RLSPolicy[];
-  NextToken?: string;
+  RLSPolicies?: RLSPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRLSPolicyAttachmentsRequest {
-  Resource?: Resource;
-  Principal?: DataLakePrincipal;
-  PolicyName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Resource?: Resource | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  PolicyName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RLSPolicyAttachment {
-  CatalogId?: string;
-  PolicyName?: string;
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Condition?: Condition;
-  DefaultRLSPolicy?: boolean;
+  CatalogId?: string | undefined;
+  PolicyName?: string | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Condition?: Condition | undefined;
+  DefaultRLSPolicy?: boolean | undefined;
 }
 export type RLSPolicyAttachmentList = RLSPolicyAttachment[];
 export interface ListRLSPolicyAttachmentsResponse {
-  RLSPolicyAttachments?: RLSPolicyAttachment[];
-  NextToken?: string;
+  RLSPolicyAttachments?: RLSPolicyAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptimizerType = "COMPACTION" | "GARBAGE_COLLECTION" | "ALL" | (string & {});
 export interface ListTableStorageOptimizersRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  StorageOptimizerType?: OptimizerType;
-  MaxResults?: number;
-  NextToken?: string;
+  StorageOptimizerType?: OptimizerType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type StorageOptimizerConfigKey = string;
 export type StorageOptimizerConfigValue = string;
 export type StorageOptimizerConfig = { [key: string]: string | undefined };
 export type MessageString = string;
 export interface StorageOptimizer {
-  StorageOptimizerType?: OptimizerType;
-  Config?: { [key: string]: string | undefined };
-  ErrorMessage?: string;
-  Warnings?: string;
-  LastRunDetails?: string;
+  StorageOptimizerType?: OptimizerType | undefined;
+  Config?: { [key: string]: string | undefined } | undefined;
+  ErrorMessage?: string | undefined;
+  Warnings?: string | undefined;
+  LastRunDetails?: string | undefined;
 }
 export type StorageOptimizerList = StorageOptimizer[];
 export interface ListTableStorageOptimizersResponse {
-  StorageOptimizerList?: StorageOptimizer[];
-  NextToken?: string;
+  StorageOptimizerList?: StorageOptimizer[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TransactionStatusFilter =
   | "ALL"
@@ -1087,89 +1125,89 @@ export type TransactionStatusFilter =
   | "ABORTED"
   | (string & {});
 export interface ListTransactionsRequest {
-  CatalogId?: string;
-  StatusFilter?: TransactionStatusFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  StatusFilter?: TransactionStatusFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TransactionDescriptionList = TransactionDescription[];
 export interface ListTransactionsResponse {
-  Transactions?: TransactionDescription[];
-  NextToken?: string;
+  Transactions?: TransactionDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutDataLakeSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DataLakeSettings: DataLakeSettings;
 }
 export interface PutDataLakeSettingsResponse {}
 export interface RegisterResourceRequest {
   ResourceArn: string;
-  UseServiceLinkedRole?: boolean;
-  RoleArn?: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-  ExpectedResourceOwnerAccount?: string;
+  UseServiceLinkedRole?: boolean | undefined;
+  RoleArn?: string | undefined;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  WithPrivilegedAccess?: boolean | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface RegisterResourceResponse {}
 export interface RemoveLFTagsFromResourceRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
   LFTags: LFTagPair[];
 }
 export interface RemoveLFTagsFromResourceResponse {
-  Failures?: LFTagError[];
+  Failures?: LFTagError[] | undefined;
 }
 export interface RevokePermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Principal: DataLakePrincipal;
   Resource: Resource;
   Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export interface RevokePermissionsResponse {}
 export type SearchPageSize = number;
 export interface SearchDatabasesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface TaggedDatabase {
-  Database?: DatabaseResource;
-  LFTags?: LFTagPair[];
+  Database?: DatabaseResource | undefined;
+  LFTags?: LFTagPair[] | undefined;
 }
 export type DatabaseLFTagsList = TaggedDatabase[];
 export interface SearchDatabasesByLFTagsResponse {
-  NextToken?: string;
-  DatabaseList?: TaggedDatabase[];
+  NextToken?: string | undefined;
+  DatabaseList?: TaggedDatabase[] | undefined;
 }
 export interface SearchTablesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface TaggedTable {
-  Table?: TableResource;
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
+  Table?: TableResource | undefined;
+  LFTagOnDatabase?: LFTagPair[] | undefined;
+  LFTagsOnTable?: LFTagPair[] | undefined;
+  LFTagsOnColumns?: ColumnLFTag[] | undefined;
 }
 export type TableLFTagsList = TaggedTable[];
 export interface SearchTablesByLFTagsResponse {
-  NextToken?: string;
-  TableList?: TaggedTable[];
+  NextToken?: string | undefined;
+  TableList?: TaggedTable[] | undefined;
 }
 export type QueryPlanningContextDatabaseNameString = string;
 export type QueryParameterMap = { [key: string]: string | undefined };
 export interface QueryPlanningContext {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  QueryAsOfTime?: Date;
-  QueryParameters?: { [key: string]: string | undefined };
-  TransactionId?: string;
+  QueryAsOfTime?: Date | undefined;
+  QueryParameters?: { [key: string]: string | undefined } | undefined;
+  TransactionId?: string | undefined;
 }
 export type SyntheticStartQueryPlanningRequestQueryString = string | redacted.Redacted<string>;
 export interface StartQueryPlanningRequest {
@@ -1181,10 +1219,10 @@ export interface StartQueryPlanningResponse {
 }
 export type TransactionType = "READ_AND_WRITE" | "READ_ONLY" | (string & {});
 export interface StartTransactionRequest {
-  TransactionType?: TransactionType;
+  TransactionType?: TransactionType | undefined;
 }
 export interface StartTransactionResponse {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface UpdateDataCellsFilterRequest {
   TableData: DataCellsFilter;
@@ -1192,76 +1230,76 @@ export interface UpdateDataCellsFilterRequest {
 export interface UpdateDataCellsFilterResponse {}
 export type ApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface UpdateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ApplicationStatus?: ApplicationStatus;
-  ExternalFiltering?: ExternalFilteringConfiguration;
+  CatalogId?: string | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
 }
 export interface UpdateLakeFormationIdentityCenterConfigurationResponse {}
 export interface UpdateLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
-  TagValuesToDelete?: string[];
-  TagValuesToAdd?: string[];
+  TagValuesToDelete?: string[] | undefined;
+  TagValuesToAdd?: string[] | undefined;
 }
 export interface UpdateLFTagResponse {}
 export interface UpdateLFTagExpressionRequest {
   Name: string;
-  Description?: string;
-  CatalogId?: string;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface UpdateLFTagExpressionResponse {}
 export interface UpdateResourceRequest {
   RoleArn: string;
   ResourceArn: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  ExpectedResourceOwnerAccount?: string;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface UpdateResourceResponse {}
 export interface UpdateRLSPolicyRequest {
   Name: string;
-  FilterExpression?: string;
+  FilterExpression?: string | undefined;
 }
 export interface UpdateRLSPolicyResponse {}
 export interface AddObjectInput {
   Uri: string;
   ETag: string;
   Size: number;
-  PartitionValues?: string[];
+  PartitionValues?: string[] | undefined;
 }
 export interface DeleteObjectInput {
   Uri: string;
-  ETag?: string;
-  PartitionValues?: string[];
+  ETag?: string | undefined;
+  PartitionValues?: string[] | undefined;
 }
 export interface WriteOperation {
-  AddObject?: AddObjectInput;
-  DeleteObject?: DeleteObjectInput;
+  AddObject?: AddObjectInput | undefined;
+  DeleteObject?: DeleteObjectInput | undefined;
 }
 export type WriteOperationList = WriteOperation[];
 export interface UpdateTableObjectsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  TransactionId?: string;
+  TransactionId?: string | undefined;
   WriteOperations: WriteOperation[];
 }
 export interface UpdateTableObjectsResponse {}
 export type StorageOptimizerConfigMap = {
-  [key in OptimizerType]?: { [key: string]: string | undefined };
+  [key in OptimizerType]?: { [key: string]: string | undefined } | undefined;
 };
 export interface UpdateTableStorageOptimizerRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   StorageOptimizerConfig: { [key: string]: { [key: string]: string | undefined } | undefined };
 }
 export type Result = string;
 export interface UpdateTableStorageOptimizerResponse {
-  Result?: string;
+  Result?: string | undefined;
 }
 export type AddLFTagsToResourceError =
   | AccessDeniedException
@@ -2307,6 +2345,45 @@ export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
   span: "GetEffectivePermissionsForPath",
 })) as any;
 
+export type GetGlueFunctionSessionContextError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Returns a session context for one or more user-defined functions that an integrated analytics engine runs
+ * together in a job. You must have the `EXECUTE` permission on every function in the list.
+ *
+ * While the session context is in use, if you don't have full `SELECT` permission on a table, the
+ * job can read the table only if every function in the session has the `SELECT` permission on it.
+ * Lake Formation enforces this check.
+ *
+ * To use this operation, you must have the `lakeformation:GetDataAccess` permission.
+ */
+export const getGlueFunctionSessionContext: API.OperationMethod<
+  GetGlueFunctionSessionContextRequest & RegionInput,
+  GetGlueFunctionSessionContextResponse,
+  GetGlueFunctionSessionContextError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(440, __c55, 0) as any as S.Schema<GetGlueFunctionSessionContextRequest>,
+  output: __S(441, __c55, 1) as any as S.Schema<GetGlueFunctionSessionContextResponse>,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetGlueFunctionSessionContext",
+  telemetry: TELEMETRY,
+  span: "GetGlueFunctionSessionContext",
+}));
+
 export type GetLFTagError =
   | AccessDeniedException
   | EntityNotFoundException
@@ -2323,8 +2400,8 @@ export const getLFTag: API.OperationMethod<
   GetLFTagError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<GetLFTagRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<GetLFTagResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<GetLFTagRequest>,
+  output: __S(449, __c56, 1) as any as S.Schema<GetLFTagResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2355,8 +2432,8 @@ export const getLFTagExpression: API.OperationMethod<
   GetLFTagExpressionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<GetLFTagExpressionRequest>,
-  output: __S(456, __c57, 0) as any as S.Schema<GetLFTagExpressionResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<GetLFTagExpressionRequest>,
+  output: __S(464, __c58, 0) as any as S.Schema<GetLFTagExpressionResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2385,8 +2462,8 @@ export const getQueryState: API.OperationMethod<
   GetQueryStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<GetQueryStateRequest>,
-  output: __S(465, __c58, 1) as any as S.Schema<GetQueryStateResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<GetQueryStateRequest>,
+  output: __S(473, __c59, 1) as any as S.Schema<GetQueryStateResponse>,
   errors: [AccessDeniedException, InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2413,8 +2490,8 @@ export const getQueryStatistics: API.OperationMethod<
   GetQueryStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<GetQueryStatisticsRequest>,
-  output: __S(475, __c59, 3) as any as S.Schema<GetQueryStatisticsResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<GetQueryStatisticsRequest>,
+  output: __S(483, __c60, 3) as any as S.Schema<GetQueryStatisticsResponse>,
   errors: [
     AccessDeniedException,
     ExpiredException,
@@ -2448,8 +2525,8 @@ export const getResourceLFTags: API.OperationMethod<
   GetResourceLFTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<GetResourceLFTagsRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<GetResourceLFTagsResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<GetResourceLFTagsRequest>,
+  output: __S(489, __c61, 1) as any as S.Schema<GetResourceLFTagsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2481,8 +2558,8 @@ export const getRLSPolicy: API.OperationMethod<
   GetRLSPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<GetRLSPolicyRequest>,
-  output: __S(497, __c62, 1) as any as S.Schema<GetRLSPolicyResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<GetRLSPolicyRequest>,
+  output: __S(505, __c63, 1) as any as S.Schema<GetRLSPolicyResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2516,8 +2593,8 @@ export const getTableObjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<GetTableObjectsRequest>,
-  output: __S(517, __c64, 5) as any as S.Schema<GetTableObjectsResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<GetTableObjectsRequest>,
+  output: __S(525, __c65, 5) as any as S.Schema<GetTableObjectsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -2576,8 +2653,8 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
   GetTemporaryDataLocationCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<GetTemporaryDataLocationCredentialsRequest>,
-  output: __S(521, __c65, 1) as any as S.Schema<GetTemporaryDataLocationCredentialsResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<GetTemporaryDataLocationCredentialsRequest>,
+  output: __S(529, __c66, 1) as any as S.Schema<GetTemporaryDataLocationCredentialsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2592,6 +2669,45 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
   operationName: "GetTemporaryDataLocationCredentials",
   telemetry: TELEMETRY,
   span: "GetTemporaryDataLocationCredentials",
+}));
+
+export type GetTemporaryGlueFunctionCredentialsError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Returns temporary credentials that you can use to download the artifacts of a user-defined function whose
+ * `GovernanceMode` is `LAKE_FORMATION`. Lake Formation assumes the role that you
+ * registered for the function's `ArtifactLocation`. The credentials have read-only access to that location in
+ * Amazon S3.
+ *
+ * To use this operation, you must have the `EXECUTE` permission on the function.
+ */
+export const getTemporaryGlueFunctionCredentials: API.OperationMethod<
+  GetTemporaryGlueFunctionCredentialsRequest & RegionInput,
+  GetTemporaryGlueFunctionCredentialsResponse,
+  GetTemporaryGlueFunctionCredentialsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c68, 0) as any as S.Schema<GetTemporaryGlueFunctionCredentialsRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<GetTemporaryGlueFunctionCredentialsResponse>,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetTemporaryGlueFunctionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryGlueFunctionCredentials",
 }));
 
 export type GetTemporaryGluePartitionCredentialsError =
@@ -2611,7 +2727,7 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
   GetTemporaryGluePartitionCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(537, __c67, 1) as any as S.Schema<GetTemporaryGluePartitionCredentialsRequest>,
+  input: __S(553, __c69, 1) as any as S.Schema<GetTemporaryGluePartitionCredentialsRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetTemporaryGluePartitionCredentialsResponse>,
   errors: [
     AccessDeniedException,
@@ -2647,8 +2763,8 @@ export const getTemporaryGlueTableCredentials: API.OperationMethod<
   GetTemporaryGlueTableCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c68, 1) as any as S.Schema<GetTemporaryGlueTableCredentialsRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<GetTemporaryGlueTableCredentialsResponse>,
+  input: __S(561, __c70, 1) as any as S.Schema<GetTemporaryGlueTableCredentialsRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<GetTemporaryGlueTableCredentialsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2680,8 +2796,8 @@ export const getWorkUnitResults: API.OperationMethod<
   GetWorkUnitResultsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<GetWorkUnitResultsRequest>,
-  output: __S(553, __c69, 1) as any as S.Schema<GetWorkUnitResultsResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<GetWorkUnitResultsRequest>,
+  output: __S(569, __c71, 1) as any as S.Schema<GetWorkUnitResultsResponse>,
   errors: [
     AccessDeniedException,
     ExpiredException,
@@ -2714,8 +2830,8 @@ export const getWorkUnits: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkUnitRange
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<GetWorkUnitsRequest>,
-  output: __S(563, __c70, 3) as any as S.Schema<GetWorkUnitsResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<GetWorkUnitsRequest>,
+  output: __S(579, __c72, 3) as any as S.Schema<GetWorkUnitsResponse>,
   errors: [
     AccessDeniedException,
     ExpiredException,
@@ -2754,7 +2870,7 @@ export const grantPermissions: API.OperationMethod<
   GrantPermissionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<GrantPermissionsRequest>,
+  input: __S(584, __c73, 0) as any as S.Schema<GrantPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GrantPermissionsResponse>,
   errors: [
     ConcurrentModificationException,
@@ -2785,8 +2901,8 @@ export const listDataCellsFilter: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataCellsFilter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ListDataCellsFilterRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<ListDataCellsFilterResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<ListDataCellsFilterRequest>,
+  output: __S(594, __c74, 2) as any as S.Schema<ListDataCellsFilterResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -2824,8 +2940,8 @@ export const listLakeFormationOptIns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<ListLakeFormationOptInsRequest>,
-  output: __S(587, __c73, 3) as any as S.Schema<ListLakeFormationOptInsResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<ListLakeFormationOptInsRequest>,
+  output: __S(603, __c75, 3) as any as S.Schema<ListLakeFormationOptInsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -2863,8 +2979,8 @@ export const listLFTagExpressions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LFTagExpression
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<ListLFTagExpressionsRequest>,
-  output: __S(594, __c74, 2) as any as S.Schema<ListLFTagExpressionsResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<ListLFTagExpressionsRequest>,
+  output: __S(610, __c76, 2) as any as S.Schema<ListLFTagExpressionsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2902,8 +3018,8 @@ export const listLFTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LFTagPair
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<ListLFTagsRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<ListLFTagsResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<ListLFTagsRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<ListLFTagsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -2946,8 +3062,8 @@ export const listPermissions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<ListPermissionsRequest>,
-  output: __S(609, __c76, 1) as any as S.Schema<ListPermissionsResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<ListPermissionsRequest>,
+  output: __S(625, __c78, 1) as any as S.Schema<ListPermissionsResponse>,
   errors: [
     InternalServiceException,
     InvalidInputException,
@@ -2981,8 +3097,8 @@ export const listResources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(618, __c77, 2) as any as S.Schema<ListResourcesRequest>,
-  output: __S(620, __c77, 4) as any as S.Schema<ListResourcesResponse>,
+  input: __S(634, __c79, 2) as any as S.Schema<ListResourcesRequest>,
+  output: __S(636, __c79, 4) as any as S.Schema<ListResourcesResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3013,8 +3129,8 @@ export const listRLSPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RLSPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<ListRLSPoliciesRequest>,
-  output: __S(626, __c78, 2) as any as S.Schema<ListRLSPoliciesResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<ListRLSPoliciesRequest>,
+  output: __S(642, __c80, 2) as any as S.Schema<ListRLSPoliciesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3052,8 +3168,8 @@ export const listRLSPolicyAttachments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RLSPolicyAttachment
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<ListRLSPolicyAttachmentsRequest>,
-  output: __S(635, __c79, 3) as any as S.Schema<ListRLSPolicyAttachmentsResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<ListRLSPolicyAttachmentsRequest>,
+  output: __S(651, __c81, 3) as any as S.Schema<ListRLSPolicyAttachmentsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3090,8 +3206,8 @@ export const listTableStorageOptimizers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<ListTableStorageOptimizersRequest>,
-  output: __S(643, __c80, 3) as any as S.Schema<ListTableStorageOptimizersResponse>,
+  input: __S(656, __c82, 0) as any as S.Schema<ListTableStorageOptimizersRequest>,
+  output: __S(659, __c82, 3) as any as S.Schema<ListTableStorageOptimizersResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3127,8 +3243,8 @@ export const listTransactions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<ListTransactionsRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<ListTransactionsResponse>,
+  input: __S(664, __c83, 0) as any as S.Schema<ListTransactionsRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<ListTransactionsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3158,7 +3274,7 @@ export const putDataLakeSettings: API.OperationMethod<
   PutDataLakeSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<PutDataLakeSettingsRequest>,
+  input: __S(672, __c84, 0) as any as S.Schema<PutDataLakeSettingsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutDataLakeSettingsResponse>,
   errors: [InternalServiceException, InvalidInputException, InvalidLakeFormationPrincipal],
   protocol: AwsProtocol,
@@ -3197,7 +3313,7 @@ export const registerResource: API.OperationMethod<
   RegisterResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<RegisterResourceRequest>,
+  input: __S(680, __c85, 0) as any as S.Schema<RegisterResourceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RegisterResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -3233,7 +3349,7 @@ export const removeLFTagsFromResource: API.OperationMethod<
   RemoveLFTagsFromResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<RemoveLFTagsFromResourceRequest>,
+  input: __S(688, __c86, 0) as any as S.Schema<RemoveLFTagsFromResourceRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<RemoveLFTagsFromResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -3266,7 +3382,7 @@ export const revokePermissions: API.OperationMethod<
   RevokePermissionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<RevokePermissionsRequest>,
+  input: __S(696, __c87, 0) as any as S.Schema<RevokePermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RevokePermissionsResponse>,
   errors: [
     ConcurrentModificationException,
@@ -3299,8 +3415,8 @@ export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaggedDatabase
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<SearchDatabasesByLFTagsRequest>,
-  output: __S(691, __c86, 3) as any as S.Schema<SearchDatabasesByLFTagsResponse>,
+  input: __S(704, __c88, 0) as any as S.Schema<SearchDatabasesByLFTagsRequest>,
+  output: __S(707, __c88, 3) as any as S.Schema<SearchDatabasesByLFTagsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3340,8 +3456,8 @@ export const searchTablesByLFTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaggedTable
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<SearchTablesByLFTagsRequest>,
-  output: __S(699, __c87, 3) as any as S.Schema<SearchTablesByLFTagsResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<SearchTablesByLFTagsRequest>,
+  output: __S(715, __c89, 3) as any as S.Schema<SearchTablesByLFTagsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3380,8 +3496,8 @@ export const startQueryPlanning: API.OperationMethod<
   StartQueryPlanningError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c88, 1) as any as S.Schema<StartQueryPlanningRequest>,
-  output: __S(706, __c88, 2) as any as S.Schema<StartQueryPlanningResponse>,
+  input: __S(721, __c90, 1) as any as S.Schema<StartQueryPlanningRequest>,
+  output: __S(722, __c90, 2) as any as S.Schema<StartQueryPlanningResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -3409,8 +3525,8 @@ export const startTransaction: API.OperationMethod<
   StartTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<StartTransactionRequest>,
-  output: __S(713, __c89, 1) as any as S.Schema<StartTransactionResponse>,
+  input: __S(728, __c91, 0) as any as S.Schema<StartTransactionRequest>,
+  output: __S(729, __c91, 1) as any as S.Schema<StartTransactionResponse>,
   errors: [InternalServiceException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3436,7 +3552,7 @@ export const updateDataCellsFilter: API.OperationMethod<
   UpdateDataCellsFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<UpdateDataCellsFilterRequest>,
+  input: __S(736, __c92, 0) as any as S.Schema<UpdateDataCellsFilterRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateDataCellsFilterResponse>,
   errors: [
     AccessDeniedException,
@@ -3471,8 +3587,8 @@ export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    728,
-    __c91,
+    744,
+    __c93,
     0,
   ) as any as S.Schema<UpdateLakeFormationIdentityCenterConfigurationRequest>,
   output: __S(
@@ -3512,7 +3628,7 @@ export const updateLFTag: API.OperationMethod<
   UpdateLFTagError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<UpdateLFTagRequest>,
+  input: __S(752, __c94, 0) as any as S.Schema<UpdateLFTagRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateLFTagResponse>,
   errors: [
     AccessDeniedException,
@@ -3547,7 +3663,7 @@ export const updateLFTagExpression: API.OperationMethod<
   UpdateLFTagExpressionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<UpdateLFTagExpressionRequest>,
+  input: __S(760, __c95, 0) as any as S.Schema<UpdateLFTagExpressionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateLFTagExpressionResponse>,
   errors: [
     AccessDeniedException,
@@ -3579,7 +3695,7 @@ export const updateResource: API.OperationMethod<
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<UpdateResourceRequest>,
+  input: __S(768, __c96, 0) as any as S.Schema<UpdateResourceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateResourceResponse>,
   errors: [
     EntityNotFoundException,
@@ -3612,7 +3728,7 @@ export const updateRLSPolicy: API.OperationMethod<
   UpdateRLSPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<UpdateRLSPolicyRequest>,
+  input: __S(776, __c97, 0) as any as S.Schema<UpdateRLSPolicyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateRLSPolicyResponse>,
   errors: [
     AccessDeniedException,
@@ -3650,7 +3766,7 @@ export const updateTableObjects: API.OperationMethod<
   UpdateTableObjectsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(772, __c96, 4) as any as S.Schema<UpdateTableObjectsRequest>,
+  input: __S(788, __c98, 4) as any as S.Schema<UpdateTableObjectsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateTableObjectsResponse>,
   errors: [
     ConcurrentModificationException,
@@ -3685,8 +3801,8 @@ export const updateTableStorageOptimizer: API.OperationMethod<
   UpdateTableStorageOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(777, __c97, 1) as any as S.Schema<UpdateTableStorageOptimizerRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<UpdateTableStorageOptimizerResponse>,
+  input: __S(793, __c99, 1) as any as S.Schema<UpdateTableStorageOptimizerRequest>,
+  output: __S(794, __c99, 2) as any as S.Schema<UpdateTableStorageOptimizerResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -3707,7 +3823,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           LFTags: __S(80, __c10, 0),
         }).pipe(
           T.all(
@@ -3780,10 +3896,14 @@ function __c6(j: number): any {
 function __c7(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({ CatalogId: S.optional(S.String), ResourceType: S.String }),
+      ).annotate({ identifier: "AnyResource" });
+    case 1:
       return S.suspend(() => S.Struct({ Id: S.optional(S.String) })).annotate({
         identifier: "CatalogResource",
       });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
@@ -3793,11 +3913,11 @@ function __c7(j: number): any {
           ColumnWildcard: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "TableWithColumnsResource" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({ CatalogId: S.optional(S.String), ResourceArn: S.String }),
       ).annotate({ identifier: "DataLocationResource" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           TableCatalogId: S.optional(S.String),
@@ -3806,7 +3926,7 @@ function __c7(j: number): any {
           Name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataCellsFilterResource" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
@@ -3815,19 +3935,30 @@ function __c7(j: number): any {
           ExpressionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "LFTagPolicyResource" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          Catalog: S.optional(__S(56, __c7, 0)),
+          CatalogId: S.optional(S.String),
+          DatabaseName: S.String,
+          Name: S.optional(S.String),
+          UserDefinedFunctionWildcard: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "UserDefinedFunctionResource" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          AnyResource: S.optional(__S(56, __c7, 0)),
+          Catalog: S.optional(__S(57, __c7, 1)),
           Database: S.optional(__S(64, __c8, 0)),
           Table: S.optional(__S(40, __c5, 0)),
-          TableWithColumns: S.optional(__S(57, __c7, 1)),
-          DataLocation: S.optional(__S(58, __c7, 2)),
-          DataCellsFilter: S.optional(__S(59, __c7, 3)),
+          TableWithColumns: S.optional(__S(58, __c7, 2)),
+          DataLocation: S.optional(__S(59, __c7, 3)),
+          DataCellsFilter: S.optional(__S(60, __c7, 4)),
           LFTag: S.optional(__S(48, __c6, 0)),
-          LFTagPolicy: S.optional(__S(60, __c7, 4)),
+          LFTagPolicy: S.optional(__S(61, __c7, 5)),
           LFTagExpression: S.optional(__S(64, __c8, 0)),
           RLSPolicy: S.optional(__S(64, __c8, 0)),
+          UserDefinedFunction: S.optional(__S(62, __c7, 6)),
         }),
       ).annotate({ identifier: "Resource" });
   }
@@ -3909,7 +4040,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Principal: S.optional(__S(120, __c15, 0)),
           Condition: S.optional(__S(128, __c16, 0)),
           SetDefault: S.optional(S.Boolean),
@@ -3959,7 +4090,7 @@ function __c18(j: number): any {
         S.Struct({
           Id: S.String,
           Principal: S.optional(__S(120, __c15, 0)),
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           Permissions: S.optional(__S(152, __c19, 0)),
           Condition: S.optional(__S(128, __c16, 0)),
           PermissionsWithGrantOption: S.optional(__S(152, __c19, 0)),
@@ -4143,7 +4274,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Principal: __S(120, __c15, 0),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Condition: S.optional(__S(128, __c16, 0)),
         }).pipe(
           T.all(
@@ -4263,7 +4394,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Principal: __S(120, __c15, 0),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Condition: S.optional(__S(128, __c16, 0)),
         }).pipe(
           T.all(
@@ -4461,7 +4592,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Principal: S.optional(__S(120, __c15, 0)),
           Condition: S.optional(__S(128, __c16, 0)),
           RemoveDefault: S.optional(S.Boolean),
@@ -4626,7 +4757,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Principal: S.optional(__S(120, __c15, 0)),
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           Condition: S.optional(__S(128, __c16, 0)),
           Permissions: S.optional(__S(152, __c19, 0)),
           PermissionsWithGrantOption: S.optional(__S(152, __c19, 0)),
@@ -4640,6 +4771,33 @@ function __c54(j: number): any {
   }
 }
 function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserDefinedFunctionArns: __S(16, __c2, 0),
+          DurationSeconds: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetGlueFunctionSessionContext" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetGlueFunctionSessionContextRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SessionContextId: S.optional(S.String),
+          Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetGlueFunctionSessionContextResponse" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4657,7 +4815,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetLFTagResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4674,7 +4832,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetLFTagExpressionRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4687,7 +4845,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetLFTagExpressionResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4701,7 +4859,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4736,20 +4894,20 @@ function __c59(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ExecutionStatistics: S.optional(__S(473, __c59, 1)),
-          PlanningStatistics: S.optional(__S(474, __c59, 2)),
+          ExecutionStatistics: S.optional(__S(481, __c60, 1)),
+          PlanningStatistics: S.optional(__S(482, __c60, 2)),
           QuerySubmissionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetQueryStatisticsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           ShowAssignedLFTags: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -4767,22 +4925,22 @@ function __c60(j: number): any {
         S.Struct({
           LFTagOnDatabase: S.optional(__S(80, __c10, 0)),
           LFTagsOnTable: S.optional(__S(80, __c10, 0)),
-          LFTagsOnColumns: S.optional(__S(489, __c61, 1)),
+          LFTagsOnColumns: S.optional(__S(497, __c62, 1)),
         }),
       ).annotate({ identifier: "GetResourceLFTagsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), LFTags: S.optional(__S(80, __c10, 0)) }),
       ).annotate({ identifier: "ColumnLFTag" });
     case 1:
-      return S.Array(__S(488, __c61, 0));
+      return S.Array(__S(496, __c62, 0));
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4791,12 +4949,12 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "GetRLSPolicyRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ RLSPolicy: S.optional(__S(504, __c63, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ RLSPolicy: S.optional(__S(512, __c64, 0)) })).annotate({
         identifier: "GetRLSPolicyResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4809,7 +4967,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "RLSPolicy" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4835,29 +4993,29 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "TableObject" });
     case 2:
-      return S.Array(__S(513, __c64, 1));
+      return S.Array(__S(521, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PartitionValues: S.optional(__S(16, __c2, 0)),
-          Objects: S.optional(__S(514, __c64, 2)),
+          Objects: S.optional(__S(522, __c65, 2)),
         }),
       ).annotate({ identifier: "PartitionObjects" });
     case 4:
-      return S.Array(__S(515, __c64, 3));
+      return S.Array(__S(523, __c65, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Objects: S.optional(__S(516, __c64, 4)), NextToken: S.optional(S.String) }),
+        S.Struct({ Objects: S.optional(__S(524, __c65, 4)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetTableObjectsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DurationSeconds: S.optional(S.Number),
-          AuditContext: S.optional(__S(528, __c66, 0)),
+          AuditContext: S.optional(__S(536, __c67, 0)),
           DataLocations: S.optional(__S(16, __c2, 0)),
           CredentialsScope: S.optional(S.String),
         }).pipe(
@@ -4881,7 +5039,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetTemporaryDataLocationCredentialsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ AdditionalAuditContext: S.optional(S.String) })).annotate({
@@ -4889,7 +5047,36 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserDefinedFunctionArn: S.String,
+          AuditContext: S.optional(__S(536, __c67, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetTemporaryGlueFunctionCredentials" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTemporaryGlueFunctionCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccessKeyId: S.optional(S.String),
+          SecretAccessKey: S.optional(S.String),
+          SessionToken: S.optional(S.String),
+          Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetTemporaryGlueFunctionCredentialsResponse" });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Values: __S(16, __c2, 0) })).annotate({
@@ -4899,10 +5086,10 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TableArn: S.String,
-          Partition: __S(536, __c67, 0),
+          Partition: __S(552, __c69, 0),
           Permissions: S.optional(__S(152, __c19, 0)),
           DurationSeconds: S.optional(S.Number),
-          AuditContext: S.optional(__S(528, __c66, 0)),
+          AuditContext: S.optional(__S(536, __c67, 0)),
           SupportedPermissionTypes: S.optional(__S(152, __c19, 0)),
         }).pipe(
           T.all(
@@ -4917,7 +5104,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetTemporaryGluePartitionCredentialsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4935,10 +5122,10 @@ function __c68(j: number): any {
           TableArn: S.String,
           Permissions: S.optional(__S(152, __c19, 0)),
           DurationSeconds: S.optional(S.Number),
-          AuditContext: S.optional(__S(528, __c66, 0)),
+          AuditContext: S.optional(__S(536, __c67, 0)),
           SupportedPermissionTypes: S.optional(__S(152, __c19, 0)),
           S3Path: S.optional(S.String),
-          QuerySessionContext: S.optional(__S(544, __c68, 0)),
+          QuerySessionContext: S.optional(__S(560, __c70, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/GetTemporaryGlueTableCredentials" }),
@@ -4962,7 +5149,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetTemporaryGlueTableCredentialsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4983,7 +5170,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetWorkUnitResultsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5000,25 +5187,25 @@ function __c70(j: number): any {
         S.Struct({ WorkUnitIdMax: S.Number, WorkUnitIdMin: S.Number, WorkUnitToken: S.String }),
       ).annotate({ identifier: "WorkUnitRange" });
     case 2:
-      return S.Array(__S(561, __c70, 1));
+      return S.Array(__S(577, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           QueryId: S.String,
-          WorkUnitRanges: __S(562, __c70, 2),
+          WorkUnitRanges: __S(578, __c72, 2),
         }),
       ).annotate({ identifier: "GetWorkUnitsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           Principal: __S(120, __c15, 0),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Permissions: __S(152, __c19, 0),
           Condition: S.optional(__S(128, __c16, 0)),
           PermissionsWithGrantOption: S.optional(__S(152, __c19, 0)),
@@ -5028,7 +5215,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GrantPermissionsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5052,19 +5239,19 @@ function __c72(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DataCellsFilters: S.optional(__S(577, __c72, 1)),
+          DataCellsFilters: S.optional(__S(593, __c74, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataCellsFilterResponse" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Principal: S.optional(__S(120, __c15, 0)),
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -5081,7 +5268,7 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           Principal: S.optional(__S(120, __c15, 0)),
           Condition: S.optional(__S(128, __c16, 0)),
           LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5089,17 +5276,17 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "LakeFormationOptInsInfo" });
     case 2:
-      return S.Array(__S(585, __c73, 1));
+      return S.Array(__S(601, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LakeFormationOptInsInfoList: S.optional(__S(586, __c73, 2)),
+          LakeFormationOptInsInfoList: S.optional(__S(602, __c75, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLakeFormationOptInsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5119,17 +5306,17 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListLFTagExpressionsRequest" });
     case 1:
-      return S.Array(__S(456, __c57, 0));
+      return S.Array(__S(464, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          LFTagExpressions: S.optional(__S(593, __c74, 1)),
+          LFTagExpressions: S.optional(__S(609, __c76, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLFTagExpressionsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5148,7 +5335,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListLFTagsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5156,7 +5343,7 @@ function __c76(j: number): any {
           CatalogId: S.optional(S.String),
           Principal: S.optional(__S(120, __c15, 0)),
           ResourceType: S.optional(S.String),
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           IncludeRelated: S.optional(S.String),
@@ -5173,7 +5360,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ListPermissionsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5184,11 +5371,11 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "FilterCondition" });
     case 1:
-      return S.Array(__S(616, __c77, 0));
+      return S.Array(__S(632, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FilterConditionList: S.optional(__S(617, __c77, 1)),
+          FilterConditionList: S.optional(__S(633, __c79, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -5200,13 +5387,13 @@ function __c77(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ResourceInfoList: S.optional(__S(619, __c77, 3)),
+          ResourceInfoList: S.optional(__S(635, __c79, 3)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourcesResponse" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5215,19 +5402,19 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "ListRLSPoliciesRequest" });
     case 1:
-      return S.Array(__S(504, __c63, 0));
+      return S.Array(__S(512, __c64, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ RLSPolicies: S.optional(__S(625, __c78, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ RLSPolicies: S.optional(__S(641, __c80, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRLSPoliciesResponse" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           Principal: S.optional(__S(120, __c15, 0)),
           PolicyName: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -5249,23 +5436,23 @@ function __c79(j: number): any {
           CatalogId: S.optional(S.String),
           PolicyName: S.optional(S.String),
           Principal: S.optional(__S(120, __c15, 0)),
-          Resource: S.optional(__S(61, __c7, 5)),
+          Resource: S.optional(__S(63, __c7, 7)),
           Condition: S.optional(__S(128, __c16, 0)),
           DefaultRLSPolicy: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RLSPolicyAttachment" });
     case 2:
-      return S.Array(__S(633, __c79, 1));
+      return S.Array(__S(649, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RLSPolicyAttachments: S.optional(__S(634, __c79, 2)),
+          RLSPolicyAttachments: S.optional(__S(650, __c81, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRLSPolicyAttachmentsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5298,17 +5485,17 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "StorageOptimizer" });
     case 2:
-      return S.Array(__S(641, __c80, 1));
+      return S.Array(__S(657, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StorageOptimizerList: S.optional(__S(642, __c80, 2)),
+          StorageOptimizerList: S.optional(__S(658, __c82, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTableStorageOptimizersResponse" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5325,11 +5512,11 @@ function __c81(j: number): any {
       return S.Array(__S(360, __c45, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Transactions: S.optional(__S(649, __c81, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Transactions: S.optional(__S(665, __c83, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTransactionsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5346,7 +5533,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PutDataLakeSettingsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5364,13 +5551,13 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RegisterResourceRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           LFTags: __S(80, __c10, 0),
         }).pipe(
           T.all(
@@ -5385,14 +5572,14 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RemoveLFTagsFromResourceRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           Principal: __S(120, __c15, 0),
-          Resource: __S(61, __c7, 5),
+          Resource: __S(63, __c7, 7),
           Permissions: __S(152, __c19, 0),
           Condition: S.optional(__S(128, __c16, 0)),
           PermissionsWithGrantOption: S.optional(__S(152, __c19, 0)),
@@ -5409,7 +5596,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RevokePermissionsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5434,14 +5621,14 @@ function __c86(j: number): any {
         S.Struct({ Database: S.optional(__S(64, __c8, 0)), LFTags: S.optional(__S(80, __c10, 0)) }),
       ).annotate({ identifier: "TaggedDatabase" });
     case 2:
-      return S.Array(__S(689, __c86, 1));
+      return S.Array(__S(705, __c88, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), DatabaseList: S.optional(__S(690, __c86, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), DatabaseList: S.optional(__S(706, __c88, 2)) }),
       ).annotate({ identifier: "SearchDatabasesByLFTagsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5467,18 +5654,18 @@ function __c87(j: number): any {
           Table: S.optional(__S(40, __c5, 0)),
           LFTagOnDatabase: S.optional(__S(80, __c10, 0)),
           LFTagsOnTable: S.optional(__S(80, __c10, 0)),
-          LFTagsOnColumns: S.optional(__S(489, __c61, 1)),
+          LFTagsOnColumns: S.optional(__S(497, __c62, 1)),
         }),
       ).annotate({ identifier: "TaggedTable" });
     case 2:
-      return S.Array(__S(697, __c87, 1));
+      return S.Array(__S(713, __c89, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), TableList: S.optional(__S(698, __c87, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), TableList: S.optional(__S(714, __c89, 2)) }),
       ).annotate({ identifier: "SearchTablesByLFTagsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,7 +5679,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "QueryPlanningContext" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ QueryPlanningContext: __S(704, __c88, 0), QueryString: SensitiveString }).pipe(
+        S.Struct({ QueryPlanningContext: __S(720, __c90, 0), QueryString: SensitiveString }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/StartQueryPlanning" }),
             svc,
@@ -5509,7 +5696,7 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5523,7 +5710,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5540,7 +5727,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateDataCellsFilterRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5563,7 +5750,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateLakeFormationIdentityCenterConfigurationRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5578,7 +5765,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateLFTagRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5600,7 +5787,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateLFTagExpressionRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5616,7 +5803,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateResourceRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5626,7 +5813,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateRLSPolicyRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5648,12 +5835,12 @@ function __c96(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AddObject: S.optional(__S(768, __c96, 0)),
-          DeleteObject: S.optional(__S(769, __c96, 1)),
+          AddObject: S.optional(__S(784, __c98, 0)),
+          DeleteObject: S.optional(__S(785, __c98, 1)),
         }),
       ).annotate({ identifier: "WriteOperation" });
     case 3:
-      return S.Array(__S(770, __c96, 2));
+      return S.Array(__S(786, __c98, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5661,7 +5848,7 @@ function __c96(j: number): any {
           DatabaseName: S.String,
           TableName: S.String,
           TransactionId: S.optional(S.String),
-          WriteOperations: __S(771, __c96, 3),
+          WriteOperations: __S(787, __c98, 3),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTableObjects" }),
@@ -5675,7 +5862,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateTableObjectsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ __S(408, __c51, 0).pipe(S.optional));
@@ -5685,7 +5872,7 @@ function __c97(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          StorageOptimizerConfig: __S(776, __c97, 0),
+          StorageOptimizerConfig: __S(792, __c99, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateTableStorageOptimizer" }),
