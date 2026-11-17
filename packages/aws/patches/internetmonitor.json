@@ -17,6 +17,14 @@
     },
     "deleteMonitor": {
       "errors": ["ResourceNotFoundException"]
+    },
+    "getInternetEvent": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:internetmonitor::${Account}:internet-event/*), the call was denied live in the InternetMonitor Bindings suite; the grant stays on *.",
+        "resources": {
+          "internetmonitor:GetInternetEvent": "*"
+        }
+      }
     }
   }
 }

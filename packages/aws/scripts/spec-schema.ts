@@ -103,6 +103,30 @@ export const SyntheticError = S.Struct({
 export type SyntheticError = typeof SyntheticError.Type;
 
 /**
+ * A correction to what AWS's Service Authorization Reference says an
+ * operation is authorized as (codegen's `iam`, see scripts/iam.ts), where a
+ * live call disagrees. `reason` is the evidence: the live response, or the
+ * service's API reference.
+ */
+export const OperationIamPatch = S.Struct({
+  reason: S.String,
+  /** Replace the authorized actions. */
+  actions: S.optional(S.Array(S.String)),
+  /** Actions the call is also authorized as. */
+  add: S.optional(S.Array(S.String)),
+  /** Listed actions the call isn't authorized as (legacy, console-only); `*` globs. */
+  remove: S.optional(S.Array(S.String)),
+  /**
+   * Action → the ARN formats a grant names, or `"*"` when a grant on those
+   * formats is denied and only `*` works (a list call, another region's ARNs).
+   */
+  resources: S.optional(S.Record(S.String, S.Union([S.Array(S.String), S.Literal("*")]))),
+  /** Action → the request field that makes the call need it. */
+  conditional: S.optional(S.Record(S.String, S.String)),
+});
+export type OperationIamPatch = typeof OperationIamPatch.Type;
+
+/**
  * Patches for a single operation
  */
 export const OperationPatch = S.Struct({
@@ -122,6 +146,8 @@ export const OperationPatch = S.Struct({
    * synthetic tag specializes the overloaded wire error.
    */
   syntheticErrors: S.optional(S.Array(SyntheticError)),
+  /** Corrections to the operation's `iam` (see {@link OperationIamPatch}). */
+  iam: S.optional(OperationIamPatch),
 });
 export type OperationPatch = typeof OperationPatch.Type;
 
@@ -237,7 +263,13 @@ export const ServiceSpec = S.Struct({
       /**
        * Error types added to every operation's error union.
        */
-      errors: S.Array(S.String),
+      errors: S.optional(S.Array(S.String)),
+      /**
+       * Actions AWS's reference lists for the service's operations that no
+       * call is authorized as (legacy names, console-only actions), removed
+       * from every operation's `iam`. `*` globs: `sso-directory:*`.
+       */
+      iam: S.optional(S.Struct({ reason: S.String, remove: S.Array(S.String) })),
     }),
   ),
   /**

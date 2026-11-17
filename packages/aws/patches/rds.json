@@ -20,7 +20,9 @@
         {
           "name": "DBInstanceDeletionProtected",
           "from": "InvalidParameterCombination",
-          "message": { "includes": "Cannot delete protected DB Instance" }
+          "message": {
+            "includes": "Cannot delete protected DB Instance"
+          }
         }
       ]
     },
@@ -29,23 +31,48 @@
         {
           "name": "DBClusterDeletionProtected",
           "from": "InvalidParameterCombination",
-          "message": { "includes": "Cannot delete protected Cluster" }
+          "message": {
+            "includes": "Cannot delete protected Cluster"
+          }
         }
       ]
+    },
+    "copyDBSnapshot": {
+      "iam": {
+        "reason": "AWS lists it for the operation, but the RDS Bindings suite calls it successfully without it.",
+        "remove": ["rds:CopyCustomDBEngineVersion"]
+      }
+    },
+    "stopDBInstance": {
+      "iam": {
+        "reason": "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
+        "conditional": {
+          "rds:AddTagsToResource": "DBSnapshotIdentifier",
+          "rds:CreateDBSnapshot": "DBSnapshotIdentifier"
+        }
+      }
     }
   },
   "errors": {
     "InvalidParameterCombination": {
-      "message": { "type": "string" }
+      "message": {
+        "type": "string"
+      }
     },
     "InvalidParameterValue": {
-      "message": { "type": "string" }
+      "message": {
+        "type": "string"
+      }
     },
     "DBInstanceDeletionProtected": {
-      "message": { "type": "string" }
+      "message": {
+        "type": "string"
+      }
     },
     "DBClusterDeletionProtected": {
-      "message": { "type": "string" }
+      "message": {
+        "type": "string"
+      }
     }
   },
   "errorCategories": {

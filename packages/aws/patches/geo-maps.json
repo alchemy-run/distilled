@@ -1,0 +1,22 @@
+{
+  "operations": {
+    "getGlyphs": {
+      "iam": {
+        "reason": "Not in AWS's reference; the GeoMaps Bindings suite calls the operation successfully with it.",
+        "actions": ["geo-maps:GetGlyphs"]
+      }
+    },
+    "getSprites": {
+      "iam": {
+        "reason": "Not in AWS's reference; the GeoMaps Bindings suite calls the operation successfully with it.",
+        "actions": ["geo-maps:GetSprites"]
+      }
+    },
+    "getStyleDescriptor": {
+      "iam": {
+        "reason": "Not in AWS's reference; the GeoMaps Bindings suite calls the operation successfully with it.",
+        "actions": ["geo-maps:GetStyleDescriptor"]
+      }
+    }
+  }
+}

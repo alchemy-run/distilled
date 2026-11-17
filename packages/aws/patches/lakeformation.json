@@ -2,26 +2,42 @@
   "structures": {
     "TemporaryCredentials": {
       "members": {
-        "SecretAccessKey": { "sensitive": true },
-        "SessionToken": { "sensitive": true }
+        "SecretAccessKey": {
+          "sensitive": true
+        },
+        "SessionToken": {
+          "sensitive": true
+        }
       }
     },
     "GetTemporaryGluePartitionCredentialsResponse": {
       "members": {
-        "SecretAccessKey": { "sensitive": true },
-        "SessionToken": { "sensitive": true }
+        "SecretAccessKey": {
+          "sensitive": true
+        },
+        "SessionToken": {
+          "sensitive": true
+        }
       }
     },
     "GetTemporaryGlueTableCredentialsResponse": {
       "members": {
-        "SecretAccessKey": { "sensitive": true },
-        "SessionToken": { "sensitive": true }
+        "SecretAccessKey": {
+          "sensitive": true
+        },
+        "SessionToken": {
+          "sensitive": true
+        }
       }
     },
     "AssumeDecoratedRoleWithSAMLResponse": {
       "members": {
-        "SecretAccessKey": { "sensitive": true },
-        "SessionToken": { "sensitive": true }
+        "SecretAccessKey": {
+          "sensitive": true
+        },
+        "SessionToken": {
+          "sensitive": true
+        }
       }
     }
   },
@@ -114,6 +130,12 @@
           }
         }
       ]
+    },
+    "getTemporaryGlueTableCredentials": {
+      "iam": {
+        "reason": "Lake Formation authorizes temporary table credentials as lakeformation:GetDataAccess (Lake Formation API reference: GetTemporaryGlueTableCredentials).",
+        "actions": ["lakeformation:GetDataAccess"]
+      }
     }
   },
   "errorCategories": {

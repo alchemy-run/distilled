@@ -1,0 +1,10 @@
+{
+  "operations": {
+    "listVersions": {
+      "iam": {
+        "reason": "AWS lists it for the operation, but the Grafana Bindings suite calls it successfully without it.",
+        "remove": ["grafana:DescribeWorkspace"]
+      }
+    }
+  }
+}

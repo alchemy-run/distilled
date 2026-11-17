@@ -10,6 +10,13 @@
           }
         }
       ]
+    },
+    "listInsightsMetricData": {
+      "iam": {
+        "reason": "cloudtrail:ListInsightsMetricData: Not in AWS's reference, but the call is authorized live with it (CloudTrail Bindings suite). cloudtrail:ListInsightsData, cloudtrail:LookupEvents: AWS lists it for the operation, but the CloudTrail Bindings suite calls it successfully without it.",
+        "add": ["cloudtrail:ListInsightsMetricData"],
+        "remove": ["cloudtrail:ListInsightsData", "cloudtrail:LookupEvents"]
+      }
     }
   },
   "errorCategories": {

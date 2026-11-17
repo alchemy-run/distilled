@@ -10,6 +10,48 @@
           }
         }
       ]
+    },
+    "provisionProduct": {
+      "iam": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
+    },
+    "terminateProvisionedProduct": {
+      "iam": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:DeleteStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks"
+        ]
+      }
+    },
+    "updateProvisionedProduct": {
+      "iam": {
+        "reason": "Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateChangeSet",
+          "cloudformation:DeleteChangeSet",
+          "cloudformation:DescribeChangeSet",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:ExecuteChangeSet",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:UpdateStack",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
     }
   }
 }

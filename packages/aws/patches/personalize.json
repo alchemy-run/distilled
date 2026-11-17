@@ -1,0 +1,12 @@
+{
+  "operations": {
+    "createSolution": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:personalize:${Region}:${Account}:dataset-group/*, arn:${Partition}:personalize:${Region}:${Account}:solution/*), the call was denied live in the Personalize Bindings suite; the grant stays on *.",
+        "resources": {
+          "personalize:CreateSolution": "*"
+        }
+      }
+    }
+  }
+}

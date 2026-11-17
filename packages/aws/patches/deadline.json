@@ -1,41 +1,73 @@
 {
   "operations": {
-    "createQueue": { "errors": ["ConflictException"] },
-    "createStorageProfile": { "errors": ["ConflictException"] },
-    "createBudget": { "errors": ["ConflictException"] },
+    "createQueue": {
+      "errors": ["ConflictException"]
+    },
+    "createStorageProfile": {
+      "errors": ["ConflictException"]
+    },
+    "createBudget": {
+      "errors": ["ConflictException"]
+    },
     "createFleet": {
       "errors": ["ConflictException"],
       "syntheticErrors": [
         {
           "name": "DeadlineRoleNotAssumable",
           "from": "ValidationException",
-          "message": { "includes": "Could not sts:AssumeRole" }
+          "message": {
+            "includes": "Could not sts:AssumeRole"
+          }
         }
       ]
     },
-    "createMonitor": { "errors": ["ConflictException"] },
-    "updateFarm": { "errors": ["ConflictException"] },
-    "updateQueue": { "errors": ["ConflictException"] },
+    "createMonitor": {
+      "errors": ["ConflictException"]
+    },
+    "updateFarm": {
+      "errors": ["ConflictException"]
+    },
+    "updateQueue": {
+      "errors": ["ConflictException"]
+    },
     "updateFleet": {
       "syntheticErrors": [
         {
           "name": "DeadlineRoleNotAssumable",
           "from": "ValidationException",
-          "message": { "includes": "Could not sts:AssumeRole" }
+          "message": {
+            "includes": "Could not sts:AssumeRole"
+          }
         }
       ]
     },
-    "updateStorageProfile": { "errors": ["ConflictException"] },
+    "updateStorageProfile": {
+      "errors": ["ConflictException"]
+    },
     "updateBudget": {
       "errors": ["ConflictException", "InternalServerException"]
     },
-    "updateMonitor": { "errors": ["ConflictException"] },
-    "deleteFarm": { "errors": ["ConflictException"] },
-    "deleteBudget": { "errors": ["ConflictException"] },
+    "updateMonitor": {
+      "errors": ["ConflictException"]
+    },
+    "deleteFarm": {
+      "errors": ["ConflictException"]
+    },
+    "deleteBudget": {
+      "errors": ["ConflictException"]
+    },
     "deleteStorageProfile": {
       "errors": ["ConflictException", "ResourceNotFoundException"]
     },
-    "deleteMonitor": { "errors": ["ConflictException"] }
+    "deleteMonitor": {
+      "errors": ["ConflictException"]
+    },
+    "createJob": {
+      "iam": {
+        "reason": "AWS lists it for the operation, but the Deadline Bindings suite calls it successfully without it.",
+        "remove": ["deadline:GetJobTemplate"]
+      }
+    }
   },
   "errorCategories": {
     "InternalServerException": ["ServerError", "RetryableError"],

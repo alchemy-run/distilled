@@ -1,0 +1,22 @@
+{
+  "operations": {
+    "describePermissionSet": {
+      "iam": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:GetPermissionSet"]
+      }
+    },
+    "listAccountAssignments": {
+      "iam": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:ListProfileAssociations"]
+      }
+    },
+    "listAccountsForProvisionedPermissionSet": {
+      "iam": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:GetApplicationInstance", "sso:ListApplicationInstances"]
+      }
+    }
+  }
+}
