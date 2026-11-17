@@ -19,7 +19,19 @@ import * as Stream from "effect/Stream";
 
 export { getItems } from "@distilled.cloud/core/pagination";
 
-/** Stream of pages: `page`, `page+1`, … until a page has no items. */
+/** A copy of `obj` with the member at `path` replaced by `value`. */
+const setPath = (obj: unknown, [head, ...rest]: ReadonlyArray<string>, value: unknown): unknown => {
+  const record = typeof obj === "object" && obj !== null ? (obj as Record<string, unknown>) : {};
+  return { ...record, [head!]: rest.length === 0 ? value : setPath(record[head!], rest, value) };
+};
+
+/**
+ * Stream of pages: `page`, `page+1`, … until a page has no items.
+ *
+ * A page whose items member is present but not an array has no items. Mux
+ * sends `{ "data": {} }` for an empty `listDrmConfigurations`; that page is
+ * emitted with `data: []` so `.items()` never yields the `{}` as an item.
+ */
 export const paginatePage: PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   const itemsPath = pagination.items;
@@ -36,9 +48,16 @@ export const paginatePage: PaginationStrategy = (operation, input, pagination) =
 
       const response = yield* operation({ ...input, [inputToken]: state.page } as typeof input);
       const items = getPath(response, itemsPath);
-      const done = !Array.isArray(items) || items.length === 0;
+      const isList = Array.isArray(items);
+      const page =
+        isList || items == null
+          ? response
+          : (setPath(response, itemsPath.split("."), []) as typeof response);
 
-      return [response, { page: state.page + 1, done } satisfies State] as const;
+      return [
+        page,
+        { page: state.page + 1, done: !isList || items.length === 0 } satisfies State,
+      ] as const;
     }),
   );
 };

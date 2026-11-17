@@ -109,7 +109,9 @@ include answers 402 with code `payment_required`. With
 `MuxParseError`.
 
 `listDrmConfigurations` returns `{ "data": {} }`, not an empty list, in an
-environment without DRM. Check `Array.isArray(data)` before iterating it.
+environment without DRM. `.pages()` and `.items()` read that page as empty;
+a direct call returns the body as sent (and `ResponseValidation.strict` fails
+it), so check `Array.isArray(data)` before iterating it.
 
 ## Not covered
 
