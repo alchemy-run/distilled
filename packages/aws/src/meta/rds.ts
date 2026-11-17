@@ -1352,10 +1352,8 @@ export const operations: { readonly [operation: string]: OperationMeta } = {
         ],
       },
       conditional: {
-        "rds:AddTagsToResource":
-          "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
-        "rds:CreateDBSnapshot":
-          "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
+        "rds:AddTagsToResource": "DBSnapshotIdentifier",
+        "rds:CreateDBSnapshot": "DBSnapshotIdentifier",
       },
     },
   },
