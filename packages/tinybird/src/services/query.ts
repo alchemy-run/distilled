@@ -51,6 +51,7 @@ export interface QuerySqlWithBodyRequest {
   output_format_parquet_string_as_string?: number | undefined;
   /** The SQL query, templated or not. Template parameters go beside it as extra keys. */
   q: string;
+  [key: string]: unknown;
 }
 export type QuerySqlWithBodyResponse = Uint8Array;
 export type QuerySqlError = TinybirdOpError;
@@ -110,13 +111,16 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pipeline: S.optional(S.String.pipe(T.Query())),
-          output_format_json_quote_64bit_integers: S.optional(S.Number.pipe(T.Query())),
-          output_format_json_quote_denormals: S.optional(S.Number.pipe(T.Query())),
-          output_format_parquet_string_as_string: S.optional(S.Number.pipe(T.Query())),
-          q: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v0/sql", code: 200 })),
+        S.StructWithRest(
+          S.Struct({
+            pipeline: S.optional(S.String.pipe(T.Query())),
+            output_format_json_quote_64bit_integers: S.optional(S.Number.pipe(T.Query())),
+            output_format_json_quote_denormals: S.optional(S.Number.pipe(T.Query())),
+            output_format_parquet_string_as_string: S.optional(S.Number.pipe(T.Query())),
+            q: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ).pipe(T.Http({ method: "POST", uri: "/v0/sql", code: 200 })),
       ).annotate({ identifier: "QuerySqlWithBodyRequest" });
     case 1:
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());

@@ -148,6 +148,7 @@ export type QueryPipeWithBodyRequestFormat = "json" | "csv" | "ndjson" | "parque
 export interface QueryPipeWithBodyRequest {
   pipe: string;
   format: QueryPipeWithBodyRequestFormat | (string & {});
+  [key: string]: unknown;
 }
 export type QueryPipeWithBodyResponse = Uint8Array;
 export interface UpdatePipeRequest {
@@ -514,10 +515,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pipe: S.String.pipe(T.Label()),
-          format: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v0/pipes/{pipe}.{format}", code: 200 })),
+        S.StructWithRest(
+          S.Struct({
+            pipe: S.String.pipe(T.Label()),
+            format: S.String.pipe(T.Label()),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ).pipe(T.Http({ method: "POST", uri: "/v0/pipes/{pipe}.{format}", code: 200 })),
       ).annotate({ identifier: "QueryPipeWithBodyRequest" });
     case 1:
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());

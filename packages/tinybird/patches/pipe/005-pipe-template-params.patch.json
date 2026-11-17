@@ -1,0 +1,10 @@
+{
+  "description": "POST /v0/pipes/<name>.<format> \"Returns the published node data in a particular format, passing the parameters in the request body\" (https://www.tinybird.co/docs/api-reference/pipe-api). The parameters are the Pipe's own caller-named template parameters, so the request is an open object and they travel as JSON body keys. Live: queryPipeWithBody({ pipe: \"distilled_endpoint\", format: \"json\", city: \"Madrid\" }) answered data [{city: \"Madrid\", total: 5}].",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#PostV0PipesPipeFormatRequest/traits/com.distilled.openapi#additionalProperties",
+      "value": {}
+    }
+  ]
+}
