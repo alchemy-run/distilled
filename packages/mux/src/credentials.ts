@@ -6,7 +6,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * The Mux API accepts the two schemes its OpenAPI document declares:
  *
  *   - an Access Token: its ID and Secret sent as HTTP Basic auth
- *     (`accessToken`), created under Settings → Access Tokens in the Mux
+ *     (`accessToken`), created under Settings -> Access Tokens in the Mux
  *     dashboard, scoped to one environment;
  *   - an OAuth authorization token sent as `Authorization: Bearer`
  *     (`authorizationToken`).
@@ -21,6 +21,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -128,18 +129,8 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
   ),
 );
 
-/**
- * Base64 of the UTF-8 bytes (RFC 7617). `btoa` alone throws on a character
- * above U+00FF; a string of byte values never does, so this cannot throw.
- */
-const base64Utf8 = (text: string): string => {
-  let binary = "";
-  for (const byte of new TextEncoder().encode(text)) binary += String.fromCharCode(byte);
-  return btoa(binary);
-};
-
 /** The `Authorization` header value for a resolved config. */
 export const authorizationHeader = (auth: Auth): string =>
   auth._tag === "AuthorizationToken"
     ? `Bearer ${Redacted.value(auth.authorizationToken)}`
-    : `Basic ${base64Utf8(`${auth.tokenId}:${Redacted.value(auth.tokenSecret)}`)}`;
+    : `Basic ${Base64.encode(`${auth.tokenId}:${Redacted.value(auth.tokenSecret)}`)}`;

@@ -12,7 +12,7 @@ import {
  * response) cannot drive them. This strategy does what Mux's official SDKs
  * do (`muxinc/mux-ts` `src/core/pagination.ts`: `BasePage` asks for
  * `page + 1` and stops once a page has no items): request `page`, `page+1`,
- * … until a page comes back empty.
+ * ... until a page comes back empty.
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
@@ -26,7 +26,7 @@ const setPath = (obj: unknown, [head, ...rest]: ReadonlyArray<string>, value: un
 };
 
 /**
- * Stream of pages: `page`, `page+1`, … until a page has no items.
+ * Stream of pages: `page`, `page+1`, ... until a page has no items.
  *
  * A page whose items member is present but not an array has no items. Mux
  * sends `{ "data": {} }` for an empty `listDrmConfigurations`; that page is

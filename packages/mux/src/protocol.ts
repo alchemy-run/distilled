@@ -43,7 +43,7 @@ const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "obj
 
 const str = (v: unknown): string | undefined => (typeof v === "string" && v !== "" ? v : undefined);
 
-/** `{ error: { type, messages, message? } }` → `{ code, message }`. */
+/** `{ error: { type, messages, message? } }` -> `{ code, message }`. */
 const muxError = (body: unknown): { code?: string; message?: string } | undefined => {
   const error = isRecord(body) && isRecord(body.error) ? body.error : undefined;
   if (error === undefined) return undefined;

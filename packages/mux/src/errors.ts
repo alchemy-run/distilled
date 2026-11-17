@@ -35,7 +35,7 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 /**
  * A non-2xx, non-5xx status that neither the operation nor the core map
  * covers. `code` is Mux's `error.type` (`invalid_parameters`,
- * `precondition_failed`, …) when the body carries one.
+ * `precondition_failed`, ...) when the body carries one.
  */
 export class UnknownMuxError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownMuxError>()(
