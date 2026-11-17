@@ -6,6 +6,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Clock from "effect/Clock";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -18,6 +19,7 @@ import * as Endpoint from "./endpoint.ts";
 import type { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
+import { Signer } from "./signer.ts";
 import * as SigV4 from "./sigv4.ts";
 import { toBase64 } from "./util/base64.ts";
 import {
@@ -105,13 +107,10 @@ export const presignUrl: (
     const url = yield* parseUrl(options.url);
     url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
 
-    const signed = yield* SigV4.sign({
+    const unsigned = {
       method: options.method ?? "GET",
       url: url.toString(),
       headers: options.headers,
-      accessKeyId: Redacted.value(credentials.accessKeyId),
-      secretAccessKey: credentials.secretAccessKey,
-      sessionToken: credentials.sessionToken,
       service: options.service,
       region,
       signQuery: true,
@@ -122,7 +121,20 @@ export const presignUrl: (
       // signs `content-type` when a ContentType is given, which is what pins an
       // uploader to the declared type -- so opt back in.
       allHeaders: options.headers !== undefined,
-    });
+    };
+    // A Signer in context signs in place of the local key (see `signer.ts`).
+    const signer = yield* Effect.serviceOption(Signer);
+    const signed = yield* Option.isSome(signer)
+      ? Effect.mapError(
+          signer.value.sign(unsigned),
+          (cause) => new SigV4.CryptoError({ operation: "hmac", cause }),
+        )
+      : SigV4.sign({
+          ...unsigned,
+          accessKeyId: Redacted.value(credentials.accessKeyId),
+          secretAccessKey: credentials.secretAccessKey,
+          sessionToken: credentials.sessionToken,
+        });
     return signed.url;
   },
 );
@@ -424,6 +436,23 @@ const presignedRequestOf =
         HttpClientRequest.make(signed.method as HttpMethod)(signed.url),
         signed.headers,
       );
+    // A Signer in context signs in place of the local key (see `signer.ts`).
+    const signer = Context.getOrUndefined(fiber.context as Context.Context<any>, Signer);
+    if (signer !== undefined) {
+      const {
+        accessKeyId: _id,
+        secretAccessKey: _secret,
+        sessionToken: _token,
+        ...unsigned
+      } = sign;
+      return Effect.map(
+        Effect.mapError(
+          signer.sign(unsigned),
+          (cause) => new SigV4.CryptoError({ operation: "hmac", cause }),
+        ),
+        toRequest,
+      );
+    }
     let signed: SigV4.SignedRequest | undefined;
     try {
       signed = SigV4.signSync(sign, fiber);

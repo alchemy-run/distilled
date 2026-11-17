@@ -65,6 +65,7 @@ import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
+import { Signer } from "./signer.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
@@ -420,6 +421,22 @@ const toHttpRequest = (
   };
   const toRequest = (signed: SigV4.SignedRequest) =>
     httpRequestOf(signed, resolvedRequest.body, isStreamingBody);
+  // A Signer in context signs in place of the local key (see `signer.ts`).
+  const signer = Context.getOrUndefined(fiber.context as Context.Context<any>, Signer);
+  if (signer !== undefined) {
+    const {
+      accessKeyId: _id,
+      secretAccessKey: _secret,
+      sessionToken: _token,
+      ...unsigned
+    } = options;
+    return Effect.map(
+      signer.sign(
+        signingRegionSet === undefined ? unsigned : { ...unsigned, regionSet: signingRegionSet },
+      ),
+      toRequest,
+    );
+  }
   if (signingRegionSet !== undefined) {
     const { region: _, ...v4a } = options;
     return Effect.map(SigV4.signV4a({ ...v4a, regionSet: signingRegionSet }), toRequest);
