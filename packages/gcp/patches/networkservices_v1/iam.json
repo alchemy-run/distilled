@@ -1,0 +1,293 @@
+{
+  "description": "What each networkservices_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsAgentGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.agentGateways.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsAuthzExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.authzExtensions.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsEndpointPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.endpointPolicies.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.gateways.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsGatewaysRouteViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.gateways.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsGrpcRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.grpcRoutes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsHttpRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.httpRoutes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsLbEdgeExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbEdgeExtensions.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsLbRouteExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbRouteExtensions.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsLbTrafficExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbTrafficExtensions.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsMeshes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.meshes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsMeshesRouteViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.meshes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsServiceBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.serviceBindings.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsServiceLbPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.serviceLbPolicies.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsTcpRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.tcpRoutes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsTlsRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.tlsRoutes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsWasmPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.wasmPlugins.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#GetProjectsLocationsWasmPluginsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.wasmPlugins.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsAgentGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.agentGateways.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsAuthzExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.authzExtensions.list"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsEndpointPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.endpointPolicies.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.gateways.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsGatewaysRouteViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.gateways.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsGrpcRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.grpcRoutes.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsHttpRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.httpRoutes.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsLbEdgeExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbEdgeExtensions.list"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsLbRouteExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbRouteExtensions.list"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsLbTrafficExtensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.lbTrafficExtensions.list"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsMeshes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.meshes.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsMeshesRouteViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.meshes.get"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsServiceBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.serviceBindings.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsServiceLbPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.serviceLbPolicies.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsTcpRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.tcpRoutes.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsTlsRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.tlsRoutes.list"],
+        "roles": ["roles/networkservices.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsWasmPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.wasmPlugins.list"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkservices_v1#ListProjectsLocationsWasmPluginsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkservices.wasmPlugins.get"],
+        "roles": ["roles/networkservices.serviceExtensionsViewer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,585 @@
+{
+  "description": "What each healthcare_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ActivateProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.activate"],
+        "roles": ["roles/healthcare.consentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ApplyAdminConsentsProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ApplyConsentsProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.applyConsents"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.userDataMappings.archive"],
+        "roles": ["roles/healthcare.userDataMappingEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#BulkDeleteProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.bulkDelete"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#CapabilitiesProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#CheckDataAccessProjectsLocationsDatasetsConsentStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentStores.checkDataAccess"],
+        "roles": ["roles/healthcare.consentStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ConditionalPatchProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#CreateProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeidentifyProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.datasets.deidentify"],
+        "roles": [
+          "roles/healthcare.datasetAdmin",
+          "roles/healthcare.dicomEditor",
+          "roles/healthcare.fhirResourceEditor"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeidentifyProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.deidentify"],
+        "roles": ["roles/healthcare.dicomStoreAdmin", "roles/healthcare.dicomEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeidentifyProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.deidentify"],
+        "roles": ["roles/healthcare.fhirStoreAdmin", "roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeleteProjectsLocationsDatasetsDicomStoresStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeleteProjectsLocationsDatasetsDicomStoresStudiesSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeleteProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirResources.delete"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#DeleteRevisionProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.update"],
+        "roles": ["roles/healthcare.consentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#EvaluateUserConsentsProjectsLocationsDatasetsConsentStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentStores.evaluateUserConsents"],
+        "roles": ["roles/healthcare.consentStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ExecuteBundleProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.update"],
+        "roles": ["roles/healthcare.fhirResourceReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ExplainDataAccessProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.explainDataAccess"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ExportProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.export"],
+        "roles": ["roles/healthcare.dicomViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ExportProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.export"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ExportProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.export"],
+        "roles": ["roles/healthcare.hl7V2StoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.get"],
+        "roles": ["roles/healthcare.fhirStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.get"],
+        "roles": ["roles/healthcare.hl7V2StoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.datasets.get"],
+        "roles": ["roles/healthcare.datasetViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsConsentStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentStores.get"],
+        "roles": ["roles/healthcare.consentStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsConsentStoresAttributeDefinitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.attributeDefinitions.get"],
+        "roles": ["roles/healthcare.attributeDefinitionReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsConsentStoresConsentArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentArtifacts.get"],
+        "roles": ["roles/healthcare.consentArtifactReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.get"],
+        "roles": ["roles/healthcare.consentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsConsentStoresUserDataMappings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.userDataMappings.get"],
+        "roles": ["roles/healthcare.userDataMappingReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.get"],
+        "roles": ["roles/healthcare.fhirStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.get"],
+        "roles": ["roles/healthcare.hl7V2StoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#GetProjectsLocationsDatasetsHl7V2StoresMessages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.get"],
+        "roles": ["roles/healthcare.hl7V2Consumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#HistoryProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirResources.get"],
+        "roles": ["roles/healthcare.fhirResourceReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ImportProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.import"],
+        "roles": ["roles/healthcare.dicomEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ImportProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.import"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ImportProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.import"],
+        "roles": ["roles/healthcare.hl7V2StoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#IngestProjectsLocationsDatasetsHl7V2StoresMessages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.update"],
+        "roles": ["roles/healthcare.hl7V2Ingest"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.datasets.list"],
+        "roles": ["roles/healthcare.datasetViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsConsentStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentStores.list"],
+        "roles": ["roles/healthcare.consentStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsConsentStoresAttributeDefinitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.attributeDefinitions.list"],
+        "roles": ["roles/healthcare.attributeDefinitionReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsConsentStoresConsentArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentArtifacts.list"],
+        "roles": ["roles/healthcare.consentArtifactReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.list"],
+        "roles": ["roles/healthcare.consentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsConsentStoresUserDataMappings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.userDataMappings.list"],
+        "roles": ["roles/healthcare.userDataMappingReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.list"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.list"],
+        "roles": ["roles/healthcare.fhirStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.list"],
+        "roles": ["roles/healthcare.hl7V2StoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListProjectsLocationsDatasetsHl7V2StoresMessages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.get"],
+        "roles": ["roles/healthcare.hl7V2Consumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ListRevisionsProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.get"],
+        "roles": ["roles/healthcare.consentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#PatchProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirResources.patch"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#QueryAccessibleDataProjectsLocationsDatasetsConsentStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consentStores.queryAccessibleData"],
+        "roles": ["roles/healthcare.consentStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#ReadProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirResources.get"],
+        "roles": ["roles/healthcare.fhirResourceReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#RejectProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.reject"],
+        "roles": ["roles/healthcare.consentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#RevokeProjectsLocationsDatasetsConsentStoresConsents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.consents.revoke"],
+        "roles": ["roles/healthcare.consentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#RollbackProjectsLocationsDatasetsFhirStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.rollback"],
+        "roles": ["roles/healthcare.fhirStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#RollbackProjectsLocationsDatasetsHl7V2Stores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.hl7V2Stores.rollback"],
+        "roles": ["roles/healthcare.hl7V2StoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForInstancesProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForInstancesProjectsLocationsDatasetsDicomStoresStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForSeriesProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForSeriesProjectsLocationsDatasetsDicomStoresStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchForStudiesProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.get"],
+        "roles": ["roles/healthcare.dicomStoreViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SearchProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirStores.get"],
+        "roles": ["roles/healthcare.fhirResourceReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#SetBlobStorageSettingsProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#StoreInstancesProjectsLocationsDatasetsDicomStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#StoreInstancesProjectsLocationsDatasetsDicomStoresStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.dicomStores.update"],
+        "roles": ["roles/healthcare.dicomStoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.healthcare_v1#UpdateProjectsLocationsDatasetsFhirStoresFhir/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["healthcare.fhirResources.update"],
+        "roles": ["roles/healthcare.fhirResourceEditor"]
+      }
+    }
+  ]
+}

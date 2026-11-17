@@ -1,0 +1,61 @@
+{
+  "description": "What each appengine_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DebugProjectsLocationsApplicationsServicesVersionsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.versions.update"],
+        "roles": ["roles/appengine.serviceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ExportAppImageProjectsLocationsApplicationsServicesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.versions.exportAppImage"],
+        "roles": ["roles/appengine.deployer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetProjectsLocationsApplicationsAuthorizedCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.applications.get"],
+        "roles": ["roles/appengine.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetProjectsLocationsApplicationsDomainMappings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.applications.get"],
+        "roles": ["roles/appengine.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsAuthorizedCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.applications.get"],
+        "roles": ["roles/appengine.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsAuthorizedDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.applications.get"],
+        "roles": ["roles/appengine.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsDomainMappings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["appengine.applications.get"],
+        "roles": ["roles/appengine.codeViewer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "description": "What each orgpolicy_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.orgpolicy_v2#GetEffectivePolicyProjectsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["orgpolicy.policy.get"],
+        "roles": ["roles/orgpolicy.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.orgpolicy_v2#GetOrganizationsCustomConstraints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["orgpolicy.customConstraints.get"],
+        "roles": ["roles/orgpolicy.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.orgpolicy_v2#GetProjectsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["orgpolicy.policy.get"],
+        "roles": ["roles/orgpolicy.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.orgpolicy_v2#ListProjectsConstraints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["orgpolicy.constraints.list"],
+        "roles": ["roles/orgpolicy.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.orgpolicy_v2#ListProjectsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["orgpolicy.policies.list"],
+        "roles": ["roles/orgpolicy.policyViewer"]
+      }
+    }
+  ]
+}

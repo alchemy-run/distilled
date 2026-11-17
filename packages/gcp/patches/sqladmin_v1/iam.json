@@ -1,0 +1,437 @@
+{
+  "description": "What each sqladmin_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#AcquireSsrsLeaseInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#AddEntraIdCertificateInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.addEntraIdCertificate"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#AddServerCaInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.addServerCa"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#AddServerCertificateInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.addServerCertificate"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#CloneInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.clone"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#CreateBlueGreenDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.blueGreenDeployments.create"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#CreateEphemeralSslCerts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.connect"],
+        "roles": ["roles/cloudsql.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteBlueGreenDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.blueGreenDeployments.delete"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.users.delete"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DemoteInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DemoteMasterInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.demoteMaster"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ExportInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.export"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#FailoverInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.failover"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GenerateEphemeralCertConnect/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.connect"],
+        "roles": ["roles/cloudsql.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetBackupRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.backupRuns.get"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetBlueGreenDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.blueGreenDeployments.get"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetConnect/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.connect"],
+        "roles": ["roles/cloudsql.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.databases.get"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetDiskShrinkConfigProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.getDiskShrinkConfig"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetLatestRecoveryTimeProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.get"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetSslCerts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.sslCerts.get"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ImportInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.import"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListBackupRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.backupRuns.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListBlueGreenDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.blueGreenDeployments.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.databases.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListServerCasInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.listServerCas"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListSslCerts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.sslCerts.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.users.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListWorkloadCaptures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.workloadCaptures.list"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#PerformDiskShrinkProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.performDiskShrink"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#PointInTimeRestoreInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#PreCheckMajorVersionUpgradeInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.preCheckMajorVersionUpgrade"],
+        "roles": ["roles/cloudsql.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#PromoteReplicaInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.promoteReplica"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ReencryptInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.reencrypt"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ReleaseSsrsLeaseInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#RescheduleMaintenanceProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ResetReplicaSizeProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.resetReplicaSize"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ResetSslConfigInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.resetSslConfig"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#RestartInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.restart"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#RestoreBackupInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.restoreBackup"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#RotateServerCaInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.rotateServerCa"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StartExternalSyncProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StartReplayWorkloadCaptures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.workloadCaptures.startReplay"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StartReplicaInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.startReplica"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StartWorkloadCaptures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.workloadCaptures.start"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StopReplayWorkloadCaptures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.workloadCaptures.stopReplay"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StopReplicaInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.stopReplica"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#StopWorkloadCaptures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.workloadCaptures.stop"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#SwitchoverBlueGreenDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.blueGreenDeployments.switchover"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#SwitchoverInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#TruncateLogInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.truncateLog"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#UpdateUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.users.update"],
+        "roles": ["roles/cloudsql.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#VerifyExternalSyncSettingsProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsql.instances.update"],
+        "roles": ["roles/cloudsql.editor"]
+      }
+    }
+  ]
+}

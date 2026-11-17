@@ -1,0 +1,117 @@
+{
+  "description": "What each bigqueryreservation_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#CreateProjectsLocationsReservationsAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservationAssignments.create"],
+        "roles": ["roles/bigquery.resourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#DeleteProjectsLocationsReservationsAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservationAssignments.delete"],
+        "roles": ["roles/bigquery.resourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#FailoverReservationProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservations.update"],
+        "roles": ["roles/bigquery.resourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#GetProjectsLocationsCapacityCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.capacityCommitments.get"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#GetProjectsLocationsReservationGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservationGroups.get"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#GetProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservations.get"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#ListProjectsLocationsCapacityCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.capacityCommitments.list"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#ListProjectsLocationsReservationGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservationGroups.list"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#ListProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservations.list"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#ListProjectsLocationsReservationsAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservationAssignments.list"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#MergeProjectsLocationsCapacityCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.capacityCommitments.update"],
+        "roles": ["roles/bigquery.resourceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#MoveProjectsLocationsReservationsAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservations.update"],
+        "roles": ["roles/bigquery.resourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#PatchProjectsLocationsReservationsAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.reservations.update"],
+        "roles": ["roles/bigquery.resourceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#SplitProjectsLocationsCapacityCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.capacityCommitments.update"],
+        "roles": ["roles/bigquery.resourceAdmin"]
+      }
+    }
+  ]
+}

@@ -240,6 +240,15 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
           }
 
           yield* fs.makeDirectory(outDir, { recursive: true });
+          // Each service's meta module (`GeneratedService.meta`) goes beside
+          // the services directory: `src/services` -> `src/meta`. A full run
+          // rewrites the directory, so a module whose metadata went away goes.
+          const metaDir = path.join(
+            path.dirname(outDir),
+            path.basename(outDir).replace(/services$/, "meta"),
+          );
+          if (!config.resource && (yield* fs.exists(metaDir)))
+            yield* fs.remove(metaDir, { recursive: true });
 
           const written: string[] = [];
           const relocatedDirs = new Set<string>();
@@ -275,6 +284,13 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             }
             const { operations } = generated;
             if (generated.code === "") continue;
+            const metaPath = path.join(metaDir, `${resource}.ts`);
+            if (generated.meta !== "") {
+              yield* fs.makeDirectory(metaDir, { recursive: true });
+              yield* fs.writeFileString(metaPath, toLatin1(generated.meta, `meta/${resource}.ts`));
+            } else if (yield* fs.exists(metaPath)) {
+              yield* fs.remove(metaPath);
+            }
             // Every nested call in a top-level initializer gets a PURE marker,
             // so one unused schema cannot pin others in a consumer's bundle.
             // Latin-1-only source halves the heap V8 keeps for the module text.

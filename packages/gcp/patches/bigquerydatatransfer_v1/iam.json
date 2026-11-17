@@ -1,0 +1,141 @@
+{
+  "description": "What each bigquerydatatransfer_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#CheckValidCredsProjectsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#CheckValidCredsProjectsLocationsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#DeleteProjectsLocationsTransferConfigsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.update"],
+        "roles": ["roles/bigquery.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#EnrollDataSourcesProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.update"],
+        "roles": ["roles/bigquery.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#GetProjectsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#GetProjectsLocationsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#GetProjectsLocationsTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#GetProjectsLocationsTransferConfigsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#GetProjectsLocationsTransferConfigsTransferResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsLocationsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsLocationsTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsLocationsTransferConfigsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsLocationsTransferConfigsRunsTransferLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsLocationsTransferConfigsTransferResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ListProjectsTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.get"],
+        "roles": ["roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquerydatatransfer_v1#ScheduleRunsProjectsLocationsTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.transfers.update"],
+        "roles": ["roles/bigquery.admin"]
+      }
+    }
+  ]
+}

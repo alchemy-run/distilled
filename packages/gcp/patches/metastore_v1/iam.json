@@ -1,0 +1,181 @@
+{
+  "description": "What each metastore_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#AlterLocationProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.mutateMetadata"],
+        "roles": ["roles/metastore.metadataMutateAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#AlterTablePropertiesProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.mutateMetadata"],
+        "roles": ["roles/metastore.metadataMutateAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CancelMigrationProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CompleteMigrationProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#CreateProjectsLocationsServicesMetadataImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#DeleteProjectsLocationsServicesMigrationExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ExportMetadataProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsFederations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.federations.get"],
+        "roles": ["roles/metastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.get"],
+        "roles": ["roles/metastore.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.backups.get"],
+        "roles": ["roles/metastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesMetadataImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.get"],
+        "roles": ["roles/metastore.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#GetProjectsLocationsServicesMigrationExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.get"],
+        "roles": ["roles/metastore.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsFederations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.federations.list"],
+        "roles": ["roles/metastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.list"],
+        "roles": ["roles/metastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.backups.list"],
+        "roles": ["roles/metastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesMetadataImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.get"],
+        "roles": ["roles/metastore.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#ListProjectsLocationsServicesMigrationExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.get"],
+        "roles": ["roles/metastore.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#MoveTableToDatabaseProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.mutateMetadata"],
+        "roles": ["roles/metastore.metadataMutateAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#PatchProjectsLocationsServicesMetadataImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#QueryMetadataProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.queryMetadata"],
+        "roles": ["roles/metastore.metadataQueryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#RestoreProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.restore"],
+        "roles": ["roles/metastore.metadataOperator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.metastore_v1#StartMigrationProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["metastore.services.update"],
+        "roles": ["roles/metastore.editor"]
+      }
+    }
+  ]
+}

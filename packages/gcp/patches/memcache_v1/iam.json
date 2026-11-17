@@ -1,0 +1,61 @@
+{
+  "description": "What each memcache_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#ApplyParametersProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.applyParameters"],
+        "roles": ["roles/memcache.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#GetTagsProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.get"],
+        "roles": ["roles/memcache.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.list"],
+        "roles": ["roles/memcache.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#RescheduleMaintenanceProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.rescheduleMaintenance"],
+        "roles": ["roles/memcache.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#SetTagsProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.update"],
+        "roles": ["roles/memcache.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#UpdateParametersProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.updateParameters"],
+        "roles": ["roles/memcache.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#UpgradeProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["memcache.instances.upgrade"],
+        "roles": ["roles/memcache.admin"]
+      }
+    }
+  ]
+}

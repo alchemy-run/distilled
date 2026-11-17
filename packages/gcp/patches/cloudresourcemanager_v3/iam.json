@@ -1,0 +1,189 @@
+{
+  "description": "What each cloudresourcemanager_v3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#CreateFoldersCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.create"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#CreateProjectsCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.create"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#CreateTagValuesTagHolds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagHolds.create"],
+        "roles": ["roles/resourcemanager.tagHoldAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteFoldersCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.delete"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteProjectsCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.delete"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteTagValuesTagHolds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagHolds.delete"],
+        "roles": ["roles/resourcemanager.tagHoldAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetFoldersCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetNamespacedTagKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagKeys.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetNamespacedTagValues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagValues.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.projects.get"],
+        "roles": ["roles/browser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetProjectsCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetTagKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagKeys.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetTagValues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagValues.get"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListFoldersCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.list"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.projects.list"],
+        "roles": ["roles/browser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListProjectsCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.list"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListTagKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagKeys.list"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListTagValues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagValues.list"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ListTagValuesTagHolds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.tagHolds.list"],
+        "roles": ["roles/resourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#MoveProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.projects.move"],
+        "roles": ["roles/resourcemanager.projectMover"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#PatchFoldersCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.update"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#PatchProjectsCapabilityConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.capabilityConfigs.update"],
+        "roles": ["roles/resourcemanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#SearchProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["resourcemanager.projects.get"],
+        "roles": ["roles/browser"]
+      }
+    }
+  ]
+}

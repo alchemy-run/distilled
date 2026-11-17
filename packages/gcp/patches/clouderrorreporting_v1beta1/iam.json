@@ -1,0 +1,85 @@
+{
+  "description": "What each clouderrorreporting_v1beta1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#DeleteEventsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.errorEvents.delete"],
+        "roles": ["roles/errorreporting.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#GetProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groupMetadata.get"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#GetProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groupMetadata.get"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#ListProjectsEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.errorEvents.list"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#ListProjectsGroupStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groups.list"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#ListProjectsLocationsEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.errorEvents.list"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#ListProjectsLocationsGroupStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groups.list"],
+        "roles": ["roles/errorreporting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#ReportProjectsEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.errorEvents.create"],
+        "roles": ["roles/errorreporting.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#UpdateProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groupMetadata.update"],
+        "roles": ["roles/errorreporting.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouderrorreporting_v1beta1#UpdateProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["errorreporting.groupMetadata.update"],
+        "roles": ["roles/errorreporting.user"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "description": "What each documentai_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#BatchProcessProjectsLocationsProcessors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processors.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#BatchProcessProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#DeleteProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.delete"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#DeployProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#DisableProjectsLocationsProcessors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processors.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#EnableProjectsLocationsProcessors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processors.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#GenerateProjectsLocationsSchemasSchemaVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.schemaVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#GetProjectsLocationsProcessorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorTypes.get"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#GetProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.get"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#GetProjectsLocationsProcessorsProcessorVersionsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.evaluations.get"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsProcessorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorTypes.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsProcessors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processors.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsProcessorsProcessorVersionsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.evaluations.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.schemas.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ListProjectsLocationsSchemasSchemaVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.schemaVersions.list"],
+        "roles": ["roles/documentai.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ProcessProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#ReviewDocumentProjectsLocationsProcessorsHumanReviewConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.humanReviewConfigs.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#SetDefaultProcessorVersionProjectsLocationsProcessors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processors.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#TrainProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.documentai_v1#UndeployProjectsLocationsProcessorsProcessorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["documentai.processorVersions.update"],
+        "roles": ["roles/documentai.admin"]
+      }
+    }
+  ]
+}

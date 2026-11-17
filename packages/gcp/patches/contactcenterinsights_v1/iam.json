@@ -1,0 +1,733 @@
+{
+  "description": "What each contactcenterinsights_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.appeal"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#AppealProjectsLocationsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.appeal"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkAnalyzeProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkAnalyzeProjectsLocationsConversationsSegments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkDeleteFeedbackLabelsProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkDeleteProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkDownloadFeedbackLabelsProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#BulkUploadFeedbackLabelsProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CalculateIssueModelStatsProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CalculateStatsProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.create"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CreateProjectsLocationsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.create"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CreateProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.create"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.delete"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.delete"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.delete"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.delete"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.delete"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeployProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.deploy"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeployProjectsLocationsQaScorecardsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ExportProjectsLocationsDatasetsInsightsdata/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ExportProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.export"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.finalize"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#FinalizeProjectsLocationsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.finalize"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GenerateSignedAudioProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.generateSignedAudio"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAnalysisRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.analysisRules.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAssessmentRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessmentRules.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAuthorizedViewSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViewSets.get"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.get"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsConversationsAnalyses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.analyses.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsDatasetsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsIssueModelsIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issues.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsPhraseMatchers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.phraseMatchers.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsQaQuestionTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaQuestionTags.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsQaScorecards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsQaScorecardsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsQaScorecardsRevisionsQaQuestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaQuestions.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#GetProjectsLocationsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.views.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ImportProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.import"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#IngestProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#IngestProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#InitializeProjectsLocationsEncryptionSpec/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.encryptionSpecs.initialize"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListAllFeedbackLabelsProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAnalysisRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.analysisRules.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAssessmentRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessmentRules.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViewSets.list"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.list"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsConversationsAnalyses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.analyses.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsDatasetsConversationsFeedbackLabels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.feedbackLabels.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsIssueModelsIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issues.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsPhraseMatchers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.phraseMatchers.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsQaQuestionTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaQuestionTags.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsQaScorecards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsQaScorecardsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.get"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsQaScorecardsRevisionsQaQuestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaQuestions.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#ListProjectsLocationsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.views.list"],
+        "roles": ["roles/contactcenterinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#PatchProjectsLocationsConversationsAssessmentsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.notes.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#PatchProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.datasets.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.publish"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#PublishProjectsLocationsConversationsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.assessments.publish"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.get"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.get"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#SampleProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#SampleProjectsLocationsDatasetsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#SearchProjectsLocationsAuthorizedViewSetsAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.authorizedViews.get"],
+        "roles": ["roles/contactcenterinsights.authorizedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#UndeployProjectsLocationsIssueModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.issueModels.undeploy"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#UndeployProjectsLocationsQaScorecardsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.qaScorecards.update"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#UploadProjectsLocationsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contactcenterinsights.conversations.upload"],
+        "roles": ["roles/contactcenterinsights.editor"]
+      }
+    }
+  ]
+}

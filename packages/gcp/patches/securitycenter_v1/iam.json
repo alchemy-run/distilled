@@ -1,0 +1,309 @@
+{
+  "description": "What each securitycenter_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#BulkMuteProjectsFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.update"],
+        "roles": ["roles/securitycenter.findingsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsLocationsMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.delete"],
+        "roles": ["roles/securitycenter.muteConfigsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersBigQueryExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.bigQueryExports.get"],
+        "roles": ["roles/securitycenter.bigQueryExportsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersEventThreatDetectionSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.get"],
+        "roles": ["roles/securitycenter.muteConfigsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.notificationconfig.get"],
+        "roles": ["roles/securitycenter.notificationConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersSecurityHealthAnalyticsSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsBigQueryExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.bigQueryExports.get"],
+        "roles": ["roles/securitycenter.bigQueryExportsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsEventThreatDetectionSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.get"],
+        "roles": ["roles/securitycenter.muteConfigsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.notificationconfig.get"],
+        "roles": ["roles/securitycenter.notificationConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSecurityHealthAnalyticsSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsBigQueryExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.bigQueryExports.get"],
+        "roles": ["roles/securitycenter.bigQueryExportsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsEventThreatDetectionSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.get"],
+        "roles": ["roles/securitycenter.muteConfigsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.notificationconfig.get"],
+        "roles": ["roles/securitycenter.notificationConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsSecurityHealthAnalyticsSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupProjectsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.assets.group"],
+        "roles": ["roles/securitycenter.assetsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.group"],
+        "roles": ["roles/securitycenter.findingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantProjectsEventThreatDetectionSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.assets.list"],
+        "roles": ["roles/securitycenter.assetsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsBigQueryExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.bigQueryExports.list"],
+        "roles": ["roles/securitycenter.bigQueryExportsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsEventThreatDetectionSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsEventThreatDetectionSettingsEffectiveCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.list"],
+        "roles": ["roles/securitycenter.muteConfigsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.notificationconfig.list"],
+        "roles": ["roles/securitycenter.notificationConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSecurityHealthAnalyticsSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.sources.list"],
+        "roles": ["roles/securitycenter.sourcesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.list"],
+        "roles": ["roles/securitycenter.findingsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsLocationsMuteConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.muteconfigs.update"],
+        "roles": ["roles/securitycenter.muteConfigsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.update"],
+        "roles": ["roles/securitycenter.findingsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsSourcesFindingsExternalSystems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.update"],
+        "roles": ["roles/securitycenter.findingsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetMuteProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.setMute"],
+        "roles": ["roles/securitycenter.findingsMuteSetter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetStateProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.setState"],
+        "roles": ["roles/securitycenter.findingsStateSetter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SimulateProjectsSecurityHealthAnalyticsSettingsCustomModules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.securityhealthanalyticssettings.update"],
+        "roles": ["roles/securitycenter.settingsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksProjectsSourcesFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.findings.update"],
+        "roles": ["roles/securitycenter.findingsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ValidateCustomModuleProjectsEventThreatDetectionSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securitycenter.eventthreatdetectionsettings.get"],
+        "roles": ["roles/securitycenter.settingsViewer"]
+      }
+    }
+  ]
+}

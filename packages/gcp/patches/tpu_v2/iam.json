@@ -1,0 +1,85 @@
+{
+  "description": "What each tpu_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetGuestAttributesProjectsLocationsNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.get"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsAcceleratorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.acceleratortypes.get"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsRuntimeVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.runtimeversions.get"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsAcceleratorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.acceleratortypes.list"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.list"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsQueuedResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.list"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsRuntimeVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.runtimeversions.list"],
+        "roles": ["roles/tpu.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ResetProjectsLocationsQueuedResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.reset"],
+        "roles": ["roles/tpu.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#StartProjectsLocationsNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.start"],
+        "roles": ["roles/tpu.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#StopProjectsLocationsNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["tpu.nodes.stop"],
+        "roles": ["roles/tpu.editor"]
+      }
+    }
+  ]
+}

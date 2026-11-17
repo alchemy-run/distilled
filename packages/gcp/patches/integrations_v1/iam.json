@@ -1,0 +1,589 @@
+{
+  "description": "What each integrations_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#CancelProjectsLocationsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.cancel"],
+        "roles": ["roles/integrations.integrationInvoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DeleteProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.certificates.delete"],
+        "roles": ["roles/integrations.apigeeIntegrationAdminRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DeleteProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.delete"],
+        "roles": ["roles/integrations.apigeeIntegrationAdminRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadJsonPackageProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsProductsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#DownloadProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ExecuteEventProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ExecuteProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ExecuteProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ExecuteProjectsLocationsProductsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ExecuteTestProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsAuthConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.authConfigs.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.certificates.get"],
+        "roles": ["roles/integrations.certificateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.get"],
+        "roles": ["roles/integrations.integrationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsProductsAuthConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.authConfigs.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsProductsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsProductsSfdcInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcInstances.get"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsProductsSfdcInstancesSfdcChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcChannels.get"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsSfdcInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcInstances.get"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsSfdcInstancesSfdcChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcChannels.get"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#GetProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.get"],
+        "roles": ["roles/integrations.integrationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ImportProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#LiftProjectsLocationsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.lift"],
+        "roles": ["roles/integrations.apigeeSuspensionResolver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#LiftProjectsLocationsProductsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.lift"],
+        "roles": ["roles/integrations.apigeeSuspensionResolver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsAuthConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.authConfigs.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.certificates.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.list"],
+        "roles": ["roles/integrations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.list"],
+        "roles": ["roles/integrations.integrationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsAuthConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.authConfigs.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.certificates.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.list"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.list"],
+        "roles": ["roles/integrations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsSfdcInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcInstances.list"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsProductsSfdcInstancesSfdcChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcChannels.list"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsSfdcInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcInstances.list"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsSfdcInstancesSfdcChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.sfdcChannels.list"],
+        "roles": ["roles/integrations.sfdcInstanceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ListProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.list"],
+        "roles": ["roles/integrations.integrationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#PatchProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.certificates.update"],
+        "roles": ["roles/integrations.apigeeIntegrationAdminRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#PublishProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#PublishProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ReplayProjectsLocationsIntegrationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.executions.replay"],
+        "roles": ["roles/integrations.integrationInvoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ResolveProjectsLocationsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.resolve"],
+        "roles": ["roles/integrations.apigeeSuspensionResolver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.suspensions.resolve"],
+        "roles": ["roles/integrations.apigeeSuspensionResolver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ScheduleProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ScheduleProjectsLocationsProductsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#SearchProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.get"],
+        "roles": ["roles/integrations.apigeeIntegrationsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#SearchProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.get"],
+        "roles": ["roles/integrations.integrationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#ShareProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.share"],
+        "roles": ["roles/integrations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#TakeoverEditLockProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#TestProjectsLocationsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#TestProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#TestProjectsLocationsProductsIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UnpublishProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UnpublishProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UnshareProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.unshare"],
+        "roles": ["roles/integrations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UploadProjectsLocationsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UploadProjectsLocationsIntegrationsVersionsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.testCases.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UploadProjectsLocationsProductsIntegrationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.integrations.update"],
+        "roles": ["roles/integrations.apigeeIntegrationEditorRole"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UploadProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.update"],
+        "roles": ["roles/integrations.integrationEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.integrations_v1#UseProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["integrations.templates.use"],
+        "roles": ["roles/integrations.viewer"]
+      }
+    }
+  ]
+}

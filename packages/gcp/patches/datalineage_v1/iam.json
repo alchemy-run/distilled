@@ -1,0 +1,69 @@
+{
+  "description": "What each datalineage_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#GetProjectsLocationsConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.configs.get"],
+        "roles": ["roles/datalineage.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#GetProjectsLocationsProcesses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.processes.get"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#GetProjectsLocationsProcessesRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.runs.get"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#GetProjectsLocationsProcessesRunsLineageEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.runs.get"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#ListProjectsLocationsProcesses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.processes.list"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#ListProjectsLocationsProcessesRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.runs.list"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#ListProjectsLocationsProcessesRunsLineageEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.runs.get"],
+        "roles": ["roles/datalineage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datalineage_v1#PatchProjectsLocationsConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datalineage.configs.update"],
+        "roles": ["roles/datalineage.admin"]
+      }
+    }
+  ]
+}

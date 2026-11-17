@@ -1,0 +1,53 @@
+{
+  "description": "What each workstations_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#ListProjectsLocationsWorkstationClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstationClusters.list"],
+        "roles": ["roles/workstations.workstationCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#ListProjectsLocationsWorkstationClustersWorkstationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstationConfigs.list"],
+        "roles": ["roles/workstations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstations.list"],
+        "roles": ["roles/workstations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#ListUsableProjectsLocationsWorkstationClustersWorkstationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstationConfigs.get"],
+        "roles": ["roles/workstations.workstationLimitExemptedCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstations.get"],
+        "roles": ["roles/workstations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workstations_v1#SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workstations.workstations.update"],
+        "roles": ["roles/workstations.user"]
+      }
+    }
+  ]
+}

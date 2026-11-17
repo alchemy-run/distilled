@@ -1,0 +1,29 @@
+{
+  "description": "What each places_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.places_v1#AutocompletePlaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.places_v1#SearchNearbyPlaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.places_v1#SearchTextPlaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    }
+  ]
+}

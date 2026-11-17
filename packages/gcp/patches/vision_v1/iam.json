@@ -1,0 +1,157 @@
+{
+  "description": "What each vision_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AddProductProjectsLocationsProductSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AnnotateProjectsFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AnnotateProjectsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AnnotateProjectsLocationsFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AnnotateProjectsLocationsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AsyncBatchAnnotateProjectsFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AsyncBatchAnnotateProjectsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AsyncBatchAnnotateProjectsLocationsFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#AsyncBatchAnnotateProjectsLocationsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#GetProjectsLocationsProductSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#GetProjectsLocationsProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#GetProjectsLocationsProductsReferenceImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ImportProjectsLocationsProductSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ListProjectsLocationsProductSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ListProjectsLocationsProductSetsProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ListProjectsLocationsProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ListProjectsLocationsProductsReferenceImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#PurgeProjectsLocationsProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#RemoveProductProjectsLocationsProductSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    }
+  ]
+}

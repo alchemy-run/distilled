@@ -1,0 +1,1437 @@
+{
+  "description": "What each apigee_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ActivateOrganizationsInstancesNatAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.nataddresses.activate"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsDevelopers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsDevelopersApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#BatchUpdateOrganizationsEnvironmentsSecurityIncidents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityIncidents.update"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAppgroupsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersAppsKeysCreate/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsAnalyticsExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.exports.create"],
+        "roles": ["roles/apigee.analyticsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.queries.create"],
+        "roles": ["roles/apigee.analyticsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.create"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityreports.create"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsHostQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostqueries.create"],
+        "roles": ["roles/apigee.analyticsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsHostSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostsecurityreports.create"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsInstancesCanaryevaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.canaryevaluations.create"],
+        "roles": ["roles/apigee.runtimeAgent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CsrOrganizationsEnvironmentsKeystoresAliases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApiproductsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAppgroupsAppsKeysApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.delete"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAppsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAppsKeysApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.delete"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.caches.delete"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.delete"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityProfilesEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.delete"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeployOrganizationsEnvironmentsApisRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeployOrganizationsEnvironmentsSharedflowsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DisableOrganizationsEnvironmentsSecurityActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityActions.update"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#EnableOrganizationsEnvironmentsSecurityActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityActions.update"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ExpireOrganizationsAppgroupsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ExpireOrganizationsDevelopersSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.archivedeployments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateUploadUrlOrganizationsEnvironmentsArchiveDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.archivedeployments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetCertificateOrganizationsEnvironmentsKeystoresAliases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keystores.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.sharedflows.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.organizations.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAnalyticsDatastores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.datastores.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproductsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproductsRateplans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.rateplans.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApisKeyvaluemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApisKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsAppsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDatacollectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.datacollectors.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAppsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAppsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDnsZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.dnsZones.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEndpointAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.endpointattachments.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvgroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.envgroups.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvgroupsAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.envgroups.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsApisRevisionsDebugsessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsApisRevisionsDebugsessionsData/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsArchiveDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.archivedeployments.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsFlowhooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeystores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keystores.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeystoresAliases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keystores.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeyvaluemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsOptimizedStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.queries.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsReferences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.references.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityActions.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityIncidents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityIncidents.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityreports.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsTargetservers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.targetservers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsTraceConfigOverrides/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.traceconfig.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostqueries.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostsecurityreports.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hoststats.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.instances.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.instances.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesCanaryevaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.canaryevaluations.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesNatAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.nataddresses.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsKeyvaluemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.reports.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityFeedback/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityFeedback.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityMonitoringConditions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityMonitoringConditions.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityProfiles.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityProfilesV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityProfilesV2.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSharedflows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.sharedflows.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSharedflowsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.sharedflows.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSpaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.spaces.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetProjectMappingOrganizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.organizations.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetSyncAuthorizationOrganizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.organizations.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListEnvironmentResourcesOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAnalyticsDatastores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.datastores.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproductsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.get"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproductsRateplans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.rateplans.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisRevisionsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroupsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroupsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDatacollectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.datacollectors.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersAppsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDnsZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.dnsZones.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEndpointAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.endpointattachments.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvgroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.envgroups.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvgroupsAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.envgroups.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsAnalyticsExports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.exports.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsApisDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsApisRevisionsDebugsessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.get"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsArchiveDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.archivedeployments.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.queries.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityActions.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityIncidents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityIncidents.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityreports.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSharedflowsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsHostQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostqueries.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsHostSecurityReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.hostsecurityreports.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.instances.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstancesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.instances.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstancesNatAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.nataddresses.list"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsKeyvaluemapsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.keyvaluemaps.get"],
+        "roles": ["roles/apigee.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.reports.list"],
+        "roles": ["roles/apigee.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityFeedback/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityFeedback.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityMonitoringConditions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityMonitoringConditions.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityProfiles.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityProfilesV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityProfilesV2.list"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.sharedflows.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflowsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflowsRevisionsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.deployments.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSpaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.spaces.list"],
+        "roles": ["roles/apigee.spaceContentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListRevisionsOrganizationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityProfiles.get"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ModifyEnvironmentOrganizationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#MoveOrganizationsApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvironmentsSecurityIncidents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityIncidents.update"],
+        "roles": ["roles/apigee.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ProvisionOrganizationProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.projects.update"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#QueryTabularStatsOrganizationsEnvironmentsSecurityStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityStats.queryTabularStats"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.securityStats.queryTimeSeriesStats"],
+        "roles": ["roles/apigee.securityViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ReportStatusOrganizationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.instances.reportStatus"],
+        "roles": ["roles/apigee.runtimeAgent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetAddonsOrganizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.organizations.update"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetDeveloperStatusOrganizationsDevelopers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetSyncAuthorizationOrganizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.organizations.update"],
+        "roles": ["roles/apigee.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SubscribeOrganizationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#TestOrganizationsAnalyticsDatastores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.datastores.update"],
+        "roles": ["roles/apigee.analyticsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UndeployOrganizationsEnvironmentsApisRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UndeployOrganizationsEnvironmentsSharedflowsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UnsubscribeOrganizationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateApiProductAttributeOrganizationsApiproductsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.appgroups.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.apiproducts.update"],
+        "roles": ["roles/apigee.spaceContentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAttributeOrganizationsDevelopersAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.developers.update"],
+        "roles": ["roles/apigee.developerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateEnvironmentOrganizationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.environments.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsResourcefiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigee.resourcefiles.update"],
+        "roles": ["roles/apigee.environmentAdmin"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "description": "What each networkmanagement_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#DownloadInstallScriptProjectsLocationsNetworkMonitoringProvidersMonitoringPoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.monitoringpoints.downloadConfig"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#DownloadRecreateInstallScriptProjectsLocationsNetworkMonitoringProvidersMonitoringPoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.monitoringpoints.downloadConfig"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#DownloadServerConnectConfigProjectsLocationsNetworkMonitoringProvidersMonitoringPoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.monitoringpoints.downloadConfig"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetOrganizationsLocationsVpcFlowLogsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.vpcflowlogsconfigs.get"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetProjectsLocationsGlobalConnectivityTests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.connectivitytests.get"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetProjectsLocationsNetworkMonitoringProvidersMonitoringPoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.monitoringpoints.get"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetProjectsLocationsNetworkMonitoringProvidersNetworkPaths/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.networkpaths.get"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetProjectsLocationsNetworkMonitoringProvidersWebPaths/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.webpaths.get"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#GetProjectsLocationsVpcFlowLogsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.vpcflowlogsconfigs.get"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#ListProjectsLocationsGlobalConnectivityTests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.connectivitytests.list"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#ListProjectsLocationsNetworkMonitoringProvidersMonitoringPoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.monitoringpoints.list"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#ListProjectsLocationsNetworkMonitoringProvidersNetworkPaths/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.networkpaths.list"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#ListProjectsLocationsNetworkMonitoringProvidersWebPaths/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.webpaths.list"],
+        "roles": ["roles/networkmanagement.CloudNetworkInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#ListProjectsLocationsVpcFlowLogsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.vpcflowlogsconfigs.list"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.vpcflowlogsconfigs.get"],
+        "roles": ["roles/networkmanagement.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkmanagement_v1#RerunProjectsLocationsGlobalConnectivityTests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkmanagement.connectivitytests.rerun"],
+        "roles": ["roles/networkmanagement.editor"]
+      }
+    }
+  ]
+}

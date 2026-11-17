@@ -1,0 +1,109 @@
+{
+  "description": "What each contentwarehouse_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsDocumentsDocumentLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsDocumentsDocumentLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#FetchAclProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.getIamPolicy"],
+        "roles": ["roles/contentwarehouse.documentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#FetchAclProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.get"],
+        "roles": ["roles/contentwarehouse.documentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LinkedSourcesProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LinkedTargetsProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsDocumentSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documentSchemas.list"],
+        "roles": ["roles/contentwarehouse.documentSchemaViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsRuleSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.ruleSets.list"],
+        "roles": ["roles/contentwarehouse.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsSynonymSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.synonymSets.list"],
+        "roles": ["roles/contentwarehouse.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LockProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SearchProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.get"],
+        "roles": ["roles/contentwarehouse.documentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SetAclProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.setIamPolicy"],
+        "roles": ["roles/contentwarehouse.documentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SetAclProjectsLocationsDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["contentwarehouse.documents.update"],
+        "roles": ["roles/contentwarehouse.documentEditor"]
+      }
+    }
+  ]
+}

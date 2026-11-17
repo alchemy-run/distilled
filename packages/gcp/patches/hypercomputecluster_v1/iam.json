@@ -1,0 +1,45 @@
+{
+  "description": "What each hypercomputecluster_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.hypercomputecluster_v1#CreateProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["hypercomputecluster.clusters.create"],
+        "roles": ["roles/hypercomputecluster.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.hypercomputecluster_v1#DeleteProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["hypercomputecluster.clusters.delete"],
+        "roles": ["roles/hypercomputecluster.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.hypercomputecluster_v1#GetProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["hypercomputecluster.clusters.get"],
+        "roles": ["roles/hypercomputecluster.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.hypercomputecluster_v1#ListProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["hypercomputecluster.clusters.list"],
+        "roles": ["roles/hypercomputecluster.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.hypercomputecluster_v1#PatchProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["hypercomputecluster.clusters.update"],
+        "roles": ["roles/hypercomputecluster.editor"]
+      }
+    }
+  ]
+}

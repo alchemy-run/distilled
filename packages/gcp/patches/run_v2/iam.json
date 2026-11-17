@@ -1,0 +1,181 @@
+{
+  "description": "What each run_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#CancelProjectsLocationsJobsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.executions.cancel"],
+        "roles": ["roles/run.jobsExecutor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.delete"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#DeleteProjectsLocationsJobsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.executions.delete"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#DeleteProjectsLocationsServicesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.delete"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#DeleteProjectsLocationsWorkerPoolsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.delete"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.jobs.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsJobsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.executions.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsJobsExecutionsTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.tasks.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsServicesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#GetProjectsLocationsWorkerPoolsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.get"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.jobs.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsJobsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.executions.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsJobsExecutionsTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.tasks.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.services.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsServicesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsWorkerPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.workerpools.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsWorkerPoolsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.revisions.list"],
+        "roles": ["roles/run.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#PatchProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.update"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#StartProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.start"],
+        "roles": ["roles/run.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#StopProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["run.instances.stop"],
+        "roles": ["roles/run.developer"]
+      }
+    }
+  ]
+}

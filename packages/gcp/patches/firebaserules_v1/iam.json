@@ -1,0 +1,37 @@
+{
+  "description": "What each firebaserules_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#GetProjectsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaserules.releases.get"],
+        "roles": ["roles/firebaserules.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#GetProjectsRulesets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaserules.rulesets.get"],
+        "roles": ["roles/firebaserules.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#ListProjectsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaserules.releases.list"],
+        "roles": ["roles/firebaserules.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaserules_v1#ListProjectsRulesets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaserules.rulesets.list"],
+        "roles": ["roles/firebaserules.viewer"]
+      }
+    }
+  ]
+}

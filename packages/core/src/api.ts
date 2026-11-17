@@ -151,6 +151,45 @@ export type ApiErrorClass = {
 };
 
 /**
+ * The IAM a call needs: what the cloud's own reference lists for the
+ * operation, or what a `com.distilled.iam#operation` trait on the operation
+ * shape says (a patch), corrected where live calls disagree. A binding grants
+ * `actions` (except the `conditional` ones) on the ARNs in `resources`, or
+ * the `roles` that hold them.
+ */
+export interface OperationIam {
+  /** The actions the call is authorized as: `"sqs:SendMessage"`. */
+  readonly actions: readonly string[];
+  /**
+   * Per action, the ARN formats a grant may name for it
+   * (`"arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"`). An action
+   * without an entry is authorized only on `"*"`.
+   */
+  readonly resources?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * Per action, the request field that makes the call need it
+   * (`"iam:PassRole": "NotificationChannel.RoleArn"`). A call without that
+   * field doesn't.
+   */
+  readonly conditional?: Readonly<Record<string, string>>;
+  /**
+   * Predefined roles that grant `actions`, smallest first, for clouds that
+   * grant roles rather than actions (GCP: `"roles/pubsub.publisher"`).
+   */
+  readonly roles?: readonly string[];
+}
+
+/**
+ * What an operation needs, published as data apart from the SDK: an SDK's
+ * `meta/<service>` module maps each operation's export name to one of these,
+ * so a tool (a binding generator) reads it without loading any SDK code.
+ */
+export interface OperationMeta {
+  /** What the call is authorized as, when the SDK publishes it. */
+  readonly iam?: OperationIam;
+}
+
+/**
  * The shape of a generated SDK operation -- usable two ways (mirrors the
  * distilled repo's OperationMethod):
  *

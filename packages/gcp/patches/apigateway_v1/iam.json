@@ -1,0 +1,53 @@
+{
+  "description": "What each apigateway_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#GetProjectsLocationsApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.apis.get"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#GetProjectsLocationsApisConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.apis.get"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#GetProjectsLocationsGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.gateways.get"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#ListProjectsLocationsApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.apis.list"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#ListProjectsLocationsApisConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.apis.get"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigateway_v1#ListProjectsLocationsGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apigateway.gateways.list"],
+        "roles": ["roles/apigateway.viewer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "description": "What each advisorynotifications_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.advisorynotifications_v1#GetProjectsLocationsNotifications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["advisorynotifications.notifications.get"],
+        "roles": ["roles/advisorynotifications.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.advisorynotifications_v1#ListProjectsLocationsNotifications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["advisorynotifications.notifications.list"],
+        "roles": ["roles/advisorynotifications.viewer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "description": "What each workflowexecutions_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#CancelProjectsLocationsWorkflowsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.executions.cancel"],
+        "roles": ["roles/workflows.invoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#GetProjectsLocationsWorkflowsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.executions.get"],
+        "roles": ["roles/workflows.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#GetProjectsLocationsWorkflowsExecutionsStepEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.stepEntries.get"],
+        "roles": ["roles/workflows.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#ListProjectsLocationsWorkflowsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.executions.list"],
+        "roles": ["roles/workflows.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#ListProjectsLocationsWorkflowsExecutionsStepEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.stepEntries.list"],
+        "roles": ["roles/workflows.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workflowexecutions_v1#TriggerPubsubExecutionProjectsLocationsWorkflows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workflows.executions.create"],
+        "roles": ["roles/workflows.invoker"]
+      }
+    }
+  ]
+}

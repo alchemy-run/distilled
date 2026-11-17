@@ -1,0 +1,4517 @@
+{
+  "description": "What each compute_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AbandonInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AbandonInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddAccessConfigInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.addAccessConfig"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddAssociationNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddAssociationRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddHealthCheckTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.addHealthCheck"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddInstanceTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.addInstance"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddInstancesInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddNetworkInterfaceInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.addNetworkInterface"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddNodesNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.addNodes"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddPacketMirroringRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddPeeringNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.addPeering"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddResourcePoliciesDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.addResourcePolicies"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddResourcePoliciesInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.addResourcePolicies"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddResourcePoliciesRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.addResourcePolicies"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddRuleRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddRuleRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.update"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddRuleSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddSignedUrlKeyBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.addSignedUrlKey"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AddSignedUrlKeyBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.addSignedUrlKey"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListAcceleratorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.acceleratorTypes.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.addresses.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListDiskTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.diskTypes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.forwardingRules.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListFutureReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.futureReservations.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListGlobalVmExtensionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vmExtensionPolicies.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.healthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInstanceTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceTemplates.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListInterconnectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListMachineTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineTypes.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNetworkAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNetworkEdgeSecurityServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEdgeSecurityServices.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNodeTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTemplates.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListNodeTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTypes.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListPacketMirrorings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.packetMirrorings.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicDelegatedPrefixes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.commitments.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionCompositeHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionCompositeHealthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionHealthAggregationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthAggregationPolicies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionHealthCheckServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthCheckServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionHealthSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthSources.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRegionNotificationEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionNotificationEndpoints.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservations.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.resourcePolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListServiceAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.serviceAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListSslCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslCertificates.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslPolicies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListStoragePoolTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetInstances.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetTcpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListTargetVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetVpnGateways.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.urlMaps.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnGateways.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AggregatedListVpnTunnels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnTunnels.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AnnouncePublicAdvertisedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicAdvertisedPrefixes.update"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AnnouncePublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicDelegatedPrefixes.announce"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ApplyUpdatesToInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ApplyUpdatesToInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AttachDiskInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.attachDisk"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AttachNetworkEndpointsGlobalNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalNetworkEndpointGroups.attachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AttachNetworkEndpointsNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.attachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#AttachNetworkEndpointsRegionNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.attachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#BulkInsertDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.create"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#BulkInsertInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.create"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#BulkInsertRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.create"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#BulkInsertRegionInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.create"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#BulkSetLabelsDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CalendarModeAdvice/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.advice.calendarMode"],
+        "roles": ["roles/compute.futureReservationUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CancelFutureReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.futureReservations.cancel"],
+        "roles": ["roles/compute.futureReservationAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CancelInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CancelRegionInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CancelRequestRemovePeeringNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CancelRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.rollouts.cancel"],
+        "roles": ["roles/compute.vmExtensionPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CapacityAdvice/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.advice.capacity"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CapacityHistoryAdvice/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.advice.capacityHistory"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CloneRulesNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.cloneRules"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CloneRulesRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.cloneRules"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CreateInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CreateInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CreateMembersInterconnectGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectGroups.patch"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CreateSnapshotDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.createSnapshot"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CreateSnapshotRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.createSnapshot"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteAccessConfigInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.deleteAccessConfig"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteNamedSetRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteNetworkInterfaceInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.deleteNetworkInterface"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteNodesNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.deleteNodes"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeletePerInstanceConfigsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeletePerInstanceConfigsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteRoutePolicyRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.deleteRoutePolicy"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteSignedUrlKeyBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.deleteSignedUrlKey"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteSignedUrlKeyBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.deleteSignedUrlKey"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeprecateImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.images.deprecate"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DetachDiskInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.detachDisk"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DetachNetworkEndpointsGlobalNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalNetworkEndpointGroups.detachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DetachNetworkEndpointsNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.detachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DetachNetworkEndpointsRegionNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.detachNetworkEndpoints"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ExpandIpCidrRangeSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.expandIpCidrRange"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetAcceleratorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.acceleratorTypes.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.addresses.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetAssociationNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetAssociationRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetCrossSiteNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.crossSiteNetworks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetDiagnosticsInterconnects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnects.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetDiskTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.diskTypes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetEffectiveFirewallsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.getEffectiveFirewalls"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetEffectiveFirewallsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.getEffectiveFirewalls"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetEffectiveFirewallsRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetEffectiveSecurityPoliciesBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetExternalVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.externalVpnGateways.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetFirewalls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewalls.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.forwardingRules.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetFromFamilyImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.images.getFromFamily"],
+        "roles": ["roles/compute.imageUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetFutureReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.futureReservations.get"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalAddresses.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalForwardingRules.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalFrontendSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalFrontendSettings.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalNetworkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalPublicDelegatedPrefixes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGlobalVmExtensionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vmExtensionPolicies.get"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetGuestAttributesInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.getGuestAttributes"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.healthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthRegionBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthRegionCompositeHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionCompositeHealthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthRegionHealthSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthSources.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthReservationSlots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationSlots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHealthTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHosts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.hosts.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHttpHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.httpHealthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetHttpsHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.httpsHealthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.images.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstanceSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceSettings.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstanceTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceTemplates.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstantSnapshotGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshotGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnectAttachmentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachmentGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachments.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnectGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnectLocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectLocations.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnectRemoteLocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectRemoteLocations.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetInterconnects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnects.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetLicenseCodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.licenseCodes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetLicenses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.licenses.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetMachineImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineImages.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetMachineTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineTypes.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetMacsecConfigInterconnects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnects.getMacsecConfig"],
+        "roles": ["roles/compute.networkAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetManagedRulesets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.managedRulesets.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNamedSetRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNatIpInfoRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNatMappingInfoRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworkAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkAttachments.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworkEdgeSecurityServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEdgeSecurityServices.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworkProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkProfiles.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.get"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNodeTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTemplates.get"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetNodeTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTypes.get"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetOperationalStatusInterconnectAttachmentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachmentGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetOperationalStatusInterconnectGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetPacketMirroringRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetPacketMirrorings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.packetMirrorings.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetPreviewFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.previewFeatures.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.projects.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetPublicAdvertisedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicAdvertisedPrefixes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicDelegatedPrefixes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendBuckets.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.commitments.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionCompositeHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionCompositeHealthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionDiskTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.diskTypes.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionHealthAggregationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthAggregationPolicies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionHealthCheckServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthCheckServices.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthChecks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionHealthSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthSources.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstanceTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceTemplates.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstantSnapshotGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshotGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionNotificationEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionNotificationEndpoints.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionSnapshotSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshotSettings.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionSslCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSslCertificates.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSslPolicies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpsProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetTcpProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegionUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionUrlMaps.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRegions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regions.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetReliabilityRisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reliabilityRisks.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetReservationBlocks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationBlocks.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetReservationSlots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationSlots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservations.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.resourcePolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRolloutPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.rolloutPlans.get"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.rollouts.get"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRoutePolicyRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.getRoutePolicy"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRouterStatusRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routes.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRuleRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRuleRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetRuleSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetScreenshotInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.getScreenshot"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSerialPortOutputInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.getSerialPortOutput"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetServiceAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.serviceAttachments.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetShieldedInstanceIdentityInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.getShieldedInstanceIdentity"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSnapshotSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshotSettings.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSslCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslCertificates.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslPolicies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetStatusVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnGateways.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetStoragePoolTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetGrpcProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetGrpcProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetInstances.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetTcpProxies.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetTargetVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetVpnGateways.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.urlMaps.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetVersionHosts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.hosts.getVersion"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetVersionReservationSlots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationSlots.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnGateways.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetVpnTunnels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnTunnels.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetWireGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.wireGroups.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetZoneVmExtensionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vmExtensionPolicies.get"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#GetZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.zones.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InsertRegionCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.commitments.create"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InvalidateCacheUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.urlMaps.invalidateCache"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListAcceleratorTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.acceleratorTypes.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.addresses.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListAvailableFeaturesRegionSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSslPolicies.listAvailableFeatures"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListAvailableFeaturesSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslPolicies.listAvailableFeatures"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListBgpRoutesRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.listBgpRoutes"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListCrossSiteNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.crossSiteNetworks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListDiskTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.diskTypes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListDisksStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListErrorsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListErrorsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListExternalVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.externalVpnGateways.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListFirewalls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewalls.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.forwardingRules.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListFutureReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.futureReservations.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListGlobalAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalAddresses.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListGlobalForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalForwardingRules.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListGlobalNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalNetworkEndpointGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListGlobalPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalPublicDelegatedPrefixes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListGlobalVmExtensionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vmExtensionPolicies.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.healthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListHosts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.hosts.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListHttpHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.httpHealthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListHttpsHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.httpsHealthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.images.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstanceTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceTemplates.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstancesInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstancesRegionInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstantSnapshotGroups_/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshotGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnectAttachmentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachmentGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnectGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnectLocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectLocations.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnectRemoteLocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectRemoteLocations.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListInterconnects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnects.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListLicenses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.licenses.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListMachineImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineImages.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListMachineTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineTypes.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListManagedInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListManagedInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListManagedRulesets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.managedRulesets.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNamedSetsRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkEndpointsGlobalNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalNetworkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkEndpointsNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkEndpointsRegionNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.get"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworkProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkProfiles.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNodeTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTemplates.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNodeTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeTypes.list"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListNodesNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.get"],
+        "roles": ["roles/compute.soleTenantViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPacketMirrorings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.packetMirrorings.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPeeringRoutesNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.listPeeringRoutes"],
+        "roles": ["roles/compute.networkUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPerInstanceConfigsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPerInstanceConfigsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPreconfiguredExpressionSetsSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPreviewFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.previewFeatures.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPublicAdvertisedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicAdvertisedPrefixes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicDelegatedPrefixes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListReferrersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.listReferrers"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendBuckets.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.commitments.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionCompositeHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionCompositeHealthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionDiskTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.diskTypes.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionHealthAggregationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthAggregationPolicies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionHealthCheckServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthCheckServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionHealthChecks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthChecks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionHealthSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionHealthSources.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstanceGroupManagerResizeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstanceTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceTemplates.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstantSnapshotGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshotGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionNetworkEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networkEndpointGroups.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionNotificationEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionNotificationEndpoints.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionSslCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSslCertificates.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSslPolicies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpsProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetTcpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionUrlMaps.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegionZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.zones.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRegions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regions.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListReliabilityRisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reliabilityRisks.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListReservationBlocks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationBlocks.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListReservationSlots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationSlots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservations.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.resourcePolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRolloutPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.rolloutPlans.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.rollouts.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRoutePoliciesRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.listRoutePolicies"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routes.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListServiceAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.serviceAttachments.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListSslCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslCertificates.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListSslPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.sslPolicies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListStoragePoolTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.storagePools.list"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetGrpcProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetGrpcProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetInstances.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetTcpProxies.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListTargetVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetVpnGateways.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.urlMaps.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUsableBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUsableBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUsableRegionBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendBuckets.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUsableRegionBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendServices.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListUsableSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnGateways.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListVpnTunnels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnTunnels.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListWireGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.wireGroups.list"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListZoneVmExtensionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vmExtensionPolicies.list"],
+        "roles": ["roles/compute.vmExtensionPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ListZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.zones.list"],
+        "roles": ["roles/compute.futureReservationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchAssociationRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchGlobalFrontendSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalFrontendSettings.update"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchInstanceSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceSettings.update"],
+        "roles": ["roles/compute.instanceAdmin.v1"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchNamedSetRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchPacketMirroringRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchPerInstanceConfigsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchPerInstanceConfigsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRegionAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRegionSnapshotSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshotSettings.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRoutePolicyRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRuleRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRuleRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.update"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchRuleSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchSnapshotSettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshotSettings.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PerformMaintenanceInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.performMaintenance"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PerformMaintenanceNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.performMaintenance"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PerformMaintenanceReservationBlocks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservationBlocks.performMaintenance"],
+        "roles": ["roles/compute.futureReservationAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PerformMaintenanceReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservations.performMaintenance"],
+        "roles": ["roles/compute.futureReservationAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PreviewRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.get"],
+        "roles": ["roles/compute.networkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RecreateInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RecreateInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveAssociationNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveAssociationRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveHealthCheckTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.removeHealthCheck"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveInstanceTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.removeInstance"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveInstancesInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemovePacketMirroringRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemovePeeringNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.removePeering"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveResourcePoliciesDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.removeResourcePolicies"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveResourcePoliciesInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.removeResourcePolicies"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveResourcePoliciesRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.removeResourcePolicies"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveRuleNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.firewallPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveRuleRegionNetworkFirewallPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionFirewallPolicies.update"],
+        "roles": ["roles/compute.orgFirewallPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveRuleRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.update"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RemoveRuleSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.update"],
+        "roles": ["roles/compute.orgSecurityPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#RequestRemovePeeringNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResetInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.reset"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResizeDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.resize"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResizeInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResizeRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.resize"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResizeRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResizeReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.reservations.resize"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResumeInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.resume"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResumeInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResumeInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SendDiagnosticInterruptInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.sendDiagnosticInterrupt"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetBackendServiceTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.setBackendService"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetBackendServiceTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetTcpProxies.update"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetBackupTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.update"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetCertificateMapTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.setCertificateMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetCertificateMapTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.setCertificateMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetCloudArmorTierProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.projects.setCloudArmorTier"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetCommonInstanceMetadataProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.projects.setCommonInstanceMetadata"],
+        "roles": ["roles/compute.instanceAdmin.v1"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetDefaultNetworkTierProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.projects.setDefaultNetworkTier"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetDeletionProtectionInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setDeletionProtection"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetDiskAutoDeleteInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setDiskAutoDelete"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetEdgeSecurityPolicyBackendBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendBuckets.update"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetEdgeSecurityPolicyBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.update"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetInstanceTemplateInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetInstanceTemplateRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.addresses.setLabels"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsExternalVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.externalVpnGateways.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.forwardingRules.setLabels"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsGlobalAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalAddresses.setLabels"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsGlobalForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalForwardingRules.setLabels"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.images.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setLabels"],
+        "roles": ["roles/compute.vmExtensionPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsInterconnectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnectAttachments.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsInterconnects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.interconnects.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsMachineImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.machineImages.setLabels"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsRegionInstantSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instantSnapshots.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsRegionSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionSecurityPolicies.update"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsRegionSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsSecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.securityPolicies.setLabels"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.setLabels"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsTargetVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetVpnGateways.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsVpnGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnGateways.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetLabelsVpnTunnels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.vpnTunnels.setLabels"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetMachineResourcesInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setMachineResources"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetMachineTypeInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setMachineType"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetMetadataInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setMetadata"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetMinCpuPlatformInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setMinCpuPlatform"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetNameInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setName"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetNamedPortsInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetNamedPortsRegionInstanceGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroups.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetNodeTemplateNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.setNodeTemplate"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetPrivateIpGoogleAccessSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.subnetworks.setPrivateIpGoogleAccess"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetProxyHeaderTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.setProxyHeader"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetProxyHeaderTargetTcpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetTcpProxies.update"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetQuicOverrideTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.setQuicOverride"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSchedulingInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setScheduling"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSecurityPolicyBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.backendServices.setSecurityPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSecurityPolicyInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setSecurityPolicy"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSecurityPolicyRegionBackendServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionBackendServices.setSecurityPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSecurityPolicyTargetInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetInstances.setSecurityPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSecurityPolicyTargetPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetPools.setSecurityPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetServiceAccountInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setServiceAccount"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetShieldedInstanceIntegrityPolicyInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setShieldedInstanceIntegrityPolicy"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSslCertificatesRegionTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpsProxies.setSslCertificates"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSslCertificatesTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.setSslCertificates"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSslCertificatesTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.setSslCertificates"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSslPolicyTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.setSslPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetSslPolicyTargetSslProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetSslProxies.setSslPolicy"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetTagsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.setTags"],
+        "roles": ["roles/compute.vmExtensionPolicyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetTargetForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.forwardingRules.setTarget"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetTargetGlobalForwardingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.globalForwardingRules.setTarget"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetTargetPoolsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetTargetPoolsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetUrlMapRegionTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpProxies.setUrlMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetUrlMapRegionTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionTargetHttpsProxies.setUrlMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetUrlMapTargetHttpProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpProxies.setUrlMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetUrlMapTargetHttpsProxies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.targetHttpsProxies.setUrlMap"],
+        "roles": ["roles/compute.loadBalancerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SetUsageExportBucketProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.projects.setUsageExportBucket"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SimulateMaintenanceEventInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.simulateMaintenanceEvent"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SimulateMaintenanceEventNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.nodeGroups.simulateMaintenanceEvent"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StartAsyncReplicationDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.startAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StartAsyncReplicationRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.startAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StartInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StartInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StartWithEncryptionKeyInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.startWithEncryptionKey"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopAsyncReplicationDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.stopAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopAsyncReplicationRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.stopAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopGroupAsyncReplicationDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.stopGroupAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopGroupAsyncReplicationRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.stopGroupAsyncReplication"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#StopInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SuspendInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.suspend"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SuspendInstancesInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SuspendInstancesRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#SwitchToCustomModeNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.switchToCustomMode"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateAccessConfigInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.updateAccessConfig"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateDisplayDeviceInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.updateDisplayDevice"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateKmsKeyDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.updateKmsKey"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateKmsKeyRegionDisks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.disks.updateKmsKey"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateKmsKeyRegionSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.updateKmsKey"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateKmsKeySnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.snapshots.updateKmsKey"],
+        "roles": ["roles/compute.storageAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateNamedSetRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateNetworkInterfaceInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.updateNetworkInterface"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdatePeeringNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.networks.updatePeering"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdatePerInstanceConfigsInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdatePerInstanceConfigsRegionInstanceGroupManagers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instanceGroupManagers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateRegionAutoscalers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.autoscalers.update"],
+        "roles": ["roles/compute.instanceAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateRegionCommitments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.commitments.update"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateRoutePolicyRouters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.routers.updateRoutePolicy"],
+        "roles": ["roles/compute.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#UpdateShieldedInstanceConfigInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.instances.updateShieldedInstanceConfig"],
+        "roles": ["roles/compute.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ValidateRegionUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.regionUrlMaps.validate"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ValidateUrlMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.urlMaps.validate"],
+        "roles": ["roles/compute.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#WithdrawPublicAdvertisedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicAdvertisedPrefixes.update"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#WithdrawPublicDelegatedPrefixes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["compute.publicDelegatedPrefixes.withdraw"],
+        "roles": ["roles/compute.publicIpAdmin"]
+      }
+    }
+  ]
+}

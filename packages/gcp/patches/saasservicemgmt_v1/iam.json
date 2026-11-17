@@ -1,0 +1,157 @@
+{
+  "description": "What each saasservicemgmt_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#CreateProjectsLocationsUnitOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitOperations.create"],
+        "roles": ["roles/saasservicemgmt.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#DeleteProjectsLocationsUnitOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitOperations.delete"],
+        "roles": ["roles/saasservicemgmt.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.releases.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsRolloutKinds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.rolloutKinds.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.rollouts.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsSaas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.saas.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsTenants/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.tenants.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsUnitKinds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitKinds.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsUnitOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitOperations.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#GetProjectsLocationsUnits/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.units.get"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.releases.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsRolloutKinds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.rolloutKinds.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.rollouts.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsSaas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.saas.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsTenants/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.tenants.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsUnitKinds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitKinds.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsUnitOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitOperations.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#ListProjectsLocationsUnits/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.units.list"],
+        "roles": ["roles/saasservicemgmt.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#PatchProjectsLocationsUnitOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["saasservicemgmt.unitOperations.update"],
+        "roles": ["roles/saasservicemgmt.admin"]
+      }
+    }
+  ]
+}

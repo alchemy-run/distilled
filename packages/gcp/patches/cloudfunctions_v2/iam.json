@@ -1,0 +1,85 @@
+{
+  "description": "What each cloudfunctions_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#AbortFunctionUpgradeProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#CommitFunctionUpgradeAsGen2ProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#CommitFunctionUpgradeProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#DetachFunctionProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#GenerateUploadUrlProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#ListProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.list"],
+        "roles": ["roles/cloudfunctions.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#ListProjectsLocationsRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.list"],
+        "roles": ["roles/cloudfunctions.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#RedirectFunctionUpgradeTrafficProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#RollbackFunctionUpgradeTrafficProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudfunctions_v2#SetupFunctionUpgradeConfigProjectsLocationsFunctions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudfunctions.functions.update"],
+        "roles": ["roles/cloudfunctions.developer"]
+      }
+    }
+  ]
+}

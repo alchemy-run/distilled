@@ -1,0 +1,253 @@
+{
+  "description": "What each redis_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#AddAuthTokenProjectsLocationsClustersTokenAuthUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#AddTokenAuthUserProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#BackupProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.backup"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#CreateProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.create"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#DeleteProjectsLocationsBackupCollectionsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backups.delete"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#DeleteProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.delete"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#DeleteProjectsLocationsClustersTokenAuthUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#DeleteProjectsLocationsClustersTokenAuthUsersAuthTokens/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ExportProjectsLocationsBackupCollectionsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backups.export"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ExportProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.export"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#FailoverProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.failover"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetCertificateAuthorityProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsAclPoliciesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.aclPolicies.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsBackupCollections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backupCollections.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsBackupCollectionsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backups.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsClustersTokenAuthUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#GetProjectsLocationsClustersTokenAuthUsersAuthTokens/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ImportProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.import"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsAclPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.aclPolicies.list"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsAclPoliciesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.aclPolicies.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsBackupCollections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backupCollections.list"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsBackupCollectionsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.backups.list"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.list"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsClustersTokenAuthUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsClustersTokenAuthUsersAuthTokens/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.get"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.list"],
+        "roles": ["roles/redis.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#PatchProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#RescheduleClusterMaintenanceProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.clusters.update"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#RescheduleMaintenanceProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.rescheduleMaintenance"],
+        "roles": ["roles/redis.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.redis_v1#UpgradeProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["redis.instances.upgrade"],
+        "roles": ["roles/redis.editor"]
+      }
+    }
+  ]
+}
