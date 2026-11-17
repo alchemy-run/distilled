@@ -40,10 +40,13 @@ const program = Effect.gen(function* () {
     .items({ limit: 100 })
     .pipe(Stream.take(25), Stream.runCollect);
 
-  // Typed failures: a missing asset is a NotFound.
+  // Typed failures: a deleted asset is a NotFound, a malformed ID a BadRequest.
   const missing = yield* Video.getAsset({ ASSET_ID: "does-not-exist" }).pipe(
     Effect.map(() => false),
-    Effect.catchTag("NotFound", () => Effect.succeed(true)),
+    Effect.catchTags({
+      NotFound: () => Effect.succeed(true),
+      BadRequest: () => Effect.succeed(true),
+    }),
   );
 
   return {
@@ -94,11 +97,18 @@ stream asks for `page`, `page + 1`, … and stops at the first empty page.
 
 A failure maps by HTTP status onto `BadRequest`, `Unauthorized`, `Forbidden`,
 `NotFound`, `Conflict`, `UnprocessableEntity`, `TooManyRequests` or a 5xx class.
-Mux's `error.type` becomes `code`, and its `error.messages` become `message`.
+Mux's `error.messages` become `message`, and the raw response (with
+`error.type`, such as `invalid_parameters`) is on `body`. A malformed ID is a
+`BadRequest`, not a `NotFound`: Mux answers `Failed to parse ID` with a 400.
 `listUsageExports` also fails with `PreconditionFailed` while that period's
-usage CSVs are still being generated. Any other status is an `UnknownMuxError`,
-and with `ResponseValidation.strict`, a response that does not match the
-schema is a `MuxParseError`.
+usage CSVs are still being generated. Any other status is an `UnknownMuxError`
+whose `code` is Mux's `error.type`. For example, a route your plan does not
+include answers 402 with code `payment_required`. With
+`ResponseValidation.strict`, a response that does not match the schema is a
+`MuxParseError`.
+
+`listDrmConfigurations` returns `{ "data": {} }`, not an empty list, in an
+environment without DRM. Check `Array.isArray(data)` before iterating it.
 
 ## Not covered
 

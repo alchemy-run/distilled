@@ -161,6 +161,7 @@ export interface WhoAmIResponseData {
 }
 export interface WhoAmIResponse {
   data: WhoAmIResponseData;
+  total_row_count?: number | null | undefined;
 }
 export interface ListSigningKeysRequest {
   /** Number of items to include in the response */
@@ -507,6 +508,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: __S(17, __c2, 1),
+          total_row_count: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "WhoAmIResponse" });
   }

@@ -1030,7 +1030,7 @@ export type ListAnnotationsResponseTimeframeList = Array<number>;
 export interface ListAnnotationsResponse {
   data: ListAnnotationsResponseDataList;
   /** Total number of annotations available */
-  total_row_count: number;
+  total_row_count: number | null;
   /** Start and end unix timestamps for the data range */
   timeframe?: ListAnnotationsResponseTimeframeList | undefined;
 }
@@ -3144,7 +3144,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: __S(273, __c17, 1),
-          total_row_count: S.Number,
+          total_row_count: S.NullOr(S.Number),
           timeframe: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "ListAnnotationsResponse" });
